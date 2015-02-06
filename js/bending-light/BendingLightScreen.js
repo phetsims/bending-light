@@ -1,7 +1,7 @@
 //  Copyright 2002-2014, University of Colorado Boulder
 
 /**
- *
+ * This directory is a temporary scaffolding that should be deleted.
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
