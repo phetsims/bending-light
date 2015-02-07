@@ -1,57 +1,59 @@
-// Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-
-import edu.colorado.phet.bendinglight.model.LightRay;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
-
-import static java.lang.Math.sqrt;
-
+// Copyright 2002-2015, University of Colorado
 /**
- * Piccolo node for drawing a single light ray.
+ * Node for drawing a single light ray.
  *
  * @author Sam Reid
  */
-public class LightRayNode extends PNode {
-    private final LightRay lightRay;
-    private Point2D viewStart;
-    private Point2D viewEnd;
+define( function( require ) {
+  'use strict';
 
-    public LightRayNode( final ModelViewTransform transform, final LightRay lightRay ) {
-        this.lightRay = lightRay;
-        Color color = lightRay.getColor();
-        PhetPPath path = new PhetPPath( new BasicStroke( (float) transform.modelToViewDeltaX( lightRay.getRayWidth() ) ),
-                                        new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) sqrt( lightRay.getPowerFraction() ) ) ) {{
-            //Update the view coordinates for the start and end of this ray
-            viewStart = transform.modelToView( lightRay.tip.toPoint2D() );
-            viewEnd = transform.modelToView( lightRay.tail.toPoint2D() );
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Line = require( 'SCENERY/nodes/Line' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Color = require( 'SCENERY/util/Color' );
 
-            //Update the PPath
-            setPathTo( getLine() );
-        }};
-        //Add the PPath
-        addChild( path );
 
-        //User cannot interact with the light ray directly
-        setPickable( false );
-        setChildrenPickable( false );
+  /**
+   *
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param lightRay
+   * @constructor
+   */
+  function LightRayNode( modelViewTransform, lightRay ) {
+
+    Node.call( this );
+    this.lightRay = lightRay;
+    var color = this.lightRay.getColor();
+
+    //Update the view coordinates for the start and end of this ray
+    this.viewStart = modelViewTransform.modelToView( this.lightRay.tip );
+    this.viewEnd = modelViewTransform.modelToView( this.lightRay.tail );
+
+    var path = new Path( new Line( this.viewStart, this.viewEnd, {
+      fill: new Color( color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255, Math.sqrt( lightRay.getPowerFraction() ) ),
+      lineWidth: this.lightRay.getRayWidth()
+    } ) );
+
+    //Add the PPath
+    this.addChild( path );
+    //User cannot interact with the light ray directly
+    this.setPickable( false );
+  }
+
+  return inherit( Node, LightRayNode, {
+//Get the line traversed by this light ray in view coordinates, for usage with the Bresenham algorithm in the WhiteLightNode
+    getLine: function() {
+      return new Vector2( this.viewStart, this.viewEnd );
+    },
+    getColor: function() {
+      return this.lightRay.getColor();
+    },
+    getLightRay: function() {
+      return this.lightRay;
     }
+  } );
+} );
 
-    //Get the line traversed by this light ray in view coordinates, for usage with the Bresenham algorithm in the WhiteLightNode
-    public Line2D.Double getLine() {
-        return new Line2D.Double( viewStart, viewEnd );
-    }
-
-    public Color getColor() {
-        return lightRay.getColor();
-    }
-
-    public LightRay getLightRay() {
-        return lightRay;
-    }
-}

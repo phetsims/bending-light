@@ -1,43 +1,41 @@
-// Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.model;
-
-import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
-
+// Copyright 2002-2051, University of Colorado
 /**
  * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".
  *
  * @author Sam Reid
  */
-public class MediumState {
-    public final String name;
-    public final DispersionFunction dispersionFunction;
-    public final boolean mystery;
-    public final boolean custom;
+define( function( require ) {
+  'use strict';
 
-    public MediumState( String name, double indexForRed ) {
-        this( name, indexForRed, false );
-    }
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
 
-    public MediumState( String name, double indexForRed, boolean mystery ) {
-        this( name, indexForRed, mystery, false );
-    }
+  var WAVELENGTH_RED = 650E-9;
 
-    public MediumState( String name, double indexForRed, boolean mystery, boolean custom ) {
-        this( name, new DispersionFunction( indexForRed ), mystery, custom );
-    }
+  /**
+   *
+   * @param name
+   * @param indexForRed
+   * @param mystery
+   * @param custom
+   * @constructor
+   */
+  function MediumState( name, indexForRed, mystery, custom ) {
+    this.name = name;
+    this.dispersionFunction = new DispersionFunction( indexForRed, WAVELENGTH_RED );
+    this.mystery = mystery;
+    this.custom = custom;
+  }
 
-    public MediumState( String name, DispersionFunction dispersionFunction, boolean mystery, boolean custom ) {
-        this.name = name;
-        this.dispersionFunction = dispersionFunction;
-        this.mystery = mystery;
-        this.custom = custom;
-    }
 
-    @Override public String toString() {
-        return name;
+  return inherit( Object, MediumState, {
+    toString: function() {
+      return this.name;
+    },
+    getIndexOfRefractionForRedLight: function() {
+      return this.dispersionFunction.getIndexOfRefraction( WAVELENGTH_RED );
     }
+  } );
+} );
 
-    public double getIndexOfRefractionForRedLight() {
-        return dispersionFunction.getIndexOfRefraction( WAVELENGTH_RED );
-    }
-}

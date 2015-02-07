@@ -1,33 +1,45 @@
-// Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.model;
-
-import java.awt.*;
-
+// Copyright 2002-2015, University of Colorado
 /**
  * A Medium is a substance through which LightRay instances propagate.
  *
  * @author Sam Reid
  */
-public class Medium {
-    public final Shape shape;//immutable shape
-    private final MediumState mediumState;
-    public final Color color;//Color is based on the index of refraction at red wavelength
+define( function( require ) {
+  'use strict';
 
-    public Medium( Shape shape, MediumState mediumState, Color color ) {
-        this.shape = shape;
-        this.mediumState = mediumState;
-        this.color = color;
-    }
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
 
-    public double getIndexOfRefraction( double wavelength ) {
-        return mediumState.dispersionFunction.getIndexOfRefraction( wavelength );
-    }
+  /**
+   *
+   * @param shape
+   * @param mediumState
+   * @param color
+   * @constructor
+   */
+  function Medium( shape, mediumState, color ) {
 
-    public boolean isMystery() {
-        return mediumState.mystery;
-    }
+    //immutable shape
+    this.shape = shape;
+    this.mediumState = mediumState;
+    this.color = color;
+  }
 
-    public MediumState getMediumState() {
-        return mediumState;
+  return inherit( Object, Medium, {
+    /**
+     *
+     * @param wavelength
+     * @returns {*|number}
+     */
+    getIndexOfRefraction: function( wavelength ) {
+      return this.mediumState.dispersionFunction.getIndexOfRefraction( wavelength );
+    },
+    isMystery: function() {
+      return this.mediumState.mystery;
+    },
+    getMediumState: function() {
+      return this.mediumState;
     }
-}
+  } );
+} );
+

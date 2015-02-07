@@ -1,307 +1,176 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
-
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.util.Hashtable;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.bendinglight.BendingLightStrings;
-import edu.colorado.phet.bendinglight.model.BendingLightModel;
-import edu.colorado.phet.bendinglight.model.DispersionFunction;
-import edu.colorado.phet.bendinglight.model.Medium;
-import edu.colorado.phet.bendinglight.model.MediumState;
-import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPComboBox;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PComboBox;
-import edu.umd.cs.piccolox.pswing.PSwing;
-
-import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
-import static edu.colorado.phet.bendinglight.model.MediumColorFactory.getColor;
-import static edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont;
-
 /**
  * Controls for changing and viewing the medium type, including its current index of refraction (depends on the laser wavelength through the dispersion function).
  *
  * @author Sam Reid
  */
-public class MediumControlPanel extends PNode {
-    //Range of the index of refraction slider
-    private static final int MIN = 1;
-    private static final double MAX = 1.6;
+define( function( require ) {
+  'use strict';
 
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Property = require( 'AXON/Property' );
+  var ComboBox = require( 'SUN/ComboBox' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var Panel = require( 'SUN/Panel' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var HSlider = require( 'SUN/HSlider' );
+  var Dimension2 = require( 'DOT/Dimension2' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
+  var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
+  var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
+  var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
+  var WAVELENGTH_RED = 65E-09;
+
+  // strings
+  var airString = require( 'string!BENDING_LIGHT/air' );
+  var waterString = require( 'string!BENDING_LIGHT/water' );
+  var glassString = require( 'string!BENDING_LIGHT/glass' );
+  var mysteryAString = require( 'string!BENDING_LIGHT/mysteryA' );
+  var mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
+  var customString = require( 'string!BENDING_LIGHT/custom' );
+  var materialString = require( 'string!BENDING_LIGHT/material' );
+  var indexOfRefractionWithSymbolString = require( 'string!BENDING_LIGHT/indexOfRefractionWithSymbol' );
+
+//Range of the index of refraction slider
+  var MIN = 1;
+  var MAX = 1.6;
+
+
+  var mediumColorFactory = new MediumColorFactory;
+
+  function MediumControlPanel( model, view, medium, textFieldVisible, laserWavelength ) {
     //Dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
-    private final MediumState CUSTOM = new MediumState( BendingLightStrings.CUSTOM,
-                                                        BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2,//Higher value than could be shown on the slider
-                                                        false,
-                                                        true );
-    private final Property<Medium> medium;//The medium to observe
-    private final Property<Double> laserWavelength;
+    Node.call( this );
+    var mediumControlPanel = this;
 
     //Store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
     //If we kept the same index of refraction, the user could use that to easily look up the mystery values.
-    private double lastNonMysteryIndexAtRed;
 
-    public MediumControlPanel( final PhetPCanvas phetPCanvas,
-                               final Property<Medium> medium,
-                               final String name,
-                               final boolean textFieldVisible,
-                               final Property<Double> laserWavelength,
-                               final String format,
-                               final int columns ) {
-        this.medium = medium;
-        this.laserWavelength = laserWavelength;
-        final MediumState initialMediumState = medium.get().getMediumState();
-        lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
+    //private
+    this.lastNonMysteryIndexAtRed;
+    this.medium = medium; //The medium to observe
+    this.laserWavelength = laserWavelength;
+    this.model = model;
 
-        //Store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
-        //If we kept the same index of refraction, the user could use that to easily look up the mystery values.
-        medium.addObserver( new VoidFunction1<Medium>() {
-            public void apply( Medium medium ) {
-                if ( !medium.isMystery() ) {
-                    lastNonMysteryIndexAtRed = medium.getIndexOfRefraction( WAVELENGTH_RED );
-                }
-            }
-        } );
+    // add material combo box
+    var textOptions = { font: new PhetFont( 12 ) };
+    var materialTitle = new Text( materialString, textOptions );
+    this.indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 80, 15, 2, 2, { fill: 'white', stroke: 'black' } );
+    var indexOfRefractionValueText = new Text( '1', textOptions );
+    var indexOfRefractionLabel = new Text( indexOfRefractionWithSymbolString, textOptions );
+    var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
-        //Create the top component which contains the title & combo box
-        final PNode topComponent = new PNode() {{
-            final PText materialLabel = new PText( name ) {{
-                setFont( new PhetFont( labelFont.getSize(), true ) );
-            }};
+    var airText = new Text( airString, textOptionsOfComboBoxStrings );
+    var waterText = new Text( waterString, textOptionsOfComboBoxStrings );
+    var mysteryAText = new Text( mysteryAString, textOptionsOfComboBoxStrings );
+    var mysteryBText = new Text( mysteryBString, textOptionsOfComboBoxStrings );
+    var customText = new Text( customString, textOptionsOfComboBoxStrings );
+    var glassText = new Text( glassString, textOptionsOfComboBoxStrings );
 
-            //States to choose from (and indicate) in the combo box
-            final Object[] mediumStates = new Object[] {
-                    BendingLightModel.AIR,
-                    BendingLightModel.WATER,
-                    BendingLightModel.GLASS,
-                    BendingLightModel.MYSTERY_A,
-                    BendingLightModel.MYSTERY_B,
-                    CUSTOM,
-            };
+    var materialProperty = new Property( 3 );
+    var materialComboBox = new ComboBox( [
+      ComboBox.createItem( airText, 0 ),
+      ComboBox.createItem( waterText, 1 ),
+      ComboBox.createItem( glassText, 2 ),
+      ComboBox.createItem( mysteryAText, 3 ),
+      ComboBox.createItem( mysteryBText, 4 ),
+      ComboBox.createItem( customText, 5 )
+    ], materialProperty, this, {
+      buttonXMargin: 5,
+      buttonYMargin: 2,
+      buttonCornerRadius: 5,
+      itemXMargin: 2,
+      itemYMargin: 2,
+      buttonLineWidth: 0.4
+    } );
 
-            //Create and add the combo box
-            final PComboBox comboBox = new PhetPComboBox( mediumStates ) {
-                {
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            MediumState selected = (MediumState) getSelectedItem();
-                            //Set the material if it was non-custom
-                            if ( !selected.custom ) {
-                                setMediumState( selected );
-                            }
-                            //If it was custom, then use the the index of refraction but keep the name as "custom"
-                            else {
-                                setMediumState( new MediumState( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
-                            }
-                        }
-                    } );
-                    updateComboBox();
-                    medium.addObserver( new SimpleObserver() {
-                        public void update() {
-                            updateComboBox();
-                        }
-                    } );
-                    setFont( labelFont );
-                    setMediumState( initialMediumState );
-                }
 
-                //Updates the combo box to show which item is selected
-                private void updateComboBox() {
-                    int selected = -1;
-                    for ( int i = 0; i < mediumStates.length; i++ ) {
-                        MediumState mediumState = (MediumState) mediumStates[i];
-                        if ( mediumState.dispersionFunction.getIndexOfRefraction( laserWavelength.get() ) == medium.get().getIndexOfRefraction( laserWavelength.get() ) ) {
-                            selected = i;
-                        }
-                    }
-                    //Only set to a different substance if "custom" wasn't specified.  Otherwise pressing "air" then "custom" will make the combobox jump back to "air"
-                    if ( selected != -1 && !medium.get().getMediumState().custom ) {
-                        setSelectedIndex( selected );
-                    }
-                    else {
-                        //No match to a named medium, so it must be a custom medium
-                        setSelectedItem( CUSTOM );
-                    }
-                }
-            };
+    var airTitle = new Text( airString, textOptions );
+    var waterTitle = new Text( waterString, textOptions );
+    var glassTitle = new Text( glassString, textOptions );
+    var indexProperty = new Property( medium.value.getIndexOfRefraction( laserWavelength ) );
 
-            //Wrap the combo box in a PSwing
-            final PSwing comboBoxPSwing = new PSwing( comboBox ) {{
-                comboBox.setEnvironment( this, phetPCanvas );
-                setOffset( materialLabel.getFullBounds().getMaxX() + 10, materialLabel.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 + 1 );
-            }};
+    var indexOfRefractionSlider = new HSlider( indexProperty,
+      { min: MIN, max: MAX },
+      {
+        trackFill: 'white',
+        trackSize: new Dimension2( 130, 5 ),
+        thumbSize: new Dimension2( 10, 20 ),
+        majorTickLength: 15,
+        minorTickLength: 12,
+        trackStroke: 'black',
+        trackLineWidth: 1,
+        thumbLineWidth: 1,
+        tickLabelSpacing: 6,
+        majorTickLineWidth: 1,
 
-            //Add the label and combo box
-            addChild( materialLabel );
-            addChild( comboBoxPSwing );
-        }};
-        addChild( topComponent );
+        minorTickLineWidth: 1,
 
-        //Many efforts were made to make this control work with LinearValueControl, including writing custom layouts.
-        //However, for unknown reasons, some text was always clipped off, and we decided to proceed by doing the layout in Piccolo, which resolved the problem.
-        final PNode slider = new PNode() {{
-            //Show a label above the slider that reads "index of refraction" or a variant (when referring to air)
-            final PNode sliderTopComponent = new PNode() {{
-                final PText label = new PText( textFieldVisible ? BendingLightStrings.INDEX_OF_REFRACTION_COLON : BendingLightStrings.INDEX_OF_REFRACTION ) {{
-                    setFont( BendingLightCanvas.labelFont );
-                }};
-                addChild( label );
+        cursor: 'pointer'
 
-                //If the text field is supposed to be shown, add a JTextField so the user can see and change the index of refraction
-                if ( textFieldVisible ) {
-                    addChild( new PSwing( new JTextField( new DecimalFormat( format ).format( medium.get().getIndexOfRefraction( laserWavelength.get() ) ), columns ) {{
-                        setFont( BendingLightCanvas.labelFont );
+      } );
+    indexOfRefractionSlider.addMajorTick( 1, airTitle );
+    indexOfRefractionSlider.addMajorTick( 1.2, waterTitle );
+    indexOfRefractionSlider.addMajorTick( 1.6, glassTitle );
+    indexProperty.link( function( indexOfRefraction ) {
+      mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
+    } );
 
-                        //Listen for when the user presses enter
-                        addActionListener( new ActionListener() {
-                            public void actionPerformed( ActionEvent e ) {
-                                double value = Double.parseDouble( getText() );
 
-                                //Set the value to be the closest value in range, see #2834
-                                final double newIndexOfRefraction = MathUtil.clamp( MIN, value, MAX );
-                                setCustomIndexOfRefraction( newIndexOfRefraction );
+    var material = new HBox( {
+      children: [ materialTitle, materialComboBox ],
+      spacing: 10
+    } );
 
-                                //Set the value again since the first time it doesn't update properly, see comment 1 of #2834
-                                setCustomIndexOfRefraction( newIndexOfRefraction );
-                            }
-                        } );
+    var indexOfRefraction = new HBox( {
+      children: [ indexOfRefractionLabel, this.indexOfRefractionReadoutBoxShape, indexOfRefractionValueText ],
+      spacing: 10
+    } );
 
-                        //Update the text readout when the medium or laser wavelength changes (since laser wavelength change could change the index of refraction where dispersion is modeled)
-                        new RichSimpleObserver() {
-                            public void update() {
-                                setText( new DecimalFormat( format ).format( medium.get().getIndexOfRefraction( laserWavelength.get() ) ) );
-                            }
-                        }.observe( medium, laserWavelength );
-                    }} ) {{
-                        //Put the text pswing to the right of the "index of refraction" label, and above the slider
-                        setOffset( label.getFullBounds().getMaxX() + 10, label.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-                    }} );
-                }
-            }};
-            addChild( sliderTopComponent );
+    var panelVBox = new VBox( {
+      children: [ material, indexOfRefraction, indexOfRefractionSlider ]
+    } );
 
-            /**
-             * Label class for showing "low" and "high" to the sides of the slider in the prism break tab
-             */
-            class LowHighLabel extends JLabel {
-                LowHighLabel( String text, boolean visible ) {
-                    super( text );
-                    setFont( new PhetFont( 14 ) );
-                    setVisible( visible );
-                }
-            }
+    var panel = new Panel( panelVBox, { fill: '#C6CACE' } );
+    this.addChild( panel );
 
-            //Add the piccolo node with the slider
-            addChild( new PSwing( new JPanel() {{
-                //Use a custom layout so that we can easily position the low and high labels aligned with the focus rectangle of the slider, so they
-                //appear to the left and right of the slider thumb, not between the slider track and the slider labels
-                setLayout( null );
+  }
 
-                //Create the "low" and "high" labels
-                final LowHighLabel lowLabel = new LowHighLabel( BendingLightStrings.LOW, !textFieldVisible );
-                final LowHighLabel highLabel = new LowHighLabel( BendingLightStrings.HIGH, !textFieldVisible );
+  return inherit( Node, MediumControlPanel, {
 
-                //Create the slider
-                final JSlider slider = new JSlider( 0, 10000 ) {{
-                    final Function.LinearFunction mapping = new Function.LinearFunction( getMinimum(), getMaximum(), MIN, MAX );
-                    addChangeListener( new ChangeListener() {
-                        public void stateChanged( ChangeEvent e ) {
-                            if ( isFocusOwner() ) {//Only send events if caused by user, otherwise selecting "mystery b" causes buggy behavior
-                                final double indexOfRefraction = mapping.evaluate( getValue() );
-                                setCustomIndexOfRefraction( indexOfRefraction );
-                            }
-                        }
-                    } );
-                    new RichSimpleObserver() {
-                        public void update() {
-                            setValue( (int) mapping.createInverse().evaluate( medium.get().getIndexOfRefraction( laserWavelength.get() ) ) );
-                        }
-                    }.observe( medium, laserWavelength );
-                    setPaintTicks( true );
-                    setPaintLabels( true );
-                    setLabelTable( new Hashtable<Object, Object>() {{
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ), new TickLabel( BendingLightStrings.AIR ) );
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.getIndexOfRefractionForRedLight() ), new TickLabel( BendingLightStrings.WATER ) );
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ), new TickLabel( BendingLightStrings.GLASS ) );
-                    }} );
-                    setPreferredSize( new Dimension( Math.max( (int) sliderTopComponent.getFullBounds().getWidth(), 200 ), getPreferredSize().height ) );
-                }};
-                lowLabel.setBounds( 0, 0, lowLabel.getPreferredSize().width, lowLabel.getPreferredSize().height );
-                slider.setBounds( lowLabel.getPreferredSize().width, 0, slider.getPreferredSize().width, slider.getPreferredSize().height );
-                highLabel.setBounds( lowLabel.getPreferredSize().width + slider.getPreferredSize().width, 0, highLabel.getPreferredSize().width, highLabel.getPreferredSize().height );
+    /**
+     * Called when the user enters a new index of refraction (with text box or slider),
+     * updates the model with the specified value
+     * @param indexOfRefraction
+     */
+    setCustomIndexOfRefraction: function( indexOfRefraction ) {
+      //Have to pass the value through the dispersion function to account for the
+      // current wavelength of the laser (since index of refraction is a function of wavelength)
+      var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength );
+      this.setMedium( new Medium( this.medium.get().shape, new MediumState( customString, dispersionFunction, false, true ), mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
+    },
 
-                //Add the slider and labels
-                add( slider );
-                add( lowLabel );
-                add( highLabel );
+    /**
+     *  Update the medium state from the combo box
+     * @param mediumState
+     */
+    setMediumState: function( mediumState ) {
+      this.setMedium( new Medium( this.medium.shape, mediumState,
+        this.model.mediumColorFactory.getColor( mediumState.getIndexOfRefractionForRedLight() ) ) );
+    },
 
-                //Have to set the size of this component so that things are as close together as possible
-                setPreferredSize( new Dimension( lowLabel.getPreferredSize().width + slider.getPreferredSize().width + highLabel.getPreferredSize().width, slider.getPreferredSize().height ) );
-            }} ) {{
-                setOffset( 0, sliderTopComponent.getFullBounds().getMaxY() );//Set the offset of the slider PSwing
-            }} );
-            setOffset( 0, sliderTopComponent.getFullBounds().getMaxY() + 10 );
-            sliderTopComponent.setOffset( getFullBounds().getWidth() / 2 - sliderTopComponent.getFullBounds().getWidth() / 2, 0 );
-        }};
-
-        //Hide the slider for "mystery" substance
-        medium.addObserver( new SimpleObserver() {
-            public void update() {
-                slider.setVisible( !medium.get().isMystery() );
-            }
-        } );
-
-        //For "mystery" substance instead of slider show text "N Unknown"
-        final PText unknown = new PText( BendingLightStrings.N_UNKNOWN ) {{
-            setFont( labelFont );
-            centerFullBoundsOnPoint( slider.getFullBounds().getCenterX(), slider.getFullBounds().getCenterY() );
-            medium.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( medium.get().isMystery() );
-                }
-            } );
-        }};
-
-        //Rendering order
-        addChild( slider );
-        addChild( unknown );
-
-        //Layout
-        topComponent.setOffset( getFullBounds().getCenterX() - topComponent.getFullBounds().getWidth() / 2, 0 );
-        topComponent.setOffset( getFullBounds().getCenterX() - topComponent.getFullBounds().getWidth() / 2, 0 );
+    /**
+     *
+     * @param mediumValue
+     */
+    setMedium: function( mediumValue ) {
+      this.medium.set( mediumValue );
     }
+  } );
+} );
 
-    //Called when the user enters a new index of refraction (with text box or slider), updates the model with the specified value
-    private void setCustomIndexOfRefraction( double indexOfRefraction ) {
-        //Have to pass the value through the dispersion function to account for the current wavelength of the laser (since index of refraction is a function of wavelength)
-        final DispersionFunction dispersionFunction = new DispersionFunction( indexOfRefraction, laserWavelength.get() );
-        setMedium( new Medium( medium.get().shape, new MediumState( BendingLightStrings.CUSTOM, dispersionFunction, false, true ), getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
-    }
-
-    //Update the medium state from the combo box
-    private void setMediumState( MediumState mediumState ) {
-        setMedium( new Medium( medium.get().shape, mediumState, getColor( mediumState.getIndexOfRefractionForRedLight() ) ) );
-    }
-
-    private void setMedium( Medium mediumValue ) {
-        medium.set( mediumValue );
-    }
-}

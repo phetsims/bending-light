@@ -1,32 +1,50 @@
-// Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.bendinglight.model;
-
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-
+// Copyright 2002-2015, University of Colorado
 /**
  * Model for the protractor angle and position
- *
- * @author Sam Reid
  */
-public class ProtractorModel {
-    public final Property<Vector2D> position;//Position of the center
-    public final Property<Double> angle = new Property<Double>( 0.0 );
+define( function( require ) {
+  'use strict';
 
-    public ProtractorModel( double x, double y ) {
-        position = new Property<Vector2D>( new Vector2D( x, y ) );
-    }
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var PropertySet = require( 'AXON/PropertySet' );
 
-    public void translate( double x, double y ) {
-        position.set( new Vector2D( position.get().getX() + x, position.get().getY() + y ) );
-    }
 
-    public void translate( Vector2D delta ) {
-        translate( delta.getX(), delta.getY() );
-    }
+  /**
+   *
+   * @param x
+   * @param y
+   * @constructor
+   */
+  function ProtractorModel( x, y ) {
 
-    public void reset() {
-        position.reset();
-        angle.reset();
+    PropertySet.call( this, {
+        angle: 0.0,
+        position: new Vector2( x, y )
+      }
+    );
+  }
+
+  return inherit( PropertySet, ProtractorModel, {
+    /**
+     *
+     * @param{Number} x
+     * @param {Number} y
+     */
+    translate1: function( x, y ) {
+      this.positionProperty.set( new Vector2( this.position.x + x, this.position.y + y ) );
+    },
+    /**
+     *
+     * @param {Vector2} delta
+     */
+    translate: function( delta ) {
+      this.translate1( delta.x, delta.y );
+    },
+    reset: function() {
+      this.positionProperty.reset();
+      this.angleProperty.reset();
     }
-}
+  } );
+} );
