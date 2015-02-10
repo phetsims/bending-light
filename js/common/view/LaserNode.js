@@ -22,8 +22,8 @@ define( function( require ) {
 
   // images
   var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
-  var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
-  var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
+  //var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
+  //var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
 
   /*
 
@@ -185,9 +185,10 @@ define( function( require ) {
       }, drag: function( event ) {
         var laserPoint = laserNode.globalToParentPoint( event.pointer.point );
         laserNode.setTranslation( laserPoint.x, laserPoint.y );
+        laser.emissionPoint.set(transform.viewToModelPosition( laserPoint ));
       }
     } ) );
-
+    laserNode.setTranslation( 100, 100 );
   }
 
   return inherit( Node, LaserNode, {} );

@@ -23,6 +23,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
+  var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
 
   //Font for labels in controls
   var labelFont = new PhetFont( 16 );
@@ -37,11 +38,12 @@ define( function( require ) {
 
     ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
-
+    var bendingLightView = this;
     this.showProtractor = new BooleanProperty( false );
     this.model = model;
     this.lightRayLayer = new Node();
     this.lightWaveLayer = new Node();
+    this.laserView = new LaserView( model );
 
 
     this.debug = false;
@@ -87,7 +89,32 @@ define( function( require ) {
     this.addChild( this.afterLightLayer );
     this.addChild( this.afterLightLayer2 );
     //Add the laser itself
-    this.addChild( new LaserNode( this.modelViewTransform, model.getLaser()/*, showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, model.visibleModelBounds */ ) );
+    var laserNode = new LaserNode( this.modelViewTransform, model.getLaser()/*, showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, model.visibleModelBounds */ );
+    this.addChild( laserNode );
+
+
+    model.rays.addItemAddedListener( function( ray ) {
+      var node;
+      var layer;
+      if ( model.laserViewProperty.value === 'ray' ) {
+        node = bendingLightView.laserView.rayNode.createNode( bendingLightView.modelViewTransform, ray );
+        layer = bendingLightView.laserView.rayNode.getLayer( bendingLightView.lightRayLayer, bendingLightView.lightWaveLayer );
+      }
+      else {
+        node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
+        layer = bendingLightView.laserView.waveNode.getLayer( bendingLightView.lightRayLayer, bendingLightView.lightWaveLayer );
+      }
+
+      layer.addChild( node );
+    } );
+    model.rays.addItemRemovedListener( function( ray ) {
+      for ( var i = 0; i < bendingLightView.lightRayLayer.getChildrenCount(); i++ ) {
+        bendingLightView.lightRayLayer.removeChild( bendingLightView.lightRayLayer.children[ i ] );
+      }
+      for (  i = 0; i < bendingLightView.lightWaveLayer.getChildrenCount(); i++ ) {
+        bendingLightView.lightWaveLayer.removeChild( bendingLightView.lightWaveLayer.children[ i ] );
+      }
+    } );
 
 
   }

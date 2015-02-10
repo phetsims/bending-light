@@ -10,28 +10,35 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   // var Dimension2D = require( 'java.awt.geom.Dimension2D' );
-  // var LaserColor = require( 'edu.colorado.phet.bendinglight.view.LaserColor' );
+  var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
   var PropertySet = require( 'AXON/PropertySet' );
-  // var WAVELENGTH_RED = require( 'edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED' );//static
-  // var createPolar = require( 'edu.colorado.phet.common.phetcommon.math.vector.Vector2.createPolar' );//static
+  var WAVELENGTH_RED = 650E-9;
 
-//so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.  This value was determined by printing out actual angle values at runtime and sampling a good value.
+//so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.
+// This value was determined by printing out actual angle values at runtime and sampling a good value.
   var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
 
+  /**
+   *
+   * @param distanceFromPivot
+   * @param angle
+   * @param topLeftQuadrant
+   * @constructor
+   */
   function Laser( distanceFromPivot, angle, topLeftQuadrant ) {
-
+    this.laserColor = new LaserColor();
     PropertySet.call( this, {
         //point to be pivoted about, and at which the laser points
         pivot: new Vector2( 0, 0 ),
-        color: 'red',//new LaserColor.OneColor( WAVELENGTH_RED ),
+        color: this.laserColor.getColor( WAVELENGTH_RED ),
         //True if the laser is activated and emitting light
         on: false,
         wave: false,
         //Model the point where light comes out of the laser
         //where the light comes from
-        emissionPoint: new Vector2( distanceFromPivot, angle )
+        emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
       }
     );
 
@@ -52,12 +59,12 @@ define( function( require ) {
   return inherit( PropertySet, Laser, {
       //Reset all parts of the laser
       resetAll: function() {
-
-        this.resetLocation();
+        PropertySet.prototype.reset.call( this );
+       // this.resetLocation();
       },
       //Called if the laser is dropped out of bounds
       resetLocation: function() {
-        emissionPoint.reset();
+        this.emissionPoint.reset();
         this.pivotProperty.reset();
       },
       translate1: function( delta ) {
@@ -73,7 +80,7 @@ define( function( require ) {
       //Rotate about the fixed pivot
       setAngle: function( angle ) {
         var distFromPivot = pivot.get().distance( emissionPoint.get() );
-        emissionPoint.set( Vector2.createPolar( distFromPivot, angle ).plus( pivot.get() ) );
+        this.emissionPoint.set( Vector2.createPolar( distFromPivot, angle ).plus( pivot.get() ) );
       },
       getAngle: function() {
         //TODO: why is this backwards by 180 degrees?
@@ -86,7 +93,7 @@ define( function( require ) {
         return color.get().getWavelength();
       },
       getFrequency: function() {
-        return BendingLightModel.SPEED_OF_LIGHT / getWavelength();
+        return BendingLightModel.SPEED_OF_LIGHT / this.getWavelength();
       }
     },
 //statics

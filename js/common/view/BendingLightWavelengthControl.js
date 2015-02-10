@@ -21,7 +21,8 @@ import static edu.colorado.phet.common.phetcommon.view.util.VisibleColor.MIN_WAV
  */
 public class BendingLightWavelengthControl extends PNode {
     public BendingLightWavelengthControl( final Property<Double> wavelengthProperty, final Property<LaserColor> laserColor ) {
-        final WavelengthControl wavelengthControl = new WavelengthControl( UserComponents.wavelengthControl, false, 150, 27, MIN_WAVELENGTH, 700 ) {{//only go to 700nm because after that the reds are too black
+        final WavelengthControl wavelengthControl = new WavelengthControl( UserComponents.wavelengthControl, false, 150, 27, MIN_WAVELENGTH, 700 ) {{
+        //only go to 700nm because after that the reds are too black
             final PNode wc = this;//to access from within closure below
             setWavelength( wavelengthProperty.get() * 1E9 );//Convert between SI and nanometers
 

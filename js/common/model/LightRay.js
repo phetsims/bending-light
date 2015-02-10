@@ -11,7 +11,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Color = require( 'SCENERY/util/Color' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' )
+  var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
   var SPEED_OF_LIGHT = 2.99792458E8;
 
@@ -73,7 +73,7 @@ define( function( require ) {
       moveToFrontListeners.add( listener );
     },
     getSpeed: function() {
-      return SPEED_OF_LIGHT / indexOfRefraction;
+      return SPEED_OF_LIGHT / this.indexOfRefraction;
     },
     remove: function() {
       for ( var removalListener in removalListeners ) {
@@ -82,7 +82,7 @@ define( function( require ) {
       removalListeners.clear();
     },
     getPowerFraction: function() {
-      return powerFraction;
+      return this.powerFraction;
     },
     //Check to see if this light ray hits the specified sensor region
     /*    intersects: function( sensorRegion ) {
@@ -100,13 +100,13 @@ define( function( require ) {
      } ).isEmpty();
      },*/
     toLine2D: function() {
-      return new Line2D.Number( tail.toPoint2D(), tip.toPoint2D() );
+      return new Line( this.tail, this.tip );
     },
     getLength: function() {
-      return tip.minus( tail ).magnitude();
+      return this.tip.minus( this.tail ).magnitude();
     },
     toVector2D: function() {
-      return new Vector2( tail.toPoint2D(), tip.toPoint2D() );
+      return new Vector2( this.tail, this.tip );
     },
     getColor: function() {
       return this.color;
@@ -116,12 +116,12 @@ define( function( require ) {
     },
     //Signify that this LightRay should be moved to the front, to get the z-ordering right for wave mode
     moveToFront: function() {
-      for ( var moveToFrontListener in moveToFrontListeners ) {
-        moveToFrontListener.apply();
-      }
+      /*for ( var moveToFrontListener in moveToFrontListeners ) {
+       moveToFrontListener.apply();
+       }*/
     },
     toString: function() {
-      return "tail = " + tail + ", tip = " + tip;
+      return "tail = " + this.tail + ", tip = " + this.tip;
     },
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
     getExtensionFactor: function() {
@@ -134,34 +134,42 @@ define( function( require ) {
     },
     // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
     getWaveShape: function() {
-      var stroke = new BasicStroke( (waveWidth), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
-      var strokedShape = stroke.createStrokedShape( extendBackwards ? getExtendedLineBackwards() : getExtendedLine() );
-      var area = new Area( strokedShape ).withAnonymousClassBody( {
-        initializer: function() {
-          if ( this.oppositeMedium != null ) {
-            subtract( new Area( oppositeMedium ) );
-          }
-        }
-      } );
-      return area;
+      /*  var stroke = new BasicStroke( (waveWidth), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+       var strokedShape = stroke.createStrokedShape( this.extendBackwards ? this.getExtendedLineBackwards() : this.getExtendedLine() );
+       var area = new Area( strokedShape ).withAnonymousClassBody( {
+       initializer: function() {
+       if ( this.oppositeMedium != null ) {
+       subtract( new Area( oppositeMedium ) );
+       }
+       }
+       } );
+       return area;*/
+      //  var linePoints = ( this.extendBackwards ? this.getExtendedLineBackwards() : this.getExtendedLine() );
+      var shape = new Shape();
+      var tipPointX = this.tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ).x;
+      var tipPointY = this.tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ).y;
+      shape = shape.moveTo( this.tail.x, this.tail.y )
+        .lineTo( tipPointX, tipPointY )
+        .close();
+      return shape;
     },
     //Have to extend the line so that it can be clipped against the opposite medium, so it will won't show any missing triangular chips.
 
     //private
     getExtendedLine: function() {
-      return new Line2D.Number( tail.toPoint2D(), tip.plus( getUnitVector().times( getExtensionFactor() ) ).toPoint2D() );
+      return new Line( this.tail, tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ) );
     },
     //Use this one for the transmitted beam
 
     //private
     getExtendedLineBackwards: function() {
-      return new Line2D.Number( tail.plus( getUnitVector().times( -getExtensionFactor() ) ).toPoint2D(), tip.toPoint2D() );
+      return new Line( this.tail.plus( this.getUnitVector().times( -this.getExtensionFactor() ) ), this.tip );
     },
     getUnitVector: function() {
       return new Vector2( this.tail, this.tip ).normalized();
     },
     getAngle: function() {
-      return toVector2D().getAngle();
+      return this.toVector2D().getAngle();
     },
     //Add a listener that detects when time passed for this light ray
     addStepListener: function( stepListener ) {
@@ -178,7 +186,7 @@ define( function( require ) {
       return this.waveWidth;
     },
     getNumberOfWavelengths: function() {
-      return this.getLength() / wavelength;
+      return this.getLength() / this.wavelength;
     },
     getNumWavelengthsPhaseOffset: function() {
       return this.numWavelengthsPhaseOffset;
@@ -200,7 +208,7 @@ define( function( require ) {
       return 1.5992063492063494E-7;
     },
     getVelocityVector: function() {
-      return this.tip.minus( this.tail ).normalllized().times( this.getSpeed() );
+      return this.tip.minus( this.tail ).normalize().times( this.getSpeed() );
     },
     getFrequency: function() {
       return this.getSpeed() / this.getWavelength();

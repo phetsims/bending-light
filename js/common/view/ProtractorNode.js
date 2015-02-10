@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2015, University of Colorado
 /**
  * The protractor node is a circular device for measuring angles.
  * In this sim it is used for measuring the angle of the incident, reflected and refracted light.
@@ -29,21 +29,11 @@ define( function( require ) {
      *
      * @param modelViewTransform
      * @param showProtractor
-     * @param protractorModel  -Function that returns the part of the protractor that can be used for translating it
-     * @param translateShape   -Function that returns the part of the protractor that can be used for rotating it
-     * @param rotateShape    -Passed in as a separate arg since this node modifies its entire transform
+     * @param protractorModel
      * @param scale
-     * @param multiscale
      * @constructor
      */
-    function ProtractorNode( modelViewTransform, showProtractor, protractorModel, /*translateShape, rotateShape,*/ scale, multiscale ) {
-
-      //The current scale (how much to increase the size of the graphic)
-      //private
-      this.scale;
-      //shape of the inner bar in view coordinates.  Necessary since dragging the bar sometimes has a different behavior (translating) then dragging the outside of the protractor (rotating) (in the prism tab)
-      this.innerBarShape;
-      //Enable this to show debugging information.
+    function ProtractorNode( modelViewTransform, showProtractor, protractorModel, scale ) {
 
       var protractorNode = this;
       Node.call( protractorNode, {
@@ -52,13 +42,17 @@ define( function( require ) {
 
       this.debug = false;
       //Just using a global piccolo scale in the "prism break" tab leads to jagged and aliased graphics--in that case it is important to use the multiscaling algorithm
-      this.scale = scale;
+
       this.modelViewTransform = modelViewTransform;
       this.protractorModel = protractorModel;
+      this.scale = scale;
 
       //Load and add the image
-      var imageNode = new Image( protractorImage, { scale: multiscale, pickable: true } );
-      //showProtractor.link( imageNode.setVisible( showProtractor.get() ) );
+      var imageNode = new Image( protractorImage, { scale: this.scale, pickable: true } );
+      showProtractor.link( function( showProtractor ) {
+          imageNode.setVisible( showProtractor );
+        }
+      );
       this.addChild( imageNode );
       //Shape for the outer ring of the protractor
       var outerShape = new Path( new Shape().circle( imageNode.getWidth() / 2, imageNode.getHeight() / 2, imageNode.getWidth() / 2 ) );
@@ -119,9 +113,6 @@ define( function( require ) {
         protractorNode.setTranslation( protractorNode.modelViewTransform.modelToViewX( position.x ), protractorNode.modelViewTransform.modelToViewY( position.y ) );
       } );
 
-
-      //this.rotateAround( new Vector2(this.protractor.getWidth() / 2, this.protractor.getHeight() / 2), this.protractorModel.angle.get() );
-
     }
 
     return inherit( Node, ProtractorNode, {
@@ -154,7 +145,7 @@ define( function( require ) {
          * @param delta
          */
         dragAll: function( delta ) {
-          this.protractorModel.translate( this.modelViewTransform.viewToModelPosition( delta ) );
+          this.protractorModel.translate1( this.modelViewTransform.viewToModelX( delta.x ), this.modelViewTransform.viewToModelX( delta.y ) );
         },
         /**
          * Change the visibility and pickability of this ProtractorNode

@@ -54,7 +54,7 @@ define( function( require ) {
         startDrag: function() {
           if ( containerBounds.intersectsBounds( Bounds2.rect( modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ), modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ),
               sensorNode.height, sensorNode.width ) ) ) {
-            intensityMeterNode.scale( 2 );
+          //  intensityMeterNode.scale( 2 );
             intensityMeterNode.bodyNode.moveToFront();
             sensorNode.moveToFront();
           }
@@ -68,7 +68,7 @@ define( function( require ) {
               sensorNode.height, sensorNode.width ) ) ) {
             intensityMeter.sensorPosition.reset();
             intensityMeter.bodyPosition.reset();
-            intensityMeterNode.scale( 0.5 );
+           // intensityMeterNode.scale( 0.5 );
             sensorNode.moveToBack();
           }
         }

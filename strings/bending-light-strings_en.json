@@ -2,6 +2,8 @@
   "bending-light.name": "Bending Light",
   "intro": "Intro",
   "air": "Air",
+  "slowMotion": "Slow Motion",
+  "normal": "Normal",
   "water": "Water",
   "glass": "Glass",
   "custom": "Custom",

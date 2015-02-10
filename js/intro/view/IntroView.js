@@ -20,20 +20,40 @@ define( function( require ) {
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
+  var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
+  var AquaRadioButton = require( 'SUN/AquaRadioButton' );
   var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var ToolboxNode = require( 'BENDING_LIGHT/common/view/ToolboxNode' );
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
-
+  var ToolIconNode = require( 'BENDING_LIGHT/common/view/ToolIconNode' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   //images
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
 
+  //strings
+  var materialString = require( 'string!BENDING_LIGHT/material' );
+  var normalString = require( 'string!BENDING_LIGHT/normal' );
+  var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
   // constants
   var inset = 10;
 
+  /**
+   *
+   * @param introModel
+   * @param moduleActive
+   * @param centerOffsetLeft
+   * @constructor
+   */
   function IntroView( introModel, moduleActive, centerOffsetLeft ) {
+    var introView = this;
 
+    this.protractorModel = new ProtractorModel( introModel.x, introModel.y );
     //number of columns to show in the MediumControlPanel readout
     BendingLightView.call( this, introModel, moduleActive, //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
       new function( angle ) {
@@ -54,19 +74,18 @@ define( function( require ) {
       }, centerOffsetLeft );
 
     //Add MediumNodes for top and bottom
-    var topMediumNode = new MediumNode( this.modelViewTransform, introModel.topMedium );
-    this.mediumNode.addChild( topMediumNode );
-    var bottomMediumNode = new MediumNode( this.modelViewTransform, introModel.bottomMedium );
-    this.mediumNode.addChild( bottomMediumNode );
+    this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMedium ) );
+    this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMedium ) );
 
     //Add control panels for setting the index of refraction for each medium
-    var topMediumControlPanel = new MediumControlPanel( introModel, this, introModel.topMedium, true, introModel.wavelengthProperty );
-    topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
-    this.afterLightLayer2.addChild( topMediumControlPanel );
+    var mediumControlPanel = new MediumControlPanel( introModel, this, introModel.topMedium, materialString, true, introModel.wavelengthProperty );
+    mediumControlPanel.setTranslation( this.stageSize.width - mediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) - 10 - mediumControlPanel.getHeight() );
+    this.afterLightLayer2.addChild( mediumControlPanel );
 
-    var bottomMediumControlPanel = new MediumControlPanel( introModel, this, introModel.bottomMedium, true, introModel.wavelengthProperty );
-    bottomMediumControlPanel.setTranslation( this.stageSize.width - bottomMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) + 10 );
-    this.afterLightLayer2.addChild( bottomMediumControlPanel );
+    //Add control panels for setting the index of refraction for each medium
+    var mediumControlPanel1 = new MediumControlPanel( introModel, this, introModel.bottomMedium, materialString, true, introModel.wavelengthProperty );
+    mediumControlPanel1.setTranslation( this.stageSize.width - mediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) - 10 + mediumControlPanel.getHeight() );
+    this.afterLightLayer2.addChild( mediumControlPanel1 );
 
     //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
     this.beforeLightLayer.addChild( new Path( this.modelViewTransform.modelToViewShape(
@@ -92,20 +111,23 @@ define( function( require ) {
     //Set the location and add to the scene
     laserView.setTranslation( 5, 5 );
     this.afterLightLayer2.addChild( laserView );
-
-
-    var protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractor, new ProtractorModel( 0, 0 ), ProtractorNode.DEFAULT_SCALE, ToolboxNode.ICON_WIDTH / protractorImage.width );
+    var protractor = new Image( protractorImage, {
+      scale: ToolboxNode.ICON_WIDTH / protractorImage.width,
+      x: 0, y: 0
+    } );
+    var protractorNode = new ToolIconNode( protractor, this.showProtractor, this.modelViewTransform, this, introModel );
 
     //Create the toolbox
-    var toolboxNode = new ToolboxNode( this, this.modelViewTransform, protractorNode, this.getMoreTools( introModel ), introModel.getIntensityMeter(), introModel.showNormalProperty, {} );
-    this.beforeLightLayer.addChild( toolboxNode );
-    toolboxNode.setTranslation( this.layoutBounds.minX, 504 - toolboxNode.height - 10 );
+    this.toolboxNode = new ToolboxNode( this, this.modelViewTransform, protractorNode, this.getMoreTools( introModel ), introModel.getIntensityMeter(), introModel.showNormalProperty, {} );
+    this.beforeLightLayer.addChild( this.toolboxNode );
+    this.toolboxNode.setTranslation( this.layoutBounds.minX, 504 - this.toolboxNode.height - 10 );
 
     // Add reset all button
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
           introModel.resetAll();
+          introView.protractorModel.reset();
         },
         bottom: this.layoutBounds.bottom - inset,
         right:  this.layoutBounds.right - inset
@@ -114,13 +136,90 @@ define( function( require ) {
     this.afterLightLayer2.addChild( resetAllButton );
 
 
+    // add play pause button and step button
+    var stepButton = new StepButton(
+      function() {
+
+      },
+      introModel.isPlayingProperty,
+      {
+        radius: 12,
+        stroke: 'black',
+        fill: '#005566',
+        right:  resetAllButton.left - 82,
+        bottom: this.layoutBounds.bottom - 14
+      }
+    );
+
+    this.addChild( stepButton );
+
+    var playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
+      { radius: 18, stroke: 'black', fill: '#005566', y: stepButton.centerY, right: stepButton.left - inset } );
+    this.addChild( playPauseButton );
+
+    // add sim speed controls
+    var slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
+      new Text( slowMotionString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
+    var normalMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'normal',
+      new Text( normalString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
+
+    var speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ? slowMotionRadioBox.width :
+                               normalMotionRadioBox.width;
+
+    var radioButtonSpacing = 5;
+    var touchAreaHeightExpansion = radioButtonSpacing / 2;
+    slowMotionRadioBox.touchArea = new Bounds2(
+      slowMotionRadioBox.localBounds.minX,
+      slowMotionRadioBox.localBounds.minY - touchAreaHeightExpansion,
+      ( slowMotionRadioBox.localBounds.minX + speedControlMaxWidth ),
+      slowMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
+    );
+
+    normalMotionRadioBox.touchArea = new Bounds2(
+      normalMotionRadioBox.localBounds.minX,
+      normalMotionRadioBox.localBounds.minY - touchAreaHeightExpansion,
+      ( normalMotionRadioBox.localBounds.minX + speedControlMaxWidth ),
+      normalMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
+    );
+
+    var speedControl = new VBox( {
+      align: 'left',
+      spacing: radioButtonSpacing,
+      children: [ slowMotionRadioBox, normalMotionRadioBox ]
+    } );
+    this.addChild( speedControl.mutate( { right: playPauseButton.left - 8, bottom: playPauseButton.bottom } ) );
+    introModel.laserViewProperty.link( function( laserType ) {
+      playPauseButton.visible = (laserType === 'wave');
+      stepButton.visible = (laserType === 'wave');
+      speedControl.visible = (laserType === 'wave');
+    } )
+
   }
 
   return inherit( BendingLightView, IntroView, {
+    createNode: function( transform, showTool, x, y ) {
+      return this.newProtractorNode( transform, showTool, x, y );
+    },
 
     //No more tools available in IntroCanvas, but this is overriden in MoreToolsCanvas to provide additional tools
     getMoreTools: function( resetModel ) {
       return new Node();
+    },
+    //Create a protractor node, used by the protractor Tool
+    newProtractorNode: function( transform, showTool, x, y ) {
+      this.protractorModel.position.x = x;
+      this.protractorModel.position.y = y;
+      return new ProtractorNode( transform, showTool, this.protractorModel, ProtractorNode.DEFAULT_SCALE, 1 );
+    },
+    //Get the function that chooses which region of the protractor can be used for rotation--none in this tab.
+    getProtractorRotationRegion: function( innerBar, outerCircle ) {
+      //empty shape since shouldn't be rotatable in this tab
+      return new Rectangle( 0, 0, 0, 0 );
+    },
+    //Get the function that chooses which region of the protractor can be used for translation--both
+    // the inner bar and outer circle in this tab
+    getProtractorDragRegion: function( innerBar, outerCircle ) {
+      return new Area( innerBar ).add( new Area( outerCircle ) );
     }
 
   } );

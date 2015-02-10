@@ -72,15 +72,16 @@ define( function( require ) {
 
     var width = 100;
     var titleText = new Text( laserViewString, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
-
+    this.rayNode = new RAY();
+    this.waveNode = new WAVE();
     var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
     var createButtonTextNode = function( text ) { return new Text( text, { font: new PhetFont( 12 ) } ); };
 
     // Create the radio buttons
 
-    var laserRadio = new AquaRadioButton( model.laserViewProperty, new RAY, createButtonTextNode( laserString ),
+    var laserRadio = new AquaRadioButton( model.laserViewProperty, 'ray', createButtonTextNode( laserString ),
       AQUA_RADIO_BUTTON_OPTIONS );
-    var waveRadio = new AquaRadioButton( model.laserViewProperty, new WAVE, createButtonTextNode( waveString ),
+    var waveRadio = new AquaRadioButton( model.laserViewProperty,'wave', createButtonTextNode( waveString ),
       AQUA_RADIO_BUTTON_OPTIONS );
 
     //dummy text for height
@@ -118,7 +119,6 @@ define( function( require ) {
       align: 'left'
     } );
 
-    var textOptions = { font: new PhetFont( 12 ) };
 
 
     Panel.call( this, content, options );
@@ -142,7 +142,7 @@ define( function( require ) {
     },
     //statics
     {
-      RAY: new RAY,
-      WAVE: new WAVE
+      RAY: new RAY(),
+      WAVE: new WAVE()
     } );
 } );

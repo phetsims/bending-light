@@ -19,6 +19,10 @@ define( function( require ) {
   var GLASS_COLOR = new Color( 171, 169, 212 );
   var DIAMOND_COLOR = new Color( 78, 79, 164 );
 
+  /**
+   *
+   * @constructor
+   */
   function MediumColorFactory() {
 
   }
@@ -32,21 +36,23 @@ define( function( require ) {
         var glassIndexForRed = BendingLightModel.GLASS.getIndexOfRefractionForRedLight();
         var diamondIndexForRed = BendingLightModel.DIAMOND.getIndexOfRefractionForRedLight();
         //Find out what region the index of refraction lies in, and linearly interpolate between adjacent medium colors
+        var linearFunction;
+        var ratio;
         if ( indexForRed < waterIndexForRed ) {
-          var linearFunction = new LinearFunction( 1.0, waterIndexForRed, 0, 1 );
-          var ratio = linearFunction( indexForRed );
+          linearFunction = new LinearFunction( 1.0, waterIndexForRed, 0, 1 );
+          ratio = linearFunction( indexForRed );
           return this.colorBlend( AIR_COLOR, WATER_COLOR, ratio );
         }
         else {
           if ( indexForRed < glassIndexForRed ) {
-            var linearFunction = new LinearFunction( waterIndexForRed, glassIndexForRed, 0, 1 );
-            var ratio = linearFunction( indexForRed );
+            linearFunction = new LinearFunction( waterIndexForRed, glassIndexForRed, 0, 1 );
+            ratio = linearFunction( indexForRed );
             return this.colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
           }
           else {
             if ( indexForRed < diamondIndexForRed ) {
-              var linearFunction = new LinearFunction( glassIndexForRed, diamondIndexForRed, 0, 1 );
-              var ratio = linearFunction( indexForRed );
+              linearFunction = new LinearFunction( glassIndexForRed, diamondIndexForRed, 0, 1 );
+              ratio = linearFunction( indexForRed );
               return this.colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
             }
             else {

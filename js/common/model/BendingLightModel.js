@@ -15,7 +15,6 @@ define( function( require ) {
   var IntensityMeter = require( 'BENDING_LIGHT/common/model/IntensityMeter' );
   var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
   var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
-  //var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
 
   //Default values
@@ -32,7 +31,7 @@ define( function( require ) {
 
   //Model parameters
   var SPEED_OF_LIGHT = 2.99792458E8;
-  var WAVELENGTH_RED = 650E-9; //nano meters
+  var WAVELENGTH_RED = 650E-9; //nanometers
 
   //To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT,
   // we have f=4.612E14
@@ -65,7 +64,7 @@ define( function( require ) {
 
     // everything that had a listener in the java version becomes a property
     PropertySet.call( this, {
-        laserView: LaserView.RAY, //Whether the laser is Ray or Wave mode
+        laserView: 'ray',//LaserView.RAY, //Whether the laser is Ray or Wave mode
         wavelengthProperty: WAVELENGTH_RED,
         isPlaying: true,
         speed: 'normal',
@@ -78,19 +77,21 @@ define( function( require ) {
     //Model components
     this.intensityMeter = new IntensityMeter( 0, 0, 0, 0 );
     this.laser = new Laser( 30, Math.PI / 2, 2 );
-
   }
 
   return inherit( PropertySet, BendingLightModel, {
+
+     step:function(){
+       this.rays.clear();
+       this.propagateRays();
+     },
       /**
+
        *
        * @param ray
        */
       addRay: function( ray ) {
         this.rays.add( ray );
-        for ( var rayAddedListener in this.rayAddedListeners ) {
-          rayAddedListener.apply( ray );
-        }
       },
       getWidth: function() {
         return this.modelWidth;
@@ -148,7 +149,7 @@ define( function( require ) {
         this.resetListeners.add( listener );
       },
       resetAll: function() {
-        // laser.resetAll();
+      this.laser.resetAll();
         PropertySet.prototype.reset.call( this );
         //this.intensityMeter.resetAll();
         // this.laserView.reset();

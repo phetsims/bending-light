@@ -11,24 +11,38 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Color = require( 'SCENERY/util/Color' );
+  var Line = require( 'SCENERY/nodes/Line' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
 
+  /**
+   *
+   * @param transform
+   * @param lightRay
+   * @constructor
+   */
 
   function LightWaveNode( transform, lightRay ) {
     Node.call( this );
     this.debug = false;
     //PPath that shows the oscillating wave view for the LightRay
-    this.addChild( new Path( this.createPaint( transform, lightRay ) ).withAnonymousClassBody( {
-      initializer: function() {
-        //Set the path based on the light ray shape
-        setPathTo( transform.modelToView( lightRay.getWaveShape() ) );
-        //Update the gradient paint when time passes
-        lightRay.addStepListener( new VoidFunction0().withAnonymousClassBody( {
-          apply: function() {
-            setPaint( createPaint( transform, lightRay ) );
-          }
-        } ) );
-      }
-    } ) );
+    /*  this.addChild( new Path( this.createPaint( transform, lightRay ) ).withAnonymousClassBody( {
+     initializer: function() {
+     //Set the path based on the light ray shape
+     setPathTo( transform.modelToView( lightRay.getWaveShape() ) );
+     //Update the gradient paint when time passes
+     lightRay.addStepListener( new VoidFunction0().withAnonymousClassBody( {
+     apply: function() {
+     setPaint( createPaint( transform, lightRay ) );
+     }
+     } ) );
+     }
+     } ) );*/
+    var wavePath = new Path( transform.modelToViewShape( lightRay.getWaveShape() ), {
+      stroke: 'red', fill: 'blue'
+    } );
+    this.addChild( wavePath );
     //Don't intercept mouse events
     this.setPickable( false );
   }

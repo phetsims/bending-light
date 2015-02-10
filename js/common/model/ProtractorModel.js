@@ -43,8 +43,7 @@ define( function( require ) {
       this.translate1( delta.x, delta.y );
     },
     reset: function() {
-      this.positionProperty.reset();
-      this.angleProperty.reset();
+      PropertySet.prototype.reset.call( this );
     }
   } );
 } );

@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 /**
- * Controls for changing and viewing the medium type, including its current index of refraction (depends on the laser wavelength through the dispersion function).
+ * Controls for changing and viewing the medium type, including its current index of refraction
+ * (depends on the laser wavelength through the dispersion function).
  *
  * @author Sam Reid
  */
@@ -24,7 +25,7 @@ define( function( require ) {
   var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
   var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
   var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
-  var WAVELENGTH_RED = 65E-09;
+  //var WAVELENGTH_RED = 65E-09;
 
   // strings
   var airString = require( 'string!BENDING_LIGHT/air' );
@@ -37,12 +38,21 @@ define( function( require ) {
   var indexOfRefractionWithSymbolString = require( 'string!BENDING_LIGHT/indexOfRefractionWithSymbol' );
 
 //Range of the index of refraction slider
-  var MIN = 1;
-  var MAX = 1.6;
+  var INDEX_OF_REFRACTION_MIN = 1;
+  var INDEX_OF_REFRACTION_MAX = 1.6;
 
 
   var mediumColorFactory = new MediumColorFactory;
 
+  /**
+   *
+   * @param model
+   * @param view
+   * @param medium
+   * @param textFieldVisible
+   * @param laserWavelength
+   * @constructor
+   */
   function MediumControlPanel( model, view, medium, textFieldVisible, laserWavelength ) {
     //Dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
     Node.call( this );
@@ -96,7 +106,7 @@ define( function( require ) {
     var indexProperty = new Property( medium.value.getIndexOfRefraction( laserWavelength ) );
 
     var indexOfRefractionSlider = new HSlider( indexProperty,
-      { min: MIN, max: MAX },
+      { min: INDEX_OF_REFRACTION_MIN, max: INDEX_OF_REFRACTION_MAX },
       {
         trackFill: 'white',
         trackSize: new Dimension2( 130, 5 ),
