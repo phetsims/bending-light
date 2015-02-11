@@ -9,16 +9,15 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  // var Dimension2D = require( 'java.awt.geom.Dimension2D' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
   var PropertySet = require( 'AXON/PropertySet' );
   var WAVELENGTH_RED = 650E-9;
-
 //so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.
 // This value was determined by printing out actual angle values at runtime and sampling a good value.
   var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
+  var SPEED_OF_LIGHT = 2.99792458E8;
 
   /**
    *
@@ -53,14 +52,13 @@ define( function( require ) {
      });
      wave.addObserver(clampAngle);*/
 
-    // this.emissionPoint = new Property( createPolar( distanceFromPivot, angle ) );
   }
 
   return inherit( PropertySet, Laser, {
       //Reset all parts of the laser
       resetAll: function() {
         PropertySet.prototype.reset.call( this );
-       // this.resetLocation();
+        // this.resetLocation();
       },
       //Called if the laser is dropped out of bounds
       resetLocation: function() {
@@ -68,32 +66,32 @@ define( function( require ) {
         this.pivotProperty.reset();
       },
       translate1: function( delta ) {
-        translate( delta.getWidth(), delta.getHeight() );
+        this.translate( delta.getWidth(), delta.getHeight() );
       },
       translate: function( dx, dy ) {
-        emissionPoint.set( emissionPoint.get().plus( dx, dy ) );
-        pivot.set( pivot.get().plus( dx, dy ) );
+        this.emissionPoint.set( this.emissionPoint.plus( dx, dy ) );
+        this.pivot.set( this.pivot.plus( dx, dy ) );
       },
       getDirectionUnitVector: function() {
-        return pivot.get().minus( emissionPoint.get() ).normalized();
+        return this.pivot.minus( this.emissionPoint ).normalized();
       },
       //Rotate about the fixed pivot
       setAngle: function( angle ) {
-        var distFromPivot = pivot.get().distance( emissionPoint.get() );
-        this.emissionPoint.set( Vector2.createPolar( distFromPivot, angle ).plus( pivot.get() ) );
+        var distFromPivot = this.pivot.get().distance( this.emissionPoint );
+        this.emissionPoint.set( Vector2.createPolar( distFromPivot, angle ).plus( this.pivot ) );
       },
       getAngle: function() {
         //TODO: why is this backwards by 180 degrees?
-        return /*getDirectionUnitVector().getAngle() + */Math.PI;
+        return this.getDirectionUnitVector().angle() + Math.PI;
       },
       getDistanceFromPivot: function() {
-        return emissionPoint.get().minus( pivot.get() ).magnitude();
+        return this.emissionPoint.minus( this.pivot ).magnitude();
       },
       getWavelength: function() {
-        return color.get().getWavelength();
+        return this.laserColor.getWavelength();
       },
       getFrequency: function() {
-        return BendingLightModel.SPEED_OF_LIGHT / this.getWavelength();
+        return SPEED_OF_LIGHT / this.getWavelength();
       }
     },
 //statics

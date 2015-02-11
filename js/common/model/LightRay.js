@@ -1,6 +1,7 @@
 // Copyright 2002-2015, University of Colorado
 /**
- * A LightRay models one straight segment of a beam (completely within a single medium), with a specific wavelength.
+ * A LightRay models one straight segment of a beam (completely within
+ * a single medium), with a specific wavelength.
  *
  * @author Sam Reid
  */
@@ -31,9 +32,6 @@ define( function( require ) {
    * @constructor
    */
   function LightRay( tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth, numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
-
-
-
 
     // Used to create a clipped shape for wave mode
     this.oppositeMedium = oppositeMedium;
@@ -197,7 +195,7 @@ define( function( require ) {
     //Determine if the light ray contains the specified position, accounting for whether it is shown as a thin light ray or wide wave
     contains: function( position, waveMode ) {
       if ( waveMode ) {
-        return this.getWaveShape().contains( position.getX(), position.getY() );
+        return this.getWaveShape().contains( position.x, position.y );
       }
       else {
         return new BasicStroke( getRayWidth() ).createStrokedShape( toLine2D() ).contains( position.toPoint2D() );
@@ -208,7 +206,7 @@ define( function( require ) {
       return 1.5992063492063494E-7;
     },
     getVelocityVector: function() {
-      return this.tip.minus( this.tail ).normalize().times( this.getSpeed() );
+      return this.tip.minus( this.tail ).normalized().times( this.getSpeed() );
     },
     getFrequency: function() {
       return this.getSpeed() / this.getWavelength();
