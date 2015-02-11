@@ -128,6 +128,7 @@ define( function( require ) {
     indexOfRefractionSlider.addMajorTick( 1.2, waterTitle );
     indexOfRefractionSlider.addMajorTick( 1.6, glassTitle );
     indexProperty.link( function( indexOfRefraction ) {
+      mediumControlPanel.mediumIndexOfRefraction = indexOfRefraction;
       mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
     } );
 
@@ -162,7 +163,11 @@ define( function( require ) {
       //Have to pass the value through the dispersion function to account for the
       // current wavelength of the laser (since index of refraction is a function of wavelength)
       var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength );
-      this.setMedium( new Medium( this.medium.get().shape, new MediumState( customString, dispersionFunction, false, true ), mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
+      this.setMedium( new Medium( this.medium.get().shape,
+        new MediumState( customString, dispersionFunction, false, true ),
+        mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() ),
+        this.mediumIndexOfRefraction
+      ) );
     },
 
     /**
@@ -171,7 +176,8 @@ define( function( require ) {
      */
     setMediumState: function( mediumState ) {
       this.setMedium( new Medium( this.medium.shape, mediumState,
-        this.model.mediumColorFactory.getColor( mediumState.getIndexOfRefractionForRedLight() ) ) );
+        this.model.mediumColorFactory.getColor(
+          mediumState.getIndexOfRefractionForRedLight() ),this.mediumIndexOfRefraction ) );
     },
 
     /**

@@ -24,7 +24,7 @@ define( function( require ) {
   var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
 
   // var MISS = IntensityMeter.Reading.MISS;
- var  CHARACTERISTIC_LENGTH= 650E-9
+  var CHARACTERISTIC_LENGTH = 650E-9;
   /**
    *
    * @param clock
@@ -50,7 +50,7 @@ define( function( require ) {
       var bottom = new Rectangle( -10, -10, 20, 10 );
       var top = new Rectangle( -10, 0, 20, 10 );
       if ( this.laser.on ) {
-        var tail = this.laser.emissionPoint ;
+        var tail = this.laser.emissionPoint;
         //index in top medium
         var n1 = this.getN1();
         //index of bottom medium
@@ -69,11 +69,11 @@ define( function( require ) {
         var color = this.laser.laserColor.getColor();
         var wavelengthInTopMedium = this.laser.laserColor.getWavelength() / n1;
         //Since the n1 depends on the wavelength, when you change the wavelength, the wavelengthInTopMedium also changes (seemingly in the opposite direction)
-        var incidentRay = new LightRay( tail, new Vector2(0,0), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, 0.0, bottom, true, false );
+        var incidentRay = new LightRay( tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, 0.0, bottom, true, false );
         var rayAbsorbed = this.addAndAbsorb( incidentRay );
         if ( !rayAbsorbed ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
-          var hasTransmittedRay =!isNaN( thetaOfTotalInternalReflection ) || theta1 < thetaOfTotalInternalReflection;
+          var hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) || theta1 < thetaOfTotalInternalReflection;
           //assuming perpendicular beam polarization, compute percent power
           var reflectedPowerRatio;
           if ( hasTransmittedRay ) {
@@ -83,11 +83,11 @@ define( function( require ) {
             reflectedPowerRatio = 1.0;
           }
           var reflectedWaveWidth = sourceWaveWidth;
-          this.addAndAbsorb( new LightRay( new Vector2(0,0),   Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ), n1, wavelengthInTopMedium, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, true, false ) );
+          this.addAndAbsorb( new LightRay( new Vector2( 0, 0 ), Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ), n1, wavelengthInTopMedium, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, true, false ) );
           // Fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
-            var transmittedWavelength = isFinite(incidentRay.getWavelength() / n2 * n1)?incidentRay.getWavelength() / n2 * n1:20000;
+            var transmittedWavelength = incidentRay.getWavelength() / n2 * n1
             if ( isNaN( theta2 ) || !isFinite( theta2 ) ) {
             }
             else {
@@ -95,9 +95,9 @@ define( function( require ) {
               //Make the beam width depend on the input beam width, so that the same beam width is transmitted as was intercepted
               var beamHalfWidth = a / 2;
               var extentInterceptedHalfWidth = beamHalfWidth / Math.sin( Math.PI / 2 - theta1 ) / 2;
-              var transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
+            var transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
               var transmittedWaveWidth = transmittedBeamHalfWidth * 2;
-              var transmittedRay = new LightRay( new Vector2(0,0), Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength, transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, true, true );
+              var transmittedRay = new LightRay( new Vector2( 0, 0 ), Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength, transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, true, true );
               this.addAndAbsorb( transmittedRay );
             }
           }
@@ -109,12 +109,14 @@ define( function( require ) {
     //Get the top medium index of refraction
 
     getN1: function() {
-      return this.topMedium.get().getIndexOfRefraction( this.laser.laserColor.getWavelength() );
+      //  return this.topMedium.get().getIndexOfRefraction( this.laser.laserColor.getWavelength() );
+      return this.topMedium.get().mediumIndexOfRefraction;
     },
     //Get the bottom medium index of refraction
 
     getN2: function() {
-      return this.bottomMedium.get().getIndexOfRefraction( this.laser.laserColor.getWavelength() );
+      return this.bottomMedium.get().mediumIndexOfRefraction;
+      // return this.bottomMedium.get().getIndexOfRefraction( this.laser.laserColor.getWavelength() );
     },
     /**
      * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
@@ -123,7 +125,7 @@ define( function( require ) {
      * @returns {*}
      */
     addAndAbsorb: function( ray ) {
-      var rayAbsorbed=false;//=ray.intersects( this.intensityMeter.getSensorShape() ) && this.intensityMeter.enabled.get();
+      var rayAbsorbed = false;//=ray.intersects( this.intensityMeter.getSensorShape() ) && this.intensityMeter.enabled.get();
       if ( rayAbsorbed ) {
         //Find intersection points with the intensity sensor
         var intersects = getLineCircleIntersection( this.intensityMeter.getSensorShape(), ray.toLine2D() );
