@@ -164,10 +164,12 @@ define( function( require ) {
      }
      } ).observe( laser.pivot, laser.emissionPoint );*/
 
-    laser.emissionPointProperty.link( function( emissionPoint ) {
-      // laserNode.setTranslation( transform.modelToViewX( emissionPoint.x ), transform.modelToViewY( emissionPoint.y ) );
-      laserNode.setRotation( laser.getAngle() / 3 );
-    } );
+    laser.emissionPointProperty.link( function( emissionPoint1 ) {
+      var emissionPoint = transform.modelToViewPosition( laser.emissionPoint );
+      var angle = transform.modelToViewPosition( Vector2.createPolar( 1, laser.getAngle() ) ).angle();
+      laserNode.setRotation( angle );
+      laserNode.setTranslation(  emissionPoint.x,emissionPoint.y);
+      } );
     var redButton = new RoundStickyToggleButton( false, true, laser.onProperty,
       {
         radius: 15,
@@ -185,7 +187,7 @@ define( function( require ) {
       }, drag: function( event ) {
         var laserPoint = laserNode.globalToParentPoint( event.pointer.point );
         laserNode.setTranslation( laserPoint.x, laserPoint.y );
-        laser.emissionPoint.set(transform.viewToModelPosition( laserPoint ));
+        laser.emissionPoint.set( transform.viewToModelPosition( laserPoint ) );
       }
     } ) );
     laserNode.setTranslation( 100, 100 );

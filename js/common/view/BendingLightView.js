@@ -1,11 +1,6 @@
+// Copyright 2002-2015, University of Colorado
 /**
- * Created by chandrashekar on 1/27/2015.
- */
-// Copyright 2002-2011, University of Colorado
-/**
- * Base class for Bending Light canvases.
- * Using BufferedPhetPCanvas prevents a jittering problem on the 2nd tab, see #2786 -- but only apply this solution on Windows since it causes problem on Mac and mac has no jitter problem
- *
+ * Base class for Bending Light
  * @author Sam Reid
  */
 define( function( require ) {
@@ -30,24 +25,20 @@ define( function( require ) {
 
   /**
    *
-   * @param model
+   * @param bendingLightModel
    * @param showNormal
    * @constructor
    */
-  function BendingLightView( model, showNormal ) {
+  function BendingLightView( bendingLightModel, showNormal ) {
 
     ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
     this.showProtractor = new BooleanProperty( false );
-    this.model = model;
+    this.model = bendingLightModel;
     this.lightRayLayer = new Node();
     this.lightWaveLayer = new Node();
-    this.laserView = new LaserView( model );
-
-
-    this.debug = false;
-
+    this.laserView = new LaserView( bendingLightModel );
 
     //In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP suggested this layering order:
     //laser on top
@@ -89,14 +80,14 @@ define( function( require ) {
     this.addChild( this.afterLightLayer );
     this.addChild( this.afterLightLayer2 );
     //Add the laser itself
-    var laserNode = new LaserNode( this.modelViewTransform, model.getLaser()/*, showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, model.visibleModelBounds */ );
+    var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.getLaser()/*, showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, model.visibleModelBounds */ );
     this.addChild( laserNode );
 
 
-    model.rays.addItemAddedListener( function( ray ) {
+    bendingLightModel.rays.addItemAddedListener( function( ray ) {
       var node;
       var layer;
-      if ( model.laserViewProperty.value === 'ray' ) {
+      if ( bendingLightModel.laserViewProperty.value === 'ray' ) {
         node = bendingLightView.laserView.rayNode.createNode( bendingLightView.modelViewTransform, ray );
         layer = bendingLightView.laserView.rayNode.getLayer( bendingLightView.lightRayLayer, bendingLightView.lightWaveLayer );
       }
@@ -107,7 +98,7 @@ define( function( require ) {
 
       layer.addChild( node );
     } );
-    model.rays.addItemRemovedListener( function( ray ) {
+    bendingLightModel.rays.addItemRemovedListener( function( ray ) {
       for ( var i = 0; i < bendingLightView.lightRayLayer.getChildrenCount(); i++ ) {
         bendingLightView.lightRayLayer.removeChild( bendingLightView.lightRayLayer.children[ i ] );
       }
