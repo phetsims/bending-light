@@ -29,7 +29,7 @@ define( function( require ) {
   };
 
   // Appending '?dev' to the URL will enable developer-only features.
-  if ( phet.phetcommon.getQueryParameter( 'dev' ) ) {
+  if ( phet.chipper.getQueryParameter( 'dev' ) ) {
     simOptions = _.extend( {
       // add dev-specific options here
     }, simOptions );
