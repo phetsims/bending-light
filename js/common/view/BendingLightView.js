@@ -17,28 +17,40 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var Property = require( 'AXON/Property' );
   var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
   var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
+  var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
+  var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
 
   //Font for labels in controls
   var labelFont = new PhetFont( 16 );
 
   /**
    *
-   * @param bendingLightModel
+   * @param model
+   * @param clampDragAngle
+   * @param clockwiseArrowNotAtMax
+   * @param ccwArrowNotAtMax
    * @param showNormal
+   * @param laserTranslationRegion
+   * @param laserRotationRegion
+   * @param laserImageName
+   * @param centerOffsetLeft
    * @constructor
    */
-  function BendingLightView( bendingLightModel, showNormal ) {
+  function BendingLightView( model, clampDragAngle, clockwiseArrowNotAtMax,
+                             ccwArrowNotAtMax, showNormal, laserTranslationRegion, laserRotationRegion,
+                             laserImageName, centerOffsetLeft ) {
 
     ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
-    this.showProtractor = new BooleanProperty( false );
-    this.model = bendingLightModel;
+    this.showProtractor = new BooleanProperty( showNormal );
+    this.model = model;
     this.lightRayLayer = new Node();
     this.lightWaveLayer = new Node();
-    this.laserView = new LaserView( bendingLightModel );
+    this.laserView = new LaserView( model );
 
     //In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP suggested this layering order:
     //laser on top
@@ -79,30 +91,46 @@ define( function( require ) {
     //this.addChild( whiteLightNode );
     this.addChild( this.afterLightLayer );
     this.addChild( this.afterLightLayer2 );
+
+    //Add rotation for the laser that show if/when the laser can be rotated
+    // about its pivot
+    var showRotationDragHandles = new Property( false );
+    var showTranslationDragHandles = new Property( false );
+
+    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), 10, showRotationDragHandles, clockwiseArrowNotAtMax ) );
+    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), -10, showRotationDragHandles, ccwArrowNotAtMax ) );
+
+    //Add translation indicators that show if/when the laser can be moved by dragging
+    var arrowLength = 100;
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), -arrowLength, 0, showTranslationDragHandles ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, -arrowLength, showTranslationDragHandles ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0, showTranslationDragHandles ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength, showTranslationDragHandles ) );
+
     //Add the laser itself
-    var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.getLaser()/*, showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, model.visibleModelBounds */ );
+    var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName/* model.visibleModelBounds */ );
     this.addChild( laserNode );
 
 
-    bendingLightModel.rays.addItemAddedListener( function( ray ) {
+    model.rays.addItemAddedListener( function( ray ) {
       var node;
       var layer;
-      if ( bendingLightModel.laserViewProperty.value === 'ray' ) {
+      if ( model.laserViewProperty.value === 'ray' ) {
         node = bendingLightView.laserView.rayNode.createNode( bendingLightView.modelViewTransform, ray );
-        layer = bendingLightView.laserView.rayNode.getLayer( bendingLightView.lightRayLayer, bendingLightView.lightWaveLayer );
+        layer = bendingLightView.lightRayLayer;
       }
       else {
         node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
-        layer = bendingLightView.laserView.waveNode.getLayer( bendingLightView.lightRayLayer, bendingLightView.lightWaveLayer );
+        layer = bendingLightView.lightWaveLayer;
       }
 
       layer.addChild( node );
     } );
-    bendingLightModel.rays.addItemRemovedListener( function( ray ) {
+    model.rays.addItemRemovedListener( function(  ) {
       for ( var i = 0; i < bendingLightView.lightRayLayer.getChildrenCount(); i++ ) {
         bendingLightView.lightRayLayer.removeChild( bendingLightView.lightRayLayer.children[ i ] );
       }
-      for (  i = 0; i < bendingLightView.lightWaveLayer.getChildrenCount(); i++ ) {
+      for ( i = 0; i < bendingLightView.lightWaveLayer.getChildrenCount(); i++ ) {
         bendingLightView.lightWaveLayer.removeChild( bendingLightView.lightWaveLayer.children[ i ] );
       }
     } );

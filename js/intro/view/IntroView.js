@@ -29,6 +29,7 @@ define( function( require ) {
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var ToolIconNode = require( 'BENDING_LIGHT/common/view/ToolIconNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Util = require( 'DOT/Util' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -46,32 +47,54 @@ define( function( require ) {
   /**
    *
    * @param introModel
-   * @param moduleActive
    * @param centerOffsetLeft
    * @constructor
    */
-  function IntroView( introModel, moduleActive, centerOffsetLeft ) {
+  function IntroView( introModel, centerOffsetLeft ) {
     var introView = this;
+
+    function clampDragAngle( angle ) {
+      while ( angle < 0 ) { angle += Math.PI * 2; }
+      return Util.clamp( Math.PI / 2, angle, Math.PI );
+    }
+
+    //Indicate if the laser is not at its max angle,
+    // and therefore can be dragged to larger angles
+    function clockwiseArrowNotAtMax( laserAngle ) {
+      return laserAngle < Math.PI;
+    }
+
+    //Indicate if the laser is not at its min angle,
+    // and can therefore be dragged to smaller angles.
+    function ccwArrowNotAtMax( laserAngle ) {
+      return laserAngle > Math.PI / 2;
+    }
+
+    //rotation if the user clicks anywhere on the object
+    function rotationRegionShape( full, back ) {
+      // In this tab, clicking anywhere on the laser (i.e. on its 'full' bounds)
+      // translates it, so always return the 'full' region
+      return full;
+    }
+
+    //Get the function that chooses which region of the protractor can be used for
+    // rotation--none in this tab.
+    function getProtractorRotationRegion( innerBar, outerCircle ) {
+      //empty shape since shouldn't be rotatable in this tab
+      return new Shape.rect( 0, 0, 0, 0 );
+    }
 
     this.protractorModel = new ProtractorModel( introModel.x, introModel.y );
     //number of columns to show in the MediumControlPanel readout
-    BendingLightView.call( this, introModel, moduleActive, //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
-      new function( angle ) {
-        while ( angle < 0 ) {
-          angle += Math.PI * 2;
-        }
-        return angle/*Math.Util.Clamp( Math.PI / 2, angle, Math.PI )*/;
-      }, //Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
-      new function( laserAngle ) {
-        return laserAngle < Math.PI;
-      }, //Indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
-      new function( laserAngle ) {
-        return laserAngle > Math.PI / 2;
-      }, true, /*this.getProtractorRotationRegion(),*/ //rotation if the user clicks anywhere on the object
-      new function( full, back ) {
-        // In this tab, clicking anywhere on the laser (i.e. on its 'full' bounds) translates it, so always return the 'full' region
-        return full;
-      }, centerOffsetLeft );
+    BendingLightView.call( this,
+      introModel,
+      clampDragAngle,
+      clockwiseArrowNotAtMax
+      , ccwArrowNotAtMax,
+      true,
+      getProtractorRotationRegion,
+      rotationRegionShape,
+      centerOffsetLeft );
 
     //Add MediumNodes for top and bottom
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMedium ) );
@@ -211,11 +234,7 @@ define( function( require ) {
       this.protractorModel.position.y = y;
       return new ProtractorNode( transform, showTool, this.protractorModel, ProtractorNode.DEFAULT_SCALE, 1 );
     },
-    //Get the function that chooses which region of the protractor can be used for rotation--none in this tab.
-    getProtractorRotationRegion: function( innerBar, outerCircle ) {
-      //empty shape since shouldn't be rotatable in this tab
-      return new Rectangle( 0, 0, 0, 0 );
-    },
+
     //Get the function that chooses which region of the protractor can be used for translation--both
     // the inner bar and outer circle in this tab
     getProtractorDragRegion: function( innerBar, outerCircle ) {
