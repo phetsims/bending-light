@@ -11,16 +11,16 @@ define( function( require ) {
    *
    * @param thumbnail
    * @param showProtractor
-   * @param transform
+   * @param modelViewTransform
    * @param canvas
    * @constructor
    */
-  function ToolIconNode( thumbnail, showProtractor, transform, canvas ) {
+  function ToolIconNode( thumbnail, showProtractor, modelViewTransform, canvas ) {
 
     Node.call( this );
     var toolIconNode = this;
     this.showProtractor = showProtractor;
-    this.transform = transform;
+    this.modelViewTransform = modelViewTransform;
     this.canvas = canvas;
     this.node = null;
     this.intersect = false;
@@ -39,7 +39,7 @@ define( function( require ) {
 
         if ( toolIconNode.node == null ) {
           start = thumbnail.globalToParentPoint( event.pointer.point );
-          var nodeRef = canvas.createNode( transform, showProtractor, transform.viewToModelX(start.x),transform.viewToModelX(start.y) );
+          var nodeRef = canvas.createNode( modelViewTransform, showProtractor, modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelX( start.y ) );
           toolIconNode.node = nodeRef;
 
          // var anyIntersection = false;
