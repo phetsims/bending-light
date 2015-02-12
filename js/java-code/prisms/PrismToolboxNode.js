@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -21,11 +22,13 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.bendinglight.modules.prisms.PrismBreakModel.getPrismPrototypes;
 
+*/
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class PrismToolboxNode extends PNode {
     public PrismToolboxNode( final PrismBreakCanvas canvas, final ModelViewTransform transform, final PrismBreakModel model ) {
         //Create and add Title label for the prism toolbox
@@ -106,4 +109,4 @@ public class PrismToolboxNode extends PNode {
             prism.translate( transform.viewToModelDelta( viewDelta ) );
         }
     }
-}
+}*/

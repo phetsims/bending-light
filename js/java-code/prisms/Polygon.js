@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -17,11 +18,13 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import static java.lang.Double.isNaN;
 
+*/
 /**
  * Shape that comprises a prism.  Immutable here but composed with a Property<Polygon> in Prism for mutability.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class Polygon implements IShape {
     private ArrayList<Vector2D> points = new ArrayList<Vector2D>();
 
@@ -130,4 +133,4 @@ public class Polygon implements IShape {
     public boolean containsPoint( Vector2D point ) {
         return toShape().contains( point.toPoint2D() );
     }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package
 edu.colorado.phet.bendinglight.modules.moretools;
@@ -19,11 +20,13 @@ colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.
 colorado.phet.common.piccolophet.nodes.VelocitySensor;
 
+*/
 /**
  * Model for the "more tools" tab, which adds a wave sensor and a velocity sensor.
  *
  * @author Sam Reid
- */
+ *//*
+
 public
 class
 MoreToolsModel
@@ -84,4 +87,4 @@ IntroModel
   .
     observe( velocitySensor.position, waveSensor.probe1.position, waveSensor.probe2.position );
   }
-}
+}*/

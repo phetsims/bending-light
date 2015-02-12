@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight;
 
@@ -9,11 +10,12 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
-/**
+*
  * Application for "bending light"
  *
  * @author Sam Reid
- */
+
+
 public class BendingLightApplication extends PiccoloPhetApplication {
     private static final String NAME = "bending-light";//Internal name used for loading the sim and its resources
     public static final PhetResources RESOURCES = new PhetResources( NAME );
@@ -32,3 +34,4 @@ public class BendingLightApplication extends PiccoloPhetApplication {
         new PhetApplicationLauncher().launchSim( args, NAME, BendingLightApplication.class );
     }
 }
+*/

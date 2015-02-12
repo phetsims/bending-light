@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
@@ -36,11 +37,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*;
 
+*/
 /**
  * Piccolo node for drawing the laser itself, including an on/off button and ability to rotate/translate.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class LaserNode extends PNode {
     boolean debug = false;
 
@@ -202,3 +205,4 @@ public class LaserNode extends PNode {
         }} );
     }
 }
+*/

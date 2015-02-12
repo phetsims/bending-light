@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -12,11 +13,13 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
+*/
 /**
  * Circle implementation for use in prisms
  *
  * @author Sam Reid
- */
+ *//*
+
 public class Circle implements IShape {
     private Vector2D center;
     private double radius;
@@ -90,3 +93,4 @@ public class Circle implements IShape {
         return point.distance( center ) <= radius;
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
@@ -9,11 +10,13 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
+*/
 /**
  * Piccolo graphic that connects a sensor (the probe) to its body (where the readout appears)
  *
  * @author Sam Reid
- */
+ *//*
+
 public class WireNode extends PNode {
     public WireNode( final PNode probe, final PNode body, final Color color ) {
         addChild( new PhetPPath( new BasicStroke( 8, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1f ), color ) {{
@@ -33,3 +36,4 @@ public class WireNode extends PNode {
         }} );
     }
 }
+*/

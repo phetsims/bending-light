@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
@@ -18,11 +19,12 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
-/**
+*
  * Tool for dragging out the Intensity Sensor
  *
  * @author Sam Reid
- */
+
+
 public class IntensitySensorTool extends ToolIconNode<BendingLightCanvas> {
     public IntensitySensorTool( final BendingLightCanvas canvas,
                                 final ModelViewTransform transform,
@@ -68,3 +70,4 @@ public class IntensitySensorTool extends ToolIconNode<BendingLightCanvas> {
         canvas.removeChildBehindLight( node );
     }
 }
+*/

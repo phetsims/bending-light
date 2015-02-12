@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.moretools;
 
@@ -24,11 +25,13 @@ import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static edu.colorado.phet.bendinglight.BendingLightStrings.TIME;
 import static java.awt.Color.white;
 
+*/
 /**
  * PNode for the wave sensor, which shows 2 sensor probes and a chart area (the body)
  *
  * @author Sam Reid
- */
+ *//*
+
 public class WaveSensorNode extends ToolNode {
     final Color darkProbeColor = new Color( 88, 89, 91 );//color taken from the image
     final Color lightProbeColor = new Color( 147, 149, 152 );
@@ -122,4 +125,4 @@ public class WaveSensorNode extends ToolNode {
             } );
         }
     }
-}
+}*/

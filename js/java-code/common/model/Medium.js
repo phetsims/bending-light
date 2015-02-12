@@ -1,13 +1,16 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
 import java.awt.*;
 
+*/
 /**
  * A Medium is a substance through which LightRay instances propagate.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class Medium {
     public final Shape shape;//immutable shape
     private final MediumState mediumState;
@@ -31,3 +34,4 @@ public class Medium {
         return mediumState;
     }
 }
+*/

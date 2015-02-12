@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package
 edu.colorado.phet.bendinglight.view;
@@ -55,11 +56,13 @@ lang.Math.toDegrees;
 import static java.
 lang.Math.toRadians;
 
+*/
 /**
  * Graphic that depicts how the laser may be moved (in one direction).  It is only shown when the cursor is over the laser and is non-interactive.
  *
  * @author Sam Reid
- */
+ *//*
+
 public
 class
 RotationDragHandle
@@ -183,3 +186,4 @@ PNode
   }
 
 }
+*/

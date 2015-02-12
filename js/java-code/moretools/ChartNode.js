@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.moretools;
 
@@ -22,11 +23,13 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.MAX_DT;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.TIME_SPEEDUP_SCALE;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleMapping;
 
+*/
 /**
  * Node that shows the chart in the "more tools" tab's intensity sensor.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class ChartNode extends PClip {
     private final Property<ModelViewTransform> transform;//Mapping from model (SI) to chart coordinates
     private PNode gridLines = new PNode();
@@ -123,3 +126,4 @@ public class ChartNode extends PClip {
         }
     }
 }
+*/

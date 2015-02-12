@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package
 edu.colorado.phet.bendinglight.view;
@@ -37,11 +38,13 @@ colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
 import static edu.
 colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipY;
 
+*/
 /**
  * Graphic that depicts how the laser may be moved.  It is only shown when the cursor is over the laser and is non-interactive.
  *
  * @author Sam Reid
- */
+ *//*
+
 public
 class
 TranslationDragHandle
@@ -108,3 +111,4 @@ PNode
   }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules;
 
@@ -11,11 +12,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.umd.cs.piccolo.PCanvas;
 
+*/
 /**
  * Base class for the various bending light modules.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class BendingLightModule<T extends BendingLightModel> extends Module {
     private T model;
     protected final BooleanProperty moduleActive = new BooleanProperty( isActive() );//Keep track of whether the module is active for making sure only one clock is running at a time
@@ -57,3 +60,4 @@ public class BendingLightModule<T extends BendingLightModel> extends Module {
 
     public T getBendingLightModel() { return model; }
 }
+*/

@@ -1,13 +1,16 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
+*/
 /**
  * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".
  *
  * @author Sam Reid
- */
+ *//*
+
 public class MediumState {
     public final String name;
     public final DispersionFunction dispersionFunction;
@@ -40,4 +43,4 @@ public class MediumState {
     public double getIndexOfRefractionForRedLight() {
         return dispersionFunction.getIndexOfRefraction( WAVELENGTH_RED );
     }
-}
+}*/

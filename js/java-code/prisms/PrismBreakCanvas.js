@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -21,11 +22,13 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.bendinglight.BendingLightStrings.ENVIRONMENT;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
+*/
 /**
  * Canvas for the "prism break" tab.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class PrismBreakCanvas extends BendingLightCanvas<PrismBreakModel> {
     private PNode prismLayer = new PNode();
 
@@ -126,4 +129,4 @@ public class PrismBreakCanvas extends BendingLightCanvas<PrismBreakModel> {
         super.resetAll();
         prismLayer.removeAllChildren();//see PrismToolboxNode for how prism nodes are created and managed; it doesn't use normal MVC pattern
     }
-}
+}*/

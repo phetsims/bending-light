@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package
 edu.colorado.phet.bendinglight.modules.moretools;
@@ -77,11 +78,13 @@ colorado.phet.bendinglight.view.ToolboxNode.ICON_WIDTH;
 import static edu.
 colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN;
 
+*/
 /**
  * Canvas for the "more tools" tab, which adds more tools to the toolbox, and a few more controls for the laser.
  *
  * @author Sam Reid
- */
+ *//*
+
 public
 class
 MoreToolsCanvas
@@ -337,4 +340,4 @@ model
 {
   return new ExpandableProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), getProtractorDragRegion(), getProtractorRotationRegion(), ProtractorNode.DEFAULT_SCALE );
 }
-}
+}*/

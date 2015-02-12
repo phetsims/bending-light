@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
@@ -37,11 +38,13 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_
 import static edu.colorado.phet.bendinglight.model.MediumColorFactory.getColor;
 import static edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont;
 
+*/
 /**
  * Controls for changing and viewing the medium type, including its current index of refraction (depends on the laser wavelength through the dispersion function).
  *
  * @author Sam Reid
- */
+ *//*
+
 public class MediumControlPanel extends PNode {
     //Range of the index of refraction slider
     private static final int MIN = 1;
@@ -198,9 +201,11 @@ public class MediumControlPanel extends PNode {
             }};
             addChild( sliderTopComponent );
 
-            /**
+            */
+/**
              * Label class for showing "low" and "high" to the sides of the slider in the prism break tab
-             */
+             *//*
+
             class LowHighLabel extends JLabel {
                 LowHighLabel( String text, boolean visible ) {
                     super( text );
@@ -304,4 +309,4 @@ public class MediumControlPanel extends PNode {
     private void setMedium( Medium mediumValue ) {
         medium.set( mediumValue );
     }
-}
+}*/

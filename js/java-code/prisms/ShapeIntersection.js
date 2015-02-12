@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -9,12 +10,14 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
+*/
 /**
  * Creates a shape that is the intersection of two shapes.
  * <p/>
  * CSG intro: https://secure.wikimedia.org/wikipedia/en/wiki/Constructive_solid_geometry
  * Rationale for intersection: http://groups.csail.mit.edu/graphics/classes/6.838/F01/lectures/SmoothSurfaces/0the_s040.html
- */
+ *//*
+
 public class ShapeIntersection implements IShape {
     public final IShape a;
     public final IShape b;
@@ -86,3 +89,4 @@ public class ShapeIntersection implements IShape {
         return a.containsPoint( point ) && b.containsPoint( point );
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -11,11 +12,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.umd.cs.piccolo.PCanvas;
 
+*/
 /**
  * Module for the "prism break" tab.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class PrismBreakModule extends BendingLightModule<PrismBreakModel> {
     public PrismBreakCanvas canvas;
 
@@ -36,3 +39,4 @@ public class PrismBreakModule extends BendingLightModule<PrismBreakModel> {
         setSimulationPanel( canvas );
     }
 }
+*/

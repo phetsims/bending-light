@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
@@ -24,11 +25,13 @@ import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static edu.colorado.phet.bendinglight.BendingLightStrings.INTENSITY;
 import static java.awt.Color.gray;
 
+*/
 /**
  * Piccolo node for the intensity meter, including its movable sensor and readout region (called the body).
  *
  * @author Sam Reid
- */
+ *//*
+
 public class IntensityMeterNode extends ToolNode {
     private final ModelViewTransform transform;
     private final IntensityMeter intensityMeter;
@@ -131,3 +134,4 @@ public class IntensityMeterNode extends ToolNode {
         intensityMeter.translateAll( delta );
     }
 }
+*/

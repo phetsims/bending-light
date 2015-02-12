@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
@@ -10,12 +11,14 @@ import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
+*/
 /**
  * Model for the intensity meter, including the position of the sensor, body, the reading values, etc.
  * When multiple rays hit the sensor, they are summed up.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class IntensityMeter {
     public final Property<Vector2D> sensorPosition;
     public final Property<Vector2D> bodyPosition;
@@ -89,9 +92,11 @@ public class IntensityMeter {
         reading.reset();
     }
 
-    /**
+    */
+/**
      * A single reading for the intensity meter.
-     */
+     *//*
+
     public static class Reading {
         private double value;
 
@@ -130,3 +135,4 @@ public class IntensityMeter {
         }
     }
 }
+*/

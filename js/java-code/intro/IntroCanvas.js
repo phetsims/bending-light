@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
@@ -51,11 +52,13 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.MIN_DT;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static java.awt.Color.black;
 
+*/
 /**
  * Canvas for the "intro" tab, which is also subclassed for use in the MoreTools tab
  *
  * @author Sam Reid
- */
+ *//*
+
 public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
     public final ToolboxNode toolboxNode;
 
@@ -244,4 +247,4 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             }
         };
     }
-}
+}*/

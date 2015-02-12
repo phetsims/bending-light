@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -11,6 +12,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 
+*/
 /**
  * In order to support white light, we need to perform additive color mixing (not subtractive,
  * as is the default when drawing transparent colors on top of each other in Java).
@@ -21,7 +23,8 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  * The intensity is converted to a transparency value according to alpha = sqrt(intensity/3), which is also clamped to be between 0 and 255.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class WhiteLightNode extends PImage {
     private BufferedImage buffer;
     private final PNode rayLayer;
@@ -130,3 +133,4 @@ public class WhiteLightNode extends PImage {
         current[3] = current[3] + (float) intensity;
     }
 }
+*/

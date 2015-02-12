@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
@@ -12,11 +13,13 @@ import edu.umd.cs.piccolo.PNode;
 
 import static java.lang.Math.sqrt;
 
+*/
 /**
  * Piccolo node for drawing a single light ray.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class LightRayNode extends PNode {
     private final LightRay lightRay;
     private Point2D viewStart;
@@ -55,3 +58,4 @@ public class LightRayNode extends PNode {
         return lightRay;
     }
 }
+*/

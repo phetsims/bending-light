@@ -1,13 +1,16 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.tests;
 
 import junit.framework.TestCase;
 
+*/
 /**
  * Test that the model produces the correct rays
  *
  * @author Sam Reid
- */
+ *//*
+
 public class TestModel extends TestCase {
     public void testRays() {
 //        IntroModel introModel = new IntroModel( BendingLightModel.WATER, );
@@ -18,3 +21,4 @@ public class TestModel extends TestCase {
 //        }
     }
 }
+*/

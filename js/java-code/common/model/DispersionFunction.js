@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
@@ -8,13 +9,15 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
+*/
 /**
  * Models dispersion functions for each material.  Uses the actual dispersion equation for air (A) and the actual dispersion equation for glass (G)
  * then interpolates between the functions n(lambda) = beta * A(lambda) + (1-beta) * G(lambda) where 0<=beta<=infinity is a characteristic of the material.
  * The material is characterized by a reference wavelength, so that when light is the specified wavelength, the index of refraction takes the reference value.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class DispersionFunction {
     private double referenceIndexOfRefraction;
     private double referenceWavelength;
@@ -65,9 +68,11 @@ public class DispersionFunction {
         return 1 + 5792105E-8 / ( 238.0185 - Math.pow( wavelength * 1E6, -2 ) ) + 167917E-8 / ( 57.362 - Math.pow( wavelength * 1E6, -2 ) );
     }
 
-    /*
+    */
+/*
      * Prints out the dispersion functions for several substances.
-     */
+     *//*
+
     public static void main( String[] args ) {
         final ArrayList<Pair<String, Double>> states = new ArrayList<Pair<String, Double>>() {{
             add( new Pair<String, Double>( "Air", 1.000293 ) );//no need to translate since dev test
@@ -102,3 +107,4 @@ public class DispersionFunction {
         }
     }
 }
+*/

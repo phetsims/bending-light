@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight;
 
@@ -5,11 +6,13 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 
+*/
 /**
  * Translated strings for "Bending Light" are loaded eagerly to make sure everything exists on sim startup.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class BendingLightStrings {
     public static final String AIR = getString( "air" );
     public static final String MISS = getString( "miss" );
@@ -56,3 +59,4 @@ public class BendingLightStrings {
         return RESOURCES.getLocalizedString( key );
     }
 }
+*/

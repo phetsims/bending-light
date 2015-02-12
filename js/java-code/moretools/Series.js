@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.moretools;
 
@@ -8,11 +9,13 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
+*/
 /**
  * Series of data points to be shown in the wave sensor chart.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class Series {
     public final Property<ArrayList<Option<DataPoint>>> path;//Each reading may be None, so represented with Option
     private final Color color;
@@ -59,3 +62,4 @@ public class Series {
         path.set( new ArrayList<Option<DataPoint>>( path.get().subList( startIndex, endIndex ) ) );
     }
 }
+*/

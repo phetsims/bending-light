@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
@@ -21,12 +22,14 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static java.lang.Math.pow;
 
+*/
 /**
  * Main model for bending light application.  Rays are recomputed whenever laser parameters changed.
  * Each ray oscillates in time, as shown in the wave view.  There are model representations for several tools as well as their visibility.
  *
  * @author Sam Reid
- */
+ *//*
+
 public abstract class BendingLightModel implements ResetModel {
     //Default values
     public static final double DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
@@ -192,4 +195,4 @@ public abstract class BendingLightModel implements ResetModel {
             listener.apply();
         }
     }
-}
+}*/

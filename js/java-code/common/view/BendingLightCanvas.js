@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
@@ -31,12 +32,14 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
+*/
 /**
  * Base class for Bending Light canvases.
  * Using BufferedPhetPCanvas prevents a jittering problem on the 2nd tab, see #2786 -- but only apply this solution on Windows since it causes problem on Mac and mac has no jitter problem
  *
  * @author Sam Reid
- */
+ *//*
+
 public class BendingLightCanvas<T extends BendingLightModel> extends BufferedPhetPCanvas implements ToolboxCanvas {
     public static final PhetFont labelFont = new PhetFont( 16 );//Font for labels in controls
     private PNode rootNode;
@@ -266,4 +269,4 @@ public class BendingLightCanvas<T extends BendingLightModel> extends BufferedPhe
             }
         };
     }
-}
+}*/

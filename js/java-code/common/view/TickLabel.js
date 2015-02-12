@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package
 edu.colorado.phet.bendinglight.view;
@@ -11,11 +12,13 @@ swing. *;
 import edu.
 colorado.phet.common.phetcommon.view.util.PhetFont;
 
+*/
 /**
  * Label to be shown for the sliders in the MediumControlPanel.
  *
  * @author Sam Reid
- */
+ *//*
+
 public
 class
 TickLabel
@@ -60,3 +63,4 @@ JLabel
     g2.setPaint( origPaint );
   }
 }
+*/

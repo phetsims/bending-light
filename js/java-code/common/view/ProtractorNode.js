@@ -1,10 +1,13 @@
+/*
 // Copyright 2002-2012, University of Colorado
+*/
 /**
  * The protractor node is a circular device for measuring angles.
  * In this sim it is used for measuring the angle of the incident, reflected and refracted light.
  *
  * @author Sam Reid
- */
+ *//*
+
 define( function( require ) {
     'use strict';
 
@@ -81,7 +84,8 @@ define( function( require ) {
         }
       } ) );
 
-      /*  this.addChild( new Path( rotateShape.apply( this.innerBarShape, outerRimShape ), this.debug ? Color.red : new Color( 0, 0, 0, 0 ) ) );
+      */
+/*  this.addChild( new Path( rotateShape.apply( this.innerBarShape, outerRimShape ), this.debug ? Color.red : new Color( 0, 0, 0, 0 ) ) );
        rotateShape.addInputListener( new SimpleDragHandler( {
        start: function( event ) {
        start = event.getPositionRelativeTo( getParent() );
@@ -95,7 +99,8 @@ define( function( require ) {
        //Rotate the protractor model
        protractorNode.protractorModel.angle.set( protractorNode.protractorModel.angle.get() + deltaAngle );
        }
-       } ) );*/
+       } ) );*//*
+
       // Property.multilink( [ this.protractorModel.positionProperty, this.protractorModel.angleProperty ], protractorNode.updateTransform() );
 
       this.protractorModel.angleProperty.link( function( angle ) {
@@ -109,10 +114,12 @@ define( function( require ) {
     }
 
     return inherit( Node, ProtractorNode, {
-        /**
+        */
+/**
          * Resize the protractor
          * @param scale
-         */
+         *//*
+
         setProtractorScale: function( scale ) {
           this.scale = scale;
           this.updateTransform( this.scale );
@@ -125,25 +132,31 @@ define( function( require ) {
           this.setTranslation( point2D.x - this.protractor.getWidth() / 2 * this.scale, point2D.y - this.protractor.getHeight() / 2 * this.scale );
           this.rotateAround( new Vector2( this.protractor.getWidth() / 2, this.protractor.getHeight() / 2 ), this.protractorModel.angle.get() );
         },
-        /**
+        */
+/**
          * Create a protractor image given at the specified height
          * @param height
          * @returns {*}
-         */
+         *//*
+
         newProtractorImage: function( height ) {
           return Image( protractorImage, { scale: height / protractorImage.height } );
         },
-        /**
+        */
+/**
          * Translate the protractor, this method is called when dragging out of the toolbox
          * @param delta
-         */
+         *//*
+
         dragAll: function( delta ) {
           this.protractorModel.translate1( this.modelViewTransform.viewToModelX( delta.x ), this.modelViewTransform.viewToModelX( delta.y ) );
         },
-        /**
+        */
+/**
          * Change the visibility and pickability of this ProtractorNode
          * @param isVisible
-         */
+         *//*
+
         setVisible: function( isVisible ) {
           this.setVisible( isVisible );
           this.setPickable( isVisible );
@@ -157,3 +170,4 @@ define( function( require ) {
 )
 ;
 
+*/

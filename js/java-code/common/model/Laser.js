@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
@@ -11,11 +12,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
 
+*/
 /**
  * Model for the laser, which emits LightRays.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class Laser {
     //Independent variables
     public final Property<Vector2D> emissionPoint;//where the light comes from
@@ -92,3 +95,4 @@ public class Laser {
         return BendingLightModel.SPEED_OF_LIGHT / getWavelength();
     }
 }
+*/

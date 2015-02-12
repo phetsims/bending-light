@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
@@ -18,11 +19,13 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.DEFAULT_DT;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WATER;
 
+*/
 /**
  * Module for the "intro" tab.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class IntroModule extends BendingLightModule<IntroModel> {
 
     public IntroModule() {
@@ -39,3 +42,4 @@ public class IntroModule extends BendingLightModule<IntroModel> {
         );
     }
 }
+*/

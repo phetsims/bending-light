@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package
 edu.colorado.phet.bendinglight.view;
@@ -10,11 +11,13 @@ colorado.phet.bendinglight.model.BendingLightModel;
 import edu.
 colorado.phet.common.phetcommon.view.util.VisibleColor;
 
+*/
 /**
  * Enum type pattern for the laser color, which may be white or a specific wavelength.
  *
  * @author Sam Reid
- */
+ *//*
+
 public
 abstract
 class
@@ -96,3 +99,4 @@ extends
   Color
   getColor();
 }
+*/

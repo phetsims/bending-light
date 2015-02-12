@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.moretools;
 
@@ -13,11 +14,13 @@ import edu.umd.cs.piccolo.PCanvas;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.DEFAULT_DT;
 
+*/
 /**
  * Module for the "more tools" tab.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class MoreToolsModule extends BendingLightModule<MoreToolsModel> {
 
     public MoreToolsModule() {
@@ -32,4 +35,4 @@ public class MoreToolsModule extends BendingLightModule<MoreToolsModel> {
                }
         );
     }
-}
+}*/

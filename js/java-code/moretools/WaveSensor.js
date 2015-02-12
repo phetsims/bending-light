@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package
 edu.colorado.phet.bendinglight.modules.moretools;
@@ -26,9 +27,11 @@ colorado.phet.common.phetcommon.util.Option;
 import edu.
 colorado.phet.common.phetcommon.util.function.Function1;
 
+*/
 /**
  * Sensor for wave values, reads the wave amplitude as a function of time and location.  Two probes can be used to compare values.
- */
+ *//*
+
 public
 class
 WaveSensor
@@ -190,4 +193,4 @@ class
       ;
     }
   }
-}
+}*/

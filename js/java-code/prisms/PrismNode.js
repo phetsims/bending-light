@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -26,11 +27,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static java.awt.Color.darkGray;
 
+*/
 /**
  * Graphically depicts a draggable prism.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class PrismNode extends PNode {
     public final Prism prism;
 
@@ -135,4 +138,4 @@ public class PrismNode extends PNode {
             } );
         }} );
     }
-}
+}*/

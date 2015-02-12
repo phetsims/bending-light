@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
@@ -7,11 +8,13 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.*;
 
+*/
 /**
  * For determining the colors of different mediums as a function of characteristic index of refraction.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class MediumColorFactory {
     public static final Color AIR_COLOR = Color.white;
     public static final Color WATER_COLOR = new Color( 198, 226, 246 );
@@ -64,3 +67,4 @@ public class MediumColorFactory {
         else { return value; }
     }
 }
+*/

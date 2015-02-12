@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -8,11 +9,13 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
+*/
 /**
  * Wrapper around a shape with convenience methods for computing intersections, etc.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class Prism {
     public final Property<IShape> shape;
 
@@ -54,3 +57,4 @@ public class Prism {
         shape.set( shape.get().getRotatedInstance( deltaAngle, shape.get().getRotationCenter() ) );
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -8,9 +9,11 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
+*/
 /**
  * @author Sam Reid
- */
+ *//*
+
 public interface IShape {
     //Convert to a java.awt.Shape
     Shape toShape();
@@ -33,4 +36,4 @@ public interface IShape {
     Option<Vector2D> getReferencePoint();
 
     boolean containsPoint( Vector2D point );
-}
+}*/

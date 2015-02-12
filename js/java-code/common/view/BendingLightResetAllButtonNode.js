@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package
 edu.colorado.phet.bendinglight.view;
@@ -12,11 +13,13 @@ colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.
 umd.cs.piccolo.util.PDimension;
 
+*/
 /**
  * Reset all button node for bending light, sets the location to be in the bottom right of the stage
  *
  * @author Sam Reid
- */
+ *//*
+
 public
 class
 BendingLightResetAllButtonNode
@@ -38,3 +41,4 @@ ResetAllButtonNode
     setOffset( stageSize.getWidth() - getFullBounds().getWidth() - 10, stageSize.getHeight() - getFullBounds().getHeight() - 10 );
   }
 }
+*/

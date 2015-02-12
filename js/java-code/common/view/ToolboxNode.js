@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
@@ -18,11 +19,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.CHARACTERISTIC_LENGTH;
 
+*/
 /**
  * Toolbox from which the user can drag (or otherwise enable) tools.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class ToolboxNode extends VBox {
     public static final int ICON_WIDTH = 110;
 
@@ -60,4 +63,4 @@ public class ToolboxNode extends VBox {
         }} ) );
         addChild( new PImage( new NormalLine( transform, modelHeight, 9, 30, 30 ).toImage( 5, 67, new Color( 0, 0, 0, 0 ) ) ) );
     }
-}
+}*/

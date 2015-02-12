@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -10,11 +11,13 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
+*/
 /**
  * PNode that depicts a the normal vector at a light-ray / medium interface intersection.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class IntersectionNode extends PNode {
     public IntersectionNode( final ModelViewTransform transform, final Intersection intersection ) {
         Vector2D center = transform.modelToView( intersection.getPoint() );
@@ -28,3 +31,4 @@ public class IntersectionNode extends PNode {
         }} );
     }
 }
+*/

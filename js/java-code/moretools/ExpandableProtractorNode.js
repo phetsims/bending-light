@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package
 edu.colorado.phet.bendinglight.modules.moretools;
@@ -37,11 +38,13 @@ colorado.phet.common.phetcommon.resources.PhetCommonResources.getMaximizeButtonI
 import static edu.
 colorado.phet.common.phetcommon.resources.PhetCommonResources.getMinimizeButtonImage;
 
+*/
 /**
  * In the "more tools" tab, the protractor can be expanded with a "+" button and returned to the original size with a "-" button.
  *
  * @author Sam Reid
- */
+ *//*
+
 public
 class
 ExpandableProtractorNode
@@ -133,3 +136,4 @@ extends
     }
   }
 }
+*/

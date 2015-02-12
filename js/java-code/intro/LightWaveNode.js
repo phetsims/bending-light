@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
@@ -11,11 +12,13 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
+*/
 /**
  * This node depicts the light in "wave" form, i.e. oscillating with wave crests.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class LightWaveNode extends PNode {
     boolean debug = false;
 
@@ -65,4 +68,4 @@ public class LightWaveNode extends PNode {
         return new GradientPaint( x0, y0, red,
                                   x0 + (float) waveVector.getX() / 2, y0 + (float) waveVector.getY() / 2, black, true );
     }
-}
+}*/

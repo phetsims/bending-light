@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -5,11 +6,13 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LIGHT;
 
+*/
 /**
  * A single immutable ray, used in the ray propagation algorithm.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class Ray {
     public final Vector2D tail;
     public final Vector2D directionUnitVector;
@@ -32,3 +35,4 @@ public class Ray {
         return SPEED_OF_LIGHT / frequency;
     }
 }
+*/

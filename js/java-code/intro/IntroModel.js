@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
@@ -24,11 +25,13 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.getLineCircleInt
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
 import static java.lang.Math.*;
 
+*/
 /**
  * Model for the "intro" tab, which has an upper and lower medium, interfacing at the middle of the screen, and the laser at the top left shining toward the interface.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class IntroModel extends BendingLightModel {
     public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ),//in Meters, very large compared to visible model region in the stage
                                                                                 AIR, MediumColorFactory.getColor( AIR.getIndexOfRefractionForRedLight() ) ) );
@@ -126,10 +129,12 @@ public class IntroModel extends BendingLightModel {
         return bottomMedium.get().getIndexOfRefraction( laser.color.get().getWavelength() );
     }
 
-    /*
+    */
+/*
      Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
      If the intensity meter misses the ray, the original ray is added.
-     */
+     *//*
+
     protected boolean addAndAbsorb( LightRay ray ) {
         boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.get();
         if ( rayAbsorbed ) {
@@ -200,3 +205,4 @@ public class IntroModel extends BendingLightModel {
         return new Option.None<Double>();
     }
 }
+*/

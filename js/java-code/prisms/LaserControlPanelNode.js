@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -28,11 +29,13 @@ import static edu.colorado.phet.bendinglight.BendingLightStrings.*;
 import static edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont;
 import static edu.colorado.phet.bendinglight.view.LaserColor.WHITE_LIGHT;
 
+*/
 /**
  * Control panel for the laser in the "prism break" tab, such as choosing whether it is white light or one color, and the wavelength.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class LaserControlPanelNode extends ControlPanelNode {
     public LaserControlPanelNode( final Property<Boolean> multipleRays, final Property<LaserColor> laserColor,
                                   final Property<Boolean> showReflections, final SettableProperty<Boolean> showNormal, final Property<Boolean> showProtractor, final Property<Double> wavelengthProperty ) {
@@ -93,4 +96,4 @@ public class LaserControlPanelNode extends ControlPanelNode {
             setFont( labelFont );
         }
     }
-}
+}*/

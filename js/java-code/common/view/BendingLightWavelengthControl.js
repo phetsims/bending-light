@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2011, University of Colorado
 package
 edu.colorado.phet.bendinglight.view;
@@ -25,11 +26,13 @@ colorado.phet.bendinglight.view.LaserColor.WHITE_LIGHT;
 import static edu.
 colorado.phet.common.phetcommon.view.util.VisibleColor.MIN_WAVELENGTH;
 
+*/
 /**
  * Piccolo control for changing the wavelength of light.  It has a textual readout as well as a slider with a gradient background.
  *
  * @author Sam Reid
- */
+ *//*
+
 public
 class
 BendingLightWavelengthControl
@@ -99,3 +102,4 @@ PNode
     addChild( wavelengthControl );
   }
 }
+*/

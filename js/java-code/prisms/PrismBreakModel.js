@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
@@ -23,11 +24,13 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 import static java.lang.Math.*;
 
+*/
 /**
  * Model for the "prism break" tab, in which the user can move the laser and many prisms.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class PrismBreakModel extends BendingLightModel {
     private ArrayList<Prism> prisms = new ArrayList<Prism>();
     public final Property<Boolean> manyRays = new Property<Boolean>( false );//show multiple beams to help show how lenses work
@@ -290,4 +293,4 @@ public class PrismBreakModel extends BendingLightModel {
     public ProtractorModel getProtractorModel() {
         return protractorModel;
     }
-}
+}*/

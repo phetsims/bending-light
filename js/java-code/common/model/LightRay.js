@@ -1,3 +1,4 @@
+/*
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
@@ -13,11 +14,13 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LIGHT;
 
+*/
 /**
  * A LightRay models one straight segment of a beam (completely within a single medium), with a specific wavelength.
  *
  * @author Sam Reid
- */
+ *//*
+
 public class LightRay {
     //Directionality is important for propagation
     public final Vector2D tip;
@@ -229,3 +232,4 @@ public class LightRay {
         return time;
     }
 }
+*/
