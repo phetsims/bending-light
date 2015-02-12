@@ -32,13 +32,13 @@ define( function( require ) {
    */
   function IntroModel( clock ) {
 
-    BendingLightModel.call( this, clock, Math.PI * 3 / 4, true/*, DEFAULT_LASER_DISTANCE_FROM_PIVOT*/ );
+    BendingLightModel.call( this, Math.PI * 3 / 4, true,BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
     this.mediumColorFactory = new MediumColorFactory();
     this.topMedium = new Property( new Medium( Shape.rect( -1, 0, 2, 0.3 ), BendingLightModel.AIR,
-      this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
+      this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ),1 ) );
 
     this.bottomMedium = new Property( new Medium( Shape.rect( -1, -0.3, 2, 0.3 ), BendingLightModel.WATER,
-      this.mediumColorFactory.getColor( BendingLightModel.WATER.getIndexOfRefractionForRedLight() ) ) );
+      this.mediumColorFactory.getColor( BendingLightModel.WATER.getIndexOfRefractionForRedLight() ) ,1.3) );
   }
 
   return inherit( BendingLightModel, IntroModel, {
@@ -87,7 +87,7 @@ define( function( require ) {
           // Fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
-            var transmittedWavelength = incidentRay.getWavelength() / n2 * n1
+            var transmittedWavelength = incidentRay.getWavelength() / n2 * n1;
             if ( isNaN( theta2 ) || !isFinite( theta2 ) ) {
             }
             else {

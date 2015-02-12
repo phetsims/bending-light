@@ -52,7 +52,14 @@ define( function( require ) {
    * Main constructor for BendingLightModel, which contains all of the model logic for the entire sim screen.
    * @constructor
    */
-  function BendingLightModel() {
+  /**
+   *
+   * @param {Number}laserAngle
+   * @param {Boolean}topLeftQuadrant
+   * @param {number}laserDistanceFromPivot
+   * @constructor
+   */
+  function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot) {
 
 
     //List of rays in the model
@@ -76,7 +83,7 @@ define( function( require ) {
     );
     //Model components
     this.intensityMeter = new IntensityMeter( 0, 0, 0, 0 );
-    this.laser = new Laser( 30, Math.PI / 2, 2 );
+    this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }
 
   return inherit( PropertySet, BendingLightModel, {
