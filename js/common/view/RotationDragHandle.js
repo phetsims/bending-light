@@ -1,94 +1,68 @@
-// Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.bendinglight.view;
-
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-
-import edu.colorado.phet.bendinglight.BendingLightApplication;
-import edu.colorado.phet.bendinglight.model.Laser;
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.property.And;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
-
-import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipY;
-import static java.lang.Math.toDegrees;
-import static java.lang.Math.toRadians;
-
+// Copyright 2002-2015, University of Colorado
 /**
- * Graphic that depicts how the laser may be moved (in one direction).  It is only shown when the cursor is over the laser and is non-interactive.
+ * Graphic that depicts how the laser may be moved (in one direction).
+ * It is only shown when the cursor is over the laser and is non-interactive.
  *
  * @author Sam Reid
+ * @author Chandrashekar bemagoni(Actual Concepts)
  */
-public class RotationDragHandle extends PNode {
+define( function( require ) {
+  'use strict';
 
-    public RotationDragHandle( final ModelViewTransform transform, final Laser laser, final double deltaAngleDegrees, final BooleanProperty showDragHandles,
-                               final Function1<Double, Boolean> notAtMax//Function that determines whether the laser is already at the max angle (if at the max angle then that drag handle disappears)
-    ) {
-        //Temporary property to help determine whether the drag handle should be shown
-        CompositeProperty<Boolean> notAtMaximum = new CompositeProperty<Boolean>( new Function0<Boolean>() {
-            public Boolean apply() {
-                return notAtMax.apply( laser.getAngle() );
-            }
-        }, laser.emissionPoint, laser.pivot );
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var CurvedArrowShape = require( 'SCENERY_PHET/CurvedArrowShape' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
 
-        //Show the drag handle if the "show drag handles" is true and if the laser isn't already at the max angle.
-        final And showArrow = showDragHandles.and( notAtMaximum );
-        showArrow.addObserver( new SimpleObserver() {
-            public void update() {
-                setVisible( showArrow.get() );
-            }
-        } );
-        final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
+  //images
+  var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
 
-        //Update the PNode
-        final SimpleObserver update = new SimpleObserver() {
-            public void update() {
-                removeAllChildren();
-                final PNode counterClockwiseDragArrow = new PNode() {{
-                    //Draw a curved shape with an arc
-                    final double distance = transform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + image.getWidth() * 0.85;
-                    final Point2D viewOrigin = transform.modelToView( laser.pivot.get() ).toPoint2D();
-                    final double laserAngleInDegrees = toDegrees( laser.getAngle() );
-                    Arc2D.Double arc = new Arc2D.Double( -distance + viewOrigin.getX(), -distance + viewOrigin.getY(), 2 * distance, 2 * distance, laserAngleInDegrees, deltaAngleDegrees, Arc2D.OPEN );
-                    final Shape arrowBody = new BasicStroke( 10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( arc );
 
-                    //Curve to the tail and tip
-                    double EPSILON = 0.1;
-                    Vector2D arrowTail = new Vector2D( viewOrigin ).plus( createPolar( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * ( 1 - EPSILON ) ) ) );
-                    Vector2D arrowTip = new Vector2D( viewOrigin ).plus( createPolar( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * 1.1 ) ) );
+  function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandles, notAtMax ) {
+    Node.call( this );
+    var rotationDragHandle = this;
+    //Temporary property to help determine whether the drag handle should be shown
+    var notAtMaximum = new DerivedProperty( [ laser.emissionPointProperty, laser.pivotProperty ], function() {
+      return notAtMax( laser.getAngle() );
+    } );
+    //Show the drag handle if the "show drag handles" is true and if
+    // the laser isn't already at the max angle.
+    var showArrow = showDragHandles.and( notAtMaximum );
+    showDragHandles.link( function( show ) {
+        rotationDragHandle.setVisible( show );
+      }
+    );
+    var image = new Image( laserImage );
+    var dragArrow = new Path( null, {
+      fill: 'green'
+    } );
+    this.addChild( dragArrow );
 
-                    //Draw the arrowhead
-                    final Shape arrowHead = new Arrow( arrowTail.toPoint2D(), arrowTip.toPoint2D(), 20, 20, 0, 1.0, false ).getShape();
-                    Area arrowArea = new Area( arrowBody ) {{
-                        add( new Area( arrowHead ) );
-                    }};
+    //Update the Node
+    var update = function() {
+      var EPSILON = 0.1;
+      var startPoint = modelViewTransform.modelToViewPosition( laser.emissionPoint.minus( laser.pivot ) );
+      var radius = modelViewTransform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + image.getWidth() * 0.85;
+      var startAngle = -laser.getAngle() - deltaAngle * (1 - EPSILON);
+      var endAngle = -laser.getAngle() - deltaAngle * 1.1;
+      var counterClockwiseDragArrow = new CurvedArrowShape( radius, startAngle, endAngle, {
+        headWidth: 20,
+        headHeight: 20,
+        tailWidth: 10
+      } );
+      dragArrow.setShape( counterClockwiseDragArrow );
+      rotationDragHandle.setTranslation( startPoint.x, startPoint.y );
 
-                    //Add the graphic
-                    addChild( new PhetPPath( arrowArea, Color.green, new BasicStroke( 1 ), Color.black ) );
+    };
+    //Update the shape when the laser moves
+    laser.emissionPointProperty.link( function() {
+      update();
+    } );
+  }
 
-                    //Only the laser body is draggable, not the arrow itself
-                    setPickable( false );
-                    setChildrenPickable( false );
-                }};
-                addChild( counterClockwiseDragArrow );
-            }
-        };
-        laser.emissionPoint.addObserver( update );//Update the shape when the laser moves
-    }
-
-}
+  return inherit( Node, RotationDragHandle );
+} );
