@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2015, University of Colorado
 /**
  * Model for the laser, which emits LightRays.
  *
@@ -11,11 +11,11 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Property = require( 'AXON/Property' );
   var PropertySet = require( 'AXON/PropertySet' );
   var WAVELENGTH_RED = 650E-9;
-//so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.
-// This value was determined by printing out actual angle values at runtime and sampling a good value.
+
+  //so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.
+  // This value was determined by printing out actual angle values at runtime and sampling a good value.
   var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
   var SPEED_OF_LIGHT = 2.99792458E8;
 

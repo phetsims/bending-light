@@ -12,24 +12,13 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
-  var Color = require( 'SCENERY/util/Color' );
   var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Bounds2 = require( 'DOT/Bounds2' );
 
-
-  // var IntensitySensorTool = require( 'BENDING_LIGHT/intro/view/IntensitySensorTool' );
-
-
-  // strings
-  var ShowNormalString = require( 'string!BENDING_LIGHT/showNormal' );
-
+  //  constants
   var ICON_WIDTH = 90;
-  var CHARACTERISTIC_LENGTH = BendingLightModel.WAVELENGTH_RED;
+  // var CHARACTERISTIC_LENGTH = BendingLightModel.WAVELENGTH_RED;
 
   /**
    *
@@ -45,7 +34,6 @@ define( function( require ) {
   function ToolboxNode( canvas, modelViewTransform, protractorTool, moreTools, intensityMeter, showNormal, options ) {
 
     Node.call( this );
-    var toolboxNode = this;
 
     var sensorPanel = new Rectangle( 0, 0, 120, 235, 10, 10, {
       stroke: 'gray', lineWidth: 1, fill: '#C6CACE'
@@ -56,8 +44,8 @@ define( function( require ) {
     this.addChild( protractorTool );
     protractorTool.setTranslation( 15, 5 );
     //intensity sensor
-    var modelWidth = CHARACTERISTIC_LENGTH * 62;
-    var modelHeight = modelWidth * 0.7;
+    // var modelWidth = CHARACTERISTIC_LENGTH * 62;
+    //var modelHeight = modelWidth * 0.7;
 
     var intensityMeterNode = new IntensityMeterNode( modelViewTransform, intensityMeter, sensorPanel.visibleBounds );
     intensityMeter.enabled = true;

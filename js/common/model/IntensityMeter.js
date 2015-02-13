@@ -1,6 +1,3 @@
-/**
- * Created by chandrashekar on 1/27/2015.
- */
 // Copyright 2002-2012, University of Colorado
 /**
  * Model for the intensity meter, including the position of the sensor, body, the reading values, etc.
@@ -38,7 +35,7 @@ define( function( require ) {
 
   inherit( Object, Reading, {
       getString: function() {
-        if ( this.value != '-' ) {
+        if ( this.value !== '-' ) {
           return this.format( this.value );
         }
         else {
@@ -46,7 +43,7 @@ define( function( require ) {
         }
       },
       format: function( value ) {
-        if ( value != Reading.MISS ) {
+        if ( value !== Reading.MISS ) {
           return value.toFixed( VALUE_DECIMALS ) + "%";
         }
       },
@@ -105,7 +102,7 @@ define( function( require ) {
     getSensorShape: function() {
       //Fine tuned to match the given image
       var radius = 1.215E-6;
-      return new Shape().circle( this.sensorPosition.x - radius, this.sensorPosition.y- radius, radius * 2 );
+      return new Shape().circle( this.sensorPosition.x - radius, this.sensorPosition.y - radius, radius * 2 );
     },
     //Should be called before a model update so that values from last computation don't leak over into the next summation
     clearRayReadings: function() {
@@ -132,7 +129,7 @@ define( function( require ) {
        }
        }*/
       //If not hits, say "MISS"
-      if ( hits.size() == 0 ) {
+      if ( hits.size() === 0 ) {
         this.reading.set( Reading.MISS );
       }
       else //otherwise, sum the intensities

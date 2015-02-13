@@ -9,7 +9,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
+  //var Line = require( 'SCENERY/nodes/Line' );
   var Vector2 = require( 'DOT/Vector2' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -27,7 +27,7 @@ define( function( require ) {
     Node.call( this );
     this.lightRay = lightRay;
     var color = this.lightRay.getColor();
-
+    this.modelViewTransform = modelViewTransform;
     //Update the view coordinates for the start and end of this ray
     this.viewStart = modelViewTransform.modelToViewPosition( this.lightRay.tip );
     this.viewEnd = modelViewTransform.modelToViewPosition( this.lightRay.tail );
@@ -40,7 +40,6 @@ define( function( require ) {
       stroke: new Color( color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255,
         Math.sqrt( lightRay.getPowerFraction() ) )
     } );
-
     //Add the PPath
     this.addChild( path );
     //User cannot interact with the light ray directly

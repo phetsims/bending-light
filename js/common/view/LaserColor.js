@@ -10,7 +10,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var Color = require( 'SCENERY/Util/Color' );
 
   /**
    *
@@ -32,27 +31,27 @@ define( function( require ) {
 
   // static class: OneColor
   //var OneColor = define( function( require ) {
-   /* function OneColor( wavelength ) {
-      this.wavelength = wavelength;
-    }
+  /* function OneColor( wavelength ) {
+   this.wavelength = wavelength;
+   }
 
-    return inherit( LaserColor, OneColor, {
+   return inherit( LaserColor, OneColor, {
 
-    } );*/
+   } );*/
   //} );
 
   return inherit( Object, LaserColor, {
-   /*   // Determine the wavelength (in nm) of the light
-      getWavelength: function() {
-        return BendingLightModel.WAVELENGTH_RED;
-      },
-      // Determine the color of the light.
-      getColor: function() {
-        return Color.gray;
-      },*/
-      getColor: function(wavelength) {
-        this.wavelength=wavelength?wavelength:650E-9;
-        return new VisibleColor.wavelengthToColor(   this.wavelength * 1E9 );//convert to nanometers
+      /*   // Determine the wavelength (in nm) of the light
+       getWavelength: function() {
+       return BendingLightModel.WAVELENGTH_RED;
+       },
+       // Determine the color of the light.
+       getColor: function() {
+       return Color.gray;
+       },*/
+      getColor: function( wavelength ) {
+        this.wavelength = wavelength ? wavelength : 650E-9;
+        return new VisibleColor.wavelengthToColor( this.wavelength * 1E9 );//convert to nanometers
       },
       getWavelength: function() {
         return this.wavelength;

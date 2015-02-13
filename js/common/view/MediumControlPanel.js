@@ -42,7 +42,7 @@ define( function( require ) {
   var INDEX_OF_REFRACTION_MAX = 1.6;
 
 
-  var mediumColorFactory = new MediumColorFactory;
+  var mediumColorFactory = new MediumColorFactory();
 
   /**
    *
@@ -61,8 +61,7 @@ define( function( require ) {
     //Store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
     //If we kept the same index of refraction, the user could use that to easily look up the mystery values.
 
-    //private
-    this.lastNonMysteryIndexAtRed;
+    //this.lastNonMysteryIndexAtRed;
     this.medium = medium; //The medium to observe
     this.laserWavelength = laserWavelength;
     this.model = model;

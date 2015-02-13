@@ -166,7 +166,7 @@ define( function( require ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
-
+    this.modelViewTransform = modelViewTransform;
     intensityMeter.enabledProperty.link( function() {
       intensityMeterNode.setVisible( intensityMeter.enabled );
     } );
@@ -189,14 +189,14 @@ define( function( require ) {
      * @param delta
      */
     dragAll: function( delta ) {
-      this.doTranslate( transform.viewToModelDelta( delta ) );
+      this.doTranslate( this.modelViewTransform.viewToModelDelta( delta ) );
     },
     /**
      * Get the components that could be dropped back in the toolbox
      * @returns {Node}
      */
     getDroppableComponents: function() {
-      return new Node( { children: [ bodyNode, sensorNode ] } );
+      // return new Node( { children: [ bodyNode, sensorNode ] } );
     },
 
     /**

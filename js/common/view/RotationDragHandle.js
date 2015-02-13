@@ -12,11 +12,10 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  // var DerivedProperty = require( 'AXON/DerivedProperty' );
   var CurvedArrowShape = require( 'SCENERY_PHET/CurvedArrowShape' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
 
   //images
   var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
@@ -26,12 +25,12 @@ define( function( require ) {
     Node.call( this );
     var rotationDragHandle = this;
     //Temporary property to help determine whether the drag handle should be shown
-    var notAtMaximum = new DerivedProperty( [ laser.emissionPointProperty, laser.pivotProperty ], function() {
+    /*    var notAtMaximum = new DerivedProperty( [ laser.emissionPointProperty, laser.pivotProperty ], function() {
       return notAtMax( laser.getAngle() );
     } );
     //Show the drag handle if the "show drag handles" is true and if
     // the laser isn't already at the max angle.
-    var showArrow = showDragHandles.and( notAtMaximum );
+     var showArrow = showDragHandles.and( notAtMaximum );*/
     showDragHandles.link( function( show ) {
         rotationDragHandle.setVisible( show );
       }

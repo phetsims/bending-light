@@ -10,8 +10,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Color = require( 'SCENERY/util/Color' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
   var SPEED_OF_LIGHT = 2.99792458E8;
@@ -63,22 +61,11 @@ define( function( require ) {
   }
 
   return inherit( Object, LightRay, {
-    addRemovalListener: function( listener ) {
-      removalListeners.add( listener );
-    },
-    //Used for getting the right z-ordering for wave mode
-    addMoveToFrontListener: function( listener ) {
-      moveToFrontListeners.add( listener );
-    },
+
     getSpeed: function() {
       return SPEED_OF_LIGHT / this.indexOfRefraction;
     },
-    remove: function() {
-      for ( var removalListener in removalListeners ) {
-        removalListener.apply();
-      }
-      removalListeners.clear();
-    },
+
     getPowerFraction: function() {
       return this.powerFraction;
     },
@@ -98,7 +85,7 @@ define( function( require ) {
      } ).isEmpty();
      },*/
     toLine2D: function() {
-      return new Line( this.tail, this.tip );
+      //return new Line( this.tail, this.tip );
     },
     getLength: function() {
       return this.tip.minus( this.tail ).magnitude();
@@ -155,13 +142,13 @@ define( function( require ) {
 
     //private
     getExtendedLine: function() {
-      return new Line( this.tail, tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ) );
+      //return new Line( this.tail, tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ) );
     },
     //Use this one for the transmitted beam
 
     //private
     getExtendedLineBackwards: function() {
-      return new Line( this.tail.plus( this.getUnitVector().times( -this.getExtensionFactor() ) ), this.tip );
+      //  return new Line( this.tail.plus( this.getUnitVector().times( -this.getExtensionFactor() ) ), this.tip );
     },
     getUnitVector: function() {
       return new Vector2( this.tail, this.tip ).normalized();
@@ -169,17 +156,8 @@ define( function( require ) {
     getAngle: function() {
       return this.toVector2D().getAngle();
     },
-    //Add a listener that detects when time passed for this light ray
-    addStepListener: function( stepListener ) {
-      stepListeners.add( stepListener );
-    },
-    //Update the time and notify wave listeners so they can update the phase of the wave graphic
-    setTime: function( time ) {
-      this.time = time;
-      for ( var stepListener in stepListeners ) {
-        stepListener.apply();
-      }
-    },
+    // todo:Update the time and notify wave listeners so they can update the phase of the wave graphic
+
     getWaveWidth: function() {
       return this.waveWidth;
     },
@@ -198,7 +176,7 @@ define( function( require ) {
         return this.getWaveShape().contains( position.x, position.y );
       }
       else {
-        return new BasicStroke( getRayWidth() ).createStrokedShape( toLine2D() ).contains( position.toPoint2D() );
+        // return new BasicStroke( getRayWidth() ).createStrokedShape( toLine2D() ).contains( position.toPoint2D() );
       }
     },
     getRayWidth: function() {
@@ -215,7 +193,7 @@ define( function( require ) {
       return this.getFrequency() * Math.PI * 2;
     },
     getPhaseOffset: function() {
-      return this.getAngularFrequency() * time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
+      //return this.getAngularFrequency() * time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
     },
     //Get the total argument to the cosine for the wave function (k * x - omega * t + phase)
     getCosArg: function( distanceAlongRay ) {

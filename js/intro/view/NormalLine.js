@@ -11,13 +11,12 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Line = require( 'SCENERY/nodes/Line' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
   /**
    *
-   * @param height
+   * @param {Number}height
    * @constructor
    */
   function NormalLine( height ) {

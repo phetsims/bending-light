@@ -14,7 +14,7 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var IntensityMeter = require( 'BENDING_LIGHT/common/model/IntensityMeter' );
   var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
-  var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
+  // var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
 
   //Default values
@@ -59,7 +59,7 @@ define( function( require ) {
    * @param {number}laserDistanceFromPivot
    * @constructor
    */
-  function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot) {
+  function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot ) {
 
 
     //List of rays in the model
@@ -88,10 +88,10 @@ define( function( require ) {
 
   return inherit( PropertySet, BendingLightModel, {
 
-     step:function(){
-       this.rays.clear();
-       this.propagateRays();
-     },
+      step: function() {
+        this.rays.clear();
+        this.propagateRays();
+      },
       /**
 
        *
@@ -112,9 +112,7 @@ define( function( require ) {
       getLaser: function() {
         return this.laser;
       },
-      getClock: function() {
-        return clock;
-      },
+
       getRays: function() {
         return this.rays;
       },
@@ -123,9 +121,9 @@ define( function( require ) {
       },
       //Clear the model in preparation for another ray propagation update phase
       clearModel: function() {
-        for ( var ray in this.rays ) {
+        /*  for ( var ray in this.rays ) {
           ray.remove();
-        }
+         }*/
         this.rays.clear();
         //Clear the accumulator in the intensity meter so it can sum up the newly created rays
         this.intensityMeter.clearRayReadings();
@@ -134,9 +132,9 @@ define( function( require ) {
       updateModel: function() {
         this.clearModel();
         this.propagateRays();
-        for ( var modelUpdateListener in this.modelUpdateListeners ) {
+        /*  for ( var modelUpdateListener in this.modelUpdateListeners ) {
           modelUpdateListener.apply();
-        }
+         }*/
       },
       //Abstract method for creating all the rays in the model after the model has been cleared
       propagateRays: function() {},
@@ -156,7 +154,7 @@ define( function( require ) {
         this.resetListeners.add( listener );
       },
       resetAll: function() {
-      this.laser.resetAll();
+        this.laser.resetAll();
         PropertySet.prototype.reset.call( this );
         //this.intensityMeter.resetAll();
         // this.laserView.reset();

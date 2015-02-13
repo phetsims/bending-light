@@ -1,7 +1,8 @@
 // Copyright 2002-2015, University of Colorado
 /**
  * The protractor node is a circular device for measuring angles.
- * In this sim it is used for measuring the angle of the incident, reflected and refracted light.
+ * In this sim it is used for measuring the angle of the incident,
+ * reflected and refracted light.
  *
  * @author Sam Reid
  */
@@ -16,13 +17,12 @@ define( function( require ) {
     var Vector2 = require( 'DOT/Vector2' );
     var Image = require( 'SCENERY/nodes/Image' );
     var Shape = require( 'KITE/Shape' );
-    var Rectangle = require( 'SCENERY/nodes/Rectangle' );
     var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-    var Property = require( 'AXON/Property' );
 
     //images
     var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
 
+    // constants
     var DEFAULT_SCALE = 0.5;
 
     /**
@@ -36,12 +36,12 @@ define( function( require ) {
     function ProtractorNode( modelViewTransform, showProtractor, protractorModel, scale ) {
 
       var protractorNode = this;
-      Node.call( protractorNode, {
-        cursor: 'pointer'
-      } );
+      Node.call( protractorNode, { cursor: 'pointer' } );
 
       this.debug = false;
-      //Just using a global piccolo scale in the "prism break" tab leads to jagged and aliased graphics--in that case it is important to use the multiscaling algorithm
+      // Just using a global piccolo scale in the "prism break" tab leads to jagged
+      // and aliased graphics--in
+      // that case it is important to use the multiscaling algorithm
 
       this.modelViewTransform = modelViewTransform;
       this.protractorModel = protractorModel;
@@ -55,7 +55,7 @@ define( function( require ) {
       );
       this.addChild( imageNode );
       //Shape for the outer ring of the protractor
-      var outerShape = new Path( new Shape().circle( imageNode.getWidth() / 2, imageNode.getHeight() / 2, imageNode.getWidth() / 2 ) );
+      // var outerShape = new Path( new Shape().circle( imageNode.getWidth() / 2, imageNode.getHeight() / 2, imageNode.getWidth() / 2 ) );
       var outerRimShape = new Path( new Shape()
         .moveTo( imageNode.getWidth(), imageNode.getHeight() / 2 )
         .ellipticalArc( imageNode.getWidth() / 2, imageNode.getHeight() / 2, imageNode.getWidth() / 2, imageNode.getHeight() / 2, 0, 0, Math.PI, true )
@@ -84,7 +84,6 @@ define( function( require ) {
           end = protractorNode.globalToParentPoint( event.pointer.point );
           var d = end.minus( start );
           protractorNode.dragAll( d );
-          // protractorNode.setTranslation( end.x, end.y );
         }
       } ) );
 
@@ -126,7 +125,6 @@ define( function( require ) {
         },
         //Update the transform (scale, offset, rotation) of this protractor to reflect the model values and the specified scale
         updateTransform: function( scale ) {
-          //this.setTransform( new AffineTransform() );
           this.scale( scale );
           var point2D = this.modelViewTransform.modelToViewXY( this.protractorModel.position.value );
           this.setTranslation( point2D.x - this.protractor.getWidth() / 2 * this.scale, point2D.y - this.protractor.getHeight() / 2 * this.scale );
@@ -138,7 +136,7 @@ define( function( require ) {
          * @returns {*}
          */
         newProtractorImage: function( height ) {
-          return Image( protractorImage, { scale: height / protractorImage.height } );
+          return new Image( protractorImage, { scale: height / protractorImage.height } );
         },
         /**
          * Translate the protractor, this method is called when dragging out of the toolbox

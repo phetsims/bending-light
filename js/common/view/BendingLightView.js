@@ -7,7 +7,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );

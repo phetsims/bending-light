@@ -31,8 +31,11 @@ define( function( require ) {
       } );
     this.addChild( mediumRectangleNode );
     mediumProperty.link( function( medium ) {
-      mediumRectangleNode.fill = new Color( medium.color.getRed(), medium.color.getGreen(), medium.color.getBlue() )
-    } )
+      mediumRectangleNode.fill = new Color(
+        medium.color.getRed(),
+        medium.color.getGreen(),
+        medium.color.getBlue() );
+    } );
   }
 
   return inherit( Node, MediumNode, {} );

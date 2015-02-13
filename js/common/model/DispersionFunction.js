@@ -77,45 +77,6 @@ define( function( require ) {
      */
     getAirIndex: function( wavelength ) {
       return 1 + 5792105E-8 / (238.0185 - Math.pow( wavelength * 1E6, -2 )) + 167917E-8 / (57.362 - Math.pow( wavelength * 1E6, -2 ));
-    },
-    /*
-     * Prints out the dispersion functions for several substances.
-     */
-    main: function( args ) {
-      var states = [].withAnonymousClassBody( {
-        initializer: function() {
-          //no need to translate since dev test
-          add( new Pair( "Air", 1.000293 ) );
-          add( new Pair( "Water", 1.333 ) );
-          add( new Pair( "Glass", 1.5 ) );
-          add( new Pair( "Diamond", 2.419 ) );
-        }
-      } );
-      var dispersionFunctions = [].withAnonymousClassBody( {
-        initializer: function() {
-          for ( var state in states ) {
-            add( new DispersionFunction( state._2 ) );
-            console.log( state + " -> " + new DispersionFunction( state._2 ).getIndexOfRefractionForRed() );
-          }
-        }
-      } );
-      console.log();
-      var minLambda = 350E-9;
-      var maxLambda = 800E-9;
-      var numSteps = 100;
-      var dLambda = (maxLambda - minLambda) / numSteps;
-      console.log( "Wavelength\t" );
-      for ( var state in states ) {
-        console.log( state + "\t" );
-      }
-      console.log();
-      for ( var lambda = minLambda; lambda <= maxLambda; lambda += dLambda ) {
-        console.log( lambda + "\t" );
-        for ( var dispersionFunction in dispersionFunctions ) {
-          console.log( dispersionFunction.getIndexOfRefraction( lambda ) + "\t" );
-        }
-        console.log();
-      }
     }
   } );
 } );

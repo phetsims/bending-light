@@ -14,9 +14,8 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Vector2 = require( 'DOT/Vector2' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
+  // var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var RoundStickyToggleButton = require( 'SUN/Buttons/RoundStickyToggleButton' );
@@ -99,18 +98,18 @@ define( function( require ) {
     var rotationRegionPath = new Path( rotationRegion( fullRectangle, backRectangle ), { fill: rotationRegionColor } );
     this.addChild( rotationRegionPath );
     rotationRegionPath.addInputListener( new SimpleDragHandler( {
-      start: function( ) {
+      start: function() {
         draggingRotation.value = true;
       },
       drag: function( event ) {
         var laserPoint = laserNode.globalToParentPoint( event.pointer.point );
         laser.emissionPoint = modelViewTransform.viewToModelPosition( laserPoint );
-       // var angle = laser.emissionPoint.minus( laser.pivot ).angle();
-       // var after = clampDragAngle.apply( angle );
+        // var angle = laser.emissionPoint.minus( laser.pivot ).angle();
+        // var after = clampDragAngle.apply( angle );
         //laser.setAngle( after );
         draggingRotation.value = true;
       },
-      end: function( ) {
+      end: function() {
         draggingRotation.value = false;
       }
     } ) );

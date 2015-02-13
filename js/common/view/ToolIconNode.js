@@ -5,7 +5,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    *
@@ -37,12 +36,12 @@ define( function( require ) {
         toolIconNode.showProtractor.set( true );
         thumbnail.setVisible( false );
 
-        if ( toolIconNode.node == null ) {
+        if ( toolIconNode.node === null ) {
           start = thumbnail.globalToParentPoint( event.pointer.point );
           var nodeRef = canvas.createNode( modelViewTransform, showProtractor, modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelX( start.y ) );
           toolIconNode.node = nodeRef;
 
-         // var anyIntersection = false;
+          // var anyIntersection = false;
           /* for( var child in nodeRef.getDroppableComponents() ) {
            if ( canvas.toolboxNode.getBounds().intersectsBounds( child.getBounds() ) ) {
            anyIntersection = true;
@@ -59,10 +58,8 @@ define( function( require ) {
         toolIconNode.node.dragAll( end.minus( start ) );
       },
       end: function() {
-        if ( canvas.toolboxNode.getBounds().intersectsBounds( toolIconNode.node.getBounds() ) ) {
-          toolIconNode.intersect = true;
-        }else
-          toolIconNode.intersect = false;
+        toolIconNode.intersect = canvas.toolboxNode.getBounds().intersectsBounds(
+          toolIconNode.node.getBounds() );
 
         toolIconNode.testDropIn( toolIconNode.node );
       }
@@ -88,7 +85,7 @@ define( function( require ) {
         //Show the thumbnail again so it can be dragged out again
         this.setVisible( true );
 
-        if ( node != null ) {
+        if ( node !== null ) {
           this.canvas.afterLightLayer.removeChild( node );
         }
         //Remove the tool from the play area

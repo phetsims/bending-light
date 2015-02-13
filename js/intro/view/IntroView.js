@@ -9,7 +9,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var ScreenView = require( 'JOIST/ScreenView' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
   var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
@@ -23,7 +22,6 @@ define( function( require ) {
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var ToolboxNode = require( 'BENDING_LIGHT/common/view/ToolboxNode' );
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
@@ -89,8 +87,8 @@ define( function( require ) {
     BendingLightView.call( this,
       introModel,
       clampDragAngle,
-      clockwiseArrowNotAtMax
-      , ccwArrowNotAtMax,
+      clockwiseArrowNotAtMax,
+      ccwArrowNotAtMax,
       true,
       getProtractorRotationRegion,
       rotationRegionShape,
@@ -215,7 +213,7 @@ define( function( require ) {
       playPauseButton.visible = (laserType === 'wave');
       stepButton.visible = (laserType === 'wave');
       speedControl.visible = (laserType === 'wave');
-    } )
+    } );
 
   }
 
@@ -238,7 +236,7 @@ define( function( require ) {
     //Get the function that chooses which region of the protractor can be used for translation--both
     // the inner bar and outer circle in this tab
     getProtractorDragRegion: function( innerBar, outerCircle ) {
-      return new Area( innerBar ).add( new Area( outerCircle ) );
+      //return new Area( innerBar ).add( new Area( outerCircle ) );
     }
 
   } );
