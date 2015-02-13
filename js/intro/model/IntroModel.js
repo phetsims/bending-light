@@ -18,7 +18,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
-  var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
 
   // var MISS = IntensityMeter.Reading.MISS;
   var CHARACTERISTIC_LENGTH = 650E-9;
