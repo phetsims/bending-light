@@ -98,15 +98,22 @@ define( function( require ) {
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMedium ) );
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMedium ) );
 
+    var IndexOfRefractionDecimals = 2;
     //Add control panels for setting the index of refraction for each medium
-    var mediumControlPanel = new MediumControlPanel( introModel, this, introModel.topMedium, materialString, true, introModel.wavelengthProperty );
-    mediumControlPanel.setTranslation( this.stageSize.width - mediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) - 10 - mediumControlPanel.getHeight() );
-    this.afterLightLayer2.addChild( mediumControlPanel );
+    var topMediumMaterialListParent = new Node();
+    var topMediumControlPanel = new MediumControlPanel( introModel, this, introModel.topMedium,
+      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, topMediumMaterialListParent );
+    topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
+    this.afterLightLayer2.addChild( topMediumControlPanel );
+    this.afterLightLayer2.addChild( topMediumMaterialListParent );
 
     //Add control panels for setting the index of refraction for each medium
-    var mediumControlPanel1 = new MediumControlPanel( introModel, this, introModel.bottomMedium, materialString, true, introModel.wavelengthProperty );
-    mediumControlPanel1.setTranslation( this.stageSize.width - mediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) - 10 + mediumControlPanel.getHeight() );
-    this.afterLightLayer2.addChild( mediumControlPanel1 );
+    var bottomMaterialListParent = new Node();
+    var bottomMediumControlPanel = new MediumControlPanel( introModel, this, introModel.bottomMedium,
+      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, bottomMaterialListParent );
+    bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) + 10 );
+    this.afterLightLayer2.addChild( bottomMediumControlPanel );
+    this.afterLightLayer2.addChild( bottomMaterialListParent );
 
     //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
     this.beforeLightLayer.addChild( new Path( this.modelViewTransform.modelToViewShape(

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2015, University of Colorado
 /**
  * Main model for bending light application.  Rays are recomputed whenever laser parameters changed.
  * Each ray oscillates in time, as shown in the wave view.  There are model representations for several tools as well as their visibility.
@@ -21,13 +21,21 @@ define( function( require ) {
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
   var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
+  //  strings
+  var airString = require( 'string!BENDING_LIGHT/air' );
+  var waterString = require( 'string!BENDING_LIGHT/water' );
+  var glassString = require( 'string!BENDING_LIGHT/glass' );
+  var diamondString = require( 'string!BENDING_LIGHT/diamond' );
+  var mysteryAString = require( 'string!BENDING_LIGHT/mysteryA' );
+  var mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
+
   //Mediums that can be selected
-  var AIR = new MediumState( 'AIR', 1.000293 );
-  var WATER = new MediumState( 'WATER', 1.333 );
-  var GLASS = new MediumState( 'GLASS', 1.5 );
-  var DIAMOND = new MediumState( 'DIAMOND', DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT );
-  var MYSTERY_A = new MediumState( 'MYSTERY_A', DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true );
-  var MYSTERY_B = new MediumState( 'MYSTERY_B', 1.4, true );
+  var AIR = new MediumState( airString, 1.000293, false, false );
+  var WATER = new MediumState( waterString, 1.333, false, false );
+  var GLASS = new MediumState( glassString, 1.5, false, false );
+  var DIAMOND = new MediumState( diamondString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false );
+  var MYSTERY_A = new MediumState( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
+  var MYSTERY_B = new MediumState( mysteryBString, 1.4, true, false );
 
   //Model parameters
   var SPEED_OF_LIGHT = 2.99792458E8;
@@ -122,7 +130,7 @@ define( function( require ) {
       //Clear the model in preparation for another ray propagation update phase
       clearModel: function() {
         /*  for ( var ray in this.rays ) {
-          ray.remove();
+         ray.remove();
          }*/
         this.rays.clear();
         //Clear the accumulator in the intensity meter so it can sum up the newly created rays
@@ -133,7 +141,7 @@ define( function( require ) {
         this.clearModel();
         this.propagateRays();
         /*  for ( var modelUpdateListener in this.modelUpdateListeners ) {
-          modelUpdateListener.apply();
+         modelUpdateListener.apply();
          }*/
       },
       //Abstract method for creating all the rays in the model after the model has been cleared
