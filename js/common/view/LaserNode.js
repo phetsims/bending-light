@@ -95,18 +95,20 @@ define( function( require ) {
 
 
     // Add the drag region for rotating the laser
-    var rotationRegionPath = new Path( rotationRegion( fullRectangle, backRectangle ), { fill: rotationRegionColor } );
+    var rotationRegionPath = new Path( rotationRegion( fullRectangle, backRectangle ), { fill: 'blue' } );
     this.addChild( rotationRegionPath );
     rotationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function() {
         draggingRotation.value = true;
       },
       drag: function( event ) {
-        var laserPoint = laserNode.globalToParentPoint( event.pointer.point );
-        laser.emissionPoint = modelViewTransform.viewToModelPosition( laserPoint );
-        // var angle = laser.emissionPoint.minus( laser.pivot ).angle();
-        // var after = clampDragAngle.apply( angle );
-        //laser.setAngle( after );
+        var coordinateFrame = laserNode.parents[ 0 ];
+        var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point )
+        var modelPoint = modelViewTransform.viewToModelPosition( localLaserPosition );
+        var vector = modelPoint.minus( laser.pivot );
+        var angle = vector.angle();
+        var after = clampDragAngle( angle );
+        laser.setAngle( after );
         draggingRotation.value = true;
       },
       end: function() {
@@ -125,10 +127,10 @@ define( function( require ) {
     //Update the transform of the laser when its model data (pivot or emission point)
     // changes
 
-    laser.emissionPointProperty.link( function( emissionPoint1 ) {
-      var emissionPoint = modelViewTransform.modelToViewPosition( emissionPoint1 );
+    laser.emissionPointProperty.link( function( newEmissionPoint ) {
+      var emissionPoint = modelViewTransform.modelToViewPosition( newEmissionPoint );
       var angle = modelViewTransform.modelToViewPosition( Vector2.createPolar( 1, laser.getAngle() ) ).angle();
-      laserNode.setRotation( clampDragAngle( angle ) );
+      laserNode.setRotation( angle );
       laserNode.setTranslation( emissionPoint.x, emissionPoint.y );
     } );
 

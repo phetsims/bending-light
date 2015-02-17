@@ -77,8 +77,9 @@ define( function( require ) {
       },
       //Rotate about the fixed pivot
       setAngle: function( angle ) {
-        var distFromPivot = this.pivot.get().distance( this.emissionPoint );
-        this.emissionPoint.set( Vector2.createPolar( distFromPivot, angle ).plus( this.pivot ) );
+        var distFromPivot = this.pivot.distance( this.emissionPoint );
+        this.emissionPoint = Vector2.createPolar( distFromPivot, angle ).plus(
+          this.pivot );
       },
       getAngle: function() {
         //TODO: why is this backwards by 180 degrees?
