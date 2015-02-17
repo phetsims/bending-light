@@ -53,7 +53,7 @@ define( function( require ) {
 
     function clampDragAngle( angle ) {
       while ( angle < 0 ) { angle += Math.PI * 2; }
-      return Util.clamp( Math.PI / 2, angle, Math.PI );
+      return Util.clamp( angle, Math.PI / 2, Math.PI );
     }
 
     //Indicate if the laser is not at its max angle,

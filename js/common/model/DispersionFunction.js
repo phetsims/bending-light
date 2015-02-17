@@ -64,7 +64,7 @@ define( function( require ) {
       var delta = nGlassReference - nAirReference;
       //0 to 1 (air to glass)
       var x = (this.referenceIndexOfRefraction - nAirReference) / delta;
-      x = Util.clamp( 0, x, Number.POSITIVE_INFINITY );
+      x = Util.clamp( x, 0, Number.POSITIVE_INFINITY );
       //Take a linear combination of glass and air equations
       return x * this.getSellmeierValue( wavelength ) + (1 - x) * this.getAirIndex( wavelength );
     },
