@@ -95,7 +95,7 @@ define( function( require ) {
 
 
     // Add the drag region for rotating the laser
-    var rotationRegionPath = new Path( rotationRegion( fullRectangle, backRectangle ), { fill: 'blue' } );
+    var rotationRegionPath = new Path( rotationRegion( fullRectangle, backRectangle ), { fill: rotationRegionColor } );
     this.addChild( rotationRegionPath );
     rotationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function() {
@@ -103,7 +103,7 @@ define( function( require ) {
       },
       drag: function( event ) {
         var coordinateFrame = laserNode.parents[ 0 ];
-        var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point )
+        var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
         var modelPoint = modelViewTransform.viewToModelPosition( localLaserPosition );
         var vector = modelPoint.minus( laser.pivot );
         var angle = vector.angle();
@@ -130,8 +130,9 @@ define( function( require ) {
     laser.emissionPointProperty.link( function( newEmissionPoint ) {
       var emissionPoint = modelViewTransform.modelToViewPosition( newEmissionPoint );
       var angle = modelViewTransform.modelToViewPosition( Vector2.createPolar( 1, laser.getAngle() ) ).angle();
-      laserNode.setRotation( angle );
       laserNode.setTranslation( emissionPoint.x, emissionPoint.y );
+      laserNode.setRotation( angle );
+      laserNode.translate( 0, -lightImage.getHeight() / 2 );
     } );
 
     // add light emission on/off button
