@@ -125,8 +125,10 @@ define( function( require ) {
       } ) ) );
 
     //Show the normal line where the laser strikes the interface between mediums
-    var normalLine = new NormalLine( this.stageSize.height / 2 );
-    normalLine.setTranslation( this.stageSize.width / 2, this.stageSize.height / 4 );
+    var normalLineHeight = this.stageSize.height / 2;
+    var normalLine = new NormalLine( normalLineHeight );
+    normalLine.setTranslation( this.modelViewTransform.modelToViewX( 0 ),
+      this.modelViewTransform.modelToViewY( 0 ) - normalLineHeight / 2 );
     this.afterLightLayer2.addChild( normalLine );
 
     introModel.showNormalProperty.link( function( showNormal ) {
