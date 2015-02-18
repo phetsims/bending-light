@@ -63,8 +63,9 @@ define( function( require ) {
     } );
 
     //add laser image
-    var lightImage = new Image( laserImage );
+    var lightImage = new Image( laserImage ,{scale:0.7});
     this.addChild( lightImage );
+    lightImage.rotateAround(lightImage.getCenter(),Math.PI);
 
     //Drag handlers can choose which of these regions to use for drag events
     var fractionBackToRotateHandle = 34.0 / 177.0;
