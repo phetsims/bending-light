@@ -71,21 +71,20 @@ define( function( require ) {
     }, options );
 
     var width = 100;
-    var titleText = new Text( laserViewString, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
     this.rayNode = new RAY();
     this.waveNode = new WAVE();
     var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
-    var createButtonTextNode = function( text ) { return new Text( text, { font: new PhetFont( 12 ) } ); };
+    var createButtonTextNode = function( text ) {
+      return new Text( text, { font: new PhetFont( 12 ) } );
+    };
 
     // Create the radio buttons
 
     var laserRadio = new AquaRadioButton( model.laserViewProperty, 'ray', createButtonTextNode( laserString ),
       AQUA_RADIO_BUTTON_OPTIONS );
-    var waveRadio = new AquaRadioButton( model.laserViewProperty,'wave', createButtonTextNode( waveString ),
+    var waveRadio = new AquaRadioButton( model.laserViewProperty, 'wave', createButtonTextNode( waveString ),
       AQUA_RADIO_BUTTON_OPTIONS );
 
-    //dummy text for height
-    var dummyText = new Text( '', { font: new PhetFont( 3 ) } );
 
     // touch areas
     var touchExpansion = 5;
@@ -107,18 +106,12 @@ define( function( require ) {
       ( waveRadio.localBounds.minX + maxRadioButtonWidth ),
       waveRadio.localBounds.maxY );
 
-    // center the title by adding space before and after. Also ensures that the panel's width is 'width'
-    var createTitle = function( item ) {
-      var strutWidth = ( width - item.width ) / 2 - options.xMargin;
-      return new HBox( { children: [ new HStrut( strutWidth ), item, new HStrut( strutWidth ) ] } );
-    };
 
     var content = new VBox( {
-      spacing: 4,
-      children: [ createTitle( titleText ), laserRadio, waveRadio, createTitle( dummyText ) ],
+      spacing: 10,
+      children: [ laserRadio, waveRadio ],
       align: 'left'
     } );
-
 
 
     Panel.call( this, content, options );
