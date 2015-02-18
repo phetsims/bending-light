@@ -57,11 +57,8 @@ define( function( require ) {
   var CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
   /**
-   * Main constructor for BendingLightModel, which contains all of the model logic for the entire sim screen.
-   * @constructor
-   */
-  /**
-   *
+   * Main constructor for BendingLightModel,
+   * which contains all of the model logic for the entire sim screen.
    * @param {Number}laserAngle
    * @param {Boolean}topLeftQuadrant
    * @param {number}laserDistanceFromPivot
@@ -96,14 +93,9 @@ define( function( require ) {
 
   return inherit( PropertySet, BendingLightModel, {
 
-      step: function() {
-        this.rays.clear();
-        this.propagateRays();
-      },
       /**
-
        *
-       * @param ray
+       * @param {LightRay}ray
        */
       addRay: function( ray ) {
         this.rays.add( ray );
@@ -129,28 +121,38 @@ define( function( require ) {
       },
       //Clear the model in preparation for another ray propagation update phase
       clearModel: function() {
-        /*  for ( var ray in this.rays ) {
-         ray.remove();
-         }*/
+
         this.rays.clear();
-        //Clear the accumulator in the intensity meter so it can sum up the newly created rays
-        this.intensityMeter.clearRayReadings();
+        //Clear the accumulator in the intensity meter so it can sum up the newly
+        // created rays
+        //this.intensityMeter.clearRayReadings();
       },
       //Update the model by clearing the rays, then recreating them
       updateModel: function() {
         this.clearModel();
         this.propagateRays();
-        /*  for ( var modelUpdateListener in this.modelUpdateListeners ) {
-         modelUpdateListener.apply();
-         }*/
       },
-      //Abstract method for creating all the rays in the model after the model has been cleared
-      propagateRays: function() {},
-      //Get the fraction of power transmitted through the medium
+
+      /**
+       * Get the fraction of power transmitted through the medium
+       * @param {Number} n1
+       * @param {Number} n2
+       * @param {Number} cosTheta1
+       * @param {Number}cosTheta2
+       * @returns {number}
+       */
       getTransmittedPower: function( n1, n2, cosTheta1, cosTheta2 ) {
         return 4 * n1 * n2 * cosTheta1 * cosTheta2 / (Math.pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ));
       },
-      //Get the fraction of power reflected from the medium
+
+      /**
+       * Get the fraction of power reflected from the medium
+       * @param {Number} n1
+       * @param {Number} n2
+       * @param {Number} cosTheta1
+       * @param {Number} cosTheta2
+       * @returns {number}
+       */
       getReflectedPower: function( n1, n2, cosTheta1, cosTheta2 ) {
         return Math.pow( (n1 * cosTheta1 - n2 * cosTheta2) / (n1 * cosTheta1 + n2 * cosTheta2), 2 );
       },
@@ -166,9 +168,6 @@ define( function( require ) {
         PropertySet.prototype.reset.call( this );
         //this.intensityMeter.resetAll();
         // this.laserView.reset();
-        /* for ( var listener in this.resetListeners ) {
-         listener.apply();
-         }*/
       }
     },
     //statics

@@ -26,15 +26,19 @@ define( function( require ) {
    *
    * @constructor
    */
-  function IntroModel() {
-
+  function IntroModel( ) {
+    var introModel = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
     this.mediumColorFactory = new MediumColorFactory();
     this.topMedium = new Property( new Medium( Shape.rect( -1, 0, 2, 0.3 ), BendingLightModel.AIR,
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ), 1 ) );
-
     this.bottomMedium = new Property( new Medium( Shape.rect( -1, -0.3, 2, 0.3 ), BendingLightModel.WATER,
       this.mediumColorFactory.getColor( BendingLightModel.WATER.getIndexOfRefractionForRedLight() ), 1.3 ) );
+    Property.multilink( [ this.laserViewProperty, this.laser.onProperty,
+      this.laser.emissionPointProperty, this.topMedium, this.bottomMedium
+    ], function() {
+      introModel.updateModel();
+    } );
   }
 
   return inherit( BendingLightModel, IntroModel, {
@@ -78,8 +82,15 @@ define( function( require ) {
           else {
             reflectedPowerRatio = 1.0;
           }
-          //  var reflectedWaveWidth = ;
-          this.addAndAbsorb( new LightRay( new Vector2( 0, 0 ), Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ), n1, wavelengthInTopMedium, reflectedPowerRatio * sourcePower, color, sourceWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, true, false ) );
+          this.addAndAbsorb( new LightRay( new Vector2( 0, 0 ),
+            Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ),
+            n1, wavelengthInTopMedium,
+            reflectedPowerRatio * sourcePower,
+            color, sourceWaveWidth,
+            incidentRay.getNumberOfWavelengths(),
+            bottom,
+            true,
+            false ) );
           // Fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
@@ -169,7 +180,7 @@ define( function( require ) {
        return */
       /*new Option.Some*/
       /*( ray.getVelocityVector() );
-        }
+       }
        }*/
       // return new Option.None();
     },
