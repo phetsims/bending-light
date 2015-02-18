@@ -16,14 +16,11 @@ define( function( require ) {
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var HStrut = require( 'SUN/HStrut' );
   var Bounds2 = require( 'DOT/Bounds2' );
 
   // strings
   var laserString = require( 'string!BENDING_LIGHT/laser' );
   var waveString = require( 'string!BENDING_LIGHT/wave' );
-  var laserViewString = require( 'string!BENDING_LIGHT/laserView' );
 
   //Ray view creates LightRayNodes and shows in the lightRayLayer
   function RAY() {
@@ -70,7 +67,7 @@ define( function( require ) {
       resize: false
     }, options );
 
-    var width = 100;
+    //var width = 100;
     this.rayNode = new RAY();
     this.waveNode = new WAVE();
     var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
