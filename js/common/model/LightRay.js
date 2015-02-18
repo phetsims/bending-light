@@ -12,6 +12,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Line = require( 'KITE/segments/Line' );
+
+
+  // constants
   var SPEED_OF_LIGHT = 2.99792458E8;
 
   /**
@@ -85,13 +89,16 @@ define( function( require ) {
      } ).isEmpty();
      },*/
     toLine2D: function() {
-      //return new Line( this.tail, this.tip );
+    return new Line( this.tail, this.tip );
     },
     getLength: function() {
       return this.tip.minus( this.tail ).magnitude();
     },
     toVector2D: function() {
-      return new Vector2( this.tail, this.tip );
+      var initialPoint = this.tail;
+      var finalPoint = this.tip;
+      return new Vector2( finalPoint.x - initialPoint.x,
+        finalPoint.y - initialPoint.y );
     },
     getColor: function() {
       return this.color;
@@ -105,10 +112,9 @@ define( function( require ) {
        moveToFrontListener.apply();
        }*/
     },
-    toString: function() {
-      return "tail = " + this.tail + ", tip = " + this.tip;
-    },
-    // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
+
+      // fill in the triangular chip near y=0 even for truncated beams,
+    // if it is the transmitted beam
     getExtensionFactor: function() {
       if ( this.extendBackwards || this.extend ) {
         return this.wavelength * 1E6;
@@ -129,29 +135,28 @@ define( function( require ) {
        }
        } );
        return area;*/
-      //  var linePoints = ( this.extendBackwards ? this.getExtendedLineBackwards() : this.getExtendedLine() );
+      //var linePoints = ( this.extendBackwards ? this.getExtendedLineBackwards() : this.getExtendedLine() );
       var shape = new Shape();
       var tipPointX = this.tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ).x;
       var tipPointY = this.tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ).y;
       shape = shape.moveTo( this.tail.x, this.tail.y )
-        .lineTo( tipPointX, tipPointY )
-        .close();
+        .lineTo( tipPointX, tipPointY );
       return shape;
     },
     //Have to extend the line so that it can be clipped against the opposite medium, so it will won't show any missing triangular chips.
 
-    //private
     getExtendedLine: function() {
-      //return new Line( this.tail, tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ) );
+      return new Line( this.tail, this.tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ) );
     },
     //Use this one for the transmitted beam
 
-    //private
     getExtendedLineBackwards: function() {
-      //  return new Line( this.tail.plus( this.getUnitVector().times( -this.getExtensionFactor() ) ), this.tip );
+      return new Line( this.tail.plus( this.getUnitVector().times( -this.getExtensionFactor() ) ), this.tip );
     },
     getUnitVector: function() {
-      return new Vector2( this.tail, this.tip ).normalized();
+      var x = this.tip.x - this.tail.x;
+      var y = this.tip.y - this.tail.y;
+      return new Vector2( x, y ).normalized();
     },
     getAngle: function() {
       return this.toVector2D().getAngle();
@@ -170,7 +175,14 @@ define( function( require ) {
     getOppositeMedium: function() {
       return this.oppositeMedium;
     },
-    //Determine if the light ray contains the specified position, accounting for whether it is shown as a thin light ray or wide wave
+
+    /**
+     * Determine if the light ray contains the specified position,
+     * accounting for whether it is shown as a thin light ray or wide wave
+     * @param position
+     * @param waveMode
+     * @returns {*}
+     */
     contains: function( position, waveMode ) {
       if ( waveMode ) {
         return this.getWaveShape().contains( position.x, position.y );
@@ -195,7 +207,12 @@ define( function( require ) {
     getPhaseOffset: function() {
       //return this.getAngularFrequency() * time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
     },
-    //Get the total argument to the cosine for the wave function (k * x - omega * t + phase)
+
+    /**
+     * Get the total argument to the cosine for the wave function(k * x - omega * t + phase)
+     * @param distanceAlongRay
+     * @returns {number}
+     */
     getCosArg: function( distanceAlongRay ) {
       var w = this.getAngularFrequency();
       var k = 2 * Math.PI / this.getWavelength();
