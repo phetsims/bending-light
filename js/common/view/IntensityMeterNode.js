@@ -47,11 +47,11 @@ define( function( require ) {
     } );
 
     // drag handler
-    this.addInputListener( new MovableDragHandler( {
-        locationProperty: intensityMeter.sensorPositionProperty
-      }, modelViewTransform,
+    this.addInputListener( new MovableDragHandler( intensityMeter.sensorPositionProperty,
       {
+        modelViewTransform: modelViewTransform,
         startDrag: function() {
+          console.log( 'startDrag' );//XXX
           if ( containerBounds.intersectsBounds( Bounds2.rect( modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ), modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ),
               sensorNode.height, sensorNode.width ) ) ) {
             //  intensityMeterNode.scale( 2 );
@@ -63,6 +63,7 @@ define( function( require ) {
           }
         },
         endDrag: function() {
+          console.log( 'endDrag' );//XXX
           // check intersection only with the outer rectangle.
           if ( containerBounds.intersectsBounds( Bounds2.rect( modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ), modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ),
               sensorNode.height, sensorNode.width ) ) ) {
@@ -125,10 +126,9 @@ define( function( require ) {
     intensityMeterNode.scale( 0.4 );
 
     // drag handler
-    this.addInputListener( new MovableDragHandler( {
-        locationProperty: intensityMeter.bodyPositionProperty
-      }, modelViewTransform,
+    this.addInputListener( new MovableDragHandler( intensityMeter.bodyPositionProperty,
       {
+        modelViewTransform: modelViewTransform,
         startDrag: function() {
           if ( containerBounds.intersectsBounds( Bounds2.rect( modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ), modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ),
               bodyNode.height, bodyNode.width ) ) ) {
