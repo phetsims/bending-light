@@ -150,10 +150,7 @@ define( function( require ) {
       this.translateSensor( dimension2D );
     },
     resetAll: function() {
-      this.sensorPosition.reset();
-      this.bodyPosition.reset();
-      this.enabled.reset();
-      this.reading.reset();
+      PropertySet.prototype.reset.call( this );
     }
   } );
 } );
