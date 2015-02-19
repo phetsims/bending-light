@@ -17,23 +17,16 @@ define( function( require ) {
   var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
   var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
   var ToolboxNode = require( 'BENDING_LIGHT/common/view/ToolboxNode' );
-  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
-  var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
-  var ToolIconNode = require( 'BENDING_LIGHT/common/view/ToolIconNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-
-  //images
-  var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
 
   //strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -50,7 +43,7 @@ define( function( require ) {
    */
   function IntroView( introModel, centerOffsetLeft ) {
     var introView = this;
-
+    //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
     function clampDragAngle( angle ) {
       while ( angle < 0 ) { angle += Math.PI * 2; }
       return Util.clamp( angle, Math.PI / 2, Math.PI );
@@ -77,12 +70,16 @@ define( function( require ) {
 
     //Get the function that chooses which region of the protractor can be used for
     // rotation--none in this tab.
-    function getProtractorRotationRegion( innerBar, outerCircle ) {
+    this.getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
       //empty shape since shouldn't be rotatable in this tab
       return new Shape.rect( 0, 0, 0, 0 );
-    }
+    };
 
-    this.protractorModel = new ProtractorModel( introModel.x, introModel.y );
+    //Get the function that chooses which region of the protractor can be used for translation--both
+    // the inner bar and outer circle in this tab
+    this.getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
+      return fullShape;
+    };
     //number of columns to show in the MediumControlPanel readout
     BendingLightView.call( this,
       introModel,
@@ -90,7 +87,7 @@ define( function( require ) {
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
       true,
-      getProtractorRotationRegion,
+      this.getProtractorRotationRegion,
       rotationRegionShape,
       centerOffsetLeft );
 
@@ -135,36 +132,29 @@ define( function( require ) {
       normalLine.setVisible( showNormal );
     } );
 
-
     //Embed in the a control panel node to get a border and background
     var laserView = new LaserView( introModel, {} );
     //Set the location and add to the scene
     laserView.setTranslation( 5, 5 );
     this.afterLightLayer2.addChild( laserView );
-    var protractor = new Image( protractorImage, {
-      scale: ToolboxNode.ICON_WIDTH / protractorImage.width,
-      x: 0, y: 0
-    } );
-    var protractorNode = new ToolIconNode( protractor, this.showProtractor, this.modelViewTransform, this, introModel );
 
     //Create the toolbox
-    this.toolboxNode = new ToolboxNode( this, this.modelViewTransform, protractorNode, this.getMoreTools( introModel ), introModel.getIntensityMeter(), introModel.showNormalProperty, {} );
+    this.toolboxNode = new ToolboxNode( this, this.modelViewTransform, this.getMoreTools( introModel ), introModel.getIntensityMeter(), introModel.showNormalProperty, {} );
     this.beforeLightLayer.addChild( this.toolboxNode );
-    this.toolboxNode.setTranslation( this.layoutBounds.minX, 504 - this.toolboxNode.height - 10 );
+    this.toolboxNode.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - this.toolboxNode.height - 10 );
 
     // Add reset all button
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
           introModel.resetAll();
-          introView.protractorModel.reset();
+          introView.toolboxNode.protractorModel.reset();
         },
         bottom: this.layoutBounds.bottom - inset,
         right:  this.layoutBounds.right - inset
       } );
 
     this.afterLightLayer2.addChild( resetAllButton );
-
 
     // add play pause button and step button
     var stepButton = new StepButton(
@@ -234,20 +224,7 @@ define( function( require ) {
     //No more tools available in IntroCanvas, but this is overriden in MoreToolsCanvas to provide additional tools
     getMoreTools: function( resetModel ) {
       return new Node();
-    },
-    //Create a protractor node, used by the protractor Tool
-    newProtractorNode: function( transform, showTool, x, y ) {
-      this.protractorModel.position.x = x;
-      this.protractorModel.position.y = y;
-      return new ProtractorNode( transform, showTool, this.protractorModel, ProtractorNode.DEFAULT_SCALE, 1 );
-    },
-
-    //Get the function that chooses which region of the protractor can be used for translation--both
-    // the inner bar and outer circle in this tab
-    getProtractorDragRegion: function( innerBar, outerCircle ) {
-      //return new Area( innerBar ).add( new Area( outerCircle ) );
     }
-
   } );
 } );
 

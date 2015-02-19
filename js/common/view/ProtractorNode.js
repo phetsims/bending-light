@@ -5,160 +5,183 @@
  * reflected and refracted light.
  *
  * @author Sam Reid
+ * @author Chandrashekar Bemagoni(Actual Concepts)
  */
 define( function( require ) {
-    'use strict';
+  'use strict';
 
-    // modules
-    var inherit = require( 'PHET_CORE/inherit' );
-    var Color = require( 'SCENERY/util/Color' );
-    var Path = require( 'SCENERY/nodes/Path' );
-    var Node = require( 'SCENERY/nodes/Node' );
-    var Vector2 = require( 'DOT/Vector2' );
-    var Image = require( 'SCENERY/nodes/Image' );
-    var Shape = require( 'KITE/Shape' );
-    var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var Shape = require( 'KITE/Shape' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
-    //images
-    var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
+  //images
+  var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
 
-    // constants
-    var DEFAULT_SCALE = 0.5;
+  // constants
+  var DEFAULT_SCALE = 0.5;
 
-    /**
-     *
-     * @param modelViewTransform
-     * @param showProtractor
-     * @param protractorModel
-     * @param scale
-     * @constructor
-     */
-    function ProtractorNode( modelViewTransform, showProtractor, protractorModel, scale ) {
+  /**
+   *
+   * @param modelViewTransform
+   * @param showProtractor
+   * @param protractorModel
+   * @param translateShape
+   * @param rotateShape
+   * @param ICON_WIDTH
+   * @param containerBounds
+   * @constructor
+   */
+  function ProtractorNode( modelViewTransform, showProtractor, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds ) {
 
-      var protractorNode = this;
-      Node.call( protractorNode, { cursor: 'pointer' } );
+    var protractorNode = this;
+    Node.call( protractorNode );
 
-      this.debug = false;
-      // Just using a global piccolo scale in the "prism break" tab leads to jagged
-      // and aliased graphics--in
-      // that case it is important to use the multiscaling algorithm
+    this.modelViewTransform = modelViewTransform;
+    this.protractorModel = protractorModel;
+    var scale = ICON_WIDTH / protractorImage.width;
+    this.multiScale = scale;
 
-      this.modelViewTransform = modelViewTransform;
-      this.protractorModel = protractorModel;
-      this.scale = scale;
+    //Load and add the image
+    this.protractorImageNode = new Image( protractorImage, { pickable: true } );
+    showProtractor.link( function( showProtractor ) {
+      protractorNode.protractorImageNode.setVisible( showProtractor );
+    } );
+    this.addChild( this.protractorImageNode );
 
-      //Load and add the image
-      var imageNode = new Image( protractorImage, { scale: this.scale, pickable: true } );
-      showProtractor.link( function( showProtractor ) {
-          imageNode.setVisible( showProtractor );
-        }
-      );
-      this.addChild( imageNode );
-      //Shape for the outer ring of the protractor
-      // var outerShape = new Path( new Shape().circle( imageNode.getWidth() / 2, imageNode.getHeight() / 2, imageNode.getWidth() / 2 ) );
-      var outerRimShape = new Path( new Shape()
-        .moveTo( imageNode.getWidth(), imageNode.getHeight() / 2 )
-        .ellipticalArc( imageNode.getWidth() / 2, imageNode.getHeight() / 2, imageNode.getWidth() / 2, imageNode.getHeight() / 2, 0, 0, Math.PI, true )
-        .lineTo( imageNode.getWidth() * 0.2, imageNode.getHeight() / 2 )
-        .ellipticalArc( imageNode.getWidth() / 2, imageNode.getHeight() / 2, imageNode.getWidth() * 0.3, imageNode.getHeight() * 0.3, 0, Math.PI, 0, false )
-        .lineTo( imageNode.getWidth(), imageNode.getHeight() / 2 )
-        .ellipticalArc( imageNode.getWidth() / 2, imageNode.getHeight() / 2, imageNode.getWidth() / 2, imageNode.getHeight() / 2, 0, 0, Math.PI, false )
-        .lineTo( imageNode.getWidth() * 0.2, imageNode.getHeight() / 2 )
-        .ellipticalArc( imageNode.getWidth() / 2, imageNode.getHeight() / 2, imageNode.getWidth() * 0.3, imageNode.getHeight() * 0.3, 0, Math.PI, 0, true )
-        .close() );
-      this.addChild( outerRimShape );
-      //Okay if it overlaps the rotation region since rotation region is in higher z layer
-      this.innerBarShape = new Shape().rect( 20, imageNode.getCenterY(), imageNode.getWidth() - 40, 90 );
-      if ( this.debug ) {
-        //For debugging the drag hit area
-        this.addChild( new Path( this.innerBarShape, { fill: new Color( 0, 255, 0, 128 ) } ) );
-      }
 
-      //this.addChild( new Path( translateShape.apply( this.innerBarShape, outerRimShape ), this.debug ? Color.blue : new Color( 0, 0, 0, 0 ) ) );
-      var start, end;
-      this.addInputListener( new SimpleDragHandler( {
-        start: function( event ) {
-          start = protractorNode.globalToParentPoint( event.pointer.point );
-        },
-        drag: function( event ) {
-          end = protractorNode.globalToParentPoint( event.pointer.point );
-          var d = end.minus( start );
-          protractorNode.dragAll( d );
-        }
-      } ) );
+    var protractorImageWidth = this.protractorImageNode.getWidth();
+    var protractorImageHeight = this.protractorImageNode.getHeight();
 
-      /*  this.addChild( new Path( rotateShape.apply( this.innerBarShape, outerRimShape ), this.debug ? Color.red : new Color( 0, 0, 0, 0 ) ) );
-       rotateShape.addInputListener( new SimpleDragHandler( {
-       start: function( event ) {
-       start = event.getPositionRelativeTo( getParent() );
-       },
-       drag: function( event ) {
-       //Compute the change in angle based on the new drag event
-       end = event.getPositionRelativeTo( getParent() );
-       var startAngle = new Vector2( rotateShape.getCenter(), start ).getAngle();
-       var angle = new Vector2( rotateShape.getCenter(), end ).getAngle();
-       var deltaAngle = angle - startAngle;
-       //Rotate the protractor model
-       protractorNode.protractorModel.angle.set( protractorNode.protractorModel.angle.get() + deltaAngle );
-       }
-       } ) );*/
-      // Property.multilink( [ this.protractorModel.positionProperty, this.protractorModel.angleProperty ], protractorNode.updateTransform() );
+    //Shape for the outer ring of the protractor
+    var outerRimShape = new Shape()
+      .moveTo( protractorImageWidth, protractorImageHeight / 2 )
+      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, true )
+      .lineTo( protractorImageWidth * 0.2, protractorImageHeight / 2 )
+      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, false )
+      .lineTo( protractorImageWidth, protractorImageHeight / 2 )
+      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, false )
+      .lineTo( protractorImageWidth * 0.2, protractorImageHeight / 2 )
+      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, true )
+      .close();
 
-      this.protractorModel.angleProperty.link( function( angle ) {
-        protractorNode.rotateAround( protractorNode.modelViewTransform.modelToViewDelta( protractorNode.protractorModel.position ), angle );
-      } );
+    var fullShape = new Shape()
+      .moveTo( protractorImageWidth, protractorImageHeight / 2 )
+      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2,
+      protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, true )
+      .lineTo( protractorImageWidth * 0.2, protractorImageHeight / 2 )
+      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2,
+      protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, false )
+      .lineTo( protractorImageWidth, protractorImageHeight / 2 )
+      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2,
+      protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, false )
+      .lineTo( protractorImageWidth * 0.2, protractorImageHeight / 2 )
+      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2,
+      protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, true )
+      .rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
+      protractorImageWidth * 0.6, protractorImageHeight * 0.15 )
+      .close();
+    //Okay if it overlaps the rotation region since rotation region is in higher z layer
+    this.innerBarShape = new Shape().rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
+      protractorImageWidth * 0.6, protractorImageHeight * 0.15 );
 
-      this.protractorModel.positionProperty.link( function( position ) {
-        protractorNode.setTranslation( protractorNode.modelViewTransform.modelToViewX( position.x ), protractorNode.modelViewTransform.modelToViewY( position.y ) );
-      } );
-
-    }
-
-    return inherit( Node, ProtractorNode, {
-        /**
-         * Resize the protractor
-         * @param scale
-         */
-        setProtractorScale: function( scale ) {
-          this.scale = scale;
-          this.updateTransform( this.scale );
-        },
-        //Update the transform (scale, offset, rotation) of this protractor to reflect the model values and the specified scale
-        updateTransform: function( scale ) {
-          this.scale( scale );
-          var point2D = this.modelViewTransform.modelToViewXY( this.protractorModel.position.value );
-          this.setTranslation( point2D.x - this.protractor.getWidth() / 2 * this.scale, point2D.y - this.protractor.getHeight() / 2 * this.scale );
-          this.rotateAround( new Vector2( this.protractor.getWidth() / 2, this.protractor.getHeight() / 2 ), this.protractorModel.angle.get() );
-        },
-        /**
-         * Create a protractor image given at the specified height
-         * @param height
-         * @returns {*}
-         */
-        newProtractorImage: function( height ) {
-          return new Image( protractorImage, { scale: height / protractorImage.height } );
-        },
-        /**
-         * Translate the protractor, this method is called when dragging out of the toolbox
-         * @param delta
-         */
-        dragAll: function( delta ) {
-          this.protractorModel.translate1( this.modelViewTransform.viewToModelX( delta.x ), this.modelViewTransform.viewToModelX( delta.y ) );
-        },
-        /**
-         * Change the visibility and pickability of this ProtractorNode
-         * @param isVisible
-         */
-        setVisible: function( isVisible ) {
-          this.setVisible( isVisible );
-          this.setPickable( isVisible );
+    //Add a mouse listener for dragging when the drag region
+    // (entire body in all tabs, just the inner bar on prism break tab) is dragged
+    var translatePath = new Path( translateShape( fullShape, this.innerBarShape, outerRimShape ), {
+      pickable: true
+    } );
+    this.addChild( translatePath );
+    var start;
+    translatePath.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        start = protractorNode.globalToParentPoint( event.pointer.point );
+        if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
+          protractorNode.scale( 0.3 / scale );
+          protractorNode.multiScale *= 0.3 / scale;
         }
       },
-      //statics
-      {
-        DEFAULT_SCALE: DEFAULT_SCALE
-      } );
-  }
-)
-;
+      drag: function( event ) {
+        //Compute the change in angle based on the new drag event
+        var end = protractorNode.globalToParentPoint( event.pointer.point );
+        protractorNode.dragAll( end.minus( start ) );
+        start = end;
+      },
+      end: function() {
+        if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
+          protractorNode.scale( scale / 0.3 );
+          protractorNode.multiScale *= scale / 0.3;
+          protractorNode.protractorModel.positionProperty.reset();
+        }
+      }
+    } ) );
+    //Add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism break' tab is dragged)
+    var rotatePath = new Path( rotateShape( fullShape, this.innerBarShape, outerRimShape ), {
+      pickable: true
+    } );
+    this.addChild( rotatePath );
+    rotatePath.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        start = protractorNode.globalToParentPoint( event.pointer.point );
+      },
+      drag: function( event ) {
+        //Compute the change in angle based on the new drag event
+        var end = protractorNode.globalToParentPoint( event.pointer.point );
+        var startAngle = protractorNode.center.minus( start ).angle();
+        var angle = protractorNode.center.minus( end ).angle();
+        //Rotate the protractor model
+        protractorModel.angle = angle - startAngle;
+        start = end;
+      }
+    } ) );
 
+    this.protractorModel.angleProperty.link( function( angle ) {
+      protractorNode.rotateAround( protractorNode.center, angle );
+    } );
+    this.protractorModel.positionProperty.link( function( position ) {
+      var point2D = protractorNode.modelViewTransform.modelToViewPosition( position );
+      protractorNode.setTranslation( point2D.x - ((protractorImageWidth / 2) * protractorNode.multiScale),
+        point2D.y - ((protractorImageHeight / 2) * protractorNode.multiScale) );
+    } );
+  }
+
+  return inherit( Node, ProtractorNode, {
+      /**
+       * Resize the protractor
+       * @param scale
+       */
+      setProtractorScale: function( scale ) {
+        this.multiScale = scale;
+        this.updateTransform( scale );
+      },
+      /**
+       * Create a protractor image given at the specified height
+       * @param height
+       * @returns {*}
+       */
+      newProtractorImage: function( height ) {
+        return new Image( protractorImage, { scale: height / protractorImage.height } );
+      },
+      /**
+       * Translate the protractor, this method is called when dragging out of the toolbox
+       * @param delta
+       */
+      dragAll: function( delta ) {
+        this.protractorModel.translate( this.modelViewTransform.viewToModelDelta( delta ) );
+      },
+      /**
+       * Change the visibility and pickability of this ProtractorNode
+       * @param isVisible
+       */
+      setVisible: function( isVisible ) {
+        this.setVisible( isVisible );
+        this.setPickable( isVisible );
+      }
+    },
+    //statics
+    {
+      DEFAULT_SCALE: DEFAULT_SCALE
+    } );
+} );

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2015, University of Colorado
 /**
  * Toolbox from which the user can drag (or otherwise enable) tools.
  *
@@ -15,41 +15,43 @@ define( function( require ) {
   var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
+  var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   //  constants
   var ICON_WIDTH = 90;
-  // var CHARACTERISTIC_LENGTH = BendingLightModel.WAVELENGTH_RED;
 
   /**
    *
    * @param canvas
    * @param modelViewTransform
-   * @param protractorTool
    * @param moreTools
    * @param intensityMeter
    * @param showNormal
    * @param options
    * @constructor
    */
-  function ToolboxNode( canvas, modelViewTransform, protractorTool, moreTools, intensityMeter, showNormal, options ) {
+  function ToolboxNode( canvas, modelViewTransform, moreTools, intensityMeter, showNormal, options ) {
 
     Node.call( this );
-
-    var sensorPanel = new Rectangle( 0, 0, 120, 235, 10, 10, {
+    this.sensorPanel = new Rectangle( 0, 0, 100, 235, 10, 10, {
       stroke: 'gray', lineWidth: 1, fill: '#C6CACE'
     } );
-    this.addChild( sensorPanel );
+    this.addChild( this.sensorPanel );
 
     //Initial tools
-    this.addChild( protractorTool );
-    protractorTool.setTranslation( 15, 5 );
-    //intensity sensor
-    // var modelWidth = CHARACTERISTIC_LENGTH * 62;
-    //var modelHeight = modelWidth * 0.7;
+    var protractorModelPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 50 ) );
+   this.protractorModel = new ProtractorModel( protractorModelPosition.x, protractorModelPosition.y );
+    var protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractor, this.protractorModel,
+      canvas.getProtractorDragRegion, canvas.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.getBounds() );
+    this.addChild( protractorNode );
+    protractorNode.scale( ICON_WIDTH / protractorNode.width );
 
-    var intensityMeterNode = new IntensityMeterNode( modelViewTransform, intensityMeter, sensorPanel.visibleBounds );
+    var intensityMeterNode = new IntensityMeterNode( modelViewTransform, intensityMeter, this.sensorPanel.visibleBounds );
     intensityMeter.enabled = true;
-    intensityMeterNode.setTranslation( -140, 10 );
+    intensityMeter.bodyPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 30 ) );
+    intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 70 ) );
     this.addChild( intensityMeterNode );
 
     var checkBoxOptions = {
@@ -62,39 +64,17 @@ define( function( require ) {
     normalCheckBox.setTranslation( 15, 180 );
     this.addChild( normalCheckBox );
 
+    // add normal
     var normalIcon = new NormalLine( 50 );
     normalIcon.setTranslation( 60, 180 );
     this.addChild( normalIcon );
-
-
-    /*    var intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3, {
-     enabled: true
-     } );*/
-
-    // var normalIcon = new NormalLine( modelViewTransform, modelHeight, 9 );
-    /*
-     //Initial tools
-     this.addChild( protractorTool );
-     for ( var moreTool in moreTools ) {
-     this.addChild( moreTool );
-     }
-
-
-     var sensorIconHeight = (iconNode.getHeight() / iconNode.getWidth() * ICON_WIDTH);
-     this.addChild( new IntensitySensorTool( canvas, transform, intensityMeter, modelWidth, modelHeight, this, iconNode, sensorIconHeight ) );
-     normal line checkbox and icon
-     this.addChild(  );
-     this.addChild( new PSwing( new CheckBox( ShowNormalString, showNormal ).withAnonymousClassBody( {
-     initializer: function() {
-     setFont( BendingLightCanvas.labelFont );
-     setBackground( new Color( 0, 0, 0, 0 ) );
-     }
-     } ) ) );
-     this.addChild( new Image( new NormalLine( modelViewTransform, modelHeight, 9, 30, 30 ) ) );
-     this.addChild( iconNode );*/
   }
 
-  return inherit( Node, ToolboxNode, {},
+  return inherit( Node, ToolboxNode, {
+      getSensorBounds: function() {
+        return this.sensorPanel.getBounds();
+      }
+    },
     //statics
     {
       ICON_WIDTH: ICON_WIDTH
