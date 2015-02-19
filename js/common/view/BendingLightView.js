@@ -109,7 +109,9 @@ define( function( require ) {
     //Add the laser itself
     var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName/* model.visibleModelBounds */ );
     this.addChild( laserNode );
-
+    model.laserViewProperty.link(function(){
+     model.laser.wave= (model.laserViewProperty.value === 'wave');
+    });
 
     model.rays.addItemAddedListener( function( ray ) {
       var node;
@@ -117,13 +119,17 @@ define( function( require ) {
       if ( model.laserViewProperty.value === 'ray' ) {
         node = bendingLightView.laserView.rayNode.createNode( bendingLightView.modelViewTransform, ray );
         layer = bendingLightView.lightRayLayer;
+        layer.addChild( node );
       }
       else {
         node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
         layer = bendingLightView.lightWaveLayer;
+        layer.addChild( node );
+        node.moveToBack();
       }
 
-      layer.addChild( node );
+
+
     } );
     model.rays.addItemRemovedListener( function(  ) {
       for ( var i = 0; i < bendingLightView.lightRayLayer.getChildrenCount(); i++ ) {

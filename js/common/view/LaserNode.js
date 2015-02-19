@@ -63,9 +63,9 @@ define( function( require ) {
     } );
 
     //add laser image
-    var lightImage = new Image( laserImage ,{scale:0.7});
+    var lightImage = new Image( laserImage, { scale: 0.7 } );
     this.addChild( lightImage );
-    lightImage.rotateAround(lightImage.getCenter(),Math.PI);
+    lightImage.rotateAround( lightImage.getCenter(), Math.PI );
 
     //Drag handlers can choose which of these regions to use for drag events
     var fractionBackToRotateHandle = 34.0 / 177.0;
@@ -109,6 +109,12 @@ define( function( require ) {
         var vector = modelPoint.minus( laser.pivot );
         var angle = vector.angle();
         var after = clampDragAngle( angle );
+
+        //Prevent laser from going to 90 degrees when in wave mode,
+        // should go until laser bumps into edge.
+        if ( laser.wave && after > laser.MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
+          after = laser.MAX_ANGLE_IN_WAVE_MODE;
+        }
         laser.setAngle( after );
         draggingRotation.value = true;
       },

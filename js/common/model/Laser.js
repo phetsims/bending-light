@@ -21,13 +21,14 @@ define( function( require ) {
 
   /**
    *
-   * @param distanceFromPivot
-   * @param angle
-   * @param topLeftQuadrant
+   * @param {Number}  distanceFromPivot
+   * @param {Number}  angle
+   * @param {Boolean} topLeftQuadrant
    * @constructor
    */
   function Laser( distanceFromPivot, angle, topLeftQuadrant ) {
     this.laserColor = new LaserColor();
+    this.topLeftQuadrant = topLeftQuadrant;
     PropertySet.call( this, {
         //point to be pivoted about, and at which the laser points
         pivot: new Vector2( 0, 0 ),
@@ -40,18 +41,6 @@ define( function( require ) {
         emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
       }
     );
-
-
-    //Prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
-    /*var clampAngle = new SimpleObserver().withAnonymousClassBody( {
-     update: function() {
-     if (wave.get() && getAngle() > MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant) {
-     setAngle(MAX_ANGLE_IN_WAVE_MODE);
-     }
-     }
-     });
-     wave.addObserver(clampAngle);*/
-
   }
 
   return inherit( PropertySet, Laser, {
