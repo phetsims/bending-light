@@ -4,6 +4,7 @@
  * a single medium), with a specific wavelength.
  *
  * @author Sam Reid
+ * @author Chandrashekar Bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -20,6 +21,7 @@ define( function( require ) {
 
   /**
    *
+   * @param trapeziumWidth
    * @param tail
    * @param tip
    * @param indexOfRefraction
@@ -33,7 +35,7 @@ define( function( require ) {
    * @param extendBackwards
    * @constructor
    */
-  function LightRay( tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth, numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
+  function LightRay( trapeziumWidth,tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth, numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
 
     // Used to create a clipped shape for wave mode
     this.oppositeMedium = oppositeMedium;
@@ -43,7 +45,7 @@ define( function( require ) {
     this.extendBackwards = extendBackwards;
     this.color = color;
     this.waveWidth = waveWidth;
-
+    this.trapeziumWidth = trapeziumWidth;
     // Directionality is important for propagation
     this.tip = tip;
     this.tail = tail;
@@ -106,60 +108,36 @@ define( function( require ) {
     getWavelength: function() {
       return this.wavelength;
     },
-    //Signify that this LightRay should be moved to the front, to get the z-ordering right for wave mode
-    moveToFront: function() {
-      /*for ( var moveToFrontListener in moveToFrontListeners ) {
-       moveToFrontListener.apply();
-       }*/
-    },
 
-      // fill in the triangular chip near y=0 even for truncated beams,
-    // if it is the transmitted beam
-    getExtensionFactor: function() {
-      if ( this.extendBackwards || this.extend ) {
-        return this.wavelength * 1E6;
-      }
-      else {
-        return 0;
-      }
-    },
+
     // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
     getWaveShape: function() {
-      /*  var stroke = new BasicStroke( (waveWidth), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
-       var strokedShape = stroke.createStrokedShape( this.extendBackwards ? this.getExtendedLineBackwards() : this.getExtendedLine() );
-       var area = new Area( strokedShape ).withAnonymousClassBody( {
-       initializer: function() {
-       if ( this.oppositeMedium != null ) {
-       subtract( new Area( oppositeMedium ) );
-       }
-       }
-       } );
-       return area;*/
-      //var linePoints = ( this.extendBackwards ? this.getExtendedLineBackwards() : this.getExtendedLine() );
+      var tailWidth =   this.waveWidth;
+      var tipWidth =   this.trapeziumWidth;
+      // tip point
+      var tipPoint1 = new Vector2( this.tip.x + tipWidth/2 , this.tip.y );
+      var tipPoint2 = new Vector2( this.tip.x - tipWidth/2, this.tip.y );
+
+      //tail
+      var tailPoint1 = new Vector2( this.tail.x + tailWidth / 2, this.tail.y );
+      var tailPoint2 = new Vector2( this.tail.x - tailWidth / 2, this.tail.y );
       var shape = new Shape();
-      var tipPointX = this.tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ).x;
-      var tipPointY = this.tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ).y;
-      shape = shape.moveTo( this.tail.x, this.tail.y )
-        .lineTo( tipPointX, tipPointY );
+      shape.moveTo( tailPoint1.x, tailPoint1.y )
+        .lineTo( tailPoint2.x, tailPoint2.y )
+        .lineTo( tipPoint2.x, tipPoint2.y )
+        .lineTo( tipPoint1.x, tipPoint1.y )
+        .close();
       return shape;
     },
-    //Have to extend the line so that it can be clipped against the opposite medium, so it will won't show any missing triangular chips.
 
-    getExtendedLine: function() {
-      return new Line( this.tail, this.tip.plus( this.getUnitVector().times( this.getExtensionFactor() ) ) );
-    },
-    //Use this one for the transmitted beam
 
-    getExtendedLineBackwards: function() {
-      return new Line( this.tail.plus( this.getUnitVector().times( -this.getExtensionFactor() ) ), this.tip );
-    },
     getUnitVector: function() {
       var x = this.tip.x - this.tail.x;
       var y = this.tip.y - this.tail.y;
       return new Vector2( x, y ).normalized();
     },
     getAngle: function() {
-      return this.toVector2D().getAngle();
+      return this.toVector2D().angle();
     },
     // todo:Update the time and notify wave listeners so they can update the phase of the wave graphic
 
@@ -172,9 +150,7 @@ define( function( require ) {
     getNumWavelengthsPhaseOffset: function() {
       return this.numWavelengthsPhaseOffset;
     },
-    getOppositeMedium: function() {
-      return this.oppositeMedium;
-    },
+
 
     /**
      * Determine if the light ray contains the specified position,

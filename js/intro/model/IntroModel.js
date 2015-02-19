@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
   var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
@@ -26,7 +25,7 @@ define( function( require ) {
    *
    * @constructor
    */
-  function IntroModel( ) {
+  function IntroModel() {
     var introModel = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
     this.mediumColorFactory = new MediumColorFactory();
@@ -47,8 +46,8 @@ define( function( require ) {
     // this creates them according to the laser and mediums
     propagateRays: function() {
       //Relatively large regions to keep track of which side the light is on
-      var bottom = new Rectangle( -10, -10, 20, 10 );
-      var top = new Rectangle( -10, 0, 20, 10 );
+      var bottom = 0;//new Rectangle( -10, -10, 20, 10 );
+      var top = 0;//new Rectangle( -10, 0, 20, 10 );
       if ( this.laser.on ) {
         var tail = this.laser.emissionPoint;
         //index in top medium
@@ -68,12 +67,25 @@ define( function( require ) {
         //According to http://en.wikipedia.org/wiki/Wavelength
         var color = this.laser.laserColor.getColor();
         var wavelengthInTopMedium = this.laser.laserColor.getWavelength() / n1;
-        //Since the n1 depends on the wavelength, when you change the wavelength, the wavelengthInTopMedium also changes (seemingly in the opposite direction)
-        var incidentRay = new LightRay( tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, 0.0, bottom, true, false );
+
+        // calculated wave width of reflected and refracted wave width.
+        // specially used in in wave Mode
+        var initialPoint = this.laser.emissionPoint;
+        var finalPoint = this.laser.pivot;
+        var angle = new Vector2( finalPoint.x - initialPoint.x,
+          finalPoint.y - initialPoint.y ).angle();
+        var trapeziumWidth = Math.abs( sourceWaveWidth / Math.sin( angle ) );
+
+        //Since the n1 depends on the wavelength, when you change the wavelength,
+        // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
+        var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ),
+          n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth,
+          0.0, bottom, true, true );
         var rayAbsorbed = this.addAndAbsorb( incidentRay );
         if ( !rayAbsorbed ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
-          var hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) || theta1 < thetaOfTotalInternalReflection;
+          var hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) ||
+                                  theta1 < thetaOfTotalInternalReflection;
           //assuming perpendicular beam polarization, compute percent power
           var reflectedPowerRatio;
           if ( hasTransmittedRay ) {
@@ -82,11 +94,11 @@ define( function( require ) {
           else {
             reflectedPowerRatio = 1.0;
           }
-          this.addAndAbsorb( new LightRay( new Vector2( 0, 0 ),
+          this.addAndAbsorb( new LightRay( trapeziumWidth, new Vector2( 0, 0 ),
             Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ),
             n1, wavelengthInTopMedium,
             reflectedPowerRatio * sourcePower,
-            color, sourceWaveWidth,
+            color, trapeziumWidth,
             incidentRay.getNumberOfWavelengths(),
             bottom,
             true,
@@ -100,17 +112,17 @@ define( function( require ) {
             else {
               var transmittedPowerRatio = this.getTransmittedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
               //Make the beam width depend on the input beam width, so that the same beam width is transmitted as was intercepted
-              var beamHalfWidth = a / 2;
-              var extentInterceptedHalfWidth = beamHalfWidth / Math.sin( Math.PI / 2 - theta1 ) / 2;
-              var transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
-              var transmittedWaveWidth = transmittedBeamHalfWidth * 2;
-              var transmittedRay = new LightRay( new Vector2( 0, 0 ), Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength, transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, true, true );
+
+              var transmittedRay = new LightRay( trapeziumWidth, new Vector2( 0, 0 ),
+                Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2,
+                transmittedWavelength, transmittedPowerRatio * sourcePower,
+                color, trapeziumWidth, incidentRay.getNumberOfWavelengths(),
+                top, true, true );
               this.addAndAbsorb( transmittedRay );
             }
           }
         }
-        //For wave view
-        incidentRay.moveToFront();
+
       }
     },
     //Get the top medium index of refraction
