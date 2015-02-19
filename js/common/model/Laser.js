@@ -51,7 +51,7 @@ define( function( require ) {
       },
       //Called if the laser is dropped out of bounds
       resetLocation: function() {
-        this.emissionPoint.reset();
+        this.emissionPointProperty.reset();
         this.pivotProperty.reset();
       },
       translate1: function( delta ) {
