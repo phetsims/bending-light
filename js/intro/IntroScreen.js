@@ -7,11 +7,11 @@ define( function( require ) {
   var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
   var inherit = require( 'PHET_CORE/inherit' );
- // var Image = require( 'SCENERY/nodes/Image' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // images
+  var introMockUpImage = require( 'image!BENDING_LIGHT/mockup-intro.png' );
 
   // strings
   var introTitleString = require( 'string!BENDING_LIGHT/intro' );
@@ -21,7 +21,7 @@ define( function( require ) {
    * @constructor
    */
   function IntroScreen() {
-    Screen.call( this, introTitleString, new Rectangle( 0, 0, 50, 50 ),
+    Screen.call( this, introTitleString, new Image( introMockUpImage ),
       function() { return new IntroModel(); },
       function( model ) { return new IntroView( model ); },
       { backgroundColor: 'white' }
