@@ -2,7 +2,7 @@
 /**
  * View for the light in "wave" form, i.e. oscillating with wave crests.
  *
- * @author Sam Reid\
+ * @author Sam Reid
  * @author Chandrashekar Bemagoni(Actual Concepts).
  */
 define( function( require ) {
@@ -12,6 +12,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Pattern = require( 'SCENERY/util/Pattern' );
+
+  // images
+  var waveImage = require( 'image!BENDING_LIGHT/wave.png' );
 
   /**
    *
@@ -22,11 +26,11 @@ define( function( require ) {
 
   function LightWaveNode( modelViewTransform, lightRay ) {
     Node.call( this, { pickable: false } );
-
+    var testPattern = new Pattern( waveImage );
     //Set the path based on the light ray shape
     //PPath that shows the oscillating wave view for the LightRay
     var wavePath = new Path( modelViewTransform.modelToViewShape( lightRay.getWaveShape() ), {
-      stroke: 'red', fill: 'blue'
+      stroke: 'red', fill: testPattern
     } );
     this.addChild( wavePath );
 
