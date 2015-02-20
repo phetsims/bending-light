@@ -24,10 +24,11 @@ define( function( require ) {
 
 
   // images
-  var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
-  //var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
-  //var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
+  var laserWithoutImage = require( 'image!BENDING_LIGHT/laser.png' );
+  var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
 
+  //constants
+  var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
   var dragRegionColor = new Color( 255, 0, 0, 0 );
   var rotationRegionColor = new Color( 0, 0, 255, 0 );
 
@@ -49,7 +50,7 @@ define( function( require ) {
 
     Node.call( this );
     var laserNode = this;
-
+    var laserImage = (imageName === 'laser') ? laserWithoutImage : laserKnobImage;
     //Properties to help identify where the mouse is so that arrows can be show
     // indicating how the laser can be dragged
     var draggingRotation = new Property( false );
@@ -83,7 +84,9 @@ define( function( require ) {
 
       },
       drag: function( event ) {
-        laser.translate( modelViewTransform.viewToModelDelta( event.pointer.point ) );
+        var coordinateFrame = laserNode.parents[ 0 ];
+        var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
+        laserNode.setTranslation( localLaserPosition.x, localLaserPosition.y );
       },
       end: function( event ) {}
     } ) );
@@ -93,7 +96,7 @@ define( function( require ) {
       exit: function() {
       }
     } );
-
+    this.addChild( translationRegionPath );
 
     // Add the drag region for rotating the laser
     var rotationRegionPath = new Path( rotationRegion( fullRectangle, backRectangle ), { fill: rotationRegionColor } );
@@ -112,8 +115,8 @@ define( function( require ) {
 
         //Prevent laser from going to 90 degrees when in wave mode,
         // should go until laser bumps into edge.
-        if ( laser.wave && after > laser.MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
-          after = laser.MAX_ANGLE_IN_WAVE_MODE;
+        if ( laser.wave && after > MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
+          after = MAX_ANGLE_IN_WAVE_MODE;
         }
         laser.setAngle( after );
         draggingRotation.value = true;
