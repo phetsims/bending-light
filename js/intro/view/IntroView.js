@@ -80,7 +80,6 @@ define( function( require ) {
     this.getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
       return fullShape;
     };
-    //number of columns to show in the MediumControlPanel readout
     BendingLightView.call( this,
       introModel,
       clampDragAngle,
@@ -88,7 +87,7 @@ define( function( require ) {
       ccwArrowNotAtMax,
       true,
       this.getProtractorRotationRegion,
-      rotationRegionShape,
+      rotationRegionShape,'laser',
       centerOffsetLeft );
 
     //Add MediumNodes for top and bottom
