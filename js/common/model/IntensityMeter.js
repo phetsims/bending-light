@@ -71,7 +71,7 @@ define( function( require ) {
 
     PropertySet.call( this, {
         reading: new Reading( Reading.MISS ),  //Value to show on the body
-        enabled: false,  //True if it is in the play area and gathering data
+        enabled: true,  //True if it is in the play area and gathering data
         sensorPosition: new Vector2( sensorX, sensorY ),
         bodyPosition: new Vector2( bodyX, bodyY )
       }
@@ -90,14 +90,14 @@ define( function( require ) {
      * @param delta
      */
     translateSensor: function( delta ) {
-      this.sensorPosition.set( this.sensorPosition.get().plus( delta ) );
+      this.sensorPositionProperty.set( this.sensorPosition.plus( delta ) );
     },
     /**
      *
      * @param delta
      */
     translateBody: function( delta ) {
-      this.bodyPosition.set( this.bodyPosition.get().plus( delta ) );
+      this.bodyPositionProperty.set( this.bodyPosition.plus( delta ) );
     },
     getSensorShape: function() {
       //Fine tuned to match the given image

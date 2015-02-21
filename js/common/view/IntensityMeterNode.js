@@ -14,7 +14,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -40,12 +40,12 @@ define( function( require ) {
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
     this.modelViewTransform = modelViewTransform;
-    intensityMeter.enabledProperty.link( function() {
-      intensityMeterNode.setVisible( intensityMeter.enabled );
-    } );
+    this.intensityMeter = intensityMeter;
+
+    intensityMeterNode.scale( 0.3 );
 
     // add sensor node
-    var sensorNode = new Image( probeImage, { scale: 0.8 } );
+    var sensorNode = new Image( probeImage, { pickable: true } );
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
       var sensorViewPoint = modelViewTransform.modelToViewPosition( location );
@@ -53,33 +53,43 @@ define( function( require ) {
     } );
 
     // sensor node drag handler
-    sensorNode.addInputListener( new MovableDragHandler( intensityMeter.sensorPositionProperty,
-      {
-        modelViewTransform: modelViewTransform,
-        startDrag: function() {
-          if ( containerBounds.intersectsBounds( Bounds2.rect(
-              modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ),
-              modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ),
-              sensorNode.height, sensorNode.width ) ) ) {
-            bodyNode.moveToFront();
-            sensorNode.moveToFront();
-          }
-          else {
-            sensorNode.moveToFront();
-          }
-        },
-        endDrag: function() {
-          // check intersection only with the outer rectangle.
-          if ( containerBounds.intersectsBounds( Bounds2.rect(
-              modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ),
-              modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ),
-              sensorNode.height, sensorNode.width ) ) ) {
-            intensityMeter.resetAll();
-            sensorNode.moveToBack();
-          }
+    var start;
+    var fromSensorPanel;
+    var toSensorPanel;
+    sensorNode.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        fromSensorPanel = false;
+        toSensorPanel = false;
+        if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
+          intensityMeterNode.scale( 2.5 );
+          fromSensorPanel = true;
         }
-      } ) );
-    this.addChild( sensorNode );
+        else {
+          fromSensorPanel = false;
+        }
+        start = sensorNode.globalToParentPoint( event.pointer.point );
+      },
+      drag: function( event ) {
+        var end = sensorNode.globalToParentPoint( event.pointer.point );
+        if ( fromSensorPanel ) {
+          intensityMeterNode.dragAll( end.minus( start ) );
+        }
+        else {
+          intensityMeterNode.dragSensor( end.minus( start ) );
+        }
+        start = end;
+      },
+      end: function( event ) {
+        // check intersection only with the outer rectangle.
+        if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
+          toSensorPanel = true;
+        }
+        if ( toSensorPanel ) {
+          intensityMeterNode.scale( 1 / 2.5 );
+          intensityMeterNode.intensityMeter.reset();
+        }
+      }
+    } ) );
 
     // add body node
     var rectangleWidth = 150;
@@ -120,9 +130,8 @@ define( function( require ) {
     var valueNode = new Text( intensityMeter.reading.getString(),
       { font: new PhetFont( 25 ), fill: 'black' } );
 
-    var bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle, titleNode, valueNode ], scale: 0.8 } );
-    this.addChild( bodyNode );
-    titleNode.setTranslation( bodyNode.getWidth() / 2 - titleNode.getWidth() / 2,
+    var bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle, titleNode, valueNode ] } );
+    titleNode.setTranslation( (bodyNode.getWidth() - titleNode.getWidth()) / 2,
       bodyNode.getHeight() * 0.25 );
 
     // displayed value
@@ -136,33 +145,44 @@ define( function( require ) {
     } );
 
     // drag handler
-    bodyNode.addInputListener( new MovableDragHandler( intensityMeter.bodyPositionProperty,
-      {
-        modelViewTransform: modelViewTransform,
-        startDrag: function() {
-          if ( containerBounds.intersectsBounds( Bounds2.rect( modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ), modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ),
-              bodyNode.height, bodyNode.width ) ) ) {
-            bodyNode.moveToFront();
-            sensorNode.moveToFront();
-          }
-          else {
-            bodyNode.moveToFront();
-          }
-        },
-        endDrag: function() {
-          // check intersection only with the outer rectangle.
-          if ( containerBounds.intersectsBounds( Bounds2.rect( modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ), modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ),
-              bodyNode.height, bodyNode.width ) ) ) {
-            intensityMeter.resetAll();
-            bodyNode.moveToBack();
-          }
+    bodyNode.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        fromSensorPanel = false;
+        toSensorPanel = false;
+        if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
+          intensityMeterNode.scale( 2.5 );
+          fromSensorPanel = true;
         }
-      } ) );
-
+        else {
+          fromSensorPanel = false;
+        }
+        start = bodyNode.globalToParentPoint( event.pointer.point );
+      },
+      drag: function( event ) {
+        var end = bodyNode.globalToParentPoint( event.pointer.point );
+        if ( fromSensorPanel ) {
+          intensityMeterNode.dragAll( end.minus( start ) );
+        }
+        else {
+          intensityMeterNode.dragBody( end.minus( start ) );
+        }
+        start = end;
+      },
+      end: function( event ) {
+        // check intersection only with the outer rectangle.
+        if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
+          toSensorPanel = true;
+        }
+        if ( toSensorPanel ) {
+          intensityMeterNode.scale( 1 / 2.5 );
+          intensityMeterNode.intensityMeter.reset();
+        }
+      }
+    } ) );
     //Connect the sensor to the body with a gray wire
     this.addChild( new WireNode( intensityMeter, sensorNode, bodyNode, 'gray' ) );
-
-
+    this.addChild( sensorNode );
+    this.addChild( bodyNode );
   }
 
   return inherit( Node, IntensityMeterNode, {
@@ -173,6 +193,12 @@ define( function( require ) {
      */
     dragAll: function( delta ) {
       this.doTranslate( this.modelViewTransform.viewToModelDelta( delta ) );
+    },
+    dragSensor: function( delta ) {
+      this.intensityMeter.translateSensor( this.modelViewTransform.viewToModelDelta( delta ) );
+    },
+    dragBody: function( delta ) {
+      this.intensityMeter.translateBody( this.modelViewTransform.viewToModelDelta( delta ) );
     },
     /**
      * Get the components that could be dropped back in the toolbox

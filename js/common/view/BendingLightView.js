@@ -45,7 +45,7 @@ define( function( require ) {
     ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
-    this.showProtractor = new BooleanProperty( showNormal );
+    this.showProtractor = new BooleanProperty( true );
     this.model = model;
     this.lightRayLayer = new Node();
     this.lightWaveLayer = new Node();
@@ -110,7 +110,7 @@ define( function( require ) {
     var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName/* model.visibleModelBounds */ );
     this.addChild( laserNode );
     model.laserViewProperty.link(function(){
-     model.laser.wave= (model.laserViewProperty.value === 'wave');
+      model.laser.wave = (model.laserViewProperty.value === 'wave');
     });
 
     model.rays.addItemAddedListener( function( ray ) {

@@ -42,16 +42,13 @@ define( function( require ) {
 
     //Initial tools
     var protractorModelPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 50 ) );
-   this.protractorModel = new ProtractorModel( protractorModelPosition.x, protractorModelPosition.y );
+    this.protractorModel = new ProtractorModel( protractorModelPosition.x, protractorModelPosition.y );
     var protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractor, this.protractorModel,
       canvas.getProtractorDragRegion, canvas.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.getBounds() );
     this.addChild( protractorNode );
     protractorNode.scale( ICON_WIDTH / protractorNode.width );
 
-    var intensityMeterNode = new IntensityMeterNode( modelViewTransform, intensityMeter, this.sensorPanel.visibleBounds );
-    intensityMeter.enabled = true;
-    intensityMeter.bodyPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 30 ) );
-    intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 70 ) );
+    var intensityMeterNode = new IntensityMeterNode( modelViewTransform, intensityMeter, this.sensorPanel.getBounds() );
     this.addChild( intensityMeterNode );
 
     var checkBoxOptions = {

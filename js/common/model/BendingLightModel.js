@@ -87,7 +87,7 @@ define( function( require ) {
       }
     );
     //Model components
-    this.intensityMeter = new IntensityMeter( 0, 0, 0, 0 );
+    this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.3, -this.modelHeight * 0.25, -this.modelWidth * 0.2, -this.modelHeight * 0.25 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }
 
