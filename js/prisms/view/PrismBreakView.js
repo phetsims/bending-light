@@ -12,7 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
-  // var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
+  var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
   // var Shape = require( 'KITE/Shape' );
   // var Path = require( 'SCENERY/nodes/Path' );
   //var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
@@ -20,6 +20,8 @@ define( function( require ) {
   // var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var Node = require( 'SCENERY/nodes/Node' );
   //var ToolboxNode = require( 'BENDING_LIGHT/common/view/ToolboxNode' );
+  var LaserControlPanelNode = require( 'BENDING_LIGHT/prisms/view/LaserControlPanelNode' );
+  var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
   //var Property = require( 'AXON/Property' );
   //var WAVELENGTH_RED = BendingLightModel.WAVELENGTH_RED;//static
   var inset = 10;
@@ -70,19 +72,30 @@ define( function( require ) {
       rotationRegionShape, 'laserKnob',
       10 );
 
-    //add the prisms
-    /* for ( var prism in model.getPrisms() ) {
-     this.addChild( new PrismNode( this.modelViewTransform, prism, model.prismMedium ) );
-     }*/
-    //Update the background now and when its medium changes
 
-    //Add the control panel for the environment medium
+    var IndexOfRefractionDecimals = 2;
+    //Add control panels for setting the index of refraction for each medium
+    var environmentMediumMaterialListParent = new Node();
+    var environmentMediumControlPanel = new MediumControlPanel( model, this, model.environmentMedium,
+      'Environment', true, model.wavelengthProperty, IndexOfRefractionDecimals, environmentMediumMaterialListParent );
+    environmentMediumControlPanel.setTranslation( this.layoutBounds.right - inset - environmentMediumControlPanel.width, this.layoutBounds.top + inset );
+    this.afterLightLayer2.addChild( environmentMediumControlPanel );
+    this.afterLightLayer2.addChild( environmentMediumMaterialListParent );
+    var laserControlPanelNode = new LaserControlPanelNode( model.laser.colorProperty,
+      model.wavelengthPropertyProperty, {
+        bottom: this.layoutBounds.bottom - 200,
+        right:  this.layoutBounds.right - inset
+      } );
+    this.addChild( laserControlPanelNode );
 
-    //Add the prism toolbox, from which prisms can be dragged and from which their index of refraction can be viewed/changed
 
+    var laserTypeControlPanel = new LaserTypeControlPanel( model.manyRays, {
+      top:  this.layoutBounds.top - inset,
+      left: this.layoutBounds.left + inset
+    } );
+    this.addChild( laserTypeControlPanel );
 
     //Add the reset all button
-    // Add reset all button
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {

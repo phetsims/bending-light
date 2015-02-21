@@ -1,123 +1,95 @@
-/*
- // Copyright 2002-2011, University of Colorado
- */
+// Copyright 2002-2015, University of Colorado
 /**
- * Control panel for the laser in the "prism break" tab, such as choosing whether it is white light or one color, and the wavelength.
- *
+ * Control panel for the laser in the "prism break" tab,
+ * such as choosing whether it is white light or one color, and the wavelength.
  * @author Sam Reid
- *//*
-
- define( function( require ) {
- 'use strict';
-
- // modules
- var inherit = require( 'PHET_CORE/inherit' );
- var ActionEvent = require('java.awt.event.ActionEvent');
- var ActionListener = require('java.awt.event.ActionListener');
- var swing = require('javax.swing');//.*
- var BendingLightStrings = require('edu.colorado.phet.bendinglight.BendingLightStrings');
- var BendingLightWavelengthControl = require('edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl');
- var LaserColor = require('edu.colorado.phet.bendinglight.view.LaserColor');
- var ProtractorNode = require('edu.colorado.phet.bendinglight.view.ProtractorNode');
- var Property = require('AXON/Property');
- var SettableProperty = require('edu.colorado.phet.common.phetcommon.model.property.SettableProperty');
- var SimpleObserver = require('edu.colorado.phet.common.phetcommon.util.SimpleObserver');
- var HorizontalLayoutPanel = require('edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel');
- var VerticalLayoutPanel = require('edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel');
- var PropertyCheckBox = require('edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox');
- var PropertyRadioButton = require('edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton');
- var PhetPCanvas = require('edu.colorado.phet.common.piccolophet.PhetPCanvas');
- var ControlPanelNode = require('edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode');
- var ZeroOffsetNode = require('edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode');
- var PBounds = require('edu.umd.cs.piccolo.util.PBounds');
- var PSwing = require('edu.umd.cs.piccolox.pswing.PSwing');
- var BendingLightStrings = require('edu.colorado.phet.bendinglight.BendingLightStrings');//static //.*
- var labelFont = require('edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont');//static
- var WHITE_LIGHT = require('edu.colorado.phet.bendinglight.view.LaserColor.WHITE_LIGHT');//static
-
-
- // static class: MyRadioButton
- var MyRadioButton =
- //Class for creating radio buttons with the right font
-
- //private
- define( function( require ) {
- function MyRadioButton( text,  property,  value) {
- PropertyRadioButton.call(this, text, property, value);
- setFont(labelFont);
- }
-
- return inherit(PropertyRadioButton,MyRadioButton,{
- });
- } );;
- function LaserControlPanelNode( multipleRays,  laserColor,  showReflections,  showNormal,  showProtractor,  wavelengthProperty) {
- ControlPanelNode.call(this, new PSwing(new VerticalLayoutPanel().withAnonymousClassBody( {
- initializer:function(){
- //Add a radio button for "one color"
- add(new JRadioButton(ONE_COLOR, laserColor.get() != WHITE_LIGHT).withAnonymousClassBody( {
- initializer:function(){
- setFont(labelFont);
- var updateSelected = new SimpleObserver().withAnonymousClassBody( {
- update: function() {
- setSelected(laserColor.get() != WHITE_LIGHT);
- }
- });
- addActionListener(new ActionListener().withAnonymousClassBody( {
- actionPerformed: function( e) {
- laserColor.set(new LaserColor.OneColor(wavelengthProperty.get()));
- //make sure radio buttons don't toggle off, in case they're not in a button group
- updateSelected.update();
- }
- }));
- laserColor.addObserver(updateSelected);
- }
- }));
- //Add the wavelength control for choosing the wavelength in "one color" mode
- add(new PhetPCanvas().withAnonymousClassBody( {
- initializer:function(){
- var wavelengthControl = new BendingLightWavelengthControl(wavelengthProperty, laserColor);
- setBorder(null);
- //Layout
- var bounds = wavelengthControl.getFullBounds();
- setPreferredSize(new Dimension((bounds.getWidth()), bounds.getHeight()));
- //Add the wavelength control
- getLayer().addChild(new ZeroOffsetNode(wavelengthControl));
- }
- }));
- //Add a radio button for "white light"
- add(new MyRadioButton(BendingLightStrings.WHITE_LIGHT, laserColor, WHITE_LIGHT));
- add(new JSeparator());
- //Choose between single and multiple rays
- add(new MyRadioButton(SINGLE_RAY, multipleRays, false));
- add(new MyRadioButton(MULTIPLE_RAYS, multipleRays, true));
- add(new JSeparator());
- //Checkboxes to toggle reflections, normal, protractor
- add(new PropertyCheckBox(BendingLightStrings.SHOW_REFLECTIONS, showReflections).withAnonymousClassBody( {
- initializer:function(){
- setFont(labelFont);
- }
- }));
- add(new PropertyCheckBox(BendingLightStrings.SHOW_NORMAL, showNormal).withAnonymousClassBody( {
- initializer:function(){
- setFont(labelFont);
- }
- }));
- add(new HorizontalLayoutPanel().withAnonymousClassBody( {
- initializer:function(){
- add(new PropertyCheckBox(BendingLightStrings.SHOW_PROTRACTOR, showProtractor).withAnonymousClassBody( {
- initializer:function(){
- setFont(labelFont);
- }
- }));
- add(new JLabel(new ImageIcon(ProtractorNode.newProtractorImage(40))));
- }
- }));
- }
- })));
- }
-
- return inherit(ControlPanelNode,LaserControlPanelNode,{
- });
- } );
-
  */
+
+define( function( require ) {
+  'use strict';
+
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Panel = require( 'SUN/Panel' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var AquaRadioButton = require( 'SUN/AquaRadioButton' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+
+  // strings
+  var oneColorString = require( 'string!BENDING_LIGHT/oneColor' );
+  var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
+
+  /**
+   *
+   * @param laserColor
+   * @param wavelengthProperty
+   * @param options
+   * @constructor
+   */
+  function LaserControlPanelNode( laserColor, wavelengthProperty, options ) {
+
+
+    options = _.extend( {
+      fill: '#eeeeee ',
+      stroke: 'gray',
+      lineWidth: 1
+    }, options );
+
+    //Add a radio button for "one color"
+    var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
+    var createButtonTextNode = function( text ) {
+      return new Text( text, { font: new PhetFont( 12 ) } );
+    };
+
+    // Create the radio buttons
+
+    var oneColorRadio = new AquaRadioButton( laserColor, 'oneColor', createButtonTextNode( oneColorString ),
+      AQUA_RADIO_BUTTON_OPTIONS );
+    var whiteLightRadio = new AquaRadioButton( laserColor, 'whiteLight', createButtonTextNode( whiteLightString ),
+      AQUA_RADIO_BUTTON_OPTIONS );
+
+
+    // touch areas
+    var touchExpansion = 5;
+    var maxRadioButtonWidth = _.max( [ oneColorRadio, whiteLightRadio ], function( item ) {
+      return item.width;
+    } ).width;
+
+    //touch areas
+    oneColorRadio.touchArea = new Bounds2(
+      ( oneColorRadio.localBounds.minX - touchExpansion ),
+      oneColorRadio.localBounds.minY,
+      ( oneColorRadio.localBounds.minX + maxRadioButtonWidth ),
+      oneColorRadio.localBounds.maxY
+    );
+
+    // Create  WavelengthSlider node
+    var wavelengthSlider = new WavelengthSlider( wavelengthProperty,
+      {
+        cursorStroke: 'white',
+        thumbWidth: 30,
+        tweakersVisible: false,
+        valueVisible: false,
+        thumbHeight: 40,
+        thumbTouchAreaExpandY: 10,
+        pointerAreasOverTrack: true
+      } );
+    var content = new VBox( {
+      spacing: 10,
+      children: [ oneColorRadio, whiteLightRadio, wavelengthSlider ],
+      align: 'left'
+    } );
+
+
+    Panel.call( this, content, options );
+    //Add the wavelength control for choosing the wavelength in "one color" mode
+
+    //Add a radio button for "white light"
+  }
+
+  return inherit( Panel, LaserControlPanelNode );
+} );
+
