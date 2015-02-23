@@ -57,13 +57,21 @@ define( function( require ) {
    * @param laserWavelength
    * @param format
    * @param materialListParent
+   * @param options
    * @constructor
    */
-  function MediumControlPanel( model, view, medium, name, textFieldVisible, laserWavelength, format, materialListParent ) {
+  function MediumControlPanel( model, view, medium, name, textFieldVisible, laserWavelength, format, materialListParent ,options) {
 
     Node.call( this );
     var mediumControlPanel = this;
 
+    options = _.extend( {
+      xMargin: 10,
+      yMargin: 7,
+      fill: '#f2fa6a ',
+      stroke: 'gray',
+      lineWidth: 1
+    }, options );
     this.medium = medium; //The medium to observe
     this.laserWavelength = laserWavelength;
     this.model = model;
@@ -199,7 +207,7 @@ define( function( require ) {
       fill: '#EEEEEE',
       xMargin: 7,
       yMargin: 7,
-      cornerRadius: 5
+      cornerRadius: 5,lineWidth:options.lineWidth
     } );
     this.addChild( panel );
 
