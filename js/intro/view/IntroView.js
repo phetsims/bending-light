@@ -147,7 +147,7 @@ define( function( require ) {
       {
         listener: function() {
           introModel.resetAll();
-          introView.toolboxNode.protractorModel.reset();
+          introView.toolboxNode.resetAll();
         },
         bottom: this.layoutBounds.bottom - inset,
         right:  this.layoutBounds.right - inset
