@@ -42,11 +42,11 @@ define( function( require ) {
 
     this.modelViewTransform = modelViewTransform;
     this.protractorModel = protractorModel;
-    var scale = ICON_WIDTH / protractorImage.width;
-    this.multiScale = scale;
+    this.multiScale = ICON_WIDTH / protractorImage.width;
 
     //Load and add the image
     this.protractorImageNode = new Image( protractorImage, { pickable: true } );
+    protractorNode.setScaleMagnitude( this.multiScale );
     showProtractor.link( function( showProtractor ) {
       protractorNode.protractorImageNode.setVisible( showProtractor );
     } );
@@ -99,8 +99,7 @@ define( function( require ) {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
-          protractorNode.scale( 0.3 / scale );
-          protractorNode.multiScale *= 0.3 / scale;
+          protractorNode.setProtractorScale( DEFAULT_SCALE );
         }
       },
       drag: function( event ) {
@@ -111,8 +110,7 @@ define( function( require ) {
       },
       end: function() {
         if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
-          protractorNode.scale( scale / 0.3 );
-          protractorNode.multiScale *= scale / 0.3;
+          protractorNode.setProtractorScale( protractorNode.multiScale );
           protractorNode.protractorModel.positionProperty.reset();
         }
       }
@@ -142,8 +140,8 @@ define( function( require ) {
     } );
     this.protractorModel.positionProperty.link( function( position ) {
       var point2D = protractorNode.modelViewTransform.modelToViewPosition( position );
-      protractorNode.setTranslation( point2D.x - ((protractorImageWidth / 2) * protractorNode.multiScale),
-        point2D.y - ((protractorImageHeight / 2) * protractorNode.multiScale) );
+      protractorNode.setTranslation( point2D.x - (protractorNode.width / 2),
+        point2D.y - (protractorNode.height / 2) );
     } );
   }
 
@@ -153,16 +151,9 @@ define( function( require ) {
        * @param scale
        */
       setProtractorScale: function( scale ) {
-        this.multiScale = scale;
-        this.updateTransform( scale );
-      },
-      /**
-       * Create a protractor image given at the specified height
-       * @param height
-       * @returns {*}
-       */
-      newProtractorImage: function( height ) {
-        return new Image( protractorImage, { scale: height / protractorImage.height } );
+        this.setScaleMagnitude( scale );
+        var point2D = this.modelViewTransform.modelToViewPosition( this.protractorModel.position );
+        this.setTranslation( point2D.x - (this.width / 2), point2D.y - (this.height / 2 ) );
       },
       /**
        * Translate the protractor, this method is called when dragging out of the toolbox
