@@ -166,7 +166,7 @@ define( function( require ) {
       resetAll: function() {
         this.laser.resetAll();
         PropertySet.prototype.reset.call( this );
-        //this.intensityMeter.resetAll();
+        this.intensityMeter.resetAll();
         // this.laserView.reset();
       }
     },

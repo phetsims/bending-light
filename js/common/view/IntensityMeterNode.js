@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
@@ -20,13 +19,14 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var Vector2 = require( 'DOT/Vector2' );
 
 
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
-
-  //images
-  var probeImage = require( 'image!BENDING_LIGHT/intensity_meter_probe.png' );
 
   /**
    *
@@ -41,11 +41,50 @@ define( function( require ) {
     Node.call( intensityMeterNode );
     this.modelViewTransform = modelViewTransform;
     this.intensityMeter = intensityMeter;
-
-    intensityMeterNode.scale( 0.3 );
+    intensityMeter.enabledProperty.link( function() {
+      intensityMeterNode.setVisible( intensityMeter.enabled );
+    } );
+    intensityMeterNode.setScaleMagnitude( 0.3 );
 
     // add sensor node
-    var sensorNode = new Image( probeImage, { pickable: true } );
+    var sensorShape = new Shape()
+      .ellipticalArc( 50, 50, 50, 50, 0, Math.PI * 0.8, Math.PI * 0.2, false )
+      .quadraticCurveTo( 84, 87, 82, 100 )
+      .quadraticCurveTo( 81, 115, 80, 130 )
+      .quadraticCurveTo( 80, 151, 65, 151 )
+      .quadraticCurveTo( 50, 151, 35, 151 )
+      .quadraticCurveTo( 20, 151, 20, 130 )
+      .quadraticCurveTo( 19, 115, 18, 100 )
+      .quadraticCurveTo( 16, 87, 11, 82 )
+      .close();
+    var sensorOuterShape = new Path( sensorShape, {
+      stroke: new LinearGradient( 0, 0, 0, 151 )
+        .addColorStop( 0, '#408260' )
+        .addColorStop( 1, '#005D2D' ),
+      fill: new LinearGradient( 0, 0, 0, 151 )
+        .addColorStop( 0, '#7CCAA2' )
+        .addColorStop( 0.3, '#009348' )
+        .addColorStop( 1, '#008B44' ),
+      lineWidth: 2
+    } );
+
+    var sensorInnerShape = new Path( sensorShape, {
+      fill: '#008541',
+      lineWidth: 2,
+      scale: new Vector2( 0.9, 0.93 ),
+      centerX: sensorOuterShape.centerX,
+      y: 5
+    } );
+    var sensorInnerCircle = new Path( new Shape().circle( 50, 50, 35 ), {
+      fill: new RadialGradient( 35, 17.5, 0, 35, 70, 60 )
+        .addColorStop( 0, 'white' )
+        .addColorStop( 0.4, '#E6F5FF' )
+        .addColorStop( 1, '#C2E7FF' ),
+      centerX: sensorInnerShape.centerX,
+      centerY: 50
+    } );
+    var sensorNode = new Node( { children: [ sensorOuterShape, sensorInnerShape, sensorInnerCircle ] } );
+
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
       var sensorViewPoint = modelViewTransform.modelToViewPosition( location );
@@ -60,14 +99,16 @@ define( function( require ) {
       start: function( event ) {
         fromSensorPanel = false;
         toSensorPanel = false;
+        start = sensorNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
-          intensityMeterNode.scale( 2.5 );
+          intensityMeterNode.setScaleMagnitude( 1 );
           fromSensorPanel = true;
+          var initialPosition = modelViewTransform.modelToViewPosition( intensityMeter.sensorPosition );
+          intensityMeterNode.dragAll( start.minus( initialPosition ) );
         }
         else {
           fromSensorPanel = false;
         }
-        start = sensorNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
         var end = sensorNode.globalToParentPoint( event.pointer.point );
@@ -85,7 +126,7 @@ define( function( require ) {
           toSensorPanel = true;
         }
         if ( toSensorPanel ) {
-          intensityMeterNode.scale( 1 / 2.5 );
+          intensityMeterNode.setScaleMagnitude( 0.3 );
           intensityMeterNode.intensityMeter.reset();
         }
       }
@@ -149,14 +190,16 @@ define( function( require ) {
       start: function( event ) {
         fromSensorPanel = false;
         toSensorPanel = false;
+        start = bodyNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
-          intensityMeterNode.scale( 2.5 );
+          intensityMeterNode.setScaleMagnitude( 1 );
           fromSensorPanel = true;
+          var initialPosition = modelViewTransform.modelToViewPosition( intensityMeter.sensorPosition );
+          intensityMeterNode.dragAll( start.minus( initialPosition ) );
         }
         else {
           fromSensorPanel = false;
         }
-        start = bodyNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
         var end = bodyNode.globalToParentPoint( event.pointer.point );
@@ -174,7 +217,7 @@ define( function( require ) {
           toSensorPanel = true;
         }
         if ( toSensorPanel ) {
-          intensityMeterNode.scale( 1 / 2.5 );
+          intensityMeterNode.setScaleMagnitude( 0.3 );
           intensityMeterNode.intensityMeter.reset();
         }
       }
@@ -194,20 +237,20 @@ define( function( require ) {
     dragAll: function( delta ) {
       this.doTranslate( this.modelViewTransform.viewToModelDelta( delta ) );
     },
+    /**
+     *
+     * @param delta
+     */
     dragSensor: function( delta ) {
       this.intensityMeter.translateSensor( this.modelViewTransform.viewToModelDelta( delta ) );
     },
+    /**
+     *
+     * @param delta
+     */
     dragBody: function( delta ) {
       this.intensityMeter.translateBody( this.modelViewTransform.viewToModelDelta( delta ) );
     },
-    /**
-     * Get the components that could be dropped back in the toolbox
-     * @returns {Node}
-     */
-    getDroppableComponents: function() {
-      // return new Node( { children: [ bodyNode, sensorNode ] } );
-    },
-
     /**
      *
      * @param delta

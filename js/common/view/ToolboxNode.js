@@ -36,20 +36,19 @@ define( function( require ) {
 
     Node.call( this );
     this.sensorPanel = new Rectangle( 0, 0, 100, 235, 10, 10, {
-      stroke: 'gray', lineWidth: 1, fill: '#C6CACE'
+      stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
     } );
     this.addChild( this.sensorPanel );
 
     //Initial tools
     var protractorModelPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 50 ) );
     this.protractorModel = new ProtractorModel( protractorModelPosition.x, protractorModelPosition.y );
-    var protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractor, this.protractorModel,
+    this.protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractor, this.protractorModel,
       canvas.getProtractorDragRegion, canvas.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.getBounds() );
-    this.addChild( protractorNode );
-    protractorNode.scale( ICON_WIDTH / protractorNode.width );
+    this.addChild( this.protractorNode );
 
-    var intensityMeterNode = new IntensityMeterNode( modelViewTransform, intensityMeter, this.sensorPanel.getBounds() );
-    this.addChild( intensityMeterNode );
+    this.intensityMeterNode = new IntensityMeterNode( modelViewTransform, intensityMeter, this.sensorPanel.getBounds() );
+    this.addChild( this.intensityMeterNode );
 
     var checkBoxOptions = {
       boxWidth: 20,
@@ -70,6 +69,11 @@ define( function( require ) {
   return inherit( Node, ToolboxNode, {
       getSensorBounds: function() {
         return this.sensorPanel.getBounds();
+      },
+      resetAll: function() {
+        this.intensityMeterNode.setScaleMagnitude( 0.3 );
+        this.protractorNode.setProtractorScale( this.protractorNode.multiScale );
+        this.protractorModel.reset();
       }
     },
     //statics
