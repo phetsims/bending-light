@@ -13,13 +13,16 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
   var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
+  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   // var Shape = require( 'KITE/Shape' );
   // var Path = require( 'SCENERY/nodes/Path' );
   //var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
+//  var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   //var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   // var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var Node = require( 'SCENERY/nodes/Node' );
-  //var ToolboxNode = require( 'BENDING_LIGHT/common/view/ToolboxNode' );
+  var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
   var LaserControlPanelNode = require( 'BENDING_LIGHT/prisms/view/LaserControlPanelNode' );
   var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
   //var Property = require( 'AXON/Property' );
@@ -99,7 +102,7 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
-
+          model.resetAll();
         },
         bottom: this.layoutBounds.bottom - inset,
         right:  this.layoutBounds.right - inset
@@ -114,8 +117,28 @@ define( function( require ) {
     //Optionally show the normal lines at each intersection
 
     this.beforeLightLayer.addChild( this.prismLayer );
-    //Add the protractor node
+    //Get the function that chooses which region of the protractor can be used for
+    // rotation--none in this tab.
+    this.getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
+      //empty shape since shouldn't be rotatable in this tab
+      return outerCircle;
+    };
 
+    //Get the function that chooses which region of the protractor can be used for translation--both
+    // the inner bar and outer circle in this tab
+    this.getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
+      return innerBar;
+    };
+    //Add the protractor node
+    var protractorNode = new ProtractorNode( this.modelViewTransform, model.showProtractor, model.protractorModel,
+      this.getProtractorDragRegion, this.getProtractorRotationRegion, 200, new Bounds2( 0, 0, 0, 0 ) );
+    this.addChild( protractorNode );
+    protractorNode.scale( 90 / protractorNode.width );
+
+    // add prisms tool box Node
+    var prismToolboxNode = new PrismToolboxNode( this, this.modelViewTransform, model,
+      { left: this.layoutBounds.minX, bottom: this.layoutBounds.bottom - inset } );
+    this.addChild( prismToolboxNode );
   }
 
   return inherit( BendingLightView, PrismBreakView, {

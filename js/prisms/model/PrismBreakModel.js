@@ -15,7 +15,7 @@ define( function( require ) {
   var ShapeIntersection = require( 'BENDING_LIGHT/prisms/model/ShapeIntersection' );
   var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
   var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
- // var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
+  // var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
   var Ray = require( 'BENDING_LIGHT/prisms/model/Ray' );
   var Property = require( 'AXON/Property' );
   var Util = require( 'DOT/Util' );
@@ -26,12 +26,13 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Shape = require( 'KITE/Shape' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
 
   //constants
   var CHARACTERISTIC_LENGTH = 650E-9;
   var SPEED_OF_LIGHT = 2.99792458E8;
-  var WAVELENGTH_RED;
-  var WHITE_LIGHT;
+  var WAVELENGTH_RED=  650E-9;
+ // var WHITE_LIGHT;
 
   /**
    *
@@ -47,6 +48,8 @@ define( function( require ) {
 
     //If false, will hide non TIR reflections
     this.showReflections = new Property( false );
+    this.showNormals = new Property( false );
+    this.showProtractor = new Property( false );
 
     //List of intersections, which can be shown graphically
     this.intersections = new ObservableArray();
@@ -63,11 +66,20 @@ define( function( require ) {
 
 
     //Draggable and rotatable protractor
-    // this.protractorModel = new ProtractorModel( 0, 0 );
+    this.protractorModel = new ProtractorModel( 0, 0 );
 
-
+    var prismsBreakModel = this;
     BendingLightModel.call( this, Math.PI, false,
       BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
+/*    this.laser.emissionPointProperty.link( function() {
+      prismsBreakModel.rays.clear();
+      prismsBreakModel.propagateRays();
+    } );*/
+     Property.multilink( [ this.laserViewProperty, this.laser.onProperty,
+     this.laser.emissionPointProperty, this.environmentMedium], function() {
+       prismsBreakModel.rays.clear();
+       prismsBreakModel.propagateRays();
+     } );
 
   }
 
@@ -80,6 +92,8 @@ define( function( require ) {
       this.prismMedium.reset();
       this.showReflections.reset();
       this.protractorModel.reset();
+      this.showNormals.reset();
+      this.showProtractor.reset();
     },
     //List of prism prototypes that can be created in the sim
     getPrismPrototypes: function() {
@@ -130,6 +144,7 @@ define( function( require ) {
         new Vector2( radius * ( 0.6 / 0.5 ), -radius ),
         new Vector2( radius * ( 0.6 / 0.5 ), radius ),
         new Vector2( 0, radius ) ], 1 ), new Circle( new Vector2(), radius ) ) ) );
+      return prismsTypes;
 
     },
 
@@ -162,40 +177,42 @@ define( function( require ) {
     propagate: function( tail, directionUnitVector, power, laserInPrism ) {
       //Determines whether to use white light or single color light
       var mediumIndexOfRefraction;
-      if ( this.model.laser.color.get() === WHITE_LIGHT ) {
+      //this.model.laser.color.get() === WHITE_LIGHT
+      if ( false ) {
         var min = VisibleColor.MIN_WAVELENGTH / 1E9;
         var max = VisibleColor.MAX_WAVELENGTH / 1E9;
         //This number sets the number of (equally spaced wavelength) rays to show in a white beam.  More rays looks better but is more computationally intensive.
         var dw = (max - min) / 16;
 
         for ( var wavelength = min; wavelength <= max; wavelength += dw ) {
-          mediumIndexOfRefraction = laserInPrism ? this.prismMedium.getIndexOfRefraction( wavelength ) :
-                                    this.environmentMedium.getIndexOfRefraction( wavelength );
+          mediumIndexOfRefraction = laserInPrism ? this.prismMedium.get().getIndexOfRefraction( wavelength ) :
+                                    this.environmentMedium.get().getIndexOfRefraction( wavelength );
           this.propagateTheRay( new Ray( tail, directionUnitVector, power,
             wavelength, mediumIndexOfRefraction, SPEED_OF_LIGHT / wavelength ), 0 );
         }
       }
       else {
-        mediumIndexOfRefraction = laserInPrism ? this.prismMedium.getIndexOfRefraction( this.model.laser.getWavelength() ) :
-                                  this.environmentMedium.getIndexOfRefraction( this.model.laser.getWavelength() );
-        this.propagateTheRay( new Ray( tail, directionUnitVector, power, this.model.laser.getWavelength(),
-          mediumIndexOfRefraction, this.model.laser.getFrequency() ), 0 );
+        mediumIndexOfRefraction = laserInPrism ? this.prismMedium.get().getIndexOfRefraction( this.laser.getWavelength() ) :
+                                  this.environmentMedium.get().getIndexOfRefraction( this.laser.getWavelength() );
+        this.propagateTheRay( new Ray( tail, directionUnitVector, power, this.laser.getWavelength(),
+          mediumIndexOfRefraction, this.laser.getFrequency() ), 0 );
       }
     },
     //Algorithm that computes the trajectories of the rays throughout the system
     propagateRays: function() {
-      if ( this.model.laser.on ) {
-        var tail = this.model.laser.emissionPoint ;
-        var laserInPrism = this.isLaserInPrism();
-        var directionUnitVector = this.model.laser.getDirectionUnitVector();
-        if ( !this.model.manyRays ) {
+
+      if ( this.laser.on ) {
+        var tail = this.laser.emissionPoint;
+        var laserInPrism = false;//this.isLaserInPrism();
+        var directionUnitVector = this.laser.getDirectionUnitVector();
+        if (this.manyRays.get()===1 ) {
           //This can be used to show the main central ray
           this.propagate( tail, directionUnitVector, 1.0, laserInPrism );
         }
         else {
           //Many parallel rays
           for ( var x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
-            var offset = directionUnitVector.getRotatedInstance( Math.PI / 2 ).times( x );
+            var offset = directionUnitVector.rotated( Math.PI / 2 ).times( x );
             this.propagate( tail.plus( offset ), directionUnitVector, 1.0, laserInPrism );
           }
         }
@@ -224,8 +241,9 @@ define( function( require ) {
       if ( count > 50 || incidentRay.power < 0.001 ) {
         return;
       }
+      var color = this.laser.laserColor.getColor();
       //Check for an intersection
-      var intersection = this.getIntersection( incidentRay, this.prisms );
+      var intersection = null;//this.getIntersection( incidentRay, this.prisms );
       var L = incidentRay.directionUnitVector;
       var n1 = incidentRay.mediumIndexOfRefraction;
       var wavelengthInN1 = incidentRay.wavelength / n1;
@@ -241,9 +259,9 @@ define( function( require ) {
           }
         }
         //Index of refraction of the other medium
-        var n2 = outputInsidePrism ? this.prismMedium.getIndexOfRefraction(
+        var n2 = outputInsidePrism ? this.prismMedium.get().getIndexOfRefraction(
           incidentRay.getBaseWavelength() ) :
-                 this.environmentMedium.getIndexOfRefraction( incidentRay.getBaseWavelength() );
+                 this.environmentMedium.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
         //Precompute for readability
         var point = intersection.getPoint();
         var n = intersection.getUnitNormal();
@@ -266,19 +284,27 @@ define( function( require ) {
         if ( this.showReflections || totalInternalReflection ) {
           this.propagateRay( reflected, count + 1 );
         }
-        this.propagate( refracted, count + 1 );
+        this.propagateTheRay( refracted, count + 1 );
         //Add the incident ray itself
-        this.addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1,
+        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, new Vector2( 0, 0 ), n1,
           wavelengthInN1, incidentRay.power,
-          new VisibleColor( incidentRay.wavelength * 1E9 ),
+         color/* new VisibleColor( incidentRay.wavelength * 1E9 )*/,
           waveWidth, 0, null, true, false ) );
       }
       else {
         //No intersection, so the light ray should just keep going
-        this.addRay( new //1 meter long ray (long enough to seem like infinity for the sim which is at nm scale)
-          LightRay(//1 meter long ray (long enough to seem like infinity for the sim which is at nm scale)
-          incidentRay.tail, //1 meter long ray (long enough to seem like infinity for the sim which is at nm scale)
-          incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ), n1, wavelengthInN1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, true, false ) );
+        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2,
+          incidentRay.tail,
+          incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ),
+          n1,
+          wavelengthInN1,
+          incidentRay.power,
+          color /*new VisibleColor( incidentRay.wavelength * 1E9 )*/,
+          waveWidth,
+          0,
+          null,
+          true,
+          false ) );
       }
     },
     //Signify that another ray/interface collision occurred
@@ -290,7 +316,7 @@ define( function( require ) {
     addIntersectionListener: function( listener ) {
       //intersectionListeners.add( listener );
     },
-  //Find the nearest intersection between a light ray and the set of prisms in the play area
+    //Find the nearest intersection between a light ray and the set of prisms in the play area
 
     getIntersection: function( incidentRay, prisms ) {
       var allIntersections = [];

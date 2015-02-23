@@ -84,7 +84,6 @@ define( function( require ) {
         .addColorStop( 0.9, 'black' )
     } );
     var path3 = new Path( shape3, { stroke: 'red', lineWidth: 4 } );
-    console.log( path2.height );
     return new HBox( { children: [ path1, path2, path3 ] } );
   };
 

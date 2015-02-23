@@ -17,7 +17,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-
   // strings
   var oneColorString = require( 'string!BENDING_LIGHT/oneColor' );
   var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
@@ -71,6 +70,8 @@ define( function( require ) {
       {
         cursorStroke: 'white',
         thumbWidth: 30,
+        trackWidth:230,
+        trackHeight: 25,
         tweakersVisible: false,
         valueVisible: false,
         thumbHeight: 40,

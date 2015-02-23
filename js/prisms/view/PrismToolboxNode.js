@@ -1,126 +1,160 @@
-/*
- // Copyright 2002-2011, University of Colorado
- */
+// Copyright 2002-2011, University of Colorado
+
 /**
- * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.
- *
+ * Prism toolbox which contains draggable prisms as well as the control panel
+ * for their index of refraction.
+
  * @author Sam Reid
- *//*
-
- define( function( require ) {
- 'use strict';
-
- // modules
- var inherit = require( 'PHET_CORE/inherit' );
- var Vector2 = require( 'java.awt.geom.Vector2' );
- var Rectangle = require( 'KITE/Rectangle' );
- var BendingLightStrings = require( 'edu.colorado.phet.bendinglight.BendingLightStrings' );
- var BendingLightCanvas = require( 'edu.colorado.phet.bendinglight.view.BendingLightCanvas' );
- var MediumControlPanel = require( 'edu.colorado.phet.bendinglight.view.MediumControlPanel' );
- var Property = require( 'AXON/Property' );
- var Function0 = require( 'edu.colorado.phet.common.phetcommon.util.function.Function0' );
- var ModelViewTransform = require( 'edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform' );
- var ToolNode = require( 'edu.colorado.phet.common.piccolophet.nodes.ToolNode' );
- var HBox = require( 'edu.colorado.phet.common.piccolophet.nodes.layout.HBox' );
- var NodeFactory = require( 'edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory' );
- var ToolIconNode = require( 'edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode' );
- var Node = require( 'SCENERY/nodes/Node' );
- var PText = require( 'edu.umd.cs.piccolo.nodes.PText' );
- var PDimension = require( 'edu.umd.cs.piccolo.util.PDimension' );
- var getPrismPrototypes = require( 'edu.colorado.phet.bendinglight.modules.prisms.PrismBreakModel.getPrismPrototypes' );//static
-
-
- // static class: PrismIcon
- var PrismIcon =
- define( function( require ) {
- function PrismIcon( prism, model, transform, canvas, globalToolboxBounds ) {
-
- //private
- this.model;
- ToolIconNode.call( this, toThumbnail( prism, model, transform ), new Property( false ).withAnonymousClassBody( {
- set: function( value ) {
- super.set( false );
- }
- } ), transform, canvas, new NodeFactory().withAnonymousClassBody( {
- createNode: function( transform, visible, location ) {
- return new PrismToolNode( transform, prism.copy(), model, location );
- }
- } ), model, globalToolboxBounds, true );
- this.model = model;
- }
-
- return inherit( ToolIconNode, PrismIcon, {
- addChild: function( canvas, node ) {
- canvas.addChildBehindLight( node );
- //Add the prism model element
- model.addPrism( (node).prism );
- },
- removeChild: function( canvas, node ) {
- canvas.removeChildBehindLight( node );
- //Remove the associated prism from the model when dropped back in the toolbox, resolves #2833
- model.removePrism( (node).prism );
- },
-
- //private
- toThumbnail: function( prism, model, transform ) {
- var prismNode = new PrismNode( transform, prism, model.prismMedium );
- var thumbnailHeight = 70;
- return prismNode.toImage( (prismNode.getFullBounds().getWidth() * thumbnailHeight / prismNode.getFullBounds().getHeight()), thumbnailHeight, null );
- }
- } );
- } );
- ;
- // static class: PrismToolNode
- var PrismToolNode =
- define( function( require ) {
- function PrismToolNode( transform, prism, model, modelPoint ) {
-
- //private
- this.transform;
-
- //private
- this.prism;
- this.transform = transform;
- this.prism = prism;
- //Create a new prism model, and add it to the model
- var bounds = prism.getBounds();
- var copyCenter = new Vector2( bounds.getX(), bounds.getY() );
- prism.translate( modelPoint.getX() - copyCenter.getX() - bounds.getWidth() / 2, modelPoint.getY() - copyCenter.getY() - bounds.getHeight() / 2 );
- addChild( new PrismNode( transform, prism, model.prismMedium ) );
- }
-
- return inherit( ToolNode, PrismToolNode, {
- dragAll: function( viewDelta ) {
- prism.translate( transform.viewToModelDelta( viewDelta ) );
- }
- } );
- } );
- ;
- function PrismToolboxNode( canvas, transform, model ) {
- //Create and add Title label for the prism toolbox
- var titleLabel = new PText( BendingLightStrings.PRISMS ).withAnonymousClassBody( {
- initializer: function() {
- setFont( BendingLightCanvas.labelFont );
- }
- } );
- addChild( titleLabel );
- var content = new HBox();
- //Move it down so it doesn't overlap the title label
- content.setOffset( 0, 5 );
- addChild( content );
- //Iterate over the prism prototypes in the model and create a draggable icon for each one
- for ( var prism in getPrismPrototypes() ) {
- content.addChild( new PrismIcon( prism, model, transform, canvas, new Function0().withAnonymousClassBody( {
- apply: function() {
- return getGlobalFullBounds();
- }
- } ) ) );
- }
- //Allow the user to control the type of material in the prisms
- content.addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) );
- }
-
- return inherit( Node, PrismToolboxNode, {} );
- } );
-
  */
+define( function( require ) {
+  'use strict';
+
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var HStrut = require( 'SUN/HStrut' );
+  var CheckBox = require( 'SUN/CheckBox' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
+  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
+  var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  // var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
+
+  //strings
+  var prismsString = require( 'string!BENDING_LIGHT/prisms' );
+  var objectsString = require( 'string!BENDING_LIGHT/objects' );
+  var showReflectionsString = require( 'string!BENDING_LIGHT/showReflections' );
+  var showNormalString = require( 'string!BENDING_LIGHT/showNormal' );
+  var showProtractorString = require( 'string!BENDING_LIGHT/showProtractor' );
+
+  /**
+   *
+   * @param canvas
+   * @param modelViewTransform
+   * @param model
+   * @param options
+   * @constructor
+   */
+  function PrismToolboxNode( canvas, modelViewTransform, model, options ) {
+
+    options = _.extend( {
+      xMargin: 10,
+      yMargin: 7,
+      fill: '#f2fa6a ',
+      stroke: 'gray',
+      lineWidth: 1
+    }, options );
+    var prismsToolBoxNode = this;
+    Node.call( this );
+    var content = new HBox( {
+      spacing: 10
+    } );
+    //Create and add Title label for the prism toolbox
+    var titleLabel = new Text( prismsString, { stroke: 'black', font: new PhetFont( 12 ) } );
+    content.addChild( titleLabel );
+
+    //Move it down so it doesn't overlap the title label
+    content.setTranslation( 0, 5 );
+
+    //Iterate over the prism prototypes in the model and create a draggable icon for each one
+
+    //Allow the user to control the type of material in the prisms
+    var environmentMediumMaterialListParent = new Node();
+    content.addChild( new MediumControlPanel( model, canvas, model.prismMedium, objectsString, false, model.wavelengthProperty, 2, environmentMediumMaterialListParent, { lineWidth: 0 } ) );
+
+    //Iterate over the prism prototypes in the model and create a draggable icon for each one
+    //for ( var i = 0; model.getPrismPrototypes().length<=1; i++ ) {
+    //content.addChild( new PrismNode( modelViewTransform, model.getPrismPrototypes()[ 0 ], model.prismMedium ) );
+
+    //}
+    // content.addChild( new PrismNode( modelViewTransform, '', model.prismMedium ) );
+
+
+    // add check boxes
+
+    //Create an icon for the protractor check box
+    var createProtractorIcon = function() {
+      var protractorModel = new ProtractorModel( 0, 0 );
+      var protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractor, protractorModel,
+        canvas.getProtractorDragRegion, canvas.getProtractorRotationRegion, 90, prismsToolBoxNode.getBounds() );
+      protractorNode.setScaleMagnitude( 0.05 );
+      return protractorNode;
+    };
+
+    var textOptions = { font: new PhetFont( 10 ) };
+
+    // itemSpec describes the pieces that make up an item in the control panel,
+    // conforms to the contract: { label: {Node}, icon: {Node} (optional) }
+    var showReflections = { label: new Text( showReflectionsString, textOptions ) };
+    var showNormal = { label: new Text( showNormalString, textOptions ) };
+    var showProtractor = { label: new Text( showProtractorString, textOptions ), icon: createProtractorIcon() };
+    // compute the maximum item width
+    var widestItemSpec = _.max( [ showReflections, showNormal, showProtractor ], function( item ) {
+      return item.label.width + ((item.icon) ? item.icon.width : 0);
+    } );
+    var maxWidth = widestItemSpec.label.width + ((widestItemSpec.icon) ? widestItemSpec.icon.width : 0);
+
+    // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
+    var createItem = function( itemSpec ) {
+      if ( itemSpec.icon ) {
+        var strutWidth = maxWidth - itemSpec.label.width - itemSpec.icon.width + 17;
+        return new HBox( { children: [ itemSpec.label, new HStrut( strutWidth ), itemSpec.icon ] } );
+      }
+      else {
+        return new HBox( { children: [ itemSpec.label ] } );
+      }
+    };
+
+    var checkBoxOptions = {
+      boxWidth: 15,
+      spacing: 2
+    };
+
+    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), model.showReflections, checkBoxOptions );
+    var showNormalCheckBox = new CheckBox( createItem( showNormal ), model.showNormals, checkBoxOptions );
+    var showProtractorCheckBox = new CheckBox( createItem( showProtractor ), model.showProtractor,
+      checkBoxOptions );
+
+    var maxCheckBoxWidth = _.max( [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ],
+        function( item ) {
+          return item.width;
+        } ).width + 5;
+
+    //touch Areas
+    showReflectionsCheckBox.touchArea = new Bounds2( showReflectionsCheckBox.localBounds.minX - 5, showReflectionsCheckBox.localBounds.minY,
+      showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth, showReflectionsCheckBox.localBounds.maxY );
+    showNormalCheckBox.touchArea = new Bounds2( showNormalCheckBox.localBounds.minX - 5, showNormalCheckBox.localBounds.minY,
+      showNormalCheckBox.localBounds.minX + maxCheckBoxWidth, showNormalCheckBox.localBounds.maxY );
+    showProtractorCheckBox.touchArea = new Bounds2( showProtractorCheckBox.localBounds.minX - 5,
+      showProtractorCheckBox.localBounds.minY,
+      showProtractorCheckBox.localBounds.minX + maxCheckBoxWidth, showProtractorCheckBox.localBounds.maxY );
+
+    // pad all the rows so the text nodes are left aligned and the icons is right aligned
+
+    var checkBoxes = new VBox( {
+      align: 'left', spacing: 10,
+      children: [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ]
+    } );
+    content.addChild( checkBoxes );
+    // add the sensors panel
+    var sensorPanel = new Rectangle( 0, 0, content.width + 5, content.height, 10, 10, {
+      stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
+    } );
+    this.addChild( sensorPanel );
+    this.addChild( content );
+    this.addChild( environmentMediumMaterialListParent );
+    content.centerX = sensorPanel.centerX;
+    content.centerY = sensorPanel.centerY;
+    this.mutate( options );
+
+
+  }
+
+  return inherit( Node, PrismToolboxNode, {} );
+} );
+

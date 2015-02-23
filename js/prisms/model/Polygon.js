@@ -10,8 +10,9 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  //var Rectangle = require( 'KITE/Rectangle' );
   //var Vector2 = require( 'DOT/Vector2' );
+  var Shape = require( 'KITE/Shape' );
+ // var Property = require( 'AXON/Property' );
   //var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
 
   /**
@@ -22,27 +23,28 @@ define( function( require ) {
    */
   function Polygon( points, referencePointIndex ) {
 
-    this.points = [];
+    this.points = points;
     //Index for the point used as the "reference" point,
     // which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
   }
 
   return inherit( Object, Polygon, {
-    /* //Convert to a java.awt.Shape
-     toShape: function() {
-     var path = new DoubleGeneralPath( points.get( 0 ) );
-     for ( var point in points.subList( 1, points.size() ) ) {
-     path.lineTo( point );
-     }
-     path.closePath();
-     return path.getGeneralPath();
-     },
-     //Get the specified corner point
-     getPoint: function( i ) {
-     return points.get( i );
-     },
-     //Create a new Polygon translated by the specified amount
+
+    toShape: function() {
+      var shape = new Shape();
+      shape.moveTo( this.points.x || 0, this.points.y || 0 );
+      for ( var i = 1; i < this.points.length; i++ ) {
+        shape.lineTo( this.point[ i ].x, this.point[ i ].y );
+      }
+      shape.close();
+      return shape;
+    },
+    //Get the specified corner point
+    getPoint: function( i ) {
+      return this.points[ i ];
+    }
+    /*  //Create a new Polygon translated by the specified amount
      getTranslatedInstance: function( dx, dy ) {
      return new Polygon( [].withAnonymousClassBody( {
      initializer: function() {
