@@ -19,9 +19,9 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
 
   /**
-   *LinearGradient
-   * @param laserTypeProperty
-   * @param options
+   *
+   * @param {Property<Number>}laserTypeProperty
+   * @param {Object} options that can be passed on to the underlying node
    * @constructor
    */
   function LaserTypeControlPanel( laserTypeProperty, options ) {
@@ -41,10 +41,8 @@ define( function( require ) {
       { value: 2, node: createMultipleRayIcon() }
     ];
 
-    var radioButtonGroup = new RadioButtonGroup( laserTypeProperty, radioButtonContent, {
-    } );
-
-    var radioButtonPanel = new Panel( radioButtonGroup, {
+    var radioButtonPanel = new Panel( new RadioButtonGroup( laserTypeProperty,
+      radioButtonContent, {  baseColor: 'white' } ), {
       stroke: 'black',
       lineWidth: 0
     } );
@@ -53,38 +51,45 @@ define( function( require ) {
     this.mutate( options );
   }
 
+// laser node icon first rectangle
+  var laserNodeFirstRoundedRect = new Path( new Shape().roundRect( 0, 0, 7, 29, 2, 1 ), {
+    stroke: 'black',
+    lineWidth: 0.3,
+    fill: new LinearGradient( 0, 0, 0, 29 )
+      .addColorStop( 0, '#4F4E50' )
+      .addColorStop( 0.35, '#FBFCFC' )
+      .addColorStop( 0.6, '#A8AAAD' )
+      .addColorStop( 1, '#4F4E50' )
+  } );
+  // laser node icon second rectangle
+  var laserNodeSecondRoundedRect = new Path( new Shape().roundRect( 7, 3, 9, 24, 2, 1 ), {
+    stroke: 'black',
+    lineWidth: 0.3,
+    fill: new LinearGradient( 0, 0, 0, 27 )
+      .addColorStop( 0, '#4F4E50' )
+      .addColorStop( 0.4, '#FBFCFC' )
+      .addColorStop( 0.6, '#A8AAAD' )
+      .addColorStop( 1, '#4F4E50' )
+  } );
   //Create an icon for the single ray  button
   var createSingleRayIcon = function() {
-    var shape1 = new Shape().moveTo( 28, 25 ).lineTo( 28, 51 ).lineTo( 33, 50 ).lineTo( 32, 24 ).close();
-    var shape2 = new Shape().moveTo( 33, 27 ).lineTo( 33, 50 ).lineTo( 42, 49 ).lineTo( 42, 27 ).close();
-    var shape3 = new Shape().moveTo( 43, 57 ).lineTo( 75, 40 ).close();
-    var path1 = new Path( shape1, { fill: '#a4a6a9' } );
-    var path2 = new Path( shape2, { fill: '#a4a6a9' } );
-    var path3 = new Path( shape3, { stroke: 'red', lineWidth: 4 } );
-    return new HBox( { children: [ path1, path2, path3 ] } );
+    var singleRayLine = new Path( new Shape().moveTo( 17, 15 ).lineTo( 49, 15 ).close(), { stroke: 'red', lineWidth: 2 } );
+    return new HBox( { children: [ laserNodeFirstRoundedRect, laserNodeSecondRoundedRect, singleRayLine ] } );
   };
 
   //Create an icon for multiple ray button
   var createMultipleRayIcon = function() {
-    var shape1 = new Shape().moveTo( 28, 25 ).lineTo( 28, 51 ).lineTo( 33, 50 ).lineTo( 32, 24 ).close();
-    var shape2 = new Shape().moveTo( 33, 27 ).lineTo( 33, 50 ).lineTo( 42, 49 ).lineTo( 42, 27 ).close();
-    var shape3 = new Shape().moveTo( 43, 57 ).lineTo( 75, 40 ).close();
-    var path1 = new Path( shape1, {
-      stroke: 'black', fill: new LinearGradient( 0, 0, 0, 30 )
-        .addColorStop( 0.3, '#cfcfd1' )
-        .addColorStop( 0.5, '#fof1f1' )
-        .addColorStop( 0.7, '#a4a6a9' )
-        .addColorStop( 0.9, '#59595b' )
-    } );
-    var path2 = new Path( shape2, {
-      stroke: 'black', fill: new LinearGradient( 0, 0, 0, 25 )
-        .addColorStop( 0.3, 'red' )
-        .addColorStop( 0.5, 'blue' )
-        .addColorStop( 0.7, 'green' )
-        .addColorStop( 0.9, 'black' )
-    } );
-    var path3 = new Path( shape3, { stroke: 'red', lineWidth: 4 } );
-    return new HBox( { children: [ path1, path2, path3 ] } );
+
+    var manyRaysStartX = 17;
+    var manyRaysEndX = 49;
+    var multiRaysLinesShape = new Shape();
+    var manyRaysStartY = 6;
+    for ( var i = 0; i < 5; i++ ) {
+      multiRaysLinesShape.moveTo( manyRaysStartX, manyRaysStartY + i * 4 )
+        .lineTo( manyRaysEndX, manyRaysStartY + i * 4 )
+    }
+    var multiRayLine = new Path( multiRaysLinesShape, { stroke: 'red', lineWidth: 2 } );
+    return new HBox( { children: [ laserNodeFirstRoundedRect, laserNodeSecondRoundedRect, multiRayLine ] } );
   };
 
 
