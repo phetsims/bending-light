@@ -86,7 +86,7 @@ define( function( require ) {
     var manyRaysStartY = 6;
     for ( var i = 0; i < 5; i++ ) {
       multiRaysLinesShape.moveTo( manyRaysStartX, manyRaysStartY + i * 4 )
-        .lineTo( manyRaysEndX, manyRaysStartY + i * 4 )
+        .lineTo( manyRaysEndX, manyRaysStartY + i * 4 );
     }
     var multiRayLine = new Path( multiRaysLinesShape, { stroke: 'red', lineWidth: 2 } );
     return new HBox( { children: [ laserNodeFirstRoundedRect, laserNodeSecondRoundedRect, multiRayLine ] } );
