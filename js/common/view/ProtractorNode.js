@@ -52,7 +52,6 @@ define( function( require ) {
     } );
     this.addChild( this.protractorImageNode );
 
-
     var protractorImageWidth = this.protractorImageNode.getWidth();
     var protractorImageHeight = this.protractorImageNode.getHeight();
 
@@ -84,7 +83,7 @@ define( function( require ) {
       .rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
       protractorImageWidth * 0.6, protractorImageHeight * 0.15 )
       .close();
-    //Okay if it overlaps the rotation region since rotation region is in higher z layer
+
     this.innerBarShape = new Shape().rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
       protractorImageWidth * 0.6, protractorImageHeight * 0.15 );
 
@@ -99,7 +98,7 @@ define( function( require ) {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
-          protractorNode.setProtractorScale( DEFAULT_SCALE );
+          protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
         }
       },
       drag: function( event ) {
@@ -110,8 +109,9 @@ define( function( require ) {
       },
       end: function() {
         if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
-          protractorNode.setProtractorScale( protractorNode.multiScale );
-          protractorNode.protractorModel.positionProperty.reset();
+          var point2D = protractorNode.modelViewTransform.modelToViewPosition(
+            protractorNode.protractorModel.positionProperty.initialValue );
+          protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
         }
       }
     } ) );
@@ -154,6 +154,23 @@ define( function( require ) {
         this.setScaleMagnitude( scale );
         var point2D = this.modelViewTransform.modelToViewPosition( this.protractorModel.position );
         this.setTranslation( point2D.x - (this.width / 2), point2D.y - (this.height / 2 ) );
+      },
+      setProtractorScaleAnimation: function( endPoint, scale ) {
+        var startPoint = { x: this.centerX, y: this.centerY, scale: this.getScaleVector().x };
+        var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
+        this.init( startPoint, finalPosition );
+        this.protractorModel.positionProperty.set( this.modelViewTransform.viewToModelPosition( endPoint ) );
+      },
+      init: function( initialPosition, finalPosition ) {
+        var target = this;
+        new TWEEN.Tween( initialPosition )
+          .to( finalPosition, 100 )
+          .easing( TWEEN.Easing.Linear.None )
+          .onUpdate( function() {
+            target.setScaleMagnitude( initialPosition.scale );
+            target.centerX = initialPosition.x;
+            target.centerY = initialPosition.y;
+          } ).start();
       },
       /**
        * Translate the protractor, this method is called when dragging out of the toolbox
