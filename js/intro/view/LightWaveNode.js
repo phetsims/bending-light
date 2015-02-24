@@ -15,7 +15,7 @@ define( function( require ) {
   var Pattern = require( 'SCENERY/util/Pattern' );
 
   // images
-  var waveImage = require( 'image!BENDING_LIGHT/wave.PNG' );
+  var waveImage = require( 'image!BENDING_LIGHT/wave.png' );
 
   /**
    *
