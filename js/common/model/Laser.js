@@ -54,17 +54,22 @@ define( function( require ) {
         this.emissionPointProperty.reset();
         this.pivotProperty.reset();
       },
-      translate1: function( delta ) {
-        this.translate( delta.getWidth(), delta.getHeight() );
-      },
-      translate: function( dx, dy ) {
-        this.emissionPoint.set( this.emissionPoint.plus( dx, dy ) );
-        this.pivot.set( this.pivot.plus( dx, dy ) );
+      /**
+       *
+       * @param {Vector2} delta
+       */
+      translate: function( delta ) {
+        this.emissionPoint = this.emissionPoint.plus( delta );
+        this.pivot = this.pivot.plus( delta );
       },
       getDirectionUnitVector: function() {
         return this.pivot.minus( this.emissionPoint ).normalized();
       },
-      //Rotate about the fixed pivot
+
+      /**
+       * Rotate about the fixed pivot
+       * @param {Number}angle
+       */
       setAngle: function( angle ) {
         var distFromPivot = this.pivot.distance( this.emissionPoint );
         this.emissionPoint = Vector2.createPolar( distFromPivot, angle ).plus(

@@ -20,15 +20,23 @@ define( function( require ) {
   //images
   var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
 
+  /**
+   *
+   * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinate frames
+   * @param {Laser} laser
+   * @param {Number} dx
+   * @param {Number} dy
+   * @param {Property<Boolean>} showDragHandles
+   * @constructor
+   */
   function TranslationDragHandle( modelViewTransform, laser, dx, dy, showDragHandles ) {
     Node.call( this );
     var translationDragHandle = this;
-    showDragHandles.link( function() {
-      translationDragHandle.setVisible( showDragHandles.get() );
+    showDragHandles.link( function( show ) {
+      translationDragHandle.setVisible( show );
     } );
     var image = new Image( laserImage );
     //Update the location when laser pivot or emission point change
-
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty ],
       function() {
         translationDragHandle.removeAllChildren();
@@ -40,7 +48,7 @@ define( function( require ) {
           headHeight: 20,
           headWidth: 20,
           tailWidth: 10,
-          fill: 'green'
+          fill: '#33FF00'
         } );
         translationDragHandle.addChild( counterClockwiseDragArrow );
       } );

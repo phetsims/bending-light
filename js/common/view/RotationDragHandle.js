@@ -48,7 +48,7 @@ define( function( require ) {
         rotationDragHandle.setVisible( show );
     } );
     var image = new Image( laserImage,{scale:0.7} );
-    var dragArrow = new Path( null, { fill: 'green',stroke:'black',lineWidth:0.4 } );
+    var dragArrow = new Path( null, { fill: '#33FF00',stroke:'black' } );
     this.addChild( dragArrow );
 
     // convert radian to degree

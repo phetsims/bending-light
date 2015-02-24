@@ -15,12 +15,10 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  // var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var RoundStickyToggleButton = require( 'SUN/Buttons/RoundStickyToggleButton' );
   var Shape = require( 'KITE/Shape' );
-  var Property = require( 'AXON/Property' );
 
 
   // images
@@ -51,17 +49,6 @@ define( function( require ) {
     Node.call( this );
     var laserNode = this;
     var laserImage = (imageName === 'laser') ? laserWithoutImage : laserKnobImage;
-    //Properties to help identify where the mouse is so that arrows can be show
-    // indicating how the laser can be dragged
-    var draggingRotation = new Property( false );
-    var draggingTranslation = new Property( false );
-
-    draggingRotation.link( function( showRotationArrows ) {
-      showRotationDragHandles.value = showRotationArrows;
-    } );
-    draggingTranslation.link( function( showTranslationArrows ) {
-      showTranslationDragHandles.value = showTranslationArrows;
-    } );
 
     //add laser image
     var lightImage = new Image( laserImage, { scale: 0.7 } );
@@ -78,22 +65,29 @@ define( function( require ) {
     var fullRectangle = new Shape.rect( 0, 0, lightImage.getWidth(), lightImage.getHeight() );
 
     // Add the drag region for translating the laser
+    var start;
     var translationRegionPath = new Path( translationRegion( fullRectangle, frontRectangle ), { fill: dragRegionColor } );
     translationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-
+        start = laserNode.globalToParentPoint( event.pointer.point );
+        showTranslationDragHandles.value = true;
       },
       drag: function( event ) {
-        var coordinateFrame = laserNode.parents[ 0 ];
-        var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
-        laserNode.setTranslation( localLaserPosition.x, localLaserPosition.y );
+        var endDrag = laserNode.globalToParentPoint( event.pointer.point );
+        laser.translate( modelViewTransform.viewToModelDelta( endDrag.minus( start ) ) );
+        start = endDrag;
+        showTranslationDragHandles.value = true;
       },
-      end: function( event ) {}
+      end: function( ) {
+        showTranslationDragHandles.value = false;
+      }
     } ) );
     translationRegionPath.addInputListener( {
       enter: function() {
+        showTranslationDragHandles.value = true;
       },
       exit: function() {
+        showTranslationDragHandles.value = false;
       }
     } );
     this.addChild( translationRegionPath );
@@ -103,7 +97,7 @@ define( function( require ) {
     this.addChild( rotationRegionPath );
     rotationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function() {
-        draggingRotation.value = true;
+        showRotationDragHandles.value = true;
       },
       drag: function( event ) {
         var coordinateFrame = laserNode.parents[ 0 ];
@@ -119,18 +113,18 @@ define( function( require ) {
           after = MAX_ANGLE_IN_WAVE_MODE;
         }
         laser.setAngle( after );
-        draggingRotation.value = true;
+        showRotationDragHandles.value = true;
       },
       end: function() {
-        draggingRotation.value = false;
+        showRotationDragHandles.value = false;
       }
     } ) );
     rotationRegionPath.addInputListener( {
       enter: function() {
-        draggingRotation.value = true;
+        showRotationDragHandles.value = true;
       },
       exit: function() {
-        draggingRotation.value = false;
+        showRotationDragHandles.value = false;
       }
     } );
 
