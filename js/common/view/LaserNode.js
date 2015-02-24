@@ -18,7 +18,7 @@ define( function( require ) {
   // var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var RoundStickyToggleButton = require( 'SUN/Buttons/RoundStickyToggleButton' );
+  var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   var Shape = require( 'KITE/Shape' );
   var Property = require( 'AXON/Property' );
 
