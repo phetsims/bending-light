@@ -17,6 +17,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
+  var Property = require( 'AXON/Property' );
+
   // strings
   var oneColorString = require( 'string!BENDING_LIGHT/oneColor' );
   var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
@@ -44,10 +47,9 @@ define( function( require ) {
     };
 
     // Create the radio buttons
-
-    var oneColorRadio = new AquaRadioButton( laserColor, 'oneColor', createButtonTextNode( oneColorString ),
+    var oneColorRadio = new AquaRadioButton( laserColor, new LaserColor.WHITE_LIGHT(), createButtonTextNode( oneColorString ),
       AQUA_RADIO_BUTTON_OPTIONS );
-    var whiteLightRadio = new AquaRadioButton( laserColor, 'whiteLight', createButtonTextNode( whiteLightString ),
+    var whiteLightRadio = new AquaRadioButton( laserColor, new LaserColor.OneColor( wavelengthProperty.get() ), createButtonTextNode( whiteLightString ),
       AQUA_RADIO_BUTTON_OPTIONS );
 
 
@@ -65,12 +67,13 @@ define( function( require ) {
       oneColorRadio.localBounds.maxY
     );
 
+    var wavelength = new Property( wavelengthProperty.value * 1E9 );
     // Create  WavelengthSlider node
-    var wavelengthSlider = new WavelengthSlider( wavelengthProperty,
+    var wavelengthSlider = new WavelengthSlider( wavelength,
       {
         cursorStroke: 'white',
         thumbWidth: 30,
-        trackWidth:230,
+        trackWidth: 230,
         trackHeight: 25,
         tweakersVisible: false,
         valueVisible: false,
@@ -82,6 +85,9 @@ define( function( require ) {
       spacing: 10,
       children: [ oneColorRadio, whiteLightRadio, wavelengthSlider ],
       align: 'left'
+    } );
+    wavelength.link( function( wavelength ) {
+      wavelengthProperty.set( wavelength / 1E9 );
     } );
 
 

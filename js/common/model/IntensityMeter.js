@@ -102,7 +102,7 @@ define( function( require ) {
     getSensorShape: function() {
       //Fine tuned to match the given image
       var radius = 1.215E-6;
-      return new Shape().circle( this.sensorPosition.x - radius, this.sensorPosition.y - radius, radius * 2 );
+      return new Shape().circle( this.sensorPosition.x, this.sensorPosition.y, radius );
     },
     //Should be called before a model update so that values from last computation don't leak over into the next summation
     clearRayReadings: function() {

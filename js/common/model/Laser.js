@@ -27,12 +27,11 @@ define( function( require ) {
    * @constructor
    */
   function Laser( distanceFromPivot, angle, topLeftQuadrant ) {
-    this.laserColor = new LaserColor();
     this.topLeftQuadrant = topLeftQuadrant;
     PropertySet.call( this, {
         //point to be pivoted about, and at which the laser points
         pivot: new Vector2( 0, 0 ),
-        color: this.laserColor.getColor( WAVELENGTH_RED ),
+        color: new LaserColor.OneColor( WAVELENGTH_RED ),
         //True if the laser is activated and emitting light
         on: false,
         wave: false,
@@ -83,7 +82,7 @@ define( function( require ) {
         return this.emissionPoint.minus( this.pivot ).magnitude();
       },
       getWavelength: function() {
-        return this.laserColor.getWavelength();
+        return this.color.getWavelength();
       },
       getFrequency: function() {
         return SPEED_OF_LIGHT / this.getWavelength();

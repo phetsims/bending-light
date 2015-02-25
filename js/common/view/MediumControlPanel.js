@@ -60,7 +60,7 @@ define( function( require ) {
    * @param options
    * @constructor
    */
-  function MediumControlPanel( model, view, medium, name, textFieldVisible, laserWavelength, format, materialListParent ,options) {
+  function MediumControlPanel( model, view, medium, name, textFieldVisible, laserWavelength, format, materialListParent, options ) {
 
     Node.call( this );
     var mediumControlPanel = this;
@@ -207,12 +207,11 @@ define( function( require ) {
       fill: '#EEEEEE',
       xMargin: 7,
       yMargin: 7,
-      cornerRadius: 5,lineWidth:options.lineWidth
+      cornerRadius: 5, lineWidth: options.lineWidth
     } );
     this.addChild( panel );
 
     indexProperty.link( function( indexOfRefraction ) {
-      mediumControlPanel.mediumIndexOfRefraction = indexOfRefraction;
       mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
       indexOfRefractionValueText.text = indexOfRefraction.toFixed( format );
       plusButton.enabled = ( indexOfRefraction < INDEX_OF_REFRACTION_MAX);
@@ -256,8 +255,7 @@ define( function( require ) {
       var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength );
       this.setMedium( new Medium( this.medium.get().shape,
         new MediumState( customString, indexOfRefraction, false, true ),
-        mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() ),
-        this.mediumIndexOfRefraction
+        mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
       ) );
     },
 
@@ -268,7 +266,7 @@ define( function( require ) {
     setMediumState: function( mediumState ) {
       this.setMedium( new Medium( this.medium.shape, mediumState,
         this.model.mediumColorFactory.getColor(
-          mediumState.getIndexOfRefractionForRedLight() ), this.mediumIndexOfRefraction ) );
+          mediumState.getIndexOfRefractionForRedLight() ) ) );
     },
 
     /**

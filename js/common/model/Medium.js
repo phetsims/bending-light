@@ -17,13 +17,12 @@ define( function( require ) {
    * @param color
    * @constructor
    */
-  function Medium( shape, mediumState, color, mediumIndexOfRefraction ) {
+  function Medium( shape, mediumState, color ) {
 
     //immutable shape
     this.shape = shape;
     this.mediumState = mediumState;
     this.color = color;
-    this.mediumIndexOfRefraction = mediumIndexOfRefraction;
   }
 
   return inherit( Object, Medium, {

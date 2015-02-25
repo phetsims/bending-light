@@ -31,8 +31,7 @@ define( function( require ) {
   //constants
   var CHARACTERISTIC_LENGTH = 650E-9;
   var SPEED_OF_LIGHT = 2.99792458E8;
-  var WAVELENGTH_RED=  650E-9;
- // var WHITE_LIGHT;
+  var WAVELENGTH_RED = 650E-9;
 
   /**
    *
@@ -71,15 +70,12 @@ define( function( require ) {
     var prismsBreakModel = this;
     BendingLightModel.call( this, Math.PI, false,
       BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
-/*    this.laser.emissionPointProperty.link( function() {
+
+    Property.multilink( [ this.manyRays, this.laser.onProperty,
+      this.laser.emissionPointProperty, this.environmentMedium ], function() {
       prismsBreakModel.rays.clear();
       prismsBreakModel.propagateRays();
-    } );*/
-     Property.multilink( [ this.laserViewProperty, this.laser.onProperty,
-     this.laser.emissionPointProperty, this.environmentMedium], function() {
-       prismsBreakModel.rays.clear();
-       prismsBreakModel.propagateRays();
-     } );
+    } );
 
   }
 
@@ -205,7 +201,7 @@ define( function( require ) {
         var tail = this.laser.emissionPoint;
         var laserInPrism = false;//this.isLaserInPrism();
         var directionUnitVector = this.laser.getDirectionUnitVector();
-        if (this.manyRays.get()===1 ) {
+        if ( this.manyRays.get() === 1 ) {
           //This can be used to show the main central ray
           this.propagate( tail, directionUnitVector, 1.0, laserInPrism );
         }
@@ -241,7 +237,6 @@ define( function( require ) {
       if ( count > 50 || incidentRay.power < 0.001 ) {
         return;
       }
-      var color = this.laser.laserColor.getColor();
       //Check for an intersection
       var intersection = null;//this.getIntersection( incidentRay, this.prisms );
       var L = incidentRay.directionUnitVector;
@@ -288,7 +283,7 @@ define( function( require ) {
         //Add the incident ray itself
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, new Vector2( 0, 0 ), n1,
           wavelengthInN1, incidentRay.power,
-         color/* new VisibleColor( incidentRay.wavelength * 1E9 )*/,
+          new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
           waveWidth, 0, null, true, false ) );
       }
       else {
@@ -299,7 +294,7 @@ define( function( require ) {
           n1,
           wavelengthInN1,
           incidentRay.power,
-          color /*new VisibleColor( incidentRay.wavelength * 1E9 )*/,
+          new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
           waveWidth,
           0,
           null,

@@ -16,6 +16,8 @@ define( function( require ) {
   var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
   // var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
+  var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
+  var Property = require( 'AXON/Property' );
 
   //Default values
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
@@ -69,7 +71,7 @@ define( function( require ) {
 
     //List of rays in the model
     this.rays = new ObservableArray();
-
+    var bendingLightModel = this;
     //Dimensions of the model, guaranteed to be shown in entirety on the stage
     this.modelWidth = CHARACTERISTIC_LENGTH * 62;
     this.modelHeight = this.modelWidth * 0.7;
@@ -89,6 +91,15 @@ define( function( require ) {
     //Model components
     this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.3, -this.modelHeight * 0.25, -this.modelWidth * 0.2, -this.modelHeight * 0.25 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
+    this.wavelengthPropertyProperty.link( function( wavelength ) {
+      bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );
+    } );
+
+    Property.multilink( [ this.laser.onProperty, this.laser.pivotProperty, this.laser.emissionPointProperty,
+        /*this.intensityMeter.sensorPositionProperty, this.intensityMeter.enabledProperty,*/ this.laser.colorProperty, this.laserViewProperty ],
+      function() {
+        bendingLightModel.updateModel();
+      } );
   }
 
   return inherit( PropertySet, BendingLightModel, {

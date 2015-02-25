@@ -34,10 +34,10 @@ define( function( require ) {
 
     var path = new Path( new Shape().moveTo( this.viewStart.x, this.viewStart.y )
       .lineTo( this.viewEnd.x, this.viewEnd.y ), {
-      fill: new Color( color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255,
+      fill: new Color( color.getRed(), color.getGreen(), color.getBlue(),
         Math.sqrt( lightRay.getPowerFraction() ) ),
       lineWidth: 5,
-      stroke: new Color( color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255,
+      stroke: new Color( color.getRed(), color.getGreen(), color.getBlue(),
         Math.sqrt( lightRay.getPowerFraction() ) )
     } );
     //Add the PPath

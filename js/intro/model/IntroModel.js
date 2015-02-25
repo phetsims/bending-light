@@ -29,10 +29,10 @@ define( function( require ) {
     var introModel = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
     this.mediumColorFactory = new MediumColorFactory();
-    this.topMedium = new Property( new Medium( Shape.rect( -1, 0, 2, 0.3 ), BendingLightModel.AIR,
-      this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ), 1 ) );
-    this.bottomMedium = new Property( new Medium( Shape.rect( -1, -0.3, 2, 0.3 ), BendingLightModel.WATER,
-      this.mediumColorFactory.getColor( BendingLightModel.WATER.getIndexOfRefractionForRedLight() ), 1.3 ) );
+    this.topMedium = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
+      this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
+    this.bottomMedium = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), BendingLightModel.WATER,
+      this.mediumColorFactory.getColor( BendingLightModel.WATER.getIndexOfRefractionForRedLight() ) ) );
     Property.multilink( [ this.laserViewProperty, this.laser.onProperty,
       this.laser.emissionPointProperty, this.topMedium, this.bottomMedium
     ], function() {
@@ -65,8 +65,8 @@ define( function( require ) {
         //This one fixes the input beam to be a fixed width independent of angle
         var sourceWaveWidth = a / 2;
         //According to http://en.wikipedia.org/wiki/Wavelength
-        var color = this.laser.laserColor.getColor();
-        var wavelengthInTopMedium = this.laser.laserColor.getWavelength() / n1;
+        var color = this.laser.color.getColor();
+        var wavelengthInTopMedium = this.laser.color.getWavelength() / n1;
 
         // calculated wave width of reflected and refracted wave width.
         // specially used in in wave Mode
@@ -128,14 +128,12 @@ define( function( require ) {
     //Get the top medium index of refraction
 
     getN1: function() {
-      //  return this.topMedium.get().getIndexOfRefraction( this.laser.laserColor.getWavelength() );
-      return this.topMedium.get().mediumIndexOfRefraction;
+      return this.topMedium.get().getIndexOfRefraction( this.laser.color.getWavelength() );
     },
     //Get the bottom medium index of refraction
 
     getN2: function() {
-      return this.bottomMedium.get().mediumIndexOfRefraction;
-      // return this.bottomMedium.get().getIndexOfRefraction( this.laser.laserColor.getWavelength() );
+      return this.bottomMedium.get().getIndexOfRefraction( this.laser.color.getWavelength() );
     },
     /**
      * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
@@ -153,7 +151,7 @@ define( function( require ) {
           var x = intersects[ 0 ].getX() + intersects[ 1 ].getX();
           var y = intersects[ 0 ].getY() + intersects[ 1 ].getY();
           var interrupted = new LightRay( ray.tail, new Vector2( x / 2, y / 2 ),
-            ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.get().getColor(), ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), false, ray.extendBackwards );
+            ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.getColor(), ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), false, ray.extendBackwards );
           //don't let the wave intersect the intensity meter if it is behind the laser emission point
           var isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
           if ( interrupted.getLength() < ray.getLength() && isForward ) {

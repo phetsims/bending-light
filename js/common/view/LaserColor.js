@@ -9,57 +9,45 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var Color = require( 'SCENERY/util/Color' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
-  /**
-   *
-   * @constructor
-   */
-  function LaserColor() {
+  var WAVELENGTH_RED = 650E-9;
 
-  }
+  var WHITE_LIGHT = function () {
+  };
 
-//White light appears gray against a white background
-  /*  var WHITE_LIGHT = new LaserColor().withAnonymousClassBody( {
-   getWavelength: function() {
-   return BendingLightModel.WAVELENGTH_RED;
-   },
-   getColor: function() {
-   return Color.gray;
-   }
-   });*/
+  inherit( Object, WHITE_LIGHT, {
+    getWavelength: function() {
+      return WAVELENGTH_RED;
+    },
+    getColor: function() {
+      return new Color( 128, 128, 128 );
+    }
+  } );
+  var OneColor = function ( wavelength ) {
+    this.wavelength = wavelength;
+  };
 
-  // static class: OneColor
-  //var OneColor = define( function( require ) {
-  /* function OneColor( wavelength ) {
-   this.wavelength = wavelength;
-   }
+  inherit( Object, OneColor, {
+    getColor: function() {
+      return new VisibleColor.wavelengthToColor( this.wavelength * 1E9 );
+    },
+    getWavelength: function() {
+      return this.wavelength;
+    }
+  } );
 
-   return inherit( LaserColor, OneColor, {
-
-   } );*/
-  //} );
+  function LaserColor() {}
 
   return inherit( Object, LaserColor, {
-      /*   // Determine the wavelength (in nm) of the light
-       getWavelength: function() {
-       return BendingLightModel.WAVELENGTH_RED;
-       },
-       // Determine the color of the light.
-       getColor: function() {
-       return Color.gray;
-       },*/
-      getColor: function( wavelength ) {
-        this.wavelength = wavelength ? wavelength : 650E-9;
-        return new VisibleColor.wavelengthToColor( this.wavelength * 1E9 );//convert to nanometers
-      },
-      getWavelength: function() {
-        return this.wavelength;
-      }
+      //Determine the wavelength (in nm) of the light
+      getWavelength: function() {},
+      //Determine the color of the light.
+      getColor: function() {}
     },
-    // statics
     {
-      //WHITE_LIGHT: WHITE_LIGHT
+      OneColor: OneColor,
+      WHITE_LIGHT: WHITE_LIGHT
     } );
 } );
-
