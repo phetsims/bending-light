@@ -15,6 +15,7 @@ define( function( require ) {
   var ShapeIntersection = require( 'BENDING_LIGHT/prisms/model/ShapeIntersection' );
   var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
   var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
+  // var LaserColor =require( 'BENDING_LIGHT/common/view/LaserColor' );
   // var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
   var Ray = require( 'BENDING_LIGHT/prisms/model/Ray' );
   var Property = require( 'AXON/Property' );
@@ -57,11 +58,11 @@ define( function( require ) {
 
     //Environment the laser is in
     this.environmentMedium = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
-      this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ), 1 ) );
+      this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
 
     //Material that comprises the prisms
     this.prismMedium = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
-      this.mediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ), 1.3 ) );
+      this.mediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
 
 
     //Draggable and rotatable protractor
@@ -71,10 +72,8 @@ define( function( require ) {
     BendingLightModel.call( this, Math.PI, false,
       BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
 
-    Property.multilink( [ this.manyRays, this.laser.onProperty,
-      this.laser.emissionPointProperty, this.environmentMedium ], function() {
-      prismsBreakModel.rays.clear();
-      prismsBreakModel.propagateRays();
+    Property.multilink( [ this.manyRays, this.environmentMedium ], function() {
+      prismsBreakModel.updateModel();
     } );
 
   }
@@ -325,10 +324,10 @@ define( function( require ) {
        }
        } ) );*/
       return allIntersections.size() === 0 ? null : allIntersections.get( 0 );
-    },
-    clearModel: function() {
-      this.intersections.clear();
     }
+    /*  clearModel: function() {
+     this.intersections.clear();
+     }*/
   } );
 } );
 
