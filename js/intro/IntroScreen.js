@@ -5,6 +5,7 @@ define( function( require ) {
 
   // modules
   var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
+  var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
@@ -22,8 +23,8 @@ define( function( require ) {
    */
   function IntroScreen() {
     Screen.call( this, introTitleString, new Image( introMockUpImage ),
-      function() { return new IntroModel(); },
-      function( model ) { return new IntroView( model ); },
+      function() { return new IntroModel( BendingLightModel.WATER ); },
+      function( model ) { return new IntroView( model, false, false ); },
       { backgroundColor: 'white' }
     );
   }

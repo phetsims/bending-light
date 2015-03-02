@@ -23,16 +23,17 @@ define( function( require ) {
 
   /**
    *
+   * @param bottomMediumState
    * @constructor
    */
-  function IntroModel() {
+  function IntroModel( bottomMediumState ) {
     var introModel = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
     this.mediumColorFactory = new MediumColorFactory();
     this.topMedium = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
-    this.bottomMedium = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), BendingLightModel.WATER,
-      this.mediumColorFactory.getColor( BendingLightModel.WATER.getIndexOfRefractionForRedLight() ) ) );
+    this.bottomMedium = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
+      this.mediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
     Property.multilink( [ this.laserViewProperty, this.laser.onProperty,
       this.laser.emissionPointProperty, this.topMedium, this.bottomMedium
     ], function() {

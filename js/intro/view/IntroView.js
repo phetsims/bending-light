@@ -39,9 +39,10 @@ define( function( require ) {
    *
    * @param introModel
    * @param centerOffsetLeft
+   * @param hasMoreTools
    * @constructor
    */
-  function IntroView( introModel, centerOffsetLeft ) {
+  function IntroView( introModel, centerOffsetLeft, hasMoreTools ) {
     var introView = this;
     //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
     function clampDragAngle( angle ) {
@@ -87,7 +88,7 @@ define( function( require ) {
       ccwArrowNotAtMax,
       true,
       this.getProtractorRotationRegion,
-      rotationRegionShape,'laser',
+      rotationRegionShape, 'laser',
       centerOffsetLeft );
 
     //Add MediumNodes for top and bottom
@@ -132,7 +133,7 @@ define( function( require ) {
     } );
 
     //Embed in the a control panel node to get a border and background
-    var laserView = new LaserView( introModel, {} );
+    var laserView = new LaserView( introModel,hasMoreTools, {} );
     //Set the location and add to the scene
     laserView.setTranslation( 5, 5 );
     this.afterLightLayer2.addChild( laserView );
