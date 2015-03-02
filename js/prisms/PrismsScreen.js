@@ -13,7 +13,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );
+  var Property = require( 'AXON/Property' );
+  var Color = require( 'SCENERY/util/Color' );
 
+  var colorsProperty = new Property( new Color( 255, 0, 0 ) );
   // strings
   var prismsTitleString = require( 'string!BENDING_LIGHT/prisms' );
 
@@ -25,11 +28,19 @@ define( function( require ) {
    * @constructor
    */
   function PrismsScreen() {
+    var screen = this;
+    var prismModel = new PrismBreakModel();
     Screen.call( this, prismsTitleString, new Image( prismsMockUpImage ),
-      function() { return new PrismBreakModel(); },
-      function( model ) { return new PrismBreakView( model ); },
-      { backgroundColor: 'white' }
+      function() {
+        return prismModel;
+      },
+      function( model ) { return new PrismBreakView( model, colorsProperty ); },
+      { backgroundColor: colorsProperty.value.toCSS() }
     );
+    prismModel.environmentMedium.link( function( environmentMedium ) {
+      colorsProperty.value = environmentMedium.color;
+    } );
+    colorsProperty.linkAttribute( screen, 'backgroundColor' );
   }
 
   return inherit( Screen, PrismsScreen );
