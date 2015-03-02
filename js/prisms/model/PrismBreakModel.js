@@ -15,7 +15,6 @@ define( function( require ) {
   var ShapeIntersection = require( 'BENDING_LIGHT/prisms/model/ShapeIntersection' );
   var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
   var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
-  // var LaserColor =require( 'BENDING_LIGHT/common/view/LaserColor' );
   // var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
   var Ray = require( 'BENDING_LIGHT/prisms/model/Ray' );
   var Property = require( 'AXON/Property' );
@@ -41,7 +40,9 @@ define( function( require ) {
   function PrismBreakModel() {
 
 
-    this.prisms = new ObservableArray();
+    this.prisms = new ObservableArray( [], {
+      allowDuplicates: true
+    } );
 
     //show multiple beams to help show how lenses work
     this.manyRays = new Property( 1 );
@@ -101,44 +102,46 @@ define( function( require ) {
       var b = a / 4;
 
 
-      prismsTypes.push( new Prism( 3,//attach at bottom right
-        new Vector2(),
-        new Vector2( 0, a ),
-        new Vector2( a, a ),
-        new Vector2( a, 0 ) ) );
+      prismsTypes.push( new Prism( new Polygon( 3,//attach at bottom right
+        [ new Vector2(),
+          new Vector2( 0, a ),
+          new Vector2( a, a ),
+          new Vector2( a, 0 ) ] ) ) );
 
       //Triangle
-      prismsTypes.push( new Prism( 1,//attach at bottom right
-        new Vector2(),
-        new Vector2( a, 0 ),
-        new Vector2( a / 2, a * Math.sqrt( 3 ) / 2.0 ) ) );
+      prismsTypes.push( new Prism( new Polygon(
+        1,//attach at bottom right
+        [ new Vector2(),
+          new Vector2( a, 0 ),
+          new Vector2( a / 2, a * Math.sqrt( 3 ) / 2.0 ) ]
+      ) ) );
 
       //Trapezoid
-      prismsTypes.push( new Prism( 1,//attach at bottom right
-        new Vector2(),
-        new Vector2( a, 0 ),
-        new Vector2( a / 2 + b, a * Math.sqrt( 3 ) / 2.0 ),
-        new Vector2( a / 2 - b, a * Math.sqrt( 3 ) / 2.0 )
-      ) );
+      prismsTypes.push( new Prism( new Polygon( 1,//attach at bottom right
+        [ new Vector2(),
+          new Vector2( a, 0 ),
+          new Vector2( a / 2 + b, a * Math.sqrt( 3 ) / 2.0 ),
+          new Vector2( a / 2 - b, a * Math.sqrt( 3 ) / 2.0 ) ]
+      ) ) );
 
-      var radius = a / 2;
+      /*      var radius = a / 2;
 
-      //Continuous Circle
-      prismsTypes.push( new Prism( new Circle( new Vector2(), radius ) ) );
-      var polygonArray = [ new Vector2( 0, radius ),
-        new Vector2( 0, -radius ),
-        new Vector2( -radius, -radius ),
-        new Vector2( -radius, radius ) ];
-      //Continuous Semicircle
-      prismsTypes.push( new Prism( new ShapeIntersection(
-        new Circle( new Vector2(), radius ), new Polygon( polygonArray, 1 ) ) ) );
+       //Continuous Circle
+       prismsTypes.push( new Prism( new Circle( new Vector2(), radius ) ) );
+       var polygonArray = [ new Vector2( 0, radius ),
+       new Vector2( 0, -radius ),
+       new Vector2( -radius, -radius ),
+       new Vector2( -radius, radius ) ];
+       //Continuous Semicircle
+       prismsTypes.push( new Prism( new ShapeIntersection(
+       new Circle( new Vector2(), radius ), new Polygon( polygonArray, 1 ) ) ) );
 
-      //Continuous Diverging Lens
-      prismsTypes.push( new Prism( new ShapeDifference( new Polygon( [
-        new Vector2( 0, -radius ),
-        new Vector2( radius * ( 0.6 / 0.5 ), -radius ),
-        new Vector2( radius * ( 0.6 / 0.5 ), radius ),
-        new Vector2( 0, radius ) ], 1 ), new Circle( new Vector2(), radius ) ) ) );
+       //Continuous Diverging Lens
+       prismsTypes.push( new Prism( new ShapeDifference( new Polygon( [
+       new Vector2( 0, -radius ),
+       new Vector2( radius * ( 0.6 / 0.5 ), -radius ),
+       new Vector2( radius * ( 0.6 / 0.5 ), radius ),
+       new Vector2( 0, radius ) ], 1 ), new Circle( new Vector2(), radius ) ) ) );*/
       return prismsTypes;
 
     },
@@ -154,9 +157,10 @@ define( function( require ) {
       this.prisms.add( prism );
     },
     removePrism: function( prism ) {
-      //  prisms.remove( prism );
-      // prism.shape.removeObserver( updateModel );
-      //  updateModel();
+      /*      this.prisms.remove( prism );
+       prism.shape.get().removeObserver( this.updateModel );
+       this.updateModel();*/
+      //this.prims
     },
     getPrisms: function() {
       return this.prisms;

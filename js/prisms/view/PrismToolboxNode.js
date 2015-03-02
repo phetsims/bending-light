@@ -23,14 +23,39 @@ define( function( require ) {
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  // var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
+  var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   //strings
-  var prismsString = require( 'string!BENDING_LIGHT/prisms' );
+ // var prismsString = require( 'string!BENDING_LIGHT/prisms' );
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
   var showReflectionsString = require( 'string!BENDING_LIGHT/showReflections' );
   var showNormalString = require( 'string!BENDING_LIGHT/showNormal' );
   var showProtractorString = require( 'string!BENDING_LIGHT/showProtractor' );
+
+  function ThumbDragHandler( dragNode, modelViewTransform, model, prism ) {
+    var start, prismShape;
+    SimpleDragHandler.call( this, {
+      start: function( event ) {
+        start = dragNode.globalToLocalPoint( event.pointer.point );
+        prismShape = prism.copy();
+        model.addPrism( prismShape );
+        //prismNode.translate( modelViewTransform.viewToModelDelta( start ).x, modelViewTransform.viewToModelDelta( start ).y );
+      },
+      drag: function( event ) {
+        var end = ( event.pointer.point );
+        var delta = end.minus( start );
+        prismShape.translate( modelViewTransform.viewToModelDelta( delta ).x, modelViewTransform.viewToModelDelta( delta ).y );
+        start = end;
+      },
+      end: function( event ) {
+
+      }
+    } );
+  }
+
+  inherit( SimpleDragHandler, ThumbDragHandler );
 
   /**
    *
@@ -54,29 +79,26 @@ define( function( require ) {
     var content = new HBox( {
       spacing: 10
     } );
-    //Create and add Title label for the prism toolbox
-    var titleLabel = new Text( prismsString, { stroke: 'black', font: new PhetFont( 12 ) } );
-    content.addChild( titleLabel );
-
     //Move it down so it doesn't overlap the title label
     content.setTranslation( 0, 5 );
-
+    var prismPath = [];
     //Iterate over the prism prototypes in the model and create a draggable icon for each one
+    model.getPrismPrototypes().forEach( function( prism, i ) {
+      prismPath[ i ] = new Path( modelViewTransform.modelToViewShape( prism.shape.get().toShape() ), {
+        fill: '#ABA8D6',
+        stroke: '#ABA8D6'
+      } );
+      prismPath[ i ].scale( 70 / prismPath[ i ].height );
+      prismPath[ i ].addInputListener( new ThumbDragHandler( prismPath[ i ], modelViewTransform, model,
+        prism ) );
+      content.addChild( prismPath[ i ] );
+    } );
 
     //Allow the user to control the type of material in the prisms
     var environmentMediumMaterialListParent = new Node();
     content.addChild( new MediumControlPanel( model, canvas, model.prismMedium, objectsString, false, model.wavelengthProperty, 2, environmentMediumMaterialListParent, { lineWidth: 0 } ) );
 
-    //Iterate over the prism prototypes in the model and create a draggable icon for each one
-    //for ( var i = 0; model.getPrismPrototypes().length<=1; i++ ) {
-    //content.addChild( new PrismNode( modelViewTransform, model.getPrismPrototypes()[ 0 ], model.prismMedium ) );
-
-    //}
-    // content.addChild( new PrismNode( modelViewTransform, '', model.prismMedium ) );
-
-
     // add check boxes
-
     //Create an icon for the protractor check box
     var createProtractorIcon = function() {
       var protractorModel = new ProtractorModel( 0, 0 );

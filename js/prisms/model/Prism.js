@@ -46,7 +46,7 @@ define( function( require ) {
       return this.shape.get().getBounds();
     },
     translate1: function( delta ) {
-      this.translate( delta.getWidth(), delta.getHeight() );
+      this.translate( delta.x, delta.y );
     },
     rotate: function( deltaAngle ) {
       this.shape.set( this.shape.get().getRotatedInstance( deltaAngle,

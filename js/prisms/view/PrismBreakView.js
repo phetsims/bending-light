@@ -18,7 +18,7 @@ define( function( require ) {
   // var Shape = require( 'KITE/Shape' );
   // var Path = require( 'SCENERY/nodes/Path' );
   //var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
-//  var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
+  var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   //var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   // var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -37,7 +37,7 @@ define( function( require ) {
   function PrismBreakView( model ) {
 
     this.prismLayer = new Node();
-
+    var prismBreakView = this;
     //Specify how the drag angle should be clamped
     function clampDragAngle( angle ) {
       return angle;
@@ -90,7 +90,14 @@ define( function( require ) {
         right:  this.layoutBounds.right - inset
       } );
     this.addChild( laserControlPanelNode );
-
+    model.prisms.addItemAddedListener( function( item ) {
+      prismBreakView.prismLayer.addChild( new PrismNode( prismBreakView.modelViewTransform, item, model.prismMedium ) );
+    } );
+    model.prisms.addItemRemovedListener( function() {
+      for ( var i = 0; i < prismBreakView.prismLayer.getChildrenCount(); i++ ) {
+        prismBreakView.prismLayer.removeChild( prismBreakView.prismLayer.children[ i ] );
+      }
+    } );
 
     var laserTypeControlPanel = new LaserTypeControlPanel( model.manyRays, {
       top:  this.layoutBounds.top - inset,
@@ -139,6 +146,7 @@ define( function( require ) {
     var prismToolboxNode = new PrismToolboxNode( this, this.modelViewTransform, model,
       { left: this.layoutBounds.minX, bottom: this.layoutBounds.bottom - inset } );
     this.addChild( prismToolboxNode );
+
   }
 
   return inherit( BendingLightView, PrismBreakView, {

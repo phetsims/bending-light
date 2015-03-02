@@ -9,8 +9,9 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  //var Vector2 = require( 'DOT/Vector2' );
-  var SPEED_OF_LIGHT;
+
+  //constants
+  var SPEED_OF_LIGHT = 2.99792458E8;
 
   /**
    *
@@ -36,7 +37,11 @@ define( function( require ) {
   }
 
   return inherit( Object, Ray, {
-    //Gets the wavelength for this ray if it wasn't inside a medium
+
+    /**
+     * Gets the wavelength for this ray if it wasn't inside a medium
+     * @returns {number}
+     */
     getBaseWavelength: function() {
       return SPEED_OF_LIGHT / this.frequency;
     }
