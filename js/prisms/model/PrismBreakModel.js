@@ -90,6 +90,7 @@ define( function( require ) {
       this.protractorModel.reset();
       this.showNormals.reset();
       this.showProtractor.reset();
+      BendingLightModel.prototype.resetAll.call( this );
     },
     //List of prism prototypes that can be created in the sim
     getPrismPrototypes: function() {
