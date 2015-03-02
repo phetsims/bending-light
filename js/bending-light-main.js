@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var IntroScreen = require( 'BENDING_LIGHT/intro/IntroScreen' );
   var PrismsScreen = require( 'BENDING_LIGHT/prisms/PrismsScreen' );
+  var MoreToolsScreen = require( 'BENDING_LIGHT/moretools/MoreToolsScreen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
 
@@ -37,7 +38,7 @@ define( function( require ) {
   }
 
   SimLauncher.launch( function() {
-    var sim = new Sim( simTitle, [ new IntroScreen(), new PrismsScreen() ], simOptions );
+    var sim = new Sim( simTitle, [ new IntroScreen(), new PrismsScreen(), new MoreToolsScreen() ], simOptions );
     sim.start();
   } );
 } );
