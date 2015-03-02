@@ -17,10 +17,21 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
+  var Property = require( 'AXON/Property' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   // strings
   var laserString = require( 'string!BENDING_LIGHT/laser' );
   var waveString = require( 'string!BENDING_LIGHT/wave' );
+  var units_nmString = require( 'string!BENDING_LIGHT/units_nm' );
+
+  // constants
+  var PLUS_MINUS_SPACING = 4;
 
   //Ray view creates LightRayNodes and shows in the lightRayLayer
   function RAY() {
@@ -53,10 +64,11 @@ define( function( require ) {
   /**
    *
    * @param model
+   * @param hasMoreTools
    * @param options
    * @constructor
    */
-  function LaserView( model, options ) {
+  function LaserView( model, hasMoreTools, options ) {
     options = _.extend( {
       cornerRadius: 5,
       xMargin: 7,
@@ -103,13 +115,80 @@ define( function( require ) {
       ( waveRadio.localBounds.minX + maxRadioButtonWidth ),
       waveRadio.localBounds.maxY );
 
+    var content;
+    if ( hasMoreTools ) {
+      var wavelength = new Property( model.wavelengthPropertyProperty.value * 1E9 );
+      // Create  WavelengthSlider node
+      var wavelengthSlider = new WavelengthSlider( wavelength,
+        {
+          cursorStroke: 'white',
+          thumbWidth: 20,
+          thumbHeight: 20,
+          trackWidth: 170,
+          trackHeight: 20,
+          tweakersVisible: false,
+          valueVisible: false,
+          thumbTouchAreaExpandY: 10,
+          pointerAreasOverTrack: true
+        } );
 
-    var content = new VBox( {
-      spacing: 10,
-      children: [ laserRadio, waveRadio ],
-      align: 'left'
-    } );
+      var wavelengthValueText = new Text( wavelength.get() + units_nmString );
+      var wavelengthBoxShape = new Rectangle( 0, 0, 50, 18, 2, 2,
+        { fill: 'white', stroke: 'black' } );
 
+      var plusButton = new ArrowButton( 'right', function propertyPlus() {
+        wavelength.set( Math.min( wavelength.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
+      }, {
+        scale: 0.6
+      } );
+      plusButton.touchArea = new Bounds2( plusButton.localBounds.minX - 20, plusButton.localBounds.minY - 5,
+        plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
+
+      var minusButton = new ArrowButton( 'left', function propertyMinus() {
+        wavelength.set( Math.max( wavelength.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
+      }, {
+        scale: 0.6
+      } );
+      minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
+        minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
+
+      wavelengthBoxShape.centerX = wavelengthSlider.centerX;
+      wavelengthBoxShape.bottom = wavelengthSlider.top - 10;
+
+      wavelengthValueText.centerX = wavelengthBoxShape.centerX;
+      wavelengthValueText.centerY = wavelengthBoxShape.centerY;
+
+      // plus button to the right of the value
+      plusButton.left = wavelengthBoxShape.right + PLUS_MINUS_SPACING;
+      plusButton.centerY = wavelengthBoxShape.centerY;
+
+      // minus button to the left of the value
+      minusButton.right = wavelengthBoxShape.left - PLUS_MINUS_SPACING;
+      minusButton.centerY = wavelengthBoxShape.centerY;
+
+
+      var wavelengthValue = new Node( {
+        children: [ minusButton, wavelengthBoxShape, wavelengthValueText,
+          plusButton, wavelengthSlider ]
+      } );
+
+      content = new VBox( {
+        spacing: 10,
+        children: [ laserRadio, waveRadio, wavelengthValue ],
+        align: 'left'
+      } );
+      wavelength.link( function( wavelength ) {
+        model.wavelengthPropertyProperty.set( wavelength / 1E9 );
+        wavelengthValueText.text = wavelength + units_nmString;
+      } );
+    }
+    else {
+      content = new VBox( {
+        spacing: 10,
+        children: [ laserRadio, waveRadio ],
+        align: 'left'
+      } );
+    }
 
     Panel.call( this, content, options );
   }

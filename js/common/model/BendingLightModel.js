@@ -83,9 +83,7 @@ define( function( require ) {
         isPlaying: true,
         speed: 'normal',
         indexOfRefraction: 1,
-        showNormal: true,
-        topMediumIndexOfRefraction: 0,
-        bottomMediumIndexOfRefraction: 1
+        showNormal: true
       }
     );
     //Model components

@@ -49,7 +49,7 @@ define( function( require ) {
     this.model = model;
     this.lightRayLayer = new Node();
     this.lightWaveLayer = new Node();
-    this.laserView = new LaserView( model );
+    this.laserView = new LaserView( model, false );
 
     //In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP suggested this layering order:
     //laser on top
@@ -109,9 +109,9 @@ define( function( require ) {
     //Add the laser itself
     var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName/* model.visibleModelBounds */ );
     this.addChild( laserNode );
-    model.laserViewProperty.link(function(){
+    model.laserViewProperty.link( function() {
       model.laser.wave = (model.laserViewProperty.value === 'wave');
-    });
+    } );
 
     model.rays.addItemAddedListener( function( ray ) {
       var node;
@@ -129,9 +129,8 @@ define( function( require ) {
       }
 
 
-
     } );
-    model.rays.addItemRemovedListener( function(  ) {
+    model.rays.addItemRemovedListener( function() {
       for ( var i = 0; i < bendingLightView.lightRayLayer.getChildrenCount(); i++ ) {
         bendingLightView.lightRayLayer.removeChild( bendingLightView.lightRayLayer.children[ i ] );
       }
