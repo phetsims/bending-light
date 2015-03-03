@@ -28,23 +28,24 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   //strings
- // var prismsString = require( 'string!BENDING_LIGHT/prisms' );
+  // var prismsString = require( 'string!BENDING_LIGHT/prisms' );
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
   var showReflectionsString = require( 'string!BENDING_LIGHT/showReflections' );
   var showNormalString = require( 'string!BENDING_LIGHT/showNormal' );
   var showProtractorString = require( 'string!BENDING_LIGHT/showProtractor' );
 
-  function ThumbDragHandler( dragNode, modelViewTransform, model, prism ) {
-    var start, prismShape;
+  function PrismDragHandler( dragNode, modelViewTransform, model, prism ) {
+    var start;
+    var prismShape;
     SimpleDragHandler.call( this, {
       start: function( event ) {
-        start = dragNode.globalToLocalPoint( event.pointer.point );
+        start = dragNode.globalToParentPoint( event.pointer.point );
         prismShape = prism.copy();
         model.addPrism( prismShape );
         //prismNode.translate( modelViewTransform.viewToModelDelta( start ).x, modelViewTransform.viewToModelDelta( start ).y );
       },
       drag: function( event ) {
-        var end = ( event.pointer.point );
+        var end = dragNode.globalToParentPoint( ( event.pointer.point ) );
         var delta = end.minus( start );
         prismShape.translate( modelViewTransform.viewToModelDelta( delta ).x, modelViewTransform.viewToModelDelta( delta ).y );
         start = end;
@@ -55,7 +56,7 @@ define( function( require ) {
     } );
   }
 
-  inherit( SimpleDragHandler, ThumbDragHandler );
+  inherit( SimpleDragHandler, PrismDragHandler );
 
   /**
    *
@@ -89,7 +90,7 @@ define( function( require ) {
         stroke: '#ABA8D6'
       } );
       prismPath[ i ].scale( 70 / prismPath[ i ].height );
-      prismPath[ i ].addInputListener( new ThumbDragHandler( prismPath[ i ], modelViewTransform, model,
+      prismPath[ i ].addInputListener( new PrismDragHandler( prismPath[ i ], modelViewTransform, model,
         prism ) );
       content.addChild( prismPath[ i ] );
     } );

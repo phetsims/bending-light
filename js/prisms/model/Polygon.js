@@ -61,8 +61,8 @@ define( function( require ) {
     getRotatedInstance: function( angle, rotationPoint ) {
       var newPoints = [];
       for ( var k = 0; k < this.points.length; k++ ) {
-        var vectorAboutCentroid = this.points.minus( rotationPoint );
-        var rotated = vectorAboutCentroid.getRotatedInstance( angle );
+        var vectorAboutCentroid = this.points[ k ].minus( rotationPoint );
+        var rotated = vectorAboutCentroid.rotate( angle );
         newPoints.push( rotated.plus( rotationPoint ) );
       }
       return new Polygon( this.referencePointIndex, newPoints );

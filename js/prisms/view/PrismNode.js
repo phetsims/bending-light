@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2015, University of Colorado
 /**
  * Graphically depicts a draggable prism.
  *
@@ -9,7 +9,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  //var Color = require( 'SCENERY/util/Color' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Vector2 = require( 'DOT/Vector2' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -18,7 +17,6 @@ define( function( require ) {
 
   // images
   var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
-
 
   /**
    *
@@ -32,25 +30,27 @@ define( function( require ) {
     this.prism = prism;
     Node.call( this );
     var prismsNode = this;
-    //Depict drag handles on the PrismNode that allow it to be rotated
 
+    var knobHeight = 15;
     //It looks like a box on the side of the prism
     var knobNode = new Image( KnobImage );
-    this.addChild( knobNode );
+    if ( prism.shape.get().getReferencePoint() ) {
+      prismsNode.addChild( knobNode );
+    }
+
+    var previousAngle;
     knobNode.addInputListener( new SimpleDragHandler( {
-      drag: function() {
-        //Compute the angle in view coordinates (otherwise inverted y in model gives wrong angle)
-        var point1 = modelViewTransform.modelToViewPosition( prism.shape.get().getReferencePoint() );
-        var point2 = modelViewTransform.modelToViewPosition( prism.shape.get().getRotationCenter() );
-        var angle = new Vector2( point2.x - point1.x, point2.y - point1.y ).angle();
-
-        //Move the knob so its attachment point (at the right middle of the image)
-        // attaches to the corner of the prism (its reference point)
-        var offset = new Vector2( -prismsNode.getWidth() + 5, -prismsNode.getHeight() / 2 );
-        knobNode.setTranslation( offset.x, offset.y );
-
-        //Rotate so the knob is pointing away from the centroid of the prism
-        prismsNode.rotateAround( offset, angle );
+      start: function( event ) {
+        previousAngle = prism.shape.get().getRotationCenter().minus(
+          modelViewTransform.viewToModelPosition( knobNode.globalToParentPoint( event.pointer.point ) ) )
+          .angle();
+      },
+      drag: function( event ) {
+        var angle = prism.shape.get().getRotationCenter().minus(
+          modelViewTransform.viewToModelPosition( knobNode.globalToParentPoint( event.pointer.point ) ) )
+          .angle();
+        prism.rotate( angle - previousAngle );
+        previousAngle = angle;
       }
     } ) );
 
@@ -58,8 +58,9 @@ define( function( require ) {
       fill: prismMedium.get().color,
       stroke: prismMedium.get().color.darkerColor( 0.9 )
     } );
-    var start;
     this.addChild( prismTranslationNode );
+
+    var start;
     prismTranslationNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = prismsNode.globalToParentPoint( event.pointer.point );
@@ -69,21 +70,32 @@ define( function( require ) {
         prism.translate1( modelViewTransform.viewToModelDelta(
           end.minus( start ) ) );
         start = end;
-      },
-      end: function() {
-
       }
     } ) );
-    prismMedium.link( function() {
-      prismTranslationNode.fill = prismMedium.get().color;
-      prismTranslationNode.stroke = prismMedium.get().color.darkerColor( 0.9 );
-    } );
+
     prism.shape.link( function() {
       prismTranslationNode.setShape(
         modelViewTransform.modelToViewShape( prism.shape.value.toShape() ) );
-         } );
 
+      if ( prism.shape.get().getReferencePoint() ) {
 
+        knobNode.resetTransform();
+        knobNode.setScaleMagnitude( knobHeight / knobNode.height );
+        var angle = modelViewTransform.modelToViewPosition( prism.shape.get().getRotationCenter() ).minus(
+          modelViewTransform.modelToViewPosition( prism.shape.get().getReferencePoint() ) ).angle();
+        var offsetX = -knobNode.getWidth() - 7;
+        var offsetY = -knobNode.getHeight() / 2 - 8;
+        knobNode.rotateAround( new Vector2( -offsetX, -offsetY ), angle );
+        var knobPosition = modelViewTransform.modelToViewPosition( prism.shape.get().getReferencePoint() );
+        knobNode.setTranslation( knobPosition.x, knobPosition.y );
+        knobNode.translate( offsetX, offsetY );
+      }
+    } );
+    prismMedium.link( function( prismMedium ) {
+      var color = prismMedium.color;
+      prismTranslationNode.fill = color;
+      prismTranslationNode.stroke = color.darkerColor( 0.9 );
+    } );
   }
 
   return inherit( Node, PrismNode, {} );

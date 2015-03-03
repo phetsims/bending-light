@@ -1,7 +1,6 @@
 // Copyright 2002-2015, University of Colorado
 /**
- * Shape that comprises a prism.
- * Immutable here but composed with a Property<Polygon> in Prism for mutability.
+ * Circle implementation for use in prisms
  *
  * @author Sam Reid
  */
@@ -10,116 +9,100 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Shape = require( 'KITE/Shape' );
-  // var Property = require( 'AXON/Property' );
-  //var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
+  var Rectangle = require( 'DOT/Rectangle' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
 
   /**
    *
-   * @param referencePointIndex
-   * @param points
+   * @param center
+   * @param radius
    * @constructor
    */
-  function Polygon( referencePointIndex, points ) {
+  function Circle( center, radius ) {
 
-    this.points = points;
-    //Index for the point used as the "reference" point,
-    // which is used as the drag handle corner for rotation
-    this.referencePointIndex = referencePointIndex;
+    this.center = center;
+    this.radius = radius;
   }
 
-  return inherit( Object, Polygon, {
-
+  return inherit( Object, Circle, {
     toShape: function() {
-      var shape = new Shape();
-      shape.moveTo( this.points[ 0 ].x || 0, this.points[ 0 ].y || 0 );
-      for ( var i = 1; i < this.points.length; i++ ) {
-        shape.lineTo( this.points[ i ].x, this.points[ i ].y );
-      }
-      shape.close();
-      return shape;
-    },
-    /**
-     * Get the specified corner point
-     * @param i
-     * @returns {*}
-     */
-    getPoint: function( i ) {
-      return this.points[ i ];
+      return this.toEllipse();
     },
 
+    toEllipse: function() {
+      return new Shape.ellipse( this.center.x - this.radius, this.center.y - this.radius,
+        this.radius * 2, this.radius * 2 );
+    },
+    /**
+     *
+     * @param dx
+     * @param dy
+     * @returns {Circle}
+     */
     getTranslatedInstance: function( dx, dy ) {
-
-      var newPoints = [];
-      for ( var j = 0; j < this.points.length; j++ ) {
-        newPoints.push( this.points[ j ].plus( new Vector2( dx, dy ) ) );
-      }
-      return new Polygon( this.referencePointIndex, newPoints );
+      return new Circle( this.center.plus( new Vector2( dx, dy ) ), this.radius );
     },
-    //Gets a rotated copy of this polygon
+    /**
+     * Finds the intersections between the edges of the circle and the specified ray
+     * @param ray
+     * @returns {Array}
+     */
+    getIntersections: function( ray ) {
+      //Find the line segment corresponding to the specified ray
+      // var line = new Line2D.Number( ray.tail.toPoint2D(), ray.tail.plus( ray.directionUnitVector ).toPoint2D() );
+      //Find the intersections between the infinite line (not a segment) and the circle
+      var intersectionArray = [];// MathUtil.getLineCircleIntersection( toEllipse(), line );
+      //Convert Point2D => Intersection instances
+      var intersectionList = [];
+      for ( var intersectionPoint in intersectionArray ) {
+        //Filter out getLineCircleIntersection nulls, which are returned if there is no intersection
+        if ( intersectionPoint !== null ) {
+          var vector = new Vector2( intersectionPoint ).minus( ray.tail );
+          //Only consider intersections that are in front of the ray
+          if ( vector.dot( ray.directionUnitVector ) > 0 ) {
+            var normalVector = intersectionPoint.minus(
+              this.center ).normalized();
+            if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
+              normalVector = normalVector.negated();
+            }
+            intersectionList.add( new Intersection( normalVector, intersectionPoint ) );
+          }
+        }
+      }
+      return intersectionList;
+    },
+    getBounds: function() {
+      return new Rectangle( this.center.x - this.radius, this.center.y - this.radius,
+        this.radius * 2, this.radius * 2 );
+    },
+    /**
+     *
+     * @param angle
+     * @param rotationPoint
+     * @returns {Circle}
+     */
     getRotatedInstance: function( angle, rotationPoint ) {
-      var newPoints = [];
-      for ( var k = 0; k < this.points.length; k++ ) {
-        var vectorAboutCentroid = this.points.minus( rotationPoint );
-        var rotated = vectorAboutCentroid.getRotatedInstance( angle );
-        newPoints.push( rotated.plus( rotationPoint ) );
-      }
-      return new Polygon( this.referencePointIndex, newPoints );
+      // we create a new circle with a rotated center point
+      var vectorAboutCentroid = this.getRotationCenter().minus( rotationPoint );
+      var rotated = vectorAboutCentroid.getRotatedInstance( angle );
+      return new Circle( rotated.plus( rotationPoint ), this.radius );
     },
-    //Lists the corner points
-    toPointArray: function() {
-      var array = [];
-      for ( var i = 0; i < this.points.length; i++ ) {
-        array[ i ] = this.points[ i ];
-      }
-      return array;
-    },
-    containsPoint: function( point ) {
-      return this.toShape().containsPoint( point );
-    },
-    //Just use the 0th point for the reference point for rotation drag handles
-    getReferencePoint: function() {
-      return this.getPoint( this.referencePointIndex );
-    },
-    //Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal "mass")
     getRotationCenter: function() {
-      return this.getCentroid( this.points );
+      return this.center;
+    },
+    //  Signify that the circle can't be rotated
+    getReferencePoint: function() {
+      // return new Option.None();
     },
     /**
      *
-     * @param p
-     * @returns {Vector2}
+     * @param point
+     * @returns {boolean}
      */
-    getCentroid: function( p ) {
-      var cx = 0;
-      var cy = 0;
-      for ( var i = 0; i < p.length; i++ ) {
-        var j = ( i + 1 ) % p.length;
-        var n = ( ( p[ i ].x * p[ j ].y ) - ( p[ j ].x * p[ i ].y ) );
-        cx += ( p[ i ].x + p[ j ].x ) * n;
-        cy += ( p[ i ].y + p[ j ].y ) * n;
-      }
-      var a = this.getArea( p );
-      var f = 1 / ( a * 6);
-      cx *= f;
-      cy *= f;
-      return new Vector2( cx, cy );
-    },
-    /**
-     *
-     * @param p
-     * @returns {number}
-     */
-    getArea: function( p ) {
-      var a = 0;
-      for ( var i = 0; i < p.length; i++ ) {
-        var j = ( i + 1 ) % p.length;
-        a += ( p[ i ].x * p[ j ].y );
-        a -= ( p[ j ].x * p[ i ].y );
-      }
-      a *= 0.5;
-      return a;
+    containsPoint: function( point ) {
+      return point.distance( this.center ) <= this.radius;
     }
   } );
 } );
