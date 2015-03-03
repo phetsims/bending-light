@@ -99,7 +99,7 @@ define( function( require ) {
       start: function( event ) {
         fromSensorPanel = false;
         toSensorPanel = false;
-        start = sensorNode.globalToParentPoint( event.pointer.point );
+        start = intensityMeterNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
           intensityMeterNode.setScaleMagnitude( 1 );
           fromSensorPanel = true;
@@ -111,7 +111,7 @@ define( function( require ) {
         }
       },
       drag: function( event ) {
-        var end = sensorNode.globalToParentPoint( event.pointer.point );
+        var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
           intensityMeterNode.dragAll( end.minus( start ) );
         }
@@ -120,7 +120,7 @@ define( function( require ) {
         }
         start = end;
       },
-      end: function( event ) {
+      end: function() {
         // check intersection only with the outer rectangle.
         if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
           toSensorPanel = true;
@@ -190,7 +190,7 @@ define( function( require ) {
       start: function( event ) {
         fromSensorPanel = false;
         toSensorPanel = false;
-        start = bodyNode.globalToParentPoint( event.pointer.point );
+        start = intensityMeterNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
           intensityMeterNode.setScaleMagnitude( 1 );
           fromSensorPanel = true;
@@ -202,7 +202,7 @@ define( function( require ) {
         }
       },
       drag: function( event ) {
-        var end = bodyNode.globalToParentPoint( event.pointer.point );
+        var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
           intensityMeterNode.dragAll( end.minus( start ) );
         }
@@ -211,7 +211,7 @@ define( function( require ) {
         }
         start = end;
       },
-      end: function( event ) {
+      end: function() {
         // check intersection only with the outer rectangle.
         if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
           toSensorPanel = true;
