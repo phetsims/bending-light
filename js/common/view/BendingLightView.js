@@ -42,7 +42,7 @@ define( function( require ) {
                              ccwArrowNotAtMax, showNormal, laserTranslationRegion, laserRotationRegion,
                              laserImageName, centerOffsetLeft ) {
 
-    ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
+    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
     this.showProtractor = new BooleanProperty( true );
