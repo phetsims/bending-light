@@ -97,20 +97,16 @@ define( function( require ) {
 
     var IndexOfRefractionDecimals = 2;
     //Add control panels for setting the index of refraction for each medium
-    var topMediumMaterialListParent = new Node();
-    var topMediumControlPanel = new MediumControlPanel( introModel, this, introModel.topMedium,
-      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, topMediumMaterialListParent );
+    var topMediumControlPanel = new MediumControlPanel( this, introModel.topMedium,
+      materialString, true, introModel.wavelengthPropertyProperty, IndexOfRefractionDecimals );
     topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
     this.afterLightLayer2.addChild( topMediumControlPanel );
-    this.afterLightLayer2.addChild( topMediumMaterialListParent );
 
     //Add control panels for setting the index of refraction for each medium
-    var bottomMaterialListParent = new Node();
-    var bottomMediumControlPanel = new MediumControlPanel( introModel, this, introModel.bottomMedium,
-      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, bottomMaterialListParent );
+    var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMedium,
+      materialString, true, introModel.wavelengthPropertyProperty, IndexOfRefractionDecimals );
     bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) + 10 );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
-    this.afterLightLayer2.addChild( bottomMaterialListParent );
 
     //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
     this.beforeLightLayer.addChild( new Path( this.modelViewTransform.modelToViewShape(
@@ -133,7 +129,7 @@ define( function( require ) {
     } );
 
     //Embed in the a control panel node to get a border and background
-    var laserView = new LaserView( introModel,hasMoreTools, {} );
+    var laserView = new LaserView( introModel, hasMoreTools, {} );
     //Set the location and add to the scene
     laserView.setTranslation( 5, 5 );
     this.afterLightLayer2.addChild( laserView );

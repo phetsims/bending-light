@@ -97,7 +97,7 @@ define( function( require ) {
 
     //Allow the user to control the type of material in the prisms
     var environmentMediumMaterialListParent = new Node();
-    content.addChild( new MediumControlPanel( model, canvas, model.prismMedium, objectsString, false, model.wavelengthProperty, 2, environmentMediumMaterialListParent, { lineWidth: 0 } ) );
+    content.addChild( new MediumControlPanel( environmentMediumMaterialListParent, model.prismMedium, objectsString, false, model.wavelengthPropertyProperty, 2, { lineWidth: 0 } ) );
 
     // add check boxes
     //Create an icon for the protractor check box

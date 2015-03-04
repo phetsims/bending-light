@@ -78,12 +78,10 @@ define( function( require ) {
 
     var IndexOfRefractionDecimals = 2;
     //Add control panels for setting the index of refraction for each medium
-    var environmentMediumMaterialListParent = new Node();
-    var environmentMediumControlPanel = new MediumControlPanel( model, this, model.environmentMedium,
-      'Environment', true, model.wavelengthProperty, IndexOfRefractionDecimals, environmentMediumMaterialListParent );
+    var environmentMediumControlPanel = new MediumControlPanel( this, model.environmentMedium,
+      'Environment', true, model.wavelengthPropertyProperty, IndexOfRefractionDecimals );
     environmentMediumControlPanel.setTranslation( this.layoutBounds.right - inset - environmentMediumControlPanel.width, this.layoutBounds.top + inset );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
-    this.afterLightLayer2.addChild( environmentMediumMaterialListParent );
     var laserControlPanelNode = new LaserControlPanelNode( model.laser.colorProperty,
       model.wavelengthPropertyProperty, {
         bottom: this.layoutBounds.bottom - 200,

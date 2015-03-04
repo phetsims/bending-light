@@ -49,18 +49,16 @@ define( function( require ) {
 
   /**
    *
-   * @param model
    * @param view
    * @param medium
    * @param name
    * @param textFieldVisible
    * @param laserWavelength
    * @param format
-   * @param materialListParent
    * @param options
    * @constructor
    */
-  function MediumControlPanel( model, view, medium, name, textFieldVisible, laserWavelength, format, materialListParent, options ) {
+  function MediumControlPanel( view, medium, name, textFieldVisible, laserWavelength, format, options ) {
 
     Node.call( this );
     var mediumControlPanel = this;
@@ -74,14 +72,10 @@ define( function( require ) {
     }, options );
     this.medium = medium; //The medium to observe
     this.laserWavelength = laserWavelength;
-    this.model = model;
     var initialMediumState = medium.get().getMediumState();
     this.lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
-
-
     var CUSTOM = new MediumState( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
-    var indexProperty = new Property( medium.value.getIndexOfRefraction( laserWavelength ) );
-
+    this.custom = true;
     // add material combo box
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
     var maxWidth = 140;
@@ -93,37 +87,35 @@ define( function( require ) {
         children: [ itemName, new HStrut( strutWidth ) ]
       } ), item );
     };
-
     var mediumStates = [ BendingLightModel.AIR, BendingLightModel.WATER, BendingLightModel.GLASS, BendingLightModel.MYSTERY_A, BendingLightModel.MYSTERY_B, CUSTOM ];
-    var materialProperty = new Property( medium.get().mediumState );
-
+    var comboBoxMediumState = new Property( initialMediumState );
     var updateComboBox = function() {
       var selected = -1;
       for ( var i = 0; i < mediumStates.length; i++ ) {
         var mediumState = mediumStates[ i ];
-        if ( mediumState.dispersionFunction.getIndexOfRefraction( laserWavelength ) === medium.get().getIndexOfRefraction( laserWavelength ) ) {
+        if ( mediumState.dispersionFunction.getIndexOfRefraction( mediumControlPanel.laserWavelength.get() ) === medium.get().getIndexOfRefraction( mediumControlPanel.laserWavelength.get() ) ) {
           selected = i;
         }
       }
       //Only set to a different substance if "custom" wasn't specified.
       // Otherwise pressing "air" then "custom" will make the combobox jump back to "air"
       if ( selected !== -1 && !medium.get().getMediumState().custom ) {
-        materialProperty.set( mediumStates[ selected ] );
+        comboBoxMediumState.set( mediumStates[ selected ] );
+        mediumControlPanel.custom = false;
       }
       else {
         //No match to a named medium, so it must be a custom medium
-        materialProperty.set( CUSTOM );
+        comboBoxMediumState.set( CUSTOM );
+        mediumControlPanel.custom = true;
       }
     };
-
     // items
     var items = [];
     for ( var i = 0; i < mediumStates.length; i++ ) {
       var material = mediumStates[ i ];
       items[ i ] = createItem( material );
     }
-
-    var materialComboBox = new ComboBox( items, materialProperty, materialListParent, {
+    var materialComboBox = new ComboBox( items, comboBoxMediumState, view, {
       labelNode: materialTitle,
       listPosition: 'below',
       buttonXMargin: 5,
@@ -135,12 +127,16 @@ define( function( require ) {
 
     var textOptions = { font: new PhetFont( 12 ) };
     var indexOfRefractionLabel = new Text( textFieldVisible ? indexOfRefractionColonString : indexOfRefractionString, textOptions );
-    var indexOfRefractionValueText = new Text( indexProperty.get().toFixed( format ), textOptions );
-    this.indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 50, 20, 2, 2,
-      { fill: 'white', stroke: 'black' } );
+    var mediumIndexProperty = new Property( medium.get().getIndexOfRefraction( this.laserWavelength.get() ) );
+    var indexOfRefractionValueText = new Text( mediumIndexProperty.get().toFixed( format ), textOptions );
+    var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 50, 20, 2, 2, {
+      fill: 'white',
+      stroke: 'black'
+    } );
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
-      indexProperty.set( Util.toFixedNumber( Math.min( indexProperty.get() + 1 / Math.pow( 10, format ),
+      mediumControlPanel.custom = true;
+      mediumIndexProperty.set( Util.toFixedNumber( Math.min( mediumIndexProperty.get() + 1 / Math.pow( 10, format ),
         INDEX_OF_REFRACTION_MAX ), format ) );
     }, {
       scale: 0.7
@@ -149,7 +145,8 @@ define( function( require ) {
       plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
 
     var minusButton = new ArrowButton( 'left', function propertyMinus() {
-      indexProperty.set( Util.toFixedNumber( Math.max( indexProperty.get() - 1 / Math.pow( 10, format ),
+      mediumControlPanel.custom = true;
+      mediumIndexProperty.set( Util.toFixedNumber( Math.max( mediumIndexProperty.get() - 1 / Math.pow( 10, format ),
         INDEX_OF_REFRACTION_MIN ), format ) );
     }, {
       scale: 0.7
@@ -157,16 +154,16 @@ define( function( require ) {
     minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
       minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
 
-    indexOfRefractionValueText.centerX = this.indexOfRefractionReadoutBoxShape.centerX;
-    indexOfRefractionValueText.centerY = this.indexOfRefractionReadoutBoxShape.centerY;
+    indexOfRefractionValueText.centerX = indexOfRefractionReadoutBoxShape.centerX;
+    indexOfRefractionValueText.centerY = indexOfRefractionReadoutBoxShape.centerY;
 
     // plus button to the right of the value
-    plusButton.left = this.indexOfRefractionReadoutBoxShape.right + PLUS_MINUS_SPACING;
-    plusButton.centerY = this.indexOfRefractionReadoutBoxShape.centerY;
+    plusButton.left = indexOfRefractionReadoutBoxShape.right + PLUS_MINUS_SPACING;
+    plusButton.centerY = indexOfRefractionReadoutBoxShape.centerY;
 
     // minus button to the left of the value
-    minusButton.right = this.indexOfRefractionReadoutBoxShape.left - PLUS_MINUS_SPACING;
-    minusButton.centerY = this.indexOfRefractionReadoutBoxShape.centerY;
+    minusButton.right = indexOfRefractionReadoutBoxShape.left - PLUS_MINUS_SPACING;
+    minusButton.centerY = indexOfRefractionReadoutBoxShape.centerY;
 
     indexOfRefractionLabel.right = minusButton.left - 10;
     indexOfRefractionLabel.centerY = minusButton.centerY;
@@ -174,15 +171,17 @@ define( function( require ) {
     var airTitle = new Text( airString );
     var waterTitle = new Text( waterString );
     var glassTitle = new Text( glassString );
-
-    var indexOfRefractionSlider = new HSlider( indexProperty,
+    var indexOfRefractionSlider = new HSlider( mediumIndexProperty,
       { min: INDEX_OF_REFRACTION_MIN, max: INDEX_OF_REFRACTION_MAX },
       {
         trackFill: 'white',
         trackSize: new Dimension2( 160, 1 ),
         thumbSize: new Dimension2( 10, 20 ),
         majorTickLength: 15,
-        tickLabelSpacing: 3
+        tickLabelSpacing: 3,
+        startDrag: function() {
+          mediumControlPanel.custom = true;
+        }
       } );
     indexOfRefractionSlider.addMajorTick( BendingLightModel.AIR.getIndexOfRefractionForRedLight(), airTitle );
     indexOfRefractionSlider.addMajorTick( BendingLightModel.WATER.getIndexOfRefractionForRedLight(), waterTitle );
@@ -194,52 +193,57 @@ define( function( require ) {
       centerY: indexOfRefractionSlider.centerY
     } );
 
-    var indexOfRefraction = new Node( {
-      children: [ indexOfRefractionLabel, minusButton, this.indexOfRefractionReadoutBoxShape, indexOfRefractionValueText, plusButton, unknown ]
+    var indexOfRefractionNode = new Node( {
+      children: [ indexOfRefractionLabel, minusButton, indexOfRefractionReadoutBoxShape, indexOfRefractionValueText, plusButton, unknown ]
     } );
 
-    var panelVBox = new VBox( {
-      children: [ materialComboBox, indexOfRefraction, indexOfRefractionSlider ],
+    var mediumPanelVBox = new VBox( {
+      children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider ],
       spacing: 10
     } );
 
-    var panel = new Panel( panelVBox, {
+    var mediumPanel = new Panel( mediumPanelVBox, {
       fill: '#EEEEEE',
       xMargin: 7,
       yMargin: 7,
       cornerRadius: 5, lineWidth: options.lineWidth
     } );
-    this.addChild( panel );
+    this.addChild( mediumPanel );
 
-    indexProperty.link( function( indexOfRefraction ) {
-      mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
-      indexOfRefractionValueText.text = indexOfRefraction.toFixed( format );
-      plusButton.enabled = ( indexOfRefraction < INDEX_OF_REFRACTION_MAX);
-      minusButton.enabled = ( indexOfRefraction > INDEX_OF_REFRACTION_MIN );
-    } );
+    Property.multilink( [ medium, this.laserWavelength ],
+      function() {
+        mediumControlPanel.custom = medium.get().getMediumState().custom;
+        mediumIndexProperty.set( medium.get().getIndexOfRefraction( mediumControlPanel.laserWavelength.get() ) );
+        indexOfRefractionValueText.text = medium.get().getIndexOfRefraction( laserWavelength.get() ).toFixed( format );
+      } );
 
-    materialProperty.link( function( value ) {
-      updateComboBox();
-      if ( !value.custom ) {
-        mediumControlPanel.setMediumState( value );
-      }
-      else //If it was custom, then use the the index of refraction but keep the name as "custom"
-      {
-        mediumControlPanel.setMediumState( new MediumState( value.name, mediumControlPanel.lastNonMysteryIndexAtRed, value.mystery, value.custom ) );
-      }
-      mediumControlPanel.setMediumState( value );
-    } );
+
     medium.link( function() {
-      updateComboBox();
+      indexOfRefractionNode.setVisible( !medium.get().isMystery() );
+      unknown.setVisible( medium.get().isMystery() );
       indexOfRefractionSlider.setVisible( !medium.get().isMystery() );
-      indexOfRefraction.setVisible( !medium.get().isMystery() );
+      updateComboBox();
       if ( !medium.get().isMystery() ) {
         mediumControlPanel.lastNonMysteryIndexAtRed = medium.get().getIndexOfRefraction( BendingLightModel.WAVELENGTH_RED );
       }
-      unknown.setVisible( medium.get().isMystery() );
+    } );
+    comboBoxMediumState.link( function( selected ) {
+      if ( !selected.custom ) {
+        mediumControlPanel.setMediumState( selected );
+      }
+      //If it was custom, then use the the index of refraction but keep the name as "custom"
+      else {
+        mediumControlPanel.setMediumState( new MediumState( selected.name, mediumControlPanel.lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
+      }
     } );
 
-
+    mediumIndexProperty.link( function( indexOfRefraction ) {
+      if ( mediumControlPanel.custom ) {
+        mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
+      }
+      plusButton.enabled = ( indexOfRefraction < INDEX_OF_REFRACTION_MAX);
+      minusButton.enabled = ( indexOfRefraction > INDEX_OF_REFRACTION_MIN );
+    } );
   }
 
   return inherit( Node, MediumControlPanel, {
@@ -252,7 +256,7 @@ define( function( require ) {
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
       //Have to pass the value through the dispersion function to account for the
       // current wavelength of the laser (since index of refraction is a function of wavelength)
-      var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength );
+      var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );
       this.setMedium( new Medium( this.medium.get().shape,
         new MediumState( customString, indexOfRefraction, false, true ),
         mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
@@ -265,7 +269,7 @@ define( function( require ) {
      */
     setMediumState: function( mediumState ) {
       this.setMedium( new Medium( this.medium.shape, mediumState,
-        this.model.mediumColorFactory.getColor(
+        mediumColorFactory.getColor(
           mediumState.getIndexOfRefractionForRedLight() ) ) );
     },
 
