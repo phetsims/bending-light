@@ -13,6 +13,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Pattern = require( 'SCENERY/util/Pattern' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // images
   var waveImage = require( 'image!BENDING_LIGHT/wave.png' );
@@ -49,8 +50,10 @@ define( function( require ) {
   return inherit( Node, LightWaveNode, {
     step: function() {
       // just change the pattern index property;
-      this.patternIndex = (this.patternIndex + 1) % this.patterns.length;
-      this.wavePath.fill = this.patterns[ this.patternIndex ];
+      //this.patternIndex = (this.patternIndex + 1) % this.patterns.length;
+      //this.wavePath.fill = this.patterns[ this.patternIndex ];
+      var newPos = this.wavePath.getTranslation().plus( this.modelViewTransform.modelToViewDelta( Vector2.createPolar( this.lightRay.wavelength / 60, this.lightRay.getAngle() ) ) );
+      this.wavePath.setTranslation( newPos.x, newPos.y );
 
     }
   } );
