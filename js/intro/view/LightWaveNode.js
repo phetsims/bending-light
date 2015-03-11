@@ -16,6 +16,7 @@ define( function( require ) {
 
   // images
   var waveImage = require( 'image!BENDING_LIGHT/wave.png' );
+  var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
 
   /**
    *
@@ -26,17 +27,32 @@ define( function( require ) {
 
   function LightWaveNode( modelViewTransform, lightRay ) {
     Node.call( this, { pickable: false } );
-    var testPattern = new Pattern( waveImage );
+
+    this.patternIndex = 0;
+
+    this.lightRay = lightRay;
+    this.modelViewTransform = modelViewTransform;
+
+    this.patterns = [];
+    this.patterns.push( new Pattern( waveImage ) );
+    this.patterns.push( new Pattern( knobImage ) );
     //Set the path based on the light ray shape
     //PPath that shows the oscillating wave view for the LightRay
-    var wavePath = new Path( modelViewTransform.modelToViewShape( lightRay.getWaveShape() ), {
-      stroke: 'red', fill: testPattern
+    this.wavePath = new Path( modelViewTransform.modelToViewShape( lightRay.getWaveShape() ), {
+      stroke: 'red', fill: this.patterns[ this.patternIndex ]
     } );
-    this.addChild( wavePath );
+    this.addChild( this.wavePath );
 
     // todo: need to add  gradient to waves
   }
 
-  return inherit( Node, LightWaveNode );
+  return inherit( Node, LightWaveNode, {
+    step: function() {
+      // just change the pattern index property;
+      this.patternIndex = (this.patternIndex + 1) % this.patterns.length;
+      this.wavePath.fill = this.patterns[ this.patternIndex ];
+
+    }
+  } );
 } );
 

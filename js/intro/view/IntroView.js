@@ -27,6 +27,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var EventTimer = require( 'PHET_CORE/EventTimer' );
 
   //strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -44,6 +45,7 @@ define( function( require ) {
    */
   function IntroView( introModel, centerOffsetLeft, hasMoreTools ) {
     var introView = this;
+    this.introModel = introModel;
     //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
     function clampDragAngle( angle ) {
       while ( angle < 0 ) { angle += Math.PI * 2; }
@@ -210,9 +212,29 @@ define( function( require ) {
       speedControl.visible = (laserType === 'wave');
     } );
 
+    // call stepInternal at a rate of 8 times per second
+    this.timer = new EventTimer( new EventTimer.UniformEventModel( 8, Math.random ), function() {
+      introView.stepInternal();
+    } );
+
   }
 
   return inherit( BendingLightView, IntroView, {
+    step: function( dt ) {
+      if ( this.introModel.isPlaying ) {
+        this.timer.step( dt );
+      }
+
+    },
+
+    stepInternal: function() {
+      var lightWaves = this.lightWaveLayer.getChildren();
+      for ( var i = 0; i < lightWaves.length; i++ ) {
+        lightWaves[ i ].step();
+      }
+
+    },
+
     createNode: function( transform, showTool, x, y ) {
       return this.newProtractorNode( transform, showTool, x, y );
     },
