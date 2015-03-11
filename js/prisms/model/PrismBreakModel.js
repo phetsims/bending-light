@@ -11,9 +11,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  var ShapeDifference = require( 'BENDING_LIGHT/prisms/model/ShapeDifference' );
-  var ShapeIntersection = require( 'BENDING_LIGHT/prisms/model/ShapeIntersection' );
-  var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
+  //var ShapeDifference = require( 'BENDING_LIGHT/prisms/model/ShapeDifference' );
+  //var ShapeIntersection = require( 'BENDING_LIGHT/prisms/model/ShapeIntersection' );
+//  var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
   var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
   // var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
   var Ray = require( 'BENDING_LIGHT/prisms/model/Ray' );

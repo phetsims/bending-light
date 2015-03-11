@@ -23,7 +23,7 @@ define( function( require ) {
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
+  //var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   var Path = require( 'SCENERY/nodes/Path' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 

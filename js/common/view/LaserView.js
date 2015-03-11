@@ -18,7 +18,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
+  //var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
