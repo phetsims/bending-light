@@ -144,16 +144,16 @@ define( function( require ) {
      * @returns {*}
      */
     addAndAbsorb: function( ray ) {
-      var rayAbsorbed = false;//=ray.intersects( this.intensityMeter.getSensorShape() ) && this.intensityMeter.enabled.get();
+      //Find intersection points with the intensity sensor
+      var intersects = ray.getIntersections( this.intensityMeter.getSensorShape() );
+      //If it intersected, then absorb the ray
+      var rayAbsorbed = this.intensityMeter.enabled && intersects.length > 0;
       if ( rayAbsorbed ) {
-        //Find intersection points with the intensity sensor
-        var intersects = false;// getLineCircleIntersection( this.intensityMeter.getSensorShape(), ray.toLine2D() );
-        //If it intersected, then absorb the ray
-        if ( intersects !== null && intersects[ 0 ] !== null && intersects[ 1 ] !== null ) {
-          var x = intersects[ 0 ].getX() + intersects[ 1 ].getX();
-          var y = intersects[ 0 ].getY() + intersects[ 1 ].getY();
-          var interrupted = new LightRay( ray.tail, new Vector2( x / 2, y / 2 ),
-            ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.getColor(), ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), false, ray.extendBackwards );
+        if ( intersects !== null && intersects.length > 1 ) {
+          var x = intersects[ 0 ].point.x + intersects[ 1 ].point.x;
+          var y = intersects[ 0 ].point.y + intersects[ 1 ].point.y;
+          var interrupted = new LightRay( ray.trapeziumWidth, ray.tail, new Vector2( x / 2, y / 2 ),
+            ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.getColor(), ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.oppositeMedium, false, ray.extendBackwards );
           //don't let the wave intersect the intensity meter if it is behind the laser emission point
           var isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
           if ( interrupted.getLength() < ray.getLength() && isForward ) {
@@ -169,10 +169,10 @@ define( function( require ) {
         this.addRay( ray );
       }
       if ( rayAbsorbed ) {
-        // this.intensityMeter.addRayReading( new IntensityMeter.Reading( ray.getPowerFraction() ) );
+        this.intensityMeter.addRayReading( new Reading( ray.getPowerFraction() ) );
       }
       else {
-        //this.intensityMeter.addRayReading( MISS );
+        this.intensityMeter.addRayReading( Reading.MISS );
       }
       return rayAbsorbed;
     },
