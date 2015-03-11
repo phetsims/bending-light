@@ -14,50 +14,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
-
-
-  // strings
-  var miss = require( 'string!BENDING_LIGHT/miss' );
-
-  // constants
-  var VALUE_DECIMALS = 2;
-
-  /**
-   * A single reading for the intensity meter.
-   *
-   * @param value
-   * @constructor
-   */
-
-  function Reading( value ) {
-    this.value = value;
-  }
-
-  inherit( Object, Reading, {
-      getString: function() {
-        if ( this.value !== '-' ) {
-          return this.format( this.value );
-        }
-        else {
-          return this.value;
-        }
-      },
-      format: function( value ) {
-        if ( value !== Reading.MISS ) {
-          return value.toFixed( VALUE_DECIMALS ) + "%";
-        }
-      },
-      isHit: function() {
-        return true;
-      },
-      getValue: function() {
-        return this.value;
-      }
-    },
-    //statics
-    {
-      MISS: miss
-    } );
+  var Reading = require( 'BENDING_LIGHT/common/model/Reading' );
 
   /**
    *
