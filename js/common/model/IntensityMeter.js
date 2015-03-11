@@ -86,8 +86,8 @@ define( function( require ) {
        }
        }*/
       //If not hits, say "MISS"
-      if ( hits.size() === 0 ) {
-        this.reading.set( Reading.MISS );
+      if ( hits.length === 0 ) {
+        this.reading = new Reading( Reading.MISS );
       }
       else //otherwise, sum the intensities
       {

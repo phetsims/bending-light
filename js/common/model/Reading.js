@@ -1,7 +1,7 @@
 //  Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * A single reading for the intensity meter.
+ * A single (immutable) reading for the intensity meter.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -22,6 +22,8 @@ define( function( require ) {
    * @constructor
    */
   function Reading( value ) {
+
+    // Immutable
     this.value = value;
   }
 
