@@ -35,7 +35,7 @@ define( function( require ) {
    * @param extendBackwards
    * @constructor
    */
-  function LightRay( trapeziumWidth,tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth, numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
+  function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth, numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
 
     // Used to create a clipped shape for wave mode
     this.oppositeMedium = oppositeMedium;
@@ -91,7 +91,7 @@ define( function( require ) {
      } ).isEmpty();
      },*/
     toLine2D: function() {
-    return new Line( this.tail, this.tip );
+      return new Line( this.tail, this.tip );
     },
     getLength: function() {
       return this.tip.minus( this.tail ).magnitude();
@@ -112,15 +112,19 @@ define( function( require ) {
 
     // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
     getWaveShape: function() {
-      var tailWidth =   this.waveWidth;
-      var tipWidth =   this.trapeziumWidth;
+
+      var angle = this.extendBackwards ? Math.abs( this.getAngle() ) : Math.PI / 2;
+      var tailWidth = this.waveWidth;
+      var tipWidth = this.trapeziumWidth;
+
       // tip point
-      var tipPoint1 = new Vector2( this.tip.x + tipWidth/2 , this.tip.y );
-      var tipPoint2 = new Vector2( this.tip.x - tipWidth/2, this.tip.y );
+      var tipPoint1 = new Vector2( this.tip.x + tipWidth / 2, this.tip.y );
+      var tipPoint2 = new Vector2( this.tip.x - tipWidth / 2, this.tip.y );
 
       //tail
-      var tailPoint1 = new Vector2( this.tail.x + tailWidth / 2, this.tail.y );
-      var tailPoint2 = new Vector2( this.tail.x - tailWidth / 2, this.tail.y );
+      var tailPoint1 = new Vector2( this.tail.x + tailWidth / 2 * Math.sin( angle ), this.tail.y + tailWidth / 2 * Math.cos( angle ) );
+      var tailPoint2 = new Vector2( this.tail.x - tailWidth / 2 * Math.sin( angle ), this.tail.y - tailWidth / 2 * Math.cos( angle ) );
+
       var shape = new Shape();
       shape.moveTo( tailPoint1.x, tailPoint1.y )
         .lineTo( tailPoint2.x, tailPoint2.y )

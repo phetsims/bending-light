@@ -34,6 +34,7 @@ define( function( require ) {
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
     this.bottomMedium = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
       this.mediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
+
     Property.multilink( [ this.laserViewProperty, this.laser.onProperty,
       this.laser.emissionPointProperty, this.topMedium, this.bottomMedium
     ], function() {
@@ -118,7 +119,7 @@ define( function( require ) {
                 Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2,
                 transmittedWavelength, transmittedPowerRatio * sourcePower,
                 color, trapeziumWidth, incidentRay.getNumberOfWavelengths(),
-                top, true, true );
+                top, true, false ); //todo: using extendBackwards param to fix the shapes near y=0
               this.addAndAbsorb( transmittedRay );
             }
           }
