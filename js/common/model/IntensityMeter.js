@@ -114,7 +114,7 @@ define( function( require ) {
      * @param r
      */
     addRayReading: function( r ) {
-      this.rayReadings.add( r );
+      this.rayReadings.push( r );
       this.updateReading();
     },
     //Update the body text based on the accumulated Reading values

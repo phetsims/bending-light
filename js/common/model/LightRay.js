@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Ray2 = require( 'DOT/Ray2' );
   var Line = require( 'KITE/segments/Line' );
 
 
@@ -75,21 +76,12 @@ define( function( require ) {
     getPowerFraction: function() {
       return this.powerFraction;
     },
+
     //Check to see if this light ray hits the specified sensor region
-    /*    intersects: function( sensorRegion ) {
-     return !new Area( sensorRegion ).withAnonymousClassBody( {
-     initializer: function() {
-     //Use a stroke smaller than the characteristic length scale to promote
-     // the line to a shape for hit detection
-     intersect( new Area( new BasicStroke( 1E-10
-     f
-     ).
-     createStrokedShape( toLine2D() )
-     ))
-     ;
-     }
-     } ).isEmpty();
-     },*/
+    getIntersections: function( sensorRegion ) {
+      return sensorRegion.intersection( new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) ) );
+    },
+
     toLine2D: function() {
       return new Line( this.tail, this.tip );
     },
