@@ -43,16 +43,13 @@ define( function( require ) {
       return angle;
     }
 
-    //Indicate if the laser is not at its max angle,
-    // and therefore can be dragged to larger angles
-    function clockwiseArrowNotAtMax( laserAngle ) {
-      return laserAngle < Math.PI;
+// in prisms tab  laser node can rotate 360 degrees  .so  arrows showing  all the times when laser node rotate
+    function clockwiseArrowNotAtMax() {
+      return true;
     }
 
-    //Indicate if the laser is not at its min angle,
-    // and can therefore be dragged to smaller angles.
-    function ccwArrowNotAtMax( laserAngle ) {
-      return laserAngle > Math.PI / 2;
+    function ccwArrowNotAtMax() {
+      return true;
     }
 
     //rotation if the user clicks top on the object

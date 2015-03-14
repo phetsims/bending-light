@@ -96,8 +96,8 @@ define( function( require ) {
     var showRotationDragHandles = new Property( false );
     var showTranslationDragHandles = new Property( false );
 
-    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), 10, showRotationDragHandles, clockwiseArrowNotAtMax ) );
-    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), -10, showRotationDragHandles, ccwArrowNotAtMax ) );
+    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), Math.PI / 22, showRotationDragHandles, clockwiseArrowNotAtMax ) );
+    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), -Math.PI / 22, showRotationDragHandles, ccwArrowNotAtMax ) );
 
     //Add translation indicators that show if/when the laser can be moved by dragging
     var arrowLength = 100;
