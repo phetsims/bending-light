@@ -17,7 +17,7 @@ define( function( require ) {
   var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
   var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  // var Node = require( 'SCENERY/nodes/Node' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
@@ -28,6 +28,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var EventTimer = require( 'PHET_CORE/EventTimer' );
+  var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
 
   //strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -141,10 +142,13 @@ define( function( require ) {
     this.beforeLightLayer.addChild( this.toolboxNode );
     this.toolboxNode.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - this.toolboxNode.height - 10 );
 
+    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), this.toolboxNode.visibleBounds );
+    this.beforeLightLayer.addChild( this.intensityMeterNode );
     // Add reset all button
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
+          introView.intensityMeterNode.setIntensityMeterScale( 0.3 );
           introModel.resetAll();
           introView.toolboxNode.resetAll();
         },
@@ -240,8 +244,8 @@ define( function( require ) {
     },
 
     //No more tools available in IntroCanvas, but this is overriden in MoreToolsCanvas to provide additional tools
-    getMoreTools: function( resetModel ) {
-      return new Node();
+    getMoreTools: function() {
+      return [];
     }
   } );
 } );
