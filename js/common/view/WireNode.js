@@ -1,6 +1,6 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2015, University of Colorado
 /**
- * Piccolo graphic that connects a sensor (the probe) to its body (where the readout appears)
+ * View that connects a sensor (the probe) to its body (where the readout appears)
  *
  * @author Sam Reid
  */
@@ -15,18 +15,20 @@ define( function( require ) {
 
   /**
    * Wire that connects the body and probe.
-   * @param intensityMeter
+   *
+   * @param {Property<Vector2>}probePositionProperty
+   * @param {Property<Vector2>} bodyPositionProperty
    * @param {Node} probeNode
    * @param {Node} bodyNode
    * @param color
    * @constructor
    */
-  function WireNode( intensityMeter, probeNode, bodyNode, color ) {
+  function WireNode( probePositionProperty, bodyPositionProperty, probeNode, bodyNode, color ) {
 
     var wireNode = this;
     Path.call( wireNode, new Shape(), {
       stroke: color,
-      lineWidth: 8,
+      lineWidth: 5,
       lineCap: 'square',
       lineJoin: 'round',
       pickable: false // no need to drag the wire, and we don't want to do cubic-curve intersection here, or have it get in the way
@@ -43,8 +45,8 @@ define( function( require ) {
         .cubicCurveTo( bodyConnectionPoint.x - 30, bodyConnectionPoint.y, probeConnectionPoint.x, probeConnectionPoint.y + 30, probeConnectionPoint.x, probeConnectionPoint.y );
     };
 
-    intensityMeter.bodyPositionProperty.link( updateCurve );
-    intensityMeter.sensorPositionProperty.link( updateCurve );
+    bodyPositionProperty.link( updateCurve );
+    probePositionProperty.link( updateCurve );
   }
 
   return inherit( Path, WireNode );
