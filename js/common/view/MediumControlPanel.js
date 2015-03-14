@@ -16,7 +16,6 @@ define( function( require ) {
   var ComboBox = require( 'SUN/ComboBox' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var Panel = require( 'SUN/Panel' );
   var Text = require( 'SCENERY/nodes/Text' );
   var HSlider = require( 'SUN/HSlider' );
@@ -46,14 +45,15 @@ define( function( require ) {
   var INDEX_OF_REFRACTION_MAX = 1.6;
   var PLUS_MINUS_SPACING = 4;
   var mediumColorFactory = new MediumColorFactory();
+  var inset = 10;
 
   /**
    *
    * @param view
-   * @param medium
-   * @param name
-   * @param textFieldVisible
-   * @param laserWavelength
+   * @param {Property<Medium>}medium
+   * @param {String}name
+   * @param {Boolean}textFieldVisible
+   * @param {Number}laserWavelength
    * @param format
    * @param options
    * @constructor
@@ -165,7 +165,7 @@ define( function( require ) {
     minusButton.right = indexOfRefractionReadoutBoxShape.left - PLUS_MINUS_SPACING;
     minusButton.centerY = indexOfRefractionReadoutBoxShape.centerY;
 
-    indexOfRefractionLabel.right = minusButton.left - 10;
+    indexOfRefractionLabel.right = minusButton.left - inset;
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
     var airTitle = new Text( airString );
@@ -189,20 +189,26 @@ define( function( require ) {
     indexOfRefractionSlider.addMajorTick( 1.6 );
 
     var unknown = new Text( unknownString, {
+      font: new PhetFont( 16 ),
       centerX: indexOfRefractionSlider.centerX,
       centerY: indexOfRefractionSlider.centerY
     } );
 
     var indexOfRefractionNode = new Node( {
-      children: [ indexOfRefractionLabel, minusButton, indexOfRefractionReadoutBoxShape, indexOfRefractionValueText, plusButton, unknown ]
+      children: [ indexOfRefractionLabel, minusButton, indexOfRefractionReadoutBoxShape, indexOfRefractionValueText, plusButton ]
     } );
-
-    var mediumPanelVBox = new VBox( {
-      children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider ],
+    indexOfRefractionNode.top = materialComboBox.bottom + inset;
+    indexOfRefractionNode.left = materialComboBox.left;
+    indexOfRefractionSlider.centerX = indexOfRefractionNode.centerX;
+    indexOfRefractionSlider.top = indexOfRefractionNode.bottom + inset;
+    unknown.centerX = indexOfRefractionNode.centerX;
+    unknown.centerY = indexOfRefractionNode.bottom + inset;
+    var mediumPanelNode = new Node( {
+      children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
       spacing: 10
     } );
 
-    var mediumPanel = new Panel( mediumPanelVBox, {
+    var mediumPanel = new Panel( mediumPanelNode, {
       fill: '#EEEEEE',
       xMargin: 7,
       yMargin: 7,
