@@ -1,101 +1,133 @@
-/*
-// Copyright 2002-2012, University of Colorado
-*/
+// Copyright 2002-2015, University of Colorado
 /**
  * Sensor for wave values, reads the wave amplitude as a function of time and location.  Two probes can be used to compare values.
- *//*
-
+ */
 define( function( require ) {
   'use strict';
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Dimension2D = require( 'java.awt.geom.Dimension2D' );
   var Vector2 = require( 'DOT/Vector2' );
+  var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var DataPoint = require( 'BENDING_LIGHT/moretools/model/DataPoint' );
 
-//offset the probe so it isn't taking data by default
+  /**
+   * Model for a probe, including its position and recorded data series
+   *
+   * @param x
+   * @param y
+   * @constructor
+   */
+  function Probe( x, y ) {
 
-  //private
-  var DELTA = 1;
-
-  // static class: Probe
-  var Probe =
-//Model for a probe, including its position and recorded data series
-    define( function( require ) {
-      function Probe( x, y ) {
-
-        //Note that mutable data structures typically shouldn't be used with Property, but we are careful not to modify the ArrayList so it is okay (would be better if Java or we provided an immutable list class)
-        this.series = new Property( [] );
-        this.position = new Property( new Vector2( x, y ) );
+    PropertySet.call( this, {
+        series: [],
+        position: new Vector2( x, y )
       }
+    );
+  }
 
-      return inherit( Object, Probe, {
-        translate: function( delta ) {
-          position.set( position.get().plus( delta ) );
-        },
-        translate: function( delta ) {
-          position.set( position.get().plus( delta ) );
-        },
-        addSample: function( sample ) {
-          series.set( new ArrayList( series.get() ).withAnonymousClassBody( {
-            initializer: function() {
-              add( sample );
-            }
-          } ) );
-        }
-      } );
-    } );
-  ;
-  function WaveSensor( clock, //Function for getting data from a probe at the specified point
-                       probe1Value, probe2Value ) {
+  inherit( PropertySet, Probe, {
+
+    /**
+     *
+     * @param delta
+     */
+    translate: function( delta ) {
+      this.positionProperty.set( this.position.plus( delta ) );
+    },
+    /**
+     *
+     * @param sample
+     */
+    addSample: function( sample ) {
+      this.seriesProperty.set( this.series.push( sample ) );
+    }
+  } );
+
+  /**
+   *
+   * @param clock  -Function for getting data from a probe at the specified point
+   * @param probe1Value
+   * @param probe2Value
+   * @constructor
+   */
+  function WaveSensor( clock, probe1Value, probe2Value ) {
+
+    //var waveSensor = this;
+
     //Set the relative location of the probes and body in model coordinates (SI)
-    //These values for initial probe and body locations were obtained by printing out actual values at runtime, then dragging the objects to a good looking location.  This amount of precision is unnecessary, but these values were just sampled directly.
-    this.probe1 = new Probe( -4.173076923076922E-7 - DELTA, 9.180769230769231E-7 - DELTA );
-    this.probe2 = new Probe( -1.5440384615384618E-6 - DELTA, -1.2936538461538458E-6 - DELTA );
-    this.bodyPosition = new Property( new Vector2( 4.882500000000015E-6 - DELTA, -3.1298076923077013E-6 - DELTA ) );
-    //Clock to observe the passage of time
-    this.clock;
-    //in the play area
+    //These values for initial probe and body locations were obtained by printing out actual values at runtime,
+    // then dragging the objects to a good looking location.  This amount of precision is unnecessary,
+    // but these values were just sampled directly.
+    this.probe1 = new Probe( -0.0000155, -0.000005 );
+    this.probe2 = new Probe( -0.0000167, -0.0000075 );
+    this.bodyPosition = new Property( new Vector2( -0.00001, -0.0000098 ) );
     this.visible = new BooleanProperty( false );
+
+    //Clock to observe the passage of time
+    //in the play area
     this.clock = clock;
-    //Read samples from the probes when the simulation time changes
-    clock.addClockListener( new ClockAdapter().withAnonymousClassBody( {
-      simulationTimeChanged: function( clockEvent ) {
-        updateProbeSample( probe1, probe1Value, clock );
-        updateProbeSample( probe2, probe2Value, clock );
-      }
-    } ) );
+
+    /*    //Read samples from the probes when the simulation time changes
+     clock.addClockListener( new ClockAdapter().withAnonymousClassBody( {
+     simulationTimeChanged: function( clockEvent ) {
+     waveSensor.updateProbeSample( waveSensor.probe1, probe1Value, clock );
+     waveSensor.updateProbeSample( waveSensor.probe2, probe2Value, clock );
+     }
+     } ) );*/
   }
 
   return inherit( Object, WaveSensor, {
-//Read samples from the probes when the simulation time changes
 
-    //private
+    /**
+     * Read samples from the probes when the simulation time changes
+     *
+     * @param probe
+     * @param probeValue
+     * @param clock
+     */
     updateProbeSample: function( probe, probeValue, clock ) {
       //Read the value from the probe function.  May be None if not intersecting a light ray
-      var value = probeValue.apply( probe.position.get() );
-      if ( value.isSome() ) {
-        probe.addSample( new Option.Some( new DataPoint( clock.getSimulationTime(), value.get() ) ) );
+      var value = probeValue( probe.position );
+      if ( value ) {
+        probe.addSample( new DataPoint( clock.getSimulationTime(), value.get() ) );
       }
       else {
-        probe.addSample( new Option.None() );
+        // probe.addSample( new Option.None() );
       }
     },
+    /**
+     *
+     * @param delta
+     */
     translateBody: function( delta ) {
-      bodyPosition.set( bodyPosition.get().plus( delta ) );
+      this.bodyPosition.set( this.bodyPosition.get().plus( delta ) );
     },
-//Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
+    /**
+     * Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
+     *
+     * @param position
+     */
     translateToHotSpot: function( position ) {
-      translateAll( new Vector2( position ).minus( probe1.position.get() ) );
+      this.translateAll( new Vector2( position ).minus( this.probe1.position ) );
     },
-//Translate the body and probes by the specified model delta
+    /**
+     * Translate the body and probes by the specified model delta
+     *
+     * @param delta
+     */
     translateAll: function( delta ) {
-      probe1.translate( delta );
-      probe2.translate( delta );
-      bodyPosition.set( bodyPosition.get().plus( delta ) );
+      this.probe1.translate( delta );
+      this.probe2.translate( delta );
+      this.bodyPosition.set( this.bodyPosition.get().plus( delta ) );
+    },
+    reset: function() {
+      this.bodyPosition.reset();
+      this.probe1.positionProperty.reset();
+      this.probe2.positionProperty.reset();
     }
   } );
 } );
-
-*/

@@ -1,138 +1,238 @@
-/*
-// Copyright 2002-2012, University of Colorado
-*/
+// Copyright 2002-2015, University of Colorado
 /**
  * PNode for the wave sensor, which shows 2 sensor probes and a chart area (the body)
  *
  * @author Sam Reid
- *//*
+ */
 
 define( function( require ) {
   'use strict';
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var Color = require( 'SCENERY/util/Color' );
-  var Rectangle = require( 'java.awt.Rectangle' );
-  var Vector2 = require( 'java.awt.geom.Vector2' );
-  var ArrayList = require( 'java.util.ArrayList' );
-  var WireNode = require( 'edu.colorado.phet.bendinglight.view.WireNode' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var SimpleObserver = require( 'edu.colorado.phet.common.phetcommon.util.SimpleObserver' );
-  var ModelViewTransform = require( 'edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform' );
-  var PhetFont = require( 'edu.colorado.phet.common.phetcommon.view.util.PhetFont' );
-  var CursorHandler = require( 'edu.colorado.phet.common.piccolophet.event.CursorHandler' );
-  var ToolNode = require( 'edu.colorado.phet.common.piccolophet.nodes.ToolNode' );
-  var CanvasBoundedDragHandler = require( 'edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler' );
-  var DragEvent = require( 'edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var PImage = require( 'edu.umd.cs.piccolo.nodes.PImage' );
-  var PText = require( 'edu.umd.cs.piccolo.nodes.PText' );
-  var PDimension = require( 'edu.umd.cs.piccolo.util.PDimension' );
-  var RESOURCES = require( 'edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES' );//static
-  var TIME = require( 'edu.colorado.phet.bendinglight.BendingLightStrings.TIME' );//static
-  var white = require( 'java.awt.Color.white' );//static
+  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var Bounds2 = require( 'DOT/Bounds2' );
 
-  function WaveSensorNode( transform, waveSensor ) {
-    //color taken from the image
-    this.darkProbeColor = new Color( 88, 89, 91 );
-    this.lightProbeColor = new Color( 147, 149, 152 );
+  // strings
+  var TIME = require( 'string!BENDING_LIGHT/time' );
 
-    //private
-    this.transform;
+  //images
+  var darkProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_dark.png' );
+  var lightProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_light.png' );
 
-    //private
-    this.waveSensor;
-    this.bodyNode;
-    this.probe1Node;
-    this.probe2Node;
+  /**
+   * Class for rendering a probe that can be used to sense wave values
+   *
+   * @param waveSensorNode
+   * @param probe
+   * @param imageName
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param containerBounds
+   * @constructor
+   */
+  function ProbeNode( waveSensorNode, probe, imageName, modelViewTransform, containerBounds ) {
 
-    // non-static inner class: ProbeNode
-    var ProbeNode =
-      //Class for rendering a probe that can be used to sense wave values
-      define( function( require ) {
-        function ProbeNode( probe, imageName ) {
-          //Draw the probe
-          addChild( new PImage( RESOURCES.getImage( imageName ) ) );
-          //Interaction: translates when dragged, but keep it bounded within the play area
-          addInputEventListener( new CursorHandler() );
-          addInputEventListener( new CanvasBoundedDragHandler( this ).withAnonymousClassBody( {
-            dragNode: function( event ) {
-              probe.translate( transform.viewToModelDelta( event.delta ) );
-            }
-          } ) );
-          probe.position.addObserver( new SimpleObserver().withAnonymousClassBody( {
-            update: function() {
-              var viewPoint = transform.modelToView( probe.position.get() ).toPoint2D();
-              setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() / 2 );
-            }
-          } ) );
+    var probeNode = this;
+    Node.call( this );
+
+    //add the probe
+    this.addChild( new Image( imageName, { scale: 0.8 } ) );
+
+    //Interaction: translates when dragged, but keep it bounded within the play area
+    var start;
+    var fromSensorPanel;
+    var toSensorPanel;
+    probeNode.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        fromSensorPanel = false;
+        toSensorPanel = false;
+        start = waveSensorNode.globalToParentPoint( event.pointer.point );
+        if ( containerBounds.bounds.intersectsBounds( waveSensorNode.getBounds() ) ) {
+          fromSensorPanel = true;
+          var initialPosition = modelViewTransform.modelToViewPosition( waveSensorNode.waveSensor.probe1.positionProperty.get() );
+          waveSensorNode.dragAll( start.minus( initialPosition ) );
         }
-
-        return inherit( Node, ProbeNode, {} );
-      } );
-    this.transform = transform;
-    this.waveSensor = waveSensor;
-    //Bounds are based on the provided images, and will need to be updated if the image changes
-    var titleBounds = new Rectangle( 63, 90, 37, 14 );
-    var chartArea = new Rectangle( 15, 15, 131, 68 );
-    //Create the body where the chart is shown
-    bodyNode = new PImage( RESOURCES.getImage( "wave_detector_box.png" ) ).withAnonymousClassBody( {
-      initializer: function() {
-        //Add the "time" axis label at the bottom center of the chart
-        addChild( new PText( TIME ).withAnonymousClassBody( {
-          initializer: function() {
-            setFont( new PhetFont( 18 ) );
-            setTextPaint( white );
-            setOffset( titleBounds.getCenterX() - getFullBounds().getWidth() / 2, titleBounds.getCenterY() - getFullBounds().getHeight() / 2 );
-          }
-        } ) );
-        //Add the chart inside the body, with one series for each of the dark and light probes
-        addChild( new ChartNode( waveSensor.clock, chartArea, [].withAnonymousClassBody( {
-          initializer: function() {
-            add( new Series( waveSensor.probe1.series, darkProbeColor ) );
-            add( new Series( waveSensor.probe2.series, lightProbeColor ) );
-          }
-        } ) ) );
-        //Synchronize the body position with the model (centered on the model point)
-        waveSensor.bodyPosition.addObserver( new SimpleObserver().withAnonymousClassBody( {
-          update: function() {
-            var viewPoint = transform.modelToView( waveSensor.bodyPosition.get() ).toPoint2D();
-            setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() );
-          }
-        } ) );
-        //Add interaction, the body is draggable, but keep it constrained to stay in the play area
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new CanvasBoundedDragHandler( WaveSensorNode.this ).withAnonymousClassBody( {
-          dragNode: function( event ) {
-            waveSensor.translateBody( transform.viewToModelDelta( event.delta ) );
-          }
-        } ) );
+        else {
+          fromSensorPanel = false;
+        }
+      },
+      drag: function( event ) {
+        var end = waveSensorNode.globalToParentPoint( event.pointer.point );
+        if ( fromSensorPanel ) {
+          waveSensorNode.dragAll( end.minus( start ) );
+        }
+        else {
+          probe.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
+        }
+        start = end;
+      },
+      end: function() {
+        // check intersection only with the outer rectangle.
+        if ( containerBounds.bounds.intersectsBounds( waveSensorNode.getBounds() ) ) {
+          toSensorPanel = true;
+        }
+        if ( toSensorPanel ) {
+          waveSensorNode.waveSensor.reset();
+        }
       }
+    } ) );
+
+    probe.positionProperty.link( function( position ) {
+      var viewPoint = modelViewTransform.modelToViewPosition( position );
+      probeNode.setTranslation( viewPoint.x - probeNode.getWidth() / 2, viewPoint.y - probeNode.getHeight() / 2 );
     } );
-    //Create the probes
-    probe1Node = new ProbeNode( waveSensor.probe1, "wave_detector_probe_dark.png" );
-    probe2Node = new ProbeNode( waveSensor.probe2, "wave_detector_probe_light.png" );
-    //Rendering order, including wires
-    addChild( new WireNode( probe1Node, bodyNode, darkProbeColor ) );
-    addChild( new WireNode( probe2Node, bodyNode, lightProbeColor ) );
-    addChild( bodyNode );
-    addChild( probe1Node );
-    addChild( probe2Node );
   }
 
-  return inherit( ToolNode, WaveSensorNode, {
-//Called when dragged out of the toolbox, drags all parts together (including body and probes)
+  inherit( Node, ProbeNode, {} );
+
+  /**
+   *
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param waveSensor
+   * @param containerBounds
+   * @constructor
+   */
+
+  function WaveSensorNode( modelViewTransform, waveSensor, containerBounds ) {
+
+    var waveSensorNode = this;
+    Node.call( this );
+
+    //color taken from the image
+    var darkProbeColor = new Color( 88, 89, 91 );
+    var lightProbeColor = new Color( 147, 149, 152 );
+
+    this.modelViewTransform = modelViewTransform;
+    this.waveSensor = waveSensor;
+    this.containerBounds = containerBounds;
+
+    //Bounds are based on the provided images, and will need to be updated if the image changes
+    //var chartArea = new Rectangle( 15, 15, 131, 68 );
+
+    //Create the body where the chart is shown
+    // add body node
+    var rectangleWidth = 135;
+    var rectangleHeight = 100;
+    // adding outer rectangle
+    var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 5, 5, {
+      stroke: new LinearGradient( 0, 0, 0, rectangleHeight )
+        .addColorStop( 0, '#2F9BCE' )
+        .addColorStop( 1, '#00486A' ),
+      fill: new LinearGradient( 0, 0, 0, rectangleHeight )
+        .addColorStop( 0, '#5EB4DE' )
+        .addColorStop( 1, '#005B86' ),
+      lineWidth: 2
+    } );
+    //second rectangle
+    var innerRectangle = new Rectangle( 0, 0, rectangleWidth - 5, rectangleHeight - 10, 0, 0, {
+      fill: '#0078B0',
+      stroke: '#0081BE',
+      centerX: outerRectangle.centerX,
+      centerY: outerRectangle.centerY
+    } );
+    // adding inner rectangle
+    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth * 0.98, rectangleHeight * 0.63 ),
+      {
+        baseColor: 'white',
+        lightSource: 'rightBottom',
+        centerX: innerRectangle.centerX,
+        centerY: rectangleHeight * 0.4,
+        cornerRadius: 5
+      } );
+    var bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle ], scale: 0.93 } );
+
+    //Add the "time" axis label at the bottom center of the chart
+    var titleNode = new Text( TIME, {
+      font: new PhetFont( 18 ),
+      fill: 'white'
+    } );
+    bodyNode.addChild( titleNode );
+    titleNode.setTranslation( bodyNode.getCenterX() - titleNode.getWidth() / 2, bodyNode.height * 0.82 );
+
+    //this.setScaleDown( 0.5 );
+
+    //Add the chart inside the body, with one series for each of the dark and light probes
+    /*    this.addChild( new ChartNode( waveSensor.clock, chartArea, [ new Series( waveSensor.probe1.series, darkProbeColor ),
+     new Series( waveSensor.probe2.series, lightProbeColor ) ] ) );*/
+    //Synchronize the body position with the model (centered on the model point)
+    waveSensor.bodyPosition.link( function( position ) {
+      var viewPoint = modelViewTransform.modelToViewPosition( position );
+      bodyNode.setTranslation( viewPoint.x - bodyNode.getWidth() / 2, viewPoint.y - bodyNode.getHeight() );
+    } );
+    //Add interaction, the body is draggable, but keep it constrained to stay in the play area
+    var start;
+    var fromSensorPanel;
+    var toSensorPanel;
+    bodyNode.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        fromSensorPanel = false;
+        toSensorPanel = false;
+        start = waveSensorNode.globalToParentPoint( event.pointer.point );
+        if ( containerBounds.bounds.intersectsBounds( waveSensorNode.getBounds() ) ) {
+          fromSensorPanel = true;
+          var initialPosition = modelViewTransform.modelToViewPosition( waveSensorNode.waveSensor.probe1.positionProperty.get() );
+          waveSensorNode.dragAll( start.minus( initialPosition ) );
+        }
+        else {
+          fromSensorPanel = false;
+        }
+      },
+      drag: function( event ) {
+        var end = waveSensorNode.globalToParentPoint( event.pointer.point );
+        if ( fromSensorPanel ) {
+          waveSensorNode.dragAll( end.minus( start ) );
+        }
+        else {
+          waveSensorNode.dragBody( end.minus( start ) );
+        }
+        start = end;
+      },
+      end: function() {
+        // check intersection only with the outer rectangle.
+        if ( containerBounds.bounds.intersectsBounds( waveSensorNode.getBounds() ) ) {
+          toSensorPanel = true;
+        }
+        if ( toSensorPanel ) {
+          waveSensor.reset();
+        }
+      }
+    } ) );
+
+    //Create the probes
+    var probe1Node = new ProbeNode( this, waveSensor.probe1, darkProbeImage, modelViewTransform, containerBounds );
+    var probe2Node = new ProbeNode( this, waveSensor.probe2, lightProbeImage, modelViewTransform, containerBounds );
+
+    //Rendering order, including wires
+    this.addChild( new WireNode( waveSensor.probe1.positionProperty, waveSensor.bodyPosition, probe1Node, bodyNode, darkProbeColor ) );
+    this.addChild( new WireNode( waveSensor.probe2.positionProperty, waveSensor.bodyPosition, probe2Node, bodyNode, lightProbeColor ) );
+    this.addChild( bodyNode );
+    this.addChild( probe1Node );
+    this.addChild( probe2Node );
+  }
+
+  return inherit( Node, WaveSensorNode, {
+    /**
+     * Called when dragged out of the toolbox, drags all parts together (including body and probes)
+     * @param delta
+     */
     dragAll: function( delta ) {
-      waveSensor.translateAll( new Vector2( transform.viewToModelDelta( delta ) ) );
+      this.waveSensor.translateAll( this.modelViewTransform.viewToModelDelta( delta ) );
     },
-//When any probe or body is dropped in the toolbox, the whole WaveSensor goes back in the toolbox
-    getDroppableComponents: function() {
-      return new Node[ ]
-      { bodyNode, probe1Node, probe2Node }
-      ;
-    },
+    /**
+     *
+     * @param delta
+     */
+    dragBody: function( delta ) {
+      this.waveSensor.translateBody( this.modelViewTransform.viewToModelDelta( delta ) );
+    }
   } );
 } );
-
-*/
