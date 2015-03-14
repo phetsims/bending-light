@@ -18,6 +18,25 @@ define( function( require ) {
   var VALUE_DECIMALS = 2;
 
   /**
+   *
+   * @constructor
+   */
+  function MISS() {
+
+  }
+
+  inherit( Object, MISS, {
+    getString: function() {
+      return miss;
+    },
+    isHit: function() {
+      return false;
+    }
+  } );
+
+  /**
+   * A single reading for the intensity meter
+   *
    * @param {string} value - the text to be shown on the intensity meter
    * @constructor
    */
@@ -29,17 +48,15 @@ define( function( require ) {
 
   return inherit( Object, Reading, {
       getString: function() {
-        if ( this.value !== '-' ) {
-          return this.format( this.value );
-        }
-        else {
-          return this.value;
-        }
+        return this.format( this.value * 100 );
       },
+      /**
+       *
+       * @param value
+       * @returns {string}
+       */
       format: function( value ) {
-        if ( value !== Reading.MISS ) {
-          return value.toFixed( VALUE_DECIMALS ) + "%";
-        }
+        return (value).toFixed( VALUE_DECIMALS ) + "%";
       },
       isHit: function() {
         return true;
@@ -50,7 +67,7 @@ define( function( require ) {
     },
     //statics
     {
-      MISS: miss
+      MISS: new MISS()
     } );
 
 } );

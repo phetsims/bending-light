@@ -12,7 +12,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
-  var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
@@ -34,6 +33,9 @@ define( function( require ) {
    */
   function ToolboxNode( canvas, modelViewTransform, moreTools, intensityMeter, showNormal, options ) {
 
+    options = _.extend( {
+      stroke: 'black'
+    } );
     Node.call( this );
     this.sensorPanel = new Rectangle( 0, 0, 100, 235, 10, 10, {
       stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
@@ -46,9 +48,6 @@ define( function( require ) {
     this.protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractor, this.protractorModel,
       canvas.getProtractorDragRegion, canvas.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.getBounds() );
     this.addChild( this.protractorNode );
-
-    this.intensityMeterNode = new IntensityMeterNode( modelViewTransform, intensityMeter, this.sensorPanel.getBounds() );
-    this.addChild( this.intensityMeterNode );
 
     var checkBoxOptions = {
       boxWidth: 20,
@@ -64,6 +63,7 @@ define( function( require ) {
     var normalIcon = new NormalLine( 50 );
     normalIcon.setTranslation( 60, 180 );
     this.addChild( normalIcon );
+    this.mutate( options );
   }
 
   return inherit( Node, ToolboxNode, {
@@ -71,7 +71,6 @@ define( function( require ) {
         return this.sensorPanel.getBounds();
       },
       resetAll: function() {
-        this.intensityMeterNode.setScaleMagnitude( 0.3 );
         this.protractorNode.setProtractorScale( this.protractorNode.multiScale );
         this.protractorModel.reset();
       }

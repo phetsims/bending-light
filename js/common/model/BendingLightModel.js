@@ -87,14 +87,14 @@ define( function( require ) {
       }
     );
     //Model components
-    this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.3, -this.modelHeight * 0.25, -this.modelWidth * 0.2, -this.modelHeight * 0.25 );
+    this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.4, -this.modelHeight * 0.22, -this.modelWidth * 0.35, -this.modelHeight * 0.24 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
     this.wavelengthPropertyProperty.link( function( wavelength ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );
     } );
 
     Property.multilink( [ this.laser.onProperty, this.laser.pivotProperty, this.laser.emissionPointProperty,
-        /*this.intensityMeter.sensorPositionProperty, this.intensityMeter.enabledProperty,*/ this.laser.colorProperty, this.laserViewProperty ],
+        this.intensityMeter.sensorPositionProperty, this.intensityMeter.enabledProperty, this.laser.colorProperty, this.laserViewProperty ],
       function() {
         bendingLightModel.updateModel();
       } );
@@ -134,7 +134,7 @@ define( function( require ) {
         this.rays.clear();
         //Clear the accumulator in the intensity meter so it can sum up the newly
         // created rays
-        //this.intensityMeter.clearRayReadings();
+        this.intensityMeter.clearRayReadings();
       },
       //Update the model by clearing the rays, then recreating them
       updateModel: function() {
