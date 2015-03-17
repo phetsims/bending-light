@@ -50,7 +50,7 @@ define( function( require ) {
     // Directionality is important for propagation
     this.tip = tip;
     this.tail = tail;
-
+    this.isNextColorBlack = true; // color of next particle in wave node
     // The index of refraction of the medium the lightray inhabits
     this.indexOfRefraction = indexOfRefraction;
     this.wavelength = wavelength;    // wavelength in meters
@@ -123,7 +123,7 @@ define( function( require ) {
         .lineTo( tipPoint2.x, tipPoint2.y )
         .lineTo( tipPoint1.x, tipPoint1.y )
         .close();
-      return shape;
+      return [ tailPoint1, tailPoint2, tipPoint2, tipPoint1 ];
     },
 
 

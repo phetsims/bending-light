@@ -121,14 +121,6 @@ define( function( require ) {
         layer = bendingLightView.lightRayLayer;
         layer.addChild( node );
       }
-      else {
-        node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
-        layer = bendingLightView.lightWaveLayer;
-        layer.addChild( node );
-        node.moveToBack();
-      }
-
-
     } );
     model.rays.addItemRemovedListener( function() {
       for ( var i = 0; i < bendingLightView.lightRayLayer.getChildrenCount(); i++ ) {

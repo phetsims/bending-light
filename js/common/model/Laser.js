@@ -28,6 +28,7 @@ define( function( require ) {
    */
   function Laser( distanceFromPivot, angle, topLeftQuadrant ) {
     this.topLeftQuadrant = topLeftQuadrant;
+    var laser = this;
     PropertySet.call( this, {
         //point to be pivoted about, and at which the laser points
         pivot: new Vector2( 0, 0 ),
@@ -40,6 +41,11 @@ define( function( require ) {
         emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
       }
     );
+    this.waveProperty.link( function() {
+      if ( laser.wave && laser.getAngle() > MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
+        laser.setAngle( MAX_ANGLE_IN_WAVE_MODE );
+      }
+    } );
   }
 
   return inherit( PropertySet, Laser, {

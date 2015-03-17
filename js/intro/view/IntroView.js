@@ -17,7 +17,7 @@ define( function( require ) {
   var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
   var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
-  // var Node = require( 'SCENERY/nodes/Node' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
@@ -29,6 +29,8 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var EventTimer = require( 'PHET_CORE/EventTimer' );
   var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
+  var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
+  var Property = require( 'AXON/Property' );
 
   //strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -174,7 +176,64 @@ define( function( require ) {
     );
 
     this.addChild( stepButton );
+    this.waveParticleCanvasLayer = new Node();
+    this.beforeLightLayer.addChild( this.waveParticleCanvasLayer );
 
+    Property.multilink( [ introModel.laserViewProperty, introModel.laser.onProperty, introModel.intensityMeter.sensorPositionProperty,
+      introModel.laser.emissionPointProperty, introModel.intensityMeter.enabledProperty
+    ], function() {
+      var points;
+      var minX;
+      var minY;
+      var maxX;
+      var maxY;
+      introModel.laser.waveProperty.value = introModel.laserViewProperty.value === 'wave';
+      if ( introModel.laserViewProperty.value === 'wave' ) {
+
+        //introModel.laserViewProperty
+        for ( var k = 0; k < introView.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
+          introView.waveParticleCanvasLayer.removeChild( introView.waveParticleCanvasLayer.children[ k ] );
+        }
+
+        if ( introModel.rays.length > 1 ) {
+          points = introModel.rays.get( 1 ).getWaveShape();
+          minX = introView.modelViewTransform.modelToViewX( points[ 1 ].x );
+          minY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
+          maxX = introView.modelViewTransform.modelToViewX( points[ 3 ].x );
+          maxY = introView.modelViewTransform.modelToViewY( points[ 0 ].y );
+          introView.refletedWaveCanvasNode = new WaveCanvasNode( /* introModel.waveParticles, */introModel.reflectedWaveParticles, /* introModel.refractedWaveParticles,*/
+            introView.modelViewTransform, {
+              canvasBounds: new Bounds2( minX, minY, maxX, maxY )
+            } );
+          introView.waveParticleCanvasLayer.addChild( introView.refletedWaveCanvasNode );
+        }
+        if ( introModel.rays.length > 0 ) {
+          points = introModel.rays.get( 0 ).getWaveShape();
+          minX = introView.modelViewTransform.modelToViewX( points[ 1 ].x );
+          minY = introView.modelViewTransform.modelToViewY( points[ 0 ].y );
+          maxX = introView.modelViewTransform.modelToViewX( points[ 3 ].x );
+          maxY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
+          introView.incedentWaveCanvasNode = new WaveCanvasNode( introModel.waveParticles,
+            introView.modelViewTransform, {
+              canvasBounds: new Bounds2( minX, minY, maxX, maxY )
+            } );
+          introView.waveParticleCanvasLayer.addChild( introView.incedentWaveCanvasNode );
+        }
+
+        if ( introModel.rays.length > 2 ) {
+          points = introModel.rays.get( 2 ).getWaveShape();
+          minX = introView.modelViewTransform.modelToViewX( points[ 1 ].x );
+          minY = introView.modelViewTransform.modelToViewY( points[ 0 ].y );
+          maxX = introView.modelViewTransform.modelToViewX( points[ 3 ].x );
+          maxY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
+          introView.refractedWaveCanvasNode = new WaveCanvasNode( /* introModel.waveParticles, introModel.reflectedWaveParticles,*/ introModel.refractedWaveParticles,
+            introView.modelViewTransform, {
+              canvasBounds: new Bounds2( minX, minY, maxX, maxY )
+            } );
+          introView.waveParticleCanvasLayer.addChild( introView.refractedWaveCanvasNode );
+        }
+      }
+    } );
     var playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
       { radius: 18, stroke: 'black', fill: '#005566', y: stepButton.centerY, right: stepButton.left - inset } );
     this.addChild( playPauseButton );
@@ -227,8 +286,14 @@ define( function( require ) {
     step: function( dt ) {
       if ( this.introModel.isPlaying ) {
         this.timer.step( dt );
+        for ( var k = 0; k < this.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
+          this.waveParticleCanvasLayer.children[ k ].step();
+        }
       }
-
+      var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
+      this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;
+      this.simDisplayWindowHeightInModel = this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale );
+      console.log( window.innerHeight * scale );
     },
 
     stepInternal: function() {

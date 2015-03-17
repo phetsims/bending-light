@@ -17,7 +17,7 @@ define( function( require ) {
   // var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
-  var Property = require( 'AXON/Property' );
+//  var Property = require( 'AXON/Property' );
 
   //Default values
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
@@ -87,17 +87,17 @@ define( function( require ) {
       }
     );
     //Model components
-    this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.4, -this.modelHeight * 0.22, -this.modelWidth * 0.35, -this.modelHeight * 0.24 );
+    this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.385, -this.modelHeight * 0.24, -this.modelWidth * 0.35, -this.modelHeight * 0.24 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
     this.wavelengthPropertyProperty.link( function( wavelength ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );
     } );
 
-    Property.multilink( [ this.laser.onProperty, this.laser.pivotProperty, this.laser.emissionPointProperty,
-        this.intensityMeter.sensorPositionProperty, this.intensityMeter.enabledProperty, this.laser.colorProperty, this.laserViewProperty ],
-      function() {
-        bendingLightModel.updateModel();
-      } );
+    /*    Property.multilink( [ this.laser.onProperty, this.laser.pivotProperty, this.laser.emissionPointProperty,
+     this.intensityMeter.sensorPositionProperty, this.intensityMeter.enabledProperty, this.laser.colorProperty, this.laserViewProperty ],
+     function() {
+     //   bendingLightModel.updateModel();
+     } );*/
   }
 
   return inherit( PropertySet, BendingLightModel, {
