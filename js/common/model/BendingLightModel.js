@@ -17,7 +17,7 @@ define( function( require ) {
   // var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
-  var Property = require( 'AXON/Property' );
+  // var Property = require( 'AXON/Property' );
 
   //Default values
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
