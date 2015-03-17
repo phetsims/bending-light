@@ -22,7 +22,7 @@ define( function( require ) {
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
 
   // constants
-  var DEFAULT_SCALE = 0.5;
+  var DEFAULT_SCALE = 0.4;
 
   /**
    *
@@ -90,7 +90,8 @@ define( function( require ) {
     //Add a mouse listener for dragging when the drag region
     // (entire body in all tabs, just the inner bar on prism break tab) is dragged
     var translatePath = new Path( translateShape( fullShape, this.innerBarShape, outerRimShape ), {
-      pickable: true
+      pickable: true,
+      cursor: 'pointer'
     } );
     this.addChild( translatePath );
     var start;
@@ -117,7 +118,8 @@ define( function( require ) {
     } ) );
     //Add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism break' tab is dragged)
     var rotatePath = new Path( rotateShape( fullShape, this.innerBarShape, outerRimShape ), {
-      pickable: true
+      pickable: true,
+      cursor: 'pointer'
     } );
     this.addChild( rotatePath );
     rotatePath.addInputListener( new SimpleDragHandler( {

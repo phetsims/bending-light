@@ -19,31 +19,33 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   //  constants
-  var ICON_WIDTH = 90;
+  var ICON_WIDTH = 85;
 
   /**
    *
    * @param canvas
-   * @param modelViewTransform
+   * @param {ModelViewTransform2} modelViewTransform
    * @param moreTools
-   * @param intensityMeter
+   * @param {IntensityMeter} intensityMeter
    * @param showNormal
    * @param options
    * @constructor
    */
   function ToolboxNode( canvas, modelViewTransform, moreTools, intensityMeter, showNormal, options ) {
 
+    var sensorPanelHeight = moreTools.length ? 315 : 220;
+
     options = _.extend( {
       stroke: 'black'
     } );
     Node.call( this );
-    this.sensorPanel = new Rectangle( 0, 0, 100, 235, 10, 10, {
+    this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 10, 10, {
       stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
     } );
     this.addChild( this.sensorPanel );
 
     //Initial tools
-    var protractorModelPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 50 ) );
+    var protractorModelPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 45 ) );
     this.protractorModel = new ProtractorModel( protractorModelPosition.x, protractorModelPosition.y );
     this.protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractor, this.protractorModel,
       canvas.getProtractorDragRegion, canvas.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.getBounds() );
@@ -56,12 +58,12 @@ define( function( require ) {
 
     var normalText = new Text( 'Normal' );
     var normalCheckBox = new CheckBox( normalText, showNormal, checkBoxOptions );
-    normalCheckBox.setTranslation( 15, 180 );
+    normalCheckBox.setTranslation( 15, sensorPanelHeight - 55 );
     this.addChild( normalCheckBox );
 
     // add normal
     var normalIcon = new NormalLine( 50 );
-    normalIcon.setTranslation( 60, 180 );
+    normalIcon.setTranslation( 60, sensorPanelHeight - 55 );
     this.addChild( normalIcon );
     this.mutate( options );
   }
@@ -80,4 +82,3 @@ define( function( require ) {
       ICON_WIDTH: ICON_WIDTH
     } );
 } );
-

@@ -150,7 +150,7 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
-          introView.intensityMeterNode.setIntensityMeterScale( 0.3 );
+          introView.intensityMeterNode.setIntensityMeterScale( introView.intensityMeterNode.intensityMeter.sensorPositionProperty.initialValue, 0.3 );
           introModel.resetAll();
           introView.toolboxNode.resetAll();
         },
@@ -288,12 +288,11 @@ define( function( require ) {
         this.timer.step( dt );
         for ( var k = 0; k < this.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
           this.waveParticleCanvasLayer.children[ k ].step();
-        }
+      }
       }
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;
       this.simDisplayWindowHeightInModel = this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale );
-      console.log( window.innerHeight * scale );
     },
 
     stepInternal: function() {
@@ -304,11 +303,11 @@ define( function( require ) {
 
     },
 
-    createNode: function( transform, showTool, x, y ) {
-      return this.newProtractorNode( transform, showTool, x, y );
-    },
-
-    //No more tools available in IntroCanvas, but this is overriden in MoreToolsCanvas to provide additional tools
+    /**
+     * No more tools available in IntroCanvas, but this is overriden in MoreToolsCanvas to provide additional tools
+     *
+     * @returns {Array}
+     */
     getMoreTools: function() {
       return [];
     }

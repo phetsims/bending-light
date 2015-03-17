@@ -17,7 +17,7 @@ define( function( require ) {
   // var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
-//  var Property = require( 'AXON/Property' );
+  var Property = require( 'AXON/Property' );
 
   //Default values
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
@@ -87,7 +87,7 @@ define( function( require ) {
       }
     );
     //Model components
-    this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.385, -this.modelHeight * 0.24, -this.modelWidth * 0.35, -this.modelHeight * 0.24 );
+    this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.385, -this.modelHeight * 0.25, -this.modelWidth * 0.35, -this.modelHeight * 0.25 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
     this.wavelengthPropertyProperty.link( function( wavelength ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );

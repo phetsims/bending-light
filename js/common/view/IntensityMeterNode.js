@@ -40,7 +40,7 @@ define( function( require ) {
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
     var intensityMeterScaleInSideContainer = 0.3;
-    var intensityMeterScaleOutSideContainer = 1;
+    var intensityMeterScaleOutSideContainer = 0.85;
     this.modelViewTransform = modelViewTransform;
     this.intensityMeter = intensityMeter;
     intensityMeter.enabledProperty.link( function() {
@@ -84,29 +84,31 @@ define( function( require ) {
       centerX: sensorInnerShape.centerX,
       centerY: 50
     } );
-    var sensorNode = new Node( { children: [ sensorOuterShape, sensorInnerShape, sensorInnerCircle ] } );
+    this.sensorNode = new Node( { children: [ sensorOuterShape, sensorInnerShape, sensorInnerCircle ], cursor: 'pointer' } );
+    this.sensorHeight = this.sensorNode.height;
+    this.sensorWidth = this.sensorNode.width;
 
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
       var sensorViewPoint = modelViewTransform.modelToViewPosition( location );
-      sensorNode.setTranslation( sensorViewPoint.x - (sensorNode.getWidth() * sensorNode.getScaleVector().x / 2), sensorViewPoint.y - sensorNode.getHeight() * 0.32 * sensorNode.getScaleVector().y / 2 );
+      intensityMeterNode.sensorNode.setTranslation(
+        sensorViewPoint.x - (intensityMeterNode.sensorWidth * intensityMeterNode.sensorNode.getScaleVector().x / 2),
+        sensorViewPoint.y - intensityMeterNode.sensorHeight * 0.32 * intensityMeterNode.sensorNode.getScaleVector().y );
     } );
 
     // sensor node drag handler
     var start;
     var isFromSensorPanel;
     var isToSensorPanel;
-    sensorNode.addInputListener( new SimpleDragHandler( {
+    this.sensorNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         isFromSensorPanel = false;
         isToSensorPanel = false;
         start = intensityMeterNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
-          intensityMeterNode.setIntensityMeterScale( intensityMeterScaleOutSideContainer );
+          intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
+          intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
           isFromSensorPanel = true;
-          var initialPosition = modelViewTransform.modelToViewPosition( intensityMeter.sensorPosition );
-          intensityMeterNode.dragAll( start.minus( initialPosition ) );
-          //start = modelViewTransform.modelToViewPosition( intensityMeter.sensorPosition );
         }
         else {
           isFromSensorPanel = false;
@@ -128,7 +130,8 @@ define( function( require ) {
           isToSensorPanel = true;
         }
         if ( isToSensorPanel ) {
-          intensityMeterNode.setIntensityMeterScale( intensityMeterScaleInSideContainer );
+          intensityMeterNode.setIntensityMeterScaleAnimation( intensityMeter.sensorPositionProperty.initialValue, intensityMeterScaleInSideContainer );
+          intensityMeterNode.setIntensityMeterScale( intensityMeter.sensorPositionProperty.initialValue, intensityMeterScaleInSideContainer );
           intensityMeterNode.intensityMeter.reset();
         }
       }
@@ -136,7 +139,7 @@ define( function( require ) {
 
     // add body node
     var rectangleWidth = 150;
-    var rectangleHeight = 110;
+    var rectangleHeight = 105;
 
     // adding outer rectangle
     var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 5, 5, {
@@ -173,9 +176,9 @@ define( function( require ) {
     var valueNode = new Text( intensityMeter.reading.getString(),
       { font: new PhetFont( 25 ), fill: 'black' } );
 
-    var bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle, titleNode, valueNode ] } );
-    titleNode.setTranslation( (bodyNode.getWidth() - titleNode.getWidth()) / 2,
-      bodyNode.getHeight() * 0.25 );
+    this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle, titleNode, valueNode ], cursor: 'pointer' } );
+    titleNode.setTranslation( (this.bodyNode.getWidth() - titleNode.getWidth()) / 2,
+      this.bodyNode.getHeight() * 0.25 );
 
     // displayed value
     intensityMeter.readingProperty.link( function() {
@@ -183,22 +186,21 @@ define( function( require ) {
       valueNode.setTranslation( innerMostRectangle.centerX - valueNode.width / 2, innerMostRectangle.centerY + valueNode.height / 2 );
     } );
 
+    //body location
     intensityMeter.bodyPositionProperty.link( function( location ) {
-      bodyNode.setTranslation( modelViewTransform.modelToViewPosition( location ) );
+      intensityMeterNode.bodyNode.setTranslation( modelViewTransform.modelToViewPosition( location ) );
     } );
 
-    // drag handler
-    bodyNode.addInputListener( new SimpleDragHandler( {
+    // body drag handler
+    this.bodyNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         isFromSensorPanel = false;
         isToSensorPanel = false;
         start = intensityMeterNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
-          intensityMeterNode.setIntensityMeterScale( intensityMeterScaleOutSideContainer );
+          intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
+          intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
           isFromSensorPanel = true;
-          var initialPosition = modelViewTransform.modelToViewPosition( intensityMeter.bodyPosition );
-          intensityMeterNode.dragAll( start.minus( initialPosition ) );
-          //start = modelViewTransform.modelToViewPosition( intensityMeter.bodyPosition );
         }
         else {
           isFromSensorPanel = false;
@@ -220,60 +222,92 @@ define( function( require ) {
           isToSensorPanel = true;
         }
         if ( isToSensorPanel ) {
-          intensityMeterNode.setIntensityMeterScale( intensityMeterScaleInSideContainer );
+          intensityMeterNode.setIntensityMeterScaleAnimation( intensityMeter.sensorPositionProperty.initialValue, intensityMeterScaleInSideContainer );
+          intensityMeterNode.setIntensityMeterScale( intensityMeter.sensorPositionProperty.initialValue, intensityMeterScaleInSideContainer );
           intensityMeterNode.intensityMeter.reset();
         }
       }
     } ) );
-    this.sensorNode = sensorNode;
-    this.bodyNode = bodyNode;
-    intensityMeterNode.setIntensityMeterScale( intensityMeterScaleInSideContainer );
+    //scale sensorNode and bodyNode and translating
+    this.bodyNode.setScaleMagnitude( intensityMeterScaleInSideContainer );
+    this.sensorNode.setScaleMagnitude( intensityMeterScaleInSideContainer );
+    var sensorViewPoint = this.modelViewTransform.modelToViewPosition( this.intensityMeter.sensorPosition );
+    this.sensorNode.setTranslation( sensorViewPoint.x - (this.sensorWidth * this.sensorNode.getScaleVector().x / 2),
+      sensorViewPoint.y - (this.sensorHeight * 0.32 * this.sensorNode.getScaleVector().x) );
+    this.bodyNode.setTranslation( this.modelViewTransform.modelToViewPosition( this.intensityMeter.bodyPosition ) );
+
     //Connect the sensor to the body with a gray wire
-    this.wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty, sensorNode, bodyNode, 'gray' );
+    this.wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty, this.sensorNode, this.bodyNode, 'gray' );
+
+    //add the components
     this.addChild( this.wireNode );
-    this.addChild( sensorNode );
-    this.addChild( bodyNode );
+    this.addChild( this.sensorNode );
+    this.addChild( this.bodyNode );
   }
 
   return inherit( Node, IntensityMeterNode, {
-    setIntensityMeterScale: function( scale ) {
+    /**
+     * Resize the intensityMeterNode
+     * @param endPosition
+     * @param scale
+     */
+    setIntensityMeterScale: function( endPosition, scale ) {
+      //previous scale for scaling the distance between the sensorNode and bodyNode
+      var prevScale = this.sensorNode.getScaleVector().x;
       this.bodyNode.setScaleMagnitude( scale );
       this.sensorNode.setScaleMagnitude( scale );
-      var sensorViewPoint = this.modelViewTransform.modelToViewPosition( this.intensityMeter.sensorPosition );
-      this.sensorNode.setTranslation( sensorViewPoint.x - (this.sensorNode.getWidth() * this.sensorNode.getScaleVector().x / 2),
-        sensorViewPoint.y - (this.sensorNode.getHeight() * 0.32 * this.sensorNode.getScaleVector().x) );
-      this.bodyNode.setTranslation( this.modelViewTransform.modelToViewPosition( this.intensityMeter.bodyPosition ) );
+      this.intensityMeter.bodyPositionProperty.set( new Vector2(
+        this.intensityMeter.sensorPosition.x + this.intensityMeter.bodyPosition.minus(
+          this.intensityMeter.sensorPosition ).x * scale / prevScale, this.intensityMeter.sensorPosition.y ) );
+      this.intensityMeter.translateAll( endPosition.minus( this.intensityMeter.sensorPosition ) );
+
+    },
+    /**
+     * Resize the intensityMeterNode with Animation
+     * @param endPosition
+     * @param scale
+     */
+    setIntensityMeterScaleAnimation: function( endPosition, scale ) {
+      var prevScale = this.sensorNode.getScaleVector().x;
+      var startPoint = { x: this.intensityMeter.sensorPosition.x, y: this.intensityMeter.sensorPosition.y, scale: prevScale };
+      var endPoint = { x: endPosition.x, y: endPosition.y, scale: scale };
+      this.init( startPoint, endPoint );
+    },
+    /**
+     *
+     * @param startPoint
+     * @param endPoint
+     */
+    init: function( startPoint, endPoint ) {
+      var target = this;
+      new TWEEN.Tween( startPoint )
+        .to( endPoint, 100 )
+        .easing( TWEEN.Easing.Quadratic.InOut )
+        .onUpdate( function() {
+          target.setIntensityMeterScale( new Vector2( startPoint.x, startPoint.y ), startPoint.scale );
+        } ).start();
     },
     /**
      * Drag all components, called when dragging from toolbox
      * @param {Vector2}delta
      */
     dragAll: function( delta ) {
-      this.doTranslate( this.modelViewTransform.viewToModelDelta( delta ) );
+      this.intensityMeter.translateAll( this.modelViewTransform.viewToModelDelta( delta ) );
     },
     /**
-     *
+     * Drag sensorNode
      * @param {Vector2}delta
      */
     dragSensor: function( delta ) {
       this.intensityMeter.translateSensor( this.modelViewTransform.viewToModelDelta( delta ) );
     },
     /**
-     *
+     * Drag bodyNode
      * @param {Vector2}delta
      */
     dragBody: function( delta ) {
       this.intensityMeter.translateBody( this.modelViewTransform.viewToModelDelta( delta ) );
-    },
-    /**
-     *
-     * @param {Vector2}delta
-     */
-    doTranslate: function( delta ) {
-      this.intensityMeter.translateAll( delta );
     }
-
   } );
 
 } );
-
