@@ -178,7 +178,7 @@ define( function( require ) {
     this.addChild( stepButton );
     this.waveParticleCanvasLayer = new Node();
     this.waveCanvasLayer.addChild( this.waveParticleCanvasLayer );
-    var typesOfParticles = [ introModel.waveParticles, introModel.reflectedWaveParticles, introModel.refractedWaveParticles ]
+    var typesOfParticles = [ introModel.waveParticles, introModel.reflectedWaveParticles, introModel.refractedWaveParticles ];
     Property.multilink( [ introModel.laserViewProperty, introModel.laser.onProperty, introModel.intensityMeter.sensorPositionProperty,
       introModel.laser.emissionPointProperty, introModel.intensityMeter.enabledProperty
     ], function() {

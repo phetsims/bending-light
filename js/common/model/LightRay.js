@@ -50,7 +50,6 @@ define( function( require ) {
     // Directionality is important for propagation
     this.tip = tip;
     this.tail = tail;
-    this.isNextColorBlack = true; // color of next particle in wave node
     // The index of refraction of the medium the lightray inhabits
     this.indexOfRefraction = indexOfRefraction;
     this.wavelength = wavelength;    // wavelength in meters
@@ -193,8 +192,7 @@ define( function( require ) {
     },
     getAngularFrequency: function() {
       return this.getFrequency() * Math.PI * 2;
-    }
-    ,
+    },
     getPhaseOffset: function() {
       //return this.getAngularFrequency() * time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
     },

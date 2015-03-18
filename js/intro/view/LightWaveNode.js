@@ -13,7 +13,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Pattern = require( 'SCENERY/util/Pattern' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Color = require( 'SCENERY/util/Color' );
 
   // images
@@ -30,7 +29,7 @@ define( function( require ) {
   function LightWaveNode( modelViewTransform, lightRay ) {
     Node.call( this, { pickable: false } );
 
-    this.patternIndex = 0;
+    //this.patternIndex = 0;
 
     this.lightRay = lightRay;
     this.modelViewTransform = modelViewTransform;
