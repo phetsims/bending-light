@@ -41,17 +41,17 @@ define( function( require ) {
     this.bottomMedium = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
       this.mediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
 
-    this.waveParticles = new ObservableArray();
+    /*this.waveParticles = new ObservableArray();
     this.reflectedWaveParticles = new ObservableArray();
-    this.refractedWaveParticles = new ObservableArray();
+     this.refractedWaveParticles = new ObservableArray();*/
     Property.multilink( [ this.laserViewProperty, this.laser.onProperty, this.intensityMeter.sensorPositionProperty,
       this.laser.emissionPointProperty, this.topMedium, this.bottomMedium, this.laser.pivotProperty, this.laser.emissionPointProperty,
       this.intensityMeter.enabledProperty, this.laser.colorProperty
     ], function() {
       introModel.updateModel();
-      introModel.waveParticles.clear();
+      /*introModel.waveParticles.clear();
       introModel.reflectedWaveParticles.clear();
-      introModel.refractedWaveParticles.clear();
+       introModel.refractedWaveParticles.clear();*/
       if ( introModel.laserViewProperty.value === 'wave' && introModel.laser.onProperty.value ) {
         introModel.createInitialsParticles();
       }
@@ -267,7 +267,8 @@ define( function( require ) {
         lightRayToPropagate = this.rays.get( k );
         var angle = lightRayToPropagate.extendBackwards ? Math.abs( lightRayToPropagate.getAngle() ) : Math.PI / 2;
         particleColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
-        if ( k === 0 ) {
+        lightRayToPropagate.particles.push( new WaveParticle( lightRayToPropagate.tail, lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
+        /* if ( k === 0 ) {
           this.waveParticles.push( new WaveParticle( this.laser.emissionPoint, lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
         }
         if ( k === 1 ) {
@@ -276,7 +277,7 @@ define( function( require ) {
         if ( k === 2 ) {
           this.refractedWaveParticles.push( new WaveParticle( this.laser.pivot, lightRayToPropagate.trapeziumWidth, particleColor.toCSS(), angle ) );
 
-        }
+         }*/
       }
     },
     // create the particles between light ray tail and and tip
@@ -292,13 +293,14 @@ define( function( require ) {
         //var startPoint = lightRayToPropagate.tail;
         // var endPoint = lightRayToPropagate.tip;
         //  var distance = endPoint.distance( startPoint );
-        var newDistance = 5.597222222222222e-7;
+        var newDistance = 5.597222222222222e-7; // ~10px
         var angle = lightRayToPropagate.extendBackwards ? Math.abs( lightRayToPropagate.getAngle() ) : Math.PI / 2;
         particleColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
         var numberOfParticles = ( k === 0 ) ? 10 : this.simDisplayWindowHeight;
-        var typesOfParticles = [ this.waveParticles, this.reflectedWaveParticles, this.refractedWaveParticles ];
+        //var typesOfParticles = [ this.waveParticles, this.reflectedWaveParticles, this.refractedWaveParticles ];
         for ( j = 0; j < numberOfParticles; j++ ) {
-          typesOfParticles[ k ].push( new WaveParticle( lightRayInRay2Form.pointAtDistance( newDistance ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
+          //typesOfParticles[ k ].push( new WaveParticle( lightRayInRay2Form.pointAtDistance( newDistance ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
+          lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( newDistance ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
           newDistance += 5.597222222222222e-7;
         }
       }
@@ -314,32 +316,37 @@ define( function( require ) {
       var delta;
       var particlesToRemove = [];
       var reflectedParticlesToRemove = [];
-      var refractionParticleToRemove = [];
-      var typesOfParticles = [ this.waveParticles, this.reflectedWaveParticles, this.refractedWaveParticles ];
+      var refractedParticlesToRemove = [];
+      //var typesOfParticles = [ this.waveParticles, this.reflectedWaveParticles, this.refractedWaveParticles ];
+      var waveParticles = [];
       for ( var i = 0; i < this.rays.length; i++ ) {
         delta = Vector2.createPolar( this.rays.get( i ).wavelength / 20, this.rays.get( i ).getAngle() );
-        for ( var j = 0; j < typesOfParticles[ i ].length; j++ ) {
-          particle = typesOfParticles[ i ].get( j );
+        waveParticles = this.rays.get( i ).particles;
+        for ( var j = 0; j < waveParticles.length; j++ ) {
+          particle = waveParticles.get( j );
           particle.position = particle.position.plus( delta );
+
+          //todo: set the bounds in the light ray itself?
           if ( particle.position.y <= 0 && i === 0 ) {
             particlesToRemove.push( particle );
           }
-          if ( i === 1 && particle.position.y >= Math.abs( this.simDisplayWindowHeightInModel / 2 ) ) {
+          if ( i === 1 && particle.position.y >= this.simDisplayWindowHeightInModel / 2 ) {
             reflectedParticlesToRemove.push( particle );
           }
-          if ( i === 2 && particle.position.y <= this.simDisplayWindowHeightInModel / 2 ) {
-            refractionParticleToRemove.push( particle );
+          if ( i === 2 && particle.position.y <= -this.simDisplayWindowHeightInModel / 2 ) {
+            refractedParticlesToRemove.push( particle );
           }
         }
       }
       if ( particlesToRemove.length > 0 ) {
-        this.waveParticles.removeAll( particlesToRemove );
+        this.rays.get( 0 ).particles.removeAll( particlesToRemove );
       }
       if ( reflectedParticlesToRemove.length > 0 ) {
-        this.reflectedWaveParticles.removeAll( particlesToRemove );
+        this.rays.get( 1 ).particles.removeAll( reflectedParticlesToRemove );
+
       }
-      if ( refractionParticleToRemove.length > 0 ) {
-        this.refractedWaveParticles.removeAll( particlesToRemove );
+      if ( refractedParticlesToRemove.length > 0 ) {
+        this.rays.get( 2 ).particles.removeAll( refractedParticlesToRemove );
       }
 
     }

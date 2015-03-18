@@ -178,7 +178,7 @@ define( function( require ) {
     this.addChild( stepButton );
     this.waveParticleCanvasLayer = new Node();
     this.waveCanvasLayer.addChild( this.waveParticleCanvasLayer );
-    var typesOfParticles = [ introModel.waveParticles, introModel.reflectedWaveParticles, introModel.refractedWaveParticles ];
+    //var typesOfParticles = [ introModel.waveParticles, introModel.reflectedWaveParticles, introModel.refractedWaveParticles ];
 
     Property.multilink( [
       introModel.laserViewProperty,
@@ -211,7 +211,7 @@ define( function( require ) {
           maxY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
           minY = k === 1 ? reflectedRaMinY : minY;
           maxY = k === 1 ? reflectedRayMaxY : maxY;
-          var particleCanvasNode = new WaveCanvasNode( typesOfParticles[ k ], introView.modelViewTransform, {
+          var particleCanvasNode = new WaveCanvasNode( introModel.rays.get( k ).particles, introView.modelViewTransform, {
             canvasBounds: new Bounds2( minX, minY, maxX, maxY ),
             clipArea: introView.modelViewTransform.modelToViewShape( introModel.rays.get( k ).getWaveShape() )
             } );
@@ -260,33 +260,33 @@ define( function( require ) {
       speedControl.visible = (laserType === 'wave');
     } );
 
-    // call stepInternal at a rate of 8 times per second
+    /* // call stepInternal at a rate of 8 times per second
     this.timer = new EventTimer( new EventTimer.UniformEventModel( 8, Math.random ), function() {
       introView.stepInternal();
-    } );
+     } );*/
 
   }
 
   return inherit( BendingLightView, IntroView, {
     step: function( dt ) {
       if ( this.introModel.isPlaying ) {
-        this.timer.step( dt );
+        //this.timer.step( dt );
         for ( var k = 0; k < this.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
           this.waveParticleCanvasLayer.children[ k ].step();
         }
       }
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;
-      this.simDisplayWindowHeightInModel = this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale );
+      this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale ) );
     },
 
-    stepInternal: function() {
+    /*stepInternal: function() {
       var lightWaves = this.lightWaveLayer.getChildren();
       for ( var i = 0; i < lightWaves.length; i++ ) {
         lightWaves[ i ].step();
       }
 
-    },
+     },*/
 
     /**
      * No more tools available in IntroCanvas, but this is overriden in MoreToolsCanvas to provide additional tools

@@ -15,6 +15,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Ray2 = require( 'DOT/Ray2' );
   var Line = require( 'KITE/segments/Line' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
 
 
   // constants
@@ -64,6 +65,7 @@ define( function( require ) {
     // has to be an integral number of wavelength so that the phases work out correctly,
     // turing this up too high past 1E6 causes things not to render properly
     this.extend = extend;
+    this.particles = new ObservableArray();
   }
 
   return inherit( Object, LightRay, {
