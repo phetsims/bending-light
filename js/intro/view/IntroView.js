@@ -179,8 +179,13 @@ define( function( require ) {
     this.waveParticleCanvasLayer = new Node();
     this.waveCanvasLayer.addChild( this.waveParticleCanvasLayer );
     var typesOfParticles = [ introModel.waveParticles, introModel.reflectedWaveParticles, introModel.refractedWaveParticles ];
-    Property.multilink( [ introModel.laserViewProperty, introModel.laser.onProperty, introModel.intensityMeter.sensorPositionProperty,
-      introModel.laser.emissionPointProperty, introModel.intensityMeter.enabledProperty
+
+    Property.multilink( [
+      introModel.laserViewProperty,
+      introModel.laser.onProperty,
+      introModel.intensityMeter.sensorPositionProperty,
+      introModel.laser.emissionPointProperty,
+      introModel.intensityMeter.enabledProperty
     ], function() {
       var points;
       var minX;
@@ -207,7 +212,8 @@ define( function( require ) {
           minY = k === 1 ? reflectedRaMinY : minY;
           maxY = k === 1 ? reflectedRayMaxY : maxY;
           var particleCanvasNode = new WaveCanvasNode( typesOfParticles[ k ], introView.modelViewTransform, {
-              canvasBounds: new Bounds2( minX, minY, maxX, maxY )
+            canvasBounds: new Bounds2( minX, minY, maxX, maxY ),
+            clipArea: introView.modelViewTransform.modelToViewShape( introModel.rays.get( k ).getWaveShape() )
             } );
           introView.waveParticleCanvasLayer.addChild( particleCanvasNode );
         }
