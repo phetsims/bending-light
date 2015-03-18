@@ -269,12 +269,12 @@ define( function( require ) {
   }
 
   return inherit( BendingLightView, IntroView, {
-    step: function( dt ) {
-      if ( this.introModel.isPlaying ) {
-        //this.timer.step( dt );
-        for ( var k = 0; k < this.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
-          this.waveParticleCanvasLayer.children[ k ].step();
-        }
+    step: function() {
+
+      // This is required to clear the previous canvas particle layers from the view.
+      // When the sim is paused in wave mode and the laser is dragged or the mode is switched from wave to ray
+      for ( var k = 0; k < this.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
+        this.waveParticleCanvasLayer.children[ k ].step();
       }
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;

@@ -44,9 +44,16 @@ define( function( require ) {
     /*this.waveParticles = new ObservableArray();
     this.reflectedWaveParticles = new ObservableArray();
      this.refractedWaveParticles = new ObservableArray();*/
-    Property.multilink( [ this.laserViewProperty, this.laser.onProperty, this.intensityMeter.sensorPositionProperty,
-      this.laser.emissionPointProperty, this.topMedium, this.bottomMedium, this.laser.pivotProperty, this.laser.emissionPointProperty,
-      this.intensityMeter.enabledProperty, this.laser.colorProperty
+    Property.multilink( [
+      this.laserViewProperty,
+      this.laser.onProperty,
+      this.intensityMeter.sensorPositionProperty,
+      this.topMedium,
+      this.bottomMedium,
+      this.laser.pivotProperty,
+      this.laser.emissionPointProperty,
+      this.intensityMeter.enabledProperty,
+      this.laser.colorProperty
     ], function() {
       introModel.updateModel();
       /*introModel.waveParticles.clear();
