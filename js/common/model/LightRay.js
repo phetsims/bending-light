@@ -123,6 +123,24 @@ define( function( require ) {
         .lineTo( tipPoint2.x, tipPoint2.y )
         .lineTo( tipPoint1.x, tipPoint1.y )
         .close();
+      return shape;
+    },
+
+
+    // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
+    getWaveBounds: function() {
+
+      var angle = this.extendBackwards ? Math.abs( this.getAngle() ) : Math.PI / 2;
+      var tailWidth = this.waveWidth;
+      var tipWidth = this.trapeziumWidth;
+
+      // tip point
+      var tipPoint1 = new Vector2( this.tip.x + tipWidth / 2, this.tip.y );
+      var tipPoint2 = new Vector2( this.tip.x - tipWidth / 2, this.tip.y );
+
+      //tail
+      var tailPoint1 = new Vector2( this.tail.x + tailWidth / 2 * Math.sin( angle ), this.tail.y + tailWidth / 2 * Math.cos( angle ) );
+      var tailPoint2 = new Vector2( this.tail.x - tailWidth / 2 * Math.sin( angle ), this.tail.y - tailWidth / 2 * Math.cos( angle ) );
       return [ tailPoint1, tailPoint2, tipPoint2, tipPoint1 ];
     },
 
@@ -175,7 +193,8 @@ define( function( require ) {
     },
     getAngularFrequency: function() {
       return this.getFrequency() * Math.PI * 2;
-    },
+    }
+    ,
     getPhaseOffset: function() {
       //return this.getAngularFrequency() * time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
     },

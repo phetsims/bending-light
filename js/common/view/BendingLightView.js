@@ -87,6 +87,8 @@ define( function( require ) {
     this.addChild( this.beforeLightLayer );
     this.addChild( this.lightRayLayer );
     this.addChild( this.lightWaveLayer );
+    this.waveCanvasLayer = new Node();
+    this.addChild( this.waveCanvasLayer );
     //this.addChild( whiteLightNode );
     this.addChild( this.afterLightLayer );
     this.addChild( this.afterLightLayer2 );
@@ -119,6 +121,11 @@ define( function( require ) {
       if ( model.laserViewProperty.value === 'ray' ) {
         node = bendingLightView.laserView.rayNode.createNode( bendingLightView.modelViewTransform, ray );
         layer = bendingLightView.lightRayLayer;
+        layer.addChild( node );
+      }
+      else {
+        node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
+        layer = bendingLightView.lightWaveLayer;
         layer.addChild( node );
       }
     } );

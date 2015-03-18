@@ -53,7 +53,7 @@ define( function( require ) {
       introModel.reflectedWaveParticles.clear();
       introModel.refractedWaveParticles.clear();
       if ( introModel.laserViewProperty.value === 'wave' && introModel.laser.onProperty.value ) {
-        introModel.createTheParticleInitially();
+        introModel.createInitialsParticles();
       }
     } );
 
@@ -62,7 +62,7 @@ define( function( require ) {
     // call stepInternal at a rate of 10 times per second
     this.timer = new EventTimer( new EventTimer.ConstantEventModel( 1, Math.random ), function() {
       if ( introModel.laser.on && introModel.laserViewProperty.value === 'wave' ) {
-        introModel.createParticle();
+        introModel.addParticle();
       }
     } );
   }
@@ -97,11 +97,11 @@ define( function( require ) {
 
         // calculated wave width of reflected and refracted wave width.
         // specially used in in wave Mode
-        var initialPoint = this.laser.emissionPoint;
-        var finalPoint = this.laser.pivot;
-        var angle = new Vector2( finalPoint.x - initialPoint.x,
-          finalPoint.y - initialPoint.y ).angle();
-        var trapeziumWidth = Math.abs( sourceWaveWidth / Math.sin( angle ) );
+        //var initialPoint = this.laser.emissionPoint;
+        // var finalPoint = this.laser.pivot;
+        /* var angle = new Vector2( finalPoint.x - initialPoint.x,
+         finalPoint.y - initialPoint.y ).angle();*/
+        var trapeziumWidth = Math.abs( sourceWaveWidth / Math.sin( this.laser.getAngle() ) );
 
         //Since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
@@ -259,118 +259,47 @@ define( function( require ) {
       }
     },
 
-    // creates  a particle
-    createParticle: function() {
+    // add  a particle
+    addParticle: function() {
       var particleColor;
-      var colorOfParticle;
-      var blackColor;
-      var incidentLightRay;
-      var reflectedLightRay;
-      var refractedLightRay;
-      if ( this.rays.length > 0 ) {
-        incidentLightRay = this.rays.get( 0 );
-        var angle = incidentLightRay.extendBackwards ? Math.abs( incidentLightRay.getAngle() ) : Math.PI / 2;
-        colorOfParticle = incidentLightRay.getColor();
-        colorOfParticle = new Color( colorOfParticle.getRed(), colorOfParticle.getGreen(), colorOfParticle.getBlue(),
-          Math.sqrt( incidentLightRay.getPowerFraction() ) );
-        blackColor = new Color( 0, 0, 0, Math.sqrt( this.rays.get( 0 ).getPowerFraction() ) );
-        particleColor = incidentLightRay.isNextColorBlack ? blackColor.toCSS() : colorOfParticle.toCSS();
-        incidentLightRay.isNextColorBlack = incidentLightRay.isNextColorBlack ? false : true;
-        this.waveParticles.push( new WaveParticle( this.laser.emissionPoint, incidentLightRay.getWaveWidth(), particleColor, angle ) );
+      var lightRayToPropagate;
+      for ( var k = 0; k < this.rays.length; k++ ) {
+        lightRayToPropagate = this.rays.get( k );
+        var angle = lightRayToPropagate.extendBackwards ? Math.abs( lightRayToPropagate.getAngle() ) : Math.PI / 2;
+        particleColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
+        if ( k === 0 ) {
+          this.waveParticles.push( new WaveParticle( this.laser.emissionPoint, lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
+        }
+        if ( k === 1 ) {
+          this.reflectedWaveParticles.push( new WaveParticle( this.laser.pivot, lightRayToPropagate.trapeziumWidth, particleColor.toCSS(), angle ) );
+        }
+        if ( k === 2 ) {
+          this.refractedWaveParticles.push( new WaveParticle( this.laser.pivot, lightRayToPropagate.trapeziumWidth, particleColor.toCSS(), angle ) );
 
+        }
       }
-      if ( this.rays.length > 1 ) {
-        reflectedLightRay = this.rays.get( 1 );
-        colorOfParticle = reflectedLightRay.getColor();
-        colorOfParticle = new Color( colorOfParticle.getRed(), colorOfParticle.getGreen(), colorOfParticle.getBlue(),
-          Math.sqrt( reflectedLightRay.getPowerFraction() ) );
-        blackColor = new Color( 0, 0, 0, Math.sqrt( reflectedLightRay.getPowerFraction() ) );
-        particleColor = reflectedLightRay.isNextColorBlack ? blackColor.toCSS() : colorOfParticle.toCSS();
-        reflectedLightRay.isNextColorBlack = reflectedLightRay.isNextColorBlack ? false : true;
-        var reflectionAngle = reflectedLightRay.extendBackwards ? Math.abs( reflectedLightRay.getAngle() ) : Math.PI / 2;
-        this.reflectedWaveParticles.push( new WaveParticle( this.laser.pivot, reflectedLightRay.trapeziumWidth, particleColor, reflectionAngle ) );
-      }
-      if ( this.rays.length > 2 ) {
-        refractedLightRay = this.rays.get( 2 );
-        colorOfParticle = refractedLightRay.getColor();
-        colorOfParticle = new Color( colorOfParticle.getRed(), colorOfParticle.getGreen(), colorOfParticle.getBlue(),
-          Math.sqrt( refractedLightRay.getPowerFraction() ) );
-        blackColor = new Color( 0, 0, 0, Math.sqrt( refractedLightRay.getPowerFraction() ) );
-        particleColor = refractedLightRay.isNextColorBlack ? blackColor.toCSS() : colorOfParticle.toCSS();
-        refractedLightRay.isNextColorBlack = refractedLightRay.isNextColorBlack ? false : true;
-        var refractionAngle = refractedLightRay.extendBackwards ? Math.abs( refractedLightRay.getAngle() ) : Math.PI / 2;
-        this.refractedWaveParticles.push( new WaveParticle( this.laser.pivot, refractedLightRay.trapeziumWidth, particleColor, refractionAngle ) );
-
-      }
-
     },
-    createTheParticleInitially: function() {
-      var lightRay;
-      var reflectedRay;
-      var transmitterRay;
-      var incidentLightRay;
-      var reflectedLightRay;
-      var refractedLightRay;
+    // create the particles between light ray tail and and tip
+    createInitialsParticles: function() {
+      var lightRayInRay2Form;
+      var lightRayToPropagate;
       var particleColor;
-      var colorOfParticle;
-      var blackColor;
       var j;
-      if ( this.rays.length > 0 ) {
-        incidentLightRay = this.rays.get( 0 );
-        lightRay = new Ray2( incidentLightRay.tail, Vector2.createPolar( 1, incidentLightRay.getAngle() ) );
-        var startPoint = incidentLightRay.tail;
-        var endPoint = incidentLightRay.tip;
-        var distance = endPoint.distance( startPoint );
-        var newDistance = distance / 10;
-        for ( j = 0; j < 10; j++ ) {
-          var angle = incidentLightRay.extendBackwards ? Math.abs( incidentLightRay.getAngle() ) : Math.PI / 2;
-          colorOfParticle = incidentLightRay.getColor();
-          colorOfParticle = new Color( colorOfParticle.getRed(), colorOfParticle.getGreen(), colorOfParticle.getBlue(),
-            Math.sqrt( incidentLightRay.getPowerFraction() ) );
-          blackColor = new Color( 0, 0, 0, Math.sqrt( incidentLightRay.getPowerFraction() ) );
-          particleColor = incidentLightRay.isNextColorBlack ? blackColor.toCSS() : colorOfParticle.toCSS();
-          incidentLightRay.isNextColorBlack = incidentLightRay.isNextColorBlack ? false : true;
-          this.waveParticles.push( new WaveParticle( lightRay.pointAtDistance( newDistance ), incidentLightRay.getWaveWidth(), particleColor, angle ) );
-          newDistance += distance / 10;
-        }
-      }
-      if ( this.rays.length > 1 ) {
-
-        reflectedLightRay = this.rays.get( 1 );
-        reflectedRay = new Ray2( reflectedLightRay.tail, Vector2.createPolar( 1, reflectedLightRay.getAngle() ) );
-        //var startPoint1 = reflectedLightRay.tail;
-        // var endPoint1 = reflectedLightRay.tip;
-        //var distance1 = 5.597222222222222e-7;// Math.abs( startPoint1.distance( endPoint1 ) );
-        var newDistance1 = 5.597222222222222e-7;//distance1 / 10;
-        for ( j = 0; j < this.simDisplayWindowHeight; j++ ) {
-          colorOfParticle = reflectedLightRay.getColor();
-          colorOfParticle = new Color( colorOfParticle.getRed(), colorOfParticle.getGreen(), colorOfParticle.getBlue(),
-            Math.sqrt( reflectedLightRay.getPowerFraction() ) );
-          blackColor = new Color( 0, 0, 0, Math.sqrt( reflectedLightRay.getPowerFraction() ) );
-          particleColor = reflectedLightRay.isNextColorBlack ? blackColor.toCSS() : colorOfParticle.toCSS();
-          reflectedLightRay.isNextColorBlack = reflectedLightRay.isNextColorBlack ? false : true;
-          var reflectionAngle = reflectedLightRay.extendBackwards ? Math.abs( reflectedLightRay.getAngle() ) : Math.PI / 2;
-          this.reflectedWaveParticles.push( new WaveParticle( reflectedRay.pointAtDistance( newDistance1 ), reflectedLightRay.trapeziumWidth, particleColor, reflectionAngle ) );
-          newDistance1 += 5.597222222222222e-7;
-        }
-        if ( this.rays.length > 2 ) {
-          refractedLightRay = this.rays.get( 2 );
-          transmitterRay = new Ray2( refractedLightRay.tail, Vector2.createPolar( 1, refractedLightRay.getAngle() ) );
-          // var startPoint3 = refractedLightRay.tail;
-          //    var endPoint3 = refractedLightRay.tip;
-          // var distance3 = 5.597222222222222e-7;
-          var newDistance3 = 5.597222222222222e-7;
-          for ( j = 0; j < this.simDisplayWindowHeight; j++ ) {
-            colorOfParticle = refractedLightRay.getColor();
-            colorOfParticle = new Color( colorOfParticle.getRed(), colorOfParticle.getGreen(), colorOfParticle.getBlue(),
-              Math.sqrt( refractedLightRay.getPowerFraction() ) );
-            blackColor = new Color( 0, 0, 0, Math.sqrt( refractedLightRay.getPowerFraction() ) );
-            particleColor = refractedLightRay.isNextColorBlack ? blackColor.toCSS() : colorOfParticle.toCSS();
-            refractedLightRay.isNextColorBlack = refractedLightRay.isNextColorBlack ? false : true;
-            var refractionAngle = refractedLightRay.extendBackwards ? Math.abs( refractedLightRay.getAngle() ) : Math.PI / 2;
-            this.refractedWaveParticles.push( new WaveParticle( transmitterRay.pointAtDistance( newDistance3 ), refractedLightRay.trapeziumWidth, particleColor, refractionAngle ) );
-            newDistance3 += 5.597222222222222e-7;
-          }
+      for ( var k = 0; k < this.rays.length; k++ ) {
+        lightRayToPropagate = this.rays.get( k );
+        var tip = k === 0 ? Vector2.createPolar( 1, lightRayToPropagate.getAngle() ) : lightRayToPropagate.tip;
+        lightRayInRay2Form = new Ray2( lightRayToPropagate.tail, tip );
+        //var startPoint = lightRayToPropagate.tail;
+        // var endPoint = lightRayToPropagate.tip;
+        //  var distance = endPoint.distance( startPoint );
+        var newDistance = 5.597222222222222e-7;
+        var angle = lightRayToPropagate.extendBackwards ? Math.abs( lightRayToPropagate.getAngle() ) : Math.PI / 2;
+        particleColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
+        var numberOfParticles = ( k === 0 ) ? 10 : this.simDisplayWindowHeight;
+        var typesOfParticles = [ this.waveParticles, this.reflectedWaveParticles, this.refractedWaveParticles ];
+        for ( j = 0; j < numberOfParticles; j++ ) {
+          typesOfParticles[ k ].push( new WaveParticle( lightRayInRay2Form.pointAtDistance( newDistance ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
+          newDistance += 5.597222222222222e-7;
         }
       }
 
@@ -381,47 +310,26 @@ define( function( require ) {
      * propagates the particles.
      */
     propagateParticles: function() {
-      //  var x2;
       var particle;
       var delta;
       var particlesToRemove = [];
       var reflectedParticlesToRemove = [];
       var refractionParticleToRemove = [];
-      for ( var i = 0, k = this.waveParticles.length; i < k; i++ ) {
-
-        particle = this.waveParticles.get( i );
-        if ( this.rays.length > 0 ) {
-          delta = Vector2.createPolar( this.rays.get( 0 ).wavelength / 20, this.rays.get( 0 ).getAngle() );
+      var typesOfParticles = [ this.waveParticles, this.reflectedWaveParticles, this.refractedWaveParticles ];
+      for ( var i = 0; i < this.rays.length; i++ ) {
+        delta = Vector2.createPolar( this.rays.get( i ).wavelength / 20, this.rays.get( i ).getAngle() );
+        for ( var j = 0; j < typesOfParticles[ i ].length; j++ ) {
+          particle = typesOfParticles[ i ].get( j );
           particle.position = particle.position.plus( delta );
-        }
-
-        if ( particle.position.y <= 0 ) {
-          particlesToRemove.push( particle );
-        }
-      }
-      for ( i = 0, k = this.reflectedWaveParticles.length; i < k; i++ ) {
-
-        particle = this.reflectedWaveParticles.get( i );
-        if ( this.rays.length > 1 ) {
-          delta = Vector2.createPolar( this.rays.get( 1 ).wavelength / 60, this.rays.get( 1 ).getAngle() );
-          particle.position = particle.position.plus( delta );
-        }
-
-        if ( particle.position.y >= Math.abs( this.simDisplayWindowHeightInModel / 2 ) ) {
-          reflectedParticlesToRemove.push( particle );
-        }
-
-      }
-      for ( i = 0, k = this.refractedWaveParticles.length; i < k; i++ ) {
-
-        particle = this.refractedWaveParticles.get( i );
-        if ( this.rays.length > 2 ) {
-          delta = Vector2.createPolar( this.rays.get( 2 ).wavelength / 60, this.rays.get( 2 ).getAngle() );
-          particle.position = particle.position.plus( delta );
-        }
-
-        if ( particle.position.y <= this.simDisplayWindowHeightInModel / 2 ) {
-          refractionParticleToRemove.push( particle );
+          if ( particle.position.y <= 0 && i === 0 ) {
+            particlesToRemove.push( particle );
+          }
+          if ( i === 1 && particle.position.y >= Math.abs( this.simDisplayWindowHeightInModel / 2 ) ) {
+            reflectedParticlesToRemove.push( particle );
+          }
+          if ( i === 2 && particle.position.y <= this.simDisplayWindowHeightInModel / 2 ) {
+            refractionParticleToRemove.push( particle );
+          }
         }
       }
       if ( particlesToRemove.length > 0 ) {

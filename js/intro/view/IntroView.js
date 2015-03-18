@@ -177,8 +177,8 @@ define( function( require ) {
 
     this.addChild( stepButton );
     this.waveParticleCanvasLayer = new Node();
-    this.beforeLightLayer.addChild( this.waveParticleCanvasLayer );
-
+    this.waveCanvasLayer.addChild( this.waveParticleCanvasLayer );
+    var typesOfParticles = [ introModel.waveParticles, introModel.reflectedWaveParticles, introModel.refractedWaveParticles ]
     Property.multilink( [ introModel.laserViewProperty, introModel.laser.onProperty, introModel.intensityMeter.sensorPositionProperty,
       introModel.laser.emissionPointProperty, introModel.intensityMeter.enabledProperty
     ], function() {
@@ -187,50 +187,29 @@ define( function( require ) {
       var minY;
       var maxX;
       var maxY;
+      var reflectedRaMinY;
+      var reflectedRayMaxY;
       introModel.laser.waveProperty.value = introModel.laserViewProperty.value === 'wave';
       if ( introModel.laserViewProperty.value === 'wave' ) {
 
-        //introModel.laserViewProperty
         for ( var k = 0; k < introView.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
           introView.waveParticleCanvasLayer.removeChild( introView.waveParticleCanvasLayer.children[ k ] );
         }
 
-        if ( introModel.rays.length > 1 ) {
-          points = introModel.rays.get( 1 ).getWaveShape();
+        for ( k = 0; k < introModel.rays.length; k++ ) {
+          points = introModel.rays.get( k ).getWaveBounds();
           minX = introView.modelViewTransform.modelToViewX( points[ 1 ].x );
-          minY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
+          reflectedRaMinY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
           maxX = introView.modelViewTransform.modelToViewX( points[ 3 ].x );
-          maxY = introView.modelViewTransform.modelToViewY( points[ 0 ].y );
-          introView.refletedWaveCanvasNode = new WaveCanvasNode( /* introModel.waveParticles, */introModel.reflectedWaveParticles, /* introModel.refractedWaveParticles,*/
-            introView.modelViewTransform, {
-              canvasBounds: new Bounds2( minX, minY, maxX, maxY )
-            } );
-          introView.waveParticleCanvasLayer.addChild( introView.refletedWaveCanvasNode );
-        }
-        if ( introModel.rays.length > 0 ) {
-          points = introModel.rays.get( 0 ).getWaveShape();
-          minX = introView.modelViewTransform.modelToViewX( points[ 1 ].x );
+          reflectedRayMaxY = introView.modelViewTransform.modelToViewY( points[ 0 ].y );
           minY = introView.modelViewTransform.modelToViewY( points[ 0 ].y );
-          maxX = introView.modelViewTransform.modelToViewX( points[ 3 ].x );
           maxY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
-          introView.incedentWaveCanvasNode = new WaveCanvasNode( introModel.waveParticles,
-            introView.modelViewTransform, {
+          minY = k === 1 ? reflectedRaMinY : minY;
+          maxY = k === 1 ? reflectedRayMaxY : maxY;
+          var particleCanvasNode = new WaveCanvasNode( typesOfParticles[ k ], introView.modelViewTransform, {
               canvasBounds: new Bounds2( minX, minY, maxX, maxY )
             } );
-          introView.waveParticleCanvasLayer.addChild( introView.incedentWaveCanvasNode );
-        }
-
-        if ( introModel.rays.length > 2 ) {
-          points = introModel.rays.get( 2 ).getWaveShape();
-          minX = introView.modelViewTransform.modelToViewX( points[ 1 ].x );
-          minY = introView.modelViewTransform.modelToViewY( points[ 0 ].y );
-          maxX = introView.modelViewTransform.modelToViewX( points[ 3 ].x );
-          maxY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
-          introView.refractedWaveCanvasNode = new WaveCanvasNode( /* introModel.waveParticles, introModel.reflectedWaveParticles,*/ introModel.refractedWaveParticles,
-            introView.modelViewTransform, {
-              canvasBounds: new Bounds2( minX, minY, maxX, maxY )
-            } );
-          introView.waveParticleCanvasLayer.addChild( introView.refractedWaveCanvasNode );
+          introView.waveParticleCanvasLayer.addChild( particleCanvasNode );
         }
       }
     } );
@@ -288,7 +267,7 @@ define( function( require ) {
         this.timer.step( dt );
         for ( var k = 0; k < this.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
           this.waveParticleCanvasLayer.children[ k ].step();
-      }
+        }
       }
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;

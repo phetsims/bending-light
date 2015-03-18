@@ -14,6 +14,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Pattern = require( 'SCENERY/util/Pattern' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Color = require( 'SCENERY/util/Color' );
 
   // images
   var waveImage = require( 'image!BENDING_LIGHT/wave.png' );
@@ -39,23 +40,15 @@ define( function( require ) {
     this.patterns.push( new Pattern( knobImage ) );
     //Set the path based on the light ray shape
     //PPath that shows the oscillating wave view for the LightRay
+    var color = lightRay.getColor();
+    color = new Color( color.getRed(), color.getGreen(), color.getBlue(), Math.sqrt( lightRay.getPowerFraction() ) );
     this.wavePath = new Path( modelViewTransform.modelToViewShape( lightRay.getWaveShape() ), {
-      stroke: 'red', fill: this.patterns[ this.patternIndex ]
+      fill: color
     } );
     this.addChild( this.wavePath );
 
     // todo: need to add  gradient to waves
   }
 
-  return inherit( Node, LightWaveNode, {
-    step: function() {
-      // just change the pattern index property;
-      //this.patternIndex = (this.patternIndex + 1) % this.patterns.length;
-      //this.wavePath.fill = this.patterns[ this.patternIndex ];
-      var newPos = this.wavePath.getTranslation().plus( this.modelViewTransform.modelToViewDelta( Vector2.createPolar( this.lightRay.wavelength / 60, this.lightRay.getAngle() ) ) );
-      this.wavePath.setTranslation( newPos.x, newPos.y );
-
-    }
-  } );
+  return inherit( Node, LightWaveNode );
 } );
-
