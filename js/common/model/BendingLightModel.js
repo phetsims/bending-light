@@ -131,6 +131,9 @@ define( function( require ) {
       //Clear the model in preparation for another ray propagation update phase
       clearModel: function() {
 
+        for ( var i = 0; i < this.rays.length; i++ ) {
+          this.rays.get( i ).particles.clear();
+        }
         this.rays.clear();
         //Clear the accumulator in the intensity meter so it can sum up the newly
         // created rays

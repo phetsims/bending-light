@@ -65,6 +65,8 @@ define( function( require ) {
     // has to be an integral number of wavelength so that the phases work out correctly,
     // turing this up too high past 1E6 causes things not to render properly
     this.extend = extend;
+
+    //wave particles
     this.particles = new ObservableArray();
   }
 

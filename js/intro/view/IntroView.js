@@ -195,11 +195,12 @@ define( function( require ) {
       var reflectedRaMinY;
       var reflectedRayMaxY;
       introModel.laser.waveProperty.value = introModel.laserViewProperty.value === 'wave';
-      if ( introModel.laserViewProperty.value === 'wave' ) {
 
-        for ( var k = 0; k < introView.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
-          introView.waveParticleCanvasLayer.removeChild( introView.waveParticleCanvasLayer.children[ k ] );
-        }
+      // remove the old wave particle layers
+      for ( var k = 0; k < introView.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
+        introView.waveParticleCanvasLayer.removeChild( introView.waveParticleCanvasLayer.children[ k ] );
+      }
+      if ( introModel.laserViewProperty.value === 'wave' ) {
 
         for ( k = 0; k < introModel.rays.length; k++ ) {
           points = introModel.rays.get( k ).getWaveBounds();
