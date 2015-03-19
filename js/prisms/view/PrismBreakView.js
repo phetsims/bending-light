@@ -29,6 +29,9 @@ define( function( require ) {
   //var WAVELENGTH_RED = BendingLightModel.WAVELENGTH_RED;//static
   var inset = 10;
 
+// string
+  var environmentString = require( 'string!BENDING_LIGHT/environment' );
+
   /**
    *
    * @param model
@@ -76,7 +79,7 @@ define( function( require ) {
     var IndexOfRefractionDecimals = 2;
     //Add control panels for setting the index of refraction for each medium
     var environmentMediumControlPanel = new MediumControlPanel( this, model.environmentMedium,
-      'Environment', true, model.wavelengthPropertyProperty, IndexOfRefractionDecimals );
+      environmentString, true, model.wavelengthPropertyProperty, IndexOfRefractionDecimals );
     environmentMediumControlPanel.setTranslation( this.layoutBounds.right - inset - environmentMediumControlPanel.width, this.layoutBounds.top + inset );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
     var laserControlPanelNode = new LaserControlPanelNode( model.laser.colorProperty,

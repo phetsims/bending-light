@@ -18,6 +18,9 @@ define( function( require ) {
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var Vector2 = require( 'DOT/Vector2' );
 
+  // string
+  var normalString = require( 'string!BENDING_LIGHT/normal' );
+
   //  constants
   var ICON_WIDTH = 85;
 
@@ -56,7 +59,7 @@ define( function( require ) {
       spacing: 5
     };
 
-    var normalText = new Text( 'Normal' );
+    var normalText = new Text( normalString );
     var normalCheckBox = new CheckBox( normalText, showNormal, checkBoxOptions );
     normalCheckBox.setTranslation( 15, sensorPanelHeight - 55 );
     this.addChild( normalCheckBox );
