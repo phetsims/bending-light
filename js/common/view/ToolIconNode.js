@@ -9,23 +9,23 @@ define( function( require ) {
   /**
    *
    * @param thumbnail
-   * @param showProtractor
+   * @param showProtractorProperty
    * @param modelViewTransform
    * @param canvas
    * @constructor
    */
-  function ToolIconNode( thumbnail, showProtractor, modelViewTransform, canvas ) {
+  function ToolIconNode( thumbnail, showProtractorProperty, modelViewTransform, canvas ) {
 
     Node.call( this );
     var toolIconNode = this;
-    this.showProtractor = showProtractor;
+    this.showProtractorProperty = showProtractorProperty;
     this.modelViewTransform = modelViewTransform;
     this.canvas = canvas;
     this.node = null;
     this.intersect = false;
 
     canvas.afterLightLayer.addChild( thumbnail );
-    this.showProtractor.link( function( showProtractor ) {
+    this.showProtractorProperty.link( function( showProtractor ) {
       thumbnail.setVisible( !showProtractor );
     } );
     var start;
@@ -33,12 +33,12 @@ define( function( require ) {
 
     thumbnail.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-        toolIconNode.showProtractor.set( true );
+        toolIconNode.showProtractorProperty.set( true );
         thumbnail.setVisible( false );
 
         if ( toolIconNode.node === null ) {
           start = thumbnail.globalToParentPoint( event.pointer.point );
-          var nodeRef = canvas.createNode( modelViewTransform, showProtractor, modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelX( start.y ) );
+          var nodeRef = canvas.createNode( modelViewTransform, showProtractorProperty, modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelX( start.y ) );
           toolIconNode.node = nodeRef;
 
           // var anyIntersection = false;
@@ -80,7 +80,7 @@ define( function( require ) {
     testDropIn: function( node ) {
       if ( this.intersect ) {
         //Update the model to signify the tool is out of the play area
-        this.showProtractor.set( false );
+        this.showProtractorProperty.set( false );
 
         //Show the thumbnail again so it can be dragged out again
         this.setVisible( true );

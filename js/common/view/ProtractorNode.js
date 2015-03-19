@@ -27,7 +27,7 @@ define( function( require ) {
   /**
    *
    * @param modelViewTransform
-   * @param showProtractor
+   * @param showProtractorProperty
    * @param protractorModel
    * @param translateShape
    * @param rotateShape
@@ -35,7 +35,7 @@ define( function( require ) {
    * @param containerBounds
    * @constructor
    */
-  function ProtractorNode( modelViewTransform, showProtractor, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds ) {
+  function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
@@ -47,7 +47,7 @@ define( function( require ) {
     //Load and add the image
     this.protractorImageNode = new Image( protractorImage, { pickable: true } );
     protractorNode.setScaleMagnitude( this.multiScale );
-    showProtractor.link( function( showProtractor ) {
+    showProtractorProperty.link( function( showProtractor ) {
       protractorNode.protractorImageNode.setVisible( showProtractor );
     } );
     this.addChild( this.protractorImageNode );

@@ -79,7 +79,7 @@ define( function( require ) {
     // everything that had a listener in the java version becomes a property
     PropertySet.call( this, {
         laserView: 'ray',//LaserView.RAY, //Whether the laser is Ray or Wave mode
-        wavelengthProperty: WAVELENGTH_RED,
+        wavelength: WAVELENGTH_RED,
         isPlaying: true,
         speed: 'normal',
         indexOfRefraction: 1,
@@ -89,7 +89,7 @@ define( function( require ) {
     //Model components
     this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.385, -this.modelHeight * 0.25, -this.modelWidth * 0.35, -this.modelHeight * 0.25 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
-    this.wavelengthPropertyProperty.link( function( wavelength ) {
+    this.wavelengthProperty.link( function( wavelength ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );
     } );
 

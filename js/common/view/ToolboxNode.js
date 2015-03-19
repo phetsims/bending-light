@@ -50,7 +50,7 @@ define( function( require ) {
     //Initial tools
     var protractorModelPosition = modelViewTransform.viewToModelPosition( new Vector2( this.sensorPanel.centerX, this.sensorPanel.y + 45 ) );
     this.protractorModel = new ProtractorModel( protractorModelPosition.x, protractorModelPosition.y );
-    this.protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractor, this.protractorModel,
+    this.protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractorProperty, this.protractorModel,
       canvas.getProtractorDragRegion, canvas.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.getBounds() );
     this.addChild( this.protractorNode );
 

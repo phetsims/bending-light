@@ -78,18 +78,18 @@ define( function( require ) {
 
     var IndexOfRefractionDecimals = 2;
     //Add control panels for setting the index of refraction for each medium
-    var environmentMediumControlPanel = new MediumControlPanel( this, model.environmentMedium,
-      environmentString, true, model.wavelengthPropertyProperty, IndexOfRefractionDecimals );
+    var environmentMediumControlPanel = new MediumControlPanel( this, model.environmentMediumProperty,
+      environmentString, true, model.wavelengthProperty, IndexOfRefractionDecimals );
     environmentMediumControlPanel.setTranslation( this.layoutBounds.right - inset - environmentMediumControlPanel.width, this.layoutBounds.top + inset );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
     var laserControlPanelNode = new LaserControlPanelNode( model.laser.colorProperty,
-      model.wavelengthPropertyProperty, {
+      model.wavelengthProperty, {
         bottom: this.layoutBounds.bottom - 200,
         right:  this.layoutBounds.right - inset
       } );
     this.addChild( laserControlPanelNode );
     model.prisms.addItemAddedListener( function( item ) {
-      prismBreakView.prismLayer.addChild( new PrismNode( prismBreakView.modelViewTransform, item, model.prismMedium ) );
+      prismBreakView.prismLayer.addChild( new PrismNode( prismBreakView.modelViewTransform, item, model.prismMediumProperty ) );
     } );
     model.prisms.addItemRemovedListener( function() {
       for ( var i = 0; i < prismBreakView.prismLayer.getChildrenCount(); i++ ) {
@@ -97,7 +97,7 @@ define( function( require ) {
       }
     } );
 
-    var laserTypeControlPanel = new LaserTypeControlPanel( model.manyRays, {
+    var laserTypeControlPanel = new LaserTypeControlPanel( model.manyRaysProperty, {
       top:  this.layoutBounds.top - inset,
       left: this.layoutBounds.left + inset
     } );
@@ -135,7 +135,7 @@ define( function( require ) {
       return innerBar;
     };
     //Add the protractor node
-    var protractorNode = new ProtractorNode( this.modelViewTransform, model.showProtractor, model.protractorModel,
+    var protractorNode = new ProtractorNode( this.modelViewTransform, model.showProtractorProperty, model.protractorModel,
       this.getProtractorDragRegion, this.getProtractorRotationRegion, 200, new Bounds2( 0, 0, 0, 0 ) );
     this.addChild( protractorNode );
     protractorNode.scale( 90 / protractorNode.width );

@@ -97,13 +97,13 @@ define( function( require ) {
 
     //Allow the user to control the type of material in the prisms
     var environmentMediumMaterialListParent = new Node();
-    content.addChild( new MediumControlPanel( environmentMediumMaterialListParent, model.prismMedium, objectsString, false, model.wavelengthPropertyProperty, 2, { lineWidth: 0 } ) );
+    content.addChild( new MediumControlPanel( environmentMediumMaterialListParent, model.prismMediumProperty, objectsString, false, model.wavelengthProperty, 2, { lineWidth: 0 } ) );
 
     // add check boxes
     //Create an icon for the protractor check box
     var createProtractorIcon = function() {
       var protractorModel = new ProtractorModel( 0, 0 );
-      var protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractor, protractorModel,
+      var protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractorProperty, protractorModel,
         canvas.getProtractorDragRegion, canvas.getProtractorRotationRegion, 90, prismsToolBoxNode.getBounds() );
       protractorNode.setScaleMagnitude( 0.05 );
       return protractorNode;
@@ -138,9 +138,9 @@ define( function( require ) {
       spacing: 2
     };
 
-    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), model.showReflections, checkBoxOptions );
-    var showNormalCheckBox = new CheckBox( createItem( showNormal ), model.showNormals, checkBoxOptions );
-    var showProtractorCheckBox = new CheckBox( createItem( showProtractor ), model.showProtractor,
+    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), model.showReflectionsProperty, checkBoxOptions );
+    var showNormalCheckBox = new CheckBox( createItem( showNormal ), model.showNormalsProperty, checkBoxOptions );
+    var showProtractorCheckBox = new CheckBox( createItem( showProtractor ), model.showProtractorProperty,
       checkBoxOptions );
 
     var maxCheckBoxWidth = _.max( [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ],

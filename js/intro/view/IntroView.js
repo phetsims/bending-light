@@ -27,7 +27,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-  var EventTimer = require( 'PHET_CORE/EventTimer' );
+  //var EventTimer = require( 'PHET_CORE/EventTimer' );
   var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
   var Property = require( 'AXON/Property' );
@@ -97,19 +97,19 @@ define( function( require ) {
       centerOffsetLeft );
 
     //Add MediumNodes for top and bottom
-    this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMedium ) );
-    this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMedium ) );
+    this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMediumProperty ) );
+    this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
 
     var IndexOfRefractionDecimals = 2;
     //Add control panels for setting the index of refraction for each medium
-    var topMediumControlPanel = new MediumControlPanel( this, introModel.topMedium,
-      materialString, true, introModel.wavelengthPropertyProperty, IndexOfRefractionDecimals );
+    var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty,
+      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
     topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
     this.afterLightLayer2.addChild( topMediumControlPanel );
 
     //Add control panels for setting the index of refraction for each medium
-    var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMedium,
-      materialString, true, introModel.wavelengthPropertyProperty, IndexOfRefractionDecimals );
+    var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty,
+      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
     bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) + 10 );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
@@ -183,6 +183,8 @@ define( function( require ) {
     Property.multilink( [
       introModel.laserViewProperty,
       introModel.laser.onProperty,
+      introModel.topMediumProperty,
+      introModel.bottomMediumProperty,
       introModel.intensityMeter.sensorPositionProperty,
       introModel.laser.emissionPointProperty,
       introModel.intensityMeter.enabledProperty

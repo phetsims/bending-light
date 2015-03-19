@@ -117,9 +117,9 @@ define( function( require ) {
 
     var content;
     if ( hasMoreTools ) {
-      var wavelength = new Property( model.wavelengthPropertyProperty.value * 1E9 );
+      var mediumWavelengthProperty = new Property( model.wavelengthProperty.value * 1E9 );
       // Create  WavelengthSlider node
-      var wavelengthSlider = new WavelengthSlider( wavelength,
+      var wavelengthSlider = new WavelengthSlider( mediumWavelengthProperty,
         {
           cursorStroke: 'white',
           thumbWidth: 20,
@@ -132,12 +132,12 @@ define( function( require ) {
           pointerAreasOverTrack: true
         } );
 
-      var wavelengthValueText = new Text( wavelength.get() + units_nmString );
+      var wavelengthValueText = new Text( mediumWavelengthProperty.get() + units_nmString );
       var wavelengthBoxShape = new Rectangle( 0, 0, 50, 18, 2, 2,
         { fill: 'white', stroke: 'black' } );
 
       var plusButton = new ArrowButton( 'right', function propertyPlus() {
-        wavelength.set( Math.min( wavelength.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
+        mediumWavelengthProperty.set( Math.min( mediumWavelengthProperty.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
@@ -145,7 +145,7 @@ define( function( require ) {
         plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
 
       var minusButton = new ArrowButton( 'left', function propertyMinus() {
-        wavelength.set( Math.max( wavelength.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
+        mediumWavelengthProperty.set( Math.max( mediumWavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
@@ -177,8 +177,8 @@ define( function( require ) {
         children: [ laserRadio, waveRadio, wavelengthValue ],
         align: 'left'
       } );
-      wavelength.link( function( wavelength ) {
-        model.wavelengthPropertyProperty.set( wavelength / 1E9 );
+      mediumWavelengthProperty.link( function( wavelength ) {
+        model.wavelengthProperty.set( wavelength / 1E9 );
         wavelengthValueText.text = wavelength + units_nmString;
       } );
     }

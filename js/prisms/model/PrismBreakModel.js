@@ -45,12 +45,12 @@ define( function( require ) {
     } );
 
     //show multiple beams to help show how lenses work
-    this.manyRays = new Property( 1 );
+    this.manyRaysProperty = new Property( 1 );
 
     //If false, will hide non TIR reflections
-    this.showReflections = new Property( false );
-    this.showNormals = new Property( false );
-    this.showProtractor = new Property( false );
+    this.showReflectionsProperty = new Property( false );
+    this.showNormalsProperty = new Property( false );
+    this.showProtractorProperty = new Property( false );
 
     //List of intersections, which can be shown graphically
     this.intersections = new ObservableArray();
@@ -58,11 +58,11 @@ define( function( require ) {
     this.mediumColorFactory = new MediumColorFactory();
 
     //Environment the laser is in
-    this.environmentMedium = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
+    this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
 
     //Material that comprises the prisms
-    this.prismMedium = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
+    this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
       this.mediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
 
 
@@ -73,7 +73,7 @@ define( function( require ) {
     BendingLightModel.call( this, Math.PI, false,
       BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
 
-    Property.multilink( [ this.manyRays, this.environmentMedium, this.laser.onProperty,
+    Property.multilink( [ this.manyRaysProperty, this.environmentMediumProperty, this.laser.onProperty,
       this.laser.pivotProperty, this.laser.emissionPointProperty, this.laser.colorProperty, this.laserViewProperty ], function() {
       prismsBreakModel.updateModel();
     } );
@@ -84,13 +84,13 @@ define( function( require ) {
 
     resetAll: function() {
       this.prisms.clear();
-      this.manyRays.reset();
-      this.environmentMedium.reset();
-      this.prismMedium.reset();
-      this.showReflections.reset();
+      this.manyRaysProperty.reset();
+      this.environmentMediumProperty.reset();
+      this.prismMediumProperty.reset();
+      this.showReflectionsProperty.reset();
       this.protractorModel.reset();
-      this.showNormals.reset();
-      this.showProtractor.reset();
+      this.showNormalsProperty.reset();
+      this.showProtractorProperty.reset();
       BendingLightModel.prototype.resetAll.call( this );
     },
     //List of prism prototypes that can be created in the sim
@@ -186,15 +186,15 @@ define( function( require ) {
         var dw = (max - min) / 16;
 
         for ( var wavelength = min; wavelength <= max; wavelength += dw ) {
-          mediumIndexOfRefraction = laserInPrism ? this.prismMedium.get().getIndexOfRefraction( wavelength ) :
-                                    this.environmentMedium.get().getIndexOfRefraction( wavelength );
+          mediumIndexOfRefraction = laserInPrism ? this.prismMediumProperty.get().getIndexOfRefraction( wavelength ) :
+                                    this.environmentMediumProperty.get().getIndexOfRefraction( wavelength );
           this.propagateTheRay( new Ray( tail, directionUnitVector, power,
             wavelength, mediumIndexOfRefraction, SPEED_OF_LIGHT / wavelength ), 0 );
         }
       }
       else {
-        mediumIndexOfRefraction = laserInPrism ? this.prismMedium.get().getIndexOfRefraction( this.laser.getWavelength() ) :
-                                  this.environmentMedium.get().getIndexOfRefraction( this.laser.getWavelength() );
+        mediumIndexOfRefraction = laserInPrism ? this.prismMediumProperty.get().getIndexOfRefraction( this.laser.getWavelength() ) :
+                                  this.environmentMediumProperty.get().getIndexOfRefraction( this.laser.getWavelength() );
         this.propagateTheRay( new Ray( tail, directionUnitVector, power, this.laser.getWavelength(),
           mediumIndexOfRefraction, this.laser.getFrequency() ), 0 );
       }
@@ -206,7 +206,7 @@ define( function( require ) {
         var tail = this.laser.emissionPoint;
         var laserInPrism = false;//this.isLaserInPrism();
         var directionUnitVector = this.laser.getDirectionUnitVector();
-        if ( this.manyRays.get() === 1 ) {
+        if ( this.manyRaysProperty.get() === 1 ) {
           //This can be used to show the main central ray
           this.propagate( tail, directionUnitVector, 1.0, laserInPrism );
         }
@@ -259,9 +259,9 @@ define( function( require ) {
           }
         }
         //Index of refraction of the other medium
-        var n2 = outputInsidePrism ? this.prismMedium.get().getIndexOfRefraction(
+        var n2 = outputInsidePrism ? this.prismMediumProperty.get().getIndexOfRefraction(
           incidentRay.getBaseWavelength() ) :
-                 this.environmentMedium.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
+                 this.environmentMediumProperty.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
         //Precompute for readability
         var point = intersection.getPoint();
         var n = intersection.getUnitNormal();
@@ -281,7 +281,7 @@ define( function( require ) {
         var refracted = new Ray( point.plus( incidentRay.directionUnitVector.times( +1E-12 ) ),
           vRefract, incidentRay.power * transmittedPower, incidentRay.wavelength, n2,
           incidentRay.frequency );
-        if ( this.showReflections || totalInternalReflection ) {
+        if ( this.showReflectionsProperty || totalInternalReflection ) {
           this.propagateRay( reflected, count + 1 );
         }
         this.propagateTheRay( refracted, count + 1 );

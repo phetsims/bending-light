@@ -18,7 +18,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var Reading = require( 'BENDING_LIGHT/common/model/Reading' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
+  //var ObservableArray = require( 'AXON/ObservableArray' );
   var EventTimer = require( 'PHET_CORE/EventTimer' );
   var WaveParticle = require( 'BENDING_LIGHT/common/model/WaveParticle' );
   var Ray2 = require( 'DOT/Ray2' );
@@ -36,9 +36,9 @@ define( function( require ) {
     var introModel = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
     this.mediumColorFactory = new MediumColorFactory();
-    this.topMedium = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
+    this.topMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
-    this.bottomMedium = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
+    this.bottomMediumProperty = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
       this.mediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
 
     /*this.waveParticles = new ObservableArray();
@@ -48,8 +48,8 @@ define( function( require ) {
       this.laserViewProperty,
       this.laser.onProperty,
       this.intensityMeter.sensorPositionProperty,
-      this.topMedium,
-      this.bottomMedium,
+      this.topMediumProperty,
+      this.bottomMediumProperty,
       this.laser.pivotProperty,
       this.laser.emissionPointProperty,
       this.intensityMeter.enabledProperty,
@@ -162,12 +162,12 @@ define( function( require ) {
     //Get the top medium index of refraction
 
     getN1: function() {
-      return this.topMedium.get().getIndexOfRefraction( this.laser.color.getWavelength() );
+      return this.topMediumProperty.get().getIndexOfRefraction( this.laser.color.getWavelength() );
     },
     //Get the bottom medium index of refraction
 
     getN2: function() {
-      return this.bottomMedium.get().getIndexOfRefraction( this.laser.color.getWavelength() );
+      return this.bottomMediumProperty.get().getIndexOfRefraction( this.laser.color.getWavelength() );
     },
     /**
      * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
@@ -210,8 +210,8 @@ define( function( require ) {
     },
     resetAll: function() {
       BendingLightModel.prototype.resetAll.call( this );
-      this.topMedium.reset();
-      this.bottomMedium.reset();
+      this.topMediumProperty.reset();
+      this.bottomMediumProperty.reset();
     },
     /**
      * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
@@ -276,13 +276,13 @@ define( function( require ) {
         particleColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
         lightRayToPropagate.particles.push( new WaveParticle( lightRayToPropagate.tail, lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
         /* if ( k === 0 ) {
-          this.waveParticles.push( new WaveParticle( this.laser.emissionPoint, lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
-        }
-        if ( k === 1 ) {
-          this.reflectedWaveParticles.push( new WaveParticle( this.laser.pivot, lightRayToPropagate.trapeziumWidth, particleColor.toCSS(), angle ) );
-        }
-        if ( k === 2 ) {
-          this.refractedWaveParticles.push( new WaveParticle( this.laser.pivot, lightRayToPropagate.trapeziumWidth, particleColor.toCSS(), angle ) );
+         this.waveParticles.push( new WaveParticle( this.laser.emissionPoint, lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
+         }
+         if ( k === 1 ) {
+         this.reflectedWaveParticles.push( new WaveParticle( this.laser.pivot, lightRayToPropagate.trapeziumWidth, particleColor.toCSS(), angle ) );
+         }
+         if ( k === 2 ) {
+         this.refractedWaveParticles.push( new WaveParticle( this.laser.pivot, lightRayToPropagate.trapeziumWidth, particleColor.toCSS(), angle ) );
 
          }*/
       }

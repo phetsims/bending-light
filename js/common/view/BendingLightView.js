@@ -45,7 +45,7 @@ define( function( require ) {
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
-    this.showProtractor = new BooleanProperty( true );
+    this.showProtractorProperty = new BooleanProperty( true );
     this.model = model;
     this.lightRayLayer = new Node();
     this.lightWaveLayer = new Node();
@@ -95,21 +95,21 @@ define( function( require ) {
 
     //Add rotation for the laser that show if/when the laser can be rotated
     // about its pivot
-    var showRotationDragHandles = new Property( false );
-    var showTranslationDragHandles = new Property( false );
+    var showRotationDragHandlesProperty = new Property( false );
+    var showTranslationDragHandlesProperty = new Property( false );
 
-    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), Math.PI / 22, showRotationDragHandles, clockwiseArrowNotAtMax ) );
-    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), -Math.PI / 22, showRotationDragHandles, ccwArrowNotAtMax ) );
+    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), Math.PI / 22, showRotationDragHandlesProperty, clockwiseArrowNotAtMax ) );
+    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), -Math.PI / 22, showRotationDragHandlesProperty, ccwArrowNotAtMax ) );
 
     //Add translation indicators that show if/when the laser can be moved by dragging
     var arrowLength = 100;
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), -arrowLength, 0, showTranslationDragHandles ) );
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, -arrowLength, showTranslationDragHandles ) );
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0, showTranslationDragHandles ) );
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength, showTranslationDragHandles ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), -arrowLength, 0, showTranslationDragHandlesProperty ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, -arrowLength, showTranslationDragHandlesProperty ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0, showTranslationDragHandlesProperty ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength, showTranslationDragHandlesProperty ) );
 
     //Add the laser itself
-    var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName/* model.visibleModelBounds */ );
+    var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName/* model.visibleModelBounds */ );
     this.addChild( laserNode );
     model.laserViewProperty.link( function() {
       model.laser.wave = (model.laserViewProperty.value === 'wave');
