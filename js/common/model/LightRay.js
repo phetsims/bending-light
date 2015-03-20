@@ -92,10 +92,7 @@ define( function( require ) {
       return this.tip.minus( this.tail ).magnitude();
     },
     toVector2D: function() {
-      var initialPoint = this.tail;
-      var finalPoint = this.tip;
-      return new Vector2( finalPoint.x - initialPoint.x,
-        finalPoint.y - initialPoint.y );
+      return this.tip.minus( this.tail );
     },
     getColor: function() {
       return this.color;
