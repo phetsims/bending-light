@@ -21,7 +21,7 @@ define( function( require ) {
   var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
-
+  var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
   //Font for labels in controls
   var labelFont = new PhetFont( 16 );
 
@@ -117,25 +117,42 @@ define( function( require ) {
 
     model.rays.addItemAddedListener( function( ray ) {
       var node;
-      var layer;
       if ( model.laserViewProperty.value === 'ray' ) {
         node = bendingLightView.laserView.rayNode.createNode( bendingLightView.modelViewTransform, ray );
-        layer = bendingLightView.lightRayLayer;
-        layer.addChild( node );
+        bendingLightView.lightRayLayer.addChild( node );
       }
       else {
         node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
-        layer = bendingLightView.lightWaveLayer;
-        layer.addChild( node );
+        bendingLightView.lightWaveLayer.addChild( node );
+        var points;
+        var minX;
+        var minY;
+        var maxX;
+        var maxY;
+        var reflectedRaMinY;
+        var reflectedRayMaxY;
+        for ( var k = 0; k < model.rays.length; k++ ) {
+          points = model.rays.get( k ).getWaveBounds();
+          minX = bendingLightView.modelViewTransform.modelToViewX( points[ 1 ].x );
+          reflectedRaMinY = bendingLightView.modelViewTransform.modelToViewY( points[ 2 ].y );
+          maxX = bendingLightView.modelViewTransform.modelToViewX( points[ 3 ].x );
+          reflectedRayMaxY = bendingLightView.modelViewTransform.modelToViewY( points[ 0 ].y );
+          minY = bendingLightView.modelViewTransform.modelToViewY( points[ 0 ].y );
+          maxY = bendingLightView.modelViewTransform.modelToViewY( points[ 2 ].y );
+          minY = k === 1 ? reflectedRaMinY : minY;
+          maxY = k === 1 ? reflectedRayMaxY : maxY;
+          var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles, bendingLightView.modelViewTransform, {
+            canvasBounds: new Bounds2( minX, minY, maxX, maxY ),
+            clipArea: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() )
+          } );
+          bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
+        }
       }
     } );
     model.rays.addItemRemovedListener( function() {
-      for ( var i = 0; i < bendingLightView.lightRayLayer.getChildrenCount(); i++ ) {
-        bendingLightView.lightRayLayer.removeChild( bendingLightView.lightRayLayer.children[ i ] );
-      }
-      for ( i = 0; i < bendingLightView.lightWaveLayer.getChildrenCount(); i++ ) {
-        bendingLightView.lightWaveLayer.removeChild( bendingLightView.lightWaveLayer.children[ i ] );
-      }
+      bendingLightView.lightRayLayer.removeAllChildren();
+      bendingLightView.lightWaveLayer.removeAllChildren();
+      bendingLightView.waveCanvasLayer.removeAllChildren();
     } );
 
 

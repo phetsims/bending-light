@@ -17,7 +17,6 @@ define( function( require ) {
   var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
   var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
@@ -29,8 +28,6 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   //var EventTimer = require( 'PHET_CORE/EventTimer' );
   var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
-  var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
-  var Property = require( 'AXON/Property' );
 
   //strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -176,52 +173,10 @@ define( function( require ) {
     );
 
     this.addChild( stepButton );
-    this.waveParticleCanvasLayer = new Node();
-    this.waveCanvasLayer.addChild( this.waveParticleCanvasLayer );
-    //var typesOfParticles = [ introModel.waveParticles, introModel.reflectedWaveParticles, introModel.refractedWaveParticles ];
-
-    Property.multilink( [
-      introModel.laserViewProperty,
-      introModel.laser.onProperty,
-      introModel.topMediumProperty,
-      introModel.bottomMediumProperty,
-      introModel.intensityMeter.sensorPositionProperty,
-      introModel.laser.emissionPointProperty,
-      introModel.intensityMeter.enabledProperty
-    ], function() {
-      var points;
-      var minX;
-      var minY;
-      var maxX;
-      var maxY;
-      var reflectedRaMinY;
-      var reflectedRayMaxY;
+    introModel.laserViewProperty.link( function() {
       introModel.laser.waveProperty.value = introModel.laserViewProperty.value === 'wave';
-
-      // remove the old wave particle layers
-      for ( var k = 0; k < introView.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
-        introView.waveParticleCanvasLayer.removeChild( introView.waveParticleCanvasLayer.children[ k ] );
-      }
-      if ( introModel.laserViewProperty.value === 'wave' ) {
-
-        for ( k = 0; k < introModel.rays.length; k++ ) {
-          points = introModel.rays.get( k ).getWaveBounds();
-          minX = introView.modelViewTransform.modelToViewX( points[ 1 ].x );
-          reflectedRaMinY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
-          maxX = introView.modelViewTransform.modelToViewX( points[ 3 ].x );
-          reflectedRayMaxY = introView.modelViewTransform.modelToViewY( points[ 0 ].y );
-          minY = introView.modelViewTransform.modelToViewY( points[ 0 ].y );
-          maxY = introView.modelViewTransform.modelToViewY( points[ 2 ].y );
-          minY = k === 1 ? reflectedRaMinY : minY;
-          maxY = k === 1 ? reflectedRayMaxY : maxY;
-          var particleCanvasNode = new WaveCanvasNode( introModel.rays.get( k ).particles, introView.modelViewTransform, {
-            canvasBounds: new Bounds2( minX, minY, maxX, maxY ),
-            clipArea: introView.modelViewTransform.modelToViewShape( introModel.rays.get( k ).getWaveShape() )
-            } );
-          introView.waveParticleCanvasLayer.addChild( particleCanvasNode );
-        }
-      }
     } );
+
     var playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
       { radius: 18, stroke: 'black', fill: '#005566', y: stepButton.centerY, right: stepButton.left - inset } );
     this.addChild( playPauseButton );
@@ -264,8 +219,8 @@ define( function( require ) {
     } );
 
     /* // call stepInternal at a rate of 8 times per second
-    this.timer = new EventTimer( new EventTimer.UniformEventModel( 8, Math.random ), function() {
-      introView.stepInternal();
+     this.timer = new EventTimer( new EventTimer.UniformEventModel( 8, Math.random ), function() {
+     introView.stepInternal();
      } );*/
 
   }
@@ -275,8 +230,8 @@ define( function( require ) {
 
       // This is required to clear the previous canvas particle layers from the view.
       // When the sim is paused in wave mode and the laser is dragged or the mode is switched from wave to ray
-      for ( var k = 0; k < this.waveParticleCanvasLayer.getChildrenCount(); k++ ) {
-        this.waveParticleCanvasLayer.children[ k ].step();
+      for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
+        this.waveCanvasLayer.children[ k ].step();
       }
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;
@@ -284,10 +239,10 @@ define( function( require ) {
     },
 
     /*stepInternal: function() {
-      var lightWaves = this.lightWaveLayer.getChildren();
-      for ( var i = 0; i < lightWaves.length; i++ ) {
-        lightWaves[ i ].step();
-      }
+     var lightWaves = this.lightWaveLayer.getChildren();
+     for ( var i = 0; i < lightWaves.length; i++ ) {
+     lightWaves[ i ].step();
+     }
 
      },*/
 
