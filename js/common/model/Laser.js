@@ -36,6 +36,7 @@ define( function( require ) {
         //True if the laser is activated and emitting light
         on: false,
         wave: false,
+        colorMode: 'singleColor',
         //Model the point where light comes out of the laser
         //where the light comes from
         emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
