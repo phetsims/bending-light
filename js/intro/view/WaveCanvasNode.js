@@ -53,11 +53,11 @@ define( function( require ) {
         context.lineWidth = 5;
         context.moveTo( point1X, point1Y );
         context.lineTo( point2X, point2Y );
-        var grd = context.createLinearGradient( x, y, x + 5 * Math.cos( angle ), y + 5 * Math.sin( angle ) );
+        /*    var grd = context.createLinearGradient( x, y, x + 5 * Math.cos( angle ), y + 5 * Math.sin( angle ) );
         grd.addColorStop( 0, "black" );
         grd.addColorStop( 0.6, "red" );
-        grd.addColorStop( 0.8, "green" );
-        context.strokeStyle = grd;
+         grd.addColorStop( 0.8, "green" );*/
+        context.strokeStyle = particle.color;
         context.stroke();
       }
     },

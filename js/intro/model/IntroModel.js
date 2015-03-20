@@ -40,10 +40,6 @@ define( function( require ) {
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
       this.mediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
-
-    /*this.waveParticles = new ObservableArray();
-    this.reflectedWaveParticles = new ObservableArray();
-     this.refractedWaveParticles = new ObservableArray();*/
     Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
@@ -56,9 +52,6 @@ define( function( require ) {
       this.laser.colorProperty
     ], function() {
       introModel.updateModel();
-      /*introModel.waveParticles.clear();
-      introModel.reflectedWaveParticles.clear();
-       introModel.refractedWaveParticles.clear();*/
       if ( introModel.laserViewProperty.value === 'wave' && introModel.laser.onProperty.value ) {
         introModel.createInitialsParticles();
       }
@@ -275,16 +268,6 @@ define( function( require ) {
         var angle = lightRayToPropagate.extendBackwards ? Math.abs( lightRayToPropagate.getAngle() ) : Math.PI / 2;
         particleColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
         lightRayToPropagate.particles.push( new WaveParticle( lightRayToPropagate.tail, lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
-        /* if ( k === 0 ) {
-         this.waveParticles.push( new WaveParticle( this.laser.emissionPoint, lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
-         }
-         if ( k === 1 ) {
-         this.reflectedWaveParticles.push( new WaveParticle( this.laser.pivot, lightRayToPropagate.trapeziumWidth, particleColor.toCSS(), angle ) );
-         }
-         if ( k === 2 ) {
-         this.refractedWaveParticles.push( new WaveParticle( this.laser.pivot, lightRayToPropagate.trapeziumWidth, particleColor.toCSS(), angle ) );
-
-         }*/
       }
     },
     // create the particles between light ray tail and and tip
@@ -304,9 +287,7 @@ define( function( require ) {
         var angle = lightRayToPropagate.extendBackwards ? Math.abs( lightRayToPropagate.getAngle() ) : Math.PI / 2;
         particleColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
         var numberOfParticles = ( k === 0 ) ? 10 : this.simDisplayWindowHeight;
-        //var typesOfParticles = [ this.waveParticles, this.reflectedWaveParticles, this.refractedWaveParticles ];
         for ( j = 0; j < numberOfParticles; j++ ) {
-          //typesOfParticles[ k ].push( new WaveParticle( lightRayInRay2Form.pointAtDistance( newDistance ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
           lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( newDistance ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
           newDistance += 5.597222222222222e-7;
         }
