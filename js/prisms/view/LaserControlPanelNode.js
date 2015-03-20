@@ -17,7 +17,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
+  //var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
@@ -35,12 +35,12 @@ define( function( require ) {
 
   /**
    *
-   * @param laserColor
+   * @param colorModeProperty
    * @param wavelengthProperty
    * @param options
    * @constructor
    */
-  function LaserControlPanelNode( laserColor, wavelengthProperty, options ) {
+  function LaserControlPanelNode( colorModeProperty, wavelengthProperty, options ) {
 
 
     options = _.extend( {
@@ -56,9 +56,9 @@ define( function( require ) {
 
     var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
     // Create the radio buttons
-    var whiteLightRadio = new AquaRadioButton( laserColor, new LaserColor.WHITE_LIGHT(), createButtonTextNode( whiteLightString ),
+    var whiteLightRadio = new AquaRadioButton( colorModeProperty, 'white', createButtonTextNode( whiteLightString ),
       AQUA_RADIO_BUTTON_OPTIONS );
-    var oneColorRadio = new AquaRadioButton( laserColor, new LaserColor.OneColor( wavelengthProperty.get() ), createButtonTextNode( oneColorString ),
+    var oneColorRadio = new AquaRadioButton( colorModeProperty, 'singleColor', createButtonTextNode( oneColorString ),
       AQUA_RADIO_BUTTON_OPTIONS );
 
     var maxRadioButtonWidth = _.max( [ whiteLightRadio, oneColorRadio ], function( item ) {
@@ -128,7 +128,10 @@ define( function( require ) {
       children: [ minusButton, wavelengthBoxShape, wavelengthValueText,
         plusButton, wavelengthSlider ]
     } );
-
+    colorModeProperty.link( function() {
+      wavelengthValue.setPickable( colorModeProperty.value === 'singleColor' );
+      wavelengthValue.opacity = colorModeProperty.value === 'singleColor' ? 1 : 0.4;
+    } );
     var content = new VBox( {
       spacing: 10,
       children: [ whiteLightRadio, oneColorRadio, wavelengthValue ],

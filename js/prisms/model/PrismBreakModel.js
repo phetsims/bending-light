@@ -74,7 +74,7 @@ define( function( require ) {
       BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
 
     Property.multilink( [ this.manyRaysProperty, this.environmentMediumProperty, this.laser.onProperty,
-      this.laser.pivotProperty, this.laser.emissionPointProperty, this.laser.colorProperty, this.laserViewProperty ], function() {
+      this.laser.pivotProperty, this.laser.emissionPointProperty, this.laser.colorModeProperty, this.laser.colorProperty, this.laserViewProperty ], function() {
       prismsBreakModel.updateModel();
     } );
 
@@ -179,7 +179,7 @@ define( function( require ) {
       //Determines whether to use white light or single color light
       var mediumIndexOfRefraction;
       //this.model.laser.color.get() === WHITE_LIGHT
-      if ( false ) {
+      if ( this.laser.colorModeProperty.value === 'white' ) {
         var min = VisibleColor.MIN_WAVELENGTH / 1E9;
         var max = VisibleColor.MAX_WAVELENGTH / 1E9;
         //This number sets the number of (equally spaced wavelength) rays to show in a white beam.  More rays looks better but is more computationally intensive.
@@ -282,7 +282,7 @@ define( function( require ) {
           vRefract, incidentRay.power * transmittedPower, incidentRay.wavelength, n2,
           incidentRay.frequency );
         if ( this.showReflectionsProperty || totalInternalReflection ) {
-          this.propagateRay( reflected, count + 1 );
+          this.propagateTheRay( reflected, count + 1 );
         }
         this.propagateTheRay( refracted, count + 1 );
         //Add the incident ray itself

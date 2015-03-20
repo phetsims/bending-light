@@ -82,7 +82,7 @@ define( function( require ) {
       environmentString, true, model.wavelengthProperty, IndexOfRefractionDecimals );
     environmentMediumControlPanel.setTranslation( this.layoutBounds.right - inset - environmentMediumControlPanel.width, this.layoutBounds.top + inset );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
-    var laserControlPanelNode = new LaserControlPanelNode( model.laser.colorProperty,
+    var laserControlPanelNode = new LaserControlPanelNode( model.laser.colorModeProperty,
       model.wavelengthProperty, {
         bottom: this.layoutBounds.bottom - 200,
         right:  this.layoutBounds.right - inset
