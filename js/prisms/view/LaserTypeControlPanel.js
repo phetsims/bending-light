@@ -21,7 +21,7 @@ define( function( require ) {
   /**
    *
    * @param {Property<Number>}laserTypeProperty
-   * @param {Object} options that can be passed on to the underlying node
+   * @param {Object} [options] that can be passed on to the underlying node
    * @constructor
    */
   function LaserTypeControlPanel( laserTypeProperty, options ) {
