@@ -13,7 +13,7 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   //var ShapeDifference = require( 'BENDING_LIGHT/prisms/model/ShapeDifference' );
   //var ShapeIntersection = require( 'BENDING_LIGHT/prisms/model/ShapeIntersection' );
-//  var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
+  var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
   var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
   // var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
   var Ray = require( 'BENDING_LIGHT/prisms/model/Ray' );
@@ -134,11 +134,11 @@ define( function( require ) {
           new Vector2( a / 2 - b, a * Math.sqrt( 3 ) / 2.0 ) ]
       ) ) );
 
-      /*      var radius = a / 2;
+      var radius = a / 2;
 
        //Continuous Circle
        prismsTypes.push( new Prism( new Circle( new Vector2(), radius ) ) );
-       var polygonArray = [ new Vector2( 0, radius ),
+      /*  var polygonArray = [ new Vector2( 0, radius ),
        new Vector2( 0, -radius ),
        new Vector2( -radius, -radius ),
        new Vector2( -radius, radius ) ];
