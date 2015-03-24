@@ -55,7 +55,7 @@ define( function( require ) {
    * @param {Boolean}textFieldVisible
    * @param {Number}laserWavelength
    * @param format
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function MediumControlPanel( view, medium, name, textFieldVisible, laserWavelength, format, options ) {

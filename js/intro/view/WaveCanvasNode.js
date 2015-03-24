@@ -12,7 +12,7 @@ define( function( require ) {
    *
    * @param waveParticles
    * @param modelViewTransform
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function WaveCanvasNode( waveParticles, modelViewTransform, options ) {

@@ -65,7 +65,7 @@ define( function( require ) {
    *
    * @param model
    * @param hasMoreTools
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function LaserView( model, hasMoreTools, options ) {

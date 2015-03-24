@@ -63,7 +63,7 @@ define( function( require ) {
    * @param canvas
    * @param modelViewTransform
    * @param model
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function PrismToolboxNode( canvas, modelViewTransform, model, options ) {

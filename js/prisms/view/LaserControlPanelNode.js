@@ -37,7 +37,7 @@ define( function( require ) {
    *
    * @param colorModeProperty
    * @param wavelengthProperty
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function LaserControlPanelNode( colorModeProperty, wavelengthProperty, options ) {

@@ -31,7 +31,7 @@ define( function( require ) {
    * @param moreTools
    * @param {IntensityMeter} intensityMeter
    * @param showNormal
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function ToolboxNode( canvas, modelViewTransform, moreTools, intensityMeter, showNormal, options ) {
