@@ -34,39 +34,16 @@ define( function( require ) {
   var showNormalString = require( 'string!BENDING_LIGHT/showNormal' );
   var showProtractorString = require( 'string!BENDING_LIGHT/showProtractor' );
 
-  function PrismDragHandler( dragNode, modelViewTransform, model, prism ) {
-    var start;
-    var prismShape;
-    SimpleDragHandler.call( this, {
-      start: function( event ) {
-        start = dragNode.globalToParentPoint( event.pointer.point );
-        prismShape = prism.copy();
-        model.addPrism( prismShape );
-        //prismNode.translate( modelViewTransform.viewToModelDelta( start ).x, modelViewTransform.viewToModelDelta( start ).y );
-      },
-      drag: function( event ) {
-        var end = dragNode.globalToParentPoint( ( event.pointer.point ) );
-        var delta = end.minus( start );
-        prismShape.translate( modelViewTransform.viewToModelDelta( delta ).x, modelViewTransform.viewToModelDelta( delta ).y );
-        start = end;
-      },
-      end: function( event ) {
-
-      }
-    } );
-  }
-
-  inherit( SimpleDragHandler, PrismDragHandler );
 
   /**
    *
-   * @param canvas
-   * @param modelViewTransform
-   * @param model
-   * @param options
+   * @param {PrismBreakView} canvas
+   * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
+   * @param {PrismBreakModel} prismBreakModel - model of the prism screen
+   * @param {Object} options that can be passed on to the underlying node
    * @constructor
    */
-  function PrismToolboxNode( canvas, modelViewTransform, model, options ) {
+  function PrismToolboxNode( canvas, modelViewTransform, prismBreakModel, options ) {
 
     options = _.extend( {
       xMargin: 10,
@@ -84,20 +61,38 @@ define( function( require ) {
     content.setTranslation( 0, 5 );
     var prismPath = [];
     //Iterate over the prism prototypes in the model and create a draggable icon for each one
-    model.getPrismPrototypes().forEach( function( prism, i ) {
+    prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
       prismPath[ i ] = new Path( modelViewTransform.modelToViewShape( prism.shape.get().toShape() ), {
         fill: '#ABA8D6',
         stroke: '#ABA8D6'
       } );
+      var start;
+      var prismShape;
       prismPath[ i ].scale( 70 / prismPath[ i ].height );
-      prismPath[ i ].addInputListener( new PrismDragHandler( prismPath[ i ], modelViewTransform, model,
-        prism ) );
+      prismPath[ i ].addInputListener( new SimpleDragHandler( {
+
+          start: function( event ) {
+            start = prismsToolBoxNode.globalToParentPoint( event.pointer.point );
+            prismShape = prism.copy();
+            prismBreakModel.addPrism( prismShape );
+            prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
+          },
+          drag: function( event ) {
+            var end = prismsToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
+            var delta = end.minus( start );
+            prismShape.translate( modelViewTransform.viewToModelDelta( delta ).x, modelViewTransform.viewToModelDelta( delta ).y );
+            start = end;
+          },
+          end: function( event ) {
+          }
+        }
+      ) );
       content.addChild( prismPath[ i ] );
     } );
 
     //Allow the user to control the type of material in the prisms
     var environmentMediumMaterialListParent = new Node();
-    content.addChild( new MediumControlPanel( environmentMediumMaterialListParent, model.prismMediumProperty, objectsString, false, model.wavelengthProperty, 2, { lineWidth: 0 } ) );
+    content.addChild( new MediumControlPanel( environmentMediumMaterialListParent, prismBreakModel.prismMediumProperty, objectsString, false, prismBreakModel.wavelengthProperty, 2, { lineWidth: 0 } ) );
 
     // add check boxes
     //Create an icon for the protractor check box
@@ -138,9 +133,9 @@ define( function( require ) {
       spacing: 2
     };
 
-    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), model.showReflectionsProperty, checkBoxOptions );
-    var showNormalCheckBox = new CheckBox( createItem( showNormal ), model.showNormalsProperty, checkBoxOptions );
-    var showProtractorCheckBox = new CheckBox( createItem( showProtractor ), model.showProtractorProperty,
+    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), prismBreakModel.showReflectionsProperty, checkBoxOptions );
+    var showNormalCheckBox = new CheckBox( createItem( showNormal ), prismBreakModel.showNormalsProperty, checkBoxOptions );
+    var showProtractorCheckBox = new CheckBox( createItem( showProtractor ), prismBreakModel.showProtractorProperty,
       checkBoxOptions );
 
     var maxCheckBoxWidth = _.max( [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ],
