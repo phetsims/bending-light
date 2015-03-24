@@ -25,32 +25,32 @@ define( function( require ) {
    */
   function Prism( shape ) {
 
-    this.shape = new Property( shape );
+    this.shapeProperty = new Property( shape );
   }
 
   return inherit( Object, Prism, {
     translate: function( dx, dy ) {
-      this.shape.set( this.shape.get().getTranslatedInstance( dx, dy ) );
+      this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( dx, dy ) );
     },
     //Compute the intersections of the specified ray with this polygon's edges
     getIntersections: function( incidentRay ) {
-      return this.shape.get().getIntersections( incidentRay );
+      return this.shapeProperty.get().getIntersections( incidentRay );
     },
     contains: function( point ) {
-      return this.shape.get().containsPoint( point );
+      return this.shapeProperty.get().containsPoint( point );
     },
     copy: function() {
-      return new Prism( this.shape.get() );
+      return new Prism( this.shapeProperty.get() );
     },
     getBounds: function() {
-      return this.shape.get().getBounds();
+      return this.shapeProperty.get().getBounds();
     },
     translate1: function( delta ) {
       this.translate( delta.x, delta.y );
     },
     rotate: function( deltaAngle ) {
-      this.shape.set( this.shape.get().getRotatedInstance( deltaAngle,
-        this.shape.get().getRotationCenter() ) );
+      this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle,
+        this.shapeProperty.get().getRotationCenter() ) );
     }
   } );
 } );

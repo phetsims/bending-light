@@ -62,7 +62,7 @@ define( function( require ) {
     var prismPath = [];
     //Iterate over the prism prototypes in the model and create a draggable icon for each one
     prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
-      prismPath[ i ] = new Path( modelViewTransform.modelToViewShape( prism.shape.get().toShape() ), {
+      prismPath[ i ] = new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().toShape() ), {
         fill: '#ABA8D6',
         stroke: '#ABA8D6'
       } );
