@@ -20,33 +20,30 @@ define( function( require ) {
 
   /**
    *
-   * @param modelViewTransform
+   * @param {PrismBreakModel} prismsBreakModel
+   * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
    * @param prism
-   * @param prismMedium -the medium associated with the prism
    * @constructor
    */
-  function PrismNode( modelViewTransform, prism, prismMedium ) {
-
-    this.prism = prism;
+  function PrismNode( prismsBreakModel, modelViewTransform, prism ) {
     Node.call( this );
     var prismsNode = this;
-
     var knobHeight = 15;
     //It looks like a box on the side of the prism
     var knobNode = new Image( KnobImage );
-    if ( prism.shape.get().getReferencePoint() ) {
+    if ( prism.shapeProperty.get().getReferencePoint() ) {
       prismsNode.addChild( knobNode );
     }
 
     var previousAngle;
     knobNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-        previousAngle = prism.shape.get().getRotationCenter().minus(
+        previousAngle = prism.shapeProperty.get().getRotationCenter().minus(
           modelViewTransform.viewToModelPosition( knobNode.globalToParentPoint( event.pointer.point ) ) )
           .angle();
       },
       drag: function( event ) {
-        var angle = prism.shape.get().getRotationCenter().minus(
+        var angle = prism.shapeProperty.get().getRotationCenter().minus(
           modelViewTransform.viewToModelPosition( knobNode.globalToParentPoint( event.pointer.point ) ) )
           .angle();
         prism.rotate( angle - previousAngle );
@@ -54,9 +51,9 @@ define( function( require ) {
       }
     } ) );
 
-    var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shape.get().toShape() ), {
-      fill: prismMedium.get().color,
-      stroke: prismMedium.get().color.darkerColor( 0.9 )
+    var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().toShape() ), {
+      fill: prismsBreakModel.prismMediumProperty.get().color,
+      stroke: prismsBreakModel.prismMediumProperty.get().color.darkerColor( 0.9 )
     } );
     this.addChild( prismTranslationNode );
 
@@ -73,25 +70,26 @@ define( function( require ) {
       }
     } ) );
 
-    prism.shape.link( function() {
-      prismTranslationNode.setShape(
-        modelViewTransform.modelToViewShape( prism.shape.value.toShape() ) );
+    prism.shapeProperty.link( function() {
+      prismsBreakModel.clear();
+      prismsBreakModel.updateModel();
+      prismTranslationNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.value.toShape() ) );
 
-      if ( prism.shape.get().getReferencePoint() ) {
+      if ( prism.shapeProperty.get().getReferencePoint() ) {
 
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
-        var angle = modelViewTransform.modelToViewPosition( prism.shape.get().getRotationCenter() ).minus(
-          modelViewTransform.modelToViewPosition( prism.shape.get().getReferencePoint() ) ).angle();
+        var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).minus(
+          modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() ) ).angle();
         var offsetX = -knobNode.getWidth() - 7;
         var offsetY = -knobNode.getHeight() / 2 - 8;
         knobNode.rotateAround( new Vector2( -offsetX, -offsetY ), angle );
-        var knobPosition = modelViewTransform.modelToViewPosition( prism.shape.get().getReferencePoint() );
+        var knobPosition = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() );
         knobNode.setTranslation( knobPosition.x, knobPosition.y );
         knobNode.translate( offsetX, offsetY );
       }
     } );
-    prismMedium.link( function( prismMedium ) {
+    prismsBreakModel.prismMediumProperty.link( function( prismMedium ) {
       var color = prismMedium.color;
       prismTranslationNode.fill = color;
       prismTranslationNode.stroke = color.darkerColor( 0.9 );

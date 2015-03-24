@@ -36,7 +36,7 @@ define( function( require ) {
       .lineTo( this.viewEnd.x, this.viewEnd.y ), {
       fill: new Color( color.getRed(), color.getGreen(), color.getBlue(),
         Math.sqrt( lightRay.getPowerFraction() ) ),
-      lineWidth: 5,
+      lineWidth: 3,
       stroke: new Color( color.getRed(), color.getGreen(), color.getBlue(),
         Math.sqrt( lightRay.getPowerFraction() ) )
     } );

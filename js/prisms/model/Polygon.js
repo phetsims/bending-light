@@ -12,8 +12,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
   var Shape = require( 'KITE/Shape' );
-  // var Property = require( 'AXON/Property' );
-  //var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
+  var Line = require( 'KITE/segments/Line' );
+  var Ray2 = require( 'DOT/Ray2' );
+  var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
 
   /**
    *
@@ -120,7 +121,37 @@ define( function( require ) {
       }
       a *= 0.5;
       return a;
+    },
+    //Compute the intersections of the specified ray with this polygon's edges
+    getIntersections: function( ray ) {
+      var intersections = [];
+      this.getEdges().forEach( function( lineSegment ) {
+        //Get the intersection if there is one
+        var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.tail.plus( ray.directionUnitVector ) ) );
+        if ( intersection.length !== 0 /*&& !isNaN( intersection[ 0 ].x ) && !isNaN( intersection[ 0 ].y )*/ ) {
+          //Choose the normal vector that points the opposite direction of the incoming ray
+          var normal1 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( +Math.PI / 2 ).normalized();
+          var normal2 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( -Math.PI / 2 ).normalized();
+          var unitNormal = ray.directionUnitVector.dot( normal1 ) < 0 ? normal1 : normal2;
+
+          //Add to the list of intersections
+          intersections.push( new Intersection( unitNormal, intersection[ 0 ].point ) );
+        }
+      } );
+      return intersections;
+    },
+
+    //List all bounding edges in the polygon
+    getEdges: function() {
+      var lineSegments = [];
+      for ( var i = 0; i < this.points.length; i++ ) {
+        var next = i === this.points.length - 1 ? 0 : i + 1;//make sure to loop from the last point to the first point
+        lineSegments.push( new Line( this.points[ i ], this.points[ next ] ) );
+      }
+      return lineSegments;
+    },
+    getBounds: function() {
+      return this.toShape().bounds;
     }
   } );
 } );
-

@@ -13,6 +13,7 @@ define( function( require ) {
   var Rectangle = require( 'DOT/Rectangle' );
   var Vector2 = require( 'DOT/Vector2' );
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
+  var Ray2 = require( 'DOT/Ray2' );
 
   /**
    *
@@ -32,8 +33,7 @@ define( function( require ) {
     },
 
     toEllipse: function() {
-      return new Shape.ellipse( this.center.x - this.radius, this.center.y - this.radius,
-        this.radius * 2, this.radius * 2 );
+      return new Shape.ellipse( this.center.x, this.center.y, this.radius, this.radius );
     },
     /**
      *
@@ -51,26 +51,25 @@ define( function( require ) {
      */
     getIntersections: function( ray ) {
       //Find the line segment corresponding to the specified ray
-      // var line = new Line2D.Number( ray.tail.toPoint2D(), ray.tail.plus( ray.directionUnitVector ).toPoint2D() );
       //Find the intersections between the infinite line (not a segment) and the circle
-      var intersectionArray = [];// MathUtil.getLineCircleIntersection( toEllipse(), line );
+      var intersectionArray = this.toEllipse().intersection( new Ray2( ray.tail, ray.tail.plus( ray.directionUnitVector ) ) );
       //Convert Point2D => Intersection instances
       var intersectionList = [];
-      for ( var intersectionPoint in intersectionArray ) {
+      var self = this;
+      intersectionArray.forEach( function( intersectionPoint ) {
         //Filter out getLineCircleIntersection nulls, which are returned if there is no intersection
         if ( intersectionPoint !== null ) {
-          var vector = new Vector2( intersectionPoint ).minus( ray.tail );
+          var vector = intersectionPoint.point.minus( ray.tail );
           //Only consider intersections that are in front of the ray
           if ( vector.dot( ray.directionUnitVector ) > 0 ) {
-            var normalVector = intersectionPoint.minus(
-              this.center ).normalized();
+            var normalVector = intersectionPoint.point.minus( self.center ).normalized();
             if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
               normalVector = normalVector.negated();
             }
-            intersectionList.add( new Intersection( normalVector, intersectionPoint ) );
+            intersectionList.push( new Intersection( normalVector, intersectionPoint.point ) );
           }
         }
-      }
+      } );
       return intersectionList;
     },
     getBounds: function() {
