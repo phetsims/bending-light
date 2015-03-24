@@ -19,6 +19,7 @@ define( function( require ) {
   // var Path = require( 'SCENERY/nodes/Path' );
   //var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
   var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
+  var IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
   //var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   // var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -34,10 +35,10 @@ define( function( require ) {
 
   /**
    *
-   * @param model
+   * @param {PrismBreakModel} prismBreakModel -model of  prisms screen
    * @constructor
    */
-  function PrismBreakView( model ) {
+  function PrismBreakView( prismBreakModel ) {
 
     this.prismLayer = new Node();
     var prismBreakView = this;
@@ -66,7 +67,7 @@ define( function( require ) {
       return fullShape;
     }
 
-    BendingLightView.call( this, model,
+    BendingLightView.call( this, prismBreakModel,
       clampDragAngle,
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
@@ -78,26 +79,40 @@ define( function( require ) {
 
     var IndexOfRefractionDecimals = 2;
     //Add control panels for setting the index of refraction for each medium
-    var environmentMediumControlPanel = new MediumControlPanel( this, model.environmentMediumProperty,
-      environmentString, true, model.wavelengthProperty, IndexOfRefractionDecimals );
+    var environmentMediumControlPanel = new MediumControlPanel( this, prismBreakModel.environmentMediumProperty,
+      environmentString, true, prismBreakModel.wavelengthProperty, IndexOfRefractionDecimals );
     environmentMediumControlPanel.setTranslation( this.layoutBounds.right - inset - environmentMediumControlPanel.width, this.layoutBounds.top + inset );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
-    var laserControlPanelNode = new LaserControlPanelNode( model.laser.colorModeProperty,
-      model.wavelengthProperty, {
+    var laserControlPanelNode = new LaserControlPanelNode( prismBreakModel.laser.colorModeProperty,
+      prismBreakModel.wavelengthProperty, {
         bottom: this.layoutBounds.bottom - 200,
         right:  this.layoutBounds.right - inset
       } );
     this.addChild( laserControlPanelNode );
-    model.prisms.addItemAddedListener( function( item ) {
-      prismBreakView.prismLayer.addChild( new PrismNode( prismBreakView.modelViewTransform, item, model.prismMediumProperty ) );
+    prismBreakModel.prisms.addItemAddedListener( function( item ) {
+      prismBreakView.prismLayer.addChild( new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, item ) );
     } );
-    model.prisms.addItemRemovedListener( function() {
+    prismBreakModel.prisms.addItemRemovedListener( function() {
       for ( var i = 0; i < prismBreakView.prismLayer.getChildrenCount(); i++ ) {
         prismBreakView.prismLayer.removeChild( prismBreakView.prismLayer.children[ i ] );
       }
     } );
 
-    var laserTypeControlPanel = new LaserTypeControlPanel( model.manyRaysProperty, {
+    //Optionally show the normal lines at each intersection
+    prismBreakModel.intersections.addItemAddedListener( function( addedIntersection ) {
+      if ( prismBreakModel.showNormalsProperty.get() ) {
+        var node = new IntersectionNode( prismBreakView.modelViewTransform, addedIntersection );
+        prismBreakView.addChild( node );
+
+        prismBreakModel.intersections.addItemRemovedListener( function( removedIntersection ) {
+          if ( removedIntersection === addedIntersection ) {
+            prismBreakView.removeChild( node );
+          }
+        } );
+      }
+    } );
+
+    var laserTypeControlPanel = new LaserTypeControlPanel( prismBreakModel.manyRaysProperty, {
       top:  this.layoutBounds.top - inset,
       left: this.layoutBounds.left + inset
     } );
@@ -107,7 +122,7 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
-          model.resetAll();
+          prismBreakModel.resetAll();
         },
         bottom: this.layoutBounds.bottom - inset,
         right:  this.layoutBounds.right - inset
@@ -117,11 +132,7 @@ define( function( require ) {
 
     //Put the laser control panel node where it leaves enough vertical space for reset button between it and prism control panel
 
-    //When the user unchecks "show normal" repropagate the model so that the graphics will sync up (showing or not showing the normal lines, as appropriate)
 
-    //Optionally show the normal lines at each intersection
-
-    this.beforeLightLayer.addChild( this.prismLayer );
     //Get the function that chooses which region of the protractor can be used for
     // rotation--none in this tab.
     this.getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
@@ -135,15 +146,16 @@ define( function( require ) {
       return innerBar;
     };
     //Add the protractor node
-    var protractorNode = new ProtractorNode( this.modelViewTransform, model.showProtractorProperty, model.protractorModel,
+    var protractorNode = new ProtractorNode( this.modelViewTransform, prismBreakModel.showProtractorProperty, prismBreakModel.protractorModel,
       this.getProtractorDragRegion, this.getProtractorRotationRegion, 200, new Bounds2( 0, 0, 0, 0 ) );
     this.addChild( protractorNode );
     protractorNode.scale( 90 / protractorNode.width );
 
     // add prisms tool box Node
-    var prismToolboxNode = new PrismToolboxNode( this, this.modelViewTransform, model,
+    var prismToolboxNode = new PrismToolboxNode( this, this.modelViewTransform, prismBreakModel,
       { left: this.layoutBounds.minX, bottom: this.layoutBounds.bottom - inset } );
-    this.addChild( prismToolboxNode );
+    this.beforeLightLayer.addChild( prismToolboxNode );
+    this.beforeLightLayer.addChild( this.prismLayer );
 
   }
 

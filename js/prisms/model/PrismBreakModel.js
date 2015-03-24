@@ -40,9 +40,7 @@ define( function( require ) {
   function PrismBreakModel() {
 
 
-    this.prisms = new ObservableArray( [], {
-      allowDuplicates: true
-    } );
+    this.prisms = new ObservableArray( [] );
 
     //show multiple beams to help show how lenses work
     this.manyRaysProperty = new Property( 1 );
@@ -73,8 +71,18 @@ define( function( require ) {
     BendingLightModel.call( this, Math.PI, false,
       BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
 
-    Property.multilink( [ this.manyRaysProperty, this.environmentMediumProperty, this.laser.onProperty,
-      this.laser.pivotProperty, this.laser.emissionPointProperty, this.laser.colorModeProperty, this.laser.colorProperty, this.laserViewProperty ], function() {
+    Property.multilink( [ this.manyRaysProperty,
+      this.environmentMediumProperty,
+      this.showReflectionsProperty,
+      this.prismMediumProperty,
+      this.laser.onProperty,
+      this.laser.pivotProperty,
+      this.laser.emissionPointProperty,
+      this.showNormalsProperty,
+      this.laser.colorModeProperty,
+      this.laser.colorProperty,
+      this.laserViewProperty ], function() {
+      prismsBreakModel.clear();
       prismsBreakModel.updateModel();
     } );
 
@@ -204,7 +212,7 @@ define( function( require ) {
 
       if ( this.laser.on ) {
         var tail = this.laser.emissionPoint;
-        var laserInPrism = false;//this.isLaserInPrism();
+        var laserInPrism = this.isLaserInPrism();
         var directionUnitVector = this.laser.getDirectionUnitVector();
         if ( this.manyRaysProperty.get() === 1 ) {
           //This can be used to show the main central ray
@@ -223,18 +231,23 @@ define( function( require ) {
     // determining what index of refraction to use initially
 
     isLaserInPrism: function() {
-      for ( var prism in this.prisms ) {
-        if ( prism.contains( this.laser.emissionPoint ) ) {
+      var emissionPoint = this.laser.emissionPoint;
+      this.prisms.forEach( function( prism ) {
+        if ( prism.contains( emissionPoint ) ) {
           return true;
         }
-      }
+      } );
       return false;
     },
 
-//Recursive algorithm to compute the pattern of rays in the system.
-// This is the main computation of this model, rays are cleared beforehand
-// and this algorithm adds them as it goes
 
+    /**
+     *  Recursive algorithm to compute the pattern of rays in the system.
+     *  This is the main computation of this model, rays are cleared beforehand
+     *  and this algorithm adds them as it goes
+     * @param incidentRay
+     * @param count
+     */
     propagateTheRay: function( incidentRay, count ) {
       var waveWidth = CHARACTERISTIC_LENGTH * 5;
       //Termination condition of we have reached too many iterations or
@@ -243,21 +256,20 @@ define( function( require ) {
         return;
       }
       //Check for an intersection
-      var intersection = null;//this.getIntersection( incidentRay, this.prisms );
+      var intersection = this.getIntersection( incidentRay, this.prisms );
       var L = incidentRay.directionUnitVector;
       var n1 = incidentRay.mediumIndexOfRefraction;
       var wavelengthInN1 = incidentRay.wavelength / n1;
       if ( intersection !== null ) {
         //List the intersection in the model
         this.addIntersection( intersection );
-        var pointOnOtherSide = intersection.getPoint().plus(
-          incidentRay.directionUnitVector.getInstanceOfMagnitude( 1E-12 ) );
+        var pointOnOtherSide = intersection.getPoint().plus( incidentRay.directionUnitVector.times( 1E-12 ) );
         var outputInsidePrism = false;
-        for ( var prism in this.prisms ) {
+        this.prisms.forEach( function( prism ) {
           if ( prism.contains( pointOnOtherSide ) ) {
             outputInsidePrism = true;
           }
-        }
+        } );
         //Index of refraction of the other medium
         var n2 = outputInsidePrism ? this.prismMediumProperty.get().getIndexOfRefraction(
           incidentRay.getBaseWavelength() ) :
@@ -281,12 +293,12 @@ define( function( require ) {
         var refracted = new Ray( point.plus( incidentRay.directionUnitVector.times( +1E-12 ) ),
           vRefract, incidentRay.power * transmittedPower, incidentRay.wavelength, n2,
           incidentRay.frequency );
-        if ( this.showReflectionsProperty || totalInternalReflection ) {
+        if ( this.showReflectionsProperty.get() || totalInternalReflection ) {
           this.propagateTheRay( reflected, count + 1 );
         }
         this.propagateTheRay( refracted, count + 1 );
         //Add the incident ray itself
-        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, new Vector2( 0, 0 ), n1,
+        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, intersection.getPoint(), n1,
           wavelengthInN1, incidentRay.power,
           new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
           waveWidth, 0, null, true, false ) );
@@ -316,24 +328,28 @@ define( function( require ) {
     addIntersectionListener: function( listener ) {
       //intersectionListeners.add( listener );
     },
-    //Find the nearest intersection between a light ray and the set of prisms in the play area
-
+    /**
+     *  Find the nearest intersection between a light ray and the set of prisms in the play area
+     * @param incidentRay
+     * @param prisms
+     * @returns {null}
+     */
     getIntersection: function( incidentRay, prisms ) {
       var allIntersections = [];
-      for ( var prism in prisms ) {
-        allIntersections.addAll( prism.getIntersections( incidentRay ) );
-      }
-      /*// Get the closest one (which would be hit first)
-       Collections.sort( allIntersections, new Comparator().withAnonymousClassBody( {
-       compare: function( o1, o2 ) {
-       return Number.compare( o1.getPoint().distance( incidentRay.tail ), o2.getPoint().distance( incidentRay.tail ) );
-       }
-       } ) );*/
-      return allIntersections.size() === 0 ? null : allIntersections.get( 0 );
+      prisms.forEach( function( prism ) {
+        prism.getIntersections( incidentRay ).forEach( function( intersection ) {
+          allIntersections.push( intersection );
+        } );
+      } );
+      // Get the closest one (which would be hit first)
+      allIntersections = _.sortBy( allIntersections, function( allIntersection ) {
+        return allIntersection.getPoint().distance( incidentRay.tail );
+      } );
+      return allIntersections.length === 0 ? null : allIntersections[ 0 ];
+    },
+    clear: function() {
+      this.intersections.clear();
     }
-    /*  clearModel: function() {
-     this.intersections.clear();
-     }*/
   } );
 } );
 

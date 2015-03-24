@@ -20,17 +20,14 @@ define( function( require ) {
 
   /**
    *
-   * @param modelViewTransform
+   * @param {PrismBreakModel} prismsBreakModel
+   * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
    * @param prism
-   * @param prismMedium -the medium associated with the prism
    * @constructor
    */
-  function PrismNode( modelViewTransform, prism, prismMedium ) {
-
-    this.prism = prism;
+  function PrismNode( prismsBreakModel, modelViewTransform, prism ) {
     Node.call( this );
     var prismsNode = this;
-
     var knobHeight = 15;
     //It looks like a box on the side of the prism
     var knobNode = new Image( KnobImage );
@@ -55,8 +52,8 @@ define( function( require ) {
     } ) );
 
     var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shape.get().toShape() ), {
-      fill: prismMedium.get().color,
-      stroke: prismMedium.get().color.darkerColor( 0.9 )
+      fill: prismsBreakModel.prismMediumProperty.get().color,
+      stroke: prismsBreakModel.prismMediumProperty.get().color.darkerColor( 0.9 )
     } );
     this.addChild( prismTranslationNode );
 
@@ -91,10 +88,14 @@ define( function( require ) {
         knobNode.translate( offsetX, offsetY );
       }
     } );
-    prismMedium.link( function( prismMedium ) {
+    prismsBreakModel.prismMediumProperty.link( function( prismMedium ) {
       var color = prismMedium.color;
       prismTranslationNode.fill = color;
       prismTranslationNode.stroke = color.darkerColor( 0.9 );
+    } );
+    prism.shape.link( function() {
+      prismsBreakModel.clear();
+      prismsBreakModel.updateModel();
     } );
   }
 
