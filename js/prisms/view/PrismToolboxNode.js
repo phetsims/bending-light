@@ -23,50 +23,30 @@ define( function( require ) {
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  //var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   var Path = require( 'SCENERY/nodes/Path' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   //strings
-  // var prismsString = require( 'string!BENDING_LIGHT/prisms' );
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
   var showReflectionsString = require( 'string!BENDING_LIGHT/showReflections' );
   var showNormalString = require( 'string!BENDING_LIGHT/showNormal' );
   var showProtractorString = require( 'string!BENDING_LIGHT/showProtractor' );
 
-  function PrismDragHandler( dragNode, modelViewTransform, model, prism ) {
-    var start;
-    var prismShape;
-    SimpleDragHandler.call( this, {
-      start: function( event ) {
-        start = dragNode.globalToParentPoint( event.pointer.point );
-        prismShape = prism.copy();
-        model.addPrism( prismShape );
-        //prismNode.translate( modelViewTransform.viewToModelDelta( start ).x, modelViewTransform.viewToModelDelta( start ).y );
-      },
-      drag: function( event ) {
-        var end = dragNode.globalToParentPoint( ( event.pointer.point ) );
-        var delta = end.minus( start );
-        prismShape.translate( modelViewTransform.viewToModelDelta( delta ).x, modelViewTransform.viewToModelDelta( delta ).y );
-        start = end;
-      },
-      end: function( event ) {
+  // images
+  var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
 
-      }
-    } );
-  }
-
-  inherit( SimpleDragHandler, PrismDragHandler );
 
   /**
    *
-   * @param canvas
-   * @param modelViewTransform
-   * @param model
-   * @param {Object} [options]
+   * @param {PrismBreakView} canvas
+   * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
+   * @param {PrismBreakModel} prismBreakModel - model of the prism screen
+   * @param {Object} [options ] that can be passed on to the underlying node
    * @constructor
    */
-  function PrismToolboxNode( canvas, modelViewTransform, model, options ) {
+  function PrismToolboxNode( canvas, modelViewTransform, prismBreakModel, options ) {
 
     options = _.extend( {
       xMargin: 10,
@@ -78,27 +58,85 @@ define( function( require ) {
     var prismsToolBoxNode = this;
     Node.call( this );
     var content = new HBox( {
-      spacing: 10
+      spacing: 4
     } );
     //Move it down so it doesn't overlap the title label
     content.setTranslation( 0, 5 );
     var prismPath = [];
-    //Iterate over the prism prototypes in the model and create a draggable icon for each one
-    model.getPrismPrototypes().forEach( function( prism, i ) {
-      prismPath[ i ] = new Path( modelViewTransform.modelToViewShape( prism.shape.get().toShape() ), {
+    // create prism icon
+    var createPrismIcon = function( prism ) {
+      var prismIconNode = new Node( { cursor: 'pointer' } );
+      var knobHeight = 15;
+      prismIconNode.addChild( new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().toShape() ), {
         fill: '#ABA8D6',
         stroke: '#ABA8D6'
-      } );
+      } ) );
+      var knobNode = new Image( KnobImage );
+      if ( prism.shapeProperty.get().getReferencePoint() ) {
+        prismIconNode.addChild( knobNode );
+      }
+      if ( prism.shapeProperty.get().getReferencePoint() ) {
+
+        knobNode.resetTransform();
+        knobNode.setScaleMagnitude( knobHeight / knobNode.height );
+        var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).minus(
+          modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() ) ).angle();
+        var offsetX = -knobNode.getWidth() - 7;
+        var offsetY = -knobNode.getHeight() / 2 - 8;
+        knobNode.rotateAround( new Vector2( -offsetX, -offsetY ), angle );
+        var knobPosition = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() );
+        knobNode.setTranslation( knobPosition.x, knobPosition.y );
+        knobNode.translate( offsetX, offsetY );
+      }
+      return prismIconNode;
+    };
+
+    //Iterate over the prism prototypes in the model and create a draggable icon for each one
+    prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
+      prismPath[ i ] = createPrismIcon( prism );
+      var start;
+      var prismShape;
       prismPath[ i ].scale( 70 / prismPath[ i ].height );
-      prismPath[ i ].addInputListener( new PrismDragHandler( prismPath[ i ], modelViewTransform, model,
-        prism ) );
+      prismPath[ i ].addInputListener( new SimpleDragHandler( {
+
+          start: function( event ) {
+            start = prismsToolBoxNode.globalToParentPoint( event.pointer.point );
+            prismShape = prism.copy();
+            prismBreakModel.addPrism( prismShape );
+            prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
+          },
+          drag: function( event ) {
+            var end = prismsToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
+            var delta = end.minus( start );
+            prismShape.translate( modelViewTransform.viewToModelDelta( delta ).x, modelViewTransform.viewToModelDelta( delta ).y );
+            start = end;
+          },
+          end: function( event ) {
+          }
+        }
+      ) );
       content.addChild( prismPath[ i ] );
     } );
-
     //Allow the user to control the type of material in the prisms
     var environmentMediumMaterialListParent = new Node();
-    content.addChild( new MediumControlPanel( environmentMediumMaterialListParent, model.prismMediumProperty, objectsString, false, model.wavelengthProperty, 2, { lineWidth: 0 } ) );
+    var objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
+      prismBreakModel.prismMediumProperty,
+      objectsString,
+      false,
+      prismBreakModel.wavelengthProperty,
+      2, {
+        lineWidth: 0
+      } );
+    var dividerBetweenPrismsAndPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height, 10, 10, {
+      stroke: 'gray', lineWidth: 0.4, fill: 'gray'
+    } );
+    content.addChild( dividerBetweenPrismsAndPanel );
 
+    content.addChild( objectMediumControlPanel );
+    var dividerBetweenMediumPanelAndControlPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height, 10, 10, {
+      stroke: 'gray', lineWidth: 0.4, fill: 'gray'
+    } );
+    content.addChild( dividerBetweenMediumPanelAndControlPanel );
     // add check boxes
     //Create an icon for the protractor check box
     var createProtractorIcon = function() {
@@ -138,9 +176,9 @@ define( function( require ) {
       spacing: 2
     };
 
-    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), model.showReflectionsProperty, checkBoxOptions );
-    var showNormalCheckBox = new CheckBox( createItem( showNormal ), model.showNormalsProperty, checkBoxOptions );
-    var showProtractorCheckBox = new CheckBox( createItem( showProtractor ), model.showProtractorProperty,
+    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), prismBreakModel.showReflectionsProperty, checkBoxOptions );
+    var showNormalCheckBox = new CheckBox( createItem( showNormal ), prismBreakModel.showNormalsProperty, checkBoxOptions );
+    var showProtractorCheckBox = new CheckBox( createItem( showProtractor ), prismBreakModel.showProtractorProperty,
       checkBoxOptions );
 
     var maxCheckBoxWidth = _.max( [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ],
