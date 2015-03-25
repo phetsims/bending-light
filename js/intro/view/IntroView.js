@@ -160,6 +160,11 @@ define( function( require ) {
     // add play pause button and step button
     var stepButton = new StepButton(
       function() {
+        introModel.timer.step( 0.016 );
+        introModel.propagateParticles( 0.016 );
+        for ( var k = 0; k < introView.waveCanvasLayer.getChildrenCount(); k++ ) {
+          introView.waveCanvasLayer.children[ k ].step();
+        }
 
       },
       introModel.isPlayingProperty,
