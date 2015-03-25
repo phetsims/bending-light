@@ -40,6 +40,7 @@ define( function( require ) {
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
       this.mediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
+
     Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
@@ -53,7 +54,7 @@ define( function( require ) {
     ], function() {
       introModel.updateModel();
       if ( introModel.laserViewProperty.value === 'wave' && introModel.laser.onProperty.value ) {
-        introModel.createInitialsParticles();
+        introModel.createInitialParticles();
       }
     } );
 
@@ -62,7 +63,7 @@ define( function( require ) {
     // call stepInternal at a rate of 10 times per second
     this.timer = new EventTimer( new EventTimer.ConstantEventModel( 4 ), function() {
       if ( introModel.laser.on && introModel.laserViewProperty.value === 'wave' ) {
-        introModel.addParticle();
+        //introModel.addParticle();
       }
     } );
   }
@@ -271,33 +272,57 @@ define( function( require ) {
         var viewWavelength = this.rays.get( k ).getWavelength();
         var directionVector = this.rays.get( k ).toVector2D().normalized();
         var waveVector = directionVector.times( viewWavelength );
-        lightRayToPropagate.particles.push( new WaveParticle( lightRayToPropagate.tail.minus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle, waveVector.magnitude() ) );
+
+        if ( k === 0 ) {
+          lightRayToPropagate.particles.push( new WaveParticle(
+            lightRayToPropagate.tail.minus( directionVector.times( lightRayToPropagate.getWavelength() ) ),
+            lightRayToPropagate.getWaveWidth(),
+            particleColor.toCSS(),
+            angle,
+            waveVector.magnitude() ) );
+        }
+        else {
+          lightRayToPropagate.particles.push( new WaveParticle(
+            lightRayToPropagate.tail.minus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) ),
+            lightRayToPropagate.getWaveWidth(),
+            particleColor.toCSS(),
+            angle,
+            waveVector.magnitude() ) );
+        }
+
       }
     },
     // create the particles between light ray tail and and tip
-    createInitialsParticles: function() {
+    createInitialParticles: function() {
       var lightRayInRay2Form;
       var lightRayToPropagate;
       var particleColor;
       var j;
       for ( var k = 0; k < this.rays.length; k++ ) {
         lightRayToPropagate = this.rays.get( k );
-        var tip = k === 0 ? Vector2.createPolar( 1, lightRayToPropagate.getAngle() ) : lightRayToPropagate.tip;
-        lightRayInRay2Form = new Ray2( lightRayToPropagate.tail, tip );
-        //var startPoint = lightRayToPropagate.tail;
-        // var endPoint = lightRayToPropagate.tip;
-        //  var distance = endPoint.distance( startPoint );
-        var newDistance = 5.597222222222222e-7; // ~10px
+        var directionVector = lightRayToPropagate.toVector2D().normalized();
+        var viewWavelength = lightRayToPropagate.getWavelength();
+        var waveVector = directionVector.times( viewWavelength );
         var angle = lightRayToPropagate.getAngle();
+
+        var tip = (k === 0)
+          ? lightRayToPropagate.tip.plus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) )
+          : Vector2.createPolar( 1, lightRayToPropagate.getAngle() );
+
+        var tail = (k === 0)
+          ? lightRayToPropagate.tail
+          : lightRayToPropagate.tail.minus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) );
+
+        lightRayInRay2Form = new Ray2( tail, directionVector );
+        var distance = tip.distance( tail );
+        var gapBetweenSuccessiveParticles = 5.597222222222222e-7; // ~10px
         particleColor = new Color( this.rays.get( k ).color.getRed(), this.rays.get( k ).color.getGreen(), this.rays.get( k ).color.getBlue(),
           Math.sqrt( this.rays.get( k ).getPowerFraction() ) );
-        var numberOfParticles = ( k === 0 ) ? 10 : this.simDisplayWindowHeight;
+        var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 50 );// : this.simDisplayWindowHeight;
+        var waveParticleGap = 0;
         for ( j = 0; j < numberOfParticles; j++ ) {
-          var viewWavelength = this.rays.get( k ).getWavelength();
-          var directionVector = this.rays.get( k ).toVector2D().normalized();
-          var waveVector = directionVector.times( viewWavelength );
-          lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( newDistance ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle, waveVector.magnitude() ) );
-          newDistance += 5.597222222222222e-7;
+          lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle, waveVector.magnitude() ) );
+          waveParticleGap += gapBetweenSuccessiveParticles;
         }
       }
 
@@ -316,14 +341,19 @@ define( function( require ) {
       //var typesOfParticles = [ this.waveParticles, this.reflectedWaveParticles, this.refractedWaveParticles ];
       var waveParticles = [];
       for ( var i = 0; i < this.rays.length; i++ ) {
-        delta = Vector2.createPolar( this.rays.get( i ).wavelength / 20, this.rays.get( i ).getAngle() );
+        var lightRayToPropagate = this.rays.get( i );
+        var lightRayBounds = lightRayToPropagate.getWaveBounds();
+        delta = Vector2.createPolar( lightRayToPropagate.wavelength / 20, this.rays.get( i ).getAngle() );
         waveParticles = this.rays.get( i ).particles;
+
         for ( var j = 0; j < waveParticles.length; j++ ) {
           particle = waveParticles.get( j );
           particle.position = particle.position.plus( delta );
 
+
           //todo: set the bounds in the light ray itself?
-          if ( particle.position.y <= 0 && i === 0 ) {
+
+          if ( i === 0 && particle.position.y <= lightRayBounds[ 3 ].y && (particle.position.x + particle.width / 2 * (0.1 + Math.abs( Math.sin( particle.angle ) ) )) >= lightRayBounds[ 3 ].x ) {
             particlesToRemove.push( particle );
           }
           if ( i === 1 && particle.position.y >= this.simDisplayWindowHeightInModel / 2 ) {
@@ -334,8 +364,10 @@ define( function( require ) {
           }
         }
       }
+
       if ( particlesToRemove.length > 0 ) {
         this.rays.get( 0 ).particles.removeAll( particlesToRemove );
+        this.addParticle();
       }
       if ( reflectedParticlesToRemove.length > 0 ) {
         this.rays.get( 1 ).particles.removeAll( reflectedParticlesToRemove );
