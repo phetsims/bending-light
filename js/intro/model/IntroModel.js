@@ -350,9 +350,6 @@ define( function( require ) {
           particle = waveParticles.get( j );
           particle.position = particle.position.plus( delta );
 
-
-          //todo: set the bounds in the light ray itself?
-
           if ( i === 0 && particle.position.y <= lightRayBounds[ 3 ].y && (particle.position.x + particle.width / 2 * (0.1 + Math.abs( Math.sin( particle.angle ) ) )) >= lightRayBounds[ 3 ].x ) {
             particlesToRemove.push( particle );
           }

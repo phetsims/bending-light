@@ -66,6 +66,8 @@ define( function( require ) {
     // turing this up too high past 1E6 causes things not to render properly
     this.extend = extend;
 
+    this.waveBounds = [];
+
     //wave particles
     this.particles = new ObservableArray();
   }
@@ -129,6 +131,9 @@ define( function( require ) {
 
     // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
     getWaveBounds: function() {
+      if ( this.waveBounds.length > 0 ) {
+        return this.waveBounds;
+      }
 
       var angle = this.extendBackwards ? Math.abs( this.getAngle() ) : Math.PI / 2;
       var tailWidth = this.waveWidth;
@@ -141,7 +146,8 @@ define( function( require ) {
       //tail
       var tailPoint1 = new Vector2( this.tail.x + tailWidth / 2 * Math.sin( angle ), this.tail.y + tailWidth / 2 * Math.cos( angle ) );
       var tailPoint2 = new Vector2( this.tail.x - tailWidth / 2 * Math.sin( angle ), this.tail.y - tailWidth / 2 * Math.cos( angle ) );
-      return [ tailPoint1, tailPoint2, tipPoint2, tipPoint1 ];
+      this.waveBounds = [ tailPoint1, tailPoint2, tipPoint2, tipPoint1 ];
+      return this.waveBounds;
     },
 
 
