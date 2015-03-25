@@ -165,7 +165,9 @@ define( function( require ) {
         for ( var k = 0; k < introView.waveCanvasLayer.getChildrenCount(); k++ ) {
           introView.waveCanvasLayer.children[ k ].step();
         }
-
+        for ( k = 0; k < introView.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
+          introView.incidentWaveCanvasLayer.children[ k ].step();
+        }
       },
       introModel.isPlayingProperty,
       {
@@ -237,6 +239,9 @@ define( function( require ) {
       // When the sim is paused in wave mode and the laser is dragged or the mode is switched from wave to ray
       for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
         this.waveCanvasLayer.children[ k ].step();
+      }
+      for ( k = 0; k < this.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
+        this.incidentWaveCanvasLayer.children[ k ].step();
       }
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;

@@ -80,7 +80,7 @@ define( function( require ) {
     //Create and add the graphic for the environment medium
     this.mediumNode = new Node();
     this.addChild( this.mediumNode );
-
+    this.incidentWaveCanvasLayer = new Node();
 
     //var whiteLightNode = new WhiteLightNode( this.lightRayLayer, this.stageSize.getWidth(), this.stageSize.getHeight() );
     //layering
@@ -89,6 +89,7 @@ define( function( require ) {
     this.addChild( this.lightWaveLayer );
     this.waveCanvasLayer = new Node();
     this.addChild( this.waveCanvasLayer );
+    this.addChild( this.incidentWaveCanvasLayer );
     //this.addChild( whiteLightNode );
     this.addChild( this.afterLightLayer );
     this.addChild( this.afterLightLayer2 );
@@ -145,7 +146,7 @@ define( function( require ) {
             canvasBounds: new Bounds2( minX, minY, maxX, maxY ),
             clipArea: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() )
           } );
-          bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
+          k === 0 ? bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode ) : bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
         }
       }
     } );
@@ -153,6 +154,7 @@ define( function( require ) {
       bendingLightView.lightRayLayer.removeAllChildren();
       bendingLightView.lightWaveLayer.removeAllChildren();
       bendingLightView.waveCanvasLayer.removeAllChildren();
+      bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
     } );
 
 
