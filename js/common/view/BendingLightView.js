@@ -122,8 +122,8 @@ define( function( require ) {
         bendingLightView.lightRayLayer.addChild( node );
       }
       else {
-        node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
-        bendingLightView.lightWaveLayer.addChild( node );
+        /// node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
+        //  bendingLightView.lightWaveLayer.addChild( node );
         var points;
         var minX;
         var minY;

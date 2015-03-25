@@ -60,7 +60,7 @@ define( function( require ) {
     this.simDisplayWindowHeight = 504;
     this.simDisplayWindowHeightInModel = 0;
     // call stepInternal at a rate of 10 times per second
-    this.timer = new EventTimer( new EventTimer.ConstantEventModel( 1, Math.random ), function() {
+    this.timer = new EventTimer( new EventTimer.ConstantEventModel( 4 ), function() {
       if ( introModel.laser.on && introModel.laserViewProperty.value === 'wave' ) {
         introModel.addParticle();
       }
@@ -265,9 +265,13 @@ define( function( require ) {
       var lightRayToPropagate;
       for ( var k = 0; k < this.rays.length; k++ ) {
         lightRayToPropagate = this.rays.get( k );
-        var angle = lightRayToPropagate.extendBackwards ? Math.abs( lightRayToPropagate.getAngle() ) : Math.PI / 2;
-        particleColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
-        lightRayToPropagate.particles.push( new WaveParticle( lightRayToPropagate.tail, lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
+        var angle = lightRayToPropagate.getAngle();
+        particleColor = new Color( this.rays.get( k ).color.getRed(), this.rays.get( k ).color.getGreen(), this.rays.get( k ).color.getBlue(),
+          Math.sqrt( this.rays.get( k ).getPowerFraction() ) );
+        var viewWavelength = this.rays.get( k ).getWavelength();
+        var directionVector = this.rays.get( k ).toVector2D().normalized();
+        var waveVector = directionVector.times( viewWavelength );
+        lightRayToPropagate.particles.push( new WaveParticle( lightRayToPropagate.tail.minus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle, waveVector.magnitude() ) );
       }
     },
     // create the particles between light ray tail and and tip
@@ -284,11 +288,15 @@ define( function( require ) {
         // var endPoint = lightRayToPropagate.tip;
         //  var distance = endPoint.distance( startPoint );
         var newDistance = 5.597222222222222e-7; // ~10px
-        var angle = lightRayToPropagate.extendBackwards ? Math.abs( lightRayToPropagate.getAngle() ) : Math.PI / 2;
-        particleColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
+        var angle = lightRayToPropagate.getAngle();
+        particleColor = new Color( this.rays.get( k ).color.getRed(), this.rays.get( k ).color.getGreen(), this.rays.get( k ).color.getBlue(),
+          Math.sqrt( this.rays.get( k ).getPowerFraction() ) );
         var numberOfParticles = ( k === 0 ) ? 10 : this.simDisplayWindowHeight;
         for ( j = 0; j < numberOfParticles; j++ ) {
-          lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( newDistance ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle ) );
+          var viewWavelength = this.rays.get( k ).getWavelength();
+          var directionVector = this.rays.get( k ).toVector2D().normalized();
+          var waveVector = directionVector.times( viewWavelength );
+          lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( newDistance ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle, waveVector.magnitude() ) );
           newDistance += 5.597222222222222e-7;
         }
       }

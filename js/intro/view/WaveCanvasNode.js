@@ -46,18 +46,20 @@ define( function( require ) {
         x = this.modelViewTransform.modelToViewX( particle.position.x );
         y = this.modelViewTransform.modelToViewY( particle.position.y );
         angle = particle.angle;
-        point1X = x - (particleWidth * Math.sin( angle ) / 2);
+        point1X = x + (particleWidth * Math.sin( angle ) / 2);
         point1Y = y + (particleWidth * Math.cos( angle ) / 2);
-        point2X = x + (particleWidth * Math.sin( angle ) / 2);
+        point2X = x - (particleWidth * Math.sin( angle ) / 2);
         point2Y = y - (particleWidth * Math.cos( angle ) / 2);
-        context.lineWidth = 5;
+        var lineWidth = this.modelViewTransform.modelToViewDeltaX( particle.height );
+        context.lineWidth = lineWidth;
         context.moveTo( point1X, point1Y );
         context.lineTo( point2X, point2Y );
-        /*    var grd = context.createLinearGradient( x, y, x + 5 * Math.cos( angle ), y + 5 * Math.sin( angle ) );
-        grd.addColorStop( 0, "black" );
-        grd.addColorStop( 0.6, "red" );
-         grd.addColorStop( 0.8, "green" );*/
-        context.strokeStyle = particle.color;
+        var grd = context.createLinearGradient( x, y, x + lineWidth * Math.cos( angle ), y - lineWidth * Math.sin( angle ) );
+        grd.addColorStop( 0, particle.color );
+        grd.addColorStop( 0.5, "black" );
+        grd.addColorStop( 1, particle.color );
+        //context.createLinearGradient( point1X, point1Y, point2X, point2Y ).addColorStop( 0, "red" ).addColorStop( 0, "green" );
+        context.strokeStyle = grd;//particle.color;
         context.stroke();
       }
     },

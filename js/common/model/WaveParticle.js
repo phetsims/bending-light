@@ -15,13 +15,15 @@ define( function( require ) {
    * @param width
    * @param color
    * @param angle
+   * @param waveHeight
    * @constructor
    */
-  function WaveParticle( position, width, color, angle ) {
+  function WaveParticle( position, width, color, angle, waveHeight ) {
     this.position = position;
     this.width = width;
     this.color = color;
     this.angle = angle;
+    this.height = waveHeight;
   }
 
   return inherit( Object, WaveParticle, {
