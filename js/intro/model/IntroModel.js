@@ -305,13 +305,11 @@ define( function( require ) {
         var waveVector = directionVector.times( viewWavelength );
         var angle = lightRayToPropagate.getAngle();
 
-        var tip = (k === 0)
-          ? lightRayToPropagate.tip.plus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) )
-          : Vector2.createPolar( 1, lightRayToPropagate.getAngle() );
+        var tip = (k === 0) ? lightRayToPropagate.tip.plus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) ) :
+                  Vector2.createPolar( 1, lightRayToPropagate.getAngle() );
 
-        var tail = (k === 0)
-          ? lightRayToPropagate.tail
-          : lightRayToPropagate.tail.minus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) );
+        var tail = (k === 0) ? lightRayToPropagate.tail :
+                   lightRayToPropagate.tail.minus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) );
 
         lightRayInRay2Form = new Ray2( tail, directionVector );
         var distance = tip.distance( tail );

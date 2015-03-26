@@ -12,7 +12,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Color = require( 'SCENERY/util/Color' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Image = require( 'SCENERY/nodes/Image' );

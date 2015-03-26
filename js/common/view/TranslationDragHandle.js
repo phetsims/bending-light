@@ -51,7 +51,7 @@ define( function( require ) {
         var viewDelta = Vector2.createPolar( image.getWidth() / 2, -laser.getAngle() );
         var tailX = laserEmissionViewPoint.x + viewDelta.x;
         var tailY = laserEmissionViewPoint.y + viewDelta.y;
-        counterClockwiseDragArrow.setTailAndTip( tailX, tailY, tailX + dx, tailY + dy )
+        counterClockwiseDragArrow.setTailAndTip( tailX, tailY, tailX + dx, tailY + dy );
       } );
   }
 
