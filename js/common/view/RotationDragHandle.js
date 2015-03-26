@@ -26,17 +26,17 @@ define( function( require ) {
    * @param {ModelViewTransform2}modelViewTransform
    * @param {Laser}laser
    * @param {Number} deltaAngle - deltaAngle in radians
-   * @param showDragHandles
+   * @param showDragHandlesProperty
    * @param notAtMax
    * @constructor
    */
-  function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandles, notAtMax ) {
+  function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandlesProperty, notAtMax ) {
     Node.call( this );
     var rotationDragHandle = this;
 
     //Temporary property to help determine whether the drag handle should be shown
-    var notAtMaximumProperty = new DerivedProperty( [ laser.emissionPointProperty, laser.pivotProperty, showDragHandles ], function() {
-      return notAtMax( laser.getAngle() ) && ( showDragHandles.get() );
+    var notAtMaximumProperty = new DerivedProperty( [ laser.emissionPointProperty, laser.pivotProperty, showDragHandlesProperty ], function() {
+      return notAtMax( laser.getAngle() ) && ( showDragHandlesProperty.get() );
     } );
 
     //Show the drag handle if the "show drag handles" is true and if
@@ -47,18 +47,21 @@ define( function( require ) {
     var image = new Image( laserImage, { scale: 0.7 } );
     var dragArrow = new Path( null, { fill: '#33FF00', stroke: 'black' } );
     this.addChild( dragArrow );
-
+    var EPSILON = 0.6;
+    var arrowHeadHeight = deltaAngle > 0 ? -10 : 10;
+    var isArrowDirectionAntiClockWise = deltaAngle > 0;
+    var startAngleOffset = deltaAngle * (1 - EPSILON);
+    var endAngleOffset = deltaAngle * 1.1;
     var update = function() {
-      var EPSILON = 0.6;
       var radius = modelViewTransform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + image.getWidth() * 0.85;
-      var startAngle = -laser.getAngle() - deltaAngle * (1 - EPSILON);
-      var endAngle = -laser.getAngle() - deltaAngle * 1.1;
+      var startAngle = -laser.getAngle() - startAngleOffset;
+      var endAngle = -laser.getAngle() - endAngleOffset;
       var counterClockwiseDragArrow = new CurvedArrowShape( radius, startAngle, endAngle, {
         doubleHead: false,
         headWidth: 12,
-        headHeight: deltaAngle > 0 ? -10 : 10,
+        headHeight: arrowHeadHeight,
         tailWidth: 6,
-        anticlockwise: deltaAngle > 0
+        anticlockwise: isArrowDirectionAntiClockWise
       } );
       dragArrow.setShape( counterClockwiseDragArrow );
       dragArrow.setTranslation( modelViewTransform.modelToViewPosition( laser.pivot ) );

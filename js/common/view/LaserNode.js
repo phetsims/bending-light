@@ -103,8 +103,7 @@ define( function( require ) {
         var coordinateFrame = laserNode.parents[ 0 ];
         var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
         var modelPoint = modelViewTransform.viewToModelPosition( localLaserPosition );
-        var vector = modelPoint.minus( laser.pivot );
-        var angle = vector.angle();
+        var angle = modelPoint.minus( laser.pivot ).angle();
         var after = clampDragAngle( angle );
 
         //Prevent laser from going to 90 degrees when in wave mode,
@@ -133,9 +132,8 @@ define( function( require ) {
 
     laser.emissionPointProperty.link( function( newEmissionPoint ) {
       var emissionPoint = modelViewTransform.modelToViewPosition( newEmissionPoint );
-      var angle = modelViewTransform.modelToViewPosition( Vector2.createPolar( 1, laser.getAngle() ) ).angle();
       laserNode.setTranslation( emissionPoint.x, emissionPoint.y );
-      laserNode.setRotation( angle );
+      laserNode.setRotation( -laser.getAngle() );
       laserNode.translate( 0, -lightImage.getHeight() / 2 );
     } );
 
