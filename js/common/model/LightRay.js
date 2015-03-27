@@ -112,18 +112,20 @@ define( function( require ) {
       var tipWidth = this.trapeziumWidth;
 
       // tip point
-      var tipPoint1 = new Vector2( this.tip.x + tipWidth / 2, this.tip.y );
-      var tipPoint2 = new Vector2( this.tip.x - tipWidth / 2, this.tip.y );
-
+      var tipPoint1X = this.tip.x + tipWidth / 2;
+      var tipPoint1Y = this.tip.y;
+      var tipPoint2X = this.tip.x - tipWidth / 2;
+      var tipPoint2Y = this.tip.y;
       //tail
-      var tailPoint1 = new Vector2( this.tail.x + tailWidth / 2 * Math.sin( angle ), this.tail.y + tailWidth / 2 * Math.cos( angle ) );
-      var tailPoint2 = new Vector2( this.tail.x - tailWidth / 2 * Math.sin( angle ), this.tail.y - tailWidth / 2 * Math.cos( angle ) );
-
+      var tailPoint1X = this.tail.x + tailWidth / 2 * Math.sin( angle );
+      var tailPoint1Y = this.tail.y + tailWidth / 2 * Math.cos( angle );
+      var tailPoint2X = this.tail.x - tailWidth / 2 * Math.sin( angle );
+      var tailPoint2Y = this.tail.y - tailWidth / 2 * Math.cos( angle );
       var shape = new Shape();
-      shape.moveTo( tailPoint1.x, tailPoint1.y )
-        .lineTo( tailPoint2.x, tailPoint2.y )
-        .lineTo( tipPoint2.x, tipPoint2.y )
-        .lineTo( tipPoint1.x, tipPoint1.y )
+      shape.moveTo( tailPoint1X, tailPoint1Y )
+        .lineTo( tailPoint2X, tailPoint2Y )
+        .lineTo( tipPoint2X, tipPoint2Y )
+        .lineTo( tipPoint1X, tipPoint1Y )
         .close();
       return shape;
     },
