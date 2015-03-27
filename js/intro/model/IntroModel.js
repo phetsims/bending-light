@@ -58,7 +58,7 @@ define( function( require ) {
       }
     } );
 
-    this.simDisplayWindowHeight = 504;
+    //this.simDisplayWindowHeight = 504;
     this.simDisplayWindowHeightInModel = 0;
     // call stepInternal at a rate of 10 times per second
     this.timer = new EventTimer( new EventTimer.ConstantEventModel( 4 ), function() {
@@ -263,14 +263,16 @@ define( function( require ) {
     // add  a particle
     addParticle: function() {
       var particleColor;
+      var particleGradientColor;
       var lightRayToPropagate;
       for ( var k = 0; k < this.rays.length; k++ ) {
         lightRayToPropagate = this.rays.get( k );
         var angle = lightRayToPropagate.getAngle();
-        particleColor = new Color( this.rays.get( k ).color.getRed(), this.rays.get( k ).color.getGreen(), this.rays.get( k ).color.getBlue(),
-          Math.sqrt( this.rays.get( k ).getPowerFraction() ) );
-        var viewWavelength = this.rays.get( k ).getWavelength();
-        var directionVector = this.rays.get( k ).toVector2D().normalized();
+        particleColor = new Color( lightRayToPropagate.color.getRed(), lightRayToPropagate.color.getGreen(), lightRayToPropagate.color.getBlue(),
+          Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
+        particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
+        var viewWavelength = lightRayToPropagate.getWavelength();
+        var directionVector = lightRayToPropagate.toVector2D().normalized();
         var waveVector = directionVector.times( viewWavelength );
 
         if ( k === 0 ) {
@@ -278,6 +280,7 @@ define( function( require ) {
             lightRayToPropagate.tail.minus( directionVector.times( lightRayToPropagate.getWavelength() ) ),
             lightRayToPropagate.getWaveWidth(),
             particleColor.toCSS(),
+            particleGradientColor.toCSS(),
             angle,
             waveVector.magnitude() ) );
         }
@@ -286,6 +289,7 @@ define( function( require ) {
             lightRayToPropagate.tail.minus( directionVector.times( lightRayToPropagate.trapeziumWidth * Math.cos( angle ) ) ),
             lightRayToPropagate.getWaveWidth(),
             particleColor.toCSS(),
+            particleGradientColor.toCSS(),
             angle,
             waveVector.magnitude() ) );
         }
@@ -297,6 +301,7 @@ define( function( require ) {
       var lightRayInRay2Form;
       var lightRayToPropagate;
       var particleColor;
+      var particleGradientColor;
       var j;
       for ( var k = 0; k < this.rays.length; k++ ) {
         lightRayToPropagate = this.rays.get( k );
@@ -313,13 +318,16 @@ define( function( require ) {
 
         lightRayInRay2Form = new Ray2( tail, directionVector );
         var distance = tip.distance( tail );
-        var gapBetweenSuccessiveParticles = 5.597222222222222e-7; // ~10px
-        particleColor = new Color( this.rays.get( k ).color.getRed(), this.rays.get( k ).color.getGreen(), this.rays.get( k ).color.getBlue(),
-          Math.sqrt( this.rays.get( k ).getPowerFraction() ) );
-        var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 50 );// : this.simDisplayWindowHeight;
+        var gapBetweenSuccessiveParticles = viewWavelength;
+        particleColor = new Color( lightRayToPropagate.color.getRed(), lightRayToPropagate.color.getGreen(), lightRayToPropagate.color.getBlue(),
+          Math.sqrt( lightRayToPropagate.getPowerFraction() ) ).toCSS();
+        particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) ).toCSS();
+        var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 130 );// : this.simDisplayWindowHeight;
         var waveParticleGap = 0;
+        var particleWidth = lightRayToPropagate.getWaveWidth();
+        var particleHeight = waveVector.magnitude();
         for ( j = 0; j < numberOfParticles; j++ ) {
-          lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ), lightRayToPropagate.getWaveWidth(), particleColor.toCSS(), angle, waveVector.magnitude() ) );
+          lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ), particleWidth, particleColor, particleGradientColor, angle, particleHeight ) );
           waveParticleGap += gapBetweenSuccessiveParticles;
         }
       }
@@ -336,7 +344,6 @@ define( function( require ) {
       var particlesToRemove = [];
       var reflectedParticlesToRemove = [];
       var refractedParticlesToRemove = [];
-      //var typesOfParticles = [ this.waveParticles, this.reflectedWaveParticles, this.refractedWaveParticles ];
       var waveParticles = [];
       for ( var i = 0; i < this.rays.length; i++ ) {
         var lightRayToPropagate = this.rays.get( i );

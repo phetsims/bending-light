@@ -101,13 +101,13 @@ define( function( require ) {
     //Add control panels for setting the index of refraction for each medium
     var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
-    topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
+    topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - inset, this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
     this.afterLightLayer2.addChild( topMediumControlPanel );
 
     //Add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
-    bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth(), this.modelViewTransform.modelToViewY( 0 ) + 10 );
+    bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - inset, this.modelViewTransform.modelToViewY( 0 ) + 10 );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
     //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
@@ -133,13 +133,13 @@ define( function( require ) {
     //Embed in the a control panel node to get a border and background
     var laserView = new LaserView( introModel, hasMoreTools, {} );
     //Set the location and add to the scene
-    laserView.setTranslation( 5, 5 );
+    laserView.setTranslation( this.layoutBounds.minX + inset / 2, 5 );
     this.afterLightLayer2.addChild( laserView );
 
     //Create the toolbox
     this.toolboxNode = new ToolboxNode( this, this.modelViewTransform, this.getMoreTools( introModel ), introModel.getIntensityMeter(), introModel.showNormalProperty, {} );
     this.beforeLightLayer.addChild( this.toolboxNode );
-    this.toolboxNode.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - this.toolboxNode.height - 10 );
+    this.toolboxNode.setTranslation( this.layoutBounds.minX + inset / 2, this.layoutBounds.maxY - this.toolboxNode.height - 10 );
 
     this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), this.toolboxNode.visibleBounds );
     this.beforeLightLayer.addChild( this.intensityMeterNode );
@@ -225,11 +225,6 @@ define( function( require ) {
       speedControl.visible = (laserType === 'wave');
     } );
 
-    /* // call stepInternal at a rate of 8 times per second
-     this.timer = new EventTimer( new EventTimer.UniformEventModel( 8, Math.random ), function() {
-     introView.stepInternal();
-     } );*/
-
   }
 
   return inherit( BendingLightView, IntroView, {
@@ -247,14 +242,6 @@ define( function( require ) {
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;
       this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale ) );
     },
-
-    /*stepInternal: function() {
-     var lightWaves = this.lightWaveLayer.getChildren();
-     for ( var i = 0; i < lightWaves.length; i++ ) {
-     lightWaves[ i ].step();
-     }
-
-     },*/
 
     /**
      * No more tools available in IntroCanvas, but this is overriden in MoreToolsCanvas to provide additional tools

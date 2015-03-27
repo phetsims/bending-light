@@ -56,7 +56,7 @@ define( function( require ) {
         context.lineTo( point2X, point2Y );
         var gradient = context.createLinearGradient( x, y, x + lineWidth * Math.cos( angle ), y - lineWidth * Math.sin( angle ) );
         gradient.addColorStop( 0, particle.color );
-        gradient.addColorStop( 0.5, "black" );
+        gradient.addColorStop( 0.5, particle.particleGradientColor );
         gradient.addColorStop( 1, particle.color );
         //context.createLinearGradient( point1X, point1Y, point2X, point2Y ).addColorStop( 0, "red" ).addColorStop( 0, "green" );
         context.strokeStyle = gradient;//particle.color;
