@@ -18,13 +18,11 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var Reading = require( 'BENDING_LIGHT/common/model/Reading' );
-  //var ObservableArray = require( 'AXON/ObservableArray' );
-  var EventTimer = require( 'PHET_CORE/EventTimer' );
   var WaveParticle = require( 'BENDING_LIGHT/common/model/WaveParticle' );
   var Ray2 = require( 'DOT/Ray2' );
   var Color = require( 'SCENERY/util/Color' );
 
-  // var MISS = IntensityMeter.Reading.MISS;
+//constants
   var CHARACTERISTIC_LENGTH = 650E-9;
 
   /**
@@ -60,12 +58,6 @@ define( function( require ) {
 
     //this.simDisplayWindowHeight = 504;
     this.simDisplayWindowHeightInModel = 0;
-    // call stepInternal at a rate of 10 times per second
-    this.timer = new EventTimer( new EventTimer.ConstantEventModel( 4 ), function() {
-      if ( introModel.laser.on && introModel.laserViewProperty.value === 'wave' ) {
-        //introModel.addParticle();
-      }
-    } );
   }
 
   return inherit( BendingLightModel, IntroModel, {
@@ -98,10 +90,6 @@ define( function( require ) {
 
         // calculated wave width of reflected and refracted wave width.
         // specially used in in wave Mode
-        //var initialPoint = this.laser.emissionPoint;
-        // var finalPoint = this.laser.pivot;
-        /* var angle = new Vector2( finalPoint.x - initialPoint.x,
-         finalPoint.y - initialPoint.y ).angle();*/
         var trapeziumWidth = Math.abs( sourceWaveWidth / Math.sin( this.laser.getAngle() ) );
 
         //Since the n1 depends on the wavelength, when you change the wavelength,
@@ -252,7 +240,6 @@ define( function( require ) {
 
       if ( this.isPlaying ) {
         var adjustedDT = this.speed === 'normal' ? dt : dt * 0.33;
-        this.timer.step( adjustedDT );
         if ( this.laser.on ) {
           this.propagateParticles( adjustedDT );
         }
