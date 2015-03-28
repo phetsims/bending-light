@@ -67,6 +67,7 @@ define( function( require ) {
     this.extend = extend;
 
     this.waveBounds = [];
+    this.vectorForm = new Vector2( 0, 0 );
 
     //wave particles
     this.particles = new ObservableArray();
@@ -94,7 +95,9 @@ define( function( require ) {
       return this.tip.minus( this.tail ).magnitude();
     },
     toVector2D: function() {
-      return this.tip.minus( this.tail );
+      this.vectorForm.x = this.tip.x - this.tail.x;
+      this.vectorForm.y = this.tip.y - this.tail.y;
+      return this.vectorForm;
     },
     getColor: function() {
       return this.color;
