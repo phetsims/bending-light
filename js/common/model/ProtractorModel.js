@@ -33,7 +33,9 @@ define( function( require ) {
      * @param {Number} y
      */
     translate1: function( x, y ) {
-      this.positionProperty.set( new Vector2( this.position.x + x, this.position.y + y ) );
+      this.positionProperty.value.x = this.positionProperty.value.x + x;
+      this.positionProperty.value.y = this.positionProperty.value.y + y;
+      this.positionProperty._notifyObservers();
     },
     /**
      *

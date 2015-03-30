@@ -42,6 +42,10 @@ define( function( require ) {
         emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
       }
     );
+
+    // create vector initially and used to avoid to many vector allocations
+    //  laser direction vector
+    this.directionUnitVector = new Vector2( 0, 0 );
     this.waveProperty.link( function() {
       if ( laser.wave && laser.getAngle() > MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
         laser.setAngle( MAX_ANGLE_IN_WAVE_MODE );
@@ -65,11 +69,20 @@ define( function( require ) {
        * @param {Vector2} delta
        */
       translate: function( delta ) {
-        this.emissionPoint = this.emissionPoint.plus( delta );
-        this.pivot = this.pivot.plus( delta );
+        this.emissionPoint.x = this.emissionPoint.x + delta.x;
+        this.emissionPoint.y = this.emissionPoint.y + delta.y;
+        this.pivot.x = this.pivot.x + delta.x;
+        this.pivot.y = this.pivot.y + delta.y;
+        this.emissionPointProperty._notifyObservers();
+        this.pivotProperty._notifyObservers();
       },
       getDirectionUnitVector: function() {
-        return this.pivot.minus( this.emissionPoint ).normalized();
+        this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
+        this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
+        var magnitude = this.directionUnitVector.magnitude();
+        this.directionUnitVector.x = this.directionUnitVector.x / magnitude;
+        this.directionUnitVector.y = this.directionUnitVector.y / magnitude;
+        return this.directionUnitVector;
       },
 
       /**
@@ -78,15 +91,18 @@ define( function( require ) {
        */
       setAngle: function( angle ) {
         var distFromPivot = this.pivot.distance( this.emissionPoint );
-        this.emissionPoint = Vector2.createPolar( distFromPivot, angle ).plus(
-          this.pivot );
+        this.emissionPoint.x = distFromPivot * Math.cos( angle ) + this.pivot.x;
+        this.emissionPoint.y = distFromPivot * Math.sin( angle ) + this.pivot.y;
+        this.emissionPointProperty._notifyObservers();
       },
       getAngle: function() {
         //TODO: why is this backwards by 180 degrees?
         return this.getDirectionUnitVector().angle() + Math.PI;
       },
       getDistanceFromPivot: function() {
-        return this.emissionPoint.minus( this.pivot ).magnitude();
+        this.directionUnitVector.x = this.emissionPoint.x - this.pivot.x;
+        this.directionUnitVector.y = this.emissionPoint.y - this.pivot.y;
+        return this.directionUnitVector.magnitude();
       },
       getWavelength: function() {
         return this.color.getWavelength();
