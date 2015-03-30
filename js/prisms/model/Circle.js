@@ -12,7 +12,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Rectangle = require( 'DOT/Rectangle' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
   var Ray2 = require( 'DOT/Ray2' );
 
