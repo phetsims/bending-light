@@ -3,6 +3,7 @@
  * Circle implementation for use in prisms
  *
  * @author Sam Reid
+ * @author Chandrashekar Bemagoni {Actual Concepts}
  */
 define( function( require ) {
   'use strict';
@@ -17,8 +18,8 @@ define( function( require ) {
 
   /**
    *
-   * @param center
-   * @param radius
+   * @param {Vector2} center
+   * @param {Number} radius
    * @constructor
    */
   function Circle( center, radius ) {
@@ -37,12 +38,11 @@ define( function( require ) {
     },
     /**
      *
-     * @param dx
-     * @param dy
+     * @param {Vector2} delta
      * @returns {Circle}
      */
-    getTranslatedInstance: function( dx, dy ) {
-      return new Circle( this.center.plus( new Vector2( dx, dy ) ), this.radius );
+    getTranslatedInstance: function( delta ) {
+      return new Circle( this.center.plus( delta ), this.radius );
     },
     /**
      * Finds the intersections between the edges of the circle and the specified ray
@@ -101,7 +101,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     containsPoint: function( point ) {
-      return point.distance( this.center ) <= this.radius;
+      return this.toShape().containsPoint( point );
     }
   } );
 } );

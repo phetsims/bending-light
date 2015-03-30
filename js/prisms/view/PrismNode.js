@@ -3,6 +3,7 @@
  * Graphically depicts a draggable prism.
  *
  * @author Sam Reid
+ * @author Chandrashekar Bemagoni {Actual Concepts}
  */
 define( function( require ) {
   'use strict';
@@ -64,12 +65,11 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = prismsNode.globalToParentPoint( event.pointer.point );
-        prism.translate1( modelViewTransform.viewToModelDelta(
-          end.minus( start ) ) );
+        prism.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
         start = end;
       }
     } ) );
-
+    var knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
     prism.shapeProperty.link( function() {
       prismsBreakModel.clear();
       prismsBreakModel.updateModel();
@@ -81,12 +81,12 @@ define( function( require ) {
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
         var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).minus(
           modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() ) ).angle();
-        var offsetX = -knobNode.getWidth() - 7;
-        var offsetY = -knobNode.getHeight() / 2 - 8;
-        knobNode.rotateAround( new Vector2( -offsetX, -offsetY ), angle );
+        knobCenterPoint.x = -knobNode.getWidth() - 7;
+        knobCenterPoint.y = -knobNode.getHeight() / 2 - 8;
+        knobNode.rotateAround( knobCenterPoint, angle );
         var knobPosition = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() );
         knobNode.setTranslation( knobPosition.x, knobPosition.y );
-        knobNode.translate( offsetX, offsetY );
+        knobNode.translate( knobCenterPoint );
       }
     } );
     prismsBreakModel.prismMediumProperty.link( function( prismMedium ) {

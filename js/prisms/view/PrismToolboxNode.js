@@ -1,10 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2015, University of Colorado
 
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel
  * for their index of refraction.
 
  * @author Sam Reid
+ * @author Chandrashekar Bemagoni {Actual Concepts}
  */
 define( function( require ) {
   'use strict';
@@ -103,12 +104,11 @@ define( function( require ) {
             start = prismsToolBoxNode.globalToParentPoint( event.pointer.point );
             prismShape = prism.copy();
             prismBreakModel.addPrism( prismShape );
-            prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
+            prismShape.translate( modelViewTransform.viewToModelPosition( start ) );
           },
           drag: function( event ) {
             var end = prismsToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
-            var delta = end.minus( start );
-            prismShape.translate( modelViewTransform.viewToModelDelta( delta ).x, modelViewTransform.viewToModelDelta( delta ).y );
+            prismShape.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
             start = end;
           },
           end: function( event ) {

@@ -14,8 +14,9 @@ define( function( require ) {
   //var ShapeDifference = require( 'BENDING_LIGHT/prisms/model/ShapeDifference' );
   //var ShapeIntersection = require( 'BENDING_LIGHT/prisms/model/ShapeIntersection' );
   var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
+  var SemiCircle = require( 'BENDING_LIGHT/prisms/model/SemiCircle' );
+  var DivergingLens = require( 'BENDING_LIGHT/prisms/model/DivergingLens' );
   var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
-  // var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
   var Ray = require( 'BENDING_LIGHT/prisms/model/Ray' );
   var Property = require( 'AXON/Property' );
   var Util = require( 'DOT/Util' );
@@ -101,7 +102,10 @@ define( function( require ) {
       this.showProtractorProperty.reset();
       BendingLightModel.prototype.resetAll.call( this );
     },
-    //List of prism prototypes that can be created in the sim
+    /**
+     * List of prism prototypes that can be created in the sim
+     * @returns {Array}
+     */
     getPrismPrototypes: function() {
       var prismsTypes = [];
 
@@ -136,22 +140,20 @@ define( function( require ) {
 
       var radius = a / 2;
 
-       //Continuous Circle
-       prismsTypes.push( new Prism( new Circle( new Vector2(), radius ) ) );
-      /*  var polygonArray = [ new Vector2( 0, radius ),
-       new Vector2( 0, -radius ),
-       new Vector2( -radius, -radius ),
-       new Vector2( -radius, radius ) ];
-       //Continuous Semicircle
-       prismsTypes.push( new Prism( new ShapeIntersection(
-       new Circle( new Vector2(), radius ), new Polygon( polygonArray, 1 ) ) ) );
+      //Continuous Circle
+      prismsTypes.push( new Prism( new Circle( new Vector2(), radius ) ) );
 
-       //Continuous Diverging Lens
-       prismsTypes.push( new Prism( new ShapeDifference( new Polygon( [
-       new Vector2( 0, -radius ),
-       new Vector2( radius * ( 0.6 / 0.5 ), -radius ),
-       new Vector2( radius * ( 0.6 / 0.5 ), radius ),
-       new Vector2( 0, radius ) ], 1 ), new Circle( new Vector2(), radius ) ) ) );*/
+      //SemiCircle
+      prismsTypes.push( new Prism( new SemiCircle( 1, [ new Vector2( 0, radius ), new Vector2( 0, -radius ) ], radius ) ) );
+
+      //DivergingLens
+      prismsTypes.push( new Prism( new DivergingLens( 2,
+        [
+          new Vector2( -0.6 * radius, radius ),
+          new Vector2( 0.6 * radius, radius ),
+          new Vector2( 0.6 * radius, -radius ),
+          new Vector2( -0.6 * radius, -radius )
+        ], radius ) ) );
       return prismsTypes;
 
     },
@@ -207,7 +209,9 @@ define( function( require ) {
           mediumIndexOfRefraction, this.laser.getFrequency() ), 0 );
       }
     },
-    //Algorithm that computes the trajectories of the rays throughout the system
+    /**
+     * Algorithm that computes the trajectories of the rays throughout the system
+     */
     propagateRays: function() {
 
       if ( this.laser.on ) {
@@ -227,9 +231,11 @@ define( function( require ) {
         }
       }
     },
-    //Determine if the laser beam originates within a prism for purpose of
-    // determining what index of refraction to use initially
-
+    /**
+     * Determine if the laser beam originates within a prism for purpose of
+     * determining what index of refraction to use initially
+     * @returns {boolean}
+     */
     isLaserInPrism: function() {
       var emissionPoint = this.laser.emissionPoint;
       this.prisms.forEach( function( prism ) {
@@ -240,11 +246,11 @@ define( function( require ) {
       return false;
     },
 
-
     /**
-     *  Recursive algorithm to compute the pattern of rays in the system.
-     *  This is the main computation of this model, rays are cleared beforehand
-     *  and this algorithm adds them as it goes
+     * Recursive algorithm to compute the pattern of rays in the system.
+     * This is the main computation of this model, rays are cleared beforehand
+     * and this algorithm adds them as it goes
+     *
      * @param incidentRay
      * @param count
      */
@@ -299,37 +305,26 @@ define( function( require ) {
         this.propagateTheRay( refracted, count + 1 );
         //Add the incident ray itself
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, intersection.getPoint(), n1,
-          wavelengthInN1, incidentRay.power,
-          new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
+          wavelengthInN1, incidentRay.power, new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
           waveWidth, 0, null, true, false ) );
       }
       else {
         //No intersection, so the light ray should just keep going
-        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2,
-          incidentRay.tail,
-          incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ),
-          n1,
-          wavelengthInN1,
-          incidentRay.power,
-          new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
-          waveWidth,
-          0,
-          null,
-          true,
-          false ) );
+        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail,
+          incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ), n1, wavelengthInN1,
+          incidentRay.power, new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
+          waveWidth, 0, null, true, false ) );
       }
     },
-    //Signify that another ray/interface collision occurred
-
+    /**
+     * Signify that another ray/interface collision occurred
+     * @param intersection
+     */
     addIntersection: function( intersection ) {
       this.intersections.add( intersection );
     },
-    //  Add a listener that will be notified when light hits an interface
-    addIntersectionListener: function( listener ) {
-      //intersectionListeners.add( listener );
-    },
     /**
-     *  Find the nearest intersection between a light ray and the set of prisms in the play area
+     * Find the nearest intersection between a light ray and the set of prisms in the play area
      * @param incidentRay
      * @param prisms
      * @returns {null}
