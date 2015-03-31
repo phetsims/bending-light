@@ -30,20 +30,22 @@ define( function( require ) {
     this.topLeftQuadrant = topLeftQuadrant;
     var laser = this;
     PropertySet.call( this, {
-        //point to be pivoted about, and at which the laser points
-        pivot: new Vector2( 0, 0 ),
-        color: new LaserColor.OneColor( WAVELENGTH_RED ),
-        //True if the laser is activated and emitting light
-        on: false,
-        wave: false,
-        colorMode: 'singleColor',
-        //Model the point where light comes out of the laser
-        //where the light comes from
-        emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
-      }
-    );
-
-    // create vector initially and used to avoid to many vector allocations
+      //point to be pivoted about, and at which the laser points
+      pivot: new Vector2( 0, 0 ),
+      color: new LaserColor.OneColor( WAVELENGTH_RED ),
+      //True if the laser is activated and emitting light
+      on: false,
+      wave: false,
+      colorMode: 'singleColor',
+      //Model the point where light comes out of the laser
+      //where the light comes from
+      emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
+    } );
+    // create vectors initially and used to avoid to many vector allocations
+    // vector for to store new laser emission point
+    this.newEmissionPoint = new Vector2( 0, 0 );
+    // vector for to store new laser pivot point
+    this.newPivotPoint = new Vector2( 0, 0 );
     //  laser direction vector
     this.directionUnitVector = new Vector2( 0, 0 );
     this.waveProperty.link( function() {
@@ -69,10 +71,13 @@ define( function( require ) {
        * @param {Vector2} delta
        */
       translate: function( delta ) {
-        this.emissionPoint.x = this.emissionPoint.x + delta.x;
-        this.emissionPoint.y = this.emissionPoint.y + delta.y;
-        this.pivot.x = this.pivot.x + delta.x;
-        this.pivot.y = this.pivot.y + delta.y;
+
+        this.newEmissionPoint.x = this.emissionPoint.x + delta.x;
+        this.newEmissionPoint.y = this.emissionPoint.y + delta.y;
+        this.newPivotPoint.x = this.pivot.x + delta.x;
+        this.newPivotPoint.y = this.pivot.y + delta.y;
+        this.emissionPointProperty.set( this.newEmissionPoint );
+        this.pivotProperty.set( this.newPivotPoint );
         this.emissionPointProperty._notifyObservers();
         this.pivotProperty._notifyObservers();
       },
@@ -91,8 +96,9 @@ define( function( require ) {
        */
       setAngle: function( angle ) {
         var distFromPivot = this.pivot.distance( this.emissionPoint );
-        this.emissionPoint.x = distFromPivot * Math.cos( angle ) + this.pivot.x;
-        this.emissionPoint.y = distFromPivot * Math.sin( angle ) + this.pivot.y;
+        this.newEmissionPoint.x = distFromPivot * Math.cos( angle ) + this.pivot.x;
+        this.newEmissionPoint.y = distFromPivot * Math.sin( angle ) + this.pivot.y;
+        this.emissionPointProperty.set( this.newEmissionPoint );
         this.emissionPointProperty._notifyObservers();
       },
       getAngle: function() {
