@@ -22,6 +22,7 @@ define( function( require ) {
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
+  var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
   //Font for labels in controls
   var labelFont = new PhetFont( 16 );
 
@@ -82,7 +83,7 @@ define( function( require ) {
     this.addChild( this.mediumNode );
     this.incidentWaveCanvasLayer = new Node();
 
-    //var whiteLightNode = new WhiteLightNode( this.lightRayLayer, this.stageSize.getWidth(), this.stageSize.getHeight() );
+    this.whiteLightNode = new WhiteLightNode( this.lightRayLayer, this.stageSize.width, this.stageSize.height );
     //layering
     this.addChild( this.beforeLightLayer );
     this.addChild( this.lightRayLayer );
@@ -90,9 +91,17 @@ define( function( require ) {
     this.waveCanvasLayer = new Node();
     this.addChild( this.waveCanvasLayer );
     this.addChild( this.incidentWaveCanvasLayer );
-    //this.addChild( whiteLightNode );
+    this.addChild( this.whiteLightNode );
     this.addChild( this.afterLightLayer );
     this.addChild( this.afterLightLayer2 );
+
+    //Switch between light renderers for white vs nonwhite light
+    model.getLaser().colorModeProperty.link( function( color ) {
+      var white = color === 'white';
+      bendingLightView.whiteLightNode.setVisible( white );
+      bendingLightView.lightRayLayer.setVisible( !white );
+      bendingLightView.lightWaveLayer.setVisible( !white );
+    } );
 
     //Add rotation for the laser that show if/when the laser can be rotated
     // about its pivot

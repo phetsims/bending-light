@@ -26,6 +26,7 @@ define( function( require ) {
   var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
   var LaserControlPanelNode = require( 'BENDING_LIGHT/prisms/view/LaserControlPanelNode' );
   var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
+  var EventTimer = require( 'PHET_CORE/EventTimer' );
   //var Property = require( 'AXON/Property' );
   //var WAVELENGTH_RED = BendingLightModel.WAVELENGTH_RED;//static
   var inset = 10;
@@ -41,6 +42,7 @@ define( function( require ) {
   function PrismBreakView( prismBreakModel ) {
 
     this.prismLayer = new Node();
+    this.prismBreakModel = prismBreakModel;
     var prismBreakView = this;
     //Specify how the drag angle should be clamped
     function clampDragAngle( angle ) {
@@ -157,12 +159,26 @@ define( function( require ) {
     this.beforeLightLayer.addChild( prismToolboxNode );
     this.beforeLightLayer.addChild( this.prismLayer );
 
+    // call stepInternal at a rate of 10 times per second
+    this.timer = new EventTimer( new EventTimer.ConstantEventModel( 30 ), function() {
+      prismBreakView.stepInternal();
+    } );
   }
 
   return inherit( BendingLightView, PrismBreakView, {
     resetAll: function() {
       this.prismLayer.removeAllChildren();
+    },
+    step: function( dt ) {
+      this.timer.step( dt );
+    },
+
+    stepInternal: function() {
+      if ( this.prismBreakModel.laser.colorModeProperty.value === 'white' ) {
+        this.whiteLightNode.step();
+      }
     }
+
   } );
 } );
 
