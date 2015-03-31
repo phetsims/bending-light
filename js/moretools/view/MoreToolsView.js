@@ -10,6 +10,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
+  var WaveSensorNode = require( 'BENDING_LIGHT/moretools/view/WaveSensorNode' );
 
   /**
    *
@@ -17,11 +18,24 @@ define( function( require ) {
    * @constructor
    */
   function MoreToolsView( model ) {
+    this.model = model;
     this.arrowScale = 1.5E-14;
     IntroView.call( this, model, true, true );
   }
 
-  return inherit( IntroView, MoreToolsView );
-
+  return inherit( IntroView, MoreToolsView, {
+    /**
+     * Provide the additional tools for this tab
+     *
+     * @returns {*[]}
+     */
+    getMoreTools: function() {
+      //Create the Velocity Sensor tool and wave sensor tool to add to the toolbox
+      return [ /*this.createVelocitySensorTool(),*/ this.createWaveSensorTool() ];
+    },
+    createWaveSensorTool: function() {
+      //Create the WaveSensorNode
+      return new WaveSensorNode( this.modelViewTransform, this.model.waveSensor, this.sensorPanel );
+    }
+  } );
 } );
-

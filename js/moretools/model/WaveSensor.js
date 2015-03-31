@@ -62,9 +62,9 @@ define( function( require ) {
     //These values for initial probe and body locations were obtained by printing out actual values at runtime,
     // then dragging the objects to a good looking location.  This amount of precision is unnecessary,
     // but these values were just sampled directly.
-    this.probe1 = new Probe( -0.0000155, -0.000005 );
-    this.probe2 = new Probe( -0.0000167, -0.0000075 );
-    this.bodyPosition = new Property( new Vector2( -0.00001, -0.0000098 ) );
+    this.probe1 = new Probe( -0.0000155, -0.000004 );
+    this.probe2 = new Probe( -0.0000160, -0.000005 );
+    this.bodyPositionProperty = new Property( new Vector2( -0.0000131, -0.000006 ) );
     this.visible = new BooleanProperty( false );
 
     //Clock to observe the passage of time
@@ -104,7 +104,7 @@ define( function( require ) {
      * @param delta
      */
     translateBody: function( delta ) {
-      this.bodyPosition.set( this.bodyPosition.get().plus( delta ) );
+      this.bodyPositionProperty.set( this.bodyPositionProperty.get().plus( delta ) );
     },
     /**
      * Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
@@ -122,10 +122,10 @@ define( function( require ) {
     translateAll: function( delta ) {
       this.probe1.translate( delta );
       this.probe2.translate( delta );
-      this.bodyPosition.set( this.bodyPosition.get().plus( delta ) );
+      this.bodyPositionProperty.set( this.bodyPositionProperty.get().plus( delta ) );
     },
     reset: function() {
-      this.bodyPosition.reset();
+      this.bodyPositionProperty.reset();
       this.probe1.positionProperty.reset();
       this.probe2.positionProperty.reset();
     }
