@@ -9,12 +9,11 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  //var Line = require( 'SCENERY/nodes/Line' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
+  var Line = require( 'KITE/segments/Line' );
 
   /**
    *
@@ -36,7 +35,7 @@ define( function( require ) {
       .lineTo( this.viewEnd.x, this.viewEnd.y ), {
       fill: new Color( color.getRed(), color.getGreen(), color.getBlue(),
         Math.sqrt( lightRay.getPowerFraction() ) ),
-      lineWidth: 3,
+      lineWidth: modelViewTransform.modelToViewDeltaX( lightRay.getRayWidth() ),
       stroke: new Color( color.getRed(), color.getGreen(), color.getBlue(),
         Math.sqrt( lightRay.getPowerFraction() ) )
     } );
@@ -50,10 +49,10 @@ define( function( require ) {
     /**
      * Get the line traversed by this light ray in view coordinates,
      * for usage with the Bresenham algorithm in the WhiteLightNode
-     * @returns {Vector2}
+     * @returns {Line}
      */
     getLine: function() {
-      return new Vector2( this.viewStart, this.viewEnd );
+      return new Line( this.viewStart, this.viewEnd );
     },
     getColor: function() {
       return this.lightRay.getColor();
