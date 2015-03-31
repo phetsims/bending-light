@@ -240,16 +240,13 @@ define( function( require ) {
     },
     /**
      * Called by the animation loop.
-     * @param {Number} dt -- time in seconds
      */
-    step: function( dt ) {
-      // prevent sudden dt bursts when the user comes back to the tab after a while
-      dt = ( dt > 0.04 ) ? 0.04 : dt;
+    step: function() {
 
       if ( this.isPlaying ) {
-        var adjustedDT = this.speed === 'normal' ? dt : dt * 0.33;
+        var particleDeltaFactor = this.speed === 'normal' ? 20 : 45;
         if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
-          this.propagateParticles( adjustedDT );
+          this.propagateParticles( particleDeltaFactor );
         }
 
       }
@@ -338,9 +335,10 @@ define( function( require ) {
 
 
     /**
-     * propagates the particles.
+     *
+     * @param {Number} particleDeltaFactor
      */
-    propagateParticles: function() {
+    propagateParticles: function( particleDeltaFactor ) {
       var particle;
       var particlesToRemove = [];
       var reflectedParticlesToRemove = [];
@@ -351,8 +349,8 @@ define( function( require ) {
         var lightRayBounds = lightRayToPropagate.getWaveBounds();
         waveParticles = lightRayToPropagate.particles;
         var lightRayAngle = lightRayToPropagate.getAngle();
-        var deltaX = lightRayToPropagate.wavelength / 20 * Math.cos( lightRayAngle );
-        var deltaY = lightRayToPropagate.wavelength / 20 * Math.sin( lightRayAngle );
+        var deltaX = lightRayToPropagate.wavelength / particleDeltaFactor * Math.cos( lightRayAngle );
+        var deltaY = lightRayToPropagate.wavelength / particleDeltaFactor * Math.sin( lightRayAngle );
         waveParticles = lightRayToPropagate.particles;
 
         for ( var j = 0; j < waveParticles.length; j++ ) {
