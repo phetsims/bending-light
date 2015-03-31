@@ -20,7 +20,6 @@ define( function( require ) {
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
-  var ToolboxNode = require( 'BENDING_LIGHT/common/view/ToolboxNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -28,6 +27,10 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   //var EventTimer = require( 'PHET_CORE/EventTimer' );
   var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
+  var CheckBox = require( 'SUN/CheckBox' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
+  var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
 
   //strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -136,20 +139,52 @@ define( function( require ) {
     laserView.setTranslation( this.layoutBounds.minX + inset / 2, 5 );
     this.afterLightLayer2.addChild( laserView );
 
-    //Create the toolbox
-    this.toolboxNode = new ToolboxNode( this, this.modelViewTransform, this.getMoreTools( introModel ), introModel.getIntensityMeter(), introModel.showNormalProperty, {} );
-    this.beforeLightLayer.addChild( this.toolboxNode );
-    this.toolboxNode.setTranslation( this.layoutBounds.minX + inset / 2, this.layoutBounds.maxY - this.toolboxNode.height - 10 );
+    var sensorPanelHeight = this.getMoreTools().length ? 315 : 220;
 
-    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), this.toolboxNode.visibleBounds );
+    var sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 10, 10, {
+      stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
+    } );
+    this.beforeLightLayer.addChild( sensorPanel );
+    sensorPanel.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - sensorPanelHeight - 10 );
+
+    var ICON_WIDTH = 85;
+    //Initial tools
+    var protractorModelPositionX = this.modelViewTransform.viewToModelX( sensorPanel.centerX );
+    var protractorModelPositionY = this.modelViewTransform.viewToModelY( sensorPanel.y + 45 );
+    this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
+    this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
+      this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, sensorPanel.bounds );
+    this.afterLightLayer2.addChild( this.protractorNode );
+
+    this.getMoreTools().forEach( function( moreTool ) {
+      introView.addChild( moreTool );
+    } );
+
+    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), sensorPanel.visibleBounds );
     this.beforeLightLayer.addChild( this.intensityMeterNode );
+
+    var checkBoxOptions = {
+      boxWidth: 20,
+      spacing: 5
+    };
+
+    var normalText = new Text( 'Normal' );
+    var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, checkBoxOptions );
+    normalCheckBox.setTranslation( 15, sensorPanel.y + sensorPanelHeight - 55 );
+    this.addChild( normalCheckBox );
+
+    // add normal
+    var normalIcon = new NormalLine( 50 );
+    normalIcon.setTranslation( 60, sensorPanel.y + sensorPanelHeight - 55 );
+    this.addChild( normalIcon );
+
     // Add reset all button
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
           introView.intensityMeterNode.setIntensityMeterScale( introView.intensityMeterNode.intensityMeter.sensorPositionProperty.initialValue, 0.3 );
           introModel.resetAll();
-          introView.toolboxNode.resetAll();
+          introView.resetAll();
         },
         bottom: this.layoutBounds.bottom - inset,
         right:  this.layoutBounds.right - inset
@@ -160,7 +195,7 @@ define( function( require ) {
     // add play pause button and step button
     var stepButton = new StepButton(
       function() {
-        introModel.propagateParticles( 0.016 );
+        introModel.propagateParticles( 20 );
         for ( var k = 0; k < introView.waveCanvasLayer.getChildrenCount(); k++ ) {
           introView.waveCanvasLayer.children[ k ].step();
         }
@@ -240,6 +275,10 @@ define( function( require ) {
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;
       this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale ) );
+    },
+    resetAll: function() {
+      this.protractorNode.setProtractorScale( this.protractorNode.multiScale );
+      this.protractorModel.reset();
     },
 
     /**
