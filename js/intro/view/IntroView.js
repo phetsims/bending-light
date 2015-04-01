@@ -141,26 +141,26 @@ define( function( require ) {
 
     var sensorPanelHeight = this.getMoreTools().length ? 315 : 220;
 
-    var sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 10, 10, {
+    this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 10, 10, {
       stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
     } );
-    this.beforeLightLayer.addChild( sensorPanel );
-    sensorPanel.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - sensorPanelHeight - 10 );
+    this.beforeLightLayer.addChild( this.sensorPanel );
+    this.sensorPanel.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - sensorPanelHeight - 10 );
 
     var ICON_WIDTH = 85;
     //Initial tools
-    var protractorModelPositionX = this.modelViewTransform.viewToModelX( sensorPanel.centerX );
-    var protractorModelPositionY = this.modelViewTransform.viewToModelY( sensorPanel.y + 45 );
+    var protractorModelPositionX = this.modelViewTransform.viewToModelX( this.sensorPanel.centerX );
+    var protractorModelPositionY = this.modelViewTransform.viewToModelY( this.sensorPanel.y + 45 );
     this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
     this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
-      this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, sensorPanel.bounds );
+      this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds );
     this.afterLightLayer2.addChild( this.protractorNode );
 
     this.getMoreTools().forEach( function( moreTool ) {
       introView.addChild( moreTool );
     } );
 
-    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), sensorPanel.visibleBounds );
+    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), this.sensorPanel.visibleBounds );
     this.beforeLightLayer.addChild( this.intensityMeterNode );
 
     var checkBoxOptions = {
@@ -170,12 +170,12 @@ define( function( require ) {
 
     var normalText = new Text( 'Normal' );
     var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, checkBoxOptions );
-    normalCheckBox.setTranslation( 15, sensorPanel.y + sensorPanelHeight - 55 );
+    normalCheckBox.setTranslation( 15, this.sensorPanel.y + sensorPanelHeight - 55 );
     this.addChild( normalCheckBox );
 
     // add normal
     var normalIcon = new NormalLine( 50 );
-    normalIcon.setTranslation( 60, sensorPanel.y + sensorPanelHeight - 55 );
+    normalIcon.setTranslation( 60, this.sensorPanel.y + sensorPanelHeight - 55 );
     this.addChild( normalIcon );
 
     // Add reset all button
