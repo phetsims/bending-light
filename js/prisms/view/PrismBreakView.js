@@ -15,20 +15,14 @@ define( function( require ) {
   var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  // var Shape = require( 'KITE/Shape' );
-  // var Path = require( 'SCENERY/nodes/Path' );
-  //var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
-  var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   var IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
-  //var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
-  // var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
   var LaserControlPanelNode = require( 'BENDING_LIGHT/prisms/view/LaserControlPanelNode' );
   var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
   var EventTimer = require( 'PHET_CORE/EventTimer' );
-  //var Property = require( 'AXON/Property' );
-  //var WAVELENGTH_RED = BendingLightModel.WAVELENGTH_RED;//static
+
+  // constants
   var inset = 10;
 
 // string
@@ -91,14 +85,6 @@ define( function( require ) {
         right:  this.layoutBounds.right - inset
       } );
     this.addChild( laserControlPanelNode );
-    prismBreakModel.prisms.addItemAddedListener( function( item ) {
-      prismBreakView.prismLayer.addChild( new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, item ) );
-    } );
-    prismBreakModel.prisms.addItemRemovedListener( function() {
-      for ( var i = 0; i < prismBreakView.prismLayer.getChildrenCount(); i++ ) {
-        prismBreakView.prismLayer.removeChild( prismBreakView.prismLayer.children[ i ] );
-      }
-    } );
 
     //Optionally show the normal lines at each intersection
     prismBreakModel.intersections.addItemAddedListener( function( addedIntersection ) {
@@ -125,6 +111,7 @@ define( function( require ) {
       {
         listener: function() {
           prismBreakModel.resetAll();
+          prismBreakView.prismLayer.removeAllChildren();
         },
         bottom: this.layoutBounds.bottom - inset,
         right:  this.layoutBounds.right - inset

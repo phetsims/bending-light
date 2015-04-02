@@ -28,6 +28,7 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Vector2 = require( 'DOT/Vector2' );
+  var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
 
   //strings
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
@@ -41,14 +42,14 @@ define( function( require ) {
 
   /**
    *
-   * @param {PrismBreakView} canvas
+   * @param {PrismBreakView} prismBreakView
    * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
    * @param {PrismBreakModel} prismBreakModel - model of the prism screen
    * @param {Object} [options ] that can be passed on to the underlying node
    * @constructor
    */
-  function PrismToolboxNode( canvas, modelViewTransform, prismBreakModel, options ) {
-
+  function PrismToolboxNode( prismBreakView, modelViewTransform, prismBreakModel, options ) {
+    var prismToolboxNode = this;
     options = _.extend( {
       xMargin: 10,
       yMargin: 7,
@@ -91,7 +92,7 @@ define( function( require ) {
       }
       return prismIconNode;
     };
-
+    var prismsNode;
     //Iterate over the prism prototypes in the model and create a draggable icon for each one
     prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
       prismPath[ i ] = createPrismIcon( prism );
@@ -104,6 +105,8 @@ define( function( require ) {
             start = prismsToolBoxNode.globalToParentPoint( event.pointer.point );
             prismShape = prism.copy();
             prismBreakModel.addPrism( prismShape );
+            prismsNode = new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, prismShape, prismToolboxNode, prismBreakView.prismLayer );
+            prismBreakView.prismLayer.addChild( prismsNode );
             prismShape.translate( modelViewTransform.viewToModelPosition( start ) );
           },
           drag: function( event ) {
@@ -111,7 +114,11 @@ define( function( require ) {
             prismShape.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
             start = end;
           },
-          end: function( event ) {
+          end: function() {
+            if ( prismsNode.visibleBounds.intersectsBounds( prismToolboxNode.visibleBounds ) ) {
+              prismBreakModel.prisms.remove( prism );
+              prismBreakView.prismLayer.removeChild( prismsNode );
+            }
           }
         }
       ) );
@@ -141,8 +148,8 @@ define( function( require ) {
     //Create an icon for the protractor check box
     var createProtractorIcon = function() {
       var protractorModel = new ProtractorModel( 0, 0 );
-      var protractorNode = new ProtractorNode( modelViewTransform, canvas.showProtractorProperty, protractorModel,
-        canvas.getProtractorDragRegion, canvas.getProtractorRotationRegion, 90, prismsToolBoxNode.getBounds() );
+      var protractorNode = new ProtractorNode( modelViewTransform, prismBreakView.showProtractorProperty, protractorModel,
+        prismBreakView.getProtractorDragRegion, prismBreakView.getProtractorRotationRegion, 90, prismsToolBoxNode.getBounds() );
       protractorNode.setScaleMagnitude( 0.05 );
       return protractorNode;
     };

@@ -163,11 +163,12 @@ define( function( require ) {
     addPrism: function( prism ) {
       this.prisms.add( prism );
     },
+    /**
+     *
+     * @param prism
+     */
     removePrism: function( prism ) {
-      /*      this.prisms.remove( prism );
-       prism.shape.get().removeObserver( this.updateModel );
-       this.updateModel();*/
-      //this.prims
+      this.prisms.remove( prism );
     },
     getPrisms: function() {
       return this.prisms;

@@ -24,9 +24,11 @@ define( function( require ) {
    * @param {PrismBreakModel} prismsBreakModel
    * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
    * @param prism
+   * @param prismToolboxNode
+   * @param prismLayer
    * @constructor
    */
-  function PrismNode( prismsBreakModel, modelViewTransform, prism ) {
+  function PrismNode( prismsBreakModel, modelViewTransform, prism, prismToolboxNode, prismLayer ) {
     Node.call( this );
     var prismsNode = this;
     var knobHeight = 15;
@@ -49,6 +51,12 @@ define( function( require ) {
           .angle();
         prism.rotate( angle - previousAngle );
         previousAngle = angle;
+      },
+      end: function() {
+        if ( prismsNode.visibleBounds.intersectsBounds( prismToolboxNode.visibleBounds ) ) {
+          prismsBreakModel.removePrism( prism );
+          prismLayer.removeChild( prismsNode );
+        }
       }
     } ) );
 
@@ -67,6 +75,12 @@ define( function( require ) {
         var end = prismsNode.globalToParentPoint( event.pointer.point );
         prism.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
         start = end;
+      },
+      end: function() {
+        if ( prismsNode.visibleBounds.intersectsBounds( prismToolboxNode.visibleBounds ) ) {
+          prismsBreakModel.prisms.remove( prism );
+          prismLayer.removeChild( prismsNode );
+        }
       }
     } ) );
     var knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
