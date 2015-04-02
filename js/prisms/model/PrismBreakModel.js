@@ -233,10 +233,11 @@ define( function( require ) {
      */
     isLaserInPrism: function() {
       var emissionPoint = this.laser.emissionPoint;
+      var isLaserInPrism = false;
       for ( var i = 0; i < this.prisms.length; i++ ) {
-        return this.prisms.get( i ).contains( emissionPoint );
+        isLaserInPrism = this.prisms.get( i ).contains( emissionPoint );
       }
-      return false;
+      return isLaserInPrism;
     },
 
     /**
