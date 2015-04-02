@@ -134,8 +134,8 @@ define( function( require ) {
       var intersections = [];
       this.getEdges().forEach( function( lineSegment ) {
         //Get the intersection if there is one
-        var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.tail.plus( ray.directionUnitVector ) ) );
-        if ( intersection.length !== 0 /*&& !isNaN( intersection[ 0 ].x ) && !isNaN( intersection[ 0 ].y )*/ ) {
+        var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
+        if ( intersection.length !== 0 ) {
           //Choose the normal vector that points the opposite direction of the incoming ray
           var normal1 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( +Math.PI / 2 ).normalized();
           var normal2 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( -Math.PI / 2 ).normalized();

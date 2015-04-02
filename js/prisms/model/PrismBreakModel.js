@@ -11,13 +11,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  //var ShapeDifference = require( 'BENDING_LIGHT/prisms/model/ShapeDifference' );
-  //var ShapeIntersection = require( 'BENDING_LIGHT/prisms/model/ShapeIntersection' );
   var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
   var SemiCircle = require( 'BENDING_LIGHT/prisms/model/SemiCircle' );
   var DivergingLens = require( 'BENDING_LIGHT/prisms/model/DivergingLens' );
   var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
   var Ray = require( 'BENDING_LIGHT/prisms/model/Ray' );
+  var Ray2 = require( 'DOT/Ray2' );
   var Property = require( 'AXON/Property' );
   var Util = require( 'DOT/Util' );
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
@@ -111,31 +110,27 @@ define( function( require ) {
 
       //characteristic length scale
       var a = CHARACTERISTIC_LENGTH * 10;
-      //characteristic length scale
-      //attach at bottom right
-      var b = a / 4;
 
-
-      prismsTypes.push( new Prism( new Polygon( 3,//attach at bottom right
-        [ new Vector2(),
-          new Vector2( 0, a ),
-          new Vector2( a, a ),
-          new Vector2( a, 0 ) ] ) ) );
+      prismsTypes.push( new Prism( new Polygon( 1,//attach at bottom right
+        [ new Vector2( -a / 2, -a / 2 ),
+          new Vector2( a / 2, -a / 2 ),
+          new Vector2( a / 2, a / 2 ),
+          new Vector2( -a / 2, a / 2 ) ] ) ) );
 
       //Triangle
       prismsTypes.push( new Prism( new Polygon(
         1,//attach at bottom right
-        [ new Vector2(),
-          new Vector2( a, 0 ),
-          new Vector2( a / 2, a * Math.sqrt( 3 ) / 2.0 ) ]
+        [ new Vector2( -a / 2, -a / (2 * Math.sqrt( 3 )) ),
+          new Vector2( a / 2, -a / (2 * Math.sqrt( 3 )) ),
+          new Vector2( 0, a / Math.sqrt( 3 ) ) ]
       ) ) );
 
       //Trapezoid
       prismsTypes.push( new Prism( new Polygon( 1,//attach at bottom right
-        [ new Vector2(),
-          new Vector2( a, 0 ),
-          new Vector2( a / 2 + b, a * Math.sqrt( 3 ) / 2.0 ),
-          new Vector2( a / 2 - b, a * Math.sqrt( 3 ) / 2.0 ) ]
+        [ new Vector2( -a / 2, -a * Math.sqrt( 3 ) / 4 ),
+          new Vector2( a / 2, -a * Math.sqrt( 3 ) / 4 ),
+          new Vector2( a / 4, a * Math.sqrt( 3 ) / 4 ),
+          new Vector2( -a / 4, a * Math.sqrt( 3 ) / 4 ) ]
       ) ) );
 
       var radius = a / 2;
@@ -238,11 +233,9 @@ define( function( require ) {
      */
     isLaserInPrism: function() {
       var emissionPoint = this.laser.emissionPoint;
-      this.prisms.forEach( function( prism ) {
-        if ( prism.contains( emissionPoint ) ) {
-          return true;
-        }
-      } );
+      for ( var i = 0; i < this.prisms.length; i++ ) {
+        return this.prisms.get( i ).contains( emissionPoint );
+      }
       return false;
     },
 
@@ -272,7 +265,8 @@ define( function( require ) {
         var pointOnOtherSide = intersection.getPoint().plus( incidentRay.directionUnitVector.times( 1E-12 ) );
         var outputInsidePrism = false;
         this.prisms.forEach( function( prism ) {
-          if ( prism.contains( pointOnOtherSide ) ) {
+          if ( prism.shapeProperty.get().toShape().intersection(
+              new Ray2( pointOnOtherSide, incidentRay.directionUnitVector ) ).length !== 0 ) {
             outputInsidePrism = true;
           }
         } );

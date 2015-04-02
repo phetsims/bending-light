@@ -13,6 +13,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Shape = require( 'KITE/Shape' );
   var Line = require( 'KITE/segments/Line' );
+  var Arc = require( 'KITE/segments/Arc' );
   var Ray2 = require( 'DOT/Ray2' );
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
 
@@ -81,17 +82,6 @@ define( function( require ) {
       return new DivergingLens( this.referencePointIndex, newPoints, this.radius );
     },
     /**
-     * Lists the corner points
-     * @returns {Array}
-     */
-    toPointArray: function() {
-      var array = [];
-      for ( var i = 0; i < this.points.length; i++ ) {
-        array[ i ] = this.points[ i ];
-      }
-      return array;
-    },
-    /**
      *
      * @param point
      * @returns {*}
@@ -157,7 +147,7 @@ define( function( require ) {
       var intersections = [];
       this.getEdges().forEach( function( lineSegment ) {
         //Get the intersection if there is one
-        var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.tail.plus( ray.directionUnitVector ) ) );
+        var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
         if ( intersection.length !== 0 ) {
           //Choose the normal vector that points the opposite direction of the incoming ray
           var normal1 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( +Math.PI / 2 ).normalized();
@@ -170,8 +160,8 @@ define( function( require ) {
       } );
       var center = this.points[ 0 ].plus( this.points[ 3 ] ).times( 0.5 );
       var startAngle = center.minus( this.points[ 3 ] ).angle();
-      var arc = new Shape().ellipticalArc( center.x, center.y, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, true );
-      var intersection = arc.intersection( new Ray2( ray.tail, ray.tail.plus( ray.directionUnitVector ) ) );
+      var arc = new Arc( center, this.radius, startAngle, startAngle + Math.PI, true );
+      var intersection = arc.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       if ( intersection.length !== 0 ) {
         var vector = intersection[ 0 ].point.minus( ray.tail );
         //Only consider intersections that are in front of the ray

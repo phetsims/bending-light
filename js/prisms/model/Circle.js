@@ -29,10 +29,6 @@ define( function( require ) {
 
   return inherit( Object, Circle, {
     toShape: function() {
-      return this.toEllipse();
-    },
-
-    toEllipse: function() {
       return new Shape.ellipse( this.center.x, this.center.y, this.radius, this.radius );
     },
     /**
@@ -49,10 +45,7 @@ define( function( require ) {
      * @returns {Array}
      */
     getIntersections: function( ray ) {
-      //Find the line segment corresponding to the specified ray
-      //Find the intersections between the infinite line (not a segment) and the circle
-      var intersectionArray = this.toEllipse().intersection( new Ray2( ray.tail, ray.tail.plus( ray.directionUnitVector ) ) );
-      //Convert Point2D => Intersection instances
+      var intersectionArray = this.toShape().intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       var intersectionList = [];
       var self = this;
       intersectionArray.forEach( function( intersectionPoint ) {
@@ -92,7 +85,7 @@ define( function( require ) {
     },
     //  Signify that the circle can't be rotated
     getReferencePoint: function() {
-      // return new Option.None();
+      return null;
     },
     /**
      *

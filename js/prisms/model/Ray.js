@@ -33,7 +33,7 @@ define( function( require ) {
     this.wavelength = wavelength;
     this.mediumIndexOfRefraction = mediumIndexOfRefraction;
     this.frequency = frequency;
-    this.directionUnitVector = directionUnitVector/*.normalized()*/;
+    this.directionUnitVector = directionUnitVector.normalized();
   }
 
   return inherit( Object, Ray, {
