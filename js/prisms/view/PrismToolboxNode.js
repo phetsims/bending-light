@@ -103,7 +103,7 @@ define( function( require ) {
       prismPath[ i ].addInputListener( new SimpleDragHandler( {
 
           start: function( event ) {
-            start = prismsToolBoxNode.globalToParentPoint( event.pointer.point );
+            start = prismToolBoxNode.globalToParentPoint( event.pointer.point );
             prismShape = prism.copy();
             prismBreakModel.addPrism( prismShape );
             prismsNode = new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, prismShape, prismToolBoxNode, prismBreakView.prismLayer );
@@ -111,7 +111,7 @@ define( function( require ) {
             prismShape.translate( modelViewTransform.viewToModelPosition( start ) );
           },
           drag: function( event ) {
-            var end = prismsToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
+            var end = prismToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
             prismShape.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
             start = end;
           },
