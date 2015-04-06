@@ -57,7 +57,6 @@ define( function( require ) {
       stroke: 'gray',
       lineWidth: 1
     }, options );
-    var prismsToolBoxNode = this;
     Node.call( this );
     var content = new HBox( {
       spacing: 4
@@ -73,6 +72,7 @@ define( function( require ) {
         fill: '#ABA8D6',
         stroke: '#ABA8D6'
       } ) );
+      // knob image
       var knobNode = new Image( KnobImage );
       if ( prism.shapeProperty.get().getReferencePoint() ) {
         prismIconNode.addChild( knobNode );
@@ -115,7 +115,7 @@ define( function( require ) {
             start = end;
           },
           end: function() {
-            if ( prismsNode.visibleBounds.intersectsBounds( prismToolboxNode.visibleBounds ) ) {
+            if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
               prismBreakModel.prisms.remove( prism );
               prismBreakView.prismLayer.removeChild( prismsNode );
             }

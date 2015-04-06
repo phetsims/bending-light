@@ -53,7 +53,7 @@ define( function( require ) {
         previousAngle = angle;
       },
       end: function() {
-        if ( prismsNode.visibleBounds.intersectsBounds( prismToolboxNode.visibleBounds ) ) {
+        if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
           prismsBreakModel.removePrism( prism );
           prismLayer.removeChild( prismsNode );
         }
@@ -77,7 +77,7 @@ define( function( require ) {
         start = end;
       },
       end: function() {
-        if ( prismsNode.visibleBounds.intersectsBounds( prismToolboxNode.visibleBounds ) ) {
+        if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
           prismsBreakModel.prisms.remove( prism );
           prismLayer.removeChild( prismsNode );
         }

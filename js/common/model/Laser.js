@@ -106,8 +106,8 @@ define( function( require ) {
         return this.getDirectionUnitVector().angle() + Math.PI;
       },
       getDistanceFromPivot: function() {
-        this.directionUnitVector.x = this.emissionPoint.x - this.pivot.x;
-        this.directionUnitVector.y = this.emissionPoint.y - this.pivot.y;
+        this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
+        this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
         return this.directionUnitVector.magnitude();
       },
       getWavelength: function() {
