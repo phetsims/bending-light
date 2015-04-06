@@ -49,7 +49,7 @@ define( function( require ) {
    * @constructor
    */
   function PrismToolboxNode( prismBreakView, modelViewTransform, prismBreakModel, options ) {
-    var prismToolboxNode = this;
+    var prismToolBoxNode = this;
     options = _.extend( {
       xMargin: 10,
       yMargin: 7,
@@ -57,6 +57,7 @@ define( function( require ) {
       stroke: 'gray',
       lineWidth: 1
     }, options );
+
     Node.call( this );
     var content = new HBox( {
       spacing: 4
@@ -105,7 +106,7 @@ define( function( require ) {
             start = prismsToolBoxNode.globalToParentPoint( event.pointer.point );
             prismShape = prism.copy();
             prismBreakModel.addPrism( prismShape );
-            prismsNode = new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, prismShape, prismToolboxNode, prismBreakView.prismLayer );
+            prismsNode = new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, prismShape, prismToolBoxNode, prismBreakView.prismLayer );
             prismBreakView.prismLayer.addChild( prismsNode );
             prismShape.translate( modelViewTransform.viewToModelPosition( start ) );
           },
@@ -115,7 +116,7 @@ define( function( require ) {
             start = end;
           },
           end: function() {
-            if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
+            if ( prismToolBoxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
               prismBreakModel.prisms.remove( prism );
               prismBreakView.prismLayer.removeChild( prismsNode );
             }
@@ -149,7 +150,7 @@ define( function( require ) {
     var createProtractorIcon = function() {
       var protractorModel = new ProtractorModel( 0, 0 );
       var protractorNode = new ProtractorNode( modelViewTransform, prismBreakView.showProtractorProperty, protractorModel,
-        prismBreakView.getProtractorDragRegion, prismBreakView.getProtractorRotationRegion, 90, prismsToolBoxNode.getBounds() );
+        prismBreakView.getProtractorDragRegion, prismBreakView.getProtractorRotationRegion, 90, prismToolBoxNode.getBounds() );
       protractorNode.setScaleMagnitude( 0.05 );
       return protractorNode;
     };
