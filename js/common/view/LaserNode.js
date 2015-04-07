@@ -83,7 +83,7 @@ define( function( require ) {
     } ) );
     translationRegionPath.addInputListener( {
       enter: function() {
-        showTranslationDragHandles.value = true;
+        showTranslationDragHandles.value = showRotationDragHandles.value ? false : true;
       },
       exit: function() {
         showTranslationDragHandles.value = false;
@@ -96,6 +96,7 @@ define( function( require ) {
     this.addChild( rotationRegionPath );
     rotationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function() {
+        showTranslationDragHandles.value = false;
         showRotationDragHandles.value = true;
       },
       drag: function( event ) {
@@ -111,6 +112,7 @@ define( function( require ) {
           after = MAX_ANGLE_IN_WAVE_MODE;
         }
         laser.setAngle( after );
+        showTranslationDragHandles.value = false;
         showRotationDragHandles.value = true;
       },
       end: function() {
