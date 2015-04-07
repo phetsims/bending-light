@@ -186,10 +186,10 @@ define( function( require ) {
      */
     contains: function( position, waveMode ) {
       if ( waveMode ) {
-        return this.getWaveShape().contains( position.x, position.y );
+        return this.getWaveShape().containsPoint( position );
       }
       else {
-        // return new BasicStroke( getRayWidth() ).createStrokedShape( toLine2D() ).contains( position.toPoint2D() );
+        return this.toLine2D().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;
       }
     },
     getRayWidth: function() {

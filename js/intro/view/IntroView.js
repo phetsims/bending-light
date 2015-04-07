@@ -139,7 +139,7 @@ define( function( require ) {
     laserView.setTranslation( this.layoutBounds.minX + inset / 2, 5 );
     this.afterLightLayer2.addChild( laserView );
 
-    var sensorPanelHeight = this.getMoreTools().length ? 315 : 220;
+    var sensorPanelHeight = this.getMoreTools().length ? 330 : 220;
 
     this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 10, 10, {
       stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
@@ -155,10 +155,6 @@ define( function( require ) {
     this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
       this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds );
     this.afterLightLayer2.addChild( this.protractorNode );
-
-    this.getMoreTools().forEach( function( moreTool ) {
-      introView.addChild( moreTool );
-    } );
 
     this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), this.sensorPanel.visibleBounds );
     this.beforeLightLayer.addChild( this.intensityMeterNode );

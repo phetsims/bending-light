@@ -10,17 +10,23 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
+  var VelocitySensorNode = require( 'BENDING_LIGHT/moretools/view/VelocitySensorNode' );
   var WaveSensorNode = require( 'BENDING_LIGHT/moretools/view/WaveSensorNode' );
 
   /**
    *
-   * @param model
+   * @param moreToolsModel
    * @constructor
    */
-  function MoreToolsView( model ) {
-    this.model = model;
+  function MoreToolsView( moreToolsModel ) {
+    this.moreToolsModel = moreToolsModel;
     this.arrowScale = 1.5E-14;
-    IntroView.call( this, model, true, true );
+    IntroView.call( this, moreToolsModel, true, true );
+    this.velocitySensorNode = this.createVelocitySensorTool();
+    this.waveSensorNode = this.createWaveSensorTool();
+    this.addChild( this.velocitySensorNode );
+    this.addChild( this.waveSensorNode );
+
   }
 
   return inherit( IntroView, MoreToolsView, {
@@ -31,11 +37,24 @@ define( function( require ) {
      */
     getMoreTools: function() {
       //Create the Velocity Sensor tool and wave sensor tool to add to the toolbox
-      return [ /*this.createVelocitySensorTool(),*/ this.createWaveSensorTool() ];
+      return [ this.createVelocitySensorTool(), this.createWaveSensorTool() ];
     },
     createWaveSensorTool: function() {
       //Create the WaveSensorNode
-      return new WaveSensorNode( this.modelViewTransform, this.model.waveSensor, this.sensorPanel );
+      return new WaveSensorNode( this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel );
+    },
+    resetAll: function() {
+      this.protractorNode.setProtractorScale( this.protractorNode.multiScale );
+      this.protractorModel.reset();
+      this.velocitySensorNode.setScaleMagnitude( 0.7 );
+      this.moreToolsModel.velocitySensor.reset();
+      this.moreToolsModel.waveSensor.reset();
+    },
+
+
+    createVelocitySensorTool: function() {
+      return new VelocitySensorNode( this.modelViewTransform, this.moreToolsModel.velocitySensor, this.arrowScale,
+        this.sensorPanel );
     }
   } );
 } );

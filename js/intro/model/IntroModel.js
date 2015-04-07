@@ -208,14 +208,14 @@ define( function( require ) {
      * @returns {*}
      */
     getVelocity: function( position ) {
-      /* for ( var ray in this.rays ) {
-       if ( ray.contains( position, this.laserView.get() === LaserView.WAVE ) ) {
-       return */
-      /*new Option.Some*/
-      /*( ray.getVelocityVector() );
-       }
-       }*/
-      // return new Option.None();
+      var laserViewProperty = this.laserViewProperty;
+      var velocity = new Vector2( 0, 0 );
+      this.rays.forEach( function( ray ) {
+        if ( ray.contains( position, laserViewProperty.value === 'wave' ) ) {
+          velocity = ray.getVelocityVector();
+        }
+      } );
+      return velocity;
     },
     /**
      * Determine the wave value of the topmost light ray at the specified position,
@@ -327,7 +327,7 @@ define( function( require ) {
         var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 130 ) + 1;// : this.simDisplayWindowHeight;
         var waveParticleGap = 0;
         var particleWidth = lightRayToPropagate.getWaveWidth();
-        
+
         for ( j = 0; j < numberOfParticles; j++ ) {
           lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ), particleWidth, particleColor, particleGradientColor, angle, viewWavelength ) );
           waveParticleGap += gapBetweenSuccessiveParticles;
