@@ -253,9 +253,12 @@ define( function( require ) {
     } );
     this.addChild( speedControl.mutate( { right: playPauseButton.left - 8, bottom: playPauseButton.bottom } ) );
     introModel.laserViewProperty.link( function( laserType ) {
-      playPauseButton.visible = (laserType === 'wave');
-      stepButton.visible = (laserType === 'wave');
-      speedControl.visible = (laserType === 'wave');
+      if ( introView.getMoreTools().length === 0 ) {
+        playPauseButton.visible = (laserType === 'wave');
+        stepButton.visible = (laserType === 'wave');
+        speedControl.visible = (laserType === 'wave');
+      }
+
     } );
 
   }
