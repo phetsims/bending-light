@@ -38,5 +38,7 @@
   "singleRay": "Single Ray",
   "multipleRays": "Multiple Rays",
   "showReflections": "Show Reflections",
-  "prismBreak": "prismBreak"
+  "prismBreak": "prismBreak",
+  "speed": "Speed",
+  "c_units": "c"
 }
