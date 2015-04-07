@@ -181,6 +181,9 @@ define( function( require ) {
           introView.intensityMeterNode.setIntensityMeterScale( introView.intensityMeterNode.intensityMeter.sensorPositionProperty.initialValue, 0.3 );
           introModel.resetAll();
           introView.resetAll();
+          topMediumControlPanel.reset();
+          bottomMediumControlPanel.reset();
+
         },
         bottom: this.layoutBounds.bottom - inset,
         right:  this.layoutBounds.right - inset

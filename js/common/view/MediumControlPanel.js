@@ -50,7 +50,7 @@ define( function( require ) {
   /**
    *
    * @param view
-   * @param {Property<Medium>}medium
+   * @param {Property<Medium>}mediumProperty
    * @param {String}name
    * @param {Boolean}textFieldVisible
    * @param {Number}laserWavelength
@@ -58,7 +58,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function MediumControlPanel( view, medium, name, textFieldVisible, laserWavelength, format, options ) {
+  function MediumControlPanel( view, mediumProperty, name, textFieldVisible, laserWavelength, format, options ) {
 
     Node.call( this );
     var mediumControlPanel = this;
@@ -70,9 +70,9 @@ define( function( require ) {
       stroke: 'gray',
       lineWidth: 1
     }, options );
-    this.medium = medium; //The medium to observe
+    this.medium = mediumProperty; //The medium to observe
     this.laserWavelength = laserWavelength;
-    var initialMediumState = medium.get().getMediumState();
+    var initialMediumState = mediumProperty.get().getMediumState();
     this.lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
     var CUSTOM = new MediumState( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
     this.custom = true;
@@ -82,7 +82,7 @@ define( function( require ) {
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
     var createItem = function( item ) {
       var itemName = new Text( item.name, textOptionsOfComboBoxStrings );
-      var strutWidth = maxWidth - itemName.width;
+      var strutWidth = textFieldVisible ? maxWidth - itemName.width : 20;
       return ComboBox.createItem( new HBox( {
         children: [ itemName, new HStrut( strutWidth ) ]
       } ), item );
@@ -93,13 +93,13 @@ define( function( require ) {
       var selected = -1;
       for ( var i = 0; i < mediumStates.length; i++ ) {
         var mediumState = mediumStates[ i ];
-        if ( mediumState.dispersionFunction.getIndexOfRefraction( mediumControlPanel.laserWavelength.get() ) === medium.get().getIndexOfRefraction( mediumControlPanel.laserWavelength.get() ) ) {
+        if ( mediumState.dispersionFunction.getIndexOfRefraction( laserWavelength.get() ) === mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) ) {
           selected = i;
         }
       }
       //Only set to a different substance if "custom" wasn't specified.
       // Otherwise pressing "air" then "custom" will make the combobox jump back to "air"
-      if ( selected !== -1 && !medium.get().getMediumState().custom ) {
+      if ( selected !== -1 && !mediumProperty.get().getMediumState().custom ) {
         comboBoxMediumState.set( mediumStates[ selected ] );
         mediumControlPanel.custom = false;
       }
@@ -127,7 +127,7 @@ define( function( require ) {
 
     var textOptions = { font: new PhetFont( 12 ) };
     var indexOfRefractionLabel = new Text( textFieldVisible ? indexOfRefractionColonString : indexOfRefractionString, textOptions );
-    var mediumIndexProperty = new Property( medium.get().getIndexOfRefraction( this.laserWavelength.get() ) );
+    var mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
     var indexOfRefractionValueText = new Text( mediumIndexProperty.get().toFixed( format ), textOptions );
     var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 50, 20, 2, 2, {
       fill: 'white',
@@ -175,7 +175,7 @@ define( function( require ) {
       { min: INDEX_OF_REFRACTION_MIN, max: INDEX_OF_REFRACTION_MAX },
       {
         trackFill: 'white',
-        trackSize: new Dimension2( 160, 1 ),
+        trackSize: new Dimension2( 150, 1 ),
         thumbSize: new Dimension2( 10, 20 ),
         majorTickLength: 15,
         tickLabelSpacing: 3,
@@ -193,13 +193,21 @@ define( function( require ) {
       centerX: indexOfRefractionSlider.centerX,
       centerY: indexOfRefractionSlider.centerY
     } );
+    var indexOfRefractionNode;
+    if ( textFieldVisible ) {
+      indexOfRefractionNode = new Node( {
+        children: [ indexOfRefractionLabel, minusButton, indexOfRefractionReadoutBoxShape, indexOfRefractionValueText, plusButton ]
+      } );
+    }
+    else {
+      indexOfRefractionNode = new Node( {
+        children: [ indexOfRefractionLabel ]
+      } );
+    }
 
-    var indexOfRefractionNode = new Node( {
-      children: [ indexOfRefractionLabel, minusButton, indexOfRefractionReadoutBoxShape, indexOfRefractionValueText, plusButton ]
-    } );
     indexOfRefractionNode.top = materialComboBox.bottom + inset;
     indexOfRefractionNode.left = materialComboBox.left;
-    indexOfRefractionSlider.centerX = indexOfRefractionNode.centerX;
+    indexOfRefractionSlider.centerX = mediumControlPanel.centerX;
     indexOfRefractionSlider.top = indexOfRefractionNode.bottom + inset;
     unknown.centerX = indexOfRefractionNode.centerX;
     unknown.centerY = indexOfRefractionNode.bottom + inset;
@@ -215,22 +223,22 @@ define( function( require ) {
       cornerRadius: 5, lineWidth: options.lineWidth
     } );
     this.addChild( mediumPanel );
-
-    Property.multilink( [ medium, this.laserWavelength ],
+    this.mediumIndexProperty = mediumIndexProperty;
+    Property.multilink( [ mediumProperty, this.laserWavelength ],
       function() {
-        mediumControlPanel.custom = medium.get().getMediumState().custom;
-        mediumIndexProperty.set( medium.get().getIndexOfRefraction( mediumControlPanel.laserWavelength.get() ) );
-        indexOfRefractionValueText.text = medium.get().getIndexOfRefraction( laserWavelength.get() ).toFixed( format );
+        mediumControlPanel.custom = mediumProperty.get().getMediumState().custom;
+        //  mediumIndexProperty.set( medium.get().getIndexOfRefraction( mediumControlPanel.laserWavelength.get() ) );
+        indexOfRefractionValueText.text = mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ).toFixed( format );
       } );
 
 
-    medium.link( function() {
-      indexOfRefractionNode.setVisible( !medium.get().isMystery() );
-      unknown.setVisible( medium.get().isMystery() );
-      indexOfRefractionSlider.setVisible( !medium.get().isMystery() );
+    mediumProperty.link( function() {
+      indexOfRefractionNode.setVisible( !mediumProperty.get().isMystery() );
+      unknown.setVisible( mediumProperty.get().isMystery() );
+      indexOfRefractionSlider.setVisible( !mediumProperty.get().isMystery() );
       updateComboBox();
-      if ( !medium.get().isMystery() ) {
-        mediumControlPanel.lastNonMysteryIndexAtRed = medium.get().getIndexOfRefraction( BendingLightModel.WAVELENGTH_RED );
+      if ( !mediumProperty.get().isMystery() ) {
+        mediumControlPanel.lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightModel.WAVELENGTH_RED );
       }
     } );
     comboBoxMediumState.link( function( selected ) {
@@ -253,6 +261,9 @@ define( function( require ) {
   }
 
   return inherit( Node, MediumControlPanel, {
+    reset: function() {
+      this.mediumIndexProperty.reset();
+    },
 
     /**
      * Called when the user enters a new index of refraction (with text box or slider),

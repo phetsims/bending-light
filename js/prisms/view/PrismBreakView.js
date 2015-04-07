@@ -76,7 +76,7 @@ define( function( require ) {
     var IndexOfRefractionDecimals = 2;
     //Add control panels for setting the index of refraction for each medium
     var environmentMediumControlPanel = new MediumControlPanel( this, prismBreakModel.environmentMediumProperty,
-      environmentString, true, prismBreakModel.wavelengthProperty, IndexOfRefractionDecimals );
+      environmentString, false, prismBreakModel.wavelengthProperty, IndexOfRefractionDecimals );
     environmentMediumControlPanel.setTranslation( this.layoutBounds.right - inset - environmentMediumControlPanel.width, this.layoutBounds.top + inset );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
     var laserControlPanelNode = new LaserControlPanelNode( prismBreakModel.laser.colorModeProperty,
@@ -112,6 +112,8 @@ define( function( require ) {
         listener: function() {
           prismBreakModel.resetAll();
           prismBreakView.prismLayer.removeAllChildren();
+          environmentMediumControlPanel.reset();
+          prismToolboxNode.objectMediumControlPanel.reset();
         },
         bottom: this.layoutBounds.bottom - inset,
         right:  this.layoutBounds.right - inset

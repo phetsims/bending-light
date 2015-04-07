@@ -62,8 +62,6 @@ define( function( require ) {
     var content = new HBox( {
       spacing: 4
     } );
-    //Move it down so it doesn't overlap the title label
-    content.setTranslation( 0, 5 );
     var prismPath = [];
     // create prism icon
     var createPrismIcon = function( prism ) {
@@ -135,6 +133,7 @@ define( function( require ) {
       2, {
         lineWidth: 0
       } );
+    this.objectMediumControlPanel = objectMediumControlPanel;
     var dividerBetweenPrismsAndPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height, 10, 10, {
       stroke: 'gray', lineWidth: 0.4, fill: 'gray'
     } );
