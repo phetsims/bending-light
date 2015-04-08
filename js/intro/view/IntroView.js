@@ -25,12 +25,12 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-  //var EventTimer = require( 'PHET_CORE/EventTimer' );
   var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
+  var ExpandableProtractorNode = require( 'BENDING_LIGHT/moretools/view/ExpandableProtractorNode' );
 
   //strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -41,7 +41,7 @@ define( function( require ) {
 
   /**
    *
-   * @param introModel
+   * @param {IntroModel}introModel -model of intro screen
    * @param centerOffsetLeft
    * @param hasMoreTools
    * @constructor
@@ -152,8 +152,16 @@ define( function( require ) {
     var protractorModelPositionX = this.modelViewTransform.viewToModelX( this.sensorPanel.centerX );
     var protractorModelPositionY = this.modelViewTransform.viewToModelY( this.sensorPanel.y + 45 );
     this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
-    this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
-      this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds );
+
+    //  if intro screen  regular protractor node else expandable protractor node.
+    if ( this.getMoreTools().length === 0 ) {
+      this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
+        this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds, this.layoutBounds );
+    }
+    else {
+      this.protractorNode = new ExpandableProtractorNode( this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
+        this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds, this.layoutBounds );
+    }
     this.afterLightLayer2.addChild( this.protractorNode );
 
     this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), this.sensorPanel.visibleBounds );
@@ -279,8 +287,8 @@ define( function( require ) {
       this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale ) );
     },
     resetAll: function() {
-      this.protractorNode.setProtractorScale( this.protractorNode.multiScale );
       this.protractorModel.reset();
+      this.protractorNode.resetAll();
     },
 
     /**

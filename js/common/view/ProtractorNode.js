@@ -16,6 +16,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Shape = require( 'KITE/Shape' );
+  var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   //images
@@ -26,13 +27,13 @@ define( function( require ) {
 
   /**
    *
-   * @param modelViewTransform
-   * @param showProtractorProperty
-   * @param protractorModel
+   * @param {ModelViewTransform2} modelViewTransform transform to convert between model and view values
+   * @param {Property<Boolean>} showProtractorProperty  controls the protractor visibility
+   * @param {ProtractorModel} protractorModel model of protractor
    * @param translateShape
    * @param rotateShape
-   * @param ICON_WIDTH
-   * @param containerBounds
+   * @param {Number} ICON_WIDTH
+   * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
    * @constructor
    */
   function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds ) {
@@ -43,7 +44,9 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform;
     this.protractorModel = protractorModel;
     this.multiScale = ICON_WIDTH / protractorImage.width;
-
+    // True if the protractor has been made larger
+    this.expandedProperty = new Property( false );
+    this.expandedButtonVisibilityProperty = new Property( false );
     //Load and add the image
     this.protractorImageNode = new Image( protractorImage, { pickable: true } );
     protractorNode.setScaleMagnitude( this.multiScale );
@@ -101,6 +104,7 @@ define( function( require ) {
         if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
           protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
         }
+        protractorNode.expandedButtonVisibilityProperty.value = true;
       },
       drag: function( event ) {
         //Compute the change in angle based on the new drag event
@@ -113,6 +117,11 @@ define( function( require ) {
           var point2D = protractorNode.modelViewTransform.modelToViewPosition(
             protractorNode.protractorModel.positionProperty.initialValue );
           protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
+          protractorNode.expandedButtonVisibilityProperty.value = false;
+          protractorNode.expandedProperty.value = false;
+        }
+        else {
+          protractorNode.expandedButtonVisibilityProperty.value = true;
         }
       }
     } ) );
@@ -148,6 +157,11 @@ define( function( require ) {
   }
 
   return inherit( Node, ProtractorNode, {
+      resetAll: function() {
+        this.expandedProperty.reset();
+        this.expandedButtonVisibilityProperty.reset();
+        this.setProtractorScale( this.multiScale );
+      },
       /**
        * Resize the protractor
        * @param scale

@@ -44,8 +44,9 @@ define( function( require ) {
       return new WaveSensorNode( this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel );
     },
     resetAll: function() {
-      this.protractorNode.setProtractorScale( this.protractorNode.multiScale );
+
       this.protractorModel.reset();
+      this.protractorNode.resetAll();
       this.velocitySensorNode.setScaleMagnitude( 0.7 );
       this.moreToolsModel.velocitySensor.reset();
       this.moreToolsModel.waveSensor.reset();
