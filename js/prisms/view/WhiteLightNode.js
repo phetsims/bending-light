@@ -51,12 +51,12 @@ define( function( require ) {
       for ( var i = 0; i < this.rayLayer.getChildrenCount(); i++ ) {
         var child = this.rayLayer.getChildAt( i );
         //Get the line values to make the next part more readable
-        var start = child.viewStart;
-        var end = child.viewEnd;
-        var x1 = start.x;
-        var y1 = start.y;
-        var x2 = end.x;
-        var y2 = end.y;
+        var start = child.getLine().start;
+        var end = child.getLine().end;
+        var x1 = Math.floor( start.x );
+        var y1 = Math.floor( start.y );
+        var x2 = Math.floor( end.x );
+        var y2 = Math.floor( end.y );
         //Some lines don't start in the play area; have to check and swap to make sure the line isn't pruned
         if ( this.isOutOfBounds( x1, y1 ) ) {
           this.draw( x2, y2, x1, y1, child, map );
@@ -104,7 +104,7 @@ define( function( require ) {
 
     },
     isOutOfBounds: function( x0, y0 ) {
-      return x0 < 0 || y0 < 0 || x0 > this.stageWidth || y0 > this.stageHeight;
+      return Math.floor( x0 ) < 0 || Math.floor( y0 ) < 0 || Math.floor( x0 ) > this.stageWidth || Math.floor( y0 ) > this.stageHeight;
     },
     //Add the specified point to the HashMap, creating a new entry if necessary, otherwise adding it to existing values.
     //Take the intensity as the last component of the array
@@ -112,7 +112,7 @@ define( function( require ) {
     addToMap: function( x0, y0, color, intensity, map ) {
       //so that rays don't start fully saturated: this makes it so that it is possible to see the decrease in intensity after a (nontotal) reflection
       var point = new Vector2( x0, y0 );
-      this.pointArray.push( new Vector2( x0, y0 ) );
+      this.pointArray.push( point );
       var brightnessFactor = 0.017;
       if ( !map[ point ] ) {
         //seed with zeros so it can be summed
@@ -147,7 +147,7 @@ define( function( require ) {
       var err = dx - dy;
       while ( true ) {
         this.setPixel( x0, y0, child, map );
-        if ( x0 === x1 && y0 === y1 ) {
+        if ( Math.floor( x0 ) === Math.floor( x1 ) && Math.floor( y0 ) === Math.floor( y1 ) ) {
           break;
         }
         if ( this.isOutOfBounds( x0, y0 ) ) {
@@ -156,11 +156,11 @@ define( function( require ) {
         var e2 = 2 * err;
         if ( e2 > -dy ) {
           err = err - dy;
-          x0 = x0 + sx;
+          x0 = Math.floor( x0 + sx );
         }
         if ( e2 < dx ) {
           err = err + dx;
-          y0 = y0 + sy;
+          y0 = Math.floor( y0 + sy );
         }
       }
     }

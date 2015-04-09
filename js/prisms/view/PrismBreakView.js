@@ -163,8 +163,9 @@ define( function( require ) {
     },
 
     stepInternal: function() {
-      if ( this.prismBreakModel.laser.colorModeProperty.value === 'white' ) {
+      if ( this.prismBreakModel.laser.colorModeProperty.value === 'white' && this.prismBreakModel.dirty ) {
         this.whiteLightNode.step();
+        this.prismBreakModel.dirty = false
       }
     }
 

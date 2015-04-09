@@ -87,6 +87,7 @@ define( function( require ) {
     prism.shapeProperty.link( function() {
       prismsBreakModel.clear();
       prismsBreakModel.updateModel();
+      prismsBreakModel.dirty = true;
       prismTranslationNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.value.toShape() ) );
 
       if ( prism.shapeProperty.get().getReferencePoint() ) {

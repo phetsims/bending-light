@@ -84,8 +84,10 @@ define( function( require ) {
       this.laserViewProperty ], function() {
       prismsBreakModel.clear();
       prismsBreakModel.updateModel();
+      prismsBreakModel.dirty = true;
     } );
-
+    //Coalesce repeat updates so work is not duplicated  in white light node.
+    this.dirty = true;
   }
 
   return inherit( BendingLightModel, PrismBreakModel, {
