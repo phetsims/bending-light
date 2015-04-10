@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * A LightRay models one straight segment of a beam (completely within
  * a single medium), with a specific wavelength.
@@ -23,18 +23,18 @@ define( function( require ) {
 
   /**
    *
-   * @param trapeziumWidth
-   * @param tail
-   * @param tip
-   * @param indexOfRefraction
-   * @param wavelength
-   * @param powerFraction
-   * @param color
-   * @param waveWidth
-   * @param numWavelengthsPhaseOffset
-   * @param oppositeMedium
-   * @param extend
-   * @param extendBackwards
+   * @param {Number} trapeziumWidth
+   * @param {Vector2} tail
+   * @param {Vector2} tip
+   * @param {Number} indexOfRefraction
+   * @param {Number} wavelength
+   * @param {Number} powerFraction
+   * @param {Color} color
+   * @param {Number} waveWidth
+   * @param {Number} numWavelengthsPhaseOffset
+   * @param {Number} oppositeMedium
+   * @param {boolean} extend
+   * @param {boolean} extendBackwards
    * @constructor
    */
   function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth, numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
@@ -71,9 +71,17 @@ define( function( require ) {
 
     //wave particles
     this.particles = new ObservableArray();
+    this.time = 0;
   }
 
   return inherit( Object, LightRay, {
+    /**
+     *
+     * @param {number} time
+     */
+    setTime: function( time ) {
+      this.time = time;
+    },
 
     getSpeed: function() {
       return SPEED_OF_LIGHT / this.indexOfRefraction;
@@ -83,7 +91,12 @@ define( function( require ) {
       return this.powerFraction;
     },
 
-    //Check to see if this light ray hits the specified sensor region
+    /**
+     * Check to see if this light ray hits the specified sensor region
+     *
+     * @param {Shape} sensorRegion
+     * @returns {*}
+     */
     getIntersections: function( sensorRegion ) {
       return sensorRegion.intersection( new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) ) );
     },
@@ -106,8 +119,11 @@ define( function( require ) {
       return this.wavelength;
     },
 
-
-    // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
+    /**
+     * The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
+     *
+     * @returns {*}
+     */
     getWaveShape: function() {
 
       var angle = this.extendBackwards ? Math.abs( this.getAngle() ) : Math.PI / 2;
@@ -133,8 +149,11 @@ define( function( require ) {
       return shape;
     },
 
-
-    // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
+    /**
+     * The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
+     *
+     * @returns {Array}
+     */
     getWaveBounds: function() {
       if ( this.waveBounds.length > 0 ) {
         return this.waveBounds;
@@ -161,6 +180,7 @@ define( function( require ) {
       var y = this.tip.y - this.tail.y;
       return new Vector2( x, y ).normalized();
     },
+
     getAngle: function() {
       return this.toVector2D().angle();
     },
@@ -169,9 +189,11 @@ define( function( require ) {
     getWaveWidth: function() {
       return this.waveWidth;
     },
+
     getNumberOfWavelengths: function() {
       return this.getLength() / this.wavelength;
     },
+
     getNumWavelengthsPhaseOffset: function() {
       return this.numWavelengthsPhaseOffset;
     },
@@ -180,8 +202,9 @@ define( function( require ) {
     /**
      * Determine if the light ray contains the specified position,
      * accounting for whether it is shown as a thin light ray or wide wave
-     * @param position
-     * @param waveMode
+     *
+     * @param {Vector2} position
+     * @param {boolean} waveMode
      * @returns {*}
      */
     contains: function( position, waveMode ) {
@@ -206,12 +229,13 @@ define( function( require ) {
       return this.getFrequency() * Math.PI * 2;
     },
     getPhaseOffset: function() {
-      //return this.getAngularFrequency() * time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
+      return this.getAngularFrequency() * this.time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
     },
 
     /**
      * Get the total argument to the cosine for the wave function(k * x - omega * t + phase)
-     * @param distanceAlongRay
+     *
+     * @param {number} distanceAlongRay
      * @returns {number}
      */
     getCosArg: function( distanceAlongRay ) {

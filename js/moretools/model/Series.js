@@ -1,55 +1,57 @@
-/*
-// Copyright 2002-2011, University of Colorado
-*/
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Series of data points to be shown in the wave sensor chart.
  *
  * @author Sam Reid
- *//*
+ * @author Chandrashekar Bemagoni (Actual Concepts)
+ */
 
 define( function( require ) {
   'use strict';
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var ArrayList = require( 'java.util.ArrayList' );
-  var Property = require( 'AXON/Property' );
-  var Option = require( 'edu.colorado.phet.common.phetcommon.util.Option' );
-  var DoubleGeneralPath = require( 'edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath' );
+  var Shape = require( 'KITE/Shape' );
+  var DataPoint = require( 'BENDING_LIGHT/moretools/model/DataPoint' );
 
-  */
-/**
+
+  /**
    *
-   * @param path
-   * @param color
+   * @param {Property} path
+   * @param {Color} color
    * @constructor
-   *//*
-
+   */
   function Series( path, color ) {
-    //Each reading may be None, so represented with Option
-    this.path = path;
+
+    this.pathProperty = path;
     this.color = color;
   }
 
   return inherit( Object, Series, {
     getColor: function() {
-      return color;
+      return this.color;
     },
+    /**
+     *
+     * @param {number} time
+     * @param {number} value
+     */
     addPoint: function( time, value ) {
-      path.set( new ArrayList( path.get() ).withAnonymousClassBody( {
-        initializer: function() {
-          add( new Option.Some( new DataPoint( time, value ) ) );
-        }
-      } ) );
+      this.pathProperty.set( this.pathProperty.get().push( new DataPoint( time, value ) ) );
     },
-//Create a GeneralPath from the series
+    /**
+     * Create a GeneralPath from the series
+     *
+     * @returns {Path}
+     */
     toShape: function() {
-      var generalPath = new DoubleGeneralPath();
+      var generalPath = new Shape();
       var moved = false;
+
       //Lift the pen off the paper for None values
-      for ( var value in path.get() ) {
-        if ( value.isSome() ) {
-          var dataPoint = value.get();
+      this.pathProperty.get().forEach( function( value ) {
+        if ( value ) {
+          var dataPoint = value;
           if ( !moved ) {
             generalPath.moveTo( dataPoint.time, dataPoint.value );
             moved = true;
@@ -58,16 +60,19 @@ define( function( require ) {
             generalPath.lineTo( dataPoint.time, dataPoint.value );
           }
         }
-      }
-      return generalPath.getGeneralPath();
+      } );
+      return generalPath;
     },
-//Discard early samples that have gone out of range
+
+    /**
+     * Discard early samples that have gone out of range
+     *
+     * @param {Number} maxSampleCount
+     */
     keepLastSamples: function( maxSampleCount ) {
-      var endIndex = path.get().size();
+      var endIndex = this.pathProperty.get().length;
       var startIndex = Math.max( 0, endIndex - maxSampleCount );
-      path.set( new ArrayList( path.get().subList( startIndex, endIndex ) ) );
+      this.pathProperty.set( this.pathProperty.get().slice( startIndex, endIndex ) );
     }
   } );
 } );
-
-*/

@@ -1,8 +1,9 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
- * Model for the "more tools" tab, which adds a wave sensor and a velocity sensor.
+ * Model for the "more tools" screen, which adds a wave sensor and a velocity sensor.
  *
  * @author Sam Reid
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -15,6 +16,7 @@ define( function( require ) {
   var WaveSensor = require( 'BENDING_LIGHT/moretools/model/WaveSensor' );
   var VelocitySensor = require( 'BENDING_LIGHT/moretools/model/VelocitySensor' );
   var Property = require( 'AXON/Property' );
+
   /**
    *
    * @constructor
@@ -25,8 +27,11 @@ define( function( require ) {
     IntroModel.call( this, BendingLightModel.GLASS );
 
     this.velocitySensor = new VelocitySensor( new Vector2( 0, 0 ) );
+    var waveValueGetter = function( position ) {
+      return moreToolsModel.getWaveValue( position );
+    };
 
-    this.waveSensor = new WaveSensor( 0.04, new Vector2( 0, 0 ), new Vector2( 0, 0 ) /*waveValueGetter, waveValueGetter*/ );
+    this.waveSensor = new WaveSensor( waveValueGetter, waveValueGetter );
 
     //Update the velocity sensor value when anything relevant in the model changes
     Property.multilink( [

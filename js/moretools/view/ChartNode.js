@@ -1,158 +1,170 @@
-/*
-// Copyright 2002-2011, University of Colorado
-*/
+// Copyright 2002-2015, University of Colorado Boulder
 /**
- * Node that shows the chart in the "more tools" tab's intensity sensor.
+ * Node that shows the chart in the "more tools" screen  intensity sensor.
  *
  * @author Sam Reid
- *//*
+ * @author Chandrashekar Bemagoni (Actual Concepts)
+ */
 
 define( function( require ) {
   'use strict';
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Line2D = require( 'java.awt.geom.Line2D' );
-  var Rectangle = require( 'KITE/Rectangle' );
-  var ArrayList = require( 'java.util.ArrayList' );
-  var BendingLightModel = require( 'edu.colorado.phet.bendinglight.model.BendingLightModel' );
-  var Clock = require( 'edu.colorado.phet.common.phetcommon.model.clock.Clock' );
-  var ClockAdapter = require( 'edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter' );
-  var ClockEvent = require( 'edu.colorado.phet.common.phetcommon.model.clock.ClockEvent' );
-  var Property = require( 'AXON/Property' );
-  var SimpleObserver = require( 'edu.colorado.phet.common.phetcommon.util.SimpleObserver' );
-  var ModelViewTransform = require( 'edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform' );
-  var RectangleUtils = require( 'edu.colorado.phet.common.phetcommon.view.util.RectangleUtils' );
-  var PhetPPath = require( 'edu.colorado.phet.common.piccolophet.nodes.PhetPPath' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var PClip = require( 'edu.umd.cs.piccolox.nodes.PClip' );
-  var MAX_DT = require( 'edu.colorado.phet.bendinglight.model.BendingLightModel.MAX_DT' );//static
-  var TIME_SPEEDUP_SCALE = require( 'edu.colorado.phet.bendinglight.model.BendingLightModel.TIME_SPEEDUP_SCALE' );//static
-  var createRectangleMapping = require( 'edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleMapping' );//static
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var Property = require( 'AXON/Property' );
 
-//stroke dash parameters
+  //stroke dash parameters
   var DASH_ON = 10;
   var DASH_OFF = 5;
 
-  function ChartNode( clock, chartArea, series ) {
-    //Mapping from model (SI) to chart coordinates
-
-    //private
-    this.transform;
-
-    //private
-    this.gridLines = new Node();
-
-    // non-static inner class: SeriesNode
-    var SeriesNode =
-      //Node for drawing the series of points.
-
-      //private
-      define( function( require ) {
-        function SeriesNode( s ) {
-          addChild( new PhetPPath( new BasicStroke( 2 ), s.getColor() ).withAnonymousClassBody( {
-            initializer: function() {
-              s.path.addObserver( new SimpleObserver().withAnonymousClassBody( {
-                update: function() {
-                  setPathTo( transform.get().modelToView( s.toShape() ) );
-                }
-              } ) );
-            }
-          } ) );
-        }
-
-        return inherit( Node, SeriesNode, {} );
-      } );
-    // non-static inner class: GridLine
-    var GridLine =
-      //Draw a horizontal or vertical grid line
-      define( function( require ) {
-        function GridLine( x1, y1, x2, y2, //Have to model the phase to make it look like the grid line is moving
-                           phase ) {
-          var strokeWidth = 2;
-          addChild( new PhetPPath( new BasicStroke( strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1
-          f, new float[ ]
-          { DASH_ON, DASH_OFF }
-        ,
-          phase
-        ),
-          Color.lightGray
-        ).
-          withAnonymousClassBody( {
-            initializer: function() {
-              //Grid lines are dynamically generated and therefore do not need to observe the transform
-              setPathTo( transform.get().modelToView( new Line2D.Number( x1, y1, x2, y2 ) ) );
-            },
-            //Provide a faster implementation because regenerating grid lines with original getPathBoundsWithStroke is too expensive
-            getPathBoundsWithStroke: function() {
-              return RectangleUtils.expand( getPathReference().getBounds2D(), strokeWidth, strokeWidth );
-            }
-          } )
-        )
-          ;
-        }
-
-        return inherit( Node, GridLine, {} );
-      } );
-    setPathTo( chartArea );
-    setStroke( null );
-    //Amount of time to show on the horizontal axis of the chart
-    var timeWidth = 100 * MAX_DT / TIME_SPEEDUP_SCALE;
-    var maxSampleCount = Math.ceil( timeWidth / BendingLightModel.MIN_DT );
-    transform = new Property( createRectangleMapping( new Rectangle.Number( 0, -1, timeWidth, 2 ), chartArea ) );
-    //Add nodes for the grid lines and serieses
-    addChild( gridLines );
-    for ( var s in series ) {
-      addChild( new SeriesNode( s ) );
-    }
-    //Move over the view port as time passes
-    clock.addClockListener( new ClockAdapter().withAnonymousClassBody( {
-      simulationTimeChanged: function( clockEvent ) {
-        //Update the mapping from model to chart
-        var minTime = clock.getSimulationTime() - timeWidth;
-        transform.set( createRectangleMapping( new Rectangle.Number( minTime, -1, timeWidth, 2 ), chartArea ) );
-        //Clear grid lines and add them back in the new positions
-        gridLines.removeAllChildren();
-        //distance between vertical grid lines
-        var verticalGridLineSpacing = timeWidth / 4;
-        var verticalGridLineSpacingDelta = getDelta( verticalGridLineSpacing, clock );
-        for ( var x = minTime - verticalGridLineSpacingDelta; x <= minTime + timeWidth; x += timeWidth / 4 ) {
-          addVerticalLine( x );
-        }
-        //Add one horizontal grid line
-        var horizontalGridLineDelta = getDelta( DASH_ON + DASH_OFF, clock );
-        //horizontal axis
-        gridLines.addChild( new GridLine( minTime - horizontalGridLineDelta, 0, minTime + timeWidth, 0, 0 ) );
-        //You can confirm this is working by passing in maxSampleCount/2 instead of maxSampleCount and turning the DT down to MIN_DT
-        for ( var s in series ) {
-          s.keepLastSamples( maxSampleCount );
-        }
-      }
-    } ) );
+  /**
+   * Node for drawing the series of points.
+   *
+   * @param {Series} series
+   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty
+   * @constructor
+   */
+  function SeriesNode( series, modelViewTransformProperty ) {
+    var seriesNode = this;
+    Path.call( this, null, {
+      stroke: series.getColor(),
+      lineWidth: 2
+    } );
+    series.pathProperty.link( function() {
+      seriesNode.setShape( modelViewTransformProperty.get().modelToViewShape( series.toShape() ) );
+    } );
   }
 
-  return inherit( PClip, ChartNode, {
-//Compute the phase offset so that grid lines appear to be moving at the right speed
+  inherit( Path, SeriesNode );
 
-      //private
-      getDelta: function( verticalGridLineSpacing, clock ) {
-        var totalNumPeriods = clock.getSimulationTime() / verticalGridLineSpacing;
-        //for computing the phase so we make the right number of grid lines
-        var integralNumberOfPeriods = totalNumPeriods;
-        return (totalNumPeriods - integralNumberOfPeriods) * verticalGridLineSpacing;
-      },
+  /**
+   * Draw a horizontal or vertical grid line
+   *
+   * @param {number} x1
+   * @param {number} y1
+   * @param {number} x2
+   * @param {number} y2
+   * @param {number} phase - Have to model the phase to make it look like the grid line is moving
+   * @param modelViewTransformProperty
+   * @constructor
+   */
+  function GridLine( x1, y1, x2, y2, phase, modelViewTransformProperty ) {
 
-      //private
-      addVerticalLine: function( x ) {
-        //-1 to +1 is far enough since in model coordinates
-        gridLines.addChild( new GridLine( x, -1, x, 1, 0 ) );
-      },
-    },
-//statics
-    {
-      DASH_ON: DASH_ON,
-      DASH_OFF: DASH_OFF
+    Path.call( this, modelViewTransformProperty.get().modelToViewShape(
+      new Shape().moveTo( x1, y1 ).lineTo( x2, y2 ) ), {
+      stroke: 'lightGray',
+      lineWidth: 2,
+      lineDash: [ DASH_ON, DASH_OFF ],
+      lineDashOffset: phase
     } );
-} );
+  }
 
-*/
+  inherit( Path, GridLine );
+
+  /**
+   *
+   * @param {Bounds2} chartBounds
+   * @param {Series[]} series
+   * @constructor
+   */
+  function ChartNode( chartBounds, series ) {
+
+    var chartNode = this;
+    Node.call( this );
+    this.chartBounds = chartBounds;
+    this.series = series;
+
+    //Amount of time to show on the horizontal axis of the chart
+    this.timeWidth = 72E-16;
+    this.gridLines = new Node();
+    //Mapping from model (SI) to chart coordinates
+    this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping(
+      new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
+
+    //Add nodes for the grid lines and series's
+    this.addChild( this.gridLines );
+    series.forEach( function( s ) {
+      chartNode.addChild( new SeriesNode( s, chartNode.modelViewTransformProperty ) );
+    } );
+  }
+
+  return inherit( Node, ChartNode, {
+
+    /**
+     *
+     * @param {number} time
+     * @param {number} dt
+     */
+    step: function( time, dt ) {
+      this.simulationTimeChanged( time, dt );
+    },
+    /**
+     * Move over the view port as time passes
+     *
+     * @param {number} time
+     * @param {number} dt
+     */
+    simulationTimeChanged: function( time, dt ) {
+
+      //Update the mapping from model to chart
+      var minTime = time - this.timeWidth;
+      this.modelViewTransformProperty.set( ModelViewTransform2.createRectangleMapping(
+        new Bounds2( minTime, -1, minTime + this.timeWidth, 1 ), this.chartBounds ) );
+
+      //Clear grid lines and add them back in the new positions
+      this.gridLines.removeAllChildren();
+
+      //distance between vertical grid lines
+      var verticalGridLineSpacing = this.timeWidth / 4;
+      var verticalGridLineSpacingDelta = this.getDelta( verticalGridLineSpacing, time );
+      //Add vertical grid lines
+      for ( var x = minTime - verticalGridLineSpacingDelta + verticalGridLineSpacing;
+            x <= minTime + this.timeWidth; x += this.timeWidth / 4 ) {
+        this.addVerticalLine( x );
+      }
+
+      //Add one horizontal grid line
+      var horizontalGridLineDelta = this.getDelta(
+        this.modelViewTransformProperty.get().viewToModelDeltaX( DASH_ON + DASH_OFF ), time );
+      //horizontal axis
+      this.gridLines.addChild( new GridLine(
+        minTime, 0, minTime + this.timeWidth, 0,
+        this.modelViewTransformProperty.get().modelToViewDeltaX( horizontalGridLineDelta ),
+        this.modelViewTransformProperty ) );
+
+      //Remove any points that have gone outside of the time window, otherwise it is a memory leak
+      var chartNode = this;
+      this.series.forEach( function( series ) {
+        series.keepLastSamples( chartNode.timeWidth / dt );
+      } );
+    },
+
+
+    /**
+     * Compute the phase offset so that grid lines appear to be moving at the right speed
+     *
+     * @param {number} verticalGridLineSpacing
+     * @param {number} time
+     * @returns {number}
+     */
+    getDelta: function( verticalGridLineSpacing, time ) {
+      var totalNumPeriods = time / verticalGridLineSpacing;
+      //for computing the phase so we make the right number of grid lines
+      return ( totalNumPeriods % 1 ) * verticalGridLineSpacing;
+    },
+
+    /**
+     *
+     * @param {number} x
+     */
+    addVerticalLine: function( x ) {
+      //-1 to +1 is far enough since in model coordinates
+      this.gridLines.addChild( new GridLine( x, -1, x, 1, 0, this.modelViewTransformProperty ) );
+    }
+  } );
+} );

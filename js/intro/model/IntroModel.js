@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Model for the "intro" tab, which has an upper and lower medium, interfacing at the middle of the screen,
  * and the laser at the top left shining toward the interface.
@@ -27,7 +27,7 @@ define( function( require ) {
 
   /**
    *
-   * @param bottomMediumState
+   * @param {MediumState} bottomMediumState
    * @constructor
    */
   function IntroModel( bottomMediumState ) {
@@ -38,7 +38,7 @@ define( function( require ) {
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
       this.mediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
-
+    this.time = 0;
     Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
@@ -68,15 +68,18 @@ define( function( require ) {
   }
 
   return inherit( BendingLightModel, IntroModel, {
-
-    //Light rays were cleared from model before propagateRays was called,
-    // this creates them according to the laser and mediums
+    /**
+     * Light rays were cleared from model before propagateRays was called,
+     * this creates them according to the laser and mediums
+     */
     propagateRays: function() {
       //Relatively large regions to keep track of which side the light is on
       var bottom = 0;//new Rectangle( -10, -10, 20, 10 );
       var top = 0;//new Rectangle( -10, 0, 20, 10 );
       if ( this.laser.on ) {
         var tail = this.laser.emissionPoint;
+
+        //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
         //index in top medium
         var n1 = this.getN1();
         //index of bottom medium
@@ -109,6 +112,7 @@ define( function( require ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
           var hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) ||
                                   theta1 < thetaOfTotalInternalReflection;
+          //reflected
           //assuming perpendicular beam polarization, compute percent power
           var reflectedPowerRatio;
           if ( hasTransmittedRay ) {
@@ -128,14 +132,15 @@ define( function( require ) {
             false ) );
           // Fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
+            //Transmitted
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
             var transmittedWavelength = incidentRay.getWavelength() / n2 * n1;
             if ( isNaN( theta2 ) || !isFinite( theta2 ) ) {
             }
             else {
               var transmittedPowerRatio = this.getTransmittedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
-              //Make the beam width depend on the input beam width, so that the same beam width is transmitted as was intercepted
-
+              //Make the beam width depend on the input beam width, so that the same beam width is transmitted as was
+              // intercepted
               var transmittedRay = new LightRay( trapeziumWidth, new Vector2( 0, 0 ),
                 Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2,
                 transmittedWavelength, transmittedPowerRatio * sourcePower,
@@ -148,20 +153,30 @@ define( function( require ) {
 
       }
     },
-    //Get the top medium index of refraction
 
+    /**
+     * Get the top medium index of refraction
+     *
+     * @returns {*}
+     */
     getN1: function() {
       return this.topMediumProperty.get().getIndexOfRefraction( this.laser.color.getWavelength() );
     },
-    //Get the bottom medium index of refraction
 
+    /**
+     * Get the bottom medium index of refraction
+     *
+     * @returns {*}
+     */
     getN2: function() {
       return this.bottomMediumProperty.get().getIndexOfRefraction( this.laser.color.getWavelength() );
     },
+
     /**
      * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
      * If the intensity meter misses the ray, the original ray is added.
-     * @param ray
+     *
+     * @param {LightRay} ray
      * @returns {*}
      */
     addAndAbsorb: function( ray ) {
@@ -174,7 +189,9 @@ define( function( require ) {
           var x = intersects[ 0 ].point.x + intersects[ 1 ].point.x;
           var y = intersects[ 0 ].point.y + intersects[ 1 ].point.y;
           var interrupted = new LightRay( ray.trapeziumWidth, ray.tail, new Vector2( x / 2, y / 2 ),
-            ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.getColor(), ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.oppositeMedium, false, ray.extendBackwards );
+            ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.getColor(),
+            ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.oppositeMedium, false, ray.extendBackwards );
+
           //don't let the wave intersect the intensity meter if it is behind the laser emission point
           var isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
           if ( interrupted.getLength() < ray.getLength() && isForward ) {
@@ -204,7 +221,8 @@ define( function( require ) {
     },
     /**
      * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
-     * @param position
+     *
+     * @param {Position} position
      * @returns {*}
      */
     getVelocity: function( position ) {
@@ -217,37 +235,45 @@ define( function( require ) {
       } );
       return velocity;
     },
+
     /**
-     * Determine the wave value of the topmost light ray at the specified position,
-     * or None if none exists
-     * @param position
+     * Determine the wave value of the topmost light ray at the specified position, or None if none exists
+     *
+     * @param {Vector2} position
      * @returns {*}
      */
     getWaveValue: function( position ) {
-      /* for ( var ray in this.rays ) {
-       if ( ray.contains( position, laserView.get() === LaserView.WAVE ) ) {
-       //Map power to displayed amplitude
-       var amplitude = Math.sqrt( ray.getPowerFraction() );
-       //Find out how far the light has come, so we can compute the remainder of phases
-       var distanceAlongRay = ray.getUnitVector().dot( new Vector2( ray.tail.toPoint2D(), position.toPoint2D() ) );
-       var phase = ray.getCosArg( distanceAlongRay );
-       //Wave is a*cos(theta)
-       return new Option.Some( amplitude * Math.cos( phase + Math.PI ) );
-       }
-       }
-       return new Option.None();*/
+      var waveValue = null;
+      var introModel = this;
+      this.rays.forEach( function( ray ) {
+        if ( ray.contains( position, introModel.laserViewProperty.value === 'wave' ) ) {
+          //Map power to displayed amplitude
+          var amplitude = Math.sqrt( ray.getPowerFraction() );
+          //Find out how far the light has come, so we can compute the remainder of phases
+          var distanceAlongRay = ray.getUnitVector().dot( position.minus( ray.tail ) );
+          var phase = ray.getCosArg( distanceAlongRay );
+          //Wave is a*cos(theta)
+          waveValue = [ ray.getTime(), amplitude * Math.cos( phase + Math.PI ) ];
+        }
+      } );
+      return waveValue;
     },
+
     /**
      * Called by the animation loop.
      */
     step: function() {
 
       if ( this.isPlaying ) {
+        this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
+        var introModel = this;
+        this.rays.forEach( function( ray ) {
+          ray.setTime( introModel.time );
+        } );
         var particleDeltaFactor = this.speed === 'normal' ? 20 : 45;
         if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
           this.propagateParticles( particleDeltaFactor );
         }
-
       }
     },
 
@@ -259,8 +285,8 @@ define( function( require ) {
       for ( var k = 0; k < this.rays.length; k++ ) {
         lightRayToPropagate = this.rays.get( k );
         var angle = lightRayToPropagate.getAngle();
-        particleColor = new Color( lightRayToPropagate.color.getRed(), lightRayToPropagate.color.getGreen(), lightRayToPropagate.color.getBlue(),
-          Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
+        particleColor = new Color( lightRayToPropagate.color.getRed(), lightRayToPropagate.color.getGreen(),
+          lightRayToPropagate.color.getBlue(), Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
         particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
         var viewWavelength = lightRayToPropagate.getWavelength();
         var vector = lightRayToPropagate.toVector2D();

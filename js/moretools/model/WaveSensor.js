@@ -1,6 +1,8 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
- * Sensor for wave values, reads the wave amplitude as a function of time and location.  Two probes can be used to compare values.
+ * Sensor for wave values, reads the wave amplitude as a function of time and location.
+ * Two probes can be used to compare values.
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -16,8 +18,8 @@ define( function( require ) {
   /**
    * Model for a probe, including its position and recorded data series
    *
-   * @param x
-   * @param y
+   * @param {Number} x
+   * @param {Number} y
    * @constructor
    */
   function Probe( x, y ) {
@@ -33,30 +35,35 @@ define( function( require ) {
 
     /**
      *
-     * @param delta
+     * @param {Vector2} delta
      */
     translate: function( delta ) {
       this.positionProperty.set( this.position.plus( delta ) );
     },
     /**
      *
-     * @param sample
+     * @param {Option<DataPoint>} sample
      */
     addSample: function( sample ) {
-      this.seriesProperty.set( this.series.push( sample ) );
+      var seriesArray = [];
+      for ( var i = 0; i < this.series.length; i++ ) {
+        seriesArray[ i ] = this.series[ i ];
+      }
+      seriesArray.push( sample );
+      this.seriesProperty.set( seriesArray );
+    },
+    reset: function() {
+      PropertySet.prototype.reset.call( this );
     }
   } );
 
   /**
    *
-   * @param clock  -Function for getting data from a probe at the specified point
-   * @param probe1Value
-   * @param probe2Value
+   * @param {function} probe1Value
+   * @param {function} probe2Value
    * @constructor
    */
-  function WaveSensor( clock, probe1Value, probe2Value ) {
-
-    //var waveSensor = this;
+  function WaveSensor( probe1Value, probe2Value ) {
 
     //Set the relative location of the probes and body in model coordinates (SI)
     //These values for initial probe and body locations were obtained by printing out actual values at runtime,
@@ -65,43 +72,47 @@ define( function( require ) {
     this.probe1 = new Probe( -0.0000155, -0.000004 );
     this.probe2 = new Probe( -0.0000160, -0.000005 );
     this.bodyPositionProperty = new Property( new Vector2( -0.0000131, -0.000006 ) );
-    this.visible = new BooleanProperty( false );
 
-    //Clock to observe the passage of time
     //in the play area
-    this.clock = clock;
+    this.visibleProperty = new BooleanProperty( false );
 
-    /*    //Read samples from the probes when the simulation time changes
-     clock.addClockListener( new ClockAdapter().withAnonymousClassBody( {
-     simulationTimeChanged: function( clockEvent ) {
-     waveSensor.updateProbeSample( waveSensor.probe1, probe1Value, clock );
-     waveSensor.updateProbeSample( waveSensor.probe2, probe2Value, clock );
-     }
-     } ) );*/
+    //Function for getting data from a probe at the specified point
+    this.probe1Value = probe1Value;
+    this.probe2Value = probe2Value;
+
   }
 
   return inherit( Object, WaveSensor, {
 
+    step: function() {
+      this.simulationTimeChanged();
+    },
+
+    simulationTimeChanged: function() {
+      //Read samples from the probes when the simulation time changes
+      this.updateProbeSample( this.probe1, this.probe1Value );
+      this.updateProbeSample( this.probe2, this.probe2Value );
+    },
+
     /**
      * Read samples from the probes when the simulation time changes
      *
-     * @param probe
-     * @param probeValue
-     * @param clock
+     * @param {Probe} probe
+     * @param {function} probeValue
      */
-    updateProbeSample: function( probe, probeValue, clock ) {
+    updateProbeSample: function( probe, probeValue ) {
       //Read the value from the probe function.  May be None if not intersecting a light ray
       var value = probeValue( probe.position );
       if ( value ) {
-        probe.addSample( new DataPoint( clock.getSimulationTime(), value.get() ) );
+        probe.addSample( new DataPoint( value[ 0 ], value[ 1 ] ) );
       }
       else {
-        // probe.addSample( new Option.None() );
+        probe.addSample( null );
       }
     },
     /**
      *
-     * @param delta
+     * @param {Vector2} delta
      */
     translateBody: function( delta ) {
       this.bodyPositionProperty.set( this.bodyPositionProperty.get().plus( delta ) );
@@ -109,7 +120,7 @@ define( function( require ) {
     /**
      * Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
      *
-     * @param position
+     * @param {Vector2} position
      */
     translateToHotSpot: function( position ) {
       this.translateAll( new Vector2( position ).minus( this.probe1.position ) );
@@ -117,7 +128,7 @@ define( function( require ) {
     /**
      * Translate the body and probes by the specified model delta
      *
-     * @param delta
+     * @param {Vector2} delta
      */
     translateAll: function( delta ) {
       this.probe1.translate( delta );
@@ -126,8 +137,8 @@ define( function( require ) {
     },
     reset: function() {
       this.bodyPositionProperty.reset();
-      this.probe1.positionProperty.reset();
-      this.probe2.positionProperty.reset();
+      this.probe1.reset();
+      this.probe2.reset();
     }
   } );
 } );

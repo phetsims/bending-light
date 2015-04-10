@@ -1,8 +1,9 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
- * PNode for the wave sensor, which shows 2 sensor probes and a chart area (the body)
+ * View for the wave sensor, which shows 2 sensor probes and a chart area (the body)
  *
  * @author Sam Reid
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
 define( function( require ) {
@@ -22,6 +23,8 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
+  var ChartNode = require( 'BENDING_LIGHT/moretools/view/ChartNode' );
+  var Series = require( 'BENDING_LIGHT/moretools/model/Series' );
 
   // strings
   var TIME = require( 'string!BENDING_LIGHT/time' );
@@ -33,11 +36,11 @@ define( function( require ) {
   /**
    * Class for rendering a probe that can be used to sense wave values
    *
-   * @param waveSensorNode
+   * @param {WaveSensorNode} waveSensorNode
    * @param probe
-   * @param imageName
+   * @param {string} imageName
    * @param {ModelViewTransform2} modelViewTransform
-   * @param container
+   * @param {Rectangle} container
    * @constructor
    */
   function ProbeNode( waveSensorNode, probe, imageName, modelViewTransform, container ) {
@@ -61,6 +64,7 @@ define( function( require ) {
           fromSensorPanel = true;
           waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
           waveSensorNode.setWaveSensorNodeScale( modelViewTransform.viewToModelPosition( start ), 1 );
+          waveSensorNode.waveSensor.visibleProperty.set( true );
         }
         else {
           fromSensorPanel = false;
@@ -80,11 +84,13 @@ define( function( require ) {
         // check intersection only with the outer rectangle.
         if ( container.bounds.intersectsBounds( waveSensorNode.getBounds() ) ) {
           toSensorPanel = true;
+          waveSensorNode.waveSensor.visibleProperty.set( false );
         }
         if ( toSensorPanel ) {
-          waveSensorNode.setWaveSensorNodeScaleAnimation( waveSensorNode.waveSensor.probe1.positionProperty.initialValue, 0.4 );
+          waveSensorNode.setWaveSensorNodeScaleAnimation(
+            waveSensorNode.waveSensor.probe1.positionProperty.initialValue, 0.4 );
           waveSensorNode.setWaveSensorNodeScale( waveSensorNode.waveSensor.probe1.positionProperty.initialValue, 0.4 );
-          waveSensorNode.waveSensor.reset();
+          waveSensorNode.reset();
         }
       }
     } ) );
@@ -102,7 +108,7 @@ define( function( require ) {
    *
    * @param {ModelViewTransform2} modelViewTransform
    * @param {WaveSensor} waveSensor
-   * @param container
+   * @param {Rectangle} container
    * @constructor
    */
 
@@ -118,10 +124,6 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform;
     this.waveSensor = waveSensor;
 
-    //Bounds are based on the provided images, and will need to be updated if the image changes
-    //var chartArea = new Rectangle( 15, 15, 131, 68 );
-
-    //Create the body where the chart is shown
     // add body node
     var rectangleWidth = 135;
     var rectangleHeight = 100;
@@ -143,7 +145,8 @@ define( function( require ) {
       centerY: outerRectangle.centerY
     } );
     // adding inner rectangle
-    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth * 0.98, rectangleHeight * 0.63 ),
+    var innerMostRectangle = new ShadedRectangle(
+      new Bounds2( 10, 0, rectangleWidth * 0.98, rectangleHeight * 0.63 ),
       {
         baseColor: 'white',
         lightSource: 'rightBottom',
@@ -162,12 +165,15 @@ define( function( require ) {
     titleNode.setTranslation( this.bodyNode.getCenterX() - titleNode.getWidth() / 2, this.bodyNode.height * 0.82 );
 
     //Add the chart inside the body, with one series for each of the dark and light probes
-    /*    this.addChild( new ChartNode( waveSensor.clock, chartArea, [ new Series( waveSensor.probe1.series, darkProbeColor ),
-     new Series( waveSensor.probe2.series, lightProbeColor ) ] ) );*/
+    this.chartNode = new ChartNode( innerMostRectangle.bounds.erode( 3 ),
+      [ new Series( waveSensor.probe1.seriesProperty, darkProbeColor ),
+        new Series( waveSensor.probe2.seriesProperty, lightProbeColor ) ] );
+    this.bodyNode.addChild( this.chartNode );
     //Synchronize the body position with the model (centered on the model point)
     waveSensor.bodyPositionProperty.link( function( position ) {
       var viewPoint = modelViewTransform.modelToViewPosition( position );
-      waveSensorNode.bodyNode.setTranslation( viewPoint.x - waveSensorNode.bodyNode.getWidth() / 2, viewPoint.y - waveSensorNode.bodyNode.getHeight() );
+      waveSensorNode.bodyNode.setTranslation( viewPoint.x - waveSensorNode.bodyNode.getWidth() / 2,
+        viewPoint.y - waveSensorNode.bodyNode.getHeight() );
     } );
     //Add interaction, the body is draggable, but keep it constrained to stay in the play area
     var start;
@@ -182,6 +188,7 @@ define( function( require ) {
           fromSensorPanel = true;
           waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
           waveSensorNode.setWaveSensorNodeScale( modelViewTransform.viewToModelPosition( start ), 1 );
+          waveSensor.visibleProperty.set( true );
         }
         else {
           fromSensorPanel = false;
@@ -201,11 +208,12 @@ define( function( require ) {
         // check intersection only with the outer rectangle.
         if ( container.bounds.intersectsBounds( waveSensorNode.getBounds() ) ) {
           toSensorPanel = true;
+          waveSensor.visibleProperty.set( false );
         }
         if ( toSensorPanel ) {
           waveSensorNode.setWaveSensorNodeScaleAnimation( waveSensor.probe1.positionProperty.initialValue, 0.4 );
           waveSensorNode.setWaveSensorNodeScale( waveSensor.probe1.positionProperty.initialValue, 0.4 );
-          waveSensor.reset();
+          waveSensorNode.reset();
         }
       }
     } ) );
@@ -214,23 +222,13 @@ define( function( require ) {
     this.probe1Node = new ProbeNode( this, waveSensor.probe1, darkProbeImage, modelViewTransform, container );
     this.probe2Node = new ProbeNode( this, waveSensor.probe2, lightProbeImage, modelViewTransform, container );
 
-    //scaling all components and translating
-    this.bodyNode.setScaleMagnitude( 0.4 );
-    this.probe1Node.setScaleMagnitude( 0.4 );
-    this.probe2Node.setScaleMagnitude( 0.4 );
-    this.bodyNode.setTranslation(
-      modelViewTransform.modelToViewPosition( this.waveSensor.bodyPositionProperty.get() ).x - this.bodyNode.width / 2,
-      modelViewTransform.modelToViewPosition( this.waveSensor.bodyPositionProperty.get() ).y - waveSensorNode.bodyNode.height );
-    this.probe1Node.setTranslation(
-      modelViewTransform.modelToViewPosition( this.waveSensor.probe1.position ).x - this.probe1Node.getWidth() / 2,
-      modelViewTransform.modelToViewPosition( this.waveSensor.probe1.position ).y - this.probe1Node.getHeight() / 2 );
-    this.probe2Node.setTranslation(
-      modelViewTransform.modelToViewPosition( this.waveSensor.probe2.position ).x - this.probe2Node.getWidth() / 2,
-      modelViewTransform.modelToViewPosition( this.waveSensor.probe2.position ).y - this.probe2Node.getHeight() / 2 );
+    this.setWaveSensorScale( 0.4 );
 
     //Rendering order, including wires
-    this.addChild( new WireNode( waveSensor.probe1.positionProperty, waveSensor.bodyPositionProperty, this.probe1Node, this.bodyNode, darkProbeColor ) );
-    this.addChild( new WireNode( waveSensor.probe2.positionProperty, waveSensor.bodyPositionProperty, this.probe2Node, this.bodyNode, lightProbeColor ) );
+    this.addChild( new WireNode( waveSensor.probe1.positionProperty, waveSensor.bodyPositionProperty,
+      this.probe1Node, this.bodyNode, darkProbeColor ) );
+    this.addChild( new WireNode( waveSensor.probe2.positionProperty, waveSensor.bodyPositionProperty,
+      this.probe2Node, this.bodyNode, lightProbeColor ) );
     this.addChild( this.bodyNode );
     this.addChild( this.probe1Node );
     this.addChild( this.probe2Node );
@@ -238,9 +236,30 @@ define( function( require ) {
 
   return inherit( Node, WaveSensorNode, {
     /**
+     *
+     * @param {number} scale
+     */
+    setWaveSensorScale: function( scale ) {
+      //scaling all components and translating
+      this.bodyNode.setScaleMagnitude( scale );
+      this.probe1Node.setScaleMagnitude( scale );
+      this.probe2Node.setScaleMagnitude( scale );
+      this.bodyNode.setTranslation(
+        this.modelViewTransform.modelToViewPosition( this.waveSensor.bodyPositionProperty.get() ).x - this.bodyNode.width / 2,
+        this.modelViewTransform.modelToViewPosition( this.waveSensor.bodyPositionProperty.get() ).y - this.bodyNode.height );
+      this.probe1Node.setTranslation(
+        this.modelViewTransform.modelToViewPosition( this.waveSensor.probe1.position ).x - this.probe1Node.getWidth() / 2,
+        this.modelViewTransform.modelToViewPosition( this.waveSensor.probe1.position ).y - this.probe1Node.getHeight() / 2 );
+      this.probe2Node.setTranslation(
+        this.modelViewTransform.modelToViewPosition( this.waveSensor.probe2.position ).x - this.probe2Node.getWidth() / 2,
+        this.modelViewTransform.modelToViewPosition( this.waveSensor.probe2.position ).y - this.probe2Node.getHeight() / 2 );
+
+    },
+    /**
      * Resize the WaveSensorNode
-     * @param endPosition
-     * @param scale
+     *
+     * @param {Vector2} endPosition
+     * @param {number} scale
      */
     setWaveSensorNodeScale: function( endPosition, scale ) {
       //previous scale for scaling the distance among probeNodes and bodyNode
@@ -265,19 +284,23 @@ define( function( require ) {
     },
     /**
      * Resize the WaveSensorNode with Animation
-     * @param endPosition
-     * @param scale
+     *
+     * @param {Vector2} endPosition
+     * @param {number} scale
      */
     setWaveSensorNodeScaleAnimation: function( endPosition, scale ) {
       var prevScale = this.bodyNode.getScaleVector().x;
-      var startPoint = { x: this.waveSensor.probe1.position.x, y: this.waveSensor.probe1.position.y, scale: prevScale };
+      var startPoint = {
+        x: this.waveSensor.probe1.position.x, y: this.waveSensor.probe1.position.y,
+        scale: prevScale
+      };
       var endPoint = { x: endPosition.x, y: endPosition.y, scale: scale };
       this.init( startPoint, endPoint );
     },
     /**
      *
-     * @param startPoint
-     * @param endPoint
+     * @param {Object} startPoint
+     * @param {Object} endPoint
      */
     init: function( startPoint, endPoint ) {
       var target = this;
@@ -290,17 +313,25 @@ define( function( require ) {
     },
     /**
      * Called when dragged out of the toolbox, drags all parts together (including body and probes)
-     * @param delta
+     *
+     * @param {Vector2} delta
      */
     dragAll: function( delta ) {
       this.waveSensor.translateAll( this.modelViewTransform.viewToModelDelta( delta ) );
     },
     /**
      * Drag bodyNode
-     * @param delta
+     *
+     * @param {Vector2} delta
      */
     dragBody: function( delta ) {
       this.waveSensor.translateBody( this.modelViewTransform.viewToModelDelta( delta ) );
+    },
+    reset: function() {
+      this.setWaveSensorScale( 0.4 );
+      this.waveSensor.reset();
+      this.waveSensor.visibleProperty.set( false );
+      this.chartNode.gridLines.removeAllChildren();
     }
   } );
 } );

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Immutable data point class used in the intensity meter charts.
  *
@@ -12,8 +12,8 @@ define( function( require ) {
 
   /**
    *
-   * @param time
-   * @param value
+   * @param {Number} time
+   * @param {Number} value
    * @constructor
    */
   function DataPoint( time, value ) {

@@ -1,8 +1,9 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
- * Canvas for the "more tools" tab, which adds more tools to the toolbox, and a few more controls for the laser.
+ * View  for the "more tools" screen, which adds more tools to the toolbox, and a few more controls for the laser.
  *
  * @author Sam Reid
+ *  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -15,7 +16,7 @@ define( function( require ) {
 
   /**
    *
-   * @param moreToolsModel
+   * @param {MoreToolsModel} moreToolsModel
    * @constructor
    */
   function MoreToolsView( moreToolsModel ) {
@@ -30,6 +31,15 @@ define( function( require ) {
   }
 
   return inherit( IntroView, MoreToolsView, {
+
+    step: function() {
+      if ( this.moreToolsModel.isPlaying ) {
+        if ( this.waveSensorNode.waveSensor.visibleProperty.get() ) {
+          this.waveSensorNode.waveSensor.step();
+          this.waveSensorNode.chartNode.step( this.moreToolsModel.time, this.moreToolsModel.speed === 'normal' ? 1E-16 : 0.5E-16 );
+        }
+      }
+    },
     /**
      * Provide the additional tools for this tab
      *
@@ -49,7 +59,7 @@ define( function( require ) {
       this.protractorNode.resetAll();
       this.velocitySensorNode.setScaleMagnitude( 0.7 );
       this.moreToolsModel.velocitySensor.reset();
-      this.moreToolsModel.waveSensor.reset();
+      this.waveSensorNode.reset();
     },
 
 
