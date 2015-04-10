@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2015, University of Colorado
 /**
  * In order to support white light, we need to perform additive color mixing (not subtractive,
  * as is the default when drawing transparent colors on top of each other in Java).
@@ -36,7 +36,7 @@ define( function( require ) {
     this.rayLayer = rayLayer;
     this.stageHeight = stageHeight;
     this.stageWidth = stageWidth;
-    this.pointArray = [];
+    this.hashMapPointArray = [];
   }
 
   return inherit( CanvasNode, WhiteLightNode, {
@@ -68,14 +68,16 @@ define( function( require ) {
       //Don't let things become completely white, since the background is white
       var whiteLimit = 0.2;
       var maxChannel = 1 - whiteLimit;
-      //extra factor to make it white instead of cream/orange
-      var scale = 4;
 
-      for ( i = 0; i < this.pointArray.length; i++ ) {
-        var samples = map[ this.pointArray[ i ] ];
-        var pointX = this.pointArray[ i ].x;
-        var pointY = this.pointArray[ i ].y;
+      //extra factor to make it white instead of cream/orange
+      var scale = 2;
+
+      for ( i = 0; i < this.hashMapPointArray.length; i++ ) {
+        var samples = map[ this.hashMapPointArray[ i ] ];
+        var pointX = samples[ 4 ];
+        var pointY = samples[ 5 ];
         var intensity = samples[ 3 ];
+
         //move excess samples value into the intensity column
         var max = samples[ 0 ];
         if ( samples[ 1 ] > max ) {
@@ -84,42 +86,66 @@ define( function( require ) {
         if ( samples[ 2 ] > max ) {
           max = samples[ 2 ];
         }
+
         //Scale and clamp the samples
         samples[ 0 ] = Util.clamp( samples[ 0 ] / max * scale - whiteLimit, 0, maxChannel );
         samples[ 1 ] = Util.clamp( samples[ 1 ] / max * scale - whiteLimit, 0, maxChannel );
         samples[ 2 ] = Util.clamp( samples[ 2 ] / max * scale - whiteLimit, 0, maxChannel );
         intensity = intensity * max;
+
         //don't let it become fully opaque or it looks too dark against white background
         var alpha = Util.clamp( Math.sqrt( intensity ), 0, 1 );
         var pixelColor = samples[ 6 ];
         pixelColor.set( samples[ 0 ] * 255, samples[ 1 ] * 255, samples[ 2 ] * 255, alpha );
-        //Set the color and fill in the pixel in the buffer
+
+        //Set the color and fill in the pixel
         context.fillRect( pointX, pointY, 1, 1 );
         context.fillStyle = pixelColor.toCSS();
         context.fill();
 
       }
 
-      this.pointArray = [];
-
+      this.hashMapPointArray = [];
     },
+
+    /**
+     *
+     * @param {Number} x0 - x position in view co-ordinates
+     * @param  {Number} y0 - y position in view co-ordinates
+     * @returns {boolean}
+     */
     isOutOfBounds: function( x0, y0 ) {
-      return Math.floor( x0 ) < 0 || Math.floor( y0 ) < 0 || Math.floor( x0 ) > this.stageWidth || Math.floor( y0 ) > this.stageHeight;
+      return x0 < 0 || y0 < 0 || x0 > this.stageWidth || y0 > this.stageHeight;
     },
-    //Add the specified point to the HashMap, creating a new entry if necessary, otherwise adding it to existing values.
-    //Take the intensity as the last component of the array
 
+    /**
+     * Add the specified point to the HashMap, creating a new entry if necessary, otherwise adding it to existing values.
+     * Take the intensity as the last component of the array
+     * @param {Number} x0 - x position in view co-ordinates
+     * @param  {Number} y0 - y position in view co-ordinates
+     * @param {Color} color
+     * @param {Number} intensity
+     * @param {Object} map
+     */
     addToMap: function( x0, y0, color, intensity, map ) {
       //so that rays don't start fully saturated: this makes it so that it is possible to see the decrease in intensity after a (nontotal) reflection
-      var point = new Vector2( x0, y0 );
-      this.pointArray.push( point );
-      var brightnessFactor = 0.017;
-      if ( !map[ point ] ) {
-        //seed with zeros so it can be summed
-        map[ point ] = [ 0, 0, 0, 0, x0, y0, color ];
+      var keyPoint = new Vector2( x0, y0 );
+      var isPointInSideTheMap = false;
+      for ( var i = 0; i < this.hashMapPointArray.length; i++ ) {
+        if ( keyPoint.equals( this.hashMapPointArray[ i ] ) ) {
+          isPointInSideTheMap = true;
+          break;
+        }
       }
-      var current = map[ point ];
-      var term = [ color.getRed(), color.getGreen(), color.getBlue() ];
+      if ( !isPointInSideTheMap ) {
+        this.hashMapPointArray.push( keyPoint );
+
+        //seed with zeros so it can be summed
+        map[ keyPoint ] = [ 0, 0, 0, 0, x0, y0, color ];
+      }
+      var brightnessFactor = 0.017;
+      var current = map[ keyPoint ];
+      var term = [ color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255 ];
       //don't apply brightness factor to intensities
       for ( var a = 0; a < 3; a++ ) {
         current[ a ] = current[ a ] + term[ a ] * brightnessFactor;
@@ -131,6 +157,13 @@ define( function( require ) {
     step: function() {
       this.invalidatePaint();
     },
+    /**
+     *
+     * @param {Number} x0 - x position in view co-ordinates
+     * @param  {Number} y0 - y position in view co-ordinates
+     * @param {Node} child
+     * @param {Object} map
+     */
     setPixel: function( x0, y0, child, map ) {
       var color = child.getColor();
       var intensity = child.getLightRay().getPowerFraction();
@@ -139,6 +172,16 @@ define( function( require ) {
       this.addToMap( x0 + 1, y0, color, intensity, map );
       this.addToMap( x0, y0 + 1, color, intensity, map );
     },
+
+    /**
+     *
+     * @param {Number}x0 - x position in view co-ordinates
+     * @param {Number}y0 - y position in view co-ordinates
+     * @param {Number}x1 - x position in view co-ordinates
+     * @param {Number}y1  - y position in view co-ordinates
+     * @param {Node}child
+     * @param {Object}map
+     */
     draw: function( x0, y0, x1, y1, child, map ) {
       var dx = Math.abs( x1 - x0 );
       var dy = Math.abs( y1 - y0 );
@@ -147,7 +190,7 @@ define( function( require ) {
       var err = dx - dy;
       while ( true ) {
         this.setPixel( x0, y0, child, map );
-        if ( Math.floor( x0 ) === Math.floor( x1 ) && Math.floor( y0 ) === Math.floor( y1 ) ) {
+        if ( x0 === x1 && y0 === y1 ) {
           break;
         }
         if ( this.isOutOfBounds( x0, y0 ) ) {
@@ -156,11 +199,11 @@ define( function( require ) {
         var e2 = 2 * err;
         if ( e2 > -dy ) {
           err = err - dy;
-          x0 = Math.floor( x0 + sx );
+          x0 = x0 + sx;
         }
         if ( e2 < dx ) {
           err = err + dx;
-          y0 = Math.floor( y0 + sy );
+          y0 = y0 + sy;
         }
       }
     }
