@@ -172,7 +172,7 @@ define( function( require ) {
       spacing: 5
     };
 
-    var normalText = new Text( 'Normal' );
+    var normalText = new Text( normalString );
     var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, checkBoxOptions );
     normalCheckBox.setTranslation( 15, this.sensorPanel.y + sensorPanelHeight - 55 );
     this.addChild( normalCheckBox );
