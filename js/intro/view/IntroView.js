@@ -43,10 +43,11 @@ define( function( require ) {
    *
    * @param {IntroModel}introModel -model of intro screen
    * @param centerOffsetLeft
-   * @param hasMoreTools
+   * @param {Boolean}hasMoreTools
+   * @param {Number}I ndexOfRefractionDecimals
    * @constructor
    */
-  function IntroView( introModel, centerOffsetLeft, hasMoreTools ) {
+  function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals ) {
     var introView = this;
     this.introModel = introModel;
     //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
@@ -100,7 +101,6 @@ define( function( require ) {
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMediumProperty ) );
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
 
-    var IndexOfRefractionDecimals = 2;
     //Add control panels for setting the index of refraction for each medium
     var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
@@ -301,4 +301,3 @@ define( function( require ) {
     }
   } );
 } );
-

@@ -24,7 +24,7 @@ define( function( require ) {
   function IntroScreen() {
     Screen.call( this, introTitleString, new Image( introMockUpImage ),
       function() { return new IntroModel( BendingLightModel.WATER ); },
-      function( model ) { return new IntroView( model, false, false ); },
+      function( model ) { return new IntroView( model, false, false, 2 ); },
       { backgroundColor: 'white' }
     );
   }
