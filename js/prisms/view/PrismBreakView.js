@@ -138,9 +138,8 @@ define( function( require ) {
     };
     //Add the protractor node
     var protractorNode = new ProtractorNode( this.modelViewTransform, prismBreakModel.showProtractorProperty, prismBreakModel.protractorModel,
-      this.getProtractorDragRegion, this.getProtractorRotationRegion, 200, new Bounds2( 0, 0, 0, 0 ) );
+      this.getProtractorDragRegion, this.getProtractorRotationRegion, 125, null );
     this.addChild( protractorNode );
-    protractorNode.scale( 90 / protractorNode.width );
 
     // add prisms tool box Node
     var prismToolboxNode = new PrismToolboxNode( this, this.modelViewTransform, prismBreakModel,

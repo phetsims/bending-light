@@ -18,6 +18,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   //images
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
@@ -101,8 +102,10 @@ define( function( require ) {
     translatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
-        if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
-          protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
+        if ( containerBounds ) {
+          if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
+            protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
+          }
         }
         protractorNode.expandedButtonVisibilityProperty.value = true;
       },
@@ -113,12 +116,14 @@ define( function( require ) {
         start = end;
       },
       end: function() {
-        if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
-          var point2D = protractorNode.modelViewTransform.modelToViewPosition(
-            protractorNode.protractorModel.positionProperty.initialValue );
-          protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
-          protractorNode.expandedButtonVisibilityProperty.value = false;
-          protractorNode.expandedProperty.value = false;
+        if ( containerBounds ) {
+          if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
+            var point2D = protractorNode.modelViewTransform.modelToViewPosition(
+              protractorNode.protractorModel.positionProperty.initialValue );
+            protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
+            protractorNode.expandedButtonVisibilityProperty.value = false;
+            protractorNode.expandedProperty.value = false;
+          }
         }
         else {
           protractorNode.expandedButtonVisibilityProperty.value = true;
@@ -150,9 +155,11 @@ define( function( require ) {
       protractorNode.rotateAround( protractorNode.center, angle );
     } );
     this.protractorModel.positionProperty.link( function( position ) {
-      var point2D = protractorNode.modelViewTransform.modelToViewPosition( position );
-      protractorNode.setTranslation( point2D.x - (protractorNode.width / 2),
-        point2D.y - (protractorNode.height / 2) );
+      var center = protractorNode.modelViewTransform.modelToViewPosition( position );
+      var point = new Vector2( center.x - (protractorNode.protractorImageNode.width * protractorNode.getScaleVector().x / 2),
+        center.y - (protractorNode.protractorImageNode.height * protractorNode.getScaleVector().y / 2) );
+      var newPoint = point.minus( center ).rotate( protractorNode.getRotation() );
+      protractorNode.setTranslation( newPoint.plus( center ) );
     } );
   }
 
