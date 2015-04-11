@@ -171,6 +171,7 @@ define( function( require ) {
      */
     removePrism: function( prism ) {
       this.prisms.remove( prism );
+      this.updateModel();
     },
     getPrisms: function() {
       return this.prisms;

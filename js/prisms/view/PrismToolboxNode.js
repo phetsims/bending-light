@@ -115,7 +115,7 @@ define( function( require ) {
           },
           end: function() {
             if ( prismToolBoxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
-              prismBreakModel.prisms.remove( prism );
+              prismBreakModel.removePrism( prismShape );
               prismBreakView.prismLayer.removeChild( prismsNode );
             }
           }

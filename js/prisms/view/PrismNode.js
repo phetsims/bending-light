@@ -78,7 +78,7 @@ define( function( require ) {
       },
       end: function() {
         if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
-          prismsBreakModel.prisms.remove( prism );
+          prismsBreakModel.removePrism( prism );
           prismLayer.removeChild( prismsNode );
         }
       }
