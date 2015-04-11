@@ -122,10 +122,11 @@ define( function( require ) {
       var wavelengthSlider = new WavelengthSlider( mediumWavelengthProperty,
         {
           cursorStroke: 'white',
+          maxWavelength: 700,
           thumbWidth: 20,
           thumbHeight: 20,
-          trackWidth: 170,
-          trackHeight: 20,
+          trackWidth: 140,
+          trackHeight: 15,
           tweakersVisible: false,
           valueVisible: false,
           thumbTouchAreaExpandY: 10,

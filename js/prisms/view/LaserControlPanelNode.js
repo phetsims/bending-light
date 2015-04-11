@@ -79,10 +79,11 @@ define( function( require ) {
     var wavelengthSlider = new WavelengthSlider( wavelength,
       {
         cursorStroke: 'white',
+        maxWavelength: 700,
         thumbWidth: 20,
         thumbHeight: 20,
         trackWidth: 170,
-        trackHeight: 20,
+        trackHeight: 15,
         tweakersVisible: false,
         valueVisible: false,
         thumbTouchAreaExpandY: 10,
@@ -148,4 +149,3 @@ define( function( require ) {
 
   return inherit( Panel, LaserControlPanelNode );
 } );
-
