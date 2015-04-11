@@ -81,6 +81,7 @@ define( function( require ) {
 
     //Amount of time to show on the horizontal axis of the chart
     this.timeWidth = 72E-16;
+    this.maxSampleCount = 72;
     this.gridLines = new Node();
     //Mapping from model (SI) to chart coordinates
     this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping(
@@ -137,10 +138,16 @@ define( function( require ) {
         this.modelViewTransformProperty.get().modelToViewDeltaX( horizontalGridLineDelta ),
         this.modelViewTransformProperty ) );
 
+      if ( this.timeWidth / dt > this.maxSampleCount ) {
+        this.maxSampleCount += 0.5;
+      }
+      else if ( this.timeWidth / dt < this.maxSampleCount ) {
+        this.maxSampleCount -= 1;
+      }
       //Remove any points that have gone outside of the time window, otherwise it is a memory leak
       var chartNode = this;
       this.series.forEach( function( series ) {
-        series.keepLastSamples( chartNode.timeWidth / dt );
+        series.keepLastSamples( chartNode.maxSampleCount );
       } );
     },
 
