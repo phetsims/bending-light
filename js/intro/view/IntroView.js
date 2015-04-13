@@ -1,7 +1,7 @@
-// Copyright (c) 2002 - 2015. University of Colorado Boulder
-
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * View for intro screen
+ *
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
 define( function( require ) {
@@ -32,24 +32,26 @@ define( function( require ) {
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var ExpandableProtractorNode = require( 'BENDING_LIGHT/moretools/view/ExpandableProtractorNode' );
 
-  //strings
+  // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
   var normalString = require( 'string!BENDING_LIGHT/normal' );
   var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
+
   // constants
   var inset = 10;
 
   /**
    *
    * @param {IntroModel}introModel -model of intro screen
-   * @param centerOffsetLeft
-   * @param {Boolean}hasMoreTools
-   * @param {Number}I ndexOfRefractionDecimals
+   * @param {boolean} centerOffsetLeft
+   * @param {boolean} hasMoreTools
+   * @param {Number} IndexOfRefractionDecimals
    * @constructor
    */
   function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals ) {
     var introView = this;
     this.introModel = introModel;
+
     //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
     function clampDragAngle( angle ) {
       while ( angle < 0 ) { angle += Math.PI * 2; }
@@ -272,6 +274,7 @@ define( function( require ) {
   }
 
   return inherit( BendingLightView, IntroView, {
+
     step: function() {
 
       // This is required to clear the previous canvas particle layers from the view.
@@ -286,6 +289,7 @@ define( function( require ) {
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;
       this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale ) );
     },
+
     resetAll: function() {
       this.protractorModel.reset();
       this.protractorNode.resetAll();
@@ -301,3 +305,4 @@ define( function( require ) {
     }
   } );
 } );
+

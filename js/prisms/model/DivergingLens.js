@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Shape that comprises a prism.
  *
@@ -19,9 +19,9 @@ define( function( require ) {
 
   /**
    *
-   * @param referencePointIndex
-   * @param points
-   * @param radius
+   * @param {Number} referencePointIndex
+   * @param {Vector2[]} points
+   * @param {Number} radius
    * @constructor
    */
   function DivergingLens( referencePointIndex, points, radius ) {
@@ -44,9 +44,11 @@ define( function( require ) {
         .lineTo( this.points[ 1 ].x, this.points[ 1 ].y )
         .lineTo( this.points[ 0 ].x, this.points[ 0 ].y );
     },
+
     /**
      * Get the specified corner point
-     * @param i
+     *
+     * @param {Number} i
      * @returns {*}
      */
     getPoint: function( i ) {
@@ -66,10 +68,12 @@ define( function( require ) {
       }
       return new DivergingLens( this.referencePointIndex, newPoints, this.radius );
     },
+
     /**
      * Gets a rotated copy of this DivergingLens
-     * @param angle
-     * @param rotationPoint
+     *
+     * @param {Number} angle
+     * @param {Vector2} rotationPoint
      * @returns {DivergingLens}
      */
     getRotatedInstance: function( angle, rotationPoint ) {
@@ -81,31 +85,39 @@ define( function( require ) {
       }
       return new DivergingLens( this.referencePointIndex, newPoints, this.radius );
     },
+
     /**
      *
-     * @param point
+     * @param {Vector2} point
      * @returns {*}
      */
     containsPoint: function( point ) {
-      return this.toShape().containsPoint( point );
+      var intersection = this.toShape().intersection( new Ray2( point, Vector2.X_UNIT ) );
+      return intersection.length % 2 === 1;
     },
+
     /**
      * Just use the 0th point for the reference point for rotation drag handles
+     *
      * @returns {*}
      */
     getReferencePoint: function() {
       return this.getPoint( this.referencePointIndex );
     },
+
     /**
-     * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal "mass")
+     * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
+     * "mass")
+     *
      * @returns {Vector2}
      */
     getRotationCenter: function() {
       return this.getCentroid( this.points );
     },
+
     /**
      *
-     * @param p
+     * @param {Vector2[]} p
      * @returns {Vector2}
      */
     getCentroid: function( p ) {
@@ -123,9 +135,10 @@ define( function( require ) {
       cy *= f;
       return new Vector2( cx, cy );
     },
+
     /**
      *
-     * @param p
+     * @param {Vector2[]} p
      * @returns {number}
      */
     getArea: function( p ) {
@@ -138,9 +151,11 @@ define( function( require ) {
       a *= 0.5;
       return a;
     },
+
     /**
      * Compute the intersections of the specified ray with this polygon's edges
-     * @param ray
+     *
+     * @param {Ray} ray
      * @returns {Array}
      */
     getIntersections: function( ray ) {
@@ -178,6 +193,7 @@ define( function( require ) {
 
     /**
      * List all bounding edges in the polygon
+     *
      * @returns {Array}
      */
     getEdges: function() {
@@ -187,6 +203,7 @@ define( function( require ) {
       }
       return lineSegments;
     },
+
     getBounds: function() {
       return this.toShape().bounds;
     }

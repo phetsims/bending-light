@@ -18,9 +18,9 @@ define( function( require ) {
   /**
    *
    * @param {Number} sensorX
-   * @param {Number}sensorY
-   * @param {Number}bodyX
-   * @param {Number}bodyY
+   * @param {Number} sensorY
+   * @param {Number} bodyX
+   * @param {Number} bodyY
    * @constructor
    */
   function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {

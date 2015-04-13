@@ -40,6 +40,7 @@ define( function( require ) {
         }
       }
     },
+
     /**
      * Provide the additional tools for this tab
      *
@@ -49,10 +50,12 @@ define( function( require ) {
       //Create the Velocity Sensor tool and wave sensor tool to add to the toolbox
       return [ this.createVelocitySensorTool(), this.createWaveSensorTool() ];
     },
+
     createWaveSensorTool: function() {
       //Create the WaveSensorNode
       return new WaveSensorNode( this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel );
     },
+
     resetAll: function() {
 
       this.protractorModel.reset();

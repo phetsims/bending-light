@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Model for the "prism break" tab, in which the user can move the laser and many prisms.
  *
@@ -28,7 +28,7 @@ define( function( require ) {
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
 
-  //constants
+  // constants
   var CHARACTERISTIC_LENGTH = 650E-9;
   var SPEED_OF_LIGHT = 2.99792458E8;
   var WAVELENGTH_RED = 650E-9;
@@ -103,8 +103,10 @@ define( function( require ) {
       this.showProtractorProperty.reset();
       BendingLightModel.prototype.resetAll.call( this );
     },
+
     /**
      * List of prism prototypes that can be created in the sim
+     *
      * @returns {Array}
      */
     getPrismPrototypes: function() {
@@ -160,19 +162,21 @@ define( function( require ) {
     //Model creation/notification scheme
     /**
      *
-     * @param prism
+     * @param {Prism} prism
      */
     addPrism: function( prism ) {
       this.prisms.add( prism );
     },
+
     /**
      *
-     * @param prism
+     * @param {Prism} prism
      */
     removePrism: function( prism ) {
       this.prisms.remove( prism );
       this.updateModel();
     },
+
     getPrisms: function() {
       return this.prisms;
     },
@@ -185,9 +189,9 @@ define( function( require ) {
      * @param {Boolean}laserInPrism
      */
     propagate: function( tail, directionUnitVector, power, laserInPrism ) {
+
       //Determines whether to use white light or single color light
       var mediumIndexOfRefraction;
-      //this.model.laser.color.get() === WHITE_LIGHT
       if ( this.laser.colorModeProperty.value === 'white' ) {
         var min = VisibleColor.MIN_WAVELENGTH / 1E9;
         var max = VisibleColor.MAX_WAVELENGTH / 1E9;
@@ -208,6 +212,7 @@ define( function( require ) {
           mediumIndexOfRefraction, this.laser.getFrequency() ), 0 );
       }
     },
+
     /**
      * Algorithm that computes the trajectories of the rays throughout the system
      */
@@ -230,18 +235,21 @@ define( function( require ) {
         }
       }
     },
+
     /**
      * Determine if the laser beam originates within a prism for purpose of
      * determining what index of refraction to use initially
+     *
      * @returns {boolean}
      */
     isLaserInPrism: function() {
       var emissionPoint = this.laser.emissionPoint;
-      var isLaserInPrism = false;
       for ( var i = 0; i < this.prisms.length; i++ ) {
-        isLaserInPrism = this.prisms.get( i ).contains( emissionPoint );
+        if ( this.prisms.get( i ).contains( emissionPoint ) ) {
+          return true;
+        }
       }
-      return isLaserInPrism;
+      return false;
     },
 
     /**
@@ -270,8 +278,9 @@ define( function( require ) {
         var pointOnOtherSide = intersection.getPoint().plus( incidentRay.directionUnitVector.times( 1E-12 ) );
         var outputInsidePrism = false;
         this.prisms.forEach( function( prism ) {
-          if ( prism.shapeProperty.get().toShape().intersection(
-              new Ray2( pointOnOtherSide, incidentRay.directionUnitVector ) ).length !== 0 ) {
+          var intersection = prism.shapeProperty.get().toShape().intersection(
+            new Ray2( pointOnOtherSide, incidentRay.directionUnitVector ) );
+          if ( intersection.length % 2 === 1 ) {
             outputInsidePrism = true;
           }
         } );
@@ -317,6 +326,7 @@ define( function( require ) {
     },
     /**
      * Signify that another ray/interface collision occurred
+     *
      * @param intersection
      */
     addIntersection: function( intersection ) {
@@ -324,6 +334,7 @@ define( function( require ) {
     },
     /**
      * Find the nearest intersection between a light ray and the set of prisms in the play area
+     *
      * @param incidentRay
      * @param prisms
      * @returns {null}
@@ -341,6 +352,7 @@ define( function( require ) {
       } );
       return allIntersections.length === 0 ? null : allIntersections[ 0 ];
     },
+
     clear: function() {
       this.intersections.clear();
     }

@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * The protractor node is a circular device for measuring angles.
  * In this sim it is used for measuring the angle of the incident,
@@ -20,7 +20,7 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
 
-  //images
+  // images
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
 
   // constants
@@ -31,8 +31,8 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform transform to convert between model and view values
    * @param {Property<Boolean>} showProtractorProperty  controls the protractor visibility
    * @param {ProtractorModel} protractorModel model of protractor
-   * @param translateShape
-   * @param rotateShape
+   * @param {function} translateShape
+   * @param {function} rotateShape
    * @param {Number} ICON_WIDTH
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
    * @constructor
@@ -164,26 +164,41 @@ define( function( require ) {
   }
 
   return inherit( Node, ProtractorNode, {
+
       resetAll: function() {
         this.expandedProperty.reset();
         this.expandedButtonVisibilityProperty.reset();
         this.setProtractorScale( this.multiScale );
       },
+
       /**
        * Resize the protractor
-       * @param scale
+       *
+       * @param {Number} scale
        */
       setProtractorScale: function( scale ) {
         this.setScaleMagnitude( scale );
         var point2D = this.modelViewTransform.modelToViewPosition( this.protractorModel.position );
         this.setTranslation( point2D.x - (this.width / 2), point2D.y - (this.height / 2 ) );
       },
+
+      /**
+       *
+       * @param {Vector2}endPoint
+       * @param {Number} scale
+       */
       setProtractorScaleAnimation: function( endPoint, scale ) {
         var startPoint = { x: this.centerX, y: this.centerY, scale: this.getScaleVector().x };
         var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
         this.init( startPoint, finalPosition );
         this.protractorModel.positionProperty.set( this.modelViewTransform.viewToModelPosition( endPoint ) );
       },
+
+      /**
+       *
+       * @param {Object} initialPosition
+       * @param {Object} finalPosition
+       */
       init: function( initialPosition, finalPosition ) {
         var target = this;
         new TWEEN.Tween( initialPosition )
@@ -195,23 +210,29 @@ define( function( require ) {
             target.centerY = initialPosition.y;
           } ).start();
       },
+
       /**
        * Translate the protractor, this method is called when dragging out of the toolbox
-       * @param delta
+       *
+       * @param {Vector2} delta
        */
       dragAll: function( delta ) {
         this.protractorModel.translate( this.modelViewTransform.viewToModelDelta( delta ) );
       },
+
       /**
        * Change the visibility and pickability of this ProtractorNode
-       * @param isVisible
+       *
+       * @param {boolean} isVisible
        */
       setVisible: function( isVisible ) {
         this.setVisible( isVisible );
         this.setPickable( isVisible );
       }
     },
-    //statics
+
+
+    // statics
     {
       DEFAULT_SCALE: DEFAULT_SCALE
     } );

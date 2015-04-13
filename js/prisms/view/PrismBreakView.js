@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * View for the "prism break" tab.
  *
@@ -25,7 +25,7 @@ define( function( require ) {
   // constants
   var inset = 10;
 
-// string
+  // string
   var environmentString = require( 'string!BENDING_LIGHT/environment' );
 
   /**
@@ -43,7 +43,7 @@ define( function( require ) {
       return angle;
     }
 
-// in prisms tab  laser node can rotate 360 degrees  .so  arrows showing  all the times when laser node rotate
+    // in prisms tab  laser node can rotate 360 degrees  .so  arrows showing  all the times when laser node rotate
     function clockwiseArrowNotAtMax() {
       return true;
     }
@@ -82,7 +82,7 @@ define( function( require ) {
     var laserControlPanelNode = new LaserControlPanelNode( prismBreakModel.laser.colorModeProperty,
       prismBreakModel.wavelengthProperty, {
         bottom: this.layoutBounds.bottom - 200,
-        right:  this.layoutBounds.right - inset
+        right: this.layoutBounds.right - inset
       } );
     this.addChild( laserControlPanelNode );
 
@@ -101,7 +101,7 @@ define( function( require ) {
     } );
 
     var laserTypeControlPanel = new LaserTypeControlPanel( prismBreakModel.manyRaysProperty, {
-      top:  this.layoutBounds.top - inset,
+      top: this.layoutBounds.top - inset,
       left: this.layoutBounds.left + inset
     } );
     this.addChild( laserTypeControlPanel );
@@ -116,7 +116,7 @@ define( function( require ) {
           prismToolboxNode.objectMediumControlPanel.reset();
         },
         bottom: this.layoutBounds.bottom - inset,
-        right:  this.layoutBounds.right - inset
+        right: this.layoutBounds.right - inset
       } );
 
     this.afterLightLayer2.addChild( resetAllButton );
@@ -154,9 +154,11 @@ define( function( require ) {
   }
 
   return inherit( BendingLightView, PrismBreakView, {
+
     resetAll: function() {
       this.prismLayer.removeAllChildren();
     },
+
     /**
      *
      * @param {Number}dt -time

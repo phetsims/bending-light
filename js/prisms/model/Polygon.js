@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Shape that comprises a prism.
  * Immutable here but composed with a Property<Polygon> in Prism for mutability.
@@ -19,8 +19,8 @@ define( function( require ) {
 
   /**
    *
-   * @param referencePointIndex
-   * @param points
+   * @param {Number} referencePointIndex
+   * @param {Vector2[]} points
    * @constructor
    */
   function Polygon( referencePointIndex, points ) {
@@ -45,15 +45,22 @@ define( function( require ) {
       shape.close();
       return shape;
     },
+
     /**
      * Get the specified corner point
-     * @param i
+     *
+     * @param {Number} i
      * @returns {*}
      */
     getPoint: function( i ) {
       return this.points[ i ];
     },
 
+    /**
+     *
+     * @param {Vector2} delta
+     * @returns {Polygon}
+     */
     getTranslatedInstance: function( delta ) {
 
       var newPoints = [];
@@ -62,7 +69,14 @@ define( function( require ) {
       }
       return new Polygon( this.referencePointIndex, newPoints );
     },
-    //Gets a rotated copy of this polygon
+
+    /**
+     * Gets a rotated copy of this polygon
+     *
+     * @param {Number} angle
+     * @param {Vector2} rotationPoint
+     * @returns {Polygon}
+     */
     getRotatedInstance: function( angle, rotationPoint ) {
       var newPoints = [];
       for ( var k = 0; k < this.points.length; k++ ) {
@@ -73,7 +87,12 @@ define( function( require ) {
       }
       return new Polygon( this.referencePointIndex, newPoints );
     },
-    //Lists the corner points
+
+    /**
+     * Lists the corner points
+     *
+     * @returns {Array}
+     */
     toPointArray: function() {
       var array = [];
       for ( var i = 0; i < this.points.length; i++ ) {
@@ -81,20 +100,39 @@ define( function( require ) {
       }
       return array;
     },
+
+    /**
+     *
+     * @param {Vector2} point
+     * @returns {boolean}
+     */
     containsPoint: function( point ) {
-      return this.toShape().containsPoint( point );
+      var intersection = this.toShape().intersection( new Ray2( point, Vector2.X_UNIT ) );
+      return intersection.length % 2 === 1;
     },
-    //Just use the 0th point for the reference point for rotation drag handles
+
+    /**
+     * Just use the 0th point for the reference point for rotation drag handles
+     *
+     * @returns {*}
+     */
     getReferencePoint: function() {
       return this.getPoint( this.referencePointIndex );
     },
-    //Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal "mass")
+
+    /**
+     * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
+     * "mass")
+     *
+     * @returns {*|Vector2}
+     */
     getRotationCenter: function() {
       return this.getCentroid( this.points );
     },
+
     /**
      *
-     * @param p
+     * @param {Vector2[]}p
      * @returns {Vector2}
      */
     getCentroid: function( p ) {
@@ -114,9 +152,10 @@ define( function( require ) {
       this.centroid.y = cy;
       return this.centroid;
     },
+
     /**
      *
-     * @param p
+     * @param {Vector2[]}p
      * @returns {number}
      */
     getArea: function( p ) {
@@ -129,7 +168,13 @@ define( function( require ) {
       a *= 0.5;
       return a;
     },
-    //Compute the intersections of the specified ray with this polygon's edges
+
+    /**
+     * Compute the intersections of the specified ray with this polygon's edges
+     *
+     * @param {Ray} ray
+     * @returns {Array}
+     */
     getIntersections: function( ray ) {
       var intersections = [];
       this.getEdges().forEach( function( lineSegment ) {
@@ -148,7 +193,11 @@ define( function( require ) {
       return intersections;
     },
 
-    //List all bounding edges in the polygon
+    /**
+     * List all bounding edges in the polygon
+     *
+     * @returns {Array}
+     */
     getEdges: function() {
       var lineSegments = [];
       for ( var i = 0; i < this.points.length; i++ ) {
@@ -157,6 +206,7 @@ define( function( require ) {
       }
       return lineSegments;
     },
+
     getBounds: function() {
       return this.toShape().bounds;
     }

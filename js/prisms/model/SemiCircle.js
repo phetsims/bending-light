@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Shape that comprises a prism.
  *
@@ -15,12 +15,13 @@ define( function( require ) {
   var Arc = require( 'KITE/segments/Arc' );
   var Ray2 = require( 'DOT/Ray2' );
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    *
-   * @param referencePointIndex
-   * @param points
-   * @param radius
+   * @param {Number} referencePointIndex
+   * @param {Vector2[]} points
+   * @param {Number} radius
    * @constructor
    */
   function SemiCircle( referencePointIndex, points, radius ) {
@@ -34,6 +35,7 @@ define( function( require ) {
   }
 
   return inherit( Object, SemiCircle, {
+
     toShape: function() {
       var center = this.points[ 0 ].plus( this.points[ 1 ] ).times( 0.5 );
       var startAngle = center.minus( this.points[ 1 ] ).angle();
@@ -44,12 +46,14 @@ define( function( require ) {
 
     /**
      * Get the specified corner point
-     * @param i
+     *
+     * @param {Number} i
      * @returns {*}
      */
     getPoint: function( i ) {
       return this.points[ i ];
     },
+
     /**
      *
      * @param {Vector2} delta
@@ -63,10 +67,12 @@ define( function( require ) {
       }
       return new SemiCircle( this.referencePointIndex, newPoints, this.radius );
     },
+
     /**
      * Gets a rotated copy of this SemiCircle
-     * @param angle
-     * @param rotationPoint
+     *
+     * @param {Number} angle
+     * @param {Vector2} rotationPoint
      * @returns {SemiCircle}
      */
     getRotatedInstance: function( angle, rotationPoint ) {
@@ -81,29 +87,37 @@ define( function( require ) {
 
     /**
      *
-     * @param point
+     * @param {Vector2} point
      * @returns {*}
      */
     containsPoint: function( point ) {
-      return this.toShape().containsPoint( point );
+      var intersection = this.toShape().intersection( new Ray2( point, Vector2.X_UNIT ) );
+      return intersection.length % 2 === 1;
     },
+
     /**
      * Just use the 0th point for the reference point for rotation drag handles
+     *
      * @returns {*}
      */
     getReferencePoint: function() {
       return this.getPoint( this.referencePointIndex );
     },
+
     /**
-     * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal "mass")
+     * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
+     * "mass")
+     *
      * @returns {Vector2}
      */
     getRotationCenter: function() {
       return this.points[ 0 ].plus( this.points[ 1 ] ).times( 0.5 );
     },
+
     /**
      * Compute the intersections of the specified ray with this polygon's edges
-     * @param ray
+     *
+     * @param {Ray} ray
      * @returns {Array}
      */
     getIntersections: function( ray ) {
@@ -136,6 +150,7 @@ define( function( require ) {
       }
       return intersections;
     },
+
     getBounds: function() {
       return this.toShape().bounds;
     }

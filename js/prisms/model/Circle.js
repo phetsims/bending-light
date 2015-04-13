@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Circle implementation for use in prisms
  *
@@ -28,9 +28,11 @@ define( function( require ) {
   }
 
   return inherit( Object, Circle, {
+
     toShape: function() {
       return new Shape.ellipse( this.center.x, this.center.y, this.radius, this.radius );
     },
+
     /**
      *
      * @param {Vector2} delta
@@ -39,9 +41,10 @@ define( function( require ) {
     getTranslatedInstance: function( delta ) {
       return new Circle( this.center.plus( delta ), this.radius );
     },
+
     /**
      * Finds the intersections between the edges of the circle and the specified ray
-     * @param ray
+     * @param {Ray} ray
      * @returns {Array}
      */
     getIntersections: function( ray ) {
@@ -64,14 +67,16 @@ define( function( require ) {
       } );
       return intersectionList;
     },
+
     getBounds: function() {
       return new Rectangle( this.center.x - this.radius, this.center.y - this.radius,
         this.radius * 2, this.radius * 2 );
     },
+
     /**
      *
-     * @param angle
-     * @param rotationPoint
+     * @param {Number} angle
+     * @param {Vector2} rotationPoint
      * @returns {Circle}
      */
     getRotatedInstance: function( angle, rotationPoint ) {
@@ -80,20 +85,27 @@ define( function( require ) {
       var rotated = vectorAboutCentroid.getRotatedInstance( angle );
       return new Circle( rotated.plus( rotationPoint ), this.radius );
     },
+
     getRotationCenter: function() {
       return this.center;
     },
-    //  Signify that the circle can't be rotated
+
+    /**
+     * Signify that the circle can't be rotated
+     *
+     * @returns {null}
+     */
     getReferencePoint: function() {
       return null;
     },
+
     /**
      *
-     * @param point
+     * @param {Vector2} point
      * @returns {boolean}
      */
     containsPoint: function( point ) {
-      return this.toShape().containsPoint( point );
+      return point.distance( this.center ) <= this.radius;
     }
   } );
 } );
