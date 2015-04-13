@@ -191,6 +191,7 @@ define( function( require ) {
           introView.intensityMeterNode.setIntensityMeterScale( introView.intensityMeterNode.intensityMeter.sensorPositionProperty.initialValue, 0.3 );
           introModel.resetAll();
           introView.resetAll();
+          laserView.resetAll();
           topMediumControlPanel.reset();
           bottomMediumControlPanel.reset();
 

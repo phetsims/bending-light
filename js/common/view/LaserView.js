@@ -78,10 +78,11 @@ define( function( require ) {
       lineWidth: 1,
       resize: false
     }, options );
-
+    var laserView = this;
+    this.hasMoreTools = hasMoreTools;
     //var width = 100;
     this.rayNode = new RAY();
-    this.waveNode = new WAVE();
+    // this.waveNode = new WAVE();
     var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
     var createButtonTextNode = function( text ) {
       return new Text( text, { font: new PhetFont( 12 ) } );
@@ -117,9 +118,9 @@ define( function( require ) {
 
     var content;
     if ( hasMoreTools ) {
-      var mediumWavelengthProperty = new Property( model.wavelengthProperty.value * 1E9 );
+      this.laserWavelengthProperty = new Property( model.wavelengthProperty.value * 1E9 );
       // Create  WavelengthSlider node
-      var wavelengthSlider = new WavelengthSlider( mediumWavelengthProperty,
+      var wavelengthSlider = new WavelengthSlider( this.laserWavelengthProperty,
         {
           cursorStroke: 'white',
           maxWavelength: 700,
@@ -133,12 +134,12 @@ define( function( require ) {
           pointerAreasOverTrack: true
         } );
 
-      var wavelengthValueText = new Text( mediumWavelengthProperty.get() + units_nmString );
+      var wavelengthValueText = new Text( this.laserWavelengthProperty.get() + units_nmString );
       var wavelengthBoxShape = new Rectangle( 0, 0, 50, 18, 2, 2,
         { fill: 'white', stroke: 'black' } );
 
       var plusButton = new ArrowButton( 'right', function propertyPlus() {
-        mediumWavelengthProperty.set( Math.min( mediumWavelengthProperty.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
+        laserView.laserWavelengthProperty.set( Math.min( laserView.laserWavelengthProperty.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
@@ -146,7 +147,7 @@ define( function( require ) {
         plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
 
       var minusButton = new ArrowButton( 'left', function propertyMinus() {
-        mediumWavelengthProperty.set( Math.max( mediumWavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
+        laserView.laserWavelengthProperty.set( Math.max( laserView.laserWavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
@@ -178,7 +179,7 @@ define( function( require ) {
         children: [ laserRadio, waveRadio, wavelengthValue ],
         align: 'left'
       } );
-      mediumWavelengthProperty.link( function( wavelength ) {
+      this.laserWavelengthProperty.link( function( wavelength ) {
         model.wavelengthProperty.set( wavelength / 1E9 );
         wavelengthValueText.text = wavelength + units_nmString;
       } );
@@ -195,6 +196,14 @@ define( function( require ) {
   }
 
   return inherit( Panel, LaserView, {
+      /**
+       * reset only if laser panel has wavelength slider
+       */
+      resetAll: function() {
+        if ( this.hasMoreTools ) {
+          this.laserWavelengthProperty.reset();
+        }
+      },
 
       /**
        * Create the node for the specified lightRay

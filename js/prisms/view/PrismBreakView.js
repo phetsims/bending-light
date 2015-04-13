@@ -111,6 +111,7 @@ define( function( require ) {
         listener: function() {
           prismBreakModel.resetAll();
           prismBreakView.prismLayer.removeAllChildren();
+          laserControlPanelNode.resetAll();
           environmentMediumControlPanel.reset();
           prismToolboxNode.objectMediumControlPanel.reset();
         },

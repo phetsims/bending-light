@@ -35,13 +35,14 @@ define( function( require ) {
 
   /**
    *
-   * @param colorModeProperty
-   * @param wavelengthProperty
+   * @param { Property<String> }colorModeProperty - to indicate ray in singleColor or white .
+   * @param {Property<Number> }wavelengthProperty
    * @param {Object} [options]
    * @constructor
    */
   function LaserControlPanelNode( colorModeProperty, wavelengthProperty, options ) {
 
+    var laserControlPanelNode = this;
 
     options = _.extend( {
       fill: '#EEEEEE ',
@@ -74,9 +75,9 @@ define( function( require ) {
       oneColorRadio.localBounds.maxY
     );
 
-    var wavelength = new Property( wavelengthProperty.value * 1E9 );
+    this.wavelengthProperty = new Property( wavelengthProperty.value * 1E9 );
     // Create  WavelengthSlider node
-    var wavelengthSlider = new WavelengthSlider( wavelength,
+    var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty,
       {
         cursorStroke: 'white',
         maxWavelength: 700,
@@ -90,12 +91,12 @@ define( function( require ) {
         pointerAreasOverTrack: true
       } );
 
-    var wavelengthValueText = new Text( wavelength.get() + units_nmString );
+    var wavelengthValueText = new Text( this.wavelengthProperty.get() + units_nmString );
     var wavelengthBoxShape = new Rectangle( 0, 0, 50, 18, 2, 2,
       { fill: 'white', stroke: 'black' } );
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
-      wavelength.set( Math.min( wavelength.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
+      laserControlPanelNode.wavelengthProperty.set( Math.min( laserControlPanelNode.wavelengthProperty.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
     }, {
       scale: 0.6
     } );
@@ -103,7 +104,7 @@ define( function( require ) {
       plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
 
     var minusButton = new ArrowButton( 'left', function propertyMinus() {
-      wavelength.set( Math.max( wavelength.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
+      laserControlPanelNode.wavelengthProperty.set( Math.max( laserControlPanelNode.wavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
     }, {
       scale: 0.6
     } );
@@ -138,7 +139,7 @@ define( function( require ) {
       children: [ whiteLightRadio, oneColorRadio, wavelengthValue ],
       align: 'left'
     } );
-    wavelength.link( function( wavelength ) {
+    this.wavelengthProperty.link( function( wavelength ) {
       wavelengthProperty.set( wavelength / 1E9 );
       wavelengthValueText.text = wavelength + units_nmString;
     } );
@@ -147,5 +148,9 @@ define( function( require ) {
     Panel.call( this, content, options );
   }
 
-  return inherit( Panel, LaserControlPanelNode );
+  return inherit( Panel, LaserControlPanelNode, {
+    resetAll: function() {
+      this.wavelengthProperty.reset();
+    }
+  } );
 } );
