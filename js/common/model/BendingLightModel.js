@@ -64,10 +64,11 @@ define( function( require ) {
    * @param {Number}laserAngle
    * @param {Boolean}topLeftQuadrant
    * @param {number}laserDistanceFromPivot
+   * @param {boolean} centerOffsetLeft
    * @constructor
    */
-  function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot ) {
 
+  function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot, centerOffsetLeft ) {
 
     //List of rays in the model
     this.rays = new ObservableArray();
@@ -87,7 +88,8 @@ define( function( require ) {
       }
     );
     //Model components
-    this.intensityMeter = new IntensityMeter( -this.modelWidth * 0.385, -this.modelHeight * 0.25, -this.modelWidth * 0.35, -this.modelHeight * 0.25 );
+    this.intensityMeter = new IntensityMeter( centerOffsetLeft ? -this.modelWidth * 0.525 : -this.modelWidth * 0.385, -this.modelHeight * 0.25,
+      centerOffsetLeft ? -this.modelWidth * 0.490 : -this.modelWidth * 0.35, -this.modelHeight * 0.25 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
     this.wavelengthProperty.link( function( wavelength ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );

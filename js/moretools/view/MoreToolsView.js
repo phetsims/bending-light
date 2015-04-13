@@ -22,7 +22,7 @@ define( function( require ) {
   function MoreToolsView( moreToolsModel ) {
     this.moreToolsModel = moreToolsModel;
     this.arrowScale = 1.5E-14;
-    IntroView.call( this, moreToolsModel, true, true, 3 );
+    IntroView.call( this, moreToolsModel, -100, true, 3 );
     this.velocitySensorNode = this.createVelocitySensorTool();
     this.waveSensorNode = this.createWaveSensorTool();
     this.addChild( this.velocitySensorNode );
@@ -64,7 +64,6 @@ define( function( require ) {
       this.moreToolsModel.velocitySensor.reset();
       this.waveSensorNode.reset();
     },
-
 
     createVelocitySensorTool: function() {
       return new VelocitySensorNode( this.modelViewTransform, this.moreToolsModel.velocitySensor, this.arrowScale,

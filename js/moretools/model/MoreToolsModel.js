@@ -24,7 +24,7 @@ define( function( require ) {
   function MoreToolsModel() {
     var moreToolsModel = this;
     //on this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent bend
-    IntroModel.call( this, BendingLightModel.GLASS );
+    IntroModel.call( this, BendingLightModel.GLASS, true );
 
     this.velocitySensor = new VelocitySensor( new Vector2( 0, 0 ) );
     var waveValueGetter = function( position ) {

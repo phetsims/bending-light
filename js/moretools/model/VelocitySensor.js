@@ -18,7 +18,7 @@ define( function( require ) {
    */
   function VelocitySensor( value ) {
     PropertySet.call( this, {
-      position: new Vector2( -0.000014, -0.0000035 ), //position of the sensor
+      position: new Vector2( -0.00001955, -0.0000035 ), //position of the sensor
       value: value
     } );
     this.addDerivedProperty( 'isArrowVisible', [ 'value' ], function( value ) {

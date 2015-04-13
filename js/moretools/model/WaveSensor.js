@@ -69,9 +69,9 @@ define( function( require ) {
     //These values for initial probe and body locations were obtained by printing out actual values at runtime,
     // then dragging the objects to a good looking location.  This amount of precision is unnecessary,
     // but these values were just sampled directly.
-    this.probe1 = new Probe( -0.0000155, -0.000004 );
-    this.probe2 = new Probe( -0.0000160, -0.000005 );
-    this.bodyPositionProperty = new Property( new Vector2( -0.0000131, -0.000006 ) );
+    this.probe1 = new Probe( -0.00002105, -0.000004 );
+    this.probe2 = new Probe( -0.00002155, -0.000005 );
+    this.bodyPositionProperty = new Property( new Vector2( -0.00001865, -0.000006 ) );
 
     //in the play area
     this.visibleProperty = new BooleanProperty( false );

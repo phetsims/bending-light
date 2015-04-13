@@ -23,8 +23,8 @@ define( function( require ) {
    */
   function IntroScreen() {
     Screen.call( this, introTitleString, new Image( introMockUpImage ),
-      function() { return new IntroModel( BendingLightModel.WATER ); },
-      function( model ) { return new IntroView( model, false, false, 2 ); },
+      function() { return new IntroModel( BendingLightModel.WATER, false ); },
+      function( model ) { return new IntroView( model, 0, false, 2 ); },
       { backgroundColor: 'white' }
     );
   }

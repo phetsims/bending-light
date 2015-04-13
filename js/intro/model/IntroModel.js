@@ -28,11 +28,12 @@ define( function( require ) {
   /**
    *
    * @param {MediumState} bottomMediumState
+   * @param {boolean} centerOffsetLeft
    * @constructor
    */
-  function IntroModel( bottomMediumState ) {
+  function IntroModel( bottomMediumState, centerOffsetLeft ) {
     var introModel = this;
-    BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
+    BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT, centerOffsetLeft );
     this.mediumColorFactory = new MediumColorFactory();
     this.topMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
