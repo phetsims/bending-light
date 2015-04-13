@@ -14,7 +14,6 @@ define( function( require ) {
   var BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
   var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
-  var Bounds2 = require( 'DOT/Bounds2' );
   var IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
