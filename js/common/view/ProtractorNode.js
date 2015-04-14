@@ -19,6 +19,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
+  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // images
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
@@ -35,9 +36,10 @@ define( function( require ) {
    * @param {function} rotateShape
    * @param {Number} ICON_WIDTH
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
+   * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
    * @constructor
    */
-  function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds ) {
+  function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
@@ -99,6 +101,7 @@ define( function( require ) {
     } );
     this.addChild( translatePath );
     var start;
+    //TODO : use MovableDragHandler instead  of SimpleDragHandler
     translatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
@@ -112,6 +115,7 @@ define( function( require ) {
       drag: function( event ) {
         //Compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
+        end = ConstraintBounds.constrainLocation( end, dragBounds );
         protractorNode.dragAll( end.minus( start ) );
         start = end;
       },

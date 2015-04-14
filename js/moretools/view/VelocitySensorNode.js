@@ -24,21 +24,22 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
   var Util = require( 'DOT/Util' );
+  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // strings
   var speedString = require( 'string!BENDING_LIGHT/speed' );
   var c_units = require( 'string!BENDING_LIGHT/c_units' );
 
   /**
-   * Main constructor for VelocitySensorNode.
    *
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param arrowScale
-   * @param container
+   * @param {Rectangle} container
+   * @param {Bounds2} dragBounds - bounds that define where the velocity sensor   may be dragged
    * @constructor
    */
-  function VelocitySensorNode( modelViewTransform, velocitySensor, arrowScale, container ) {
+  function VelocitySensorNode( modelViewTransform, velocitySensor, arrowScale, container, dragBounds ) {
 
     var velocitySensorNode = this;
     Node.call( this, { cursor: 'pointer', pickable: true } );
@@ -149,6 +150,7 @@ define( function( require ) {
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
 
     // drag handler
+    //TODO : use MovableDragHandler instead  of SimpleDragHandler
     var start;
     this.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
@@ -159,6 +161,7 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = velocitySensorNode.globalToParentPoint( event.pointer.point );
+        end = ConstraintBounds.constrainLocation( end, dragBounds );
         velocitySensorNode.dragAll( end.minus( start ) );
         start = end;
       },

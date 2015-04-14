@@ -74,7 +74,7 @@ define( function( require ) {
 
     createVelocitySensorTool: function() {
       return new VelocitySensorNode( this.modelViewTransform, this.moreToolsModel.velocitySensor, this.arrowScale,
-        this.sensorPanel );
+        this.sensorPanel, this.layoutBounds );
     }
   } );
 } );

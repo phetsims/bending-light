@@ -23,11 +23,12 @@ define( function( require ) {
    * @param rotateShape
    * @param {Number} ICON_WIDTH
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
+   * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
    * @constructor
    */
-  function ExpandableProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds ) {
+  function ExpandableProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
 
-    ProtractorNode.call( this, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds );
+    ProtractorNode.call( this, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds );
     var expandableProtractorNode = this;
 
     // add expandable /collapse  button
