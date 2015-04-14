@@ -37,7 +37,6 @@ define( function( require ) {
   var glassString = require( 'string!BENDING_LIGHT/glass' );
   var customString = require( 'string!BENDING_LIGHT/custom' );
   var unknownString = require( 'string!BENDING_LIGHT/unknown' );
-  var indexOfRefractionColonString = require( 'string!BENDING_LIGHT/indexOfRefractionWithSymbol' );
   var indexOfRefractionString = require( 'string!BENDING_LIGHT/indexOfRefraction' );
 
   // constants
@@ -78,7 +77,7 @@ define( function( require ) {
     this.custom = true;
     // add material combo box
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
-    var maxWidth = 140;
+    var maxWidth = 147;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
     var createItem = function( item ) {
       var itemName = new Text( item.name, textOptionsOfComboBoxStrings );
@@ -126,7 +125,7 @@ define( function( require ) {
     } );
 
     var textOptions = { font: new PhetFont( 12 ) };
-    var indexOfRefractionLabel = new Text( textFieldVisible ? indexOfRefractionColonString : indexOfRefractionString, textOptions );
+    var indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
     var mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
     var indexOfRefractionValueText = new Text( mediumIndexProperty.get().toFixed( format ), textOptions );
     var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 50, 20, 2, 2, {

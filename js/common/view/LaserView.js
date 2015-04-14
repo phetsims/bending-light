@@ -26,7 +26,7 @@ define( function( require ) {
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   // strings
-  var laserString = require( 'string!BENDING_LIGHT/laser' );
+  var rayString = require( 'string!BENDING_LIGHT/ray' );
   var waveString = require( 'string!BENDING_LIGHT/wave' );
   var units_nmString = require( 'string!BENDING_LIGHT/units_nm' );
 
@@ -89,8 +89,7 @@ define( function( require ) {
     };
 
     // Create the radio buttons
-
-    var laserRadio = new AquaRadioButton( model.laserViewProperty, 'ray', createButtonTextNode( laserString ),
+    var laserRadio = new AquaRadioButton( model.laserViewProperty, 'ray', createButtonTextNode( rayString ),
       AQUA_RADIO_BUTTON_OPTIONS );
     var waveRadio = new AquaRadioButton( model.laserViewProperty, 'wave', createButtonTextNode( waveString ),
       AQUA_RADIO_BUTTON_OPTIONS );
