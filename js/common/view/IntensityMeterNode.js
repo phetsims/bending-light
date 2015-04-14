@@ -23,6 +23,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Vector2 = require( 'DOT/Vector2' );
+  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
 
   // strings
@@ -30,12 +31,13 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {IntensityMeter} intensityMeter
-   * @param containerBounds
+   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
+   * @param {IntensityMeter}intensityMeter  - model for the intensity meter
+   * @param {Bounds2} containerBounds - bounds of container for  intensity meter
+   * @param {Bounds2} dragBounds - bounds that define where the intensity meter may be dragged
    * @constructor
    */
-  function IntensityMeterNode( modelViewTransform, intensityMeter, containerBounds ) {
+  function IntensityMeterNode( modelViewTransform, intensityMeter, containerBounds, dragBounds ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
@@ -105,7 +107,7 @@ define( function( require ) {
         isFromSensorPanel = false;
         isToSensorPanel = false;
         start = intensityMeterNode.globalToParentPoint( event.pointer.point );
-        if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
+        if ( containerBounds.intersectsBounds( intensityMeterNode.sensorNode.getBounds() ) ) {
           intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
           intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
           isFromSensorPanel = true;
@@ -116,6 +118,7 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
+        end = ConstraintBounds.constrainLocation( end, dragBounds );
         if ( isFromSensorPanel ) {
           intensityMeterNode.dragAll( end.minus( start ) );
         }
@@ -126,7 +129,7 @@ define( function( require ) {
       },
       end: function() {
         // check intersection only with the outer rectangle.
-        if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
+        if ( containerBounds.intersectsBounds( intensityMeterNode.sensorNode.getBounds() ) ) {
           isToSensorPanel = true;
         }
         if ( isToSensorPanel ) {
@@ -196,8 +199,9 @@ define( function( require ) {
       start: function( event ) {
         isFromSensorPanel = false;
         isToSensorPanel = false;
+        intensityMeterNode.moveToFront();
         start = intensityMeterNode.globalToParentPoint( event.pointer.point );
-        if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
+        if ( containerBounds.intersectsBounds( intensityMeterNode.bodyNode.getBounds() ) ) {
           intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
           intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
           isFromSensorPanel = true;
@@ -208,6 +212,7 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
+        end = ConstraintBounds.constrainLocation( end, dragBounds );
         if ( isFromSensorPanel ) {
           intensityMeterNode.dragAll( end.minus( start ) );
         }
@@ -218,7 +223,9 @@ define( function( require ) {
       },
       end: function() {
         // check intersection only with the outer rectangle.
-        if ( containerBounds.intersectsBounds( intensityMeterNode.getBounds() ) ) {
+        var isInsideContainer = containerBounds.intersectsBounds( intensityMeterNode.bodyNode.getBounds() ) ||
+                                containerBounds.intersectsBounds( intensityMeterNode.sensorNode.getBounds() );
+        if ( isInsideContainer ) {
           isToSensorPanel = true;
         }
         if ( isToSensorPanel ) {

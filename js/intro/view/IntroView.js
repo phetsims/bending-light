@@ -166,7 +166,7 @@ define( function( require ) {
     }
     this.afterLightLayer2.addChild( this.protractorNode );
 
-    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), this.sensorPanel.visibleBounds );
+    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), this.sensorPanel.visibleBounds, this.layoutBounds );
     this.beforeLightLayer.addChild( this.intensityMeterNode );
 
     var checkBoxOptions = {
@@ -203,7 +203,7 @@ define( function( require ) {
     this.afterLightLayer2.addChild( resetAllButton );
 
     // add play pause button and step button
-    var stepButton = new StepButton(
+    this.stepButton = new StepButton(
       function() {
         introModel.propagateParticles( 20 );
         for ( var k = 0; k < introView.waveCanvasLayer.getChildrenCount(); k++ ) {
@@ -223,14 +223,14 @@ define( function( require ) {
       }
     );
 
-    this.addChild( stepButton );
+    this.addChild( this.stepButton );
     introModel.laserViewProperty.link( function() {
       introModel.laser.waveProperty.value = introModel.laserViewProperty.value === 'wave';
     } );
 
-    var playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
-      { radius: 18, stroke: 'black', fill: '#005566', y: stepButton.centerY, right: stepButton.left - inset } );
-    this.addChild( playPauseButton );
+    this.playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
+      { radius: 18, stroke: 'black', fill: '#005566', y: this.stepButton.centerY, right: this.stepButton.left - inset } );
+    this.addChild( this.playPauseButton );
 
     // add sim speed controls
     var slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
@@ -257,19 +257,17 @@ define( function( require ) {
       normalMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
     );
 
-    var speedControl = new VBox( {
+    this.speedControl = new VBox( {
       align: 'left',
       spacing: radioButtonSpacing,
       children: [ slowMotionRadioBox, normalMotionRadioBox ]
     } );
-    this.addChild( speedControl.mutate( { right: playPauseButton.left - 8, bottom: playPauseButton.bottom } ) );
+    this.addChild( this.speedControl.mutate( { right: this.playPauseButton.left - 8, bottom: this.playPauseButton.bottom } ) );
     introModel.laserViewProperty.link( function( laserType ) {
-      if ( introView.getMoreTools().length === 0 ) {
-        playPauseButton.visible = (laserType === 'wave');
-        stepButton.visible = (laserType === 'wave');
-        speedControl.visible = (laserType === 'wave');
-      }
 
+      introView.playPauseButton.visible = (laserType === 'wave');
+      introView.stepButton.visible = (laserType === 'wave');
+      introView.speedControl.visible = (laserType === 'wave');
     } );
 
   }

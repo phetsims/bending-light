@@ -20,6 +20,7 @@ define( function( require ) {
    * @constructor
    */
   function MoreToolsView( moreToolsModel ) {
+    var moreToolsView = this;
     this.moreToolsModel = moreToolsModel;
     this.arrowScale = 1.5E-14;
     IntroView.call( this, moreToolsModel, -100, true, 3 );
@@ -27,6 +28,12 @@ define( function( require ) {
     this.waveSensorNode = this.createWaveSensorTool();
     this.addChild( this.velocitySensorNode );
     this.addChild( this.waveSensorNode );
+    this.moreToolsModel.waveSensor.visibleProperty.link( function( isvisble ) {
+
+      moreToolsView.playPauseButton.visible = isvisble;
+      moreToolsView.stepButton.visible = isvisble;
+      moreToolsView.speedControl.visible = isvisble;
+    } );
 
   }
 
@@ -53,7 +60,7 @@ define( function( require ) {
 
     createWaveSensorTool: function() {
       //Create the WaveSensorNode
-      return new WaveSensorNode( this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel );
+      return new WaveSensorNode( this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel, this.layoutBounds );
     },
 
     resetAll: function() {
