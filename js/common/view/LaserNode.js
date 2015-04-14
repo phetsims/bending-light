@@ -18,7 +18,7 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   var Shape = require( 'KITE/Shape' );
-
+  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // images
   var laserWithoutImage = require( 'image!BENDING_LIGHT/laser.png' );
@@ -31,19 +31,19 @@ define( function( require ) {
 
   /**
    *
-   * @param modelViewTransform
-   * @param laser
-   * @param showRotationDragHandles
-   * @param showTranslationDragHandles
-   * @param clampDragAngle
-   * @param translationRegion
-   * @param rotationRegion
-   * @param imageName
-   * @param modelBounds
+   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
+   * @param {Laser}laser - model for the laser
+   * @param { Property<Boolean> } showRotationDragHandles - to show laser node rotate arrows(direction which laser node can rotate)
+   * @param { Property<Boolean> } showTranslationDragHandles -to show laser node drag arrows(direction which laser node can drag)
+   * @param {function} clampDragAngle
+   * @param {function}translationRegion
+   * @param {function}rotationRegion
+   * @param {String}imageName
+   * @param {Bounds2} dragBounds - bounds that define where the laser may be dragged
    * @constructor
    */
   function LaserNode( modelViewTransform, laser, showRotationDragHandles, showTranslationDragHandles,
-                      clampDragAngle, translationRegion, rotationRegion, imageName, modelBounds ) {
+                      clampDragAngle, translationRegion, rotationRegion, imageName, dragBounds ) {
 
     Node.call( this );
     var laserNode = this;
@@ -73,6 +73,7 @@ define( function( require ) {
       },
       drag: function( event ) {
         var endDrag = laserNode.globalToParentPoint( event.pointer.point );
+        endDrag = ConstraintBounds.constrainLocation( endDrag, dragBounds );
         laser.translate( modelViewTransform.viewToModelDelta( endDrag.minus( start ) ) );
         start = endDrag;
         showTranslationDragHandles.value = true;
@@ -102,6 +103,7 @@ define( function( require ) {
       drag: function( event ) {
         var coordinateFrame = laserNode.parents[ 0 ];
         var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
+        localLaserPosition = ConstraintBounds.constrainLocation( localLaserPosition, dragBounds );
         var modelPoint = modelViewTransform.viewToModelPosition( localLaserPosition );
         var angle = modelPoint.minus( laser.pivot ).angle();
         var after = clampDragAngle( angle );

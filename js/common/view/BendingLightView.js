@@ -119,7 +119,7 @@ define( function( require ) {
     this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength, showTranslationDragHandlesProperty ) );
 
     //Add the laser itself
-    var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName/* model.visibleModelBounds */ );
+    var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, this.layoutBounds );
     this.addChild( laserNode );
     model.laserViewProperty.link( function() {
       model.laser.wave = (model.laserViewProperty.value === 'wave');

@@ -15,6 +15,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // images
   var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
@@ -23,12 +24,13 @@ define( function( require ) {
    *
    * @param {PrismBreakModel} prismsBreakModel
    * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
-   * @param prism
-   * @param prismToolboxNode
-   * @param prismLayer
+   * @param {Prism }prism
+   * @param {Node}prismToolboxNode
+   * @param {Node}prismLayer
+   * @param {Bounds2} prismDragBounds - bounds that define where the prism may be dragged
    * @constructor
    */
-  function PrismNode( prismsBreakModel, modelViewTransform, prism, prismToolboxNode, prismLayer ) {
+  function PrismNode( prismsBreakModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds ) {
     Node.call( this );
     var prismsNode = this;
     var knobHeight = 15;
@@ -46,9 +48,10 @@ define( function( require ) {
           .angle();
       },
       drag: function( event ) {
+        var end = knobNode.globalToParentPoint( event.pointer.point );
+        end = ConstraintBounds.constrainLocation( end, prismDragBounds );
         var angle = prism.shapeProperty.get().getRotationCenter().minus(
-          modelViewTransform.viewToModelPosition( knobNode.globalToParentPoint( event.pointer.point ) ) )
-          .angle();
+          modelViewTransform.viewToModelPosition( end ) ).angle();
         prism.rotate( angle - previousAngle );
         previousAngle = angle;
       },
@@ -73,6 +76,7 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = prismsNode.globalToParentPoint( event.pointer.point );
+        end = ConstraintBounds.constrainLocation( end, prismDragBounds );
         prism.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
         start = end;
       },
