@@ -39,12 +39,10 @@ define( function( require ) {
 
   return inherit( IntroView, MoreToolsView, {
 
-    step: function() {
-      if ( this.moreToolsModel.isPlaying ) {
-        if ( this.waveSensorNode.waveSensor.visibleProperty.get() ) {
-          this.waveSensorNode.waveSensor.step();
-          this.waveSensorNode.chartNode.step( this.moreToolsModel.time, this.moreToolsModel.speed === 'normal' ? 1E-16 : 0.5E-16 );
-        }
+    stepInternal: function() {
+      if ( this.waveSensorNode.waveSensor.visibleProperty.get() ) {
+        this.waveSensorNode.waveSensor.step();
+        this.waveSensorNode.chartNode.step( this.moreToolsModel.time );
       }
     },
 

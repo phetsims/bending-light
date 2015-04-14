@@ -67,12 +67,16 @@ define( function( require ) {
     /**
      * Discard early samples that have gone out of range
      *
-     * @param {Number} maxSampleCount
+     * @param {Number} minTime
      */
-    keepLastSamples: function( maxSampleCount ) {
-      var endIndex = this.pathProperty.get().length;
-      var startIndex = Math.max( 0, endIndex - maxSampleCount );
-      this.pathProperty.set( this.pathProperty.get().slice( startIndex, endIndex ) );
+    keepLastSamples: function( minTime ) {
+      var startIndex = 0;
+      if ( this.pathProperty.get().length ) {
+        while ( this.pathProperty.get()[ startIndex ] && this.pathProperty.get()[ startIndex ].time < minTime ) {
+          startIndex = startIndex + 1;
+        }
+        this.pathProperty.set( this.pathProperty.get().slice( startIndex, this.pathProperty.get().length ) );
+      }
     }
   } );
 } );

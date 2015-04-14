@@ -106,9 +106,6 @@ define( function( require ) {
       if ( value ) {
         probe.addSample( new DataPoint( value[ 0 ], value[ 1 ] ) );
       }
-      else {
-        probe.addSample( null );
-      }
     },
     /**
      *

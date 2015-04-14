@@ -266,16 +266,19 @@ define( function( require ) {
     step: function() {
 
       if ( this.isPlaying ) {
-        this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
-        var introModel = this;
-        this.rays.forEach( function( ray ) {
-          ray.setTime( introModel.time );
-        } );
+        this.stepInternal();
         var particleDeltaFactor = this.speed === 'normal' ? 20 : 45;
         if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
           this.propagateParticles( particleDeltaFactor );
         }
       }
+    },
+    stepInternal: function() {
+      this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
+      var introModel = this;
+      this.rays.forEach( function( ray ) {
+        ray.setTime( introModel.time );
+      } );
     },
 
     // add  a particle

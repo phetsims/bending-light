@@ -205,6 +205,8 @@ define( function( require ) {
     // add play pause button and step button
     this.stepButton = new StepButton(
       function() {
+        introView.stepInternal();
+        introModel.stepInternal();
         introModel.propagateParticles( 20 );
         for ( var k = 0; k < introView.waveCanvasLayer.getChildrenCount(); k++ ) {
           introView.waveCanvasLayer.children[ k ].step();
@@ -275,6 +277,7 @@ define( function( require ) {
   return inherit( BendingLightView, IntroView, {
 
     step: function() {
+      this.stepInternal();
 
       // This is required to clear the previous canvas particle layers from the view.
       // When the sim is paused in wave mode and the laser is dragged or the mode is switched from wave to ray
@@ -287,6 +290,9 @@ define( function( require ) {
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;
       this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale ) );
+    },
+    stepInternal: function() {
+
     },
 
     resetAll: function() {
@@ -304,4 +310,3 @@ define( function( require ) {
     }
   } );
 } );
-
