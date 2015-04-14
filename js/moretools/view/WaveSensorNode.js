@@ -212,7 +212,7 @@ define( function( require ) {
       },
       end: function() {
         // check intersection only with the outer rectangle.
-        var isInsideContainer = container.bounds.containsCoordinates( waveSensorNode.bodyNode.getBounds() ) ||
+        var isInsideContainer = container.bounds.intersectsBounds( waveSensorNode.bodyNode.getBounds() ) ||
                                 container.bounds.intersectsBounds( waveSensorNode.probe1Node.getBounds() ) ||
                                 container.bounds.intersectsBounds( waveSensorNode.probe2Node.getBounds() );
 
