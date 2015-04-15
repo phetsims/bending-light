@@ -27,7 +27,7 @@ define( function( require ) {
   function SemiCircle( referencePointIndex, points, radius ) {
 
     this.points = points;
-    //Index for the point used as the "reference" point,
+    // index for the point used as the "reference" point,
     // which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
     this.radius = radius;
@@ -35,7 +35,9 @@ define( function( require ) {
   }
 
   return inherit( Object, SemiCircle, {
-
+    /**
+     * @public
+     */
     toShape: function() {
       var center = this.points[ 0 ].plus( this.points[ 1 ] ).times( 0.5 );
       var startAngle = center.minus( this.points[ 1 ] ).angle();
@@ -55,7 +57,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     *@public
      * @param {Vector2} delta
      * @returns {SemiCircle}
      */
@@ -70,7 +72,7 @@ define( function( require ) {
 
     /**
      * Gets a rotated copy of this SemiCircle
-     *
+     *@public
      * @param {Number} angle
      * @param {Vector2} rotationPoint
      * @returns {SemiCircle}
@@ -116,7 +118,7 @@ define( function( require ) {
 
     /**
      * Compute the intersections of the specified ray with this polygon's edges
-     *
+     *@public
      * @param {Ray} ray
      * @returns {Array}
      */

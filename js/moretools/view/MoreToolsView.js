@@ -52,12 +52,13 @@ define( function( require ) {
      * @returns {*[]}
      */
     getMoreTools: function() {
-      //Create the Velocity Sensor tool and wave sensor tool to add to the toolbox
+
+      // create the Velocity Sensor tool and wave sensor tool to add to the toolbox
       return [ this.createVelocitySensorTool(), this.createWaveSensorTool() ];
     },
 
     createWaveSensorTool: function() {
-      //Create the WaveSensorNode
+      // create the WaveSensorNode
       return new WaveSensorNode( this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel, this.layoutBounds );
     },
 

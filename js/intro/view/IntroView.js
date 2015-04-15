@@ -52,40 +52,40 @@ define( function( require ) {
     var introView = this;
     this.introModel = introModel;
 
-    //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
+    // specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
     function clampDragAngle( angle ) {
       while ( angle < 0 ) { angle += Math.PI * 2; }
       return Util.clamp( angle, Math.PI / 2, Math.PI );
     }
 
-    //Indicate if the laser is not at its max angle,
+    // indicate if the laser is not at its max angle,
     // and therefore can be dragged to larger angles
     function clockwiseArrowNotAtMax( laserAngle ) {
       return laserAngle < Math.PI;
     }
 
-    //Indicate if the laser is not at its min angle,
+    // indicate if the laser is not at its min angle,
     // and can therefore be dragged to smaller angles.
     function ccwArrowNotAtMax( laserAngle ) {
       return laserAngle > Math.PI / 2;
     }
 
-    //rotation if the user clicks anywhere on the object
+    // rotation if the user clicks anywhere on the object
     function rotationRegionShape( full, back ) {
-      // In this tab, clicking anywhere on the laser (i.e. on its 'full' bounds)
+      // in this screen, clicking anywhere on the laser (i.e. on its 'full' bounds)
       // translates it, so always return the 'full' region
       return full;
     }
 
-    //Get the function that chooses which region of the protractor can be used for
+    // get the function that chooses which region of the protractor can be used for
     // rotation--none in this tab.
     this.getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
-      //empty shape since shouldn't be rotatable in this tab
+      // empty shape since shouldn't be rotatable in this tab
       return new Shape.rect( 0, 0, 0, 0 );
     };
 
-    //Get the function that chooses which region of the protractor can be used for translation--both
-    // the inner bar and outer circle in this tab
+    // get the function that chooses which region of the protractor can be used for translation--both
+    // the inner bar and outer circle in this screen
     this.getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
       return fullShape;
     };
@@ -99,23 +99,23 @@ define( function( require ) {
       rotationRegionShape, 'laser',
       centerOffsetLeft );
 
-    //Add MediumNodes for top and bottom
+    // add MediumNodes for top and bottom
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMediumProperty ) );
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
 
-    //Add control panels for setting the index of refraction for each medium
+    // add control panels for setting the index of refraction for each medium
     var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
     topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - inset, this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
     this.afterLightLayer2.addChild( topMediumControlPanel );
 
-    //Add control panels for setting the index of refraction for each medium
+    // add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
     bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - inset, this.modelViewTransform.modelToViewY( 0 ) + 10 );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
-    //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
+    // add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
     this.beforeLightLayer.addChild( new Path( this.modelViewTransform.modelToViewShape(
       new Shape()
         .moveTo( -1, 0 )
@@ -124,7 +124,7 @@ define( function( require ) {
         pickable: false
       } ) ) );
 
-    //Show the normal line where the laser strikes the interface between mediums
+    // show the normal line where the laser strikes the interface between mediums
     var normalLineHeight = this.stageSize.height / 2;
     var normalLine = new NormalLine( normalLineHeight );
     normalLine.setTranslation( this.modelViewTransform.modelToViewX( 0 ),
@@ -135,9 +135,10 @@ define( function( require ) {
       normalLine.setVisible( showNormal );
     } );
 
-    //Embed in the a control panel node to get a border and background
+    // embed in the a control panel node to get a border and background
     var laserView = new LaserView( introModel, hasMoreTools, {} );
-    //Set the location and add to the scene
+
+    // set the location and add to the scene
     laserView.setTranslation( this.layoutBounds.minX + inset / 2, 5 );
     this.afterLightLayer2.addChild( laserView );
 
@@ -150,7 +151,8 @@ define( function( require ) {
     this.sensorPanel.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - sensorPanelHeight - 10 );
 
     var ICON_WIDTH = 85;
-    //Initial tools
+
+    // initial tools
     var protractorModelPositionX = this.modelViewTransform.viewToModelX( this.sensorPanel.centerX );
     var protractorModelPositionY = this.modelViewTransform.viewToModelY( this.sensorPanel.y + 45 );
     this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
@@ -184,7 +186,7 @@ define( function( require ) {
     normalIcon.setTranslation( 60, this.sensorPanel.y + sensorPanelHeight - 55 );
     this.addChild( normalIcon );
 
-    // Add reset all button
+    // add reset all button
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
@@ -294,7 +296,9 @@ define( function( require ) {
     stepInternal: function() {
 
     },
-
+    /**
+     * @public
+     */
     resetAll: function() {
       this.protractorModel.reset();
       this.protractorNode.resetAll();

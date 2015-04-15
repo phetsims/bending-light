@@ -65,18 +65,18 @@ define( function( require ) {
    */
   function WaveSensor( probe1Value, probe2Value ) {
 
-    //Set the relative location of the probes and body in model coordinates (SI)
-    //These values for initial probe and body locations were obtained by printing out actual values at runtime,
+    // set the relative location of the probes and body in model coordinates (SI)
+    // these values for initial probe and body locations were obtained by printing out actual values at runtime,
     // then dragging the objects to a good looking location.  This amount of precision is unnecessary,
     // but these values were just sampled directly.
     this.probe1 = new Probe( -0.00002105, -0.000004 );
     this.probe2 = new Probe( -0.00002155, -0.000005 );
     this.bodyPositionProperty = new Property( new Vector2( -0.00001865, -0.000006 ) );
 
-    //in the play area
+    // in the play area
     this.visibleProperty = new BooleanProperty( false );
 
-    //Function for getting data from a probe at the specified point
+    // function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;
     this.probe2Value = probe2Value;
 
@@ -89,7 +89,7 @@ define( function( require ) {
     },
 
     simulationTimeChanged: function() {
-      //Read samples from the probes when the simulation time changes
+      // read samples from the probes when the simulation time changes
       this.updateProbeSample( this.probe1, this.probe1Value );
       this.updateProbeSample( this.probe2, this.probe2Value );
     },
@@ -101,7 +101,7 @@ define( function( require ) {
      * @param {function} probeValue
      */
     updateProbeSample: function( probe, probeValue ) {
-      //Read the value from the probe function.  May be None if not intersecting a light ray
+      // read the value from the probe function.  May be None if not intersecting a light ray
       var value = probeValue( probe.position );
       if ( value ) {
         probe.addSample( new DataPoint( value[ 0 ], value[ 1 ] ) );

@@ -1,6 +1,6 @@
 // Copyright 2002-2015, University of Colorado Boulder
 /**
- * Model for the "prism break" tab, in which the user can move the laser and many prisms.
+ * Model for the "prism " screen, in which the user can move the laser and many prisms.
  *
  * @author Sam Reid
  */
@@ -42,29 +42,29 @@ define( function( require ) {
 
     this.prisms = new ObservableArray( [] );
 
-    //show multiple beams to help show how lenses work
+    // show multiple beams to help show how lenses work
     this.manyRaysProperty = new Property( 1 );
 
-    //If false, will hide non TIR reflections
+    // if false, will hide non TIR reflections
     this.showReflectionsProperty = new Property( false );
     this.showNormalsProperty = new Property( false );
     this.showProtractorProperty = new Property( false );
 
-    //List of intersections, which can be shown graphically
+    // list of intersections, which can be shown graphically
     this.intersections = new ObservableArray();
 
     this.mediumColorFactory = new MediumColorFactory();
 
-    //Environment the laser is in
+    // environment the laser is in
     this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
       this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
 
-    //Material that comprises the prisms
+    // material that comprises the prisms
     this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
       this.mediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
 
 
-    //Draggable and rotatable protractor
+    // draggable and rotatable protractor
     this.protractorModel = new ProtractorModel( 0, 0 );
 
     var prismsBreakModel = this;
@@ -86,12 +86,14 @@ define( function( require ) {
       prismsBreakModel.updateModel();
       prismsBreakModel.dirty = true;
     } );
-    //Coalesce repeat updates so work is not duplicated  in white light node.
+    // coalesce repeat updates so work is not duplicated  in white light node.
     this.dirty = true;
   }
 
   return inherit( BendingLightModel, PrismBreakModel, {
-
+    /**
+     * @public
+     */
     resetAll: function() {
       this.prisms.clear();
       this.manyRaysProperty.reset();
@@ -106,13 +108,13 @@ define( function( require ) {
 
     /**
      * List of prism prototypes that can be created in the sim
-     *
+     *@public
      * @returns {Array}
      */
     getPrismPrototypes: function() {
       var prismsTypes = [];
 
-      //characteristic length scale
+      // characteristic length scale
       var a = CHARACTERISTIC_LENGTH * 10;
 
       prismsTypes.push( new Prism( new Polygon( 1,//attach at bottom right
@@ -121,7 +123,7 @@ define( function( require ) {
           new Vector2( a / 2, a / 2 ),
           new Vector2( -a / 2, a / 2 ) ] ) ) );
 
-      //Triangle
+      // triangle
       prismsTypes.push( new Prism( new Polygon(
         1,//attach at bottom right
         [ new Vector2( -a / 2, -a / (2 * Math.sqrt( 3 )) ),
@@ -129,7 +131,7 @@ define( function( require ) {
           new Vector2( 0, a / Math.sqrt( 3 ) ) ]
       ) ) );
 
-      //Trapezoid
+      // trapezoid
       prismsTypes.push( new Prism( new Polygon( 1,//attach at bottom right
         [ new Vector2( -a / 2, -a * Math.sqrt( 3 ) / 4 ),
           new Vector2( a / 2, -a * Math.sqrt( 3 ) / 4 ),
@@ -139,13 +141,13 @@ define( function( require ) {
 
       var radius = a / 2;
 
-      //Continuous Circle
+      // continuous Circle
       prismsTypes.push( new Prism( new Circle( new Vector2(), radius ) ) );
 
-      //SemiCircle
+      // semiCircle
       prismsTypes.push( new Prism( new SemiCircle( 1, [ new Vector2( 0, radius ), new Vector2( 0, -radius ) ], radius ) ) );
 
-      //DivergingLens
+      // divergingLens
       prismsTypes.push( new Prism( new DivergingLens( 2,
         [
           new Vector2( -0.6 * radius, radius ),
@@ -157,11 +159,11 @@ define( function( require ) {
 
     },
 
-    //Adds a prism to the model; doesn't signal a "prism added event", adding graphics must be handled by the client that added the prism.
-    //This gives the client fine-grained control over creation of model elements and associated nodes, but future TODOs could investigate using standard
-    //Model creation/notification scheme
+    // adds a prism to the model; doesn't signal a "prism added event", adding graphics must be handled by the client that added the prism.
+    // this gives the client fine-grained control over creation of model elements and associated nodes, but future TODOs could investigate using standard
+    // model creation/notification scheme
     /**
-     *
+     *@public
      * @param {Prism} prism
      */
     addPrism: function( prism ) {
@@ -169,20 +171,23 @@ define( function( require ) {
     },
 
     /**
-     *
+     *@public
      * @param {Prism} prism
      */
     removePrism: function( prism ) {
       this.prisms.remove( prism );
       this.updateModel();
     },
-
+    /**
+     *
+     * @returns {ObservableArray|*}
+     */
     getPrisms: function() {
       return this.prisms;
     },
 
     /**
-     *
+     *@private
      * @param {Vector2} tail
      * @param {Vector2} directionUnitVector
      * @param {Number} power
@@ -223,11 +228,13 @@ define( function( require ) {
         var laserInPrism = this.isLaserInPrism();
         var directionUnitVector = this.laser.getDirectionUnitVector();
         if ( this.manyRaysProperty.get() === 1 ) {
-          //This can be used to show the main central ray
+
+          // this can be used to show the main central ray
           this.propagate( tail, directionUnitVector, 1.0, laserInPrism );
         }
         else {
-          //Many parallel rays
+
+          // many parallel rays
           for ( var x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
             var offset = directionUnitVector.rotated( Math.PI / 2 ).times( x );
             this.propagate( tail.plus( offset ), directionUnitVector, 1.0, laserInPrism );
@@ -256,24 +263,25 @@ define( function( require ) {
      * Recursive algorithm to compute the pattern of rays in the system.
      * This is the main computation of this model, rays are cleared beforehand
      * and this algorithm adds them as it goes
-     *
+     *@private
      * @param incidentRay
      * @param count
      */
     propagateTheRay: function( incidentRay, count ) {
       var waveWidth = CHARACTERISTIC_LENGTH * 5;
-      //Termination condition of we have reached too many iterations or
+      // termination condition of we have reached too many iterations or
       // if the ray is very weak
       if ( count > 50 || incidentRay.power < 0.001 ) {
         return;
       }
-      //Check for an intersection
+      // check for an intersection
       var intersection = this.getIntersection( incidentRay, this.prisms );
       var L = incidentRay.directionUnitVector;
       var n1 = incidentRay.mediumIndexOfRefraction;
       var wavelengthInN1 = incidentRay.wavelength / n1;
       if ( intersection !== null ) {
-        //List the intersection in the model
+
+        // list the intersection in the model
         this.addIntersection( intersection );
         var pointOnOtherSide = intersection.getPoint().plus( incidentRay.directionUnitVector.times( 1E-12 ) );
         var outputInsidePrism = false;
@@ -284,14 +292,16 @@ define( function( require ) {
             outputInsidePrism = true;
           }
         } );
-        //Index of refraction of the other medium
+        //index of refraction of the other medium
         var n2 = outputInsidePrism ? this.prismMediumProperty.get().getIndexOfRefraction(
           incidentRay.getBaseWavelength() ) :
                  this.environmentMediumProperty.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
-        //Precompute for readability
+
+        // precompute for readability
         var point = intersection.getPoint();
         var n = intersection.getUnitNormal();
-        //Compute the output rays, see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
+
+        // compute the output rays, see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
         var cosTheta1 = n.dot( L.times( -1 ) );
         var cosTheta2Radicand = 1 - Math.pow( n1 / n2, 2 ) * (1 - Math.pow( cosTheta1, 2 ));
         var cosTheta2 = Math.sqrt( cosTheta2Radicand );
@@ -300,7 +310,8 @@ define( function( require ) {
         var vRefract = cosTheta1 > 0 ? L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 - cosTheta2 ) ) : L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 + cosTheta2 ) );
         var reflectedPower = totalInternalReflection ? 1 : Util.clamp( this.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
         var transmittedPower = totalInternalReflection ? 0 : Util.clamp( this.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );// clamp(value,min,max)
-        //Create the new rays and propagate them recursively
+
+        // create the new rays and propagate them recursively
         var reflected = new Ray( point.plus( incidentRay.directionUnitVector.times( -1E-12 ) ),
           vReflect, incidentRay.power * reflectedPower, incidentRay.wavelength,
           incidentRay.mediumIndexOfRefraction, incidentRay.frequency );
@@ -311,13 +322,14 @@ define( function( require ) {
           this.propagateTheRay( reflected, count + 1 );
         }
         this.propagateTheRay( refracted, count + 1 );
-        //Add the incident ray itself
+
+        // add the incident ray itself
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, intersection.getPoint(), n1,
           wavelengthInN1, incidentRay.power, new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
           waveWidth, 0, null, true, false ) );
       }
       else {
-        //No intersection, so the light ray should just keep going
+        // no intersection, so the light ray should just keep going
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail,
           incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ), n1, wavelengthInN1,
           incidentRay.power, new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
@@ -346,7 +358,8 @@ define( function( require ) {
           allIntersections.push( intersection );
         } );
       } );
-      // Get the closest one (which would be hit first)
+
+      // get the closest one (which would be hit first)
       allIntersections = _.sortBy( allIntersections, function( allIntersection ) {
         return allIntersection.getPoint().distance( incidentRay.tail );
       } );

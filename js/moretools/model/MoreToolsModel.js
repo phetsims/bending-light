@@ -23,7 +23,9 @@ define( function( require ) {
    */
   function MoreToolsModel() {
     var moreToolsModel = this;
-    //on this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent bend
+
+    //on this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength
+    // dependent bend
     IntroModel.call( this, BendingLightModel.GLASS, true );
 
     this.velocitySensor = new VelocitySensor( new Vector2( 0, 0 ) );
@@ -33,7 +35,7 @@ define( function( require ) {
 
     this.waveSensor = new WaveSensor( waveValueGetter, waveValueGetter );
 
-    //Update the velocity sensor value when anything relevant in the model changes
+    //update the velocity sensor value when anything relevant in the model changes
     Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,

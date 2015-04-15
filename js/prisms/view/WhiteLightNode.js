@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * In order to support white light, we need to perform additive color mixing (not subtractive,
  * as is the default when drawing transparent colors on top of each other in Java).
@@ -50,14 +50,16 @@ define( function( require ) {
       var map = {};
       for ( var i = 0; i < this.rayLayer.getChildrenCount(); i++ ) {
         var child = this.rayLayer.getChildAt( i );
-        //Get the line values to make the next part more readable
+
+        // get the line values to make the next part more readable
         var start = child.getLine().start;
         var end = child.getLine().end;
         var x1 = Math.floor( start.x );
         var y1 = Math.floor( start.y );
         var x2 = Math.floor( end.x );
         var y2 = Math.floor( end.y );
-        //Some lines don't start in the play area; have to check and swap to make sure the line isn't pruned
+
+        // some lines don't start in the play area; have to check and swap to make sure the line isn't pruned
         if ( this.isOutOfBounds( x1, y1 ) ) {
           this.draw( x2, y2, x1, y1, child, map );
         }
@@ -65,11 +67,11 @@ define( function( require ) {
           this.draw( x1, y1, x2, y2, child, map );
         }
       }
-      //Don't let things become completely white, since the background is white
+      // don't let things become completely white, since the background is white
       var whiteLimit = 0.2;
       var maxChannel = 1 - whiteLimit;
 
-      //extra factor to make it white instead of cream/orange
+      // extra factor to make it white instead of cream/orange
       var scale = 2;
 
       for ( i = 0; i < this.hashMapPointArray.length; i++ ) {
@@ -78,7 +80,7 @@ define( function( require ) {
         var pointY = samples[ 5 ];
         var intensity = samples[ 3 ];
 
-        //move excess samples value into the intensity column
+        // move excess samples value into the intensity column
         var max = samples[ 0 ];
         if ( samples[ 1 ] > max ) {
           max = samples[ 1 ];
@@ -87,18 +89,18 @@ define( function( require ) {
           max = samples[ 2 ];
         }
 
-        //Scale and clamp the samples
+        // scale and clamp the samples
         samples[ 0 ] = Util.clamp( samples[ 0 ] / max * scale - whiteLimit, 0, maxChannel );
         samples[ 1 ] = Util.clamp( samples[ 1 ] / max * scale - whiteLimit, 0, maxChannel );
         samples[ 2 ] = Util.clamp( samples[ 2 ] / max * scale - whiteLimit, 0, maxChannel );
         intensity = intensity * max;
 
-        //don't let it become fully opaque or it looks too dark against white background
+        // don't let it become fully opaque or it looks too dark against white background
         var alpha = Util.clamp( Math.sqrt( intensity ), 0, 1 );
         var pixelColor = samples[ 6 ];
         pixelColor.set( samples[ 0 ] * 255, samples[ 1 ] * 255, samples[ 2 ] * 255, alpha );
 
-        //Set the color and fill in the pixel
+        // set the color and fill in the pixel
         context.fillRect( pointX, pointY, 1, 1 );
         context.fillStyle = pixelColor.toCSS();
         context.fill();
@@ -109,7 +111,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     *@private
      * @param {Number} x0 - x position in view co-ordinates
      * @param  {Number} y0 - y position in view co-ordinates
      * @returns {boolean}
@@ -121,6 +123,7 @@ define( function( require ) {
     /**
      * Add the specified point to the HashMap, creating a new entry if necessary, otherwise adding it to existing values.
      * Take the intensity as the last component of the array
+     * @private
      * @param {Number} x0 - x position in view co-ordinates
      * @param  {Number} y0 - y position in view co-ordinates
      * @param {Color} color
@@ -140,13 +143,13 @@ define( function( require ) {
       if ( !isPointInSideTheMap ) {
         this.hashMapPointArray.push( keyPoint );
 
-        //seed with zeros so it can be summed
+        // seed with zeros so it can be summed
         map[ keyPoint ] = [ 0, 0, 0, 0, x0, y0, color ];
       }
       var brightnessFactor = 0.017;
       var current = map[ keyPoint ];
       var term = [ color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255 ];
-      //don't apply brightness factor to intensities
+      // don't apply brightness factor to intensities
       for ( var a = 0; a < 3; a++ ) {
         current[ a ] = current[ a ] + term[ a ] * brightnessFactor;
       }
@@ -158,7 +161,7 @@ define( function( require ) {
       this.invalidatePaint();
     },
     /**
-     *
+     *@private
      * @param {Number} x0 - x position in view co-ordinates
      * @param  {Number} y0 - y position in view co-ordinates
      * @param {Node} child
@@ -174,7 +177,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     *@private
      * @param {Number}x0 - x position in view co-ordinates
      * @param {Number}y0 - y position in view co-ordinates
      * @param {Number}x1 - x position in view co-ordinates

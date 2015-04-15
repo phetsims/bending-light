@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * View that connects a sensor (the probe) to its body (where the readout appears)
  *
@@ -20,7 +20,7 @@ define( function( require ) {
    * @param {Property<Vector2>} bodyPositionProperty
    * @param {Node} probeNode
    * @param {Node} bodyNode
-   * @param color
+   * @param {Color}color
    * @constructor
    */
   function WireNode( probePositionProperty, bodyPositionProperty, probeNode, bodyNode, color ) {
@@ -36,7 +36,8 @@ define( function( require ) {
 
     var updateCurve = function() {
       wireNode.lineWidth = 5 * bodyNode.getScaleVector().x;
-      // Connect left-center of body to bottom-center of probe.
+
+      // connect left-center of body to bottom-center of probe.
       var bodyConnectionPoint = new Vector2( bodyNode.x, bodyNode.centerY );
       var probeConnectionPoint = new Vector2( probeNode.centerX, probeNode.bottom );
 

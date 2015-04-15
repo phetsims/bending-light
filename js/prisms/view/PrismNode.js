@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Graphically depicts a draggable prism.
  *
@@ -22,7 +22,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {PrismBreakModel} prismsBreakModel
+   * @param {PrismBreakModel} prismsBreakModel - main model
    * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
    * @param {Prism }prism
    * @param {Node}prismToolboxNode
@@ -34,7 +34,8 @@ define( function( require ) {
     Node.call( this );
     var prismsNode = this;
     var knobHeight = 15;
-    //It looks like a box on the side of the prism
+
+    // it looks like a box on the side of the prism
     var knobNode = new Image( KnobImage );
     if ( prism.shapeProperty.get().getReferencePoint() ) {
       prismsNode.addChild( knobNode );

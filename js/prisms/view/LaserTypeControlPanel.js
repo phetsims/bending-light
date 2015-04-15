@@ -1,7 +1,7 @@
 // Copyright (c) 2002 - 2015. University of Colorado Boulder
 
 /**
- *
+ * Control panel for  choosing whether it  single ray  or multiple ray.
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
@@ -71,13 +71,13 @@ define( function( require ) {
       .addColorStop( 0.6, '#A8AAAD' )
       .addColorStop( 1, '#4F4E50' )
   } );
-  //Create an icon for the single ray  button
+  // create an icon for the single ray  button
   var createSingleRayIcon = function() {
     var singleRayLine = new Path( new Shape().moveTo( 17, 15 ).lineTo( 49, 15 ).close(), { stroke: 'red', lineWidth: 2 } );
     return new HBox( { children: [ laserNodeFirstRoundedRect, laserNodeSecondRoundedRect, singleRayLine ] } );
   };
 
-  //Create an icon for multiple ray button
+  // create an icon for multiple ray button
   var createMultipleRayIcon = function() {
 
     var manyRaysStartX = 17;

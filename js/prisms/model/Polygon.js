@@ -26,16 +26,20 @@ define( function( require ) {
   function Polygon( referencePointIndex, points ) {
 
     this.points = points;
-    //Index for the point used as the "reference" point,
+    // index for the point used as the "reference" point,
     // which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
+
     // centroid of the shape
     this.centroid = new Vector2( 0, 0 );
     this.vectorAboutCentroid = new Vector2( 0, 0 );
   }
 
   return inherit( Object, Polygon, {
-
+    /**
+     * @public
+     * @returns {Shape}
+     */
     toShape: function() {
       var shape = new Shape();
       shape.moveTo( this.points[ 0 ].x || 0, this.points[ 0 ].y || 0 );
@@ -57,7 +61,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     *@public
      * @param {Vector2} delta
      * @returns {Polygon}
      */
@@ -72,7 +76,7 @@ define( function( require ) {
 
     /**
      * Gets a rotated copy of this polygon
-     *
+     *@public
      * @param {Number} angle
      * @param {Vector2} rotationPoint
      * @returns {Polygon}

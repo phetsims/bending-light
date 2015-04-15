@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * In the "more tools" tab, the protractor can be expanded with a "+" button and returned to
  * the original size with a "-" button.
@@ -48,9 +48,9 @@ define( function( require ) {
   }
 
   return inherit( ProtractorNode, ExpandableProtractorNode, {
-//Set whether the protractor should be shown as large (expanded) or regular
 
     /**
+     * Set whether the protractor should be shown as large (expanded) or regular
      * @private
      * @param {Boolean}expanded
      */

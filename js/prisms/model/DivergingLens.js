@@ -27,7 +27,7 @@ define( function( require ) {
   function DivergingLens( referencePointIndex, points, radius ) {
 
     this.points = points;
-    //Index for the point used as the "reference" point,
+    // index for the point used as the "reference" point,
     // which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
     this.radius = radius;
@@ -35,6 +35,10 @@ define( function( require ) {
 
   return inherit( Object, DivergingLens, {
 
+    /**
+     * @public
+     * @returns {*}
+     */
     toShape: function() {
       var center = this.points[ 0 ].plus( this.points[ 3 ] ).times( 0.5 );
       var startAngle = center.minus( this.points[ 3 ] ).angle();
@@ -56,7 +60,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     *@public
      * @param {Vector2} delta
      * @returns {DivergingLens}
      */
@@ -203,7 +207,10 @@ define( function( require ) {
       }
       return lineSegments;
     },
-
+    /**
+     *
+     * @returns {*}
+     */
     getBounds: function() {
       return this.toShape().bounds;
     }

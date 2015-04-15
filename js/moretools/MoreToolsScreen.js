@@ -1,7 +1,7 @@
 // Copyright (c) 2002 - 2015. University of Colorado Boulder
 
 /**
- *
+ * The ''more tools '  screen
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {

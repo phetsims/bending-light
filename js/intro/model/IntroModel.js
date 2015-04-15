@@ -1,6 +1,6 @@
 // Copyright 2002-2015, University of Colorado Boulder
 /**
- * Model for the "intro" tab, which has an upper and lower medium, interfacing at the middle of the screen,
+ * Model for the "intro" Screen, which has an upper and lower medium, interfacing at the middle of the screen,
  * and the laser at the top left shining toward the interface.
  *
  * @author Sam Reid
@@ -83,19 +83,25 @@ define( function( require ) {
         //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
         //index in top medium
         var n1 = this.getN1();
-        //index of bottom medium
+
+        // index of bottom medium
         var n2 = this.getN2();
-        //Angle from the up vertical
+
+        // angle from the up vertical
         var theta1 = this.laser.getAngle() - Math.PI / 2;
-        //Angle from the down vertical
+
+        // angle from the down vertical
         var theta2 = Math.asin( n1 / n2 * Math.sin( theta1 ) );
-        //Start with full strength laser
+
+        // start with full strength laser
         var sourcePower = 1.0;
-        //cross section of incident light, used to compute wave widths
+
+        // cross section of incident light, used to compute wave widths
         var a = CHARACTERISTIC_LENGTH * 5;
         //This one fixes the input beam to be a fixed width independent of angle
         var sourceWaveWidth = a / 2;
-        //According to http://en.wikipedia.org/wiki/Wavelength
+
+        // according to http://en.wikipedia.org/wiki/Wavelength
         var color = this.laser.color.getColor();
         var wavelengthInTopMedium = this.laser.color.getWavelength() / n1;
 
@@ -103,7 +109,7 @@ define( function( require ) {
         // specially used in in wave Mode
         var trapeziumWidth = Math.abs( sourceWaveWidth / Math.sin( this.laser.getAngle() ) );
 
-        //Since the n1 depends on the wavelength, when you change the wavelength,
+        // since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ),
           n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth,
@@ -113,8 +119,8 @@ define( function( require ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
           var hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) ||
                                   theta1 < thetaOfTotalInternalReflection;
-          //reflected
-          //assuming perpendicular beam polarization, compute percent power
+          // reflected
+          // assuming perpendicular beam polarization, compute percent power
           var reflectedPowerRatio;
           if ( hasTransmittedRay ) {
             reflectedPowerRatio = this.getReflectedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
@@ -131,16 +137,19 @@ define( function( require ) {
             bottom,
             true,
             false ) );
-          // Fire a transmitted ray if there wasn't total internal reflection
+
+          // fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
-            //Transmitted
+
+            // transmitted
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
             var transmittedWavelength = incidentRay.getWavelength() / n2 * n1;
             if ( isNaN( theta2 ) || !isFinite( theta2 ) ) {
             }
             else {
               var transmittedPowerRatio = this.getTransmittedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
-              //Make the beam width depend on the input beam width, so that the same beam width is transmitted as was
+
+              // make the beam width depend on the input beam width, so that the same beam width is transmitted as was
               // intercepted
               var transmittedRay = new LightRay( trapeziumWidth, new Vector2( 0, 0 ),
                 Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2,
@@ -181,9 +190,11 @@ define( function( require ) {
      * @returns {*}
      */
     addAndAbsorb: function( ray ) {
-      //Find intersection points with the intensity sensor
+
+      // find intersection points with the intensity sensor
       var intersects = ray.getIntersections( this.intensityMeter.getSensorShape() );
-      //If it intersected, then absorb the ray
+
+      // if it intersected, then absorb the ray
       var rayAbsorbed = this.intensityMeter.enabled && intersects.length > 0;
       if ( rayAbsorbed ) {
         if ( intersects !== null && intersects.length > 1 ) {
@@ -215,6 +226,9 @@ define( function( require ) {
       }
       return rayAbsorbed;
     },
+    /**
+     * @public
+     */
     resetAll: function() {
       BendingLightModel.prototype.resetAll.call( this );
       this.topMediumProperty.reset();
@@ -222,7 +236,7 @@ define( function( require ) {
     },
     /**
      * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
-     *
+     *@public
      * @param {Position} position
      * @returns {*}
      */
@@ -239,7 +253,7 @@ define( function( require ) {
 
     /**
      * Determine the wave value of the topmost light ray at the specified position, or None if none exists
-     *
+     *@public
      * @param {Vector2} position
      * @returns {*}
      */
@@ -248,12 +262,15 @@ define( function( require ) {
       var introModel = this;
       this.rays.forEach( function( ray ) {
         if ( ray.contains( position, introModel.laserViewProperty.value === 'wave' ) ) {
-          //Map power to displayed amplitude
+
+          // map power to displayed amplitude
           var amplitude = Math.sqrt( ray.getPowerFraction() );
-          //Find out how far the light has come, so we can compute the remainder of phases
+
+          // find out how far the light has come, so we can compute the remainder of phases
           var distanceAlongRay = ray.getUnitVector().dot( position.minus( ray.tail ) );
           var phase = ray.getCosArg( distanceAlongRay );
-          //Wave is a*cos(theta)
+
+          // wave is a*cos(theta)
           waveValue = [ ray.getTime(), amplitude * Math.cos( phase + Math.PI ) ];
         }
       } );

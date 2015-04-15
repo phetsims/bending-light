@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2012, University of Colorado Boulder
 /**
  * A single immutable ray, used in the ray propagation algorithm.
  *
@@ -15,21 +15,22 @@ define( function( require ) {
 
   /**
    *
-   * @param tail
-   * @param directionUnitVector
-   * @param power
-   * @param wavelength
-   * @param mediumIndexOfRefraction
-   * @param frequency
+   * @param {Vector2}  tail -ray tail position
+   * @param {Vector2} directionUnitVector -ray direction
+   * @param {Number} power
+   * @param {Number} wavelength - wavelength of ray
+   * @param {Number} mediumIndexOfRefraction = index of refraction of medium
+   * @param {Number} frequency
    * @constructor
    */
   function Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, frequency ) {
 
     this.tail = tail;
-    //power of the ray (1 is full power of the laser),
+    // power of the ray (1 is full power of the laser),
     // will be reduced if partial reflection/refraction
     this.power = power;
-    //Wavelength inside the medium (depends on index of refraction)
+
+    // wavelength inside the medium (depends on index of refraction)
     this.wavelength = wavelength;
     this.mediumIndexOfRefraction = mediumIndexOfRefraction;
     this.frequency = frequency;

@@ -1,7 +1,7 @@
 // Copyright (c) 2002 - 2015. University of Colorado Boulder
 
 /**
- *
+ * The 'Prisms' screen.
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
@@ -17,6 +17,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
 
   var colorsProperty = new Property( new Color( 255, 0, 0 ) );
+
   // strings
   var prismsTitleString = require( 'string!BENDING_LIGHT/prisms' );
 

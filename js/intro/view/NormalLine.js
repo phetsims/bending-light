@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * The normal line is a graphic that indicates the point of intersection of the light ray and
  * the perpendicular angle at the interface.
@@ -16,12 +16,13 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number}height
+   * @param {Number}height -height of normal
    * @constructor
    */
   function NormalLine( height ) {
     Node.call( this );
-    //Normal Line
+
+    // normal Line
     var x = 0;
     var y1 = 0;
     var shape = new Shape()

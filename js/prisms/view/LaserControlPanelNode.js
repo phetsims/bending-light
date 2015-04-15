@@ -1,6 +1,6 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
- * Control panel for the laser in the "prism break" tab,
+ * Control panel for the laser in the "prisms" Screen,
  * such as choosing whether it is white light or one color, and the wavelength.
  * @author Sam Reid
  */
@@ -17,7 +17,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  //var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
@@ -56,7 +55,8 @@ define( function( require ) {
     };
 
     var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
-    // Create the radio buttons
+
+    // create the radio buttons
     var whiteLightRadio = new AquaRadioButton( colorModeProperty, 'white', createButtonTextNode( whiteLightString ),
       AQUA_RADIO_BUTTON_OPTIONS );
     var oneColorRadio = new AquaRadioButton( colorModeProperty, 'singleColor', createButtonTextNode( oneColorString ),
@@ -76,7 +76,8 @@ define( function( require ) {
     );
 
     this.wavelengthProperty = new Property( wavelengthProperty.value * 1E9 );
-    // Create  WavelengthSlider node
+
+    //  create  WavelengthSlider node
     var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty,
       {
         cursorStroke: 'white',

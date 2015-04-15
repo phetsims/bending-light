@@ -29,6 +29,10 @@ define( function( require ) {
 
   return inherit( Object, Circle, {
 
+    /**
+     * @public
+     * @returns {Shape}
+     */
     toShape: function() {
       return new Shape.ellipse( this.center.x, this.center.y, this.radius, this.radius );
     },
@@ -52,10 +56,11 @@ define( function( require ) {
       var intersectionList = [];
       var self = this;
       intersectionArray.forEach( function( intersectionPoint ) {
-        //Filter out getLineCircleIntersection nulls, which are returned if there is no intersection
+
+        // filter out getLineCircleIntersection nulls, which are returned if there is no intersection
         if ( intersectionPoint !== null ) {
           var vector = intersectionPoint.point.minus( ray.tail );
-          //Only consider intersections that are in front of the ray
+          // only consider intersections that are in front of the ray
           if ( vector.dot( ray.directionUnitVector ) > 0 ) {
             var normalVector = intersectionPoint.point.minus( self.center ).normalized();
             if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
@@ -67,14 +72,17 @@ define( function( require ) {
       } );
       return intersectionList;
     },
-
+    /**
+     *
+     * @returns {Rectangle}
+     */
     getBounds: function() {
       return new Rectangle( this.center.x - this.radius, this.center.y - this.radius,
         this.radius * 2, this.radius * 2 );
     },
 
     /**
-     *
+     *@public
      * @param {Number} angle
      * @param {Vector2} rotationPoint
      * @returns {Circle}
@@ -85,7 +93,10 @@ define( function( require ) {
       var rotated = vectorAboutCentroid.getRotatedInstance( angle );
       return new Circle( rotated.plus( rotationPoint ), this.radius );
     },
-
+    /**
+     * @public
+     * @returns {Node.center|*}
+     */
     getRotationCenter: function() {
       return this.center;
     },

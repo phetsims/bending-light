@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel
@@ -43,7 +43,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {PrismBreakView} prismBreakView
+   * @param {PrismBreakView} prismBreakView - main view of the prism screen
    * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
    * @param {PrismBreakModel} prismBreakModel - model of the prism screen
    * @param {Object} [options ] that can be passed on to the underlying node
@@ -64,6 +64,7 @@ define( function( require ) {
       spacing: 4
     } );
     var prismPath = [];
+
     // create prism icon
     var createPrismIcon = function( prism ) {
       var prismIconNode = new Node( { cursor: 'pointer' } );
@@ -72,6 +73,7 @@ define( function( require ) {
         fill: '#ABA8D6',
         stroke: '#ABA8D6'
       } ) );
+
       // knob image
       var knobNode = new Image( KnobImage );
       if ( prism.shapeProperty.get().getReferencePoint() ) {
@@ -93,7 +95,8 @@ define( function( require ) {
       return prismIconNode;
     };
     var prismsNode;
-    //Iterate over the prism prototypes in the model and create a draggable icon for each one
+
+    // iterate over the prism prototypes in the model and create a draggable icon for each one
     prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
       prismPath[ i ] = createPrismIcon( prism );
       var start;
@@ -126,7 +129,7 @@ define( function( require ) {
       ) );
       content.addChild( prismPath[ i ] );
     } );
-    //Allow the user to control the type of material in the prisms
+    // allow the user to control the type of material in the prisms
     var environmentMediumMaterialListParent = new Node();
     var objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
       prismBreakModel.prismMediumProperty,
@@ -148,7 +151,7 @@ define( function( require ) {
     } );
     content.addChild( dividerBetweenMediumPanelAndControlPanel );
     // add check boxes
-    //Create an icon for the protractor check box
+    // create an icon for the protractor check box
     var createProtractorIcon = function() {
       var protractorModel = new ProtractorModel( 0, 0 );
       var protractorNode = new ProtractorNode( modelViewTransform, prismBreakView.showProtractorProperty, protractorModel,
@@ -196,7 +199,7 @@ define( function( require ) {
           return item.width;
         } ).width + 5;
 
-    //touch Areas
+    // touch Areas
     showReflectionsCheckBox.touchArea = new Bounds2( showReflectionsCheckBox.localBounds.minX - 5, showReflectionsCheckBox.localBounds.minY,
       showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth, showReflectionsCheckBox.localBounds.maxY );
     showNormalCheckBox.touchArea = new Bounds2( showNormalCheckBox.localBounds.minX - 5, showNormalCheckBox.localBounds.minY,
