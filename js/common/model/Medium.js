@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * A Medium is a substance through which LightRay instances propagate.
  *
@@ -12,9 +12,9 @@ define( function( require ) {
 
   /**
    *
-   * @param shape
-   * @param mediumState
-   * @param color
+   * @param {Shape} shape
+   * @param {MediumState} mediumState - state of the medium
+   * @param {Color} color - color of the medium
    * @constructor
    */
   function Medium( shape, mediumState, color ) {
@@ -26,9 +26,11 @@ define( function( require ) {
   }
 
   return inherit( Object, Medium, {
+
     /**
      *
-     * @param wavelength
+     * @public
+     * @param {Number}wavelength
      * @returns {*|number}
      */
     getIndexOfRefraction: function( wavelength ) {

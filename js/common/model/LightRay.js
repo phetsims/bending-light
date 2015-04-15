@@ -39,7 +39,7 @@ define( function( require ) {
    */
   function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth, numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
 
-    // Used to create a clipped shape for wave mode
+    //  used to create a clipped shape for wave mode
     this.oppositeMedium = oppositeMedium;
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
@@ -48,17 +48,19 @@ define( function( require ) {
     this.color = color;
     this.waveWidth = waveWidth;
     this.trapeziumWidth = trapeziumWidth;
-    // Directionality is important for propagation
+
+    // directionality is important for propagation
     this.tip = tip;
     this.tail = tail;
-    // The index of refraction of the medium the lightray inhabits
+
+    // the index of refraction of the medium the lightray inhabits
     this.indexOfRefraction = indexOfRefraction;
     this.wavelength = wavelength;    // wavelength in meters
 
     // amount of power this light has (full strength is 1.0)
     this.powerFraction = powerFraction;
 
-    // This number indicates how many wavelengths have passed before this light ray begins;
+    // this number indicates how many wavelengths have passed before this light ray begins;
     // it is zero for the light coming out of the laser.
     this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset;
 
@@ -69,12 +71,15 @@ define( function( require ) {
     this.waveBounds = [];
     this.vectorForm = new Vector2( 0, 0 );
 
-    //wave particles
+    // wave particles
     this.particles = new ObservableArray();
+
+    // time used in wave sensor node
     this.time = 0;
   }
 
   return inherit( Object, LightRay, {
+
     /**
      *
      * @param {number} time
@@ -83,45 +88,76 @@ define( function( require ) {
       this.time = time;
     },
 
+    /**
+     * @public
+     * @returns {number}
+     */
     getSpeed: function() {
       return SPEED_OF_LIGHT / this.indexOfRefraction;
     },
 
+    /**
+     * @public
+     * @returns {Number|*}
+     */
     getPowerFraction: function() {
       return this.powerFraction;
     },
 
     /**
      * Check to see if this light ray hits the specified sensor region
-     *
+     *@public
      * @param {Shape} sensorRegion
      * @returns {*}
      */
     getIntersections: function( sensorRegion ) {
       return sensorRegion.intersection( new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) ) );
     },
-
+    /**
+     * @public
+     * @returns {Line}
+     */
     toLine2D: function() {
       return new Line( this.tail, this.tip );
     },
+
+    /**
+     * @public
+     * @returns {*}
+     */
     getLength: function() {
       return this.tip.minus( this.tail ).magnitude();
     },
+
+    /**
+     * @public
+     * @returns {Vector2|*}
+     */
     toVector2D: function() {
       this.vectorForm.x = this.tip.x - this.tail.x;
       this.vectorForm.y = this.tip.y - this.tail.y;
       return this.vectorForm;
     },
+
+    /**
+     * @public
+     * @returns {Element.color|*}
+     */
     getColor: function() {
       return this.color;
     },
+
+    /**
+     * @public
+     * @returns {OneColor.wavelength|*}
+     */
     getWavelength: function() {
       return this.wavelength;
     },
 
     /**
      * The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
-     *
+     * @public
      * @returns {*}
      */
     getWaveShape: function() {
@@ -151,7 +187,7 @@ define( function( require ) {
 
     /**
      * The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
-     *
+     * @public
      * @returns {Array}
      */
     getWaveBounds: function() {
@@ -174,26 +210,45 @@ define( function( require ) {
       return this.waveBounds;
     },
 
-
+    /**
+     * @public
+     * @returns {*}
+     */
     getUnitVector: function() {
       var x = this.tip.x - this.tail.x;
       var y = this.tip.y - this.tail.y;
       return new Vector2( x, y ).normalized();
     },
 
+    /**
+     *  @public
+     * @returns {*}
+     */
     getAngle: function() {
       return this.toVector2D().angle();
     },
     // todo:Update the time and notify wave listeners so they can update the phase of the wave graphic
 
+    /**
+     * @pub
+     * @returns {Number|*}
+     */
     getWaveWidth: function() {
       return this.waveWidth;
     },
 
+    /**
+     *  @public
+     * @returns {number}
+     */
     getNumberOfWavelengths: function() {
       return this.getLength() / this.wavelength;
     },
 
+    /**
+     * @public
+     * @returns {Number|*}
+     */
     getNumWavelengthsPhaseOffset: function() {
       return this.numWavelengthsPhaseOffset;
     },
@@ -202,7 +257,7 @@ define( function( require ) {
     /**
      * Determine if the light ray contains the specified position,
      * accounting for whether it is shown as a thin light ray or wide wave
-     *
+     * @public
      * @param {Vector2} position
      * @param {boolean} waveMode
      * @returns {*}
@@ -215,26 +270,51 @@ define( function( require ) {
         return this.toLine2D().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;
       }
     },
+
+    /**
+     * @public
+     * @returns {number}
+     */
     getRayWidth: function() {
-      //At the default transform, this yields a 4 pixel wide stroke
+      // at the default transform, this yields a 4 pixel wide stroke
       return 1.5992063492063494E-7;
     },
+
+    /**
+     * @public
+     * @returns {*}
+     */
     getVelocityVector: function() {
       return this.tip.minus( this.tail ).normalized().times( this.getSpeed() );
     },
+
+    /**
+     * @public
+     * @returns {number}
+     */
     getFrequency: function() {
       return this.getSpeed() / this.getWavelength();
     },
+
+    /**
+     * @public
+     * @returns {number}
+     */
     getAngularFrequency: function() {
       return this.getFrequency() * Math.PI * 2;
     },
+
+    /**
+     * @public
+     * @returns {number}
+     */
     getPhaseOffset: function() {
       return this.getAngularFrequency() * this.time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
     },
 
     /**
      * Get the total argument to the cosine for the wave function(k * x - omega * t + phase)
-     *
+     * @public
      * @param {number} distanceAlongRay
      * @returns {number}
      */
@@ -245,6 +325,11 @@ define( function( require ) {
       var t = this.time;
       return k * x - w * t - 2 * Math.PI * this.numWavelengthsPhaseOffset;
     },
+
+    /**
+     * @public
+     * @returns {number|*}
+     */
     getTime: function() {
       return this.time;
     }

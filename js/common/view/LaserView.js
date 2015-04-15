@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Display type for the rays, can be shown as rays (non moving lines) or waves (animating).
  *
@@ -18,7 +18,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  //var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
@@ -33,7 +32,7 @@ define( function( require ) {
   // constants
   var PLUS_MINUS_SPACING = 4;
 
-  //Ray view creates LightRayNodes and shows in the lightRayLayer
+  // ray view creates LightRayNodes and shows in the lightRayLayer
   function RAY() {
 
   }
@@ -64,7 +63,7 @@ define( function( require ) {
   /**
    *
    * @param model
-   * @param hasMoreTools
+   * @param {Boolean} hasMoreTools
    * @param {Object} [options]
    * @constructor
    */
@@ -195,8 +194,10 @@ define( function( require ) {
   }
 
   return inherit( Panel, LaserView, {
+
       /**
        * reset only if laser panel has wavelength slider
+       * @public
        */
       resetAll: function() {
         if ( this.hasMoreTools ) {
@@ -206,15 +207,15 @@ define( function( require ) {
 
       /**
        * Create the node for the specified lightRay
-       * @param transform
-       * @param lightRay
+       * @param {ModelViewTransform2} modelViewTransform
+       * @param {LightRay} lightRay
        */
-      createNode: function( transform, lightRay ) {},
+      createNode: function( modelViewTransform, lightRay ) {},
 
       /**
-       * Determine which layer to put the PNode in.
-       * @param lightRayLayer
-       * @param lightWaveLayer
+       * Determine which layer to put the Node in.
+       * @param {Node} lightRayLayer
+       * @param {Node} lightWaveLayer
        */
       getLayer: function( lightRayLayer, lightWaveLayer ) {}
     },

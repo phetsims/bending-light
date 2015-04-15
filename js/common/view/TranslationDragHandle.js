@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Graphic that depicts how the laser may be moved.
  * It is only shown when the cursor is over the laser and is non-interactive.
@@ -44,7 +44,8 @@ define( function( require ) {
       fill: '#33FF00'
     } );
     translationDragHandle.addChild( counterClockwiseDragArrow );
-    //Update the location when laser pivot or emission point change
+
+    // update the location when laser pivot or emission point change
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty ],
       function() {
         var laserEmissionViewPoint = modelViewTransform.modelToViewPosition( laser.emissionPoint );

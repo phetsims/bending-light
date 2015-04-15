@@ -1,6 +1,9 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Model for the protractor angle and position
+ *
+ * @author Chandrashekar Bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -13,8 +16,8 @@ define( function( require ) {
 
   /**
    *
-   * @param x
-   * @param y
+   * @param {Number } x - protractor x position in model co ordinates
+   * @param {Number} y - protractor y position in model co ordinates
    * @constructor
    */
   function ProtractorModel( x, y ) {
@@ -27,8 +30,9 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, ProtractorModel, {
+
     /**
-     *
+     * @public
      * @param{Number} x
      * @param {Number} y
      */
@@ -37,13 +41,18 @@ define( function( require ) {
       this.positionProperty.value.y = this.positionProperty.value.y + y;
       this.positionProperty._notifyObservers();
     },
+
     /**
-     *
+     *@public
      * @param {Vector2} delta
      */
     translate: function( delta ) {
       this.translate1( delta.x, delta.y );
     },
+
+    /**
+     * @public
+     */
     reset: function() {
       PropertySet.prototype.reset.call( this );
     }

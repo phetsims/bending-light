@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Graphic that depicts how the laser may be moved (in one direction).
  * It is only shown when the cursor is over the laser and is non-interactive.
@@ -26,20 +26,20 @@ define( function( require ) {
    * @param {ModelViewTransform2}modelViewTransform
    * @param {Laser}laser
    * @param {Number} deltaAngle - deltaAngle in radians
-   * @param showDragHandlesProperty
-   * @param notAtMax
+   * @param {Property<Boolean>}showDragHandlesProperty
+   * @param {function}notAtMax
    * @constructor
    */
   function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandlesProperty, notAtMax ) {
     Node.call( this );
     var rotationDragHandle = this;
 
-    //Temporary property to help determine whether the drag handle should be shown
+    // temporary property to help determine whether the drag handle should be shown
     var notAtMaximumProperty = new DerivedProperty( [ laser.emissionPointProperty, laser.pivotProperty, showDragHandlesProperty ], function() {
       return notAtMax( laser.getAngle() ) && ( showDragHandlesProperty.get() );
     } );
 
-    //Show the drag handle if the "show drag handles" is true and if
+    // show the drag handle if the "show drag handles" is true and if
     // the laser isn't already at the max angle.
     notAtMaximumProperty.link( function( show ) {
       rotationDragHandle.setVisible( show );
@@ -66,7 +66,7 @@ define( function( require ) {
       dragArrow.setShape( counterClockwiseDragArrow );
       dragArrow.setTranslation( modelViewTransform.modelToViewPosition( laser.pivot ) );
     };
-    //Update the shape when the laser moves
+    // update the shape when the laser moves
     laser.emissionPointProperty.link( function() {
       update();
     } );

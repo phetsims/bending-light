@@ -47,10 +47,12 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform;
     this.protractorModel = protractorModel;
     this.multiScale = ICON_WIDTH / protractorImage.width;
-    // True if the protractor has been made larger
+
+    // true if the protractor has been made larger
     this.expandedProperty = new Property( false );
     this.expandedButtonVisibilityProperty = new Property( false );
-    //Load and add the image
+
+    // load and add the image
     this.protractorImageNode = new Image( protractorImage, { pickable: true } );
     protractorNode.setScaleMagnitude( this.multiScale );
     showProtractorProperty.link( function( showProtractor ) {
@@ -61,7 +63,7 @@ define( function( require ) {
     var protractorImageWidth = this.protractorImageNode.getWidth();
     var protractorImageHeight = this.protractorImageNode.getHeight();
 
-    //Shape for the outer ring of the protractor
+    // shape for the outer ring of the protractor
     var outerRimShape = new Shape()
       .moveTo( protractorImageWidth, protractorImageHeight / 2 )
       .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, true )
@@ -93,7 +95,7 @@ define( function( require ) {
     this.innerBarShape = new Shape().rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
       protractorImageWidth * 0.6, protractorImageHeight * 0.15 );
 
-    //Add a mouse listener for dragging when the drag region
+    //  add a mouse listener for dragging when the drag region
     // (entire body in all tabs, just the inner bar on prism break tab) is dragged
     var translatePath = new Path( translateShape( fullShape, this.innerBarShape, outerRimShape ), {
       pickable: true,
@@ -113,7 +115,7 @@ define( function( require ) {
         protractorNode.expandedButtonVisibilityProperty.value = true;
       },
       drag: function( event ) {
-        //Compute the change in angle based on the new drag event
+        // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
         end = ConstraintBounds.constrainLocation( end, dragBounds );
         protractorNode.dragAll( end.minus( start ) );
@@ -134,7 +136,8 @@ define( function( require ) {
         }
       }
     } ) );
-    //Add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism break' tab is dragged)
+
+    // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism break' tab is dragged)
     var rotatePath = new Path( rotateShape( fullShape, this.innerBarShape, outerRimShape ), {
       pickable: true,
       cursor: 'pointer'

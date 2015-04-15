@@ -1,6 +1,6 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
- * Node for drawing a single light ray.
+ * View for drawing a single light ray.
  *
  * @author Sam Reid
  */
@@ -17,8 +17,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param lightRay
+   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
+   * @param {LightRay} lightRay
    * @constructor
    */
   function LightRayNode( modelViewTransform, lightRay ) {
@@ -27,7 +27,8 @@ define( function( require ) {
     this.lightRay = lightRay;
     var color = this.lightRay.getColor();
     this.modelViewTransform = modelViewTransform;
-    //Update the view coordinates for the start and end of this ray
+
+    // update the view coordinates for the start and end of this ray
     this.viewStart = modelViewTransform.modelToViewPosition( this.lightRay.tip );
     this.viewEnd = modelViewTransform.modelToViewPosition( this.lightRay.tail );
 
@@ -39,9 +40,9 @@ define( function( require ) {
       stroke: new Color( color.getRed(), color.getGreen(), color.getBlue(),
         Math.sqrt( lightRay.getPowerFraction() ) )
     } );
-    //Add the PPath
+    // add the PPath
     this.addChild( path );
-    //User cannot interact with the light ray directly
+    // user cannot interact with the light ray directly
     this.setPickable( false );
   }
 
@@ -49,14 +50,25 @@ define( function( require ) {
     /**
      * Get the line traversed by this light ray in view coordinates,
      * for usage with the Bresenham algorithm in the WhiteLightNode
+     * @public
      * @returns {Line}
      */
     getLine: function() {
       return new Line( this.viewStart, this.viewEnd );
     },
+
+    /**
+     * @public
+     * @returns {*|Element.color|*}
+     */
     getColor: function() {
       return this.lightRay.getColor();
     },
+
+    /**
+     * @public
+     * @returns {LightWaveNode.lightRay|*}
+     */
     getLightRay: function() {
       return this.lightRay;
     }

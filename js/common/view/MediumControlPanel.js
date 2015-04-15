@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Controls for changing and viewing the medium type, including its current index of refraction
  * (depends on the laser wavelength through the dispersion function).
@@ -48,7 +48,7 @@ define( function( require ) {
 
   /**
    *
-   * @param view
+   * @param  view
    * @param {Property<Medium>}mediumProperty
    * @param {String}name
    * @param {Boolean}textFieldVisible
@@ -96,14 +96,14 @@ define( function( require ) {
           selected = i;
         }
       }
-      //Only set to a different substance if "custom" wasn't specified.
-      // Otherwise pressing "air" then "custom" will make the combobox jump back to "air"
+      // only set to a different substance if "custom" wasn't specified.
+      // otherwise pressing "air" then "custom" will make the combobox jump back to "air"
       if ( selected !== -1 && !mediumProperty.get().getMediumState().custom ) {
         comboBoxMediumState.set( mediumStates[ selected ] );
         mediumControlPanel.custom = false;
       }
       else {
-        //No match to a named medium, so it must be a custom medium
+        //no match to a named medium, so it must be a custom medium
         comboBoxMediumState.set( CUSTOM );
         mediumControlPanel.custom = true;
       }
@@ -226,7 +226,6 @@ define( function( require ) {
     Property.multilink( [ mediumProperty, this.laserWavelength ],
       function() {
         mediumControlPanel.custom = mediumProperty.get().getMediumState().custom;
-        //  mediumIndexProperty.set( medium.get().getIndexOfRefraction( mediumControlPanel.laserWavelength.get() ) );
         indexOfRefractionValueText.text = mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ).toFixed( format );
       } );
 
@@ -244,7 +243,7 @@ define( function( require ) {
       if ( !selected.custom ) {
         mediumControlPanel.setMediumState( selected );
       }
-      //If it was custom, then use the the index of refraction but keep the name as "custom"
+      // if it was custom, then use the the index of refraction but keep the name as "custom"
       else {
         mediumControlPanel.setMediumState( new MediumState( selected.name, mediumControlPanel.lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
       }
@@ -260,6 +259,9 @@ define( function( require ) {
   }
 
   return inherit( Node, MediumControlPanel, {
+    /**
+     * @public
+     */
     reset: function() {
       this.mediumIndexProperty.reset();
     },
@@ -267,10 +269,11 @@ define( function( require ) {
     /**
      * Called when the user enters a new index of refraction (with text box or slider),
      * updates the model with the specified value
+     * @public
      * @param indexOfRefraction
      */
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
-      //Have to pass the value through the dispersion function to account for the
+      // have to pass the value through the dispersion function to account for the
       // current wavelength of the laser (since index of refraction is a function of wavelength)
       var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );
       this.setMedium( new Medium( this.medium.get().shape,
@@ -281,7 +284,8 @@ define( function( require ) {
 
     /**
      *  Update the medium state from the combo box
-     * @param mediumState
+     * @public
+     * @param {MediumState} mediumState
      */
     setMediumState: function( mediumState ) {
       this.setMedium( new Medium( this.medium.shape, mediumState,
@@ -291,10 +295,10 @@ define( function( require ) {
 
     /**
      *
-     * @param mediumValue
+     * @param {Medium} medium
      */
-    setMedium: function( mediumValue ) {
-      this.medium.set( mediumValue );
+    setMedium: function( medium ) {
+      this.medium.set( medium );
     }
   } );
 } );

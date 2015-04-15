@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Models dispersion functions for each material.  Uses the actual dispersion equation for air (A) and the actual dispersion equation for glass (G)
  * then interpolates between the functions n(lambda) = beta * A(lambda) + (1-beta) * G(lambda) where 0<=beta<=infinity is a characteristic of the material.
@@ -18,8 +18,8 @@ define( function( require ) {
 
   /**
    *
-   * @param referenceIndexOfRefraction
-   * @param wavelength
+   * @param {Number}referenceIndexOfRefraction
+   * @param {Number}wavelength
    * @constructor
    */
   function DispersionFunction( referenceIndexOfRefraction, wavelength ) {
@@ -30,10 +30,10 @@ define( function( require ) {
 
   return inherit( Object, DispersionFunction, {
 
-    //See http://en.wikipedia.org/wiki/Sellmeier_equation
+
     /**
-     *
-     * @param wavelength
+     * See http://en.wikipedia.org/wiki/Sellmeier_equation
+     * @param {Number}wavelength
      * @returns {number}
      */
     getSellmeierValue: function( wavelength ) {
@@ -41,7 +41,7 @@ define( function( require ) {
       var B1 = 1.03961212;
       var B2 = 0.231792344;
       var B3 = 1.01046945;
-      //convert to metric
+      // convert to metric
       var C1 = 6.00069867E-3 * 1E-12;
       var C2 = 2.00179144E-2 * 1E-12;
       var C3 = 1.03560653E2 * 1E-12;
@@ -50,29 +50,31 @@ define( function( require ) {
     getIndexOfRefractionForRed: function() {
       return this.getIndexOfRefraction( WAVELENGTH_RED );
     },
-    //See class-level documentation for an explanation of this algorithm
     /**
      *
      * @param wavelength
      * @returns {number}
      */
     getIndexOfRefraction: function( wavelength ) {
-      //Get the reference values
+
+      // get the reference values
       var nAirReference = this.getAirIndex( this.referenceWavelength );
       var nGlassReference = this.getSellmeierValue( this.referenceWavelength );
-      //Determine the mapping and make sure it is in a good range
+
+      // determine the mapping and make sure it is in a good range
       var delta = nGlassReference - nAirReference;
-      //0 to 1 (air to glass)
+      // 0 to 1 (air to glass)
       var x = (this.referenceIndexOfRefraction - nAirReference) / delta;
       x = Util.clamp( x, 0, Number.POSITIVE_INFINITY );
-      //Take a linear combination of glass and air equations
+      // take a linear combination of glass and air equations
       return x * this.getSellmeierValue( wavelength ) + (1 - x) * this.getAirIndex( wavelength );
     },
-    //See http://refractiveindex.info/?group=GASES&material=Air
+
 
     /**
-     * private
-     * @param wavelength
+     * See http://refractiveindex.info/?group=GASES&material=Air
+     * @private
+     * @param {Number}wavelength
      * @returns {number}
      */
     getAirIndex: function( wavelength ) {

@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Base class for Bending Light
  * @author Sam Reid
@@ -23,20 +23,21 @@ define( function( require ) {
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
-  //Font for labels in controls
+
+  // font for labels in controls
   var labelFont = new PhetFont( 16 );
 
   /**
    *
    * @param model
-   * @param clampDragAngle
-   * @param clockwiseArrowNotAtMax
-   * @param ccwArrowNotAtMax
-   * @param showNormal
-   * @param laserTranslationRegion
-   * @param laserRotationRegion
-   * @param laserImageName
-   * @param centerOffsetLeft
+   * @param {function} clampDragAngle
+   * @param {function} clockwiseArrowNotAtMax
+   * @param {function} ccwArrowNotAtMax
+   * @param {Boolean} showNormal
+   * @param {function} laserTranslationRegion
+   * @param {function} laserRotationRegion
+   * @param {String }laserImageName
+   * @param {Number}centerOffsetLeft
    * @constructor
    */
   function BendingLightView( model, clampDragAngle, clockwiseArrowNotAtMax,
@@ -59,32 +60,33 @@ define( function( require ) {
     //Laser beam
     //To implement this, we specify before light layer and 2 after light layers
     this.beforeLightLayer = new Node();
-    //in back of afterLightLayer2
+
+    // in back of afterLightLayer2
     this.afterLightLayer = new Node();
     this.afterLightLayer2 = new Node();
 
     this.showNormal = new BooleanProperty( showNormal );
-    // Root of our scene graph
+    // root of our scene graph
     var rootNode = new Node();
     this.addChild( rootNode );
     var stageWidth = 834;
     var stageHeight = 504;
 
-    //Use the model aspect ratio and specified stage width to create the stage dimension
+    // use the model aspect ratio and specified stage width to create the stage dimension
     this.stageSize = new Dimension2( stageWidth, stageHeight );
-    //Center the stage in the canvas, specifies how things scale up and down with window size, maps stage to pixels
-    //Create the transform from model (SI) to view (stage) coordinates
+    // center the stage in the canvas, specifies how things scale up and down with window size, maps stage to pixels
+    // create the transform from model (SI) to view (stage) coordinates
     var scale = this.stageSize.height / this.model.getHeight();
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping( new Vector2( 0, 0 ),
       new Vector2( 300 - centerOffsetLeft, stageHeight / 2 ), scale );
 
-    //Create and add the graphic for the environment medium
+    // create and add the graphic for the environment medium
     this.mediumNode = new Node();
     this.addChild( this.mediumNode );
     this.incidentWaveCanvasLayer = new Node();
 
     this.whiteLightNode = new WhiteLightNode( this.lightRayLayer, this.stageSize.width, this.stageSize.height );
-    //layering
+    // layering
     this.addChild( this.beforeLightLayer );
     this.addChild( this.lightRayLayer );
     this.addChild( this.lightWaveLayer );
@@ -95,7 +97,7 @@ define( function( require ) {
     this.addChild( this.afterLightLayer );
     this.addChild( this.afterLightLayer2 );
 
-    //Switch between light renderers for white vs nonwhite light
+    // switch between light renderers for white vs nonwhite light
     model.getLaser().colorModeProperty.link( function( color ) {
       var white = color === 'white';
       bendingLightView.whiteLightNode.setVisible( white );
@@ -103,7 +105,7 @@ define( function( require ) {
       bendingLightView.lightWaveLayer.setVisible( !white );
     } );
 
-    //Add rotation for the laser that show if/when the laser can be rotated
+    // add rotation for the laser that show if/when the laser can be rotated
     // about its pivot
     var showRotationDragHandlesProperty = new Property( false );
     var showTranslationDragHandlesProperty = new Property( false );
@@ -111,14 +113,14 @@ define( function( require ) {
     this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), Math.PI / 22, showRotationDragHandlesProperty, clockwiseArrowNotAtMax ) );
     this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), -Math.PI / 22, showRotationDragHandlesProperty, ccwArrowNotAtMax ) );
 
-    //Add translation indicators that show if/when the laser can be moved by dragging
+    // add translation indicators that show if/when the laser can be moved by dragging
     var arrowLength = 100;
     this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), -arrowLength, 0, showTranslationDragHandlesProperty ) );
     this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, -arrowLength, showTranslationDragHandlesProperty ) );
     this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0, showTranslationDragHandlesProperty ) );
     this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength, showTranslationDragHandlesProperty ) );
 
-    //Add the laser itself
+    // add the laser
     var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, this.layoutBounds );
     this.addChild( laserNode );
     model.laserViewProperty.link( function() {

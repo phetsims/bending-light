@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Model for the laser, which emits LightRays.
  *
@@ -14,15 +14,15 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var WAVELENGTH_RED = 650E-9;
 
-  //so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.
-  // This value was determined by printing out actual angle values at runtime and sampling a good value.
+  // so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.
+  // this value was determined by printing out actual angle values at runtime and sampling a good value.
   var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
   var SPEED_OF_LIGHT = 2.99792458E8;
 
   /**
    *
-   * @param {Number}  distanceFromPivot
-   * @param {Number}  angle
+   * @param {Number}  distanceFromPivot - distance from laser pivot point
+   * @param {Number}  angle - laser angle
    * @param {Boolean} topLeftQuadrant
    * @constructor
    */
@@ -30,24 +30,24 @@ define( function( require ) {
     this.topLeftQuadrant = topLeftQuadrant;
     var laser = this;
     PropertySet.call( this, {
-      //point to be pivoted about, and at which the laser points
-      pivot: new Vector2( 0, 0 ),
+      pivot: new Vector2( 0, 0 ),// point to be pivoted about, and at which the laser points
       color: new LaserColor.OneColor( WAVELENGTH_RED ),
-      //True if the laser is activated and emitting light
-      on: false,
+      on: false,    // true if the laser is activated and emitting light
       wave: false,
       colorMode: 'singleColor',
-      //Model the point where light comes out of the laser
-      //where the light comes from
+      // model the point where light comes out of the laser
+      // where the light comes from
       emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
     } );
-    // create vectors initially and used to avoid to many vector allocations
+
+    //  reusable vectors   to avoid to many vector allocations
     // vector for to store new laser emission point
     this.newEmissionPoint = new Vector2( 0, 0 );
     // vector for to store new laser pivot point
     this.newPivotPoint = new Vector2( 0, 0 );
     //  laser direction vector
     this.directionUnitVector = new Vector2( 0, 0 );
+
     this.waveProperty.link( function() {
       if ( laser.wave && laser.getAngle() > MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
         laser.setAngle( MAX_ANGLE_IN_WAVE_MODE );
@@ -56,18 +56,25 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, Laser, {
-      //Reset all parts of the laser
+
+      /**
+       * @public
+       */
       resetAll: function() {
         PropertySet.prototype.reset.call( this );
         // this.resetLocation();
       },
-      //Called if the laser is dropped out of bounds
+      //
+      /**
+       * called if the laser is dropped out of bounds
+       */
       resetLocation: function() {
         this.emissionPointProperty.reset();
         this.pivotProperty.reset();
       },
+
       /**
-       *
+       *@public
        * @param {Vector2} delta
        */
       translate: function( delta ) {
@@ -81,6 +88,11 @@ define( function( require ) {
         this.emissionPointProperty._notifyObservers();
         this.pivotProperty._notifyObservers();
       },
+
+      /**
+       * @public
+       * @returns {Vector2|*}
+       */
       getDirectionUnitVector: function() {
         this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
         this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
@@ -92,6 +104,7 @@ define( function( require ) {
 
       /**
        * Rotate about the fixed pivot
+       * @public
        * @param {Number}angle
        */
       setAngle: function( angle ) {
@@ -101,18 +114,38 @@ define( function( require ) {
         this.emissionPointProperty.set( this.newEmissionPoint );
         this.emissionPointProperty._notifyObservers();
       },
+
+      /**
+       * @public
+       * @returns {*}
+       */
       getAngle: function() {
         //TODO: why is this backwards by 180 degrees?
         return this.getDirectionUnitVector().angle() + Math.PI;
       },
+
+      /**
+       * @public
+       * @returns {*}
+       */
       getDistanceFromPivot: function() {
         this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
         this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
         return this.directionUnitVector.magnitude();
       },
+
+      /**
+       * @public
+       * @returns {*}
+       */
       getWavelength: function() {
         return this.color.getWavelength();
       },
+
+      /**
+       * @public
+       * @returns {number}
+       */
       getFrequency: function() {
         return SPEED_OF_LIGHT / this.getWavelength();
       }

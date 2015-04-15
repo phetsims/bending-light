@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2011, University of Colorado Boulder
 /**
  * Enum type pattern for the laser color, which may be white or a specific wavelength.
  *

@@ -1,4 +1,4 @@
-// Copyright 2002-2051, University of Colorado
+// Copyright 2002-2051, University of Colorado Boulder
 /**
  * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".
  *
@@ -15,8 +15,8 @@ define( function( require ) {
 
   /**
    *
-   * @param name
-   * @param indexForRed
+   * @param {String} name - name of the medium
+   * @param {Number} indexForRed - index of refraction of medium
    * @param mystery
    * @param custom
    * @constructor
@@ -30,9 +30,17 @@ define( function( require ) {
 
 
   return inherit( Object, MediumState, {
+    /**
+     *
+     * @returns {String|*}
+     */
     toString: function() {
       return this.name;
     },
+    /**
+     * @public
+     * @returns {*|number|number}
+     */
     getIndexOfRefractionForRedLight: function() {
       return this.dispersionFunction.getIndexOfRefraction( WAVELENGTH_RED );
     }

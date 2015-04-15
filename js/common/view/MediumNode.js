@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2011, University of Colorado Boulder
 /**
  * Graphic that draws a medium such as air, water, glass, etc.
  *
@@ -22,7 +22,8 @@ define( function( require ) {
    */
   function MediumNode( modelViewTransform, mediumProperty ) {
     Node.call( this );
-    //Add the shape that paints the medium
+
+    // add the shape that paints the medium
     var color = mediumProperty.value.color;
     var mediumRectangleNode = new Path( modelViewTransform.modelToViewShape( mediumProperty.value.shape ),
       {

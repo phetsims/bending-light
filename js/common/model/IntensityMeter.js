@@ -26,39 +26,44 @@ define( function( require ) {
   function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {
 
     PropertySet.call( this, {
-        reading: Reading.MISS,  //Value to show on the body
-        enabled: true,  //True if it is in the play area and gathering data
+        reading: Reading.MISS,  // value to show on the body
+        enabled: true,  // true if it is in the play area and gathering data
         sensorPosition: new Vector2( sensorX, sensorY ),
         bodyPosition: new Vector2( bodyX, bodyY )
       }
     );
 
-    //Accumulation of readings
+    // accumulation of readings
     this.rayReadings = [];
   }
 
   return inherit( PropertySet, IntensityMeter, {
       /**
        *
+       * @public
        * @param {Vector2}delta
        */
       translateSensor: function( delta ) {
         this.sensorPositionProperty.set( this.sensorPosition.plus( delta ) );
       },
       /**
-       *
+       *@public
        * @param {Vector2}delta
        */
       translateBody: function( delta ) {
         this.bodyPositionProperty.set( this.bodyPosition.plus( delta ) );
       },
+      /**
+       *
+       * @returns {Shape}
+       */
       getSensorShape: function() {
-        //Fine tuned to match the given image
+        // fine tuned to match the given image
         var radius = 1.215E-6;
         return new Shape().circle( this.sensorPosition.x, this.sensorPosition.y, radius );
       },
       /**
-       * Should be called before a model update so that values from last computation
+       *  should be called before a model update so that values from last computation
        * don't leak over into the next summation
        */
       clearRayReadings: function() {
@@ -77,7 +82,8 @@ define( function( require ) {
        * Update the body text based on the accumulated Reading values
        */
       updateReading: function() {
-        //Enumerate the hits
+
+        // enumerate the hits
         var hits = [];
         this.rayReadings.forEach( function( rayReading ) {
           if ( rayReading.isHit() ) {
@@ -85,11 +91,11 @@ define( function( require ) {
           }
         } );
 
-        //If not hits, say "MISS"
+        // if not hits, say "MISS"
         if ( hits.length === 0 ) {
           this.readingProperty.set( Reading.MISS );
         }
-        else //otherwise, sum the intensities
+        else // otherwise, sum the intensities
         {
           var total = 0.0;
           hits.forEach( function( hit ) {
@@ -99,13 +105,17 @@ define( function( require ) {
         }
       },
       /**
-       *
+       *@public
        * @param {Vector2} dimension2D
        */
       translateAll: function( dimension2D ) {
         this.translateBody( dimension2D );
         this.translateSensor( dimension2D );
       },
+
+      /**
+       * @public
+       */
       resetAll: function() {
         PropertySet.prototype.reset.call( this );
       }

@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * View for the intensity meter, including its movable sensor
  * and readout region (called the body).
@@ -235,7 +235,7 @@ define( function( require ) {
         }
       }
     } ) );
-    //scale sensorNode and bodyNode and translating
+    // scale sensorNode and bodyNode and translating
     this.bodyNode.setScaleMagnitude( intensityMeterScaleInSideContainer );
     this.sensorNode.setScaleMagnitude( intensityMeterScaleInSideContainer );
     var sensorViewPoint = this.modelViewTransform.modelToViewPosition( this.intensityMeter.sensorPosition );
@@ -294,6 +294,7 @@ define( function( require ) {
           target.setIntensityMeterScale( new Vector2( startPoint.x, startPoint.y ), startPoint.scale );
         } ).start();
     },
+
     /**
      * Drag all components, called when dragging from toolbox
      * @param {Vector2}delta
@@ -301,6 +302,7 @@ define( function( require ) {
     dragAll: function( delta ) {
       this.intensityMeter.translateAll( this.modelViewTransform.viewToModelDelta( delta ) );
     },
+
     /**
      * Drag sensorNode
      * @param {Vector2}delta
@@ -308,6 +310,7 @@ define( function( require ) {
     dragSensor: function( delta ) {
       this.intensityMeter.translateSensor( this.modelViewTransform.viewToModelDelta( delta ) );
     },
+
     /**
      * Drag bodyNode
      * @param {Vector2}delta

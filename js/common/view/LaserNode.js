@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Node for drawing the laser itself, including an on/off button and ability to
  * rotate/translate.
@@ -130,8 +130,6 @@ define( function( require ) {
       }
     } );
 
-    //Update the transform of the laser when its model data (pivot or emission point)
-    // changes
 
     laser.emissionPointProperty.link( function( newEmissionPoint ) {
       var emissionPoint = modelViewTransform.modelToViewPosition( newEmissionPoint );
