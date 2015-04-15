@@ -138,7 +138,7 @@ define( function( require ) {
     };
 
     // add the protractor node
-    var protractorNode = new ProtractorNode( this.modelViewTransform, prismBreakModel.showProtractorProperty, prismBreakModel.protractorModel,
+    var protractorNode = new ProtractorNode( this, this.modelViewTransform, prismBreakModel.showProtractorProperty, prismBreakModel.protractorModel,
       this.getProtractorDragRegion, this.getProtractorRotationRegion, 125, null, this.layoutBounds );
     this.addChild( protractorNode );
 

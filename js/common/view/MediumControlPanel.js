@@ -174,7 +174,7 @@ define( function( require ) {
       { min: INDEX_OF_REFRACTION_MIN, max: INDEX_OF_REFRACTION_MAX },
       {
         trackFill: 'white',
-        trackSize: new Dimension2( 150, 1 ),
+        trackSize: new Dimension2( 140, 1 ),
         thumbSize: new Dimension2( 10, 20 ),
         majorTickLength: 15,
         tickLabelSpacing: 3,

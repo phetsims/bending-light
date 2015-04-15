@@ -62,11 +62,12 @@ define( function( require ) {
         fromSensorPanel = false;
         toSensorPanel = false;
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
-        if ( container.bounds.intersectsBounds( probeNode.getBounds() ) ) {
+        if ( container.bounds.containsPoint( probeNode.center ) ) {
           fromSensorPanel = true;
           waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
           waveSensorNode.setWaveSensorNodeScale( modelViewTransform.viewToModelPosition( start ), 1 );
           waveSensorNode.waveSensor.visibleProperty.set( true );
+          waveSensorNode.addMoreToolsView();
         }
         else {
           fromSensorPanel = false;
@@ -85,9 +86,10 @@ define( function( require ) {
       },
       end: function() {
         // check intersection only with the outer rectangle.
-        if ( container.bounds.intersectsBounds( probeNode.getBounds() ) ) {
+        if ( container.bounds.containsPoint( probeNode.center ) ) {
           toSensorPanel = true;
           waveSensorNode.waveSensor.visibleProperty.set( false );
+          waveSensorNode.addToSensorPanel();
         }
         if ( toSensorPanel ) {
           waveSensorNode.setWaveSensorNodeScaleAnimation(
@@ -109,14 +111,14 @@ define( function( require ) {
 
   /**
    *
+   * @param {MoreToolsView} moreToolsView
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor  - model for the wave sensor
    * @param {Rectangle} container
    * @param {Bounds2} dragBounds - bounds that define where the waves sensor  may be dragged
    * @constructor
    */
-
-  function WaveSensorNode( modelViewTransform, waveSensor, container, dragBounds ) {
+  function WaveSensorNode( moreToolsView, modelViewTransform, waveSensor, container, dragBounds ) {
 
     var waveSensorNode = this;
     Node.call( this );
@@ -127,6 +129,7 @@ define( function( require ) {
 
     this.modelViewTransform = modelViewTransform;
     this.waveSensor = waveSensor;
+    this.moreToolsView = moreToolsView;
 
     // add body node
     var rectangleWidth = 135;
@@ -191,11 +194,12 @@ define( function( require ) {
         fromSensorPanel = false;
         toSensorPanel = false;
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
-        if ( container.bounds.intersectsBounds( waveSensorNode.bodyNode.getBounds() ) ) {
+        if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ) {
           fromSensorPanel = true;
           waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
           waveSensorNode.setWaveSensorNodeScale( modelViewTransform.viewToModelPosition( start ), 1 );
           waveSensor.visibleProperty.set( true );
+          waveSensorNode.addMoreToolsView();
         }
         else {
           fromSensorPanel = false;
@@ -214,14 +218,12 @@ define( function( require ) {
       },
       end: function() {
         // check intersection only with the outer rectangle.
-        var isInsideContainer = container.bounds.intersectsBounds( waveSensorNode.bodyNode.getBounds() ) ||
-                                container.bounds.intersectsBounds( waveSensorNode.probe1Node.getBounds() ) ||
-                                container.bounds.intersectsBounds( waveSensorNode.probe2Node.getBounds() );
-
-
-        if ( isInsideContainer ) {
+        if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ||
+             container.bounds.containsPoint( waveSensorNode.probe1Node.center ) ||
+             container.bounds.containsPoint( waveSensorNode.probe2Node.center ) ) {
           toSensorPanel = true;
           waveSensor.visibleProperty.set( false );
+          waveSensorNode.addToSensorPanel();
         }
         if ( toSensorPanel ) {
           waveSensorNode.setWaveSensorNodeScaleAnimation( waveSensor.probe1.positionProperty.initialValue, 0.4 );
@@ -268,6 +270,7 @@ define( function( require ) {
         this.modelViewTransform.modelToViewPosition( this.waveSensor.probe2.position ).y - this.probe2Node.getHeight() / 2 );
 
     },
+
     /**
      * resize the WaveSensorNode
      *
@@ -296,6 +299,7 @@ define( function( require ) {
 
       this.waveSensor.translateAll( endPosition.minus( this.waveSensor.probe1.position ) );
     },
+
     /**
      * resize the WaveSensorNode with Animation
      *
@@ -311,6 +315,7 @@ define( function( require ) {
       var endPoint = { x: endPosition.x, y: endPosition.y, scale: scale };
       this.init( startPoint, endPoint );
     },
+
     /**
      *
      * @param {Object} startPoint
@@ -324,6 +329,19 @@ define( function( require ) {
         .onUpdate( function() {
           target.setWaveSensorNodeScale( new Vector2( startPoint.x, startPoint.y ), startPoint.scale );
         } ).start();
+    },
+
+    /**
+     * @public
+     */
+    addMoreToolsView: function() {
+      this.moreToolsView.beforeLightLayer2.removeChild( this );
+      this.moreToolsView.afterLightLayer2.addChild( this );
+    },
+
+    addToSensorPanel: function() {
+      this.moreToolsView.afterLightLayer2.removeChild( this );
+      this.moreToolsView.beforeLightLayer2.addChild( this );
     },
 
     /**
@@ -352,6 +370,9 @@ define( function( require ) {
       this.waveSensor.reset();
       this.waveSensor.visibleProperty.set( false );
       this.chartNode.gridLines.removeAllChildren();
+      if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
+        this.addToSensorPanel();
+      }
     }
   } );
 } );

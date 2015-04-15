@@ -16,6 +16,7 @@ define( function( require ) {
 
   /**
    *
+   * @param {MoreToolsView} moreToolsView - main view of more tools screen
    * @param {ModelViewTransform2} modelViewTransform transform to convert between model and view values
    * @param {Property<Boolean>} showProtractorProperty  controls the protractor visibility
    * @param {ProtractorModel} protractorModel model of protractor
@@ -26,9 +27,9 @@ define( function( require ) {
    * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
    * @constructor
    */
-  function ExpandableProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
+  function ExpandableProtractorNode( moreToolsView, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
 
-    ProtractorNode.call( this, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds );
+    ProtractorNode.call( this, moreToolsView, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds );
     var expandableProtractorNode = this;
 
     // add expandable /collapse  button

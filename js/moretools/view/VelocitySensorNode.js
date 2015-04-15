@@ -32,6 +32,7 @@ define( function( require ) {
 
   /**
    *
+   * @param {MoreToolsView} moreToolsView
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param arrowScale
@@ -39,12 +40,13 @@ define( function( require ) {
    * @param {Bounds2} dragBounds - bounds that define where the velocity sensor   may be dragged
    * @constructor
    */
-  function VelocitySensorNode( modelViewTransform, velocitySensor, arrowScale, container, dragBounds ) {
+  function VelocitySensorNode( moreToolsView, modelViewTransform, velocitySensor, arrowScale, container, dragBounds ) {
 
     var velocitySensorNode = this;
     Node.call( this, { cursor: 'pointer', pickable: true } );
     this.modelViewTransform = modelViewTransform;
     this.velocitySensor = velocitySensor;
+    this.moreToolsView = moreToolsView;
 
     var rectangleWidth = 100;
     var rectangleHeight = 70;
@@ -155,8 +157,9 @@ define( function( require ) {
     this.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = velocitySensorNode.globalToParentPoint( event.pointer.point );
-        if ( container.bounds.intersectsBounds( velocitySensorNode.getBounds() ) ) {
+        if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
           velocitySensorNode.setScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
+          velocitySensorNode.addToMoreToolsView();
         }
       },
       drag: function( event ) {
@@ -166,9 +169,10 @@ define( function( require ) {
         start = end;
       },
       end: function() {
-        if ( container.bounds.intersectsBounds( velocitySensorNode.getBounds() ) ) {
+        if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
           velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, 0.7 );
           velocitySensor.reset();
+          velocitySensorNode.addToSensorPanel();
         }
       }
     } ) );
@@ -197,12 +201,21 @@ define( function( require ) {
   }
 
   return inherit( Node, VelocitySensorNode, {
+    /**
+     *
+     * @param {Vector2} endPoint
+     * @param {Number} scale
+     */
     setScaleAnimation: function( endPoint, scale ) {
       var startPoint = { x: this.velocitySensor.position.x, y: this.velocitySensor.position.y, scale: this.getScaleVector().x };
       var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
       this.init( startPoint, finalPosition );
-      // this.velocitySensor.positionProperty.set( this.modelViewTransform.viewToModelPosition( endPoint ) );
     },
+    /**
+     *
+     * @param {Object} initialPosition
+     * @param {Object} finalPosition
+     */
     init: function( initialPosition, finalPosition ) {
       var target = this;
       new TWEEN.Tween( initialPosition )
@@ -213,6 +226,28 @@ define( function( require ) {
           target.velocitySensor.positionProperty.set( new Vector2( initialPosition.x, initialPosition.y ) );
         } ).start();
     },
+
+    addToMoreToolsView: function() {
+      this.moreToolsView.beforeLightLayer2.removeChild( this );
+      this.moreToolsView.afterLightLayer2.addChild( this );
+    },
+
+    addToSensorPanel: function() {
+      this.moreToolsView.afterLightLayer2.removeChild( this );
+      this.moreToolsView.beforeLightLayer2.addChild( this );
+    },
+    reset: function() {
+      this.setScaleMagnitude( 0.7 );
+      if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
+        this.addToSensorPanel();
+      }
+      this.velocitySensor.reset();
+    },
+
+    /**
+     *
+     * @param {Vector2} delta
+     */
     dragAll: function( delta ) {
       this.velocitySensor.translate( this.modelViewTransform.viewToModelDelta( delta ) );
     }

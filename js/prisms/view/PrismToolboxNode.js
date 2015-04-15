@@ -154,7 +154,7 @@ define( function( require ) {
     // create an icon for the protractor check box
     var createProtractorIcon = function() {
       var protractorModel = new ProtractorModel( 0, 0 );
-      var protractorNode = new ProtractorNode( modelViewTransform, prismBreakView.showProtractorProperty, protractorModel,
+      var protractorNode = new ProtractorNode( prismBreakView, modelViewTransform, prismBreakView.showProtractorProperty, protractorModel,
         prismBreakView.getProtractorDragRegion, prismBreakView.getProtractorRotationRegion, 90, prismToolBoxNode.getBounds() );
       protractorNode.setScaleMagnitude( 0.05 );
       return protractorNode;

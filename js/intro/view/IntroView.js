@@ -38,7 +38,7 @@ define( function( require ) {
   var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
 
   // constants
-  var inset = 10;
+  var INSET = 10;
 
   /**
    *
@@ -106,13 +106,13 @@ define( function( require ) {
     // add control panels for setting the index of refraction for each medium
     var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
-    topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - inset, this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
+    topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - INSET, this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
     this.afterLightLayer2.addChild( topMediumControlPanel );
 
     // add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
-    bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - inset, this.modelViewTransform.modelToViewY( 0 ) + 10 );
+    bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - INSET, this.modelViewTransform.modelToViewY( 0 ) + 10 );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
     // add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
@@ -139,7 +139,7 @@ define( function( require ) {
     var laserView = new LaserView( introModel, hasMoreTools, {} );
 
     // set the location and add to the scene
-    laserView.setTranslation( this.layoutBounds.minX + inset / 2, 5 );
+    laserView.setTranslation( this.layoutBounds.minX + INSET / 2, 5 );
     this.afterLightLayer2.addChild( laserView );
 
     var sensorPanelHeight = this.getMoreTools().length ? 330 : 220;
@@ -147,7 +147,7 @@ define( function( require ) {
     this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 10, 10, {
       stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
     } );
-    this.beforeLightLayer.addChild( this.sensorPanel );
+    this.beforeLightLayer2.addChild( this.sensorPanel );
     this.sensorPanel.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - sensorPanelHeight - 10 );
 
     var ICON_WIDTH = 85;
@@ -159,17 +159,17 @@ define( function( require ) {
 
     //  if intro screen  regular protractor node else expandable protractor node.
     if ( this.getMoreTools().length === 0 ) {
-      this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
+      this.protractorNode = new ProtractorNode( this, this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
         this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds, this.layoutBounds );
     }
     else {
-      this.protractorNode = new ExpandableProtractorNode( this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
+      this.protractorNode = new ExpandableProtractorNode( this, this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
         this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds, this.layoutBounds );
     }
-    this.afterLightLayer2.addChild( this.protractorNode );
+    this.beforeLightLayer2.addChild( this.protractorNode );
 
-    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.getIntensityMeter(), this.sensorPanel.visibleBounds, this.layoutBounds );
-    this.beforeLightLayer.addChild( this.intensityMeterNode );
+    this.intensityMeterNode = new IntensityMeterNode( this, this.modelViewTransform, introModel.getIntensityMeter(), this.sensorPanel.visibleBounds, this.layoutBounds );
+    this.beforeLightLayer2.addChild( this.intensityMeterNode );
 
     var checkBoxOptions = {
       boxWidth: 20,
@@ -179,18 +179,18 @@ define( function( require ) {
     var normalText = new Text( normalString );
     var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, checkBoxOptions );
     normalCheckBox.setTranslation( 15, this.sensorPanel.y + sensorPanelHeight - 55 );
-    this.addChild( normalCheckBox );
+    this.beforeLightLayer2.addChild( normalCheckBox );
 
     // add normal
     var normalIcon = new NormalLine( 50 );
     normalIcon.setTranslation( 60, this.sensorPanel.y + sensorPanelHeight - 55 );
-    this.addChild( normalIcon );
+    this.beforeLightLayer2.addChild( normalIcon );
 
     // add reset all button
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
-          introView.intensityMeterNode.setIntensityMeterScale( introView.intensityMeterNode.intensityMeter.sensorPositionProperty.initialValue, 0.3 );
+          introView.intensityMeterNode.reset();
           introModel.resetAll();
           introView.resetAll();
           laserView.resetAll();
@@ -198,8 +198,8 @@ define( function( require ) {
           bottomMediumControlPanel.reset();
 
         },
-        bottom: this.layoutBounds.bottom - inset,
-        right:  this.layoutBounds.right - inset
+        bottom: this.layoutBounds.bottom - INSET,
+        right:  this.layoutBounds.right - INSET
       } );
 
     this.afterLightLayer2.addChild( resetAllButton );
@@ -222,7 +222,7 @@ define( function( require ) {
         radius: 12,
         stroke: 'black',
         fill: '#005566',
-        right:  resetAllButton.left - 82,
+        right: resetAllButton.left - 82,
         bottom: this.layoutBounds.bottom - 14
       }
     );
@@ -233,7 +233,7 @@ define( function( require ) {
     } );
 
     this.playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
-      { radius: 18, stroke: 'black', fill: '#005566', y: this.stepButton.centerY, right: this.stepButton.left - inset } );
+      { radius: 18, stroke: 'black', fill: '#005566', y: this.stepButton.centerY, right: this.stepButton.left - INSET } );
     this.addChild( this.playPauseButton );
 
     // add sim speed controls

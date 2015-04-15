@@ -26,8 +26,8 @@ define( function( require ) {
     IntroView.call( this, moreToolsModel, -100, true, 3 );
     this.velocitySensorNode = this.createVelocitySensorTool();
     this.waveSensorNode = this.createWaveSensorTool();
-    this.addChild( this.velocitySensorNode );
-    this.addChild( this.waveSensorNode );
+    this.beforeLightLayer2.addChild( this.velocitySensorNode );
+    this.beforeLightLayer2.addChild( this.waveSensorNode );
     this.moreToolsModel.waveSensor.visibleProperty.link( function( isvisble ) {
 
       moreToolsView.playPauseButton.visible = isvisble;
@@ -59,20 +59,19 @@ define( function( require ) {
 
     createWaveSensorTool: function() {
       // create the WaveSensorNode
-      return new WaveSensorNode( this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel, this.layoutBounds );
+      return new WaveSensorNode( this, this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel, this.layoutBounds );
     },
 
     resetAll: function() {
 
       this.protractorModel.reset();
       this.protractorNode.resetAll();
-      this.velocitySensorNode.setScaleMagnitude( 0.7 );
-      this.moreToolsModel.velocitySensor.reset();
+      this.velocitySensorNode.reset();
       this.waveSensorNode.reset();
     },
 
     createVelocitySensorTool: function() {
-      return new VelocitySensorNode( this.modelViewTransform, this.moreToolsModel.velocitySensor, this.arrowScale,
+      return new VelocitySensorNode( this, this.modelViewTransform, this.moreToolsModel.velocitySensor, this.arrowScale,
         this.sensorPanel, this.layoutBounds );
     }
   } );

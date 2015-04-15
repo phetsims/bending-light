@@ -60,7 +60,7 @@ define( function( require ) {
     //Laser beam
     //To implement this, we specify before light layer and 2 after light layers
     this.beforeLightLayer = new Node();
-
+    this.beforeLightLayer2 = new Node();
     // in back of afterLightLayer2
     this.afterLightLayer = new Node();
     this.afterLightLayer2 = new Node();
@@ -87,6 +87,7 @@ define( function( require ) {
 
     this.whiteLightNode = new WhiteLightNode( this.lightRayLayer, this.stageSize.width, this.stageSize.height );
     // layering
+    this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );
     this.addChild( this.lightRayLayer );
     this.addChild( this.lightWaveLayer );

@@ -29,6 +29,7 @@ define( function( require ) {
 
   /**
    *
+   * @param {BendingLightView} bendingLightView
    * @param {ModelViewTransform2} modelViewTransform transform to convert between model and view values
    * @param {Property<Boolean>} showProtractorProperty  controls the protractor visibility
    * @param {ProtractorModel} protractorModel model of protractor
@@ -39,11 +40,12 @@ define( function( require ) {
    * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
    * @constructor
    */
-  function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
+  function ProtractorNode( bendingLightView, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
 
+    this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
     this.protractorModel = protractorModel;
     this.multiScale = ICON_WIDTH / protractorImage.width;
@@ -108,8 +110,9 @@ define( function( require ) {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds ) {
-          if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
+          if ( containerBounds.containsPoint( protractorNode.center ) ) {
             protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
+            protractorNode.addToBendingLightView();
           }
         }
         protractorNode.expandedButtonVisibilityProperty.value = true;
@@ -123,12 +126,13 @@ define( function( require ) {
       },
       end: function() {
         if ( containerBounds ) {
-          if ( containerBounds.intersectsBounds( protractorNode.getBounds() ) ) {
+          if ( containerBounds.containsPoint( protractorNode.center ) ) {
             var point2D = protractorNode.modelViewTransform.modelToViewPosition(
               protractorNode.protractorModel.positionProperty.initialValue );
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
             protractorNode.expandedButtonVisibilityProperty.value = false;
             protractorNode.expandedProperty.value = false;
+            protractorNode.addToSensorPanel();
           }
         }
         else {
@@ -176,6 +180,9 @@ define( function( require ) {
         this.expandedProperty.reset();
         this.expandedButtonVisibilityProperty.reset();
         this.setProtractorScale( this.multiScale );
+        if ( this.bendingLightView.afterLightLayer2.isChild( this ) ) {
+          this.addToSensorPanel();
+        }
       },
 
       /**
@@ -219,6 +226,22 @@ define( function( require ) {
       },
 
       /**
+       * @public
+       */
+      addToBendingLightView: function() {
+        this.bendingLightView.beforeLightLayer2.removeChild( this );
+        this.bendingLightView.afterLightLayer2.addChild( this );
+      },
+
+      /**
+       * @public
+       */
+      addToSensorPanel: function() {
+        this.bendingLightView.afterLightLayer2.removeChild( this );
+        this.bendingLightView.beforeLightLayer2.addChild( this );
+      },
+
+      /**
        * Translate the protractor, this method is called when dragging out of the toolbox
        *
        * @param {Vector2} delta
@@ -237,8 +260,6 @@ define( function( require ) {
         this.setPickable( isVisible );
       }
     },
-
-
     // statics
     {
       DEFAULT_SCALE: DEFAULT_SCALE
