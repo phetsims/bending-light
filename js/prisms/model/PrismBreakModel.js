@@ -53,15 +53,14 @@ define( function( require ) {
     // list of intersections, which can be shown graphically
     this.intersections = new ObservableArray();
 
-    this.mediumColorFactory = new MediumColorFactory();
 
     // environment the laser is in
     this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
-      this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
+      MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
 
     // material that comprises the prisms
     this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
-      this.mediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
+      MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
 
 
     // draggable and rotatable protractor

@@ -43,8 +43,7 @@ define( function( require ) {
   var INDEX_OF_REFRACTION_MIN = 1;
   var INDEX_OF_REFRACTION_MAX = 1.6;
   var PLUS_MINUS_SPACING = 4;
-  var mediumColorFactory = new MediumColorFactory();
-  var inset = 10;
+  var INSET = 10;
 
   /**
    *
@@ -53,7 +52,7 @@ define( function( require ) {
    * @param {String}name
    * @param {Boolean}textFieldVisible
    * @param {Number}laserWavelength
-   * @param format
+   * @param {Number}format
    * @param {Object} [options]
    * @constructor
    */
@@ -69,12 +68,13 @@ define( function( require ) {
       stroke: 'gray',
       lineWidth: 1
     }, options );
-    this.medium = mediumProperty; //The medium to observe
+    this.mediumProperty = mediumProperty; // the medium to observe
     this.laserWavelength = laserWavelength;
     var initialMediumState = mediumProperty.get().getMediumState();
     this.lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
     var CUSTOM = new MediumState( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
     this.custom = true;
+
     // add material combo box
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
     var maxWidth = 147;
@@ -103,7 +103,7 @@ define( function( require ) {
         mediumControlPanel.custom = false;
       }
       else {
-        //no match to a named medium, so it must be a custom medium
+        // no match to a named medium, so it must be a custom medium
         comboBoxMediumState.set( CUSTOM );
         mediumControlPanel.custom = true;
       }
@@ -164,7 +164,7 @@ define( function( require ) {
     minusButton.right = indexOfRefractionReadoutBoxShape.left - PLUS_MINUS_SPACING;
     minusButton.centerY = indexOfRefractionReadoutBoxShape.centerY;
 
-    indexOfRefractionLabel.right = minusButton.left - inset;
+    indexOfRefractionLabel.right = minusButton.left - INSET;
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
     var airTitle = new Text( airString );
@@ -204,12 +204,12 @@ define( function( require ) {
       } );
     }
 
-    indexOfRefractionNode.top = materialComboBox.bottom + inset;
+    indexOfRefractionNode.top = materialComboBox.bottom + INSET;
     indexOfRefractionNode.left = materialComboBox.left;
     indexOfRefractionSlider.centerX = mediumControlPanel.centerX;
-    indexOfRefractionSlider.top = indexOfRefractionNode.bottom + inset;
+    indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET;
     unknown.centerX = indexOfRefractionNode.centerX;
-    unknown.centerY = indexOfRefractionNode.bottom + inset;
+    unknown.centerY = indexOfRefractionNode.bottom + INSET;
     var mediumPanelNode = new Node( {
       children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
       spacing: 10
@@ -276,9 +276,9 @@ define( function( require ) {
       // have to pass the value through the dispersion function to account for the
       // current wavelength of the laser (since index of refraction is a function of wavelength)
       var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );
-      this.setMedium( new Medium( this.medium.get().shape,
+      this.setMedium( new Medium( this.mediumProperty.get().shape,
         new MediumState( customString, indexOfRefraction, false, true ),
-        mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
+        MediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
       ) );
     },
 
@@ -288,8 +288,8 @@ define( function( require ) {
      * @param {MediumState} mediumState
      */
     setMediumState: function( mediumState ) {
-      this.setMedium( new Medium( this.medium.shape, mediumState,
-        mediumColorFactory.getColor(
+      this.setMedium( new Medium( this.mediumProperty.shape, mediumState,
+        MediumColorFactory.getColor(
           mediumState.getIndexOfRefractionForRedLight() ) ) );
     },
 
@@ -298,7 +298,7 @@ define( function( require ) {
      * @param {Medium} medium
      */
     setMedium: function( medium ) {
-      this.medium.set( medium );
+      this.mediumProperty.set( medium );
     }
   } );
 } );

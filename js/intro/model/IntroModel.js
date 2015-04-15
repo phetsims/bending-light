@@ -34,11 +34,10 @@ define( function( require ) {
   function IntroModel( bottomMediumState, centerOffsetLeft ) {
     var introModel = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT, centerOffsetLeft );
-    this.mediumColorFactory = new MediumColorFactory();
     this.topMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
-      this.mediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
+      MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
-      this.mediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
+      MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
     this.time = 0;
     Property.multilink( [
       this.laserViewProperty,
