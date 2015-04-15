@@ -8,7 +8,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
   var Color = require( 'SCENERY/util/Color' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var LinearFunction = require( 'DOT/LinearFunction' );
