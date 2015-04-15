@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Main model for bending light application.  Rays are recomputed whenever laser parameters changed.
  * Each ray oscillates in time, as shown in the wave view.  There are model representations for several tools as well as their visibility.
@@ -14,12 +14,10 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var IntensityMeter = require( 'BENDING_LIGHT/common/model/IntensityMeter' );
   var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
-  // var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
-  // var Property = require( 'AXON/Property' );
 
-  //Default values
+  // default values
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
   var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
@@ -31,7 +29,7 @@ define( function( require ) {
   var mysteryAString = require( 'string!BENDING_LIGHT/mysteryA' );
   var mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
 
-  //Mediums that can be selected
+  // mediums that can be selected
   var AIR = new MediumState( airString, 1.000293, false, false );
   var WATER = new MediumState( waterString, 1.333, false, false );
   var GLASS = new MediumState( glassString, 1.5, false, false );
@@ -39,23 +37,23 @@ define( function( require ) {
   var MYSTERY_A = new MediumState( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
   var MYSTERY_B = new MediumState( mysteryBString, 1.4, true, false );
 
-  //Model parameters
+  // model parameters
   var SPEED_OF_LIGHT = 2.99792458E8;
   var WAVELENGTH_RED = 650E-9; //nanometers
 
-  //To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT,
+  // to come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT,
   // we have f=4.612E14
   var RED_LIGHT_FREQUENCY = SPEED_OF_LIGHT / WAVELENGTH_RED;
 
-  //Speed up by a factor of 2.5 because default wave view was moving too slow
+  // speed up by a factor of 2.5 because default wave view was moving too slow
   var TIME_SPEEDUP_SCALE = 2.5;
 
-  //thirty frames per cycle times the speedup scale
+  // thirty frames per cycle times the speedup scale
   var MAX_DT = 1.0 / RED_LIGHT_FREQUENCY / 30 * TIME_SPEEDUP_SCALE;
   var MIN_DT = MAX_DT / 10;
   var DEFAULT_DT = MAX_DT / 4;
 
-  //A good size for the units being used in the sim; used to determine the dimensions of various model objects
+  // a good size for the units being used in the sim; used to determine the dimensions of various model objects
   var CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
   /**
@@ -70,16 +68,17 @@ define( function( require ) {
 
   function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot, centerOffsetLeft ) {
 
-    //List of rays in the model
+    // list of rays in the model
     this.rays = new ObservableArray();
     var bendingLightModel = this;
-    //Dimensions of the model, guaranteed to be shown in entirety on the stage
+
+    // dimensions of the model, guaranteed to be shown in entirety on the stage
     this.modelWidth = CHARACTERISTIC_LENGTH * 62;
     this.modelHeight = this.modelWidth * 0.7;
 
     // everything that had a listener in the java version becomes a property
     PropertySet.call( this, {
-        laserView: 'ray',//LaserView.RAY, //Whether the laser is Ray or Wave mode
+        laserView: 'ray', //Whether the laser is Ray or Wave mode
         wavelength: WAVELENGTH_RED,
         isPlaying: true,
         speed: 'normal',
@@ -87,7 +86,8 @@ define( function( require ) {
         showNormal: true
       }
     );
-    //Model components
+
+    // model components
     this.intensityMeter = new IntensityMeter( centerOffsetLeft ? -this.modelWidth * 0.525 : -this.modelWidth * 0.385, -this.modelHeight * 0.25,
       centerOffsetLeft ? -this.modelWidth * 0.490 : -this.modelWidth * 0.35, -this.modelHeight * 0.25 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
@@ -95,17 +95,12 @@ define( function( require ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );
     } );
 
-    /*    Property.multilink( [ this.laser.onProperty, this.laser.pivotProperty, this.laser.emissionPointProperty,
-     this.intensityMeter.sensorPositionProperty, this.intensityMeter.enabledProperty, this.laser.colorProperty, this.laserViewProperty ],
-     function() {
-     //   bendingLightModel.updateModel();
-     } );*/
   }
 
   return inherit( PropertySet, BendingLightModel, {
 
       /**
-       *
+       * @public
        * @param {LightRay}ray
        */
       addRay: function( ray ) {
@@ -117,9 +112,6 @@ define( function( require ) {
       getHeight: function() {
         return this.modelHeight;
       },
-      addRayAddedListener: function( listener ) {
-        this.rayAddedListeners.add( listener );
-      },
       getLaser: function() {
         return this.laser;
       },
@@ -130,24 +122,32 @@ define( function( require ) {
       getIntensityMeter: function() {
         return this.intensityMeter;
       },
-      //Clear the model in preparation for another ray propagation update phase
+      /**
+       * clear the model in preparation for another ray propagation update phase
+       * @public
+       */
       clearModel: function() {
 
         for ( var i = 0; i < this.rays.length; i++ ) {
           this.rays.get( i ).particles.clear();
         }
         this.rays.clear();
-        //Clear the accumulator in the intensity meter so it can sum up the newly
+        // clear the accumulator in the intensity meter so it can sum up the newly
         // created rays
         this.intensityMeter.clearRayReadings();
       },
-      //Update the model by clearing the rays, then recreating them
+
+      /**
+       * update the model by clearing the rays, then recreating them
+       * @public
+       */
       updateModel: function() {
         this.clearModel();
         this.propagateRays();
       },
 
       /**
+       * @public
        * Get the fraction of power transmitted through the medium
        * @param {Number} n1
        * @param {Number} n2
@@ -161,6 +161,7 @@ define( function( require ) {
 
       /**
        * Get the fraction of power reflected from the medium
+       * @public
        * @param {Number} n1
        * @param {Number} n2
        * @param {Number} cosTheta1
@@ -170,18 +171,13 @@ define( function( require ) {
       getReflectedPower: function( n1, n2, cosTheta1, cosTheta2 ) {
         return Math.pow( (n1 * cosTheta1 - n2 * cosTheta2) / (n1 * cosTheta1 + n2 * cosTheta2), 2 );
       },
-      //Add a listener that is notified after the model gets updated (by having the ray propagation scheme run again)
-      addModelUpdateListener: function( listener ) {
-        this.modelUpdateListeners.add( listener );
-      },
-      addResetListener: function( listener ) {
-        this.resetListeners.add( listener );
-      },
+      /**
+       * @public
+       */
       resetAll: function() {
         this.laser.resetAll();
         PropertySet.prototype.reset.call( this );
         this.intensityMeter.resetAll();
-        // this.laserView.reset();
       }
     },
     //statics

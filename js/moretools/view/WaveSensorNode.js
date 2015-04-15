@@ -28,14 +28,14 @@ define( function( require ) {
   var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // strings
-  var TIME = require( 'string!BENDING_LIGHT/time' );
+  var timeString = require( 'string!BENDING_LIGHT/time' );
 
   //images
   var darkProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_dark.png' );
   var lightProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_light.png' );
 
   /**
-   * Class for rendering a probe that can be used to sense wave values
+   * View for rendering a probe that can be used to sense wave values
    *
    * @param {WaveSensorNode} waveSensorNode
    * @param probe
@@ -50,10 +50,10 @@ define( function( require ) {
     var probeNode = this;
     Node.call( this );
 
-    //add the probe
+    // add the probe
     this.addChild( new Image( imageName, { scale: 0.8 } ) );
 
-    //Interaction: translates when dragged, but keep it bounded within the play area
+    // interaction: translates when dragged, but keep it bounded within the play area
     var start;
     var fromSensorPanel;
     var toSensorPanel;
@@ -131,6 +131,7 @@ define( function( require ) {
     // add body node
     var rectangleWidth = 135;
     var rectangleHeight = 100;
+
     // adding outer rectangle
     var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 5, 5, {
       stroke: new LinearGradient( 0, 0, 0, rectangleHeight )
@@ -141,7 +142,8 @@ define( function( require ) {
         .addColorStop( 1, '#005B86' ),
       lineWidth: 2
     } );
-    //second rectangle
+
+    // second rectangle
     var innerRectangle = new Rectangle( 0, 0, rectangleWidth - 5, rectangleHeight - 10, 0, 0, {
       fill: '#0078B0',
       stroke: '#0081BE',
@@ -160,15 +162,15 @@ define( function( require ) {
       } );
     this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle ], scale: 0.93 } );
 
-    //Add the "time" axis label at the bottom center of the chart
-    var titleNode = new Text( TIME, {
+    // add the "time" axis label at the bottom center of the chart
+    var titleNode = new Text( timeString, {
       font: new PhetFont( 18 ),
       fill: 'white'
     } );
     this.bodyNode.addChild( titleNode );
     titleNode.setTranslation( this.bodyNode.getCenterX() - titleNode.getWidth() / 2, this.bodyNode.height * 0.82 );
 
-    //Add the chart inside the body, with one series for each of the dark and light probes
+    // add the chart inside the body, with one series for each of the dark and light probes
     this.chartNode = new ChartNode( innerMostRectangle.bounds.erode( 3 ),
       [ new Series( waveSensor.probe1.seriesProperty, darkProbeColor ),
         new Series( waveSensor.probe2.seriesProperty, lightProbeColor ) ] );
@@ -179,7 +181,8 @@ define( function( require ) {
       waveSensorNode.bodyNode.setTranslation( viewPoint.x - waveSensorNode.bodyNode.getWidth() / 2,
         viewPoint.y - waveSensorNode.bodyNode.getHeight() );
     } );
-    //Add interaction, the body is draggable, but keep it constrained to stay in the play area
+
+    // add interaction, the body is draggable, but keep it constrained to stay in the play area
     var start;
     var fromSensorPanel;
     var toSensorPanel;
@@ -196,7 +199,6 @@ define( function( require ) {
         }
         else {
           fromSensorPanel = false;
-          waveSensor.visibleProperty.set( false );
         }
       },
       drag: function( event ) {
@@ -229,13 +231,13 @@ define( function( require ) {
       }
     } ) );
 
-    //Create the probes
+    // create the probes
     this.probe1Node = new ProbeNode( this, waveSensor.probe1, darkProbeImage, modelViewTransform, container, dragBounds );
     this.probe2Node = new ProbeNode( this, waveSensor.probe2, lightProbeImage, modelViewTransform, container, dragBounds );
 
     this.setWaveSensorScale( 0.4 );
 
-    //Rendering order, including wires
+    // rendering order, including wires
     this.addChild( new WireNode( waveSensor.probe1.positionProperty, waveSensor.bodyPositionProperty,
       this.probe1Node, this.bodyNode, darkProbeColor ) );
     this.addChild( new WireNode( waveSensor.probe2.positionProperty, waveSensor.bodyPositionProperty,
@@ -267,16 +269,17 @@ define( function( require ) {
 
     },
     /**
-     * Resize the WaveSensorNode
+     * resize the WaveSensorNode
      *
      * @param {Vector2} endPosition
      * @param {number} scale
      */
     setWaveSensorNodeScale: function( endPosition, scale ) {
-      //previous scale for scaling the distance among probeNodes and bodyNode
+
+      // previous scale for scaling the distance among probeNodes and bodyNode
       var prevScale = this.bodyNode.getScaleVector().x;
 
-      //scaling all components
+      // scaling all components
       this.bodyNode.setScaleMagnitude( scale );
       this.probe1Node.setScaleMagnitude( scale );
       this.probe2Node.setScaleMagnitude( scale );
@@ -294,7 +297,7 @@ define( function( require ) {
       this.waveSensor.translateAll( endPosition.minus( this.waveSensor.probe1.position ) );
     },
     /**
-     * Resize the WaveSensorNode with Animation
+     * resize the WaveSensorNode with Animation
      *
      * @param {Vector2} endPosition
      * @param {number} scale
@@ -322,22 +325,28 @@ define( function( require ) {
           target.setWaveSensorNodeScale( new Vector2( startPoint.x, startPoint.y ), startPoint.scale );
         } ).start();
     },
+
     /**
-     * Called when dragged out of the toolbox, drags all parts together (including body and probes)
+     * called when dragged out of the toolbox, drags all parts together (including body and probes)
      *
      * @param {Vector2} delta
      */
     dragAll: function( delta ) {
       this.waveSensor.translateAll( this.modelViewTransform.viewToModelDelta( delta ) );
     },
+
     /**
-     * Drag bodyNode
+     *  drag bodyNode
      *
      * @param {Vector2} delta
      */
     dragBody: function( delta ) {
       this.waveSensor.translateBody( this.modelViewTransform.viewToModelDelta( delta ) );
     },
+
+    /**
+     * @public
+     */
     reset: function() {
       this.setWaveSensorScale( 0.4 );
       this.waveSensor.reset();
