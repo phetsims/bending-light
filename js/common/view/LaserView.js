@@ -73,17 +73,18 @@ define( function( require ) {
       cornerRadius: 5,
       xMargin: 7,
       yMargin: 6,
-      fill: '#C6CACE',
-      stroke: 'gray',
-      lineWidth: 1,
+      fill: '#EEEEEE',
+      stroke: '#696969',
+      lineWidth: 1.5,
       resize: false
     }, options );
     var laserView = this;
     this.hasMoreTools = hasMoreTools;
-    //var width = 100;
     this.rayNode = new RAY();
     // this.waveNode = new WAVE();
+
     var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
+
     var createButtonTextNode = function( text ) {
       return new Text( text, { font: new PhetFont( 12 ) } );
     };
@@ -118,7 +119,8 @@ define( function( require ) {
     var content;
     if ( hasMoreTools ) {
       this.laserWavelengthProperty = new Property( model.wavelengthProperty.value * 1E9 );
-      // Create  WavelengthSlider node
+
+      // add  WavelengthSlider node
       var wavelengthSlider = new WavelengthSlider( this.laserWavelengthProperty,
         {
           cursorStroke: 'white',

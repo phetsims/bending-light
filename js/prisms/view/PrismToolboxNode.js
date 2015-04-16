@@ -51,17 +51,10 @@ define( function( require ) {
    */
   function PrismToolboxNode( prismBreakView, modelViewTransform, prismBreakModel, options ) {
     var prismToolBoxNode = this;
-    options = _.extend( {
-      xMargin: 10,
-      yMargin: 7,
-      fill: '#f2fa6a ',
-      stroke: 'gray',
-      lineWidth: 1
-    }, options );
 
     Node.call( this );
     var content = new HBox( {
-      spacing: 4
+      spacing: 10
     } );
     var prismPath = [];
 
@@ -101,7 +94,7 @@ define( function( require ) {
       prismPath[ i ] = createPrismIcon( prism );
       var start;
       var prismShape;
-      prismPath[ i ].scale( 70 / prismPath[ i ].height );
+      prismPath[ i ].scale( 60 / prismPath[ i ].height );
       prismPath[ i ].addInputListener( new SimpleDragHandler( {
 
           start: function( event ) {
@@ -140,14 +133,14 @@ define( function( require ) {
         lineWidth: 0
       } );
     this.objectMediumControlPanel = objectMediumControlPanel;
-    var dividerBetweenPrismsAndPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height, 10, 10, {
-      stroke: 'gray', lineWidth: 0.4, fill: 'gray'
+    var dividerBetweenPrismsAndPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10, 10, {
+      stroke: 'gray', lineWidth: 0.2, fill: 'gray'
     } );
     content.addChild( dividerBetweenPrismsAndPanel );
 
     content.addChild( objectMediumControlPanel );
-    var dividerBetweenMediumPanelAndControlPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height, 10, 10, {
-      stroke: 'gray', lineWidth: 0.4, fill: 'gray'
+    var dividerBetweenMediumPanelAndControlPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10, 10, {
+      stroke: 'gray', lineWidth: 0.2, fill: 'gray'
     } );
     content.addChild( dividerBetweenMediumPanelAndControlPanel );
     // add check boxes
@@ -185,7 +178,7 @@ define( function( require ) {
     };
 
     var checkBoxOptions = {
-      boxWidth: 15,
+      boxWidth: 20,
       spacing: 2
     };
 
@@ -216,8 +209,8 @@ define( function( require ) {
     } );
     content.addChild( checkBoxes );
     // add the sensors panel
-    var sensorPanel = new Rectangle( 0, 0, content.width + 5, content.height, 10, 10, {
-      stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
+    var sensorPanel = new Rectangle( 0, 0, content.width + 20, content.height + 2, 5, 5, {
+      stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE'
     } );
     this.addChild( sensorPanel );
     this.addChild( content );

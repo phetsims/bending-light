@@ -45,8 +45,8 @@ define( function( require ) {
 
     options = _.extend( {
       fill: '#EEEEEE ',
-      stroke: '#8B8B8B',
-      lineWidth: 2,
+      stroke: '#696969',
+      lineWidth: 1.5,
       cornerRadius: 5
     }, options );
 

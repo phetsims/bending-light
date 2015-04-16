@@ -69,7 +69,7 @@ define( function( require ) {
 
     var prismsBreakModel = this;
     BendingLightModel.call( this, Math.PI, false,
-      BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
+      BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1 );
 
     Property.multilink( [ this.manyRaysProperty,
       this.environmentMediumProperty,

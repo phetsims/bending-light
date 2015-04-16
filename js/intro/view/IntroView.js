@@ -135,17 +135,15 @@ define( function( require ) {
       normalLine.setVisible( showNormal );
     } );
 
-    // embed in the a control panel node to get a border and background
-    var laserView = new LaserView( introModel, hasMoreTools, {} );
+    //  add laser view panel
+    var laserView = new LaserView( introModel, hasMoreTools, { left: this.layoutBounds.minX, top: this.layoutBounds.top + 4 } );
 
-    // set the location and add to the scene
-    laserView.setTranslation( this.layoutBounds.minX + INSET / 2, 5 );
     this.afterLightLayer2.addChild( laserView );
 
     var sensorPanelHeight = this.getMoreTools().length ? 330 : 220;
 
-    this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 10, 10, {
-      stroke: 'gray', lineWidth: 1, fill: '#EEEEEE'
+    this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 5, 5, {
+      stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE'
     } );
     this.beforeLightLayer2.addChild( this.sensorPanel );
     this.sensorPanel.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - sensorPanelHeight - 10 );
@@ -200,7 +198,7 @@ define( function( require ) {
         },
         bottom: this.layoutBounds.bottom - INSET,
         right: this.layoutBounds.right - INSET,
-        radius: 18
+        radius: 20
       } );
 
     this.afterLightLayer2.addChild( resetAllButton );
@@ -223,7 +221,7 @@ define( function( require ) {
         radius: 12,
         stroke: 'black',
         fill: '#005566',
-        left:   this.sensorPanel.right + 170,
+        left: this.sensorPanel.right + 170,
         bottom: this.layoutBounds.bottom - 20
       }
     );

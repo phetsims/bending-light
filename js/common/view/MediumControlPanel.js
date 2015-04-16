@@ -62,11 +62,11 @@ define( function( require ) {
     var mediumControlPanel = this;
 
     options = _.extend( {
-      xMargin: 10,
+      xMargin: 7,
       yMargin: 7,
       fill: '#f2fa6a ',
-      stroke: 'gray',
-      lineWidth: 1
+      stroke: '#696969',
+      lineWidth: 1.5
     }, options );
     this.mediumProperty = mediumProperty; // the medium to observe
     this.laserWavelength = laserWavelength;
@@ -79,15 +79,19 @@ define( function( require ) {
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
     var maxWidth = 147;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
+
     var createItem = function( item ) {
       var itemName = new Text( item.name, textOptionsOfComboBoxStrings );
-      var strutWidth = textFieldVisible ? maxWidth - itemName.width : 20;
+      var strutWidth = textFieldVisible ? maxWidth - itemName.width : 26;
+
       return ComboBox.createItem( new HBox( {
         children: [ itemName, new HStrut( strutWidth ) ]
       } ), item );
     };
     var mediumStates = [ BendingLightModel.AIR, BendingLightModel.WATER, BendingLightModel.GLASS, BendingLightModel.MYSTERY_A, BendingLightModel.MYSTERY_B, CUSTOM ];
     var comboBoxMediumState = new Property( initialMediumState );
+
+    // update combo box
     var updateComboBox = function() {
       var selected = -1;
       for ( var i = 0; i < mediumStates.length; i++ ) {
@@ -96,6 +100,7 @@ define( function( require ) {
           selected = i;
         }
       }
+
       // only set to a different substance if "custom" wasn't specified.
       // otherwise pressing "air" then "custom" will make the combobox jump back to "air"
       if ( selected !== -1 && !mediumProperty.get().getMediumState().custom ) {
@@ -126,8 +131,8 @@ define( function( require ) {
 
     var textOptions = { font: new PhetFont( 12 ) };
     var indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
-    var mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
-    var indexOfRefractionValueText = new Text( mediumIndexProperty.get().toFixed( format ), textOptions );
+    this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
+    var indexOfRefractionValueText = new Text( this.mediumIndexProperty.get().toFixed( format ), textOptions );
     var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 50, 20, 2, 2, {
       fill: 'white',
       stroke: 'black'
@@ -135,7 +140,7 @@ define( function( require ) {
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
       mediumControlPanel.custom = true;
-      mediumIndexProperty.set( Util.toFixedNumber( Math.min( mediumIndexProperty.get() + 1 / Math.pow( 10, format ),
+      mediumControlPanel.mediumIndexProperty.set( Util.toFixedNumber( Math.min( mediumControlPanel.mediumIndexProperty.get() + 1 / Math.pow( 10, format ),
         INDEX_OF_REFRACTION_MAX ), format ) );
     }, {
       scale: 0.7
@@ -145,7 +150,7 @@ define( function( require ) {
 
     var minusButton = new ArrowButton( 'left', function propertyMinus() {
       mediumControlPanel.custom = true;
-      mediumIndexProperty.set( Util.toFixedNumber( Math.max( mediumIndexProperty.get() - 1 / Math.pow( 10, format ),
+      mediumControlPanel.mediumIndexProperty.set( Util.toFixedNumber( Math.max( mediumControlPanel.mediumIndexProperty.get() - 1 / Math.pow( 10, format ),
         INDEX_OF_REFRACTION_MIN ), format ) );
     }, {
       scale: 0.7
@@ -170,13 +175,13 @@ define( function( require ) {
     var airTitle = new Text( airString );
     var waterTitle = new Text( waterString );
     var glassTitle = new Text( glassString );
-    var indexOfRefractionSlider = new HSlider( mediumIndexProperty,
+    var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty,
       { min: INDEX_OF_REFRACTION_MIN, max: INDEX_OF_REFRACTION_MAX },
       {
         trackFill: 'white',
         trackSize: new Dimension2( 140, 1 ),
         thumbSize: new Dimension2( 10, 20 ),
-        majorTickLength: 15,
+        majorTickLength: 11,
         tickLabelSpacing: 3,
         startDrag: function() {
           mediumControlPanel.custom = true;
@@ -206,9 +211,9 @@ define( function( require ) {
 
     indexOfRefractionNode.top = materialComboBox.bottom + INSET;
     indexOfRefractionNode.left = materialComboBox.left;
-    indexOfRefractionSlider.centerX = mediumControlPanel.centerX;
+    indexOfRefractionSlider.centerX = materialComboBox.centerX;
     indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET;
-    unknown.centerX = indexOfRefractionNode.centerX;
+    unknown.centerX = materialComboBox.centerX;
     unknown.centerY = indexOfRefractionNode.bottom + INSET;
     var mediumPanelNode = new Node( {
       children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
@@ -217,12 +222,12 @@ define( function( require ) {
 
     var mediumPanel = new Panel( mediumPanelNode, {
       fill: '#EEEEEE',
-      xMargin: 7,
-      yMargin: 7,
+      stroke: '#696969',
+      xMargin: options.xMargin,
+      yMargin: options.yMargin,
       cornerRadius: 5, lineWidth: options.lineWidth
     } );
     this.addChild( mediumPanel );
-    this.mediumIndexProperty = mediumIndexProperty;
     Property.multilink( [ mediumProperty, this.laserWavelength ],
       function() {
         mediumControlPanel.custom = mediumProperty.get().getMediumState().custom;
@@ -237,7 +242,7 @@ define( function( require ) {
       updateComboBox();
       if ( !mediumProperty.get().isMystery() ) {
         mediumControlPanel.lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightModel.WAVELENGTH_RED );
-        mediumIndexProperty.set( mediumControlPanel.lastNonMysteryIndexAtRed );
+        mediumControlPanel.mediumIndexProperty.set( mediumControlPanel.lastNonMysteryIndexAtRed );
       }
     } );
     comboBoxMediumState.link( function( selected ) {
@@ -250,7 +255,7 @@ define( function( require ) {
       }
     } );
 
-    mediumIndexProperty.link( function( indexOfRefraction ) {
+    this.mediumIndexProperty.link( function( indexOfRefraction ) {
       if ( mediumControlPanel.custom ) {
         mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
       }
@@ -274,6 +279,7 @@ define( function( require ) {
      * @param indexOfRefraction
      */
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
+
       // have to pass the value through the dispersion function to account for the
       // current wavelength of the laser (since index of refraction is a function of wavelength)
       var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );

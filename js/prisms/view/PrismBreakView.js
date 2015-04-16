@@ -82,7 +82,7 @@ define( function( require ) {
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
     var laserControlPanelNode = new LaserControlPanelNode( prismBreakModel.laser.colorModeProperty,
       prismBreakModel.wavelengthProperty, {
-        bottom: this.layoutBounds.bottom - 200,
+        top: environmentMediumControlPanel.bottom + 2 * INSET,
         right: this.layoutBounds.right - INSET
       } );
     this.addChild( laserControlPanelNode );
@@ -102,8 +102,8 @@ define( function( require ) {
     } );
 
     var laserTypeControlPanel = new LaserTypeControlPanel( prismBreakModel.manyRaysProperty, {
-      top:  this.layoutBounds.top - INSET,
-      left: this.layoutBounds.left + INSET
+      top: this.layoutBounds.top + INSET,
+      left: this.layoutBounds.minX
     } );
     this.addChild( laserTypeControlPanel );
 
@@ -119,7 +119,7 @@ define( function( require ) {
         },
         bottom: this.layoutBounds.bottom - INSET,
         right: this.layoutBounds.right - INSET,
-        radius: 18
+        radius: 20
       } );
 
     this.afterLightLayer2.addChild( resetAllButton );
