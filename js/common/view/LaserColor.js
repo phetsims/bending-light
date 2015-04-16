@@ -31,7 +31,7 @@ define( function( require ) {
 
   inherit( Object, OneColor, {
     getColor: function() {
-      return new VisibleColor.wavelengthToColor( this.wavelength * 1E9 );
+      return VisibleColor.wavelengthToColor( this.wavelength * 1E9 );
     },
     getWavelength: function() {
       return this.wavelength;

@@ -132,10 +132,10 @@ define( function( require ) {
      */
     addToMap: function( x0, y0, color, intensity, map ) {
       //so that rays don't start fully saturated: this makes it so that it is possible to see the decrease in intensity after a (nontotal) reflection
-      var keyPoint = new Vector2( x0, y0 );
+      var keyPoint = (17647448 * x0 + 13333 * y0 + 33);
       var isPointInSideTheMap = false;
       for ( var i = 0; i < this.hashMapPointArray.length; i++ ) {
-        if ( keyPoint.equals( this.hashMapPointArray[ i ] ) ) {
+        if ( keyPoint === ( this.hashMapPointArray[ i ] ) ) {
           isPointInSideTheMap = true;
           break;
         }

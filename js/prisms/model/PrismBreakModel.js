@@ -27,6 +27,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
+  var Color = require( 'SCENERY/util/Color' );
 
   // constants
   var CHARACTERISTIC_LENGTH = 650E-9;
@@ -263,10 +264,12 @@ define( function( require ) {
      * This is the main computation of this model, rays are cleared beforehand
      * and this algorithm adds them as it goes
      *@private
-     * @param incidentRay
-     * @param count
+     * @param {Ray} incidentRay
+     * @param {Number} count
      */
     propagateTheRay: function( incidentRay, count ) {
+      var rayColor;
+      var rayVisibleColor;
       var waveWidth = CHARACTERISTIC_LENGTH * 5;
       // termination condition of we have reached too many iterations or
       // if the ray is very weak
@@ -321,17 +324,29 @@ define( function( require ) {
           this.propagateTheRay( reflected, count + 1 );
         }
         this.propagateTheRay( refracted, count + 1 );
-
+        // TODO: add ray color without creating new Color object.
+        rayColor = new Color( 0, 0, 0, 0 );
+        rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
+        rayColor.setRed( rayVisibleColor.getRed() );
+        rayColor.setGreen( rayVisibleColor.getGreen() );
+        rayColor.setBlue( rayVisibleColor.getBlue() );
+        rayColor.setAlpha( rayVisibleColor.getAlpha() );
         // add the incident ray itself
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, intersection.getPoint(), n1,
-          wavelengthInN1, incidentRay.power, new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
+          wavelengthInN1, incidentRay.power, rayColor,
           waveWidth, 0, null, true, false ) );
       }
       else {
+        rayColor = new Color( 0, 0, 0, 0 );
+        rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
+        rayColor.setRed( rayVisibleColor.getRed() );
+        rayColor.setGreen( rayVisibleColor.getGreen() );
+        rayColor.setBlue( rayVisibleColor.getBlue() );
+        rayColor.setAlpha( rayVisibleColor.getAlpha() );
         // no intersection, so the light ray should just keep going
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail,
           incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ), n1, wavelengthInN1,
-          incidentRay.power, new VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ),
+          incidentRay.power, rayColor,
           waveWidth, 0, null, true, false ) );
       }
     },
