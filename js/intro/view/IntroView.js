@@ -199,7 +199,8 @@ define( function( require ) {
 
         },
         bottom: this.layoutBounds.bottom - INSET,
-        right:  this.layoutBounds.right - INSET
+        right: this.layoutBounds.right - INSET,
+        radius: 18
       } );
 
     this.afterLightLayer2.addChild( resetAllButton );
@@ -222,8 +223,8 @@ define( function( require ) {
         radius: 12,
         stroke: 'black',
         fill: '#005566',
-        right: resetAllButton.left - 82,
-        bottom: this.layoutBounds.bottom - 14
+        left:   this.sensorPanel.right + 170,
+        bottom: this.layoutBounds.bottom - 20
       }
     );
 
@@ -264,7 +265,7 @@ define( function( require ) {
     this.speedControl = new VBox( {
       align: 'left',
       spacing: radioButtonSpacing,
-      children: [ slowMotionRadioBox, normalMotionRadioBox ]
+      children: [ normalMotionRadioBox, slowMotionRadioBox ]
     } );
     this.addChild( this.speedControl.mutate( { right: this.playPauseButton.left - 8, bottom: this.playPauseButton.bottom } ) );
     introModel.laserViewProperty.link( function( laserType ) {

@@ -118,7 +118,8 @@ define( function( require ) {
           prismToolboxNode.objectMediumControlPanel.reset();
         },
         bottom: this.layoutBounds.bottom - INSET,
-        right:  this.layoutBounds.right - INSET
+        right: this.layoutBounds.right - INSET,
+        radius: 18
       } );
 
     this.afterLightLayer2.addChild( resetAllButton );
