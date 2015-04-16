@@ -31,6 +31,8 @@ define( function( require ) {
   // constants
   var PLUS_MINUS_SPACING = 4;
 
+  //only go to 700nm because after that the reds are too black
+  var LASER_MAX_WAVELENGTH = 700; // nm
 
   /**
    *
@@ -81,7 +83,7 @@ define( function( require ) {
     var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty,
       {
         cursorStroke: 'white',
-        maxWavelength: 700,
+        maxWavelength: LASER_MAX_WAVELENGTH,
         thumbWidth: 20,
         thumbHeight: 20,
         trackWidth: 170,

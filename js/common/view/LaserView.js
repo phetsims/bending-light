@@ -31,6 +31,8 @@ define( function( require ) {
 
   // constants
   var PLUS_MINUS_SPACING = 4;
+
+  //only go to 700nm because after that the reds are too black
   var LASER_MAX_WAVELENGTH = 700; // nm
 
   // ray view creates LightRayNodes and shows in the lightRayLayer
