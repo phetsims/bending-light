@@ -237,6 +237,7 @@ define( function( require ) {
       updateComboBox();
       if ( !mediumProperty.get().isMystery() ) {
         mediumControlPanel.lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightModel.WAVELENGTH_RED );
+        mediumIndexProperty.set( mediumControlPanel.lastNonMysteryIndexAtRed );
       }
     } );
     comboBoxMediumState.link( function( selected ) {
