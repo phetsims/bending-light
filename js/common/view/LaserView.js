@@ -31,6 +31,7 @@ define( function( require ) {
 
   // constants
   var PLUS_MINUS_SPACING = 4;
+  var LASER_MAX_WAVELENGTH = 700; // nm
 
   // ray view creates LightRayNodes and shows in the lightRayLayer
   function RAY() {
@@ -121,7 +122,7 @@ define( function( require ) {
       var wavelengthSlider = new WavelengthSlider( this.laserWavelengthProperty,
         {
           cursorStroke: 'white',
-          maxWavelength: 700,
+          maxWavelength: LASER_MAX_WAVELENGTH,
           thumbWidth: 20,
           thumbHeight: 20,
           trackWidth: 140,
@@ -137,7 +138,7 @@ define( function( require ) {
         { fill: 'white', stroke: 'black' } );
 
       var plusButton = new ArrowButton( 'right', function propertyPlus() {
-        laserView.laserWavelengthProperty.set( Math.min( laserView.laserWavelengthProperty.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
+        laserView.laserWavelengthProperty.set( Math.min( laserView.laserWavelengthProperty.get() + 1, LASER_MAX_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
@@ -149,6 +150,11 @@ define( function( require ) {
       }, {
         scale: 0.6
       } );
+      this.laserWavelengthProperty.link( function( wavelength ) {
+        plusButton.enabled = ( wavelength < LASER_MAX_WAVELENGTH);
+        minusButton.enabled = ( wavelength > VisibleColor.MIN_WAVELENGTH );
+      } );
+
       minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
         minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
 
