@@ -77,12 +77,12 @@ define( function( require ) {
 
     // add material combo box
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
-    var maxWidth = 147;
+    var maxWidth = textFieldVisible ? 147 : 71;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
     var createItem = function( item ) {
       var itemName = new Text( item.name, textOptionsOfComboBoxStrings );
-      var strutWidth = textFieldVisible ? maxWidth - itemName.width : 26;
+      var strutWidth = maxWidth - itemName.width;
 
       return ComboBox.createItem( new HBox( {
         children: [ itemName, new HStrut( strutWidth ) ]

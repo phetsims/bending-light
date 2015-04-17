@@ -145,7 +145,7 @@ define( function( require ) {
 
     // add prisms tool box Node
     var prismToolboxNode = new PrismToolboxNode( this, this.modelViewTransform, prismBreakModel,
-      { left: this.layoutBounds.minX, bottom: this.layoutBounds.bottom - INSET } );
+      { left: this.layoutBounds.minX + INSET, bottom: this.layoutBounds.bottom - INSET } );
     this.beforeLightLayer.addChild( prismToolboxNode );
     this.beforeLightLayer.addChild( this.prismLayer );
 

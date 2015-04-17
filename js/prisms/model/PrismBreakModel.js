@@ -288,7 +288,7 @@ define( function( require ) {
         this.addIntersection( intersection );
         var pointOnOtherSide = intersection.getPoint().plus( incidentRay.directionUnitVector.times( 1E-12 ) );
         var outputInsidePrism = false;
-        var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector )
+        var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
         this.prisms.forEach( function( prism ) {
           var intersection = prism.shapeProperty.get().toShape().intersection( lightRayAfterIntersectionInRay2Form );
           if ( intersection.length % 2 === 1 ) {

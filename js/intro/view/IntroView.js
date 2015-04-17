@@ -136,17 +136,18 @@ define( function( require ) {
     } );
 
     //  add laser view panel
-    var laserView = new LaserView( introModel, hasMoreTools, { left: this.layoutBounds.minX, top: this.layoutBounds.top + 4 } );
+    var laserView = new LaserView( introModel, hasMoreTools, { left: this.layoutBounds.minX + INSET * 0.3, top: this.layoutBounds.top + 4 } );
 
     this.afterLightLayer2.addChild( laserView );
 
     var sensorPanelHeight = this.getMoreTools().length ? 330 : 220;
 
     this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 5, 5, {
-      stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE'
+      stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
+      left: this.layoutBounds.minX + INSET * 0.3,
+      top:  this.layoutBounds.maxY - sensorPanelHeight - 10
     } );
     this.beforeLightLayer2.addChild( this.sensorPanel );
-    this.sensorPanel.setTranslation( this.layoutBounds.minX, this.layoutBounds.maxY - sensorPanelHeight - 10 );
 
     var ICON_WIDTH = 85;
 

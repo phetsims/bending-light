@@ -21,8 +21,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
-  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
-  var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Path = require( 'SCENERY/nodes/Path' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
@@ -39,7 +37,7 @@ define( function( require ) {
 
   // images
   var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
-
+  var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
 
   /**
    *
@@ -146,11 +144,9 @@ define( function( require ) {
     // add check boxes
     // create an icon for the protractor check box
     var createProtractorIcon = function() {
-      var protractorModel = new ProtractorModel( 0, 0 );
-      var protractorNode = new ProtractorNode( prismBreakView, modelViewTransform, prismBreakView.showProtractorProperty, protractorModel,
-        prismBreakView.getProtractorDragRegion, prismBreakView.getProtractorRotationRegion, 90, prismToolBoxNode.getBounds() );
-      protractorNode.setScaleMagnitude( 0.05 );
-      return protractorNode;
+      var protractorImageNode = new Image( protractorImage );
+      protractorImageNode.scale( 30 / protractorImage.width );
+      return protractorImageNode;
     };
 
     var textOptions = { font: new PhetFont( 10 ) };
