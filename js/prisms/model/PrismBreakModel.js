@@ -271,6 +271,7 @@ define( function( require ) {
       var rayColor;
       var rayVisibleColor;
       var waveWidth = CHARACTERISTIC_LENGTH * 5;
+
       // termination condition of we have reached too many iterations or
       // if the ray is very weak
       if ( count > 50 || incidentRay.power < 0.001 ) {
@@ -287,14 +288,15 @@ define( function( require ) {
         this.addIntersection( intersection );
         var pointOnOtherSide = intersection.getPoint().plus( incidentRay.directionUnitVector.times( 1E-12 ) );
         var outputInsidePrism = false;
+        var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector )
         this.prisms.forEach( function( prism ) {
-          var intersection = prism.shapeProperty.get().toShape().intersection(
-            new Ray2( pointOnOtherSide, incidentRay.directionUnitVector ) );
+          var intersection = prism.shapeProperty.get().toShape().intersection( lightRayAfterIntersectionInRay2Form );
           if ( intersection.length % 2 === 1 ) {
             outputInsidePrism = true;
           }
         } );
-        //index of refraction of the other medium
+
+        // index of refraction of the other medium
         var n2 = outputInsidePrism ? this.prismMediumProperty.get().getIndexOfRefraction(
           incidentRay.getBaseWavelength() ) :
                  this.environmentMediumProperty.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
@@ -327,10 +329,8 @@ define( function( require ) {
         // TODO: add ray color without creating new Color object.
         rayColor = new Color( 0, 0, 0, 0 );
         rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
-        rayColor.setRed( rayVisibleColor.getRed() );
-        rayColor.setGreen( rayVisibleColor.getGreen() );
-        rayColor.setBlue( rayVisibleColor.getBlue() );
-        rayColor.setAlpha( rayVisibleColor.getAlpha() );
+        rayColor.set( rayVisibleColor.getRed(), rayVisibleColor.getGreen(), rayVisibleColor.getBlue(), rayVisibleColor.getAlpha() );
+
         // add the incident ray itself
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, intersection.getPoint(), n1,
           wavelengthInN1, incidentRay.power, rayColor,
@@ -339,10 +339,8 @@ define( function( require ) {
       else {
         rayColor = new Color( 0, 0, 0, 0 );
         rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
-        rayColor.setRed( rayVisibleColor.getRed() );
-        rayColor.setGreen( rayVisibleColor.getGreen() );
-        rayColor.setBlue( rayVisibleColor.getBlue() );
-        rayColor.setAlpha( rayVisibleColor.getAlpha() );
+        rayColor.set( rayVisibleColor.getRed(), rayVisibleColor.getGreen(), rayVisibleColor.getBlue(), rayVisibleColor.getAlpha() );
+
         // no intersection, so the light ray should just keep going
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail,
           incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ), n1, wavelengthInN1,
