@@ -195,6 +195,7 @@ define( function( require ) {
     var start;
     var fromSensorPanel;
     var toSensorPanel;
+    var position;
     this.bodyNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         fromSensorPanel = false;
@@ -221,7 +222,7 @@ define( function( require ) {
         }
         else {
           waveSensorNode.dragBody( end.minus( start ) );
-          var position = ConstraintBounds.constrainLocation( waveSensor.bodyPositionProperty.get(),
+          position = ConstraintBounds.constrainLocation( waveSensor.bodyPositionProperty.get(),
             modelViewTransform.viewToModelBounds( dragBounds ) );
           waveSensor.bodyPositionProperty.set( position );
         }
