@@ -50,7 +50,6 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = knobNode.globalToParentPoint( event.pointer.point );
-        end = ConstraintBounds.constrainLocation( end, prismDragBounds );
         var angle = prism.shapeProperty.get().getRotationCenter().minus(
           modelViewTransform.viewToModelPosition( end ) ).angle();
         prism.rotate( angle - previousAngle );
@@ -77,8 +76,10 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = prismsNode.globalToParentPoint( event.pointer.point );
-        end = ConstraintBounds.constrainLocation( end, prismDragBounds );
         prism.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
+        var position = ConstraintBounds.constrainLocation( prism.shapeProperty.get().getRotationCenter(),
+          modelViewTransform.viewToModelBounds( prismDragBounds ) );
+        prism.translate( position.minus( prism.shapeProperty.get().getRotationCenter() ) );
         start = end;
       },
       end: function() {

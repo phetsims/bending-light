@@ -57,6 +57,7 @@ define( function( require ) {
     var start;
     var fromSensorPanel;
     var toSensorPanel;
+    var position;
     probeNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         fromSensorPanel = false;
@@ -75,12 +76,17 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
-        end = ConstraintBounds.constrainLocation( end, dragBounds );
         if ( fromSensorPanel ) {
           waveSensorNode.dragAll( end.minus( start ) );
+          position = ConstraintBounds.constrainLocation( waveSensorNode.waveSensor.probe1.position,
+            modelViewTransform.viewToModelBounds( dragBounds ) );
+          waveSensorNode.waveSensor.translateAll( position.minus( waveSensorNode.waveSensor.probe1.position ) );
         }
         else {
           probe.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
+          position = ConstraintBounds.constrainLocation( probe.position,
+            modelViewTransform.viewToModelBounds( dragBounds ) );
+          probe.positionProperty.set( position );
         }
         start = end;
       },
@@ -207,12 +213,17 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
-        end = ConstraintBounds.constrainLocation( end, dragBounds );
         if ( fromSensorPanel ) {
           waveSensorNode.dragAll( end.minus( start ) );
+          position = ConstraintBounds.constrainLocation( waveSensor.probe1.position,
+            modelViewTransform.viewToModelBounds( dragBounds ) );
+          waveSensor.translateAll( position.minus( waveSensorNode.waveSensor.probe1.position ) );
         }
         else {
           waveSensorNode.dragBody( end.minus( start ) );
+          var position = ConstraintBounds.constrainLocation( waveSensor.bodyPositionProperty.get(),
+            modelViewTransform.viewToModelBounds( dragBounds ) );
+          waveSensor.bodyPositionProperty.set( position );
         }
         start = end;
       },

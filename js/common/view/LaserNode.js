@@ -73,12 +73,14 @@ define( function( require ) {
       },
       drag: function( event ) {
         var endDrag = laserNode.globalToParentPoint( event.pointer.point );
-        endDrag = ConstraintBounds.constrainLocation( endDrag, dragBounds );
         laser.translate( modelViewTransform.viewToModelDelta( endDrag.minus( start ) ) );
+        var position = ConstraintBounds.constrainLocation( laser.emissionPoint,
+          modelViewTransform.viewToModelBounds( dragBounds ) );
+        laser.translate( position.minus( laser.emissionPoint ) );
         start = endDrag;
         showTranslationDragHandles.value = true;
       },
-      end: function( ) {
+      end: function() {
         showTranslationDragHandles.value = false;
       }
     } ) );

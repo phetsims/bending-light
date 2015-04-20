@@ -104,6 +104,7 @@ define( function( require ) {
     var start;
     var isFromSensorPanel;
     var isToSensorPanel;
+    var position;
     this.sensorNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         isFromSensorPanel = false;
@@ -121,12 +122,17 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
-        end = ConstraintBounds.constrainLocation( end, dragBounds );
         if ( isFromSensorPanel ) {
           intensityMeterNode.dragAll( end.minus( start ) );
+          position = ConstraintBounds.constrainLocation( intensityMeter.sensorPosition,
+            modelViewTransform.viewToModelBounds( dragBounds ) );
+          intensityMeter.translateAll( position.minus( intensityMeter.sensorPosition ) );
         }
         else {
           intensityMeterNode.dragSensor( end.minus( start ) );
+          position = ConstraintBounds.constrainLocation( intensityMeter.sensorPosition,
+            modelViewTransform.viewToModelBounds( dragBounds ) );
+          intensityMeter.sensorPositionProperty.set( position );
         }
         start = end;
       },
@@ -217,12 +223,17 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
-        end = ConstraintBounds.constrainLocation( end, dragBounds );
         if ( isFromSensorPanel ) {
           intensityMeterNode.dragAll( end.minus( start ) );
+          position = ConstraintBounds.constrainLocation( intensityMeter.sensorPosition,
+            modelViewTransform.viewToModelBounds( dragBounds ) );
+          intensityMeter.translateAll( position.minus( intensityMeter.sensorPosition ) );
         }
         else {
           intensityMeterNode.dragBody( end.minus( start ) );
+          position = ConstraintBounds.constrainLocation( intensityMeter.bodyPosition,
+            modelViewTransform.viewToModelBounds( dragBounds ) );
+          intensityMeter.bodyPositionProperty.set( position );
         }
         start = end;
       },

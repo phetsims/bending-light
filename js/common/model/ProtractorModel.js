@@ -31,23 +31,14 @@ define( function( require ) {
 
   return inherit( PropertySet, ProtractorModel, {
 
-    /**
-     * @public
-     * @param{Number} x
-     * @param {Number} y
-     */
-    translate1: function( x, y ) {
-      this.positionProperty.value.x = this.positionProperty.value.x + x;
-      this.positionProperty.value.y = this.positionProperty.value.y + y;
-      this.positionProperty._notifyObservers();
-    },
 
     /**
      *@public
      * @param {Vector2} delta
      */
     translate: function( delta ) {
-      this.translate1( delta.x, delta.y );
+      this.positionProperty.set( this.positionProperty.value.plus( delta ) );
+      this.positionProperty._notifyObservers();
     },
 
     /**

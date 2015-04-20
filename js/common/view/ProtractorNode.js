@@ -120,8 +120,10 @@ define( function( require ) {
       drag: function( event ) {
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
-        end = ConstraintBounds.constrainLocation( end, dragBounds );
         protractorNode.dragAll( end.minus( start ) );
+        var position = ConstraintBounds.constrainLocation( protractorNode.protractorModel.position,
+          protractorNode.modelViewTransform.viewToModelBounds( dragBounds ) );
+        protractorNode.protractorModel.positionProperty.set( position );
         start = end;
       },
       end: function() {
@@ -157,13 +159,13 @@ define( function( require ) {
         var startAngle = protractorNode.center.minus( start ).angle();
         var angle = protractorNode.center.minus( end ).angle();
         //Rotate the protractor model
-        protractorModel.angle = angle - startAngle;
+        protractorModel.angle += angle - startAngle;
         start = end;
       }
     } ) );
 
     this.protractorModel.angleProperty.link( function( angle ) {
-      protractorNode.rotateAround( protractorNode.center, angle );
+      protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
     } );
     this.protractorModel.positionProperty.link( function( position ) {
       var center = protractorNode.modelViewTransform.modelToViewPosition( position );

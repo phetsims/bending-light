@@ -164,8 +164,10 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = velocitySensorNode.globalToParentPoint( event.pointer.point );
-        end = ConstraintBounds.constrainLocation( end, dragBounds );
         velocitySensorNode.dragAll( end.minus( start ) );
+        var position = ConstraintBounds.constrainLocation( velocitySensor.position,
+          modelViewTransform.viewToModelBounds( dragBounds ) );
+        velocitySensor.positionProperty.set( position );
         start = end;
       },
       end: function() {
