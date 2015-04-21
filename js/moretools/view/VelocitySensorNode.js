@@ -24,7 +24,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
   var Util = require( 'DOT/Util' );
-  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
 
   // strings
   var speedString = require( 'string!BENDING_LIGHT/speed' );
@@ -152,32 +152,24 @@ define( function( require ) {
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
 
     // drag handler
-    //TODO : use MovableDragHandler instead  of SimpleDragHandler
-    var start;
-    this.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-        start = velocitySensorNode.globalToParentPoint( event.pointer.point );
-        if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
-          velocitySensorNode.setScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
-          velocitySensorNode.addToMoreToolsView();
+    this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty,
+      {
+        dragBounds: modelViewTransform.viewToModelBounds( dragBounds ),
+        modelViewTransform: modelViewTransform,
+        startDrag: function() {
+          if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
+            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(), 1 );
+            velocitySensorNode.addToMoreToolsView();
+          }
+        },
+        endDrag: function() {
+          if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
+            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, 0.7 );
+            velocitySensor.reset();
+            velocitySensorNode.addToSensorPanel();
+          }
         }
-      },
-      drag: function( event ) {
-        var end = velocitySensorNode.globalToParentPoint( event.pointer.point );
-        velocitySensorNode.dragAll( end.minus( start ) );
-        var position = ConstraintBounds.constrainLocation( velocitySensor.position,
-          modelViewTransform.viewToModelBounds( dragBounds ) );
-        velocitySensor.positionProperty.set( position );
-        start = end;
-      },
-      end: function() {
-        if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
-          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, 0.7 );
-          velocitySensor.reset();
-          velocitySensorNode.addToSensorPanel();
-        }
-      }
-    } ) );
+      } ) );
 
     velocitySensor.positionProperty.link( function( position ) {
       var viewPosition = modelViewTransform.modelToViewPosition( position );
