@@ -135,27 +135,11 @@ define( function( require ) {
         bendingLightView.lightRayLayer.addChild( node );
       }
       else {
-        /// node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
-        //  bendingLightView.lightWaveLayer.addChild( node );
-        var points;
-        var minX;
-        var minY;
-        var maxX;
-        var maxY;
-        var reflectedRaMinY;
-        var reflectedRayMaxY;
+        // node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
+        //     bendingLightView.lightWaveLayer.addChild( node );
         for ( var k = 0; k < model.rays.length; k++ ) {
-          points = model.rays.get( k ).getWaveBounds();
-          minX = bendingLightView.modelViewTransform.modelToViewX( points[ 1 ].x );
-          reflectedRaMinY = bendingLightView.modelViewTransform.modelToViewY( points[ 2 ].y );
-          maxX = bendingLightView.modelViewTransform.modelToViewX( points[ 3 ].x );
-          reflectedRayMaxY = bendingLightView.modelViewTransform.modelToViewY( points[ 0 ].y );
-          minY = bendingLightView.modelViewTransform.modelToViewY( points[ 0 ].y );
-          maxY = bendingLightView.modelViewTransform.modelToViewY( points[ 2 ].y );
-          minY = k === 1 ? reflectedRaMinY : minY;
-          maxY = k === 1 ? reflectedRayMaxY : maxY;
           var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles, bendingLightView.modelViewTransform, {
-            canvasBounds: new Bounds2( minX, minY, maxX, maxY ),
+            canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() ).bounds,
             clipArea: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() )
           } );
           k === 0 ? bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode ) : bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );

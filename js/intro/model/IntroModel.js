@@ -36,7 +36,7 @@ define( function( require ) {
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT, centerOffsetLeft );
     this.topMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
       MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
-    this.bottomMediumProperty = new Property( new Medium( Shape.rect( -1, -0.001, 2, 0.001 ), bottomMediumState,
+    this.bottomMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), bottomMediumState,
       MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
     this.time = 0;
     Property.multilink( [
@@ -112,7 +112,7 @@ define( function( require ) {
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ),
           n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth,
-          0.0, bottom, true, true );
+          0.0, bottom, true, false );
         var rayAbsorbed = this.addAndAbsorb( incidentRay );
         if ( !rayAbsorbed ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
@@ -131,11 +131,11 @@ define( function( require ) {
             Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ),
             n1, wavelengthInTopMedium,
             reflectedPowerRatio * sourcePower,
-            color, trapeziumWidth,
+            color, sourceWaveWidth,
             incidentRay.getNumberOfWavelengths(),
             bottom,
             true,
-            false ) );
+            true ) );
 
           // fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
@@ -149,12 +149,16 @@ define( function( require ) {
               var transmittedPowerRatio = this.getTransmittedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
 
               // make the beam width depend on the input beam width, so that the same beam width is transmitted as was
+              var beamHalfWidth = a / 2;
+              var extentInterceptedHalfWidth = beamHalfWidth / Math.sin( Math.PI / 2 - theta1 ) / 2;
+              var transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
+              var transmittedWaveWidth = transmittedBeamHalfWidth * 2;
               // intercepted
               var transmittedRay = new LightRay( trapeziumWidth, new Vector2( 0, 0 ),
                 Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2,
                 transmittedWavelength, transmittedPowerRatio * sourcePower,
-                color, trapeziumWidth, incidentRay.getNumberOfWavelengths(),
-                top, true, false ); //todo: using extendBackwards param to fix the shapes near y=0
+                color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(),
+                top, true, true ); //todo: using extendBackwards param to fix the shapes near y=0
               this.addAndAbsorb( transmittedRay );
             }
           }

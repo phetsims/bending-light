@@ -161,26 +161,21 @@ define( function( require ) {
      * @returns {*}
      */
     getWaveShape: function() {
+      var tipAngle = this.extend ? Math.PI / 2 : this.getAngle();
+      var tailAngle = this.extendBackwards ? Math.PI / 2 : this.getAngle();
+      var tipWidth = this.extend ? this.trapeziumWidth : this.waveWidth;
+      var tailWidth = this.extendBackwards ? this.trapeziumWidth : this.waveWidth;
 
-      var angle = this.extendBackwards ? Math.abs( this.getAngle() ) : Math.PI / 2;
-      var tailWidth = this.waveWidth;
-      var tipWidth = this.trapeziumWidth;
+      var tipPoint1 = this.tip.minus( Vector2.createPolar( 1, tipAngle ).perpendicular().times( tipWidth / 2 ) );
+      var tipPoint2 = this.tip.plus( Vector2.createPolar( 1, tipAngle ).perpendicular().times( tipWidth / 2 ) );
+      var tailPoint1 = this.tail.minus( Vector2.createPolar( 1, tailAngle ).perpendicular().times( tailWidth / 2 ) );
+      var tailPoint2 = this.tail.plus( Vector2.createPolar( 1, tailAngle ).perpendicular().times( tailWidth / 2 ) );
 
-      // tip point
-      var tipPoint1X = this.tip.x + tipWidth / 2;
-      var tipPoint1Y = this.tip.y;
-      var tipPoint2X = this.tip.x - tipWidth / 2;
-      var tipPoint2Y = this.tip.y;
-      //tail
-      var tailPoint1X = this.tail.x + tailWidth / 2 * Math.sin( angle );
-      var tailPoint1Y = this.tail.y + tailWidth / 2 * Math.cos( angle );
-      var tailPoint2X = this.tail.x - tailWidth / 2 * Math.sin( angle );
-      var tailPoint2Y = this.tail.y - tailWidth / 2 * Math.cos( angle );
       var shape = new Shape();
-      shape.moveTo( tailPoint1X, tailPoint1Y )
-        .lineTo( tailPoint2X, tailPoint2Y )
-        .lineTo( tipPoint2X, tipPoint2Y )
-        .lineTo( tipPoint1X, tipPoint1Y )
+      shape.moveToPoint( tailPoint1.x < tailPoint2.x ? tailPoint1 : tailPoint2 )
+        .lineToPoint( tailPoint1.x > tailPoint2.x ? tailPoint1 : tailPoint2 )
+        .lineToPoint( tipPoint2.x > tipPoint1.x ? tipPoint2 : tipPoint1 )
+        .lineToPoint( tipPoint2.x < tipPoint1.x ? tipPoint2 : tipPoint1 )
         .close();
       return shape;
     },
