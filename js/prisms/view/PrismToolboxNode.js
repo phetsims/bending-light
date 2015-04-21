@@ -39,6 +39,9 @@ define( function( require ) {
   var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
 
+  // constants
+  var MAX_TEXT_WIDTH = 50;
+
   /**
    *
    * @param {PrismBreakView} prismBreakView - main view of the prism screen
@@ -153,9 +156,23 @@ define( function( require ) {
 
     // itemSpec describes the pieces that make up an item in the control panel,
     // conforms to the contract: { label: {Node}, icon: {Node} (optional) }
-    var showReflections = { label: new Text( reflectionsString, textOptions ) };
-    var showNormal = { label: new Text( normalString, textOptions ) };
-    var showProtractor = { label: new Text( protractorString, textOptions ), icon: createProtractorIcon() };
+    var reflectionText = new Text( reflectionsString, textOptions );
+
+    if ( reflectionText.width > MAX_TEXT_WIDTH ) {
+      reflectionText.scale( MAX_TEXT_WIDTH / reflectionText.width );
+    }
+    var normalText = new Text( normalString, textOptions );
+    if ( normalText.width > MAX_TEXT_WIDTH ) {
+      normalText.scale( MAX_TEXT_WIDTH / normalText.width );
+    }
+    var protractorText = new Text( protractorString, textOptions );
+    if ( protractorText.width > MAX_TEXT_WIDTH ) {
+      protractorText.scale( MAX_TEXT_WIDTH / protractorText.width );
+    }
+    var showReflections = { label: reflectionText };
+    var showNormal = { label: normalText };
+    var showProtractor = { label: protractorText, icon: createProtractorIcon() };
+
     // compute the maximum item width
     var widestItemSpec = _.max( [ showReflections, showNormal, showProtractor ], function( item ) {
       return item.label.width + ((item.icon) ? item.icon.width : 0);
@@ -220,4 +237,3 @@ define( function( require ) {
 
   return inherit( Node, PrismToolboxNode, {} );
 } );
-

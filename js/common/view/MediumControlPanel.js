@@ -61,6 +61,8 @@ define( function( require ) {
     Node.call( this );
     var mediumControlPanel = this;
 
+    var MAX_WIDTH = textFieldVisible ? 300 : 170;
+
     options = _.extend( {
       xMargin: 7,
       yMargin: 7,
@@ -77,11 +79,19 @@ define( function( require ) {
 
     // add material combo box
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
-    var maxWidth = textFieldVisible ? 147 : 71;
+
+    if ( materialTitle.width > (textFieldVisible ? 60 : 70) ) {
+      materialTitle.scale( (textFieldVisible ? 60 : 70 ) / materialTitle.width );
+    }
+
+    var maxWidth = textFieldVisible ? MAX_WIDTH * 0.48 : MAX_WIDTH * 0.44;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
     var createItem = function( item ) {
       var itemName = new Text( item.name, textOptionsOfComboBoxStrings );
+      if ( itemName.width > maxWidth ) {
+        itemName.scale( maxWidth / itemName.width );
+      }
       var strutWidth = maxWidth - itemName.width;
 
       return ComboBox.createItem( new HBox( {
@@ -131,6 +141,10 @@ define( function( require ) {
 
     var textOptions = { font: new PhetFont( 12 ) };
     var indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
+
+    if ( indexOfRefractionLabel.width > (textFieldVisible ? MAX_WIDTH * 0.45 : MAX_WIDTH) ) {
+      indexOfRefractionLabel.scale( (textFieldVisible ? MAX_WIDTH * 0.45 : MAX_WIDTH) / indexOfRefractionLabel.width );
+    }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
     var indexOfRefractionValueText = new Text( this.mediumIndexProperty.get().toFixed( format ), textOptions );
     var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 50, 20, 2, 2, {

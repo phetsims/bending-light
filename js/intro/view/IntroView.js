@@ -176,6 +176,11 @@ define( function( require ) {
     };
 
     var normalText = new Text( normalString );
+
+    var normalText_Max_Width = 50;
+    if ( normalText.width > normalText_Max_Width ) {
+      normalText.scale( normalText_Max_Width / normalText.width );
+    }
     var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, checkBoxOptions );
     normalCheckBox.setTranslation( 15, this.sensorPanel.y + sensorPanelHeight - 55 );
     this.beforeLightLayer2.addChild( normalCheckBox );
