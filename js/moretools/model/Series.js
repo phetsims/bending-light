@@ -13,7 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var DataPoint = require( 'BENDING_LIGHT/moretools/model/DataPoint' );
-
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    *
@@ -50,14 +50,17 @@ define( function( require ) {
 
       //Lift the pen off the paper for None values
       this.pathProperty.get().forEach( function( value ) {
+        var point = new Vector2();
         if ( value ) {
           var dataPoint = value;
+          point.x = dataPoint.time;
+          point.y = dataPoint.value;
           if ( !moved ) {
-            generalPath.moveTo( dataPoint.time, dataPoint.value );
+            generalPath.moveToPoint( point );
             moved = true;
           }
           else {
-            generalPath.lineTo( dataPoint.time, dataPoint.value );
+            generalPath.lineToPoint( point );
           }
         }
       } );
