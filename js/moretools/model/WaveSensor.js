@@ -12,7 +12,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var DataPoint = require( 'BENDING_LIGHT/moretools/model/DataPoint' );
 
   /**
@@ -74,7 +73,7 @@ define( function( require ) {
     this.bodyPositionProperty = new Property( new Vector2( -0.00001865, -0.000006 ) );
 
     // in the play area
-    this.visibleProperty = new BooleanProperty( false );
+    this.visibleProperty = new Property( false );
 
     // function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;

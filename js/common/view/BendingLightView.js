@@ -15,7 +15,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Property = require( 'AXON/Property' );
   var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
   var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
@@ -47,7 +46,7 @@ define( function( require ) {
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
-    this.showProtractorProperty = new BooleanProperty( true );
+    this.showProtractorProperty = new Property( true );
     this.model = model;
     this.lightRayLayer = new Node();
     this.lightWaveLayer = new Node();
@@ -65,7 +64,7 @@ define( function( require ) {
     this.afterLightLayer = new Node();
     this.afterLightLayer2 = new Node();
 
-    this.showNormal = new BooleanProperty( showNormal );
+    this.showNormal = new Property( showNormal );
     // root of our scene graph
     var rootNode = new Node();
     this.addChild( rootNode );
