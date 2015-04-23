@@ -1,0 +1,116 @@
+{
+  "bending-light.name": {
+    "value": "Bending Light"
+  },
+  "intro": {
+    "value": "Intro"
+  },
+  "air": {
+    "value": "Air"
+  },
+  "slowMotion": {
+    "value": "Slow Motion"
+  },
+  "normal": {
+    "value": "Normal"
+  },
+  "water": {
+    "value": "Water"
+  },
+  "glass": {
+    "value": "Glass"
+  },
+  "custom": {
+    "value": "Custom"
+  },
+  "prisms": {
+    "value": "Prisms"
+  },
+  "mysteryA": {
+    "value": "Mystery A"
+  },
+  "mysteryB": {
+    "value": "Mystery B"
+  },
+  "material": {
+    "value": "Material"
+  },
+  "miss": {
+    "value": "-"
+  },
+  "units_nm": {
+    "value": "nm"
+  },
+  "indexOfRefraction": {
+    "value": "Index Of Refraction (n)"
+  },
+  "unknown": {
+    "value": "What is n?"
+  },
+  "objects": {
+    "value": "Objects"
+  },
+  "environment": {
+    "value": "Environment"
+  },
+  "low": {
+    "value": "Low"
+  },
+  "high": {
+    "value": "High"
+  },
+  "intensity": {
+    "value": "Intensity"
+  },
+  "laserView": {
+    "value": "Laser View"
+  },
+  "ray": {
+    "value": "Ray"
+  },
+  "laser": {
+    "value": "Laser"
+  },
+  "wave": {
+    "value": "Wave"
+  },
+  "diamond": {
+    "value": "Diamond"
+  },
+  "time": {
+    "value": "Time"
+  },
+  "toolbox": {
+    "value": "Toolbox"
+  },
+  "protractor": {
+    "value": "Protractor"
+  },
+  "moreTools": {
+    "value": "More Tools"
+  },
+  "oneColor": {
+    "value": "One Color"
+  },
+  "whiteLight": {
+    "value": "White Light"
+  },
+  "singleRay": {
+    "value": "Single Ray"
+  },
+  "multipleRays": {
+    "value": "Multiple Rays"
+  },
+  "reflections": {
+    "value": "Reflections"
+  },
+  "prismBreak": {
+    "value": "prismBreak"
+  },
+  "speed": {
+    "value": "Speed"
+  },
+  "c_units": {
+    "value": "c"
+  }
+}
