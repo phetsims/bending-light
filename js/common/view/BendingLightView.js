@@ -134,8 +134,8 @@ define( function( require ) {
 
     model.allowWebGL = allowWebGL;
     if ( allowWebGL ) {
-      var particleCanvasNode = new WaveWebGLNode( bendingLightView.modelViewTransform, model.rays, {} );
-      bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode );
+      var waveWebGLNode = new WaveWebGLNode( bendingLightView, bendingLightView.modelViewTransform, model.rays, {} );
+      bendingLightView.incidentWaveCanvasLayer.addChild( waveWebGLNode );
     }
 
     // add the laser
@@ -144,7 +144,7 @@ define( function( require ) {
 
     model.laserViewProperty.link( function() {
       model.laser.wave = (model.laserViewProperty.value === 'wave');
-      bendingLightView.incidentWaveCanvasLayer.setVisible( model.laserViewProperty.value === 'wave' );
+      bendingLightView.incidentWaveCanvasLayer.setVisible( model.laser.onProperty.value && model.laserViewProperty.value === 'wave' );
     } );
     model.laser.onProperty.link( function( on ) {
       bendingLightView.incidentWaveCanvasLayer.setVisible( on && model.laserViewProperty.value === 'wave' );

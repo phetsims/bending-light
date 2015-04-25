@@ -10,6 +10,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
+  var HomeScreenView = require( 'JOIST/HomeScreenView' );
 
   /**
    *
@@ -17,7 +18,8 @@ define( function( require ) {
    * @param {ObservableArray<LightRay>} rays
    * @constructor
    */
-  function WaveWebGLNode( modelViewTransform, rays ) {
+  function WaveWebGLNode( bendingLightView, modelViewTransform, rays ) {
+    this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
     this.rays = rays;
     WebGLNode.call( this );
@@ -66,7 +68,7 @@ define( function( require ) {
 
       //   custom  fragment shader
       var fragmentShaderSource = [
-        'precision highp float;',
+        'precision mediump float;',
         'varying vec3 vPosition;',
         'varying float vPowerFraction;',
         'varying vec3 vColor;',
@@ -74,10 +76,15 @@ define( function( require ) {
         'varying float vAngle;',
         'varying float vWaveLength;',
         'varying float vPhase;',
+        'uniform vec2 uCanvasOffset;', // dimensions of the Canvas
+        'uniform float uScale;',
         'void main( void ) {',
+        'float x1 = (gl_FragCoord.x-uCanvasOffset.x)/uScale;',
+        'float y1 = (gl_FragCoord.y-uCanvasOffset.y)/uScale;',
         'float waveLength = float(vWaveLength);',
-        'float distance = (tan(vAngle-1.57)*gl_FragCoord.x - gl_FragCoord.y + vTail.y -tan(vAngle-1.57)*vTail.x ) * pow(cos(vAngle-1.57),2.0);',
-        'float positionDiff = distance>vPhase?distance - vPhase:distance;',
+        'float distance = abs(dot(vec2(cos(vAngle),sin(vAngle)), vec2(x1-vTail.x,y1-vTail.y)));',
+        //'float distance = abs(tan(vAngle)*x1 - y1 + vTail.y -tan(vAngle)*vTail.x ) * pow(cos(vAngle),2.0);',
+        'float positionDiff = distance>vPhase?distance - vPhase:distance- vPhase +vWaveLength;',
         'for(int i=0;i<100;i++){',
         'if(positionDiff>waveLength){',
         'positionDiff = positionDiff-waveLength;',
@@ -93,12 +100,18 @@ define( function( require ) {
         'positionDiff = positionDiff -waveLength/2.0;',
         'gl_FragColor = vec4( vec3(0,0,0)*(positionDiff/(waveLength/2.0)) + vColor*(((waveLength/2.0)-positionDiff)/(waveLength/2.0)),vPowerFraction ) ;',
         '}',
+        /*        'if(x1<300.0){',
+         'gl_FragColor = vec4(0,0,0,vPowerFraction ) ;',
+         '}',
+         'else{',
+         'gl_FragColor = vec4(1,1,0,vPowerFraction ) ;',
+         '}',*/
         '}'
       ].join( '\n' );
 
       drawable.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
         attributes: [ 'aPosition', 'aPowerFraction', 'aColor', 'aTail', 'aAngle', 'aWaveLength', 'aPhase' ],
-        uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix' ]
+        uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uScale', 'uCanvasOffset' ]
       } );
     },
     paintWebGLDrawable: function( drawable, matrix ) {
@@ -159,6 +172,10 @@ define( function( require ) {
         }
       }
 
+      var scale = Math.min( window.innerWidth / HomeScreenView.LAYOUT_BOUNDS.width, window.innerHeight / HomeScreenView.LAYOUT_BOUNDS.height );
+      var widthOffset = (window.innerWidth - ( HomeScreenView.LAYOUT_BOUNDS.width * scale)) / 2;
+      var heightOffset = (window.innerHeight - ( HomeScreenView.LAYOUT_BOUNDS.height * scale)) / 2;
+
       drawable.vertexBuffer = gl.createBuffer();
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( elements ), gl.STATIC_DRAW );
@@ -190,6 +207,8 @@ define( function( require ) {
       shaderProgram.use();
       gl.uniformMatrix3fv( shaderProgram.uniformLocations.uModelViewMatrix, false, new Float32Array( matrix.entries ) );
       gl.uniformMatrix3fv( shaderProgram.uniformLocations.uProjectionMatrix, false, new Float32Array( drawable.webGLBlock.projectionMatrixArray ) );
+      gl.uniform1f( shaderProgram.uniformLocations.uScale, scale );
+      gl.uniform2f( shaderProgram.uniformLocations.uCanvasOffset, widthOffset, heightOffset );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
