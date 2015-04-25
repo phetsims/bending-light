@@ -21,7 +21,9 @@ define( function( require ) {
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
+  var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
+  var Util = require( 'SCENERY/util/Util' );
 
   // font for labels in controls
   var labelFont = new PhetFont( 16 );
@@ -120,11 +122,33 @@ define( function( require ) {
     this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0, showTranslationDragHandlesProperty ) );
     this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength, showTranslationDragHandlesProperty ) );
 
+    // Check to see if WebGL was prevented by a query parameter
+    var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
+
+    // The mobile WebGL implementation will work with basic WebGL support
+    var allowMobileWebGL = Util.checkWebGLSupport() && !disallowWebGL;
+
+    // The unlimited-particle implementation will work only with OES_texture_float where writing to
+    // float textures is supported.
+    var allowWebGL = allowMobileWebGL && Util.checkWebGLSupport( [ 'OES_texture_float' ] );
+
+    // Create the electric Potential grid node that displays an array of contiguous rectangles of changing colors
+    model.allowWebGL = allowWebGL;
+    if ( allowWebGL ) {
+      var particleCanvasNode = new WaveWebGLNode( bendingLightView.modelViewTransform, model.rays, {} );
+      bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode );
+    }
+
     // add the laser
     var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, this.layoutBounds );
     this.addChild( laserNode );
+
     model.laserViewProperty.link( function() {
       model.laser.wave = (model.laserViewProperty.value === 'wave');
+      bendingLightView.incidentWaveCanvasLayer.setVisible( model.laserViewProperty.value === 'wave' );
+    } );
+    model.laser.onProperty.link( function( on ) {
+      bendingLightView.incidentWaveCanvasLayer.setVisible( on && model.laserViewProperty.value === 'wave' );
     } );
 
     model.rays.addItemAddedListener( function( ray ) {
@@ -134,14 +158,16 @@ define( function( require ) {
         bendingLightView.lightRayLayer.addChild( node );
       }
       else {
-        // node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
-        //     bendingLightView.lightWaveLayer.addChild( node );
-        for ( var k = 0; k < model.rays.length; k++ ) {
-          var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles, bendingLightView.modelViewTransform, {
-            canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() ).bounds,
-            clipArea: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() )
-          } );
-          k === 0 ? bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode ) : bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
+        /// node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
+        //  bendingLightView.lightWaveLayer.addChild( node );
+        if ( !allowWebGL ) {
+          for ( var k = 0; k < model.rays.length; k++ ) {
+            var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles, bendingLightView.modelViewTransform, {
+              canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() ).bounds,
+              clipArea: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() )
+            } );
+            k === 0 ? bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode ) : bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
+          }
         }
       }
     } );
@@ -149,7 +175,9 @@ define( function( require ) {
       bendingLightView.lightRayLayer.removeAllChildren();
       bendingLightView.lightWaveLayer.removeAllChildren();
       bendingLightView.waveCanvasLayer.removeAllChildren();
-      bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
+      if ( !allowWebGL ) {
+        bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
+      }
     } );
 
 
