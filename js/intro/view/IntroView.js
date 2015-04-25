@@ -291,8 +291,10 @@ define( function( require ) {
       for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
         this.waveCanvasLayer.children[ k ].step();
       }
-      for ( k = 0; k < this.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
-        this.incidentWaveCanvasLayer.children[ k ].step();
+      if ( this.introModel.laserViewProperty.value === 'wave' ) {
+        for ( k = 0; k < this.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
+          this.incidentWaveCanvasLayer.children[ k ].step();
+        }
       }
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
       this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;

@@ -52,7 +52,10 @@ define( function( require ) {
     ], function() {
       introModel.updateModel();
       if ( introModel.laserViewProperty.value === 'wave' && introModel.laser.onProperty.value ) {
-        introModel.createInitialParticles();
+        // introModel.createInitialParticles();
+        if ( !introModel.allowWebGL ) {
+          introModel.createInitialParticles();
+        }
       }
     } );
 
@@ -289,7 +292,9 @@ define( function( require ) {
         this.stepInternal();
         var particleDeltaFactor = this.speed === 'normal' ? 20 : 45;
         if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
-          this.propagateParticles( particleDeltaFactor );
+          if ( !this.allowWebGL ) {
+            this.propagateParticles( particleDeltaFactor );
+          }
         }
       }
     },

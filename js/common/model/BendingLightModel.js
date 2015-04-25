@@ -76,6 +76,10 @@ define( function( require ) {
     this.modelWidth = CHARACTERISTIC_LENGTH * 62;
     this.modelHeight = this.modelWidth * 0.7;
 
+    //  if  WebGL support  then particles creation particle and propagation not need
+    //  else we should create particles and propagate to render tem on canvas.
+    this.allowWebGL = false;
+
     // everything that had a listener in the java version becomes a property
     PropertySet.call( this, {
         laserView: 'ray', //Whether the laser is Ray or Wave mode
