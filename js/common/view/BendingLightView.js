@@ -62,11 +62,11 @@ define( function( require ) {
     //To implement this, we specify before light layer and 2 after light layers
     this.beforeLightLayer = new Node();
     this.beforeLightLayer2 = new Node();
+
     // in back of afterLightLayer2
     this.afterLightLayer = new Node();
     this.afterLightLayer2 = new Node();
 
-    this.showNormal = new Property( showNormal );
     // root of our scene graph
     var rootNode = new Node();
     this.addChild( rootNode );
@@ -132,7 +132,6 @@ define( function( require ) {
     // float textures is supported.
     var allowWebGL = allowMobileWebGL && Util.checkWebGLSupport( [ 'OES_texture_float' ] );
 
-    // Create the electric Potential grid node that displays an array of contiguous rectangles of changing colors
     model.allowWebGL = allowWebGL;
     if ( allowWebGL ) {
       var particleCanvasNode = new WaveWebGLNode( bendingLightView.modelViewTransform, model.rays, {} );
