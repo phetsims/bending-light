@@ -12,9 +12,8 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Util = require( 'DOT/Util' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-  //constants
-  var WAVELENGTH_RED = 650E-9;
 
   /**
    *
@@ -47,8 +46,13 @@ define( function( require ) {
       var C3 = 1.03560653E2 * 1E-12;
       return Math.sqrt( 1 + B1 * L2 / (L2 - C1) + B2 * L2 / (L2 - C2) + B3 * L2 / (L2 - C3) );
     },
+
+    /**
+     * @public
+     * @returns {number}
+     */
     getIndexOfRefractionForRed: function() {
-      return this.getIndexOfRefraction( WAVELENGTH_RED );
+      return this.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
     },
     /**
      *

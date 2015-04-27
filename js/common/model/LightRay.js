@@ -16,10 +16,8 @@ define( function( require ) {
   var Ray2 = require( 'DOT/Ray2' );
   var Line = require( 'KITE/segments/Line' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-
-  // constants
-  var SPEED_OF_LIGHT = 2.99792458E8;
 
   /**
    *
@@ -93,7 +91,7 @@ define( function( require ) {
      * @returns {number}
      */
     getSpeed: function() {
-      return SPEED_OF_LIGHT / this.indexOfRefraction;
+      return BendingLightConstants.SPEED_OF_LIGHT / this.indexOfRefraction;
     },
 
     /**

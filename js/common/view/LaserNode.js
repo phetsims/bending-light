@@ -19,13 +19,13 @@ define( function( require ) {
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   var Shape = require( 'KITE/Shape' );
   var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // images
   var laserWithoutImage = require( 'image!BENDING_LIGHT/laser.png' );
   var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
 
   //constants
-  var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
   var dragRegionColor = new Color( 255, 0, 0, 0 );
   var rotationRegionColor = new Color( 0, 0, 255, 0 );
 
@@ -112,8 +112,8 @@ define( function( require ) {
 
         //Prevent laser from going to 90 degrees when in wave mode,
         // should go until laser bumps into edge.
-        if ( laser.wave && after > MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
-          after = MAX_ANGLE_IN_WAVE_MODE;
+        if ( laser.wave && after > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
+          after = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
         }
         laser.setAngle( after );
         showTranslationDragHandles.value = false;

@@ -23,6 +23,7 @@ define( function( require ) {
   var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // strings
   var rayString = require( 'string!BENDING_LIGHT/ray' );
@@ -31,10 +32,6 @@ define( function( require ) {
 
   // constants
   var PLUS_MINUS_SPACING = 4;
-
-  //only go to 700nm because after that the reds are too black
-  var LASER_MAX_WAVELENGTH = 700; // nm
-
 
   /**
    *
@@ -97,7 +94,7 @@ define( function( require ) {
       var wavelengthSlider = new WavelengthSlider( this.laserWavelengthProperty,
         {
           cursorStroke: 'white',
-          maxWavelength: LASER_MAX_WAVELENGTH,
+          maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
           thumbWidth: 20,
           thumbHeight: 20,
           trackWidth: 140,
@@ -113,7 +110,7 @@ define( function( require ) {
         { fill: 'white', stroke: 'black' } );
 
       var plusButton = new ArrowButton( 'right', function propertyPlus() {
-        laserView.laserWavelengthProperty.set( Math.min( laserView.laserWavelengthProperty.get() + 1, LASER_MAX_WAVELENGTH ) );
+        laserView.laserWavelengthProperty.set( Math.min( laserView.laserWavelengthProperty.get() + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
@@ -126,7 +123,7 @@ define( function( require ) {
         scale: 0.6
       } );
       this.laserWavelengthProperty.link( function( wavelength ) {
-        plusButton.enabled = ( wavelength < LASER_MAX_WAVELENGTH);
+        plusButton.enabled = ( wavelength < BendingLightConstants.LASER_MAX_WAVELENGTH);
         minusButton.enabled = ( wavelength > VisibleColor.MIN_WAVELENGTH );
       } );
 

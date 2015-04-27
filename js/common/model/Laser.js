@@ -12,12 +12,8 @@ define( function( require ) {
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Vector2 = require( 'DOT/Vector2' );
   var PropertySet = require( 'AXON/PropertySet' );
-  var WAVELENGTH_RED = 650E-9;
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-  // so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.
-  // this value was determined by printing out actual angle values at runtime and sampling a good value.
-  var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
-  var SPEED_OF_LIGHT = 2.99792458E8;
 
   /**
    *
@@ -31,7 +27,7 @@ define( function( require ) {
     var laser = this;
     PropertySet.call( this, {
       pivot: new Vector2( 0, 0 ),// point to be pivoted about, and at which the laser points
-      color: new LaserColor.OneColor( WAVELENGTH_RED ),
+      color: new LaserColor.OneColor( BendingLightConstants.WAVELENGTH_RED ),
       on: false,    // true if the laser is activated and emitting light
       wave: false,
       colorMode: 'singleColor',
@@ -49,101 +45,98 @@ define( function( require ) {
     this.directionUnitVector = new Vector2( 0, 0 );
 
     this.waveProperty.link( function() {
-      if ( laser.wave && laser.getAngle() > MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
-        laser.setAngle( MAX_ANGLE_IN_WAVE_MODE );
+      if ( laser.wave && laser.getAngle() > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
+        laser.setAngle( BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE );
       }
     } );
   }
 
   return inherit( PropertySet, Laser, {
 
-      /**
-       * @public
-       */
-      resetAll: function() {
-        PropertySet.prototype.reset.call( this );
-      },
-
-      /**
-       *@public
-       * @param {Vector2} delta
-       */
-      translate: function( delta ) {
-
-        this.newEmissionPoint.x = this.emissionPoint.x + delta.x;
-        this.newEmissionPoint.y = this.emissionPoint.y + delta.y;
-        this.newPivotPoint.x = this.pivot.x + delta.x;
-        this.newPivotPoint.y = this.pivot.y + delta.y;
-        this.emissionPointProperty.set( this.newEmissionPoint );
-        this.pivotProperty.set( this.newPivotPoint );
-        this.emissionPointProperty._notifyObservers();
-        this.pivotProperty._notifyObservers();
-      },
-
-      /**
-       * @public
-       * @returns {Vector2|*}
-       */
-      getDirectionUnitVector: function() {
-        this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
-        this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
-        var magnitude = this.directionUnitVector.magnitude();
-        this.directionUnitVector.x = this.directionUnitVector.x / magnitude;
-        this.directionUnitVector.y = this.directionUnitVector.y / magnitude;
-        return this.directionUnitVector;
-      },
-
-      /**
-       * Rotate about the fixed pivot
-       * @public
-       * @param {Number}angle
-       */
-      setAngle: function( angle ) {
-        var distFromPivot = this.pivot.distance( this.emissionPoint );
-        this.newEmissionPoint.x = distFromPivot * Math.cos( angle ) + this.pivot.x;
-        this.newEmissionPoint.y = distFromPivot * Math.sin( angle ) + this.pivot.y;
-        this.emissionPointProperty.set( this.newEmissionPoint );
-        this.emissionPointProperty._notifyObservers();
-      },
-
-      /**
-       * @public
-       * @returns {*}
-       */
-      getAngle: function() {
-        //TODO: why is this backwards by 180 degrees?
-        return this.getDirectionUnitVector().angle() + Math.PI;
-      },
-
-      /**
-       * @public
-       * @returns {*}
-       */
-      getDistanceFromPivot: function() {
-        this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
-        this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
-        return this.directionUnitVector.magnitude();
-      },
-
-      /**
-       * @public
-       * @returns {*}
-       */
-      getWavelength: function() {
-        return this.color.getWavelength();
-      },
-
-      /**
-       * @public
-       * @returns {number}
-       */
-      getFrequency: function() {
-        return SPEED_OF_LIGHT / this.getWavelength();
-      }
+    /**
+     * @public
+     */
+    resetAll: function() {
+      PropertySet.prototype.reset.call( this );
     },
-//statics
-    {
-      MAX_ANGLE_IN_WAVE_MODE: MAX_ANGLE_IN_WAVE_MODE
-    } );
+
+    /**
+     *@public
+     * @param {Vector2} delta
+     */
+    translate: function( delta ) {
+
+      this.newEmissionPoint.x = this.emissionPoint.x + delta.x;
+      this.newEmissionPoint.y = this.emissionPoint.y + delta.y;
+      this.newPivotPoint.x = this.pivot.x + delta.x;
+      this.newPivotPoint.y = this.pivot.y + delta.y;
+      this.emissionPointProperty.set( this.newEmissionPoint );
+      this.pivotProperty.set( this.newPivotPoint );
+      this.emissionPointProperty._notifyObservers();
+      this.pivotProperty._notifyObservers();
+    },
+
+    /**
+     * @public
+     * @returns {Vector2|*}
+     */
+    getDirectionUnitVector: function() {
+      this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
+      this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
+      var magnitude = this.directionUnitVector.magnitude();
+      this.directionUnitVector.x = this.directionUnitVector.x / magnitude;
+      this.directionUnitVector.y = this.directionUnitVector.y / magnitude;
+      return this.directionUnitVector;
+    },
+
+    /**
+     * Rotate about the fixed pivot
+     * @public
+     * @param {Number}angle
+     */
+    setAngle: function( angle ) {
+      var distFromPivot = this.pivot.distance( this.emissionPoint );
+      this.newEmissionPoint.x = distFromPivot * Math.cos( angle ) + this.pivot.x;
+      this.newEmissionPoint.y = distFromPivot * Math.sin( angle ) + this.pivot.y;
+      this.emissionPointProperty.set( this.newEmissionPoint );
+      this.emissionPointProperty._notifyObservers();
+    },
+
+    /**
+     * @public
+     * @returns {*}
+     */
+    getAngle: function() {
+      //TODO: why is this backwards by 180 degrees?
+      return this.getDirectionUnitVector().angle() + Math.PI;
+    },
+
+    /**
+     * @public
+     * @returns {*}
+     */
+    getDistanceFromPivot: function() {
+      this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
+      this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
+      return this.directionUnitVector.magnitude();
+    },
+
+    /**
+     * @public
+     * @returns {*}
+     */
+    getWavelength: function() {
+      return this.color.getWavelength();
+    },
+
+    /**
+     * @public
+     * @returns {number}
+     */
+    getFrequency: function() {
+      return BendingLightConstants.SPEED_OF_LIGHT / this.getWavelength();
+    }
+
+  } );
 } );
 

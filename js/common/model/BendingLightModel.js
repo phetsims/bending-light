@@ -16,6 +16,7 @@ define( function( require ) {
   var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // default values
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
@@ -37,13 +38,9 @@ define( function( require ) {
   var MYSTERY_A = new MediumState( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
   var MYSTERY_B = new MediumState( mysteryBString, 1.4, true, false );
 
-  // model parameters
-  var SPEED_OF_LIGHT = 2.99792458E8;
-  var WAVELENGTH_RED = 650E-9; //nanometers
-
   // to come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT,
   // we have f=4.612E14
-  var RED_LIGHT_FREQUENCY = SPEED_OF_LIGHT / WAVELENGTH_RED;
+  var RED_LIGHT_FREQUENCY = BendingLightConstants.SPEED_OF_LIGHT / BendingLightConstants.WAVELENGTH_RED;
 
   // speed up by a factor of 2.5 because default wave view was moving too slow
   var TIME_SPEEDUP_SCALE = 2.5;
@@ -54,7 +51,7 @@ define( function( require ) {
   var DEFAULT_DT = MAX_DT / 4;
 
   // a good size for the units being used in the sim; used to determine the dimensions of various model objects
-  var CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
+  var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   /**
    * Main constructor for BendingLightModel,
@@ -83,7 +80,7 @@ define( function( require ) {
     // everything that had a listener in the java version becomes a property
     PropertySet.call( this, {
         laserView: 'ray', //Whether the laser is Ray or Wave mode
-        wavelength: WAVELENGTH_RED,
+        wavelength: BendingLightConstants.WAVELENGTH_RED,
         isPlaying: true,
         speed: 'normal',
         indexOfRefraction: 1,
@@ -194,8 +191,8 @@ define( function( require ) {
       DIAMOND: DIAMOND,
       MYSTERY_A: MYSTERY_A,
       MYSTERY_B: MYSTERY_B,
-      SPEED_OF_LIGHT: SPEED_OF_LIGHT,
-      WAVELENGTH_RED: WAVELENGTH_RED,
+      SPEED_OF_LIGHT: BendingLightConstants.SPEED_OF_LIGHT,
+      WAVELENGTH_RED: BendingLightConstants.WAVELENGTH_RED,
       RED_LIGHT_FREQUENCY: RED_LIGHT_FREQUENCY,
       TIME_SPEEDUP_SCALE: TIME_SPEEDUP_SCALE,
       MAX_DT: MAX_DT,

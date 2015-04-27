@@ -10,8 +10,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
-
-  var WAVELENGTH_RED = 650E-9;
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   /**
    *
@@ -23,7 +22,7 @@ define( function( require ) {
    */
   function MediumState( name, indexForRed, mystery, custom ) {
     this.name = name;
-    this.dispersionFunction = new DispersionFunction( indexForRed, WAVELENGTH_RED );
+    this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED );
     this.mystery = mystery;
     this.custom = custom;
   }
@@ -42,7 +41,7 @@ define( function( require ) {
      * @returns {*|number|number}
      */
     getIndexOfRefractionForRedLight: function() {
-      return this.dispersionFunction.getIndexOfRefraction( WAVELENGTH_RED );
+      return this.dispersionFunction.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
     }
   } );
 } );

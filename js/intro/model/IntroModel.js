@@ -21,9 +21,10 @@ define( function( require ) {
   var WaveParticle = require( 'BENDING_LIGHT/common/model/WaveParticle' );
   var Ray2 = require( 'DOT/Ray2' );
   var Color = require( 'SCENERY/util/Color' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
 //constants
-  var CHARACTERISTIC_LENGTH = 650E-9;
+  var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   /**
    *
@@ -52,7 +53,6 @@ define( function( require ) {
     ], function() {
       introModel.updateModel();
       if ( introModel.laserViewProperty.value === 'wave' && introModel.laser.onProperty.value ) {
-        // introModel.createInitialParticles();
         if ( !introModel.allowWebGL ) {
           introModel.createInitialParticles();
         }
