@@ -28,12 +28,11 @@ define( function( require ) {
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var Color = require( 'SCENERY/util/Color' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // constants
-  var CHARACTERISTIC_LENGTH = 650E-9;
-  var SPEED_OF_LIGHT = 2.99792458E8;
-  var WAVELENGTH_RED = 650E-9;
-
+  var WAVELENGTH_RED =BendingLightConstants.WAVELENGTH_RED;
+  var CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
   /**
    *
    * @constructor
@@ -207,7 +206,7 @@ define( function( require ) {
           mediumIndexOfRefraction = laserInPrism ? this.prismMediumProperty.get().getIndexOfRefraction( wavelength ) :
                                     this.environmentMediumProperty.get().getIndexOfRefraction( wavelength );
           this.propagateTheRay( new Ray( tail, directionUnitVector, power,
-            wavelength, mediumIndexOfRefraction, SPEED_OF_LIGHT / wavelength ), 0 );
+            wavelength, mediumIndexOfRefraction, BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0 );
         }
       }
       else {

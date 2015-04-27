@@ -23,6 +23,7 @@ define( function( require ) {
   var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // strings
   var oneColorString = require( 'string!BENDING_LIGHT/oneColor' );
@@ -31,9 +32,6 @@ define( function( require ) {
 
   // constants
   var PLUS_MINUS_SPACING = 4;
-
-  //only go to 700nm because after that the reds are too black
-  var LASER_MAX_WAVELENGTH = 700; // nm
 
   /**
    *
@@ -84,7 +82,7 @@ define( function( require ) {
     var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty,
       {
         cursorStroke: 'white',
-        maxWavelength: LASER_MAX_WAVELENGTH,
+        maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
         thumbWidth: 20,
         thumbHeight: 20,
         trackWidth: 170,
