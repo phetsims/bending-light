@@ -2,6 +2,7 @@
 
 /**
  * Control panel for  choosing whether it  single ray  or multiple ray.
+ *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
@@ -36,50 +37,38 @@ define( function( require ) {
     }, options );
 
     Node.call( this );
-    var radioButtonContent = [
-      { value: 1, node: createSingleRayIcon() },
-      { value: 2, node: createMultipleRayIcon() }
-    ];
 
-    var radioButtonPanel = new Panel( new RadioButtonGroup( laserTypeProperty,
-      radioButtonContent, {  baseColor: 'white' } ), {
+    // laser node icon first rectangle
+    var laserNodeFirstRoundedRect = new Path( new Shape().roundRect( 0, 0, 7, 29, 2, 1 ), {
       stroke: 'black',
-      lineWidth: 0
+      lineWidth: 0.3,
+      fill: new LinearGradient( 0, 0, 0, 29 )
+        .addColorStop( 0, '#4F4E50' )
+        .addColorStop( 0.35, '#FBFCFC' )
+        .addColorStop( 0.6, '#A8AAAD' )
+        .addColorStop( 1, '#4F4E50' )
+    } );
+    // laser node icon second rectangle
+    var laserNodeSecondRoundedRect = new Path( new Shape().roundRect( 7, 3, 9, 24, 2, 1 ), {
+      stroke: 'black',
+      lineWidth: 0.3,
+      fill: new LinearGradient( 0, 0, 0, 27 )
+        .addColorStop( 0, '#4F4E50' )
+        .addColorStop( 0.4, '#FBFCFC' )
+        .addColorStop( 0.6, '#A8AAAD' )
+        .addColorStop( 1, '#4F4E50' )
+    } );
+    //  icon for the single ray  button
+    var singleRayLine = new Path( new Shape().moveTo( 17, 15 ).lineTo( 49, 15 ).close(), { stroke: 'red', lineWidth: 2 } );
+    var singleRayEmitterLaserIcon = new HBox( {
+      children: [
+        laserNodeFirstRoundedRect,
+        laserNodeSecondRoundedRect,
+        singleRayLine ]
     } );
 
-    this.addChild( radioButtonPanel );
-    this.mutate( options );
-  }
 
-// laser node icon first rectangle
-  var laserNodeFirstRoundedRect = new Path( new Shape().roundRect( 0, 0, 7, 29, 2, 1 ), {
-    stroke: 'black',
-    lineWidth: 0.3,
-    fill: new LinearGradient( 0, 0, 0, 29 )
-      .addColorStop( 0, '#4F4E50' )
-      .addColorStop( 0.35, '#FBFCFC' )
-      .addColorStop( 0.6, '#A8AAAD' )
-      .addColorStop( 1, '#4F4E50' )
-  } );
-  // laser node icon second rectangle
-  var laserNodeSecondRoundedRect = new Path( new Shape().roundRect( 7, 3, 9, 24, 2, 1 ), {
-    stroke: 'black',
-    lineWidth: 0.3,
-    fill: new LinearGradient( 0, 0, 0, 27 )
-      .addColorStop( 0, '#4F4E50' )
-      .addColorStop( 0.4, '#FBFCFC' )
-      .addColorStop( 0.6, '#A8AAAD' )
-      .addColorStop( 1, '#4F4E50' )
-  } );
-  // create an icon for the single ray  button
-  var createSingleRayIcon = function() {
-    var singleRayLine = new Path( new Shape().moveTo( 17, 15 ).lineTo( 49, 15 ).close(), { stroke: 'red', lineWidth: 2 } );
-    return new HBox( { children: [ laserNodeFirstRoundedRect, laserNodeSecondRoundedRect, singleRayLine ] } );
-  };
-
-  // create an icon for multiple ray button
-  var createMultipleRayIcon = function() {
-
+    //   icon for multiple ray button
     var manyRaysStartX = 17;
     var manyRaysEndX = 49;
     var multiRaysLinesShape = new Shape();
@@ -89,8 +78,27 @@ define( function( require ) {
         .lineTo( manyRaysEndX, manyRaysStartY + i * 4 );
     }
     var multiRayLine = new Path( multiRaysLinesShape, { stroke: 'red', lineWidth: 2 } );
-    return new HBox( { children: [ laserNodeFirstRoundedRect, laserNodeSecondRoundedRect, multiRayLine ] } );
-  };
+    var multipleRayEmitterLaserIcon = new HBox( {
+      children: [
+        laserNodeFirstRoundedRect,
+        laserNodeSecondRoundedRect,
+        multiRayLine ]
+    } );
+
+    var radioButtonContent = [
+      { value: 1, node: singleRayEmitterLaserIcon },
+      { value: 2, node: multipleRayEmitterLaserIcon }
+    ];
+
+    var radioButtonPanel = new Panel( new RadioButtonGroup( laserTypeProperty,
+      radioButtonContent, { baseColor: 'white' } ), {
+      stroke: 'black',
+      lineWidth: 0
+    } );
+
+    this.addChild( radioButtonPanel );
+    this.mutate( options );
+  }
 
 
   return inherit( Node, LaserTypeControlPanel );
