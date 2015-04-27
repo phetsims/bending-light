@@ -35,33 +35,6 @@ define( function( require ) {
   //only go to 700nm because after that the reds are too black
   var LASER_MAX_WAVELENGTH = 700; // nm
 
-  // ray view creates LightRayNodes and shows in the lightRayLayer
-  function RAY() {
-
-  }
-
-  inherit( Object, RAY, {
-    createNode: function( transform, lightRay ) {
-      return new LightRayNode( transform, lightRay );
-    },
-    getLayer: function( lightRayLayer, lightWaveLayer ) {
-      return lightRayLayer;
-    }
-  } );
-
-  //Wave view uses the LightWaveNode and renders in the lightWaveLayer
-  function WAVE() {
-
-  }
-
-  inherit( Object, WAVE, {
-    createNode: function( transform, lightRay ) {
-      return new LightWaveNode( transform, lightRay );
-    },
-    getLayer: function( lightRayLayer, lightWaveLayer ) {
-      return lightWaveLayer;
-    }
-  } );
 
   /**
    *
@@ -82,8 +55,6 @@ define( function( require ) {
     }, options );
     var laserView = this;
     this.hasMoreTools = hasMoreTools;
-    this.rayNode = new RAY();
-    // this.waveNode = new WAVE();
 
     var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
 
@@ -205,33 +176,30 @@ define( function( require ) {
 
   return inherit( Panel, LaserView, {
 
-      /**
-       * reset only if laser panel has wavelength slider
-       * @public
-       */
-      resetAll: function() {
-        if ( this.hasMoreTools ) {
-          this.laserWavelengthProperty.reset();
-        }
-      },
-
-      /**
-       * Create the node for the specified lightRay
-       * @param {ModelViewTransform2} modelViewTransform
-       * @param {LightRay} lightRay
-       */
-      createNode: function( modelViewTransform, lightRay ) {},
-
-      /**
-       * Determine which layer to put the Node in.
-       * @param {Node} lightRayLayer
-       * @param {Node} lightWaveLayer
-       */
-      getLayer: function( lightRayLayer, lightWaveLayer ) {}
+    /**
+     * reset only if laser panel has wavelength slider
+     * @public
+     */
+    resetAll: function() {
+      if ( this.hasMoreTools ) {
+        this.laserWavelengthProperty.reset();
+      }
     },
-    //statics
-    {
-      RAY: new RAY(),
-      WAVE: new WAVE()
-    } );
+    /**
+     * Create the node for the specified lightRay and shows in the lightRayLayer
+     * @param {ModelViewTransform2} modelViewTransform
+     * @param {LightRay} lightRay
+     */
+    createLightRayNode: function( modelViewTransform, lightRay ) {
+      return new LightRayNode( modelViewTransform, lightRay );
+    },
+    /**
+     * Create a LightWaveNode and renders in the lightWaveLayer
+     * @param {ModelViewTransform2} modelViewTransform
+     * @param {LightRay} lightRay
+     */
+    createLightWaveNode: function( modelViewTransform, lightRay ) {
+      return new LightWaveNode( modelViewTransform, lightRay );
+    }
+  } );
 } );

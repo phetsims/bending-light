@@ -154,11 +154,11 @@ define( function( require ) {
     model.rays.addItemAddedListener( function( ray ) {
       var node;
       if ( model.laserViewProperty.value === 'ray' ) {
-        node = bendingLightView.laserView.rayNode.createNode( bendingLightView.modelViewTransform, ray );
+        node = bendingLightView.laserView.createLightRayNode( bendingLightView.modelViewTransform, ray );
         bendingLightView.lightRayLayer.addChild( node );
       }
       else {
-        /// node = bendingLightView.laserView.waveNode.createNode( bendingLightView.modelViewTransform, ray );
+        /// node = bendingLightView.laserView.createLightWaveNode( bendingLightView.modelViewTransform, ray );
         //  bendingLightView.lightWaveLayer.addChild( node );
         if ( !allowWebGL ) {
           for ( var k = 0; k < model.rays.length; k++ ) {

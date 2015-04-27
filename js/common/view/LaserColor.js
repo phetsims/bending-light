@@ -9,23 +9,9 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Color = require( 'SCENERY/util/Color' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
-  var WAVELENGTH_RED = 650E-9;
-
-  var WHITE_LIGHT = function () {
-  };
-
-  inherit( Object, WHITE_LIGHT, {
-    getWavelength: function() {
-      return WAVELENGTH_RED;
-    },
-    getColor: function() {
-      return new Color( 128, 128, 128 );
-    }
-  } );
-  var OneColor = function ( wavelength ) {
+  var OneColor = function( wavelength ) {
     this.wavelength = wavelength;
   };
 
@@ -37,17 +23,7 @@ define( function( require ) {
       return this.wavelength;
     }
   } );
-
-  function LaserColor() {}
-
-  return inherit( Object, LaserColor, {
-      //Determine the wavelength (in nm) of the light
-      getWavelength: function() {},
-      //Determine the color of the light.
-      getColor: function() {}
-    },
-    {
-      OneColor: OneColor,
-      WHITE_LIGHT: WHITE_LIGHT
-    } );
+  return {
+    OneColor: OneColor
+  };
 } );
