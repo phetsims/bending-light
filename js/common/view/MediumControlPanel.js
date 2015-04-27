@@ -29,6 +29,8 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+
   var HStrut = require( 'SUN/HStrut' );
 
   // strings
@@ -51,7 +53,7 @@ define( function( require ) {
    *
    * @param  view
    * @param {Property<Medium>}mediumProperty
-   * @param {String}name
+   * @param {String}name  - name of the medium material
    * @param {Boolean}textFieldVisible
    * @param {Number}laserWavelength
    * @param {Number}format
@@ -79,6 +81,7 @@ define( function( require ) {
     // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
     // if we kept the same index of refraction, the user could use that to easily look up the mystery values.
     this.lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
+
     // dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
     var customState = new MediumState( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
     this.custom = true;
@@ -262,7 +265,7 @@ define( function( require ) {
       indexOfRefractionSlider.setVisible( !mediumProperty.get().isMystery() );
       updateComboBox();
       if ( !mediumProperty.get().isMystery() ) {
-        mediumControlPanel.lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightModel.WAVELENGTH_RED );
+        mediumControlPanel.lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
         mediumControlPanel.mediumIndexProperty.set( mediumControlPanel.lastNonMysteryIndexAtRed );
       }
     } );
