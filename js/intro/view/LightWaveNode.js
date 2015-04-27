@@ -16,8 +16,8 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
 
   // images
-  var waveImage = require( 'image!BENDING_LIGHT/wave.png' );
-  var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
+  // var waveImage = require( 'image!BENDING_LIGHT/wave.png' );
+  // var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
 
   /**
    *
@@ -34,9 +34,9 @@ define( function( require ) {
     this.lightRay = lightRay;
     this.modelViewTransform = modelViewTransform;
 
-    this.patterns = [];
+    /*  this.patterns = [];
     this.patterns.push( new Pattern( waveImage ) );
-    this.patterns.push( new Pattern( knobImage ) );
+     this.patterns.push( new Pattern( knobImage ) );*/
     //Set the path based on the light ray shape
     //PPath that shows the oscillating wave view for the LightRay
     var color = lightRay.getColor();
