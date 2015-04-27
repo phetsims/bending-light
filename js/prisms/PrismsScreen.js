@@ -38,6 +38,7 @@ define( function( require ) {
       function( model ) { return new PrismBreakView( model, colorsProperty ); },
       { backgroundColor: colorsProperty.value.toCSS() }
     );
+    // update the background  when its medium changes
     prismModel.environmentMediumProperty.link( function( environmentMedium ) {
       colorsProperty.value = environmentMedium.color;
     } );

@@ -3,6 +3,7 @@
  * Model for the laser, which emits LightRays.
  *
  * @author Sam Reid
+ * @author Chandrashekar Bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -45,6 +46,7 @@ define( function( require ) {
     this.directionUnitVector = new Vector2( 0, 0 );
 
     this.waveProperty.link( function() {
+      // prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
       if ( laser.wave && laser.getAngle() > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
         laser.setAngle( BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE );
       }

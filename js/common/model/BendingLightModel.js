@@ -38,18 +38,6 @@ define( function( require ) {
   var MYSTERY_A = new MediumState( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
   var MYSTERY_B = new MediumState( mysteryBString, 1.4, true, false );
 
-  // to come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT,
-  // we have f=4.612E14
-  var RED_LIGHT_FREQUENCY = BendingLightConstants.SPEED_OF_LIGHT / BendingLightConstants.WAVELENGTH_RED;
-
-  // speed up by a factor of 2.5 because default wave view was moving too slow
-  var TIME_SPEEDUP_SCALE = 2.5;
-
-  // thirty frames per cycle times the speedup scale
-  var MAX_DT = 1.0 / RED_LIGHT_FREQUENCY / 30 * TIME_SPEEDUP_SCALE;
-  var MIN_DT = MAX_DT / 10;
-  var DEFAULT_DT = MAX_DT / 4;
-
   // a good size for the units being used in the sim; used to determine the dimensions of various model objects
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
@@ -190,15 +178,7 @@ define( function( require ) {
       GLASS: GLASS,
       DIAMOND: DIAMOND,
       MYSTERY_A: MYSTERY_A,
-      MYSTERY_B: MYSTERY_B,
-      SPEED_OF_LIGHT: BendingLightConstants.SPEED_OF_LIGHT,
-      WAVELENGTH_RED: BendingLightConstants.WAVELENGTH_RED,
-      RED_LIGHT_FREQUENCY: RED_LIGHT_FREQUENCY,
-      TIME_SPEEDUP_SCALE: TIME_SPEEDUP_SCALE,
-      MAX_DT: MAX_DT,
-      MIN_DT: MIN_DT,
-      DEFAULT_DT: DEFAULT_DT,
-      CHARACTERISTIC_LENGTH: CHARACTERISTIC_LENGTH
+      MYSTERY_B: MYSTERY_B
     } );
 } );
 

@@ -36,8 +36,8 @@ define( function( require ) {
    * @param { Property<Boolean> } showRotationDragHandles - to show laser node rotate arrows(direction which laser node can rotate)
    * @param { Property<Boolean> } showTranslationDragHandles -to show laser node drag arrows(direction which laser node can drag)
    * @param {function} clampDragAngle
-   * @param {function}translationRegion
-   * @param {function}rotationRegion
+   * @param {function}translationRegion - select from the entire region and front region which should be used for translating the laser
+   * @param {function}rotationRegion - select from the entire region and back region which should be used for rotating the laser
    * @param {String}imageName
    * @param {Bounds2} dragBounds - bounds that define where the laser may be dragged
    * @constructor

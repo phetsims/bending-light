@@ -33,8 +33,8 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform transform to convert between model and view values
    * @param {Property<Boolean>} showProtractorProperty  controls the protractor visibility
    * @param {ProtractorModel} protractorModel model of protractor
-   * @param {function} translateShape
-   * @param {function} rotateShape
+   * @param {function} translateShape - function that returns the part of the protractor that can be used for translating it
+   * @param {function} rotateShape - function that returns the part of the protractor that can be used for rotating it
    * @param {Number} ICON_WIDTH
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged

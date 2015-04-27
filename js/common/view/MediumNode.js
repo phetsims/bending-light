@@ -37,6 +37,9 @@ define( function( require ) {
         medium.color.getGreen(),
         medium.color.getBlue() );
     } );
+
+    // user can't interact with the medium except through control panels.
+    this.setPickable( false );
   }
 
   return inherit( Node, MediumNode, {} );

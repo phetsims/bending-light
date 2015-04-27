@@ -40,6 +40,8 @@ define( function( require ) {
   var indexOfRefractionString = require( 'string!BENDING_LIGHT/indexOfRefraction' );
 
   // constants
+
+  // range of the index of refraction slider
   var INDEX_OF_REFRACTION_MIN = 1;
   var INDEX_OF_REFRACTION_MAX = 1.6;
   var PLUS_MINUS_SPACING = 4;
@@ -73,8 +75,12 @@ define( function( require ) {
     this.mediumProperty = mediumProperty; // the medium to observe
     this.laserWavelength = laserWavelength;
     var initialMediumState = mediumProperty.get().getMediumState();
+
+    // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
+    // if we kept the same index of refraction, the user could use that to easily look up the mystery values.
     this.lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
-    var CUSTOM = new MediumState( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
+    // dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
+    var customState = new MediumState( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
     this.custom = true;
 
     // add material combo box
@@ -98,7 +104,8 @@ define( function( require ) {
         children: [ itemName, new HStrut( strutWidth ) ]
       } ), item );
     };
-    var mediumStates = [ BendingLightModel.AIR, BendingLightModel.WATER, BendingLightModel.GLASS, BendingLightModel.MYSTERY_A, BendingLightModel.MYSTERY_B, CUSTOM ];
+    // states to choose from (and indicate) in the combo box
+    var mediumStates = [ BendingLightModel.AIR, BendingLightModel.WATER, BendingLightModel.GLASS, BendingLightModel.MYSTERY_A, BendingLightModel.MYSTERY_B, customState ];
     var comboBoxMediumState = new Property( initialMediumState );
 
     // update combo box
@@ -119,7 +126,7 @@ define( function( require ) {
       }
       else {
         // no match to a named medium, so it must be a custom medium
-        comboBoxMediumState.set( CUSTOM );
+        comboBoxMediumState.set( customState );
         mediumControlPanel.custom = true;
       }
     };

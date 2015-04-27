@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2012, University of Colorado Boulder
 /**
  * Model for the intensity meter, including the position of the sensor, body, the reading values, etc.
  * When multiple rays hit the sensor, they are summed up.

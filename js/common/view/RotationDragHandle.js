@@ -23,11 +23,11 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2}modelViewTransform
+   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {Laser}laser
    * @param {Number} deltaAngle - deltaAngle in radians
    * @param {Property<Boolean>}showDragHandlesProperty
-   * @param {function}notAtMax
+   * @param {function}notAtMax - function that determines whether the laser is already at the max angle (if at the max angle then that drag handle disappears)
    * @constructor
    */
   function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandlesProperty, notAtMax ) {
