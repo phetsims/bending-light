@@ -9,9 +9,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-
-  //constants
-  var SPEED_OF_LIGHT = 2.99792458E8;
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   /**
    *
@@ -26,6 +24,7 @@ define( function( require ) {
   function Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, frequency ) {
 
     this.tail = tail;
+
     // power of the ray (1 is full power of the laser),
     // will be reduced if partial reflection/refraction
     this.power = power;
@@ -44,7 +43,7 @@ define( function( require ) {
      * @returns {number}
      */
     getBaseWavelength: function() {
-      return SPEED_OF_LIGHT / this.frequency;
+      return BendingLightConstants.SPEED_OF_LIGHT / this.frequency;
     }
   } );
 } );
