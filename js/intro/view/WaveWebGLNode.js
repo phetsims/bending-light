@@ -40,7 +40,6 @@ define( function( require ) {
         'attribute float aAngle;',
         'attribute float aWaveLength;',
         'attribute float aPhase;',
-        'varying vec3 vPosition;',
         'varying float vPowerFraction;',
         'varying vec3 vColor;',
         'varying vec2 vTail;',
@@ -50,7 +49,6 @@ define( function( require ) {
         'uniform mat3 uModelViewMatrix;',
         'uniform mat3 uProjectionMatrix;',
         'void main( void ) {',
-        'vPosition = aPosition;',
         '  vPowerFraction = aPowerFraction;',
         '  vColor = aColor;',
         '  vTail = aTail;',
@@ -69,7 +67,6 @@ define( function( require ) {
       //   custom  fragment shader
       var fragmentShaderSource = [
         'precision mediump float;',
-        'varying vec3 vPosition;',
         'varying float vPowerFraction;',
         'varying vec3 vColor;',
         'varying vec2 vTail;',
@@ -82,30 +79,23 @@ define( function( require ) {
         'float x1 = (gl_FragCoord.x-uCanvasOffset.x)/uScale;',
         'float y1 = (gl_FragCoord.y-uCanvasOffset.y)/uScale;',
         'float waveLength = float(vWaveLength);',
-        'float distance = abs(dot(vec2(cos(vAngle),sin(vAngle)), vec2(x1-vTail.x,y1-vTail.y)));',
-        //'float distance = abs(tan(vAngle)*x1 - y1 + vTail.y -tan(vAngle)*vTail.x ) * pow(cos(vAngle),2.0);',
-        'float positionDiff = distance>vPhase?distance - vPhase:distance- vPhase +vWaveLength;',
+        'float distance = dot(vec2(cos(vAngle),sin(vAngle)), vec2(x1-vTail.x,y1-vTail.y));',
+        'float positionDiff = abs(distance)>vPhase?distance - vPhase:distance- vPhase +vWaveLength;',
         'for(int i=0;i<100;i++){',
-        'if(positionDiff>waveLength){',
-        'positionDiff = positionDiff-waveLength;',
+        'if(abs(positionDiff)>waveLength){',
+        'positionDiff = positionDiff>0.0?positionDiff -waveLength:positionDiff +waveLength;',
         '}',
         'else{',
         'break;',
         '}',
         '}',
-        'if(positionDiff<waveLength/2.0){',
-        'gl_FragColor = vec4( vColor*(positionDiff/(waveLength/2.0)) + vec3(0,0,0)*(((waveLength/2.0)-positionDiff)/(waveLength/2.0)),vPowerFraction ) ;',
+        'if(abs(positionDiff)<waveLength/2.0){',
+        'gl_FragColor = vec4( vColor*(abs(positionDiff)/(waveLength/2.0)) + vec3(0,0,0)*(1.0-abs(positionDiff)/(waveLength/2.0)),vPowerFraction ) ;',
         '}',
         'else{',
-        'positionDiff = positionDiff -waveLength/2.0;',
-        'gl_FragColor = vec4( vec3(0,0,0)*(positionDiff/(waveLength/2.0)) + vColor*(((waveLength/2.0)-positionDiff)/(waveLength/2.0)),vPowerFraction ) ;',
+        'positionDiff = positionDiff>0.0?positionDiff -waveLength/2.0:positionDiff +waveLength/2.0;',
+        'gl_FragColor = vec4( vec3(0,0,0)*(1.0-abs(positionDiff)/(waveLength/2.0)) + vColor*(((waveLength/2.0)-abs(positionDiff))/(waveLength/2.0)),vPowerFraction ) ;',
         '}',
-        /*        'if(x1<300.0){',
-         'gl_FragColor = vec4(0,0,0,vPowerFraction ) ;',
-         '}',
-         'else{',
-         'gl_FragColor = vec4(1,1,0,vPowerFraction ) ;',
-         '}',*/
         '}'
       ].join( '\n' );
 
@@ -161,7 +151,9 @@ define( function( require ) {
         var totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
         var phaseOffset = lightRay.getUnitVector().times( this.modelViewTransform.modelToViewDeltaX( totalPhaseOffsetInNumberOfWavelengths * lightRay.getWavelength() ) );
         var phaseDiff = phaseOffset.magnitude() % this.modelViewTransform.modelToViewDeltaX( lightRay.wavelength );
-
+        if ( totalPhaseOffsetInNumberOfWavelengths < 0 ) {
+          phaseDiff = this.modelViewTransform.modelToViewDeltaX( lightRay.wavelength ) - phaseDiff;
+        }
         for ( var k = 0; k < numberOfVertexPoints; k++ ) {
           powerFractionArray.push( lightRayPowerFraction );
           colorArray.push( red, green, blue );
