@@ -9,7 +9,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var LightWaveNode = require( 'BENDING_LIGHT/intro/view/LightWaveNode' );
   var LightRayNode = require( 'BENDING_LIGHT/common/view/LightRayNode' );
   var Panel = require( 'SUN/Panel' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -189,14 +188,6 @@ define( function( require ) {
      */
     createLightRayNode: function( modelViewTransform, lightRay ) {
       return new LightRayNode( modelViewTransform, lightRay );
-    },
-    /**
-     * Create a LightWaveNode and renders in the lightWaveLayer
-     * @param {ModelViewTransform2} modelViewTransform
-     * @param {LightRay} lightRay
-     */
-    createLightWaveNode: function( modelViewTransform, lightRay ) {
-      return new LightWaveNode( modelViewTransform, lightRay );
     }
   } );
 } );

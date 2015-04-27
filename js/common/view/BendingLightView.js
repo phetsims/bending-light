@@ -9,7 +9,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Vector2 = require( 'DOT/Vector2' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -25,8 +24,6 @@ define( function( require ) {
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
   var Util = require( 'SCENERY/util/Util' );
 
-  // font for labels in controls
-  var labelFont = new PhetFont( 16 );
 
   /**
    *
@@ -158,8 +155,6 @@ define( function( require ) {
         bendingLightView.lightRayLayer.addChild( node );
       }
       else {
-        /// node = bendingLightView.laserView.createLightWaveNode( bendingLightView.modelViewTransform, ray );
-        //  bendingLightView.lightWaveLayer.addChild( node );
         if ( !allowWebGL ) {
           for ( var k = 0; k < model.rays.length; k++ ) {
             var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles, bendingLightView.modelViewTransform, {
@@ -179,14 +174,8 @@ define( function( require ) {
         bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
       }
     } );
-
-
   }
 
-  return inherit( ScreenView, BendingLightView, {},
-    //statics
-    {
-      labelFont: labelFont
-    } );
+  return inherit( ScreenView, BendingLightView );
 } );
 
