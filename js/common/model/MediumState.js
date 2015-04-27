@@ -1,4 +1,4 @@
-// Copyright 2002-2051, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".
  *
@@ -17,8 +17,8 @@ define( function( require ) {
    *
    * @param {String} name - name of the medium
    * @param {Number} indexForRed - index of refraction of medium
-   * @param mystery
-   * @param custom
+   * @param {Boolean}mystery - true if medium state is mystery else other state
+   * @param {Boolean}custom - true if  medium state is custom else other state
    * @constructor
    */
   function MediumState( name, indexForRed, mystery, custom ) {

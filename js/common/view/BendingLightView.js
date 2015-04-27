@@ -30,7 +30,7 @@ define( function( require ) {
 
   /**
    *
-   * @param model
+   * @param {BendingLightModel} model - main model of  the simulations
    * @param {function} clampDragAngle
    * @param {function} clockwiseArrowNotAtMax
    * @param {function} ccwArrowNotAtMax
@@ -75,6 +75,7 @@ define( function( require ) {
 
     // use the model aspect ratio and specified stage width to create the stage dimension
     this.stageSize = new Dimension2( stageWidth, stageHeight );
+
     // center the stage in the canvas, specifies how things scale up and down with window size, maps stage to pixels
     // create the transform from model (SI) to view (stage) coordinates
     var scale = this.stageSize.height / this.model.getHeight();

@@ -62,15 +62,6 @@ define( function( require ) {
        */
       resetAll: function() {
         PropertySet.prototype.reset.call( this );
-        // this.resetLocation();
-      },
-      //
-      /**
-       * called if the laser is dropped out of bounds
-       */
-      resetLocation: function() {
-        this.emissionPointProperty.reset();
-        this.pivotProperty.reset();
       },
 
       /**

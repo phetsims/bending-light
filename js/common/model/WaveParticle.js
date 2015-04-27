@@ -11,12 +11,12 @@ define( function( require ) {
 
   /**
    *
-   * @param position
-   * @param width
-   * @param color
-   * @param particleGradientColor
-   * @param angle
-   * @param waveHeight
+   * @param {Vector2} position - position of wave particle
+   * @param {Number}width -width of  wave particle
+   * @param {Color}color
+   * @param {Color}particleGradientColor
+   * @param {Number}angle
+   * @param {Number}waveHeight
    * @constructor
    */
   function WaveParticle( position, width, color, particleGradientColor, angle, waveHeight ) {
@@ -30,23 +30,36 @@ define( function( require ) {
 
   return inherit( Object, WaveParticle, {
 
-    // get particle x position
+    /**
+     * get particle x position
+     * @public
+     * @returns {*}
+     */
     getX: function() {
       return this.position.x;
     },
 
-    // get particle Y position
+    /**
+     *  get particle Y position
+     *  @public
+     * @returns {*}
+     */
     getY: function() {
       return this.position.y;
     },
 
     /**
      * Set the particle x position
-     * @param {Number} x position in meters
+     * @public
+     * @param {Number} x - x position in model values
      */
     setX: function( x ) {
       this.position.x = x;
     },
+    /**
+     * @public
+     * @param{Number} y  - y position in model values
+     */
     setY: function( y ) {
       this.position.y = y;
     }

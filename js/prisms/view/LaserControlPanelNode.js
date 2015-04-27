@@ -3,6 +3,7 @@
  * Control panel for the laser in the "prisms" Screen,
  * such as choosing whether it is white light or one color, and the wavelength.
  * @author Sam Reid
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
 define( function( require ) {

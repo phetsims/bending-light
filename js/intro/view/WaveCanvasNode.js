@@ -1,4 +1,6 @@
+// Copyright 2002-2015, University of Colorado Boulder
 /**
+ *  * A  Wave particle layer rendered on canvas
  *  * @author Chandrashekar Bemagoni  (Actual Concepts)
  */
 define( function( require ) {
