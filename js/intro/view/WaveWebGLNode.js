@@ -10,16 +10,18 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
-  var HomeScreenView = require( 'JOIST/HomeScreenView' );
 
   /**
    *
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {ObservableArray<LightRay>} rays
+   * @param {Number} screenWidth - width of the dev area
+   * @param {Number} screenHeight -height of the dev area
    * @constructor
    */
-  function WaveWebGLNode( bendingLightView, modelViewTransform, rays ) {
-    this.bendingLightView = bendingLightView;
+  function WaveWebGLNode( modelViewTransform, rays, screenWidth, screenHeight ) {
+    this.screenWidth = screenWidth;
+    this.screenHeight = screenHeight;
     this.modelViewTransform = modelViewTransform;
     this.rays = rays;
     WebGLNode.call( this );
@@ -27,6 +29,10 @@ define( function( require ) {
 
   return inherit( WebGLNode, WaveWebGLNode, {
 
+    /**
+     *
+     * @param drawable
+     */
     initializeWebGLDrawable: function( drawable ) {
       var gl = drawable.gl;
 
@@ -78,18 +84,17 @@ define( function( require ) {
         'void main( void ) {',
         'float x1 = (gl_FragCoord.x-uCanvasOffset.x)/uScale;',
         'float y1 = (gl_FragCoord.y-uCanvasOffset.y)/uScale;',
-        'float waveLength = float(vWaveLength);',
         'float distance = dot(vec2(cos(vAngle),sin(vAngle)), vec2(x1-vTail.x,y1-vTail.y));',
         'float positionDiff = abs(distance)>vPhase?distance - vPhase:distance- vPhase +vWaveLength;',
-        'if(abs(positionDiff)>waveLength){',
+        'if(abs(positionDiff)>vWaveLength){',
         'positionDiff =mod(positionDiff, vWaveLength);',
         '}',
-        'if(abs(positionDiff)<waveLength/2.0){',
-        'gl_FragColor = vec4( ( vColor*(abs(positionDiff)/(waveLength/2.0)) + vec3(0,0,0)*(1.0-abs(positionDiff)/(waveLength/2.0)) )*vPowerFraction,vPowerFraction ) ;',
+        'if(abs(positionDiff)<vWaveLength/2.0){',
+        'gl_FragColor = vec4( ( vColor*(abs(positionDiff)/(vWaveLength/2.0)) + vec3(0,0,0)*(1.0-abs(positionDiff)/(vWaveLength/2.0)) )*vPowerFraction,vPowerFraction ) ;',
         '}',
         'else{',
-        'positionDiff = positionDiff>0.0?positionDiff -waveLength/2.0:positionDiff +waveLength/2.0;',
-        'gl_FragColor = vec4(( vec3(0,0,0)*(1.0-abs(positionDiff)/(waveLength/2.0)) + vColor*(((waveLength/2.0)-abs(positionDiff))/(waveLength/2.0)))*vPowerFraction,vPowerFraction ) ;',
+        'positionDiff = positionDiff>0.0?positionDiff -vWaveLength/2.0:positionDiff +vWaveLength/2.0;',
+        'gl_FragColor = vec4(( vec3(0,0,0)*(1.0-abs(positionDiff)/(vWaveLength/2.0)) + vColor*(((vWaveLength/2.0)-abs(positionDiff))/(vWaveLength/2.0)))*vPowerFraction,vPowerFraction ) ;',
         '}',
         '}'
       ].join( '\n' );
@@ -99,6 +104,12 @@ define( function( require ) {
         uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uScale', 'uCanvasOffset' ]
       } );
     },
+
+    /**
+     *
+     * @param drawable
+     * @param matrix
+     */
     paintWebGLDrawable: function( drawable, matrix ) {
       var gl = drawable.gl;
       var shaderProgram = drawable.shaderProgram;
@@ -151,9 +162,6 @@ define( function( require ) {
         var totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
         var phaseDiff = this.modelViewTransform.modelToViewDeltaX( (totalPhaseOffsetInNumberOfWavelengths % 1) * lightRay.wavelength );
 
-        if ( totalPhaseOffsetInNumberOfWavelengths < 0 ) {
-          phaseDiff = this.modelViewTransform.modelToViewDeltaX( lightRay.wavelength ) - phaseDiff;
-        }
         for ( var k = 0; k < numberOfVertexPoints; k++ ) {
           powerFractionArray.push( lightRayPowerFraction );
           colorArray.push( red, green, blue );
@@ -164,9 +172,9 @@ define( function( require ) {
         }
       }
 
-      var scale = Math.min( window.innerWidth / HomeScreenView.LAYOUT_BOUNDS.width, window.innerHeight / HomeScreenView.LAYOUT_BOUNDS.height );
-      var widthOffset = (window.innerWidth - ( HomeScreenView.LAYOUT_BOUNDS.width * scale)) / 2;
-      var heightOffset = (window.innerHeight - ( HomeScreenView.LAYOUT_BOUNDS.height * scale)) / 2;
+      var scale = Math.min( window.innerWidth / this.screenWidth, window.innerHeight / this.screenHeight );
+      var widthOffset = (window.innerWidth - (  this.screenWidth * scale)) / 2;
+      var heightOffset = (window.innerHeight - (  this.screenHeight * scale)) / 2;
 
       drawable.vertexBuffer = gl.createBuffer();
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
@@ -232,7 +240,9 @@ define( function( require ) {
       drawable.gl.deleteBuffer( drawable.vertexBuffer );
       drawable.shaderProgram = null;
     },
-
+    /**
+     *
+     */
     step: function() {
       this.invalidatePaint();
     }

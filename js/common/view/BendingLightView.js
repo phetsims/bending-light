@@ -132,7 +132,10 @@ define( function( require ) {
 
     model.allowWebGL = allowWebGL;
     if ( allowWebGL ) {
-      var waveWebGLNode = new WaveWebGLNode( bendingLightView, bendingLightView.modelViewTransform, model.rays, {} );
+      var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
+        model.rays,
+        bendingLightView.layoutBounds.width,
+        bendingLightView.layoutBounds.height );
       bendingLightView.incidentWaveCanvasLayer.addChild( waveWebGLNode );
     }
 
