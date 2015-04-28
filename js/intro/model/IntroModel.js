@@ -46,7 +46,6 @@ define( function( require ) {
       this.intensityMeter.sensorPositionProperty,
       this.topMediumProperty,
       this.bottomMediumProperty,
-      this.laser.pivotProperty,
       this.laser.emissionPointProperty,
       this.intensityMeter.enabledProperty,
       this.laser.colorProperty
@@ -273,7 +272,10 @@ define( function( require ) {
           var amplitude = Math.sqrt( ray.getPowerFraction() );
 
           // find out how far the light has come, so we can compute the remainder of phases
-          var distanceAlongRay = ray.getUnitVector().dot( position.minus( ray.tail ) );
+          var rayUnitVector = ray.getUnitVector();
+          var x = position.x - ray.tail.x;
+          var y = position.y - ray.tail.y;
+          var distanceAlongRay = rayUnitVector.x * x + rayUnitVector.y * y;
           var phase = ray.getCosArg( distanceAlongRay );
 
           // wave is a*cos(theta)

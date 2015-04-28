@@ -160,9 +160,10 @@ define( function( require ) {
       else {
         if ( !allowWebGL ) {
           for ( var k = 0; k < model.rays.length; k++ ) {
+            var waveShape = model.rays.get( k ).getWaveShape();
             var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles, bendingLightView.modelViewTransform, {
-              canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() ).bounds,
-              clipArea: bendingLightView.modelViewTransform.modelToViewShape( model.rays.get( k ).getWaveShape() )
+              canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
+              clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
             } );
             k === 0 ? bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode ) : bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
           }

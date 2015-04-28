@@ -68,6 +68,7 @@ define( function( require ) {
 
     this.waveBounds = [];
     this.vectorForm = new Vector2( 0, 0 );
+    this.unitVector = new Vector2( 0, 0 );
 
     // wave particles
     this.particles = new ObservableArray();
@@ -164,16 +165,39 @@ define( function( require ) {
       var tipWidth = this.extend ? this.trapeziumWidth : this.waveWidth;
       var tailWidth = this.extendBackwards ? this.trapeziumWidth : this.waveWidth;
 
-      var tipPoint1 = this.tip.minus( Vector2.createPolar( 1, tipAngle ).perpendicular().times( tipWidth / 2 ) );
-      var tipPoint2 = this.tip.plus( Vector2.createPolar( 1, tipAngle ).perpendicular().times( tipWidth / 2 ) );
-      var tailPoint1 = this.tail.minus( Vector2.createPolar( 1, tailAngle ).perpendicular().times( tailWidth / 2 ) );
-      var tailPoint2 = this.tail.plus( Vector2.createPolar( 1, tailAngle ).perpendicular().times( tailWidth / 2 ) );
+      var tipVector = Vector2.createPolar( 1, tipAngle + Math.PI / 2 );
+      tipVector.x = tipVector.x * tipWidth / 2;
+      tipVector.y = tipVector.y * tipWidth / 2;
 
+      var tailVector = Vector2.createPolar( 1, tailAngle + Math.PI / 2 );
+      tailVector.x = tailVector.x * tailWidth / 2;
+      tailVector.y = tailVector.y * tailWidth / 2;
+
+      var tipPoint1 = this.tip.minus( tipVector );
+      var tipPoint2 = this.tip.plus( tipVector );
+      var tailPoint1 = this.tail.minus( tailVector );
+      var tailPoint2 = this.tail.plus( tailVector );
+
+      var tipPoint1X = tipPoint2.x > tipPoint1.x ? tipPoint2.x : tipPoint1.x;
+      var tipPoint1Y = tipPoint2.x > tipPoint1.x ? tipPoint2.y : tipPoint1.y;
+      var tipPoint2X = tipPoint2.x < tipPoint1.x ? tipPoint2.x : tipPoint1.x;
+      var tipPoint2Y = tipPoint2.x < tipPoint1.x ? tipPoint2.y : tipPoint1.y;
+
+      var tailPoint1X = tailPoint1.x < tailPoint2.x ? tailPoint1.x : tailPoint2.x;
+      var tailPoint1Y = tailPoint1.x < tailPoint2.x ? tailPoint1.y : tailPoint2.y;
+      var tailPoint2X = tailPoint1.x > tailPoint2.x ? tailPoint1.x : tailPoint2.x;
+      var tailPoint2Y = tailPoint1.x > tailPoint2.x ? tailPoint1.y : tailPoint2.y;
+
+      if ( (tailPoint2X - tipPoint1X) > 1E-10 ) {
+        tipPoint1Y = tailPoint2Y;
+        tailPoint2X = this.toVector2D().magnitude() / Math.cos( this.getAngle() );
+        tipPoint1X = tailPoint2X;
+      }
       var shape = new Shape();
-      shape.moveToPoint( tailPoint1.x < tailPoint2.x ? tailPoint1 : tailPoint2 )
-        .lineToPoint( tailPoint1.x > tailPoint2.x ? tailPoint1 : tailPoint2 )
-        .lineToPoint( tipPoint2.x > tipPoint1.x ? tipPoint2 : tipPoint1 )
-        .lineToPoint( tipPoint2.x < tipPoint1.x ? tipPoint2 : tipPoint1 )
+      shape.moveTo( tailPoint1X, tailPoint1Y )
+        .lineTo( tailPoint2X, tailPoint2Y )
+        .lineTo( tipPoint1X, tipPoint1Y )
+        .lineTo( tipPoint2X, tipPoint2Y )
         .close();
       return shape;
     },
@@ -210,7 +234,10 @@ define( function( require ) {
     getUnitVector: function() {
       var x = this.tip.x - this.tail.x;
       var y = this.tip.y - this.tail.y;
-      return new Vector2( x, y ).normalized();
+      var magnitude = Math.sqrt( x * x + y * y );
+      this.unitVector.x = x / magnitude;
+      this.unitVector.y = y / magnitude;
+      return this.unitVector;
     },
 
     /**
@@ -328,4 +355,3 @@ define( function( require ) {
     }
   } );
 } );
-
