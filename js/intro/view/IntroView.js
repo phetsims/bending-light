@@ -297,8 +297,8 @@ define( function( require ) {
         }
       }
       var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
-      this.introModel.simDisplayWindowHeight = window.innerHeight / 2 * scale;
-      this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( window.innerHeight * scale ) );
+      this.introModel.simDisplayWindowHeight = ( window.innerHeight) / scale;
+      this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( this.introModel.simDisplayWindowHeight ) );
     },
     stepInternal: function() {
 

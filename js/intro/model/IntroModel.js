@@ -381,7 +381,7 @@ define( function( require ) {
         particleColor = new Color( lightRayToPropagate.color.getRed(), lightRayToPropagate.color.getGreen(), lightRayToPropagate.color.getBlue(),
           Math.sqrt( lightRayToPropagate.getPowerFraction() ) ).toCSS();
         particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) ).toCSS();
-        var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 130 ) + 1;// : this.simDisplayWindowHeight;
+        var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;// : this.simDisplayWindowHeight;
         var waveParticleGap = 0;
         var particleWidth = lightRayToPropagate.getWaveWidth();
 
@@ -421,10 +421,11 @@ define( function( require ) {
                (particle.position.x + particle.width / 2 * Math.abs( Math.sin( particle.angle ) ) - particle.height * Math.cos( particle.angle ) + 0.1 * particle.height) >= lightRayBounds[ 3 ].x ) {
             particlesToRemove.push( particle );
           }
-          if ( i === 1 && particle.position.y >= this.simDisplayWindowHeightInModel / 2 ) {
+          var yOffsetToDeleteParticle = 3 * particle.width;
+          if ( i === 1 && particle.position.y >= this.simDisplayWindowHeightInModel / 2 + yOffsetToDeleteParticle ) {
             reflectedParticlesToRemove.push( particle );
           }
-          if ( i === 2 && particle.position.y <= -this.simDisplayWindowHeightInModel / 2 ) {
+          if ( i === 2 && particle.position.y <= -this.simDisplayWindowHeightInModel / 2 - yOffsetToDeleteParticle ) {
             refractedParticlesToRemove.push( particle );
           }
         }
