@@ -28,6 +28,9 @@ define( function( require ) {
         position: new Vector2( x, y )
       }
     );
+
+    // Note:  created here to reduce Vector2 allocations
+    this.probePosition = new Vector2( 0, 0 );
   }
 
   inherit( PropertySet, Probe, {
@@ -37,19 +40,18 @@ define( function( require ) {
      * @param {Vector2} delta
      */
     translate: function( delta ) {
-      this.positionProperty.set( this.position.plus( delta ) );
+      this.probePosition.x = this.position.x + delta.x;
+      this.probePosition.y = this.position.y + delta.y;
+      this.positionProperty.set( this.probePosition );
+      this.positionProperty._notifyObservers();
     },
     /**
      *
      * @param {Option<DataPoint>} sample
      */
     addSample: function( sample ) {
-      var seriesArray = [];
-      for ( var i = 0; i < this.series.length; i++ ) {
-        seriesArray[ i ] = this.series[ i ];
-      }
-      seriesArray.push( sample );
-      this.seriesProperty.set( seriesArray );
+      this.series.push( sample );
+      this.seriesProperty._notifyObservers();
     },
     reset: function() {
       PropertySet.prototype.reset.call( this );
@@ -78,6 +80,9 @@ define( function( require ) {
     // function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;
     this.probe2Value = probe2Value;
+
+    // Note:  created here to reduce Vector2 allocations
+    this.bodyPosition = new Vector2( 0, 0 );
 
   }
 
@@ -111,7 +116,10 @@ define( function( require ) {
      * @param {Vector2} delta
      */
     translateBody: function( delta ) {
-      this.bodyPositionProperty.set( this.bodyPositionProperty.get().plus( delta ) );
+      this.bodyPosition.x = this.bodyPositionProperty.get().x + delta.x;
+      this.bodyPosition.y = this.bodyPositionProperty.get().y + delta.y;
+      this.bodyPositionProperty.set( this.bodyPosition );
+      this.bodyPositionProperty._notifyObservers();
     },
     /**
      * Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
@@ -129,7 +137,7 @@ define( function( require ) {
     translateAll: function( delta ) {
       this.probe1.translate( delta );
       this.probe2.translate( delta );
-      this.bodyPositionProperty.set( this.bodyPositionProperty.get().plus( delta ) );
+      this.translateBody( delta );
     },
     reset: function() {
       this.bodyPositionProperty.reset();
