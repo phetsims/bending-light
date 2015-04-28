@@ -209,37 +209,9 @@ define( function( require ) {
 
     this.afterLightLayer2.addChild( resetAllButton );
 
-    // add play pause button and step button
-    this.stepButton = new StepButton(
-      function() {
-        introView.stepInternal();
-        introModel.stepInternal();
-        introModel.propagateParticles( 20 );
-        for ( var k = 0; k < introView.waveCanvasLayer.getChildrenCount(); k++ ) {
-          introView.waveCanvasLayer.children[ k ].step();
-        }
-        for ( k = 0; k < introView.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
-          introView.incidentWaveCanvasLayer.children[ k ].step();
-        }
-      },
-      introModel.isPlayingProperty,
-      {
-        radius: 12,
-        stroke: 'black',
-        fill: '#005566',
-        left: this.sensorPanel.right + 170,
-        bottom: this.layoutBounds.bottom - 20
-      }
-    );
-
-    this.addChild( this.stepButton );
     introModel.laserViewProperty.link( function() {
       introModel.laser.waveProperty.value = introModel.laserViewProperty.value === 'wave';
     } );
-
-    this.playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
-      { radius: 18, stroke: 'black', fill: '#005566', y: this.stepButton.centerY, right: this.stepButton.left - INSET } );
-    this.addChild( this.playPauseButton );
 
     // add sim speed controls
     var slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
@@ -271,7 +243,42 @@ define( function( require ) {
       spacing: radioButtonSpacing,
       children: [ normalMotionRadioBox, slowMotionRadioBox ]
     } );
-    this.addChild( this.speedControl.mutate( { right: this.playPauseButton.left - 8, bottom: this.playPauseButton.bottom } ) );
+    this.addChild( this.speedControl.mutate( {
+      left:   this.sensorPanel.right + 25,
+      bottom: this.layoutBounds.bottom - 15
+    } ) );
+
+    // add play pause button and step button
+    this.playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
+      {
+        radius: 18, stroke: 'black', fill: '#005566',
+        bottom: this.layoutBounds.bottom - 15,
+        left:   this.speedControl.right + 10
+      } );
+    this.addChild( this.playPauseButton );
+
+    this.stepButton = new StepButton(
+      function() {
+        introView.stepInternal();
+        introModel.stepInternal();
+        introModel.propagateParticles( 20 );
+        for ( var k = 0; k < introView.waveCanvasLayer.getChildrenCount(); k++ ) {
+          introView.waveCanvasLayer.children[ k ].step();
+        }
+        for ( k = 0; k < introView.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
+          introView.incidentWaveCanvasLayer.children[ k ].step();
+        }
+      },
+      introModel.isPlayingProperty,
+      {
+        radius: 12,
+        stroke: 'black',
+        fill: '#005566',
+        left: this.playPauseButton.right + 15,
+        y: this.playPauseButton.centerY
+      }
+    );
+    this.addChild( this.stepButton );
     introModel.laserViewProperty.link( function( laserType ) {
 
       introView.playPauseButton.visible = (laserType === 'wave');
