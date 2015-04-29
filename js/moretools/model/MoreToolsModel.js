@@ -40,6 +40,7 @@ define( function( require ) {
       this.laserViewProperty,
       this.laser.onProperty,
       this.velocitySensor.positionProperty,
+      this.intensityMeter.sensorPositionProperty,
       this.topMediumProperty,
       this.bottomMediumProperty,
       this.laser.emissionPointProperty
