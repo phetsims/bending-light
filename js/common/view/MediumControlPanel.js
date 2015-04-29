@@ -48,6 +48,7 @@ define( function( require ) {
   var INDEX_OF_REFRACTION_MAX = 1.6;
   var PLUS_MINUS_SPACING = 4;
   var INSET = 10;
+  var LABEL_TEXT_MAX_WIDTH = 30;
 
   /**
    *
@@ -197,8 +198,17 @@ define( function( require ) {
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
     var airTitle = new Text( airString );
+    if ( airTitle.width > LABEL_TEXT_MAX_WIDTH ) {
+      airTitle.scale( LABEL_TEXT_MAX_WIDTH / airTitle.width );
+    }
     var waterTitle = new Text( waterString );
+    if ( waterTitle.width > LABEL_TEXT_MAX_WIDTH ) {
+      waterTitle.scale( LABEL_TEXT_MAX_WIDTH / waterTitle.width );
+    }
     var glassTitle = new Text( glassString );
+    if ( glassTitle.width > LABEL_TEXT_MAX_WIDTH ) {
+      glassTitle.scale( LABEL_TEXT_MAX_WIDTH / glassTitle.width );
+    }
     var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty,
       { min: INDEX_OF_REFRACTION_MIN, max: INDEX_OF_REFRACTION_MAX },
       {
@@ -300,7 +310,7 @@ define( function( require ) {
      * Called when the user enters a new index of refraction (with text box or slider),
      * updates the model with the specified value
      * @public
-     * @param {number} indexOfRefraction
+     * @param indexOfRefraction
      */
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
 
