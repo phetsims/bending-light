@@ -34,7 +34,7 @@ define( function( require ) {
    * @param {MoreToolsView} moreToolsView
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
-   * @param arrowScale
+   * @param {number}arrowScale
    * @param {Rectangle} container
    * @param {Bounds2} dragBounds - bounds that define where the velocity sensor   may be dragged
    * @constructor
@@ -197,7 +197,7 @@ define( function( require ) {
     /**
      *
      * @param {Vector2} endPoint
-     * @param {Number} scale
+     * @param {number} scale
      */
     setScaleAnimation: function( endPoint, scale ) {
       var startPoint = { x: this.velocitySensor.position.x, y: this.velocitySensor.position.y, scale: this.getScaleVector().x };

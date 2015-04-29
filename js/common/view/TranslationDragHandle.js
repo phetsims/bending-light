@@ -24,8 +24,8 @@ define( function( require ) {
    *
    * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinate frames
    * @param {Laser} laser - model of laser
-   * @param {Number} dx
-   * @param {Number} dy
+   * @param {number} dx
+   * @param {number} dy
    * @param {Property<Boolean>} showDragHandlesProperty
    * @constructor
    */

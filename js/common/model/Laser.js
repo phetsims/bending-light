@@ -18,8 +18,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number}  distanceFromPivot - distance from laser pivot point
-   * @param {Number}  angle - laser angle
+   * @param {number}  distanceFromPivot - distance from laser pivot point
+   * @param {number}  angle - laser angle
    * @param {Boolean} topLeftQuadrant
    * @constructor
    */
@@ -94,7 +94,7 @@ define( function( require ) {
     /**
      * Rotate about the fixed pivot
      * @public
-     * @param {Number}angle
+     * @param {number}angle
      */
     setAngle: function( angle ) {
       var distFromPivot = this.pivot.distance( this.emissionPoint );
@@ -106,7 +106,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {*}
+     * @returns {number}
      */
     getAngle: function() {
       //TODO: why is this backwards by 180 degrees?
@@ -115,7 +115,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {*}
+     * @returns {number}
      */
     getDistanceFromPivot: function() {
       this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
@@ -125,7 +125,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {*}
+     * @returns {number}
      */
     getWavelength: function() {
       return this.color.getWavelength();

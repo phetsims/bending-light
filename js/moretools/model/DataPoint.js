@@ -12,8 +12,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number} time
-   * @param {Number} value
+   * @param {number} time
+   * @param {number} value
    * @constructor
    */
   function DataPoint( time, value ) {

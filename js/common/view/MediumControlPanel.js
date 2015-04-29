@@ -53,10 +53,10 @@ define( function( require ) {
    *
    * @param  view
    * @param {Property<Medium>}mediumProperty
-   * @param {String}name  - name of the medium material
-   * @param {Boolean}textFieldVisible
-   * @param {Number}laserWavelength
-   * @param {Number}format
+   * @param {string}name  - name of the medium material
+   * @param {boolean}textFieldVisible
+   * @param {number}laserWavelength
+   * @param {number}format
    * @param {Object} [options]
    * @constructor
    */
@@ -300,7 +300,7 @@ define( function( require ) {
      * Called when the user enters a new index of refraction (with text box or slider),
      * updates the model with the specified value
      * @public
-     * @param indexOfRefraction
+     * @param {number} indexOfRefraction
      */
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
 

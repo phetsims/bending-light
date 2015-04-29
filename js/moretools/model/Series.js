@@ -70,7 +70,7 @@ define( function( require ) {
     /**
      * Discard early samples that have gone out of range
      *
-     * @param {Number} minTime
+     * @param {number} minTime
      */
     keepLastSamples: function( minTime ) {
       var startIndex = 0;

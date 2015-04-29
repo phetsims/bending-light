@@ -30,8 +30,8 @@ define( function( require ) {
     /**
      *
      * @public
-     * @param {Number}wavelength
-     * @returns {*|number}
+     * @param {number} wavelength
+     * @returns {number}
      */
     getIndexOfRefraction: function( wavelength ) {
       return this.mediumState.dispersionFunction.getIndexOfRefraction( wavelength );

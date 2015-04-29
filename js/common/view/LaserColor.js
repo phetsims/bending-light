@@ -16,9 +16,11 @@ define( function( require ) {
   };
 
   inherit( Object, OneColor, {
+
     getColor: function() {
       return VisibleColor.wavelengthToColor( this.wavelength * 1E9 );
     },
+
     getWavelength: function() {
       return this.wavelength;
     }

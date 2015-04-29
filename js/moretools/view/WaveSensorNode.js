@@ -39,7 +39,7 @@ define( function( require ) {
    *
    * @param {WaveSensorNode} waveSensorNode
    * @param probe
-   * @param {String} imageName
+   * @param {string} imageName
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {Rectangle} container
    * @param {Bounds2} dragBounds - bounds that define where the probe   may be dragged

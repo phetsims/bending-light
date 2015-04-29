@@ -47,6 +47,7 @@ define( function( require ) {
   }
 
   return inherit( Node, LightRayNode, {
+
     /**
      * Get the line traversed by this light ray in view coordinates,
      * for usage with the Bresenham algorithm in the WhiteLightNode
@@ -59,7 +60,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {*|Element.color|*}
+     * @returns {Color}
      */
     getColor: function() {
       return this.lightRay.getColor();
@@ -67,7 +68,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {LightWaveNode.lightRay|*}
+     * @returns {LightRay}
      */
     getLightRay: function() {
       return this.lightRay;

@@ -35,7 +35,7 @@ define( function( require ) {
   /**
    *
    * @param model
-   * @param {Boolean} hasMoreTools
+   * @param {boolean} hasMoreTools
    * @param {Object} [options]
    * @constructor
    */

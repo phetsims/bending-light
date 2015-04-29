@@ -43,9 +43,9 @@ define( function( require ) {
   /**
    *
    * @param {IntroModel}introModel -model of intro screen
-   * @param {Number} centerOffsetLeft
+   * @param {number} centerOffsetLeft
    * @param {boolean} hasMoreTools
-   * @param {Number} IndexOfRefractionDecimals
+   * @param {number} IndexOfRefractionDecimals
    * @constructor
    */
   function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals ) {

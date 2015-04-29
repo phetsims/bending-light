@@ -12,11 +12,11 @@ define( function( require ) {
   /**
    *
    * @param {Vector2} position - position of wave particle
-   * @param {Number}width -width of  wave particle
+   * @param {number}width -width of  wave particle
    * @param {Color}color
    * @param {Color}particleGradientColor
-   * @param {Number}angle
-   * @param {Number}waveHeight
+   * @param {number}angle
+   * @param {number}waveHeight
    * @constructor
    */
   function WaveParticle( position, width, color, particleGradientColor, angle, waveHeight ) {
@@ -51,14 +51,15 @@ define( function( require ) {
     /**
      * Set the particle x position
      * @public
-     * @param {Number} x - x position in model values
+     * @param {number} x - x position in model values
      */
     setX: function( x ) {
       this.position.x = x;
     },
+
     /**
      * @public
-     * @param{Number} y  - y position in model values
+     * @param{number} y  - y position in model values
      */
     setY: function( y ) {
       this.position.y = y;

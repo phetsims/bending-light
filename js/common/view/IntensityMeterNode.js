@@ -275,7 +275,7 @@ define( function( require ) {
      * Resize the intensityMeterNode
      *
      * @param {Vector2} endPosition
-     * @param {Number} scale
+     * @param {number} scale
      */
     setIntensityMeterScale: function( endPosition, scale ) {
       //previous scale for scaling the distance between the sensorNode and bodyNode
@@ -293,7 +293,7 @@ define( function( require ) {
      * Resize the intensityMeterNode with Animation
      *
      * @param {Vector2} endPosition
-     * @param {Number} scale
+     * @param {number} scale
      */
     setIntensityMeterScaleAnimation: function( endPosition, scale ) {
       var prevScale = this.sensorNode.getScaleVector().x;

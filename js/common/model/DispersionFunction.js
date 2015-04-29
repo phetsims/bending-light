@@ -17,8 +17,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number}referenceIndexOfRefraction
-   * @param {Number}wavelength
+   * @param {number}referenceIndexOfRefraction
+   * @param {number}wavelength
    * @constructor
    */
   function DispersionFunction( referenceIndexOfRefraction, wavelength ) {
@@ -32,7 +32,8 @@ define( function( require ) {
 
     /**
      * See http://en.wikipedia.org/wiki/Sellmeier_equation
-     * @param {Number}wavelength
+     * @public
+     * @param {number}wavelength
      * @returns {number}
      */
     getSellmeierValue: function( wavelength ) {
@@ -55,8 +56,8 @@ define( function( require ) {
       return this.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
     },
     /**
-     *
-     * @param wavelength
+     *@public
+     * @param {number} wavelength
      * @returns {number}
      */
     getIndexOfRefraction: function( wavelength ) {
@@ -78,7 +79,7 @@ define( function( require ) {
     /**
      * See http://refractiveindex.info/?group=GASES&material=Air
      * @private
-     * @param {Number}wavelength
+     * @param {number} wavelength
      * @returns {number}
      */
     getAirIndex: function( wavelength ) {

@@ -12,8 +12,8 @@ define( function( require ) {
 
   /**
    *
-   * @param waveParticles
-   * @param modelViewTransform
+   * @param {ObservableArray<WaveParticle>} waveParticles
+   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {Object} [options]
    * @constructor
    */

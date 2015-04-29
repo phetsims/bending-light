@@ -14,10 +14,10 @@ define( function( require ) {
 
   /**
    *
-   * @param {String} name - name of the medium
-   * @param {Number} indexForRed - index of refraction of medium
-   * @param {Boolean}mystery - true if medium state is mystery else other state
-   * @param {Boolean}custom - true if  medium state is custom else other state
+   * @param {string} name - name of the medium
+   * @param {number} indexForRed - index of refraction of medium
+   * @param {boolean}mystery - true if medium state is mystery else other state
+   * @param {boolean}custom - true if  medium state is custom else other state
    * @constructor
    */
   function MediumState( name, indexForRed, mystery, custom ) {
@@ -29,16 +29,18 @@ define( function( require ) {
 
 
   return inherit( Object, MediumState, {
+
     /**
      *
-     * @returns {String|*}
+     * @returns {string}
      */
     toString: function() {
       return this.name;
     },
+
     /**
      * @public
-     * @returns {*|number|number}
+     * @returns {number}
      */
     getIndexOfRefractionForRedLight: function() {
       return this.dispersionFunction.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );

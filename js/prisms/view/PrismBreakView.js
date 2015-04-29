@@ -166,7 +166,7 @@ define( function( require ) {
 
     /**
      *
-     * @param {Number}dt -time
+     * @param {number}dt -time
      */
     step: function( dt ) {
       this.timer.step( dt );

@@ -172,7 +172,7 @@ define( function( require ) {
     /**
      * Get the top medium index of refraction
      *
-     * @returns {*}
+     * @returns {number}
      */
     getN1: function() {
       return this.topMediumProperty.get().getIndexOfRefraction( this.laser.color.getWavelength() );
@@ -181,7 +181,7 @@ define( function( require ) {
     /**
      * Get the bottom medium index of refraction
      *
-     * @returns {*}
+     * @returns {number}
      */
     getN2: function() {
       return this.bottomMediumProperty.get().getIndexOfRefraction( this.laser.color.getWavelength() );
@@ -192,7 +192,7 @@ define( function( require ) {
      * If the intensity meter misses the ray, the original ray is added.
      *
      * @param {LightRay} ray
-     * @returns {*}
+     * @returns {boolean}
      */
     addAndAbsorb: function( ray ) {
 
@@ -242,8 +242,8 @@ define( function( require ) {
     /**
      * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
      *@public
-     * @param {Position} position
-     * @returns {*}
+     * @param {Vector2} position
+     * @returns {Vector2}
      */
     getVelocity: function( position ) {
       var laserViewProperty = this.laserViewProperty;
@@ -396,7 +396,7 @@ define( function( require ) {
 
     /**
      *
-     * @param {Number} particleDeltaFactor
+     * @param {number} particleDeltaFactor
      */
     propagateParticles: function( particleDeltaFactor ) {
       var particle;

@@ -264,7 +264,7 @@ define( function( require ) {
      * and this algorithm adds them as it goes
      *@private
      * @param {Ray} incidentRay
-     * @param {Number} count
+     * @param {number} count
      */
     propagateTheRay: function( incidentRay, count ) {
       var rayColor;

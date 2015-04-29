@@ -35,7 +35,7 @@ define( function( require ) {
     /**
      * Compute the intersections of the specified ray with this polygon's edges
      * @param incidentRay
-     * @returns {*|Array}
+     * @returns {Array}
      */
     getIntersections: function( incidentRay ) {
       return this.shapeProperty.get().getIntersections( incidentRay );
@@ -44,7 +44,7 @@ define( function( require ) {
     /**
      *
      * @param point
-     * @returns {*}
+     * @returns {boolean}
      */
     contains: function( point ) {
       return this.shapeProperty.get().containsPoint( point );
@@ -60,7 +60,7 @@ define( function( require ) {
 
     /**
      *
-     * @returns {*}
+     * @returns {Bounds2}
      */
     getBounds: function() {
       return this.shapeProperty.get().getBounds();
@@ -68,7 +68,7 @@ define( function( require ) {
 
     /**
      *
-     * @param {Number}deltaAngle
+     * @param {number}deltaAngle
      */
     rotate: function( deltaAngle ) {
       this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle,

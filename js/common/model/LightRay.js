@@ -21,16 +21,16 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number} trapeziumWidth
+   * @param {number} trapeziumWidth
    * @param {Vector2} tail
    * @param {Vector2} tip
-   * @param {Number} indexOfRefraction
-   * @param {Number} wavelength
-   * @param {Number} powerFraction
+   * @param {number} indexOfRefraction
+   * @param {number} wavelength
+   * @param {number} powerFraction
    * @param {Color} color
-   * @param {Number} waveWidth
-   * @param {Number} numWavelengthsPhaseOffset
-   * @param {Number} oppositeMedium
+   * @param {number} waveWidth
+   * @param {number} numWavelengthsPhaseOffset
+   * @param {number} oppositeMedium
    * @param {boolean} extend
    * @param {boolean} extendBackwards
    * @constructor
@@ -97,7 +97,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {Number|*}
+     * @returns {number|*}
      */
     getPowerFraction: function() {
       return this.powerFraction;
@@ -251,7 +251,7 @@ define( function( require ) {
 
     /**
      * @pub
-     * @returns {Number|*}
+     * @returns {number|*}
      */
     getWaveWidth: function() {
       return this.waveWidth;
@@ -267,7 +267,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {Number|*}
+     * @returns {number}
      */
     getNumWavelengthsPhaseOffset: function() {
       return this.numWavelengthsPhaseOffset;
@@ -302,7 +302,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {*}
+     * @returns {Vector2}
      */
     getVelocityVector: function() {
       return this.tip.minus( this.tail ).normalized().times( this.getSpeed() );
@@ -348,7 +348,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {number|*}
+     * @returns {number}
      */
     getTime: function() {
       return this.time;

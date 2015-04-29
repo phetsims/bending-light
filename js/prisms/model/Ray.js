@@ -15,10 +15,10 @@ define( function( require ) {
    *
    * @param {Vector2}  tail -ray tail position
    * @param {Vector2} directionUnitVector -ray direction
-   * @param {Number} power -power of the ray
-   * @param {Number} wavelength - wavelength of ray
-   * @param {Number} mediumIndexOfRefraction = index of refraction of medium
-   * @param {Number} frequency
+   * @param {number} power -power of the ray
+   * @param {number} wavelength - wavelength of ray
+   * @param {number} mediumIndexOfRefraction = index of refraction of medium
+   * @param {number} frequency
    * @constructor
    */
   function Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, frequency ) {

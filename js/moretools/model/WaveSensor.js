@@ -17,8 +17,8 @@ define( function( require ) {
   /**
    * Model for a probe, including its position and recorded data series
    *
-   * @param {Number} x
-   * @param {Number} y
+   * @param {number} x
+   * @param {number} y
    * @constructor
    */
   function Probe( x, y ) {

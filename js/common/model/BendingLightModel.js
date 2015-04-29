@@ -44,8 +44,8 @@ define( function( require ) {
   /**
    * Main constructor for BendingLightModel,
    * which contains all of the model logic for the entire sim screen.
-   * @param {Number}laserAngle
-   * @param {Boolean}topLeftQuadrant
+   * @param {number}laserAngle
+   * @param {boolean}topLeftQuadrant
    * @param {number}laserDistanceFromPivot
    * @param {boolean} centerOffsetLeft
    * @constructor

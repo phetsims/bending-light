@@ -19,9 +19,9 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number} referencePointIndex
+   * @param {number} referencePointIndex
    * @param {Vector2[]} points
-   * @param {Number} radius
+   * @param {number} radius
    * @constructor
    */
   function DivergingLens( referencePointIndex, points, radius ) {
@@ -52,7 +52,7 @@ define( function( require ) {
     /**
      * Get the specified corner point
      *
-     * @param {Number} i
+     * @param {number} i
      * @returns {*}
      */
     getPoint: function( i ) {
@@ -76,7 +76,7 @@ define( function( require ) {
     /**
      * Gets a rotated copy of this DivergingLens
      *
-     * @param {Number} angle
+     * @param {number} angle
      * @param {Vector2} rotationPoint
      * @returns {DivergingLens}
      */
@@ -103,7 +103,7 @@ define( function( require ) {
     /**
      * Just use the 0th point for the reference point for rotation drag handles
      *
-     * @returns {*}
+     * @returns {Vector2}
      */
     getReferencePoint: function() {
       return this.getPoint( this.referencePointIndex );
@@ -209,7 +209,7 @@ define( function( require ) {
     },
     /**
      *
-     * @returns {*}
+     * @returns {Bounds2}
      */
     getBounds: function() {
       return this.toShape().bounds;

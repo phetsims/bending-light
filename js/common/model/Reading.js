@@ -52,7 +52,7 @@ define( function( require ) {
       },
       /**
        *
-       * @param value
+       * @param {number}value
        * @returns {string}
        */
       format: function( value ) {

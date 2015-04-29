@@ -112,7 +112,7 @@ define( function( require ) {
     /**
      *@private
      * @param {Number} x0 - x position in view co-ordinates
-     * @param  {Number} y0 - y position in view co-ordinates
+     * @param  {number} y0 - y position in view co-ordinates
      * @returns {boolean}
      */
     isOutOfBounds: function( x0, y0 ) {
@@ -123,10 +123,10 @@ define( function( require ) {
      * Add the specified point to the HashMap, creating a new entry if necessary, otherwise adding it to existing values.
      * Take the intensity as the last component of the array
      * @private
-     * @param {Number} x0 - x position in view co-ordinates
-     * @param  {Number} y0 - y position in view co-ordinates
+     * @param {number} x0 - x position in view co-ordinates
+     * @param  {number} y0 - y position in view co-ordinates
      * @param {Color} color
-     * @param {Number} intensity
+     * @param {number} intensity
      * @param {Object} map
      */
     addToMap: function( x0, y0, color, intensity, map ) {
@@ -154,8 +154,8 @@ define( function( require ) {
     },
     /**
      *@private
-     * @param {Number} x0 - x position in view co-ordinates
-     * @param  {Number} y0 - y position in view co-ordinates
+     * @param {number} x0 - x position in view co-ordinates
+     * @param  {number} y0 - y position in view co-ordinates
      * @param {Node} child
      * @param {Object} map
      */
@@ -170,10 +170,10 @@ define( function( require ) {
 
     /**
      *@private
-     * @param {Number}x0 - x position in view co-ordinates
-     * @param {Number}y0 - y position in view co-ordinates
-     * @param {Number}x1 - x position in view co-ordinates
-     * @param {Number}y1  - y position in view co-ordinates
+     * @param {number}x0 - x position in view co-ordinates
+     * @param {number}y0 - y position in view co-ordinates
+     * @param {number}x1 - x position in view co-ordinates
+     * @param {number}y1  - y position in view co-ordinates
      * @param {Node}child
      * @param {Object}map
      */

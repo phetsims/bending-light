@@ -24,8 +24,8 @@ define( function( require ) {
     /**
      *  Maps index of refraction to color using linear functions
      *  @public
-     * @param indexForRed
-     * @returns {*}
+     * @param i{number} indexForRed
+     * @returns {Color}
      */
     getColor: function( indexForRed ) {
 
@@ -62,9 +62,9 @@ define( function( require ) {
     },
     /**
      * Blend colors a and b with the specified amount of "b" to use between 0 and 1
-     * @param a
-     * @param b
-     * @param ratio
+     * @param{Color} a
+     * @param {Color}b
+     * @param {number}ratio
      * @returns {Color}
      */
     colorBlend: function( a, b, ratio ) {
@@ -73,8 +73,8 @@ define( function( require ) {
 
     /**
      * Make sure light doesn't go outside of the 0..255 bounds
-     * @param value
-     * @returns {*}
+     * @param {number} value
+     * @returns {number}
      */
     clamp: function( value ) {
       if ( value < 0 ) {

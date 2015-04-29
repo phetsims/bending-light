@@ -18,7 +18,7 @@ define( function( require ) {
   /**
    *
    * @param {Vector2} center
-   * @param {Number} radius
+   * @param {number} radius
    * @constructor
    */
   function Circle( center, radius ) {
@@ -83,7 +83,7 @@ define( function( require ) {
 
     /**
      *@public
-     * @param {Number} angle
+     * @param {number} angle
      * @param {Vector2} rotationPoint
      * @returns {Circle}
      */

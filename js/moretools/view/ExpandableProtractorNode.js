@@ -18,11 +18,11 @@ define( function( require ) {
    *
    * @param {MoreToolsView} moreToolsView - main view of more tools screen
    * @param {ModelViewTransform2} modelViewTransform transform to convert between model and view values
-   * @param {Property<Boolean>} showProtractorProperty  controls the protractor visibility
+   * @param {Property<boolean>} showProtractorProperty  controls the protractor visibility
    * @param {ProtractorModel} protractorModel model of protractor
-   * @param translateShape
-   * @param rotateShape
-   * @param {Number} ICON_WIDTH
+   * @param {function} translateShape
+   * @param {function} rotateShape
+   * @param {number} ICON_WIDTH
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
    * @constructor
@@ -53,7 +53,7 @@ define( function( require ) {
     /**
      * Set whether the protractor should be shown as large (expanded) or regular
      * @private
-     * @param {Boolean}expanded
+     * @param {boolean}expanded
      */
     setExpanded: function( expanded ) {
       this.setProtractorScale( expanded ? 0.8 : 0.4 );

@@ -16,8 +16,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number } x - protractor x position in model co ordinates
-   * @param {Number} y - protractor y position in model co ordinates
+   * @param {number } x - protractor x position in model co ordinates
+   * @param {number} y - protractor y position in model co ordinates
    * @constructor
    */
   function ProtractorModel( x, y ) {

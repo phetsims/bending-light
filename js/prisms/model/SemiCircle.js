@@ -19,9 +19,9 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number} referencePointIndex
+   * @param {number} referencePointIndex
    * @param {Vector2[]} points
-   * @param {Number} radius
+   * @param {number} radius
    * @constructor
    */
   function SemiCircle( referencePointIndex, points, radius ) {
@@ -49,7 +49,7 @@ define( function( require ) {
     /**
      * Get the specified corner point
      *
-     * @param {Number} i
+     * @param {number} i
      * @returns {*}
      */
     getPoint: function( i ) {
@@ -73,7 +73,7 @@ define( function( require ) {
     /**
      * Gets a rotated copy of this SemiCircle
      *@public
-     * @param {Number} angle
+     * @param {number} angle
      * @param {Vector2} rotationPoint
      * @returns {SemiCircle}
      */

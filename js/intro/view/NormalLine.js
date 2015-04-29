@@ -16,7 +16,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number}height -height of normal
+   * @param {number} height -height of normal
    * @constructor
    */
   function NormalLine( height ) {

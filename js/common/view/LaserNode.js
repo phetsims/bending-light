@@ -38,7 +38,7 @@ define( function( require ) {
    * @param {function} clampDragAngle
    * @param {function}translationRegion - select from the entire region and front region which should be used for translating the laser
    * @param {function}rotationRegion - select from the entire region and back region which should be used for rotating the laser
-   * @param {String}imageName
+   * @param {string}imageName
    * @param {Bounds2} dragBounds - bounds that define where the laser may be dragged
    * @constructor
    */

@@ -19,7 +19,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {Number} referencePointIndex
+   * @param {number} referencePointIndex
    * @param {Vector2[]} points
    * @constructor
    */
@@ -53,7 +53,7 @@ define( function( require ) {
     /**
      * Get the specified corner point
      *
-     * @param {Number} i
+     * @param {number} i
      * @returns {*}
      */
     getPoint: function( i ) {
@@ -77,7 +77,7 @@ define( function( require ) {
     /**
      * Gets a rotated copy of this polygon
      *@public
-     * @param {Number} angle
+     * @param {number} angle
      * @param {Vector2} rotationPoint
      * @returns {Polygon}
      */
