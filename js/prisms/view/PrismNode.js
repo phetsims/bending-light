@@ -115,6 +115,7 @@ define( function( require ) {
       prismTranslationNode.fill = color;
       prismTranslationNode.stroke = color.darkerColor( 0.9 );
     } );
+    this.touchArea = this.localBounds;
   }
 
   return inherit( Node, PrismNode, {} );

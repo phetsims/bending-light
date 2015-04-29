@@ -92,6 +92,7 @@ define( function( require ) {
     this.sensorNode = new Node( { children: [ sensorOuterShape, sensorInnerShape, sensorInnerCircle ], cursor: 'pointer' } );
     this.sensorHeight = this.sensorNode.height;
     this.sensorWidth = this.sensorNode.width;
+    this.sensorNode.touchArea = this.sensorNode.localBounds;
 
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
@@ -193,7 +194,7 @@ define( function( require ) {
     this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle, titleNode, valueNode ], cursor: 'pointer' } );
     titleNode.setTranslation( (this.bodyNode.getWidth() - titleNode.getWidth()) / 2,
       this.bodyNode.getHeight() * 0.25 );
-
+    this.bodyNode.touchArea = this.bodyNode.localBounds;
     // displayed value
     intensityMeter.readingProperty.link( function() {
       valueNode.setText( intensityMeter.reading.getString() );

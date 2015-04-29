@@ -121,6 +121,7 @@ define( function( require ) {
           }
         }
       ) );
+      prismPath[ i ].touchArea = prismPath[ i ].localBounds;
       content.addChild( prismPath[ i ] );
     } );
     // allow the user to control the type of material in the prisms

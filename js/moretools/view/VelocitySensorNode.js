@@ -190,7 +190,8 @@ define( function( require ) {
     var viewPosition = modelViewTransform.modelToViewPosition( velocitySensor.position );
     velocitySensorNode.setTranslation( viewPosition.x - rectangleWidth / 2 * velocitySensorNode.getScaleVector().x,
       viewPosition.y - ( rectangleHeight + triangleHeight ) * velocitySensorNode.getScaleVector().y );
-
+    // for visually inspecting the touch area
+    this.touchArea = this.localBounds;
   }
 
   return inherit( Node, VelocitySensorNode, {

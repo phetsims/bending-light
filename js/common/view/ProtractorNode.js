@@ -174,6 +174,7 @@ define( function( require ) {
       var newPoint = point.minus( center ).rotate( protractorNode.getRotation() );
       protractorNode.setTranslation( newPoint.plus( center ) );
     } );
+    this.touchArea = this.localBounds;
   }
 
   return inherit( Node, ProtractorNode, {

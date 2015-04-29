@@ -111,6 +111,7 @@ define( function( require ) {
       var viewPoint = modelViewTransform.modelToViewPosition( position );
       probeNode.setTranslation( viewPoint.x - probeNode.getWidth() / 2, viewPoint.y - probeNode.getHeight() / 2 );
     } );
+    this.touchArea = this.localBounds;
   }
 
   inherit( Node, ProbeNode, {} );
@@ -176,6 +177,7 @@ define( function( require ) {
       font: new PhetFont( 18 ),
       fill: 'white'
     } );
+    this.bodyNode.touchArea = this.bodyNode.localBounds;
     this.bodyNode.addChild( titleNode );
     titleNode.setTranslation( this.bodyNode.getCenterX() - titleNode.getWidth() / 2, this.bodyNode.height * 0.82 );
 

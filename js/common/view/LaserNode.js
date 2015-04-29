@@ -152,6 +152,7 @@ define( function( require ) {
         touchExpansion: 10
       } );
     this.addChild( redButton );
+    this.touchArea = this.localBounds;
   }
 
   return inherit( Node, LaserNode );
