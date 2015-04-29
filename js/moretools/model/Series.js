@@ -14,6 +14,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var DataPoint = require( 'BENDING_LIGHT/moretools/model/DataPoint' );
   var Vector2 = require( 'DOT/Vector2' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
 
   /**
    *
@@ -25,6 +26,7 @@ define( function( require ) {
 
     this.pathProperty = path;
     this.color = color;
+    this.points = new ObservableArray();
   }
 
   return inherit( Object, Series, {

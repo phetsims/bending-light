@@ -381,7 +381,7 @@ define( function( require ) {
       this.setWaveSensorScale( 0.4 );
       this.waveSensor.reset();
       this.waveSensor.visibleProperty.set( false );
-      this.chartNode.gridLines.removeAllChildren();
+      this.chartNode.gridPoints.clear();
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }

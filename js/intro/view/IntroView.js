@@ -140,7 +140,7 @@ define( function( require ) {
 
     this.afterLightLayer2.addChild( laserView );
 
-    var sensorPanelHeight = this.getMoreTools().length ? 330 : 220;
+    var sensorPanelHeight = hasMoreTools ? 330 : 220;
 
     this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
@@ -157,7 +157,7 @@ define( function( require ) {
     this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
 
     //  if intro screen  regular protractor node else expandable protractor node.
-    if ( this.getMoreTools().length === 0 ) {
+    if ( !hasMoreTools ) {
       this.protractorNode = new ProtractorNode( this, this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
         this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds, this.layoutBounds );
     }
@@ -291,21 +291,24 @@ define( function( require ) {
   return inherit( BendingLightView, IntroView, {
 
     step: function() {
-      this.stepInternal();
+      if ( this.introModel.isPlaying ) {
+        this.stepInternal();
 
-      // This is required to clear the previous canvas particle layers from the view.
-      // When the sim is paused in wave mode and the laser is dragged or the mode is switched from wave to ray
-      for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
-        this.waveCanvasLayer.children[ k ].step();
-      }
-      if ( this.introModel.laserViewProperty.value === 'wave' ) {
-        for ( k = 0; k < this.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
-          this.incidentWaveCanvasLayer.children[ k ].step();
+        // This is required to clear the previous canvas particle layers from the view.
+        // When the sim is paused in wave mode and the laser is dragged or the mode is switched from wave to ray
+        for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
+          this.waveCanvasLayer.children[ k ].step();
         }
+        if ( this.introModel.laserViewProperty.value === 'wave' ) {
+          for ( k = 0; k < this.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
+            this.incidentWaveCanvasLayer.children[ k ].step();
+          }
+        }
+        var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
+        this.introModel.simDisplayWindowHeight = ( window.innerHeight) / scale;
+        this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( this.introModel.simDisplayWindowHeight ) );
+
       }
-      var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
-      this.introModel.simDisplayWindowHeight = ( window.innerHeight) / scale;
-      this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( this.introModel.simDisplayWindowHeight ) );
     },
     stepInternal: function() {
 

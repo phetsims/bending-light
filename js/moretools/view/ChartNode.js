@@ -12,11 +12,12 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
+  var SeriesCanvasNode = require( 'BENDING_LIGHT/moretools/view/SeriesCanvasNode' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
+  var GridCanvasNode = require( 'BENDING_LIGHT/moretools/view/GridCanvasNode' );
 
   //stroke dash parameters
   var DASH_ON = 10;
@@ -31,40 +32,21 @@ define( function( require ) {
    */
   function SeriesNode( series, modelViewTransformProperty ) {
     var seriesNode = this;
-    Path.call( this, null, {
-      stroke: series.getColor(),
-      lineWidth: 2
+    Node.call( this );
+    this.seriesCanvasNode = new SeriesCanvasNode( series.points, series.getColor().toCSS(), {
+      canvasBounds: new Bounds2( 0, 0, 150, 100 )
     } );
+    this.addChild( this.seriesCanvasNode );
     series.pathProperty.link( function() {
-      seriesNode.setShape( modelViewTransformProperty.get().modelToViewShape( series.toShape() ) );
+      series.points.clear();
+      series.pathProperty.get().forEach( function( value ) {
+        series.points.push( [ modelViewTransformProperty.get().modelToViewX( value.time ), modelViewTransformProperty.get().modelToViewY( value.value ) ] );
+      } );
+      seriesNode.seriesCanvasNode.step();
     } );
   }
 
-  inherit( Path, SeriesNode );
-
-  /**
-   * Draw a horizontal or vertical grid line
-   *
-   * @param {number} x1
-   * @param {number} y1
-   * @param {number} x2
-   * @param {number} y2
-   * @param {number} phase - Have to model the phase to make it look like the grid line is moving
-   * @param modelViewTransformProperty
-   * @constructor
-   */
-  function GridLine( x1, y1, x2, y2, phase, modelViewTransformProperty ) {
-
-    Path.call( this, modelViewTransformProperty.get().modelToViewShape(
-      new Shape().moveTo( x1, y1 ).lineTo( x2, y2 ) ), {
-      stroke: 'lightGray',
-      lineWidth: 2,
-      lineDash: [ DASH_ON, DASH_OFF ],
-      lineDashOffset: phase
-    } );
-  }
-
-  inherit( Path, GridLine );
+  inherit( Node, SeriesNode );
 
   /**
    *
@@ -81,14 +63,17 @@ define( function( require ) {
 
     // amount of time to show on the horizontal axis of the chart
     this.timeWidth = 72E-16;
-    this.gridLines = new Node();
+    this.gridPoints = new ObservableArray();
 
+    this.gridCanvasNode = new GridCanvasNode( this.gridPoints, {
+      canvasBounds: new Bounds2( 0, 0, 150, 100 )
+    } );
+    this.addChild( this.gridCanvasNode );
     // mapping from model (SI) to chart coordinates
     this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping(
       new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
     // add nodes for the grid lines and series's
-    this.addChild( this.gridLines );
     series.forEach( function( s ) {
       chartNode.addChild( new SeriesNode( s, chartNode.modelViewTransformProperty ) );
     } );
@@ -115,8 +100,8 @@ define( function( require ) {
       this.modelViewTransformProperty.set( ModelViewTransform2.createRectangleMapping(
         new Bounds2( minTime, -1, minTime + this.timeWidth, 1 ), this.chartBounds ) );
 
-      // clear grid lines and add them back in the new positions
-      this.gridLines.removeAllChildren();
+      // clear grid lines points and add them back in the new positions
+      this.gridPoints.clear();
 
       // distance between vertical grid lines
       var verticalGridLineSpacing = this.timeWidth / 4;
@@ -132,11 +117,12 @@ define( function( require ) {
       var horizontalGridLineDelta = this.getDelta(
         this.modelViewTransformProperty.get().viewToModelDeltaX( DASH_ON + DASH_OFF ), time );
 
-       // horizontal axis
-      this.gridLines.addChild( new GridLine(
-        minTime, 0, minTime + this.timeWidth, 0,
+      // horizontal axis
+      this.gridPoints.push( [ minTime, 0, minTime + this.timeWidth, 0,
         this.modelViewTransformProperty.get().modelToViewDeltaX( horizontalGridLineDelta ),
-        this.modelViewTransformProperty ) );
+        this.modelViewTransformProperty ] );
+
+      this.gridCanvasNode.step();
 
       // remove any points that have gone outside of the time window, otherwise it is a memory leak
       this.series.forEach( function( series ) {
@@ -166,7 +152,7 @@ define( function( require ) {
     addVerticalLine: function( x ) {
 
       //-1 to +1 is far enough since in model coordinates
-      this.gridLines.addChild( new GridLine( x, -1, x, 1, 0, this.modelViewTransformProperty ) );
+      this.gridPoints.push( [ x, -1, x, 1, 0, this.modelViewTransformProperty ] );
     }
   } );
 } );
