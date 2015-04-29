@@ -24,7 +24,7 @@ define( function( require ) {
     /**
      *  Maps index of refraction to color using linear functions
      *  @public
-     * @param i{number} indexForRed
+     * @param {number} indexForRed
      * @returns {Color}
      */
     getColor: function( indexForRed ) {

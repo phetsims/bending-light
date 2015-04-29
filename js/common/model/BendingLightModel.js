@@ -95,22 +95,40 @@ define( function( require ) {
       addRay: function( ray ) {
         this.rays.add( ray );
       },
+
+      /**
+       *
+       * @returns {number}
+       */
       getWidth: function() {
         return this.modelWidth;
       },
       getHeight: function() {
         return this.modelHeight;
       },
+      /**
+       *
+       * @returns {Laser}
+       */
       getLaser: function() {
         return this.laser;
       },
 
+      /**
+       *
+       * @returns {ObservableArray}
+       */
       getRays: function() {
         return this.rays;
       },
+      /**
+       *
+       * @returns {IntensityMeter}
+       */
       getIntensityMeter: function() {
         return this.intensityMeter;
       },
+
       /**
        * clear the model in preparation for another ray propagation update phase
        * @public
@@ -138,10 +156,10 @@ define( function( require ) {
       /**
        * @public
        * Get the fraction of power transmitted through the medium
-       * @param {Number} n1
-       * @param {Number} n2
-       * @param {Number} cosTheta1
-       * @param {Number}cosTheta2
+       * @param {number} n1
+       * @param {number} n2
+       * @param {number} cosTheta1
+       * @param {number}cosTheta2
        * @returns {number}
        */
       getTransmittedPower: function( n1, n2, cosTheta1, cosTheta2 ) {
@@ -151,10 +169,10 @@ define( function( require ) {
       /**
        * Get the fraction of power reflected from the medium
        * @public
-       * @param {Number} n1
-       * @param {Number} n2
-       * @param {Number} cosTheta1
-       * @param {Number} cosTheta2
+       * @param {number} n1
+       * @param {number} n2
+       * @param {number} cosTheta1
+       * @param {number} cosTheta2
        * @returns {number}
        */
       getReflectedPower: function( n1, n2, cosTheta1, cosTheta2 ) {
