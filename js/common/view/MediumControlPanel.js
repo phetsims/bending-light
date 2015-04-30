@@ -42,7 +42,6 @@ define( function( require ) {
   var indexOfRefractionString = require( 'string!BENDING_LIGHT/indexOfRefraction' );
 
   // constants
-
   // range of the index of refraction slider
   var INDEX_OF_REFRACTION_MIN = 1;
   var INDEX_OF_REFRACTION_MAX = 1.6;
@@ -66,11 +65,11 @@ define( function( require ) {
     Node.call( this );
     var mediumControlPanel = this;
 
-    var MAX_WIDTH = textFieldVisible ? 300 : 170;
+    var MAX_WIDTH = textFieldVisible ? 250 : 120;
 
     options = _.extend( {
-      xMargin: 7,
-      yMargin: 7,
+      xMargin: 10,
+      yMargin: 10,
       fill: '#f2fa6a ',
       stroke: '#696969',
       lineWidth: 1.5
@@ -94,7 +93,7 @@ define( function( require ) {
       materialTitle.scale( (textFieldVisible ? 60 : 70 ) / materialTitle.width );
     }
 
-    var maxWidth = textFieldVisible ? MAX_WIDTH * 0.48 : MAX_WIDTH * 0.44;
+    var maxWidth = textFieldVisible ? MAX_WIDTH * 0.5 : MAX_WIDTH * 0.44;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
     var createItem = function( item ) {
@@ -158,7 +157,7 @@ define( function( require ) {
     }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
     var indexOfRefractionValueText = new Text( this.mediumIndexProperty.get().toFixed( format ), textOptions );
-    var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 50, 20, 2, 2, {
+    var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 45, 20, 2, 2, {
       fill: 'white',
       stroke: 'black'
     } );
@@ -168,7 +167,11 @@ define( function( require ) {
       mediumControlPanel.mediumIndexProperty.set( Util.toFixedNumber( Math.min( mediumControlPanel.mediumIndexProperty.get() + 1 / Math.pow( 10, format ),
         INDEX_OF_REFRACTION_MAX ), format ) );
     }, {
-      scale: 0.7
+      scale: 0.7,
+      xMargin: 5,
+      yMargin: 5,
+      arrowHeight: 15,
+      arrowWidth: 15
     } );
     plusButton.touchArea = new Bounds2( plusButton.localBounds.minX - 20, plusButton.localBounds.minY - 5,
       plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
@@ -178,7 +181,11 @@ define( function( require ) {
       mediumControlPanel.mediumIndexProperty.set( Util.toFixedNumber( Math.max( mediumControlPanel.mediumIndexProperty.get() - 1 / Math.pow( 10, format ),
         INDEX_OF_REFRACTION_MIN ), format ) );
     }, {
-      scale: 0.7
+      scale: 0.7,
+      xMargin: 5,
+      yMargin: 5,
+      arrowHeight: 15,
+      arrowWidth: 15
     } );
     minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
       minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
@@ -213,7 +220,7 @@ define( function( require ) {
       { min: INDEX_OF_REFRACTION_MIN, max: INDEX_OF_REFRACTION_MAX },
       {
         trackFill: 'white',
-        trackSize: new Dimension2( 140, 1 ),
+        trackSize: new Dimension2( 145, 1 ),
         thumbSize: new Dimension2( 10, 20 ),
         majorTickLength: 11,
         tickLabelSpacing: 3,
@@ -245,8 +252,8 @@ define( function( require ) {
 
     indexOfRefractionNode.top = materialComboBox.bottom + INSET;
     indexOfRefractionNode.left = materialComboBox.left;
-    indexOfRefractionSlider.centerX = materialComboBox.centerX;
-    indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET;
+    indexOfRefractionSlider.centerX = materialComboBox.centerX + INSET / 2;
+    indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET / 2;
     unknown.centerX = materialComboBox.centerX;
     unknown.centerY = indexOfRefractionNode.bottom + INSET;
     var mediumPanelNode = new Node( {
@@ -309,6 +316,7 @@ define( function( require ) {
     /**
      * Called when the user enters a new index of refraction (with text box or slider),
      * updates the model with the specified value
+     *
      * @public
      * @param indexOfRefraction
      */
@@ -325,6 +333,7 @@ define( function( require ) {
 
     /**
      *  Update the medium state from the combo box
+     *
      * @public
      * @param {MediumState} mediumState
      */

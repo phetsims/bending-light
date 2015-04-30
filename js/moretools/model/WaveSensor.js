@@ -2,6 +2,7 @@
 /**
  * Sensor for wave values, reads the wave amplitude as a function of time and location.
  * Two probes can be used to compare values.
+ *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
@@ -45,6 +46,7 @@ define( function( require ) {
       this.positionProperty.set( this.probePosition );
       this.positionProperty._notifyObservers();
     },
+
     /**
      *
      * @param {Option<DataPoint>} sample
@@ -53,6 +55,7 @@ define( function( require ) {
       this.series.push( sample );
       this.seriesProperty._notifyObservers();
     },
+
     reset: function() {
       PropertySet.prototype.reset.call( this );
     }
@@ -70,9 +73,9 @@ define( function( require ) {
     // these values for initial probe and body locations were obtained by printing out actual values at runtime,
     // then dragging the objects to a good looking location.  This amount of precision is unnecessary,
     // but these values were just sampled directly.
-    this.probe1 = new Probe( -0.00002105, -0.000004 );
-    this.probe2 = new Probe( -0.00002155, -0.000005 );
-    this.bodyPositionProperty = new Property( new Vector2( -0.00001865, -0.000006 ) );
+    this.probe1 = new Probe( -0.00001932, -0.0000052 );
+    this.probe2 = new Probe( -0.0000198, -0.0000062 );
+    this.bodyPositionProperty = new Property( new Vector2( -0.0000172, -0.000007 ) );
 
     // in the play area
     this.visibleProperty = new Property( false );
@@ -111,6 +114,7 @@ define( function( require ) {
         probe.addSample( new DataPoint( value[ 0 ], value[ 1 ] ) );
       }
     },
+
     /**
      *
      * @param {Vector2} delta
@@ -121,6 +125,7 @@ define( function( require ) {
       this.bodyPositionProperty.set( this.bodyPosition );
       this.bodyPositionProperty._notifyObservers();
     },
+
     /**
      * Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
      *
@@ -129,6 +134,7 @@ define( function( require ) {
     translateToHotSpot: function( position ) {
       this.translateAll( new Vector2( position ).minus( this.probe1.position ) );
     },
+
     /**
      * Translate the body and probes by the specified model delta
      *
@@ -139,6 +145,7 @@ define( function( require ) {
       this.probe2.translate( delta );
       this.translateBody( delta );
     },
+
     reset: function() {
       this.bodyPositionProperty.reset();
       this.probe1.reset();

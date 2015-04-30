@@ -23,7 +23,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-//constants
+  //constants
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   /**
@@ -98,7 +98,7 @@ define( function( require ) {
         var sourcePower = 1.0;
 
         // cross section of incident light, used to compute wave widths
-        var a = CHARACTERISTIC_LENGTH * 5;
+        var a = CHARACTERISTIC_LENGTH * 4;
         //This one fixes the input beam to be a fixed width independent of angle
         var sourceWaveWidth = a / 2;
 
@@ -231,6 +231,7 @@ define( function( require ) {
       }
       return rayAbsorbed;
     },
+
     /**
      * @public
      */
@@ -239,9 +240,11 @@ define( function( require ) {
       this.topMediumProperty.reset();
       this.bottomMediumProperty.reset();
     },
+
     /**
      * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
-     *@public
+     *
+     * @public
      * @param {Vector2} position
      * @returns {Vector2}
      */
@@ -258,7 +261,8 @@ define( function( require ) {
 
     /**
      * Determine the wave value of the topmost light ray at the specified position, or None if none exists
-     *@public
+     *
+     * @public
      * @param {Vector2} position
      * @returns {*}
      */
@@ -300,6 +304,7 @@ define( function( require ) {
         }
       }
     },
+
     stepInternal: function() {
       this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
       var introModel = this;
@@ -308,7 +313,9 @@ define( function( require ) {
       } );
     },
 
-    // add  a particle
+    /**
+     * add  a particle
+     */
     addParticle: function() {
       var particleColor;
       var particleGradientColor;
@@ -349,7 +356,10 @@ define( function( require ) {
           this.waveVector.magnitude() ) );
       }
     },
-    // create the particles between light ray tail and and tip
+
+    /**
+     * create the particles between light ray tail and and tip
+     */
     createInitialParticles: function() {
       var lightRayInRay2Form;
       var lightRayToPropagate;
@@ -393,7 +403,6 @@ define( function( require ) {
 
     },
 
-
     /**
      *
      * @param {number} particleDeltaFactor
@@ -430,19 +439,16 @@ define( function( require ) {
           }
         }
       }
-
       if ( particlesToRemove.length > 0 ) {
         this.rays.get( 0 ).particles.removeAll( particlesToRemove );
         this.addParticle();
       }
       if ( reflectedParticlesToRemove.length > 0 ) {
         this.rays.get( 1 ).particles.removeAll( reflectedParticlesToRemove );
-
       }
       if ( refractedParticlesToRemove.length > 0 ) {
         this.rays.get( 2 ).particles.removeAll( refractedParticlesToRemove );
       }
-
     }
   } );
 } );

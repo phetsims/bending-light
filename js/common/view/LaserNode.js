@@ -45,12 +45,12 @@ define( function( require ) {
   function LaserNode( modelViewTransform, laser, showRotationDragHandles, showTranslationDragHandles,
                       clampDragAngle, translationRegion, rotationRegion, imageName, dragBounds ) {
 
-    Node.call( this,{ cursor:'pointer' } );
+    Node.call( this, { cursor: 'pointer' } );
     var laserNode = this;
     var laserImage = (imageName === 'laser') ? laserWithoutImage : laserKnobImage;
 
     //add laser image
-    var lightImage = new Image( laserImage, { scale: 0.7 } );
+    var lightImage = new Image( laserImage, { scale: 0.58 } );
     this.addChild( lightImage );
     lightImage.rotateAround( lightImage.getCenter(), Math.PI );
 
@@ -143,7 +143,7 @@ define( function( require ) {
     // add light emission on/off button
     var redButton = new RoundStickyToggleButton( false, true, laser.onProperty,
       {
-        radius: 15,
+        radius: 11,
         centerX: lightImage.centerX,
         centerY: lightImage.centerY,
         baseColor: 'red',

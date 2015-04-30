@@ -23,7 +23,7 @@ define( function( require ) {
     var moreToolsView = this;
     this.moreToolsModel = moreToolsModel;
     this.arrowScale = 1.5E-14;
-    IntroView.call( this, moreToolsModel, -100, true, 3 );
+    IntroView.call( this, moreToolsModel, 0, true, 3 );
     this.velocitySensorNode = this.createVelocitySensorTool();
     this.waveSensorNode = this.createWaveSensorTool();
     this.beforeLightLayer2.addChild( this.velocitySensorNode );

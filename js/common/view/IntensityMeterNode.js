@@ -43,7 +43,7 @@ define( function( require ) {
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
 
-    var intensityMeterScaleInSideContainer = 0.3;
+    var intensityMeterScaleInSideContainer = 0.25;
     var intensityMeterScaleOutSideContainer = 0.85;
     this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
@@ -186,14 +186,14 @@ define( function( require ) {
 
     //Add a "Intensity" title to the body node
     var titleNode = new Text( intensityString,
-      { font: new PhetFont( 16 ), fill: 'white' } );
+      { font: new PhetFont( 20 ), fill: 'white' } );
     //Add the reading to the body node
     var valueNode = new Text( intensityMeter.reading.getString(),
       { font: new PhetFont( 25 ), fill: 'black' } );
 
     this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle, titleNode, valueNode ], cursor: 'pointer' } );
     titleNode.setTranslation( (this.bodyNode.getWidth() - titleNode.getWidth()) / 2,
-      this.bodyNode.getHeight() * 0.25 );
+      this.bodyNode.getHeight() * 0.23 );
     this.bodyNode.touchArea = this.bodyNode.localBounds;
     // displayed value
     intensityMeter.readingProperty.link( function() {

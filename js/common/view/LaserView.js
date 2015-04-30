@@ -42,7 +42,7 @@ define( function( require ) {
   function LaserView( model, hasMoreTools, options ) {
     options = _.extend( {
       cornerRadius: 5,
-      xMargin: 7,
+      xMargin: 9,
       yMargin: 6,
       fill: '#EEEEEE',
       stroke: '#696969',
@@ -97,7 +97,7 @@ define( function( require ) {
           thumbWidth: 20,
           thumbHeight: 20,
           trackWidth: 140,
-          trackHeight: 15,
+          trackHeight: 20,
           tweakersVisible: false,
           valueVisible: false,
           thumbTouchAreaExpandY: 10,
@@ -130,7 +130,7 @@ define( function( require ) {
         minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
 
       wavelengthBoxShape.centerX = wavelengthSlider.centerX;
-      wavelengthBoxShape.bottom = wavelengthSlider.top - 10;
+      wavelengthBoxShape.bottom = wavelengthSlider.top - 5;
 
       wavelengthValueText.centerX = wavelengthBoxShape.centerX;
       wavelengthValueText.centerY = wavelengthBoxShape.centerY;
@@ -174,6 +174,7 @@ define( function( require ) {
 
     /**
      * reset only if laser panel has wavelength slider
+     *
      * @public
      */
     resetAll: function() {
@@ -181,8 +182,10 @@ define( function( require ) {
         this.laserWavelengthProperty.reset();
       }
     },
+
     /**
      * Create the node for the specified lightRay and shows in the lightRayLayer
+     *
      * @param {ModelViewTransform2} modelViewTransform
      * @param {LightRay} lightRay
      */

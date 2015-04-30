@@ -39,7 +39,7 @@ define( function( require ) {
     Node.call( this );
 
     // laser node icon first rectangle
-    var laserNodeFirstRoundedRect = new Path( new Shape().roundRect( 0, 0, 7, 29, 2, 1 ), {
+    var laserNodeFirstRoundedRect = new Path( new Shape().roundRect( 0, 0, 5, 25, 2, 1 ), {
       stroke: 'black',
       lineWidth: 0.3,
       fill: new LinearGradient( 0, 0, 0, 29 )
@@ -49,7 +49,7 @@ define( function( require ) {
         .addColorStop( 1, '#4F4E50' )
     } );
     // laser node icon second rectangle
-    var laserNodeSecondRoundedRect = new Path( new Shape().roundRect( 7, 3, 9, 24, 2, 1 ), {
+    var laserNodeSecondRoundedRect = new Path( new Shape().roundRect( 7, 3, 7, 20, 2, 1 ), {
       stroke: 'black',
       lineWidth: 0.3,
       fill: new LinearGradient( 0, 0, 0, 27 )
@@ -91,7 +91,10 @@ define( function( require ) {
     ];
 
     var radioButtonPanel = new Panel( new RadioButtonGroup( laserTypeProperty,
-      radioButtonContent, { baseColor: 'white' } ), {
+      radioButtonContent, {
+        baseColor: 'white',
+        spacing: 5
+      } ), {
       stroke: 'black',
       lineWidth: 0
     } );

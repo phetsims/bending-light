@@ -34,6 +34,8 @@ define( function( require ) {
   var darkProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_dark.png' );
   var lightProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_light.png' );
 
+  var waveSensorNodeScaleInSideContainer = 0.33;
+
   /**
    * View for rendering a probe that can be used to sense wave values
    *
@@ -99,8 +101,8 @@ define( function( require ) {
         }
         if ( toSensorPanel ) {
           waveSensorNode.setWaveSensorNodeScaleAnimation(
-            waveSensorNode.waveSensor.probe1.positionProperty.initialValue, 0.4 );
-          waveSensorNode.setWaveSensorNodeScale( waveSensorNode.waveSensor.probe1.positionProperty.initialValue, 0.4 );
+            waveSensorNode.waveSensor.probe1.positionProperty.initialValue, waveSensorNodeScaleInSideContainer );
+          waveSensorNode.setWaveSensorNodeScale( waveSensorNode.waveSensor.probe1.positionProperty.initialValue, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
         }
       }
@@ -240,8 +242,8 @@ define( function( require ) {
           waveSensorNode.addToSensorPanel();
         }
         if ( toSensorPanel ) {
-          waveSensorNode.setWaveSensorNodeScaleAnimation( waveSensor.probe1.positionProperty.initialValue, 0.4 );
-          waveSensorNode.setWaveSensorNodeScale( waveSensor.probe1.positionProperty.initialValue, 0.4 );
+          waveSensorNode.setWaveSensorNodeScaleAnimation( waveSensor.probe1.positionProperty.initialValue, waveSensorNodeScaleInSideContainer );
+          waveSensorNode.setWaveSensorNodeScale( waveSensor.probe1.positionProperty.initialValue, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
         }
       }
@@ -251,7 +253,7 @@ define( function( require ) {
     this.probe1Node = new ProbeNode( this, waveSensor.probe1, darkProbeImage, modelViewTransform, container, dragBounds );
     this.probe2Node = new ProbeNode( this, waveSensor.probe2, lightProbeImage, modelViewTransform, container, dragBounds );
 
-    this.setWaveSensorScale( 0.4 );
+    this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
 
     // rendering order, including wires
     this.addChild( new WireNode( waveSensor.probe1.positionProperty, waveSensor.bodyPositionProperty,
@@ -264,6 +266,7 @@ define( function( require ) {
   }
 
   return inherit( Node, WaveSensorNode, {
+
     /**
      *
      * @param {number} scale
@@ -380,7 +383,7 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.setWaveSensorScale( 0.4 );
+      this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
       this.waveSensor.reset();
       this.waveSensor.visibleProperty.set( false );
       this.chartNode.gridPoints.clear();

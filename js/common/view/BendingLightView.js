@@ -74,7 +74,7 @@ define( function( require ) {
     // create the transform from model (SI) to view (stage) coordinates
     var scale = this.stageSize.height / this.model.getHeight();
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping( new Vector2( 0, 0 ),
-      new Vector2( 300 - centerOffsetLeft, stageHeight / 2 ), scale );
+      new Vector2( 388 - centerOffsetLeft, stageHeight / 2 ), scale );
 
     // create and add the graphic for the environment medium
     this.mediumNode = new Node();

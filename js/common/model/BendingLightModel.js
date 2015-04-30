@@ -19,7 +19,7 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // default values
-  var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
+  var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
   var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
   //  strings
@@ -44,13 +44,13 @@ define( function( require ) {
   /**
    * Main constructor for BendingLightModel,
    * which contains all of the model logic for the entire sim screen.
+   *
    * @param {number}laserAngle
    * @param {boolean}topLeftQuadrant
    * @param {number}laserDistanceFromPivot
    * @param {boolean} centerOffsetLeft
    * @constructor
    */
-
   function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot, centerOffsetLeft ) {
 
     // list of rays in the model
@@ -77,8 +77,8 @@ define( function( require ) {
     );
 
     // model components
-    this.intensityMeter = new IntensityMeter( centerOffsetLeft ? -this.modelWidth * 0.525 : -this.modelWidth * 0.385, -this.modelHeight * 0.25,
-      centerOffsetLeft ? -this.modelWidth * 0.490 : -this.modelWidth * 0.35, -this.modelHeight * 0.25 );
+    this.intensityMeter = new IntensityMeter( centerOffsetLeft ? -this.modelWidth * 0.34 : -this.modelWidth * 0.48, -this.modelHeight * 0.285,
+      centerOffsetLeft ? -this.modelWidth * 0.308 : -this.modelWidth * 0.448, -this.modelHeight * 0.285 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
     this.wavelengthProperty.link( function( wavelength ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );
@@ -103,9 +103,11 @@ define( function( require ) {
       getWidth: function() {
         return this.modelWidth;
       },
+
       getHeight: function() {
         return this.modelHeight;
       },
+
       /**
        *
        * @returns {Laser}
@@ -121,6 +123,7 @@ define( function( require ) {
       getRays: function() {
         return this.rays;
       },
+
       /**
        *
        * @returns {IntensityMeter}
@@ -131,6 +134,7 @@ define( function( require ) {
 
       /**
        * clear the model in preparation for another ray propagation update phase
+       *
        * @public
        */
       clearModel: function() {
@@ -146,6 +150,7 @@ define( function( require ) {
 
       /**
        * update the model by clearing the rays, then recreating them
+       *
        * @public
        */
       updateModel: function() {
@@ -154,8 +159,9 @@ define( function( require ) {
       },
 
       /**
-       * @public
        * Get the fraction of power transmitted through the medium
+       *
+       * @public
        * @param {number} n1
        * @param {number} n2
        * @param {number} cosTheta1
@@ -168,6 +174,7 @@ define( function( require ) {
 
       /**
        * Get the fraction of power reflected from the medium
+       *
        * @public
        * @param {number} n1
        * @param {number} n2
@@ -178,6 +185,7 @@ define( function( require ) {
       getReflectedPower: function( n1, n2, cosTheta1, cosTheta2 ) {
         return Math.pow( (n1 * cosTheta1 - n2 * cosTheta2) / (n1 * cosTheta1 + n2 * cosTheta2), 2 );
       },
+
       /**
        * @public
        */

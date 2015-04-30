@@ -95,7 +95,7 @@ define( function( require ) {
       prismPath[ i ] = createPrismIcon( prism );
       var start;
       var prismShape;
-      prismPath[ i ].scale( 60 / prismPath[ i ].height );
+      prismPath[ i ].scale( 55 / prismPath[ i ].height );
       prismPath[ i ].addInputListener( new SimpleDragHandler( {
 
           start: function( event ) {

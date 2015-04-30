@@ -20,7 +20,6 @@ define( function( require ) {
   //images
   var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
 
-
   /**
    *
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
@@ -44,7 +43,7 @@ define( function( require ) {
     notAtMaximumProperty.link( function( show ) {
       rotationDragHandle.setVisible( show );
     } );
-    var image = new Image( laserImage, { scale: 0.7 } );
+    var image = new Image( laserImage, { scale: 0.58 } );
     var dragArrow = new Path( null, { fill: '#33FF00', stroke: 'black' } );
     this.addChild( dragArrow );
     var EPSILON = 0.6;

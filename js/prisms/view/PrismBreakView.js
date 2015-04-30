@@ -70,7 +70,7 @@ define( function( require ) {
       true,
       translationRegion,
       rotationRegionShape, 'laserKnob',
-      10 );
+      90 );
 
 
     var IndexOfRefractionDecimals = 2;
@@ -78,12 +78,12 @@ define( function( require ) {
     // add control panels for setting the index of refraction for each medium
     var environmentMediumControlPanel = new MediumControlPanel( this, prismBreakModel.environmentMediumProperty,
       environmentString, false, prismBreakModel.wavelengthProperty, IndexOfRefractionDecimals );
-    environmentMediumControlPanel.setTranslation( this.layoutBounds.right - INSET - environmentMediumControlPanel.width, this.layoutBounds.top + INSET );
+    environmentMediumControlPanel.setTranslation( this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
     var laserControlPanelNode = new LaserControlPanelNode( prismBreakModel.laser.colorModeProperty,
       prismBreakModel.wavelengthProperty, {
-        top: environmentMediumControlPanel.bottom + 2 * INSET,
-        right: this.layoutBounds.right - INSET
+        top:   environmentMediumControlPanel.bottom + 15,
+        right: this.layoutBounds.right - 2 * INSET
       } );
     this.addChild( laserControlPanelNode );
 
@@ -103,7 +103,7 @@ define( function( require ) {
 
     var laserTypeControlPanel = new LaserTypeControlPanel( prismBreakModel.manyRaysProperty, {
       top: this.layoutBounds.top + INSET,
-      left: this.layoutBounds.minX
+      left: this.layoutBounds.minX + INSET
     } );
     this.addChild( laserTypeControlPanel );
 
@@ -117,8 +117,8 @@ define( function( require ) {
           environmentMediumControlPanel.reset();
           prismToolboxNode.objectMediumControlPanel.reset();
         },
-        bottom: this.layoutBounds.bottom - INSET,
-        right: this.layoutBounds.right - INSET,
+        bottom: this.layoutBounds.bottom - 14,
+        right:  this.layoutBounds.right - 2 * INSET,
         radius: 20
       } );
 

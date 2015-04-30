@@ -2,6 +2,7 @@
 
 /**
  * VelocitySensor that has a position and measures velocity
+ *
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
 define( function( require ) {
@@ -18,7 +19,7 @@ define( function( require ) {
    */
   function VelocitySensor( value ) {
     PropertySet.call( this, {
-      position: new Vector2( -0.00001955, -0.0000035 ), //position of the sensor
+      position: new Vector2( -0.000018, -0.0000048 ), //position of the sensor
       value: value
     } );
     this.addDerivedProperty( 'isArrowVisible', [ 'value' ], function( value ) {
@@ -27,6 +28,7 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, VelocitySensor, {
+
     /**
      *
      * @param{Vector2} delta

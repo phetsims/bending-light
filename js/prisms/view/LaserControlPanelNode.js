@@ -2,6 +2,7 @@
 /**
  * Control panel for the laser in the "prisms" Screen,
  * such as choosing whether it is white light or one color, and the wavelength.
+ *
  * @author Sam Reid
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
@@ -48,14 +49,16 @@ define( function( require ) {
       fill: '#EEEEEE ',
       stroke: '#696969',
       lineWidth: 1.5,
-      cornerRadius: 5
+      cornerRadius: 5,
+      xMargin: 5,
+      yMargin: 10
     }, options );
 
     var createButtonTextNode = function( text ) {
       return new Text( text, { font: new PhetFont( 12 ) } );
     };
 
-    var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
+    var AQUA_RADIO_BUTTON_OPTIONS = { radius: 7, font: new PhetFont( 12 ) };
 
     // create the radio buttons
     var whiteLightRadio = new AquaRadioButton( colorModeProperty, 'white', createButtonTextNode( whiteLightString ),
@@ -85,8 +88,8 @@ define( function( require ) {
         maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
         thumbWidth: 20,
         thumbHeight: 20,
-        trackWidth: 170,
-        trackHeight: 15,
+        trackWidth: 155,
+        trackHeight: 20,
         tweakersVisible: false,
         valueVisible: false,
         thumbTouchAreaExpandY: 10,
@@ -94,7 +97,7 @@ define( function( require ) {
       } );
 
     var wavelengthValueText = new Text( this.wavelengthProperty.get() + units_nmString );
-    var wavelengthBoxShape = new Rectangle( 0, 0, 50, 18, 2, 2,
+    var wavelengthBoxShape = new Rectangle( 0, 0, 45, 18, 2, 2,
       { fill: 'white', stroke: 'black' } );
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
@@ -114,7 +117,7 @@ define( function( require ) {
       minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
 
     wavelengthBoxShape.centerX = wavelengthSlider.centerX;
-    wavelengthBoxShape.bottom = wavelengthSlider.top - 10;
+    wavelengthBoxShape.bottom = wavelengthSlider.top - 5;
 
     wavelengthValueText.centerX = wavelengthBoxShape.centerX;
     wavelengthValueText.centerY = wavelengthBoxShape.centerY;

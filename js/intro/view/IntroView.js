@@ -107,16 +107,19 @@ define( function( require ) {
     // add control panels for setting the index of refraction for each medium
     var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
-    topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - INSET, this.modelViewTransform.modelToViewY( 0 ) - 10 - topMediumControlPanel.getHeight() );
+    topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - 2 * INSET,
+      this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() );
     this.afterLightLayer2.addChild( topMediumControlPanel );
 
     // add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
-    bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - INSET, this.modelViewTransform.modelToViewY( 0 ) + 10 );
+    bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - 2 * INSET,
+      this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
-    // add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
+    // add a line that will show the border between the mediums even when both n's are the same... Just a thin line
+    // will be fine.
     this.beforeLightLayer.addChild( new Path( this.modelViewTransform.modelToViewShape(
       new Shape()
         .moveTo( -1, 0 )
@@ -148,28 +151,32 @@ define( function( require ) {
       for ( var k = 0; k < introView.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
         introView.incidentWaveCanvasLayer.children[ k ].step();
       }
-      introView.incidentWaveCanvasLayer.setVisible( introModel.laser.onProperty.value && introModel.laserViewProperty.value === 'wave' );
+      introView.incidentWaveCanvasLayer.setVisible(
+        introModel.laser.onProperty.value && introModel.laserViewProperty.value === 'wave' );
     } );
 
     //  add laser view panel
-    var laserView = new LaserView( introModel, hasMoreTools, { left: this.layoutBounds.minX + INSET * 0.3, top: this.layoutBounds.top + 4 } );
+    var laserView = new LaserView( introModel, hasMoreTools, {
+      left: this.layoutBounds.minX + 12,
+      top:  this.layoutBounds.top + 2 * INSET
+    } );
 
     this.afterLightLayer2.addChild( laserView );
 
-    var sensorPanelHeight = hasMoreTools ? 330 : 220;
+    var sensorPanelHeight = hasMoreTools ? 303 : 203;
 
     this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
-      left: this.layoutBounds.minX + INSET * 0.3,
-      top:  this.layoutBounds.maxY - sensorPanelHeight - 10
+      left: this.layoutBounds.minX + 13,
+      top:  this.layoutBounds.maxY - sensorPanelHeight - 14
     } );
     this.beforeLightLayer2.addChild( this.sensorPanel );
 
-    var ICON_WIDTH = 85;
+    var ICON_WIDTH = 75;
 
     // initial tools
     var protractorModelPositionX = this.modelViewTransform.viewToModelX( this.sensorPanel.centerX );
-    var protractorModelPositionY = this.modelViewTransform.viewToModelY( this.sensorPanel.y + 45 );
+    var protractorModelPositionY = this.modelViewTransform.viewToModelY( this.sensorPanel.y + 48 );
     this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
 
     //  if intro screen  regular protractor node else expandable protractor node.
@@ -198,12 +205,12 @@ define( function( require ) {
       normalText.scale( normalText_Max_Width / normalText.width );
     }
     var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, checkBoxOptions );
-    normalCheckBox.setTranslation( 15, this.sensorPanel.y + sensorPanelHeight - 55 );
+    normalCheckBox.setTranslation( this.sensorPanel.x + 6, this.sensorPanel.y + sensorPanelHeight - 40 );
     this.beforeLightLayer2.addChild( normalCheckBox );
 
     // add normal
-    var normalIcon = new NormalLine( 50 );
-    normalIcon.setTranslation( 60, this.sensorPanel.y + sensorPanelHeight - 55 );
+    var normalIcon = new NormalLine( 34 );
+    normalIcon.setTranslation( this.sensorPanel.x + this.sensorPanel.width / 2, this.sensorPanel.y + sensorPanelHeight - 41 );
     this.beforeLightLayer2.addChild( normalIcon );
 
     // add reset all button
@@ -218,9 +225,9 @@ define( function( require ) {
           bottomMediumControlPanel.reset();
 
         },
-        bottom: this.layoutBounds.bottom - INSET,
-        right: this.layoutBounds.right - INSET,
-        radius: 20
+        bottom: this.layoutBounds.bottom - 14,
+        right:  this.layoutBounds.right - 2 * INSET,
+        radius: 19
       } );
 
     this.afterLightLayer2.addChild( resetAllButton );
@@ -260,7 +267,7 @@ define( function( require ) {
       children: [ normalMotionRadioBox, slowMotionRadioBox ]
     } );
     this.addChild( this.speedControl.mutate( {
-      left:   this.sensorPanel.right + 25,
+      left: this.sensorPanel.right + 25,
       bottom: this.layoutBounds.bottom - 15
     } ) );
 
@@ -269,7 +276,7 @@ define( function( require ) {
       {
         radius: 18, stroke: 'black', fill: '#005566',
         bottom: this.layoutBounds.bottom - 15,
-        left:   this.speedControl.right + 10
+        left: this.speedControl.right + 10
       } );
     this.addChild( this.playPauseButton );
 
@@ -326,9 +333,11 @@ define( function( require ) {
 
       }
     },
+
     stepInternal: function() {
 
     },
+
     /**
      * @public
      */
