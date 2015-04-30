@@ -22,6 +22,7 @@ define( function( require ) {
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
+  var Property = require( 'AXON/Property' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -133,6 +134,21 @@ define( function( require ) {
 
     introModel.showNormalProperty.link( function( showNormal ) {
       normalLine.setVisible( showNormal );
+    } );
+
+    Property.multilink( [
+      introModel.laserViewProperty,
+      introModel.laser.onProperty,
+      introModel.intensityMeter.sensorPositionProperty,
+      introModel.topMediumProperty,
+      introModel.bottomMediumProperty,
+      introModel.laser.emissionPointProperty,
+      introModel.laser.colorProperty
+    ], function() {
+      for ( var k = 0; k < introView.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
+        introView.incidentWaveCanvasLayer.children[ k ].step();
+      }
+      introView.incidentWaveCanvasLayer.setVisible( introModel.laser.onProperty.value && introModel.laserViewProperty.value === 'wave' );
     } );
 
     //  add laser view panel

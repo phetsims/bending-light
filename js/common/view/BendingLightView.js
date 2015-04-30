@@ -64,11 +64,8 @@ define( function( require ) {
     this.afterLightLayer = new Node();
     this.afterLightLayer2 = new Node();
 
-    // root of our scene graph
-    var rootNode = new Node();
-    this.addChild( rootNode );
-    var stageWidth = 834;
-    var stageHeight = 504;
+    var stageWidth = this.layoutBounds.width;
+    var stageHeight = this.layoutBounds.height;
 
     // use the model aspect ratio and specified stage width to create the stage dimension
     this.stageSize = new Dimension2( stageWidth, stageHeight );
@@ -142,14 +139,6 @@ define( function( require ) {
     // add the laser
     var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, this.layoutBounds );
     this.addChild( laserNode );
-
-    model.laserViewProperty.link( function() {
-      model.laser.wave = (model.laserViewProperty.value === 'wave');
-      bendingLightView.incidentWaveCanvasLayer.setVisible( model.laser.onProperty.value && model.laserViewProperty.value === 'wave' );
-    } );
-    model.laser.onProperty.link( function( on ) {
-      bendingLightView.incidentWaveCanvasLayer.setVisible( on && model.laserViewProperty.value === 'wave' );
-    } );
 
     model.rays.addItemAddedListener( function( ray ) {
       var node;
