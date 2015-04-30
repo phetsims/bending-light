@@ -58,9 +58,9 @@ define( function( require ) {
       var endAngle = -laser.getAngle() - endAngleOffset;
       var counterClockwiseDragArrow = new CurvedArrowShape( radius, startAngle, endAngle, {
         doubleHead: false,
-        headWidth: 12,
+        headWidth: 13.6,
         headHeight: arrowHeadHeight,
-        tailWidth: 6,
+        tailWidth: 7.6,
         anticlockwise: isArrowDirectionAntiClockWise
       } );
       dragArrow.setShape( counterClockwiseDragArrow );

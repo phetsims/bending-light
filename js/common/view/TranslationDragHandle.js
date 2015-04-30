@@ -38,9 +38,9 @@ define( function( require ) {
     var image = new Image( laserImage );
 
     var counterClockwiseDragArrow = new ArrowNode( 0, 0, 0, 0, {
-      headHeight: 20,
-      headWidth: 20,
-      tailWidth: 10,
+      headHeight: 16,
+      headWidth: 16,
+      tailWidth: 8,
       fill: '#33FF00'
     } );
     translationDragHandle.addChild( counterClockwiseDragArrow );
@@ -49,10 +49,10 @@ define( function( require ) {
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty ],
       function() {
         var laserEmissionViewPoint = modelViewTransform.modelToViewPosition( laser.emissionPoint );
-        var viewDelta = Vector2.createPolar( image.getWidth() / 2, -laser.getAngle() );
+        var viewDelta = Vector2.createPolar( image.getWidth() * 0.4, -laser.getAngle() );
         var tailX = laserEmissionViewPoint.x + viewDelta.x;
         var tailY = laserEmissionViewPoint.y + viewDelta.y;
-        counterClockwiseDragArrow.setTailAndTip( tailX, tailY, tailX + dx, tailY + dy );
+        counterClockwiseDragArrow.setTailAndTip( tailX, tailY, tailX + dx * 0.76, tailY + dy * 0.76 );
       } );
   }
 
