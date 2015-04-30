@@ -140,6 +140,11 @@ define( function( require ) {
     var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, this.layoutBounds );
     this.addChild( laserNode );
 
+    model.laserViewProperty.link( function() {
+      model.laser.wave = (model.laserViewProperty.value === 'wave');
+    } );
+
+
     model.rays.addItemAddedListener( function( ray ) {
       var node;
       if ( model.laserViewProperty.value === 'ray' ) {
