@@ -45,7 +45,7 @@ define( function( require ) {
   function LaserNode( modelViewTransform, laser, showRotationDragHandles, showTranslationDragHandles,
                       clampDragAngle, translationRegion, rotationRegion, imageName, dragBounds ) {
 
-    Node.call( this );
+    Node.call( this,{ cursor:'pointer' } );
     var laserNode = this;
     var laserImage = (imageName === 'laser') ? laserWithoutImage : laserKnobImage;
 
