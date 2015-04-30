@@ -22,12 +22,16 @@ define( function( require ) {
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Util = require( 'DOT/Util' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // strings
   var speedString = require( 'string!BENDING_LIGHT/speed' );
   var c_units = require( 'string!BENDING_LIGHT/c_units' );
+
+  // constants
+  var VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX = 0.7;
+  var VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX = 1;
 
   /**
    *
@@ -157,13 +161,13 @@ define( function( require ) {
         modelViewTransform: modelViewTransform,
         startDrag: function() {
           if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
-            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(), 1 );
+            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(), VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
             velocitySensorNode.addToMoreToolsView();
           }
         },
         endDrag: function() {
           if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
-            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, 0.7 );
+            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
             velocitySensor.reset();
             velocitySensorNode.addToSensorPanel();
           }
@@ -182,11 +186,11 @@ define( function( require ) {
           labelText.text = '?';
         }
         else {
-          labelText.text = Util.toFixedNumber( velocity.magnitude() / 2.99792458E8, 2 ) + " " + c_units;
+          labelText.text = (velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT).toFixed( 2 ) + " " + c_units;
         }
         labelText.center = innerMostRectangle.center;
       } );
-    velocitySensorNode.setScaleMagnitude( 0.7 );
+    velocitySensorNode.setScaleMagnitude( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
     var viewPosition = modelViewTransform.modelToViewPosition( velocitySensor.position );
     velocitySensorNode.setTranslation( viewPosition.x - rectangleWidth / 2 * velocitySensorNode.getScaleVector().x,
       viewPosition.y - ( rectangleHeight + triangleHeight ) * velocitySensorNode.getScaleVector().y );
@@ -231,7 +235,7 @@ define( function( require ) {
       this.moreToolsView.beforeLightLayer2.addChild( this );
     },
     reset: function() {
-      this.setScaleMagnitude( 0.7 );
+      this.setScaleMagnitude( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }
