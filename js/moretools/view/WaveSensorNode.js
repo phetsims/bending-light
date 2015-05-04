@@ -50,7 +50,7 @@ define( function( require ) {
   function ProbeNode( waveSensorNode, probe, imageName, modelViewTransform, container, dragBounds ) {
 
     var probeNode = this;
-    Node.call( this );
+    Node.call( this, { cursor: 'pointer' } );
 
     // add the probe
     this.addChild( new Image( imageName, { scale: 0.8 } ) );
@@ -130,7 +130,7 @@ define( function( require ) {
   function WaveSensorNode( moreToolsView, modelViewTransform, waveSensor, container, dragBounds ) {
 
     var waveSensorNode = this;
-    Node.call( this );
+    Node.call( this, { cursor: 'pointer' } );
 
     //color taken from the image
     var darkProbeColor = new Color( 88, 89, 91 );
