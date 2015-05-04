@@ -36,8 +36,8 @@ define( function( require ) {
 
   /**
    *
-   * @param { Property<String> }colorModeProperty - to indicate ray in singleColor or white .
-   * @param {Property<Number> }wavelengthProperty
+   * @param { Property<String>} colorModeProperty - to indicate ray in singleColor or white .
+   * @param {Property<Number>} wavelengthProperty
    * @param {Object} [options]
    * @constructor
    */
