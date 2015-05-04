@@ -33,8 +33,8 @@ define( function( require ) {
    *
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {Laser}laser - model for the laser
-   * @param { Property<Boolean> } showRotationDragHandles - to show laser node rotate arrows(direction which laser node can rotate)
-   * @param { Property<Boolean> } showTranslationDragHandles -to show laser node drag arrows(direction which laser node can drag)
+   * @param { Property<Boolean> } showRotationDragHandlesProperty - to show laser node rotate arrows(direction which laser node can rotate)
+   * @param { Property<Boolean> } showTranslationDragHandlesProperty -to show laser node drag arrows(direction which laser node can drag)
    * @param {function} clampDragAngle
    * @param {function}translationRegion - select from the entire region and front region which should be used for translating the laser
    * @param {function}rotationRegion - select from the entire region and back region which should be used for rotating the laser
@@ -42,7 +42,7 @@ define( function( require ) {
    * @param {Bounds2} dragBounds - bounds that define where the laser may be dragged
    * @constructor
    */
-  function LaserNode( modelViewTransform, laser, showRotationDragHandles, showTranslationDragHandles,
+  function LaserNode( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
                       clampDragAngle, translationRegion, rotationRegion, imageName, dragBounds ) {
 
     Node.call( this, { cursor: 'pointer' } );
@@ -69,7 +69,7 @@ define( function( require ) {
     translationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = laserNode.globalToParentPoint( event.pointer.point );
-        showTranslationDragHandles.value = true;
+        showTranslationDragHandlesProperty.value = true;
       },
       drag: function( event ) {
         var endDrag = laserNode.globalToParentPoint( event.pointer.point );
@@ -78,18 +78,18 @@ define( function( require ) {
           modelViewTransform.viewToModelBounds( dragBounds ) );
         laser.translate( position.minus( laser.emissionPoint ) );
         start = endDrag;
-        showTranslationDragHandles.value = true;
+        showTranslationDragHandlesProperty.value = true;
       },
       end: function() {
-        showTranslationDragHandles.value = false;
+        showTranslationDragHandlesProperty.value = false;
       }
     } ) );
     translationRegionPath.addInputListener( {
       enter: function() {
-        showTranslationDragHandles.value = showRotationDragHandles.value ? false : true;
+        showTranslationDragHandlesProperty.value = showRotationDragHandlesProperty.value ? false : true;
       },
       exit: function() {
-        showTranslationDragHandles.value = false;
+        showTranslationDragHandlesProperty.value = false;
       }
     } );
     this.addChild( translationRegionPath );
@@ -99,8 +99,8 @@ define( function( require ) {
     this.addChild( rotationRegionPath );
     rotationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function() {
-        showTranslationDragHandles.value = false;
-        showRotationDragHandles.value = true;
+        showTranslationDragHandlesProperty.value = false;
+        showRotationDragHandlesProperty.value = true;
       },
       drag: function( event ) {
         var coordinateFrame = laserNode.parents[ 0 ];
@@ -116,19 +116,19 @@ define( function( require ) {
           after = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
         }
         laser.setAngle( after );
-        showTranslationDragHandles.value = false;
-        showRotationDragHandles.value = true;
+        showTranslationDragHandlesProperty.value = false;
+        showRotationDragHandlesProperty.value = true;
       },
       end: function() {
-        showRotationDragHandles.value = false;
+        showRotationDragHandlesProperty.value = false;
       }
     } ) );
     rotationRegionPath.addInputListener( {
       enter: function() {
-        showRotationDragHandles.value = true;
+        showRotationDragHandlesProperty.value = true;
       },
       exit: function() {
-        showRotationDragHandles.value = false;
+        showRotationDragHandlesProperty.value = false;
       }
     } );
 
