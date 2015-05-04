@@ -46,6 +46,7 @@ define( function( require ) {
      */
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
+      context.beginPath();
       var map = {};
       for ( var i = 0; i < this.rayLayer.getChildrenCount(); i++ ) {
         var child = this.rayLayer.getChildAt( i );
@@ -100,11 +101,12 @@ define( function( require ) {
         pixelColor.set( samples[ 0 ] * 255, samples[ 1 ] * 255, samples[ 2 ] * 255, alpha );
 
         // set the color and fill in the pixel
-        context.fillRect( pointX, pointY, 1, 1 );
+        context.fillRect( pointX, pointY, 0.7, 0.7 );
         context.fillStyle = pixelColor.toCSS();
         context.fill();
 
       }
+      context.closePath();
 
       this.hashMapPointArray = [];
     },
@@ -164,8 +166,8 @@ define( function( require ) {
       var intensity = child.getLightRay().getPowerFraction();
       this.addToMap( x0, y0, color, intensity, map );
       //Some additional points makes it look a lot better (less sparse) without slowing it down too much
-      this.addToMap( x0 + 1, y0, color, intensity, map );
-      this.addToMap( x0, y0 + 1, color, intensity, map );
+      this.addToMap( x0 + 0.5, y0, color, intensity, map );
+      this.addToMap( x0, y0 + 0.5, color, intensity, map );
     },
 
     /**
