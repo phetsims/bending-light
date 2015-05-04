@@ -29,6 +29,10 @@ define( function( require ) {
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
 
+  //  constants
+  var INTENSITY_METER_SCALE_INSIDE_TOOLBOX = 0.25;
+  var INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX = 0.85;
+
   /**
    *
    * @param {BendingLightView} bendingLightView
@@ -42,9 +46,6 @@ define( function( require ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
-
-    var intensityMeterScaleInSideContainer = 0.25;
-    var intensityMeterScaleOutSideContainer = 0.85;
     this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
     this.intensityMeter = intensityMeter;
@@ -113,8 +114,8 @@ define( function( require ) {
         isToSensorPanel = false;
         start = intensityMeterNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.containsPoint( intensityMeterNode.sensorNode.center ) ) {
-          intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
-          intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
+          intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ), INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
+          intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ), INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
           isFromSensorPanel = true;
           intensityMeterNode.addToBendingLightView();
         }
@@ -144,8 +145,8 @@ define( function( require ) {
           isToSensorPanel = true;
         }
         if ( isToSensorPanel ) {
-          intensityMeterNode.setIntensityMeterScaleAnimation( intensityMeter.sensorPositionProperty.initialValue, intensityMeterScaleInSideContainer );
-          intensityMeterNode.setIntensityMeterScale( intensityMeter.sensorPositionProperty.initialValue, intensityMeterScaleInSideContainer );
+          intensityMeterNode.setIntensityMeterScaleAnimation( intensityMeter.sensorPositionProperty.initialValue, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+          intensityMeterNode.setIntensityMeterScale( intensityMeter.sensorPositionProperty.initialValue, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
           intensityMeterNode.intensityMeter.reset();
           intensityMeterNode.addToSensorPanel();
         }
@@ -214,8 +215,8 @@ define( function( require ) {
         intensityMeterNode.moveToFront();
         start = intensityMeterNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds.containsPoint( intensityMeterNode.bodyNode.center ) ) {
-          intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
-          intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ), intensityMeterScaleOutSideContainer );
+          intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ), INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
+          intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ), INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
           isFromSensorPanel = true;
           intensityMeterNode.addToBendingLightView();
         }
@@ -246,16 +247,16 @@ define( function( require ) {
           isToSensorPanel = true;
         }
         if ( isToSensorPanel ) {
-          intensityMeterNode.setIntensityMeterScaleAnimation( intensityMeter.sensorPositionProperty.initialValue, intensityMeterScaleInSideContainer );
-          intensityMeterNode.setIntensityMeterScale( intensityMeter.sensorPositionProperty.initialValue, intensityMeterScaleInSideContainer );
+          intensityMeterNode.setIntensityMeterScaleAnimation( intensityMeter.sensorPositionProperty.initialValue, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+          intensityMeterNode.setIntensityMeterScale( intensityMeter.sensorPositionProperty.initialValue, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
           intensityMeterNode.intensityMeter.reset();
           intensityMeterNode.addToSensorPanel();
         }
       }
     } ) );
     // scale sensorNode and bodyNode and translating
-    this.bodyNode.setScaleMagnitude( intensityMeterScaleInSideContainer );
-    this.sensorNode.setScaleMagnitude( intensityMeterScaleInSideContainer );
+    this.bodyNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+    this.sensorNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
     var sensorViewPoint = this.modelViewTransform.modelToViewPosition( this.intensityMeter.sensorPosition );
     this.sensorNode.setTranslation( sensorViewPoint.x - (this.sensorWidth * this.sensorNode.getScaleVector().x / 2),
       sensorViewPoint.y - (this.sensorHeight * 0.32 * this.sensorNode.getScaleVector().x) );
@@ -361,7 +362,7 @@ define( function( require ) {
       this.intensityMeter.translateBody( this.modelViewTransform.viewToModelDelta( delta ) );
     },
     reset: function() {
-      this.setIntensityMeterScale( this.intensityMeter.sensorPositionProperty.initialValue, 0.3 );
+      this.setIntensityMeterScale( this.intensityMeter.sensorPositionProperty.initialValue, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
       if ( this.bendingLightView.beforeLightLayer.isChild( this ) ) {
         this.addToSensorPanel();
       }
