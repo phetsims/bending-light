@@ -92,7 +92,6 @@ define( function( require ) {
     this.addChild( this.incidentWaveCanvasLayer );
     this.addChild( this.whiteLightNode );
     this.addChild( this.afterLightLayer );
-    this.addChild( this.afterLightLayer2 );
 
     // switch between light renderers for white vs nonwhite light
     model.getLaser().colorModeProperty.link( function( color ) {
@@ -139,6 +138,8 @@ define( function( require ) {
     // add the laser
     var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, this.layoutBounds );
     this.addChild( laserNode );
+
+    this.addChild( this.afterLightLayer2 );
 
     model.laserViewProperty.link( function() {
       model.laser.wave = (model.laserViewProperty.value === 'wave');

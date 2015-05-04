@@ -183,7 +183,7 @@ define( function( require ) {
         this.expandedProperty.reset();
         this.expandedButtonVisibilityProperty.reset();
         this.setProtractorScale( this.multiScale );
-        if ( this.bendingLightView.afterLightLayer2.isChild( this ) ) {
+        if ( this.bendingLightView.afterLightLayer.isChild( this ) ) {
           this.addToSensorPanel();
         }
       },
@@ -233,14 +233,14 @@ define( function( require ) {
        */
       addToBendingLightView: function() {
         this.bendingLightView.beforeLightLayer2.removeChild( this );
-        this.bendingLightView.afterLightLayer2.addChild( this );
+        this.bendingLightView.afterLightLayer.addChild( this );
       },
 
       /**
        * @public
        */
       addToSensorPanel: function() {
-        this.bendingLightView.afterLightLayer2.removeChild( this );
+        this.bendingLightView.afterLightLayer.removeChild( this );
         this.bendingLightView.beforeLightLayer2.addChild( this );
       },
 
