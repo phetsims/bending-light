@@ -18,13 +18,13 @@ define( function( require ) {
 
   /**
    *
-   * @param {Property} path
-   * @param {Color} color
+   * @param {Property<[]>} pathProperty - path of series
+   * @param {Color} color - color of series
    * @constructor
    */
-  function Series( path, color ) {
+  function Series( pathProperty, color ) {
 
-    this.pathProperty = path;
+    this.pathProperty = pathProperty;
     this.color = color;
     this.points = new ObservableArray();
   }
