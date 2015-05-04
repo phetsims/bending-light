@@ -86,7 +86,7 @@ define( function( require ) {
         right: this.layoutBounds.right - 2 * INSET
       } );
     this.addChild( laserControlPanelNode );
-
+    this.incidentWaveCanvasLayer.setVisible( false );
     // optionally show the normal lines at each intersection
     prismBreakModel.intersections.addItemAddedListener( function( addedIntersection ) {
       if ( prismBreakModel.showNormalsProperty.get() ) {
