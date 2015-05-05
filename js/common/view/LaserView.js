@@ -177,7 +177,7 @@ define( function( require ) {
      *
      * @public
      */
-    resetAll: function() {
+    reset: function() {
       if ( this.hasMoreTools ) {
         this.laserWavelengthProperty.reset();
       }

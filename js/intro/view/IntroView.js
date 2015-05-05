@@ -218,9 +218,9 @@ define( function( require ) {
       {
         listener: function() {
           introView.intensityMeterNode.reset();
-          introModel.resetAll();
-          introView.resetAll();
-          laserView.resetAll();
+          introModel.reset();
+          introView.reset();
+          laserView.reset();
           topMediumControlPanel.reset();
           bottomMediumControlPanel.reset();
 
@@ -341,9 +341,9 @@ define( function( require ) {
     /**
      * @public
      */
-    resetAll: function() {
+    reset: function() {
       this.protractorModel.reset();
-      this.protractorNode.resetAll();
+      this.protractorNode.reset();
     },
 
     /**

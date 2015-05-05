@@ -154,7 +154,7 @@ define( function( require ) {
   }
 
   return inherit( Panel, LaserControlPanelNode, {
-    resetAll: function() {
+    reset: function() {
       this.wavelengthProperty.reset();
     }
   } );

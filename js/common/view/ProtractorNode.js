@@ -179,7 +179,7 @@ define( function( require ) {
 
   return inherit( Node, ProtractorNode, {
 
-      resetAll: function() {
+      reset: function() {
         this.expandedProperty.reset();
         this.expandedButtonVisibilityProperty.reset();
         this.setProtractorScale( this.multiScale );

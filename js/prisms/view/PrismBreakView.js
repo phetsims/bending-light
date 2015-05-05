@@ -111,9 +111,9 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton(
       {
         listener: function() {
-          prismBreakModel.resetAll();
-          prismBreakView.resetAll();
-          laserControlPanelNode.resetAll();
+          prismBreakModel.reset();
+          prismBreakView.reset();
+          laserControlPanelNode.reset();
           environmentMediumControlPanel.reset();
           prismToolboxNode.objectMediumControlPanel.reset();
         },
@@ -160,7 +160,7 @@ define( function( require ) {
     /**
      * @public
      */
-    resetAll: function() {
+    reset: function() {
       this.prismLayer.removeAllChildren();
     },
 

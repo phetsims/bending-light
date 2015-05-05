@@ -235,8 +235,8 @@ define( function( require ) {
     /**
      * @public
      */
-    resetAll: function() {
-      BendingLightModel.prototype.resetAll.call( this );
+    reset: function() {
+      BendingLightModel.prototype.reset.call( this );
       this.topMediumProperty.reset();
       this.bottomMediumProperty.reset();
     },

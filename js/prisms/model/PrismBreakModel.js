@@ -93,7 +93,7 @@ define( function( require ) {
     /**
      * @public
      */
-    resetAll: function() {
+    reset: function() {
       this.prisms.clear();
       this.manyRaysProperty.reset();
       this.environmentMediumProperty.reset();
@@ -102,7 +102,7 @@ define( function( require ) {
       this.protractorModel.reset();
       this.showNormalsProperty.reset();
       this.showProtractorProperty.reset();
-      BendingLightModel.prototype.resetAll.call( this );
+      BendingLightModel.prototype.reset.call( this );
     },
 
     /**

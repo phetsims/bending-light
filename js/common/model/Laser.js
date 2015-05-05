@@ -58,7 +58,7 @@ define( function( require ) {
     /**
      * @public
      */
-    resetAll: function() {
+    reset: function() {
       PropertySet.prototype.reset.call( this );
     },
 

@@ -62,10 +62,10 @@ define( function( require ) {
       return new WaveSensorNode( this, this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel, this.layoutBounds );
     },
 
-    resetAll: function() {
+    reset: function() {
 
       this.protractorModel.reset();
-      this.protractorNode.resetAll();
+      this.protractorNode.reset();
       this.velocitySensorNode.reset();
       this.waveSensorNode.reset();
     },

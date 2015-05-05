@@ -189,10 +189,10 @@ define( function( require ) {
       /**
        * @public
        */
-      resetAll: function() {
-        this.laser.resetAll();
+      reset: function() {
+        this.laser.reset();
         PropertySet.prototype.reset.call( this );
-        this.intensityMeter.resetAll();
+        this.intensityMeter.reset();
       }
     },
     //statics
