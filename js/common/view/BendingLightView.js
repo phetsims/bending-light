@@ -1,6 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 /**
  * Base class for Bending Light
+ *
  * @author Sam Reid
  */
 define( function( require ) {
@@ -24,14 +25,12 @@ define( function( require ) {
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
   var Util = require( 'SCENERY/util/Util' );
 
-
   /**
    *
    * @param {BendingLightModel} model - main model of  the simulations
    * @param {function} clampDragAngle
    * @param {function} clockwiseArrowNotAtMax
    * @param {function} ccwArrowNotAtMax
-   * @param {boolean} showNormal
    * @param {function} laserTranslationRegion
    * @param {function} laserRotationRegion
    * @param {string }laserImageName
@@ -39,7 +38,7 @@ define( function( require ) {
    * @constructor
    */
   function BendingLightView( model, clampDragAngle, clockwiseArrowNotAtMax,
-                             ccwArrowNotAtMax, showNormal, laserTranslationRegion, laserRotationRegion,
+                             ccwArrowNotAtMax, laserTranslationRegion, laserRotationRegion,
                              laserImageName, centerOffsetLeft ) {
 
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
@@ -51,7 +50,8 @@ define( function( require ) {
     this.lightWaveLayer = new Node();
     this.laserView = new LaserView( model, false );
 
-    //In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP suggested this layering order:
+    //In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
+    // suggested this layering order:
     //laser on top
     //Control boxes next
     //Protractor
@@ -106,15 +106,21 @@ define( function( require ) {
     var showRotationDragHandlesProperty = new Property( false );
     var showTranslationDragHandlesProperty = new Property( false );
 
-    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), Math.PI / 22, showRotationDragHandlesProperty, clockwiseArrowNotAtMax ) );
-    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), -Math.PI / 22, showRotationDragHandlesProperty, ccwArrowNotAtMax ) );
+    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), Math.PI / 25,
+      showRotationDragHandlesProperty, clockwiseArrowNotAtMax ) );
+    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), -Math.PI / 25,
+      showRotationDragHandlesProperty, ccwArrowNotAtMax ) );
 
     // add translation indicators that show if/when the laser can be moved by dragging
     var arrowLength = 100;
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), -arrowLength, 0, showTranslationDragHandlesProperty ) );
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, -arrowLength, showTranslationDragHandlesProperty ) );
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0, showTranslationDragHandlesProperty ) );
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength, showTranslationDragHandlesProperty ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), -arrowLength, 0,
+      showTranslationDragHandlesProperty ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, -arrowLength,
+      showTranslationDragHandlesProperty ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0,
+      showTranslationDragHandlesProperty ) );
+    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength,
+      showTranslationDragHandlesProperty ) );
 
     // Check to see if WebGL was prevented by a query parameter
     var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
@@ -136,7 +142,9 @@ define( function( require ) {
     }
 
     // add the laser
-    var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, this.layoutBounds );
+    var laserNode = new LaserNode( this.modelViewTransform, model.getLaser(), showRotationDragHandlesProperty,
+      showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName,
+      this.layoutBounds );
     this.addChild( laserNode );
 
     this.addChild( this.afterLightLayer2 );
@@ -156,11 +164,13 @@ define( function( require ) {
         if ( !allowWebGL ) {
           for ( var k = 0; k < model.rays.length; k++ ) {
             var waveShape = model.rays.get( k ).getWaveShape();
-            var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles, bendingLightView.modelViewTransform, {
-              canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
-              clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
-            } );
-            k === 0 ? bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode ) : bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
+            var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles,
+              bendingLightView.modelViewTransform, {
+                canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
+                clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
+              } );
+            k === 0 ? bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode ) :
+            bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
           }
         }
       }

@@ -26,15 +26,18 @@ define( function( require ) {
    * @param {Laser}laser
    * @param {number} deltaAngle - deltaAngle in radians
    * @param {Property<Boolean>} showDragHandlesProperty
-   * @param {function}notAtMax - function that determines whether the laser is already at the max angle (if at the max angle then that drag handle disappears)
+   * @param {function}notAtMax - function that determines whether the laser is already at the max angle (if at the max
+   * angle then that drag handle disappears)
    * @constructor
    */
   function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandlesProperty, notAtMax ) {
+
     Node.call( this );
     var rotationDragHandle = this;
 
     // temporary property to help determine whether the drag handle should be shown
-    var notAtMaximumProperty = new DerivedProperty( [ laser.emissionPointProperty, laser.pivotProperty, showDragHandlesProperty ], function() {
+    var notAtMaximumProperty = new DerivedProperty( [ laser.emissionPointProperty, laser.pivotProperty,
+      showDragHandlesProperty ], function() {
       return notAtMax( laser.getAngle() ) && ( showDragHandlesProperty.get() );
     } );
 
@@ -47,7 +50,7 @@ define( function( require ) {
     var dragArrow = new Path( null, { fill: '#33FF00', stroke: 'black' } );
     this.addChild( dragArrow );
     var EPSILON = 0.6;
-    var arrowHeadHeight = deltaAngle > 0 ? -10 : 10;
+    var arrowHeadHeight = deltaAngle > 0 ? -7 : 7;
     var isArrowDirectionAntiClockWise = deltaAngle > 0;
     var startAngleOffset = deltaAngle * (1 - EPSILON);
     var endAngleOffset = deltaAngle * 1.1;

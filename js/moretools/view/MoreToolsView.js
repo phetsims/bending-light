@@ -3,7 +3,7 @@
  * View  for the "more tools" screen, which adds more tools to the toolbox, and a few more controls for the laser.
  *
  * @author Sam Reid
- *  * @author Chandrashekar Bemagoni (Actual Concepts)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -20,16 +20,19 @@ define( function( require ) {
    * @constructor
    */
   function MoreToolsView( moreToolsModel ) {
+
     var moreToolsView = this;
     this.moreToolsModel = moreToolsModel;
     this.arrowScale = 1.5E-14;
     IntroView.call( this, moreToolsModel, 0, true, 3 );
+
+    //Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
     this.velocitySensorNode = this.createVelocitySensorTool();
     this.waveSensorNode = this.createWaveSensorTool();
     this.beforeLightLayer2.addChild( this.velocitySensorNode );
     this.beforeLightLayer2.addChild( this.waveSensorNode );
-    this.moreToolsModel.waveSensor.visibleProperty.link( function( isvisble ) {
 
+    this.moreToolsModel.waveSensor.visibleProperty.link( function( isvisble ) {
       moreToolsView.playPauseButton.visible = isvisble;
       moreToolsView.stepButton.visible = isvisble;
       moreToolsView.speedControl.visible = isvisble;
@@ -47,32 +50,31 @@ define( function( require ) {
     },
 
     /**
-     * Provide the additional tools for this tab
+     * create the VelocitySensorNode
      *
-     * @returns {*[]}
+     * @returns {*}
      */
-    getMoreTools: function() {
-
-      // create the Velocity Sensor tool and wave sensor tool to add to the toolbox
-      return [ this.createVelocitySensorTool(), this.createWaveSensorTool() ];
+    createVelocitySensorTool: function() {
+      return new VelocitySensorNode( this, this.modelViewTransform, this.moreToolsModel.velocitySensor,
+        this.arrowScale, this.sensorPanel, this.layoutBounds );
     },
 
+    /**
+     * create the WaveSensorNode
+     *
+     * @returns {*}
+     */
     createWaveSensorTool: function() {
-      // create the WaveSensorNode
-      return new WaveSensorNode( this, this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel, this.layoutBounds );
+      return new WaveSensorNode( this, this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel,
+        this.layoutBounds );
     },
 
     reset: function() {
-
       this.protractorModel.reset();
       this.protractorNode.reset();
       this.velocitySensorNode.reset();
       this.waveSensorNode.reset();
-    },
-
-    createVelocitySensorTool: function() {
-      return new VelocitySensorNode( this, this.modelViewTransform, this.moreToolsModel.velocitySensor, this.arrowScale,
-        this.sensorPanel, this.layoutBounds );
     }
+
   } );
 } );

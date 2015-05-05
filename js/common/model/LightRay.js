@@ -35,7 +35,8 @@ define( function( require ) {
    * @param {boolean} extendBackwards
    * @constructor
    */
-  function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth, numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
+  function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth,
+                     numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
 
     //  used to create a clipped shape for wave mode
     this.oppositeMedium = oppositeMedium;
@@ -105,13 +106,14 @@ define( function( require ) {
 
     /**
      * Check to see if this light ray hits the specified sensor region
-     *@public
+     * @public
      * @param {Shape} sensorRegion
      * @returns {*}
      */
     getIntersections: function( sensorRegion ) {
       return sensorRegion.intersection( new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) ) );
     },
+
     /**
      * @public
      * @returns {Line}
@@ -221,8 +223,10 @@ define( function( require ) {
       var tipPoint2 = new Vector2( this.tip.x - tipWidth / 2, this.tip.y );
 
       //tail
-      var tailPoint1 = new Vector2( this.tail.x + tailWidth / 2 * Math.sin( angle ), this.tail.y + tailWidth / 2 * Math.cos( angle ) );
-      var tailPoint2 = new Vector2( this.tail.x - tailWidth / 2 * Math.sin( angle ), this.tail.y - tailWidth / 2 * Math.cos( angle ) );
+      var tailPoint1 = new Vector2( this.tail.x + tailWidth / 2 * Math.sin( angle ),
+        this.tail.y + tailWidth / 2 * Math.cos( angle ) );
+      var tailPoint2 = new Vector2( this.tail.x - tailWidth / 2 * Math.sin( angle ),
+        this.tail.y - tailWidth / 2 * Math.cos( angle ) );
       this.waveBounds = [ tailPoint1, tailPoint2, tipPoint2, tipPoint1 ];
       return this.waveBounds;
     },
@@ -284,7 +288,8 @@ define( function( require ) {
      */
     contains: function( position, waveMode ) {
       if ( waveMode ) {
-        return this.getWaveShape().containsPoint( position );
+        var intersection = this.getWaveShape().intersection( new Ray2( position, this.getUnitVector() ) );
+        return intersection.length % 2 === 1;
       }
       else {
         return this.toLine2D().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;

@@ -50,6 +50,7 @@ define( function( require ) {
    * @constructor
    */
   function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals ) {
+
     var introView = this;
     this.introModel = introModel;
 
@@ -95,7 +96,6 @@ define( function( require ) {
       clampDragAngle,
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
-      true,
       this.getProtractorRotationRegion,
       rotationRegionShape, 'laser',
       centerOffsetLeft );
@@ -158,7 +158,7 @@ define( function( require ) {
     //  add laser view panel
     var laserView = new LaserView( introModel, hasMoreTools, {
       left: this.layoutBounds.minX + 12,
-      top:  this.layoutBounds.top + 2 * INSET
+      top: this.layoutBounds.top + 2 * INSET
     } );
 
     this.afterLightLayer2.addChild( laserView );
@@ -168,7 +168,7 @@ define( function( require ) {
     this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
       left: this.layoutBounds.minX + 13,
-      top:  this.layoutBounds.maxY - sensorPanelHeight - 14
+      top: this.layoutBounds.maxY - sensorPanelHeight - 14
     } );
     this.beforeLightLayer2.addChild( this.sensorPanel );
 
@@ -181,16 +181,19 @@ define( function( require ) {
 
     //  if intro screen  regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {
-      this.protractorNode = new ProtractorNode( this, this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
-        this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds, this.layoutBounds );
+      this.protractorNode = new ProtractorNode( this, this.modelViewTransform, this.showProtractorProperty,
+        this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH,
+        this.sensorPanel.bounds, this.layoutBounds );
     }
     else {
-      this.protractorNode = new ExpandableProtractorNode( this, this.modelViewTransform, this.showProtractorProperty, this.protractorModel,
-        this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH, this.sensorPanel.bounds, this.layoutBounds );
+      this.protractorNode = new ExpandableProtractorNode( this, this.modelViewTransform, this.showProtractorProperty,
+        this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH,
+        this.sensorPanel.bounds, this.layoutBounds );
     }
     this.beforeLightLayer2.addChild( this.protractorNode );
 
-    this.intensityMeterNode = new IntensityMeterNode( this, this.modelViewTransform, introModel.getIntensityMeter(), this.sensorPanel.visibleBounds, this.layoutBounds );
+    this.intensityMeterNode = new IntensityMeterNode( this, this.modelViewTransform, introModel.getIntensityMeter(),
+      this.sensorPanel.visibleBounds, this.layoutBounds );
     this.beforeLightLayer2.addChild( this.intensityMeterNode );
 
     var checkBoxOptions = {
@@ -210,7 +213,8 @@ define( function( require ) {
 
     // add normal
     var normalIcon = new NormalLine( 34 );
-    normalIcon.setTranslation( this.sensorPanel.x + this.sensorPanel.width / 2, this.sensorPanel.y + sensorPanelHeight - 41 );
+    normalIcon.setTranslation( this.sensorPanel.x + this.sensorPanel.width / 2,
+      this.sensorPanel.y + sensorPanelHeight - 41 );
     this.beforeLightLayer2.addChild( normalIcon );
 
     // add reset all button
@@ -226,7 +230,7 @@ define( function( require ) {
 
         },
         bottom: this.layoutBounds.bottom - 14,
-        right:  this.layoutBounds.right - 2 * INSET,
+        right: this.layoutBounds.right - 2 * INSET,
         radius: 19
       } );
 
@@ -242,8 +246,8 @@ define( function( require ) {
     var normalMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'normal',
       new Text( normalString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
 
-    var speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ? slowMotionRadioBox.width :
-                               normalMotionRadioBox.width;
+    var speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ?
+                               slowMotionRadioBox.width : normalMotionRadioBox.width;
 
     var radioButtonSpacing = 5;
     var touchAreaHeightExpansion = radioButtonSpacing / 2;
@@ -327,9 +331,11 @@ define( function( require ) {
             this.incidentWaveCanvasLayer.children[ k ].step();
           }
         }
-        var scale = Math.min( window.innerWidth / this.layoutBounds.width, window.innerHeight / this.layoutBounds.height );
+        var scale = Math.min( window.innerWidth / this.layoutBounds.width,
+          window.innerHeight / this.layoutBounds.height );
         this.introModel.simDisplayWindowHeight = ( window.innerHeight) / scale;
-        this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY( this.introModel.simDisplayWindowHeight ) );
+        this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY(
+          this.introModel.simDisplayWindowHeight ) );
 
       }
     },
@@ -344,15 +350,6 @@ define( function( require ) {
     reset: function() {
       this.protractorModel.reset();
       this.protractorNode.reset();
-    },
-
-    /**
-     * No more tools available in IntroCanvas, but this is overriden in MoreToolsCanvas to provide additional tools
-     *
-     * @returns {Array}
-     */
-    getMoreTools: function() {
-      return [];
     }
   } );
 } );

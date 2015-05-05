@@ -67,7 +67,6 @@ define( function( require ) {
       clampDragAngle,
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
-      true,
       translationRegion,
       rotationRegionShape, 'laserKnob',
       90 );

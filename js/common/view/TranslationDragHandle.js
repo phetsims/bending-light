@@ -26,10 +26,11 @@ define( function( require ) {
    * @param {Laser} laser - model of laser
    * @param {number} dx
    * @param {number} dy
-   * @param {Property<Boolean>} showDragHandlesProperty
+   * @param {Property<boolean>} showDragHandlesProperty
    * @constructor
    */
   function TranslationDragHandle( modelViewTransform, laser, dx, dy, showDragHandlesProperty ) {
+
     Node.call( this );
     var translationDragHandle = this;
     showDragHandlesProperty.link( function( show ) {
@@ -49,7 +50,7 @@ define( function( require ) {
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty ],
       function() {
         var laserEmissionViewPoint = modelViewTransform.modelToViewPosition( laser.emissionPoint );
-        var viewDelta = Vector2.createPolar( image.getWidth() * 0.4, -laser.getAngle() );
+        var viewDelta = Vector2.createPolar( image.getWidth() * 0.3, -laser.getAngle() );
         var tailX = laserEmissionViewPoint.x + viewDelta.x;
         var tailY = laserEmissionViewPoint.y + viewDelta.y;
         counterClockwiseDragArrow.setTailAndTip( tailX, tailY, tailX + dx * 0.76, tailY + dy * 0.76 );

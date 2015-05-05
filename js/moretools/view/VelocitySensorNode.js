@@ -1,8 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
-
 /**
  * View for the Velocity Sensor tool. Measures the velocity at the sensor's tip and shows it in the display box.
  * Also points a blue arrow along the direction of the velocity and the arrow length is proportional to the velocity.
+ *
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
 define( function( require ) {
@@ -199,16 +199,22 @@ define( function( require ) {
   }
 
   return inherit( Node, VelocitySensorNode, {
+
     /**
      *
      * @param {Vector2} endPoint
      * @param {number} scale
      */
     setScaleAnimation: function( endPoint, scale ) {
-      var startPoint = { x: this.velocitySensor.position.x, y: this.velocitySensor.position.y, scale: this.getScaleVector().x };
+      var startPoint = {
+        x: this.velocitySensor.position.x,
+        y: this.velocitySensor.position.y,
+        scale: this.getScaleVector().x
+      };
       var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
       this.init( startPoint, finalPosition );
     },
+
     /**
      *
      * @param {Object} initialPosition
@@ -234,6 +240,7 @@ define( function( require ) {
       this.moreToolsView.afterLightLayer2.removeChild( this );
       this.moreToolsView.beforeLightLayer2.addChild( this );
     },
+
     reset: function() {
       this.setScaleMagnitude( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
