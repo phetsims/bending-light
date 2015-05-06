@@ -86,6 +86,7 @@ define( function( require ) {
         if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
           prismsBreakModel.removePrism( prism );
           prismLayer.removeChild( prismsNode );
+          prismsBreakModel.dirty = true;
         }
       }
     } ) );
