@@ -65,7 +65,7 @@ define( function( require ) {
     Node.call( this );
     var mediumControlPanel = this;
 
-    var MAX_WIDTH = textFieldVisible ? 250 : 120;
+    var MAX_WIDTH = textFieldVisible ? 213 : 170;
 
     options = _.extend( {
       xMargin: 10,
@@ -89,11 +89,11 @@ define( function( require ) {
     // add material combo box
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
 
-    if ( materialTitle.width > (textFieldVisible ? 60 : 70) ) {
-      materialTitle.scale( (textFieldVisible ? 60 : 70 ) / materialTitle.width );
+    if ( materialTitle.width > (textFieldVisible ? 50 : 73) ) {
+      materialTitle.scale( (textFieldVisible ? 50 : 73 ) / materialTitle.width );
     }
 
-    var maxWidth = textFieldVisible ? MAX_WIDTH * 0.5 : MAX_WIDTH * 0.44;
+    var maxWidth = MAX_WIDTH - materialTitle.width - 42;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
     var createItem = function( item ) {
@@ -152,8 +152,8 @@ define( function( require ) {
     var textOptions = { font: new PhetFont( 12 ) };
     var indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
 
-    if ( indexOfRefractionLabel.width > (textFieldVisible ? MAX_WIDTH * 0.45 : MAX_WIDTH) ) {
-      indexOfRefractionLabel.scale( (textFieldVisible ? MAX_WIDTH * 0.45 : MAX_WIDTH) / indexOfRefractionLabel.width );
+    if ( indexOfRefractionLabel.width > (textFieldVisible ? MAX_WIDTH - 100 : MAX_WIDTH) ) {
+      indexOfRefractionLabel.scale( (textFieldVisible ? MAX_WIDTH - 100 : MAX_WIDTH) / indexOfRefractionLabel.width );
     }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
     var indexOfRefractionValueText = new Text( this.mediumIndexProperty.get().toFixed( format ), textOptions );
@@ -252,7 +252,7 @@ define( function( require ) {
 
     indexOfRefractionNode.top = materialComboBox.bottom + INSET;
     indexOfRefractionNode.left = materialComboBox.left;
-    indexOfRefractionSlider.centerX = materialComboBox.centerX + INSET / 2;
+    indexOfRefractionSlider.centerX = materialComboBox.centerX;
     indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET / 2;
     unknown.centerX = materialComboBox.centerX;
     unknown.centerY = indexOfRefractionNode.bottom + INSET;

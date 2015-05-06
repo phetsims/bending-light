@@ -40,7 +40,7 @@ define( function( require ) {
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
 
   // constants
-  var MAX_TEXT_WIDTH = 50;
+  var MAX_TEXT_WIDTH = 115;
 
   /**
    *
@@ -55,7 +55,7 @@ define( function( require ) {
 
     Node.call( this );
     var content = new HBox( {
-      spacing: 10
+      spacing: 8
     } );
     var prismPath = [];
 
@@ -117,6 +117,7 @@ define( function( require ) {
             if ( prismToolBoxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
               prismBreakModel.removePrism( prismShape );
               prismBreakView.prismLayer.removeChild( prismsNode );
+              prismBreakModel.dirty = true;
             }
           }
         }
@@ -132,7 +133,8 @@ define( function( require ) {
       false,
       prismBreakModel.wavelengthProperty,
       2, {
-        lineWidth: 0
+        lineWidth: 0,
+        xMargin: 0
       } );
     this.objectMediumControlPanel = objectMediumControlPanel;
     var dividerBetweenPrismsAndPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10, 10, {
@@ -157,36 +159,24 @@ define( function( require ) {
 
     // itemSpec describes the pieces that make up an item in the control panel,
     // conforms to the contract: { label: {Node}, icon: {Node} (optional) }
-    var reflectionText = new Text( reflectionsString, textOptions );
-
-    if ( reflectionText.width > MAX_TEXT_WIDTH ) {
-      reflectionText.scale( MAX_TEXT_WIDTH / reflectionText.width );
-    }
-    var normalText = new Text( normalString, textOptions );
-    if ( normalText.width > MAX_TEXT_WIDTH ) {
-      normalText.scale( MAX_TEXT_WIDTH / normalText.width );
-    }
-    var protractorText = new Text( protractorString, textOptions );
-    if ( protractorText.width > MAX_TEXT_WIDTH ) {
-      protractorText.scale( MAX_TEXT_WIDTH / protractorText.width );
-    }
-    var showReflections = { label: reflectionText };
-    var showNormal = { label: normalText };
-    var showProtractor = { label: protractorText, icon: createProtractorIcon() };
-
-    // compute the maximum item width
-    var widestItemSpec = _.max( [ showReflections, showNormal, showProtractor ], function( item ) {
-      return item.label.width + ((item.icon) ? item.icon.width : 0);
-    } );
-    var maxWidth = widestItemSpec.label.width + ((widestItemSpec.icon) ? widestItemSpec.icon.width : 0);
+    var showReflections = { label: new Text( reflectionsString, textOptions ) };
+    var showNormal = { label: new Text( normalString, textOptions ) };
+    var showProtractor = { label: new Text( protractorString, textOptions ), icon: createProtractorIcon() };
 
     // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
     var createItem = function( itemSpec ) {
       if ( itemSpec.icon ) {
-        var strutWidth = maxWidth - itemSpec.label.width - itemSpec.icon.width + 17;
+        var textWidth = MAX_TEXT_WIDTH - itemSpec.icon.width - 5;
+        if ( itemSpec.label.width > textWidth ) {
+          itemSpec.label.scale( textWidth / itemSpec.label.width );
+        }
+        var strutWidth = MAX_TEXT_WIDTH - itemSpec.label.width - itemSpec.icon.width;
         return new HBox( { children: [ itemSpec.label, new HStrut( strutWidth ), itemSpec.icon ] } );
       }
       else {
+        if ( itemSpec.label.width > MAX_TEXT_WIDTH ) {
+          itemSpec.label.scale( MAX_TEXT_WIDTH / itemSpec.label.width );
+        }
         return new HBox( { children: [ itemSpec.label ] } );
       }
     };
@@ -223,7 +213,7 @@ define( function( require ) {
     } );
     content.addChild( checkBoxes );
     // add the sensors panel
-    var sensorPanel = new Rectangle( 0, 0, content.width + 20, content.height + 2, 5, 5, {
+    var sensorPanel = new Rectangle( 0, 0, content.width + 25, content.height + 2, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE'
     } );
     this.addChild( sensorPanel );
