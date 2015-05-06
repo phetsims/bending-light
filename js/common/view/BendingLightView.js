@@ -33,8 +33,8 @@ define( function( require ) {
    * @param {function} ccwArrowNotAtMax
    * @param {function} laserTranslationRegion
    * @param {function} laserRotationRegion
-   * @param {string }laserImageName
-   * @param {number}centerOffsetLeft
+   * @param {string } laserImageName
+   * @param {number} centerOffsetLeft
    * @constructor
    */
   function BendingLightView( model, clampDragAngle, clockwiseArrowNotAtMax,

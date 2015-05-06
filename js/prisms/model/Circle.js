@@ -95,7 +95,7 @@ define( function( require ) {
     },
     /**
      * @public
-     * @returns {Node.center|*}
+     * @returns {Vector2}
      */
     getRotationCenter: function() {
       return this.center;

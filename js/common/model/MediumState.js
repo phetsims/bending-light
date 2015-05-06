@@ -16,8 +16,8 @@ define( function( require ) {
    *
    * @param {string} name - name of the medium
    * @param {number} indexForRed - index of refraction of medium
-   * @param {boolean}mystery - true if medium state is mystery else other state
-   * @param {boolean}custom - true if  medium state is custom else other state
+   * @param {boolean} mystery - true if medium state is mystery else other state
+   * @param {boolean} custom - true if  medium state is custom else other state
    * @constructor
    */
   function MediumState( name, indexForRed, mystery, custom ) {

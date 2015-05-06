@@ -14,7 +14,7 @@ define( function( require ) {
   /**
    *
    * @param {ObservableArray<DataPoint>}seriesPoints
-   * @param {string}color
+   * @param {string} color
    * @param options
    * @constructor
    */

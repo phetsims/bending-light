@@ -207,7 +207,7 @@ define( function( require ) {
     /**
      * The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
      * @public
-     * @returns {Array}
+     * @returns {[]}
      */
     getWaveBounds: function() {
       if ( this.waveBounds.length > 0 ) {
@@ -233,7 +233,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {*}
+     * @returns {Vector2}
      */
     getUnitVector: function() {
       var x = this.tip.x - this.tail.x;
@@ -246,7 +246,7 @@ define( function( require ) {
 
     /**
      *  @public
-     * @returns {*}
+     * @returns {number}
      */
     getAngle: function() {
       return this.toVector2D().angle();
@@ -255,7 +255,7 @@ define( function( require ) {
 
     /**
      * @pub
-     * @returns {number|*}
+     * @returns {number}
      */
     getWaveWidth: function() {
       return this.waveWidth;
@@ -284,7 +284,7 @@ define( function( require ) {
      * @public
      * @param {Vector2} position
      * @param {boolean} waveMode
-     * @returns {*}
+     * @returns {boolean}
      */
     contains: function( position, waveMode ) {
       if ( waveMode ) {

@@ -17,10 +17,18 @@ define( function( require ) {
 
   inherit( Object, OneColor, {
 
+    /**
+     * @public
+     * @returns {Color}
+     */
     getColor: function() {
       return VisibleColor.wavelengthToColor( this.wavelength * 1E9 );
     },
 
+    /**
+     * @public
+     * @returns {number}
+     */
     getWavelength: function() {
       return this.wavelength;
     }

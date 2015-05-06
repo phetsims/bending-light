@@ -54,7 +54,7 @@ define( function( require ) {
      * Get the specified corner point
      *
      * @param {number} i
-     * @returns {*}
+     * @returns {Vector2}
      */
     getPoint: function( i ) {
       return this.points[ i ];
@@ -118,7 +118,7 @@ define( function( require ) {
     /**
      * Just use the 0th point for the reference point for rotation drag handles
      *
-     * @returns {*}
+     * @returns {Vector2}
      */
     getReferencePoint: function() {
       return this.getPoint( this.referencePointIndex );
@@ -128,7 +128,7 @@ define( function( require ) {
      * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
      * "mass")
      *
-     * @returns {*|Vector2}
+     * @returns {Vector2}
      */
     getRotationCenter: function() {
       return this.getCentroid( this.points );
@@ -136,7 +136,7 @@ define( function( require ) {
 
     /**
      *
-     * @param {Vector2[]}p
+     * @param {Vector2[]} p
      * @returns {Vector2}
      */
     getCentroid: function( p ) {

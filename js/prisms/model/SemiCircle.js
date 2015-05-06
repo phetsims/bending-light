@@ -27,6 +27,7 @@ define( function( require ) {
   function SemiCircle( referencePointIndex, points, radius ) {
 
     this.points = points;
+
     // index for the point used as the "reference" point,
     // which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;

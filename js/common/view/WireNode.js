@@ -20,7 +20,7 @@ define( function( require ) {
    * @param {Property<Vector2>} bodyPositionProperty
    * @param {Node} probeNode
    * @param {Node} bodyNode
-   * @param {Color}color
+   * @param {Color} color
    * @constructor
    */
   function WireNode( probePositionProperty, bodyPositionProperty, probeNode, bodyNode, color ) {

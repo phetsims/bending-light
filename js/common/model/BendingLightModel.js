@@ -45,9 +45,9 @@ define( function( require ) {
    * Main constructor for BendingLightModel,
    * which contains all of the model logic for the entire sim screen.
    *
-   * @param {number}laserAngle
-   * @param {boolean}topLeftQuadrant
-   * @param {number}laserDistanceFromPivot
+   * @param {number} laserAngle
+   * @param {boolean} topLeftQuadrant
+   * @param {number} laserDistanceFromPivot
    * @param {boolean} centerOffsetLeft
    * @constructor
    */
@@ -61,11 +61,11 @@ define( function( require ) {
     this.modelWidth = CHARACTERISTIC_LENGTH * 62;
     this.modelHeight = this.modelWidth * 0.7;
 
-    //  if  WebGL support  then particles creation particle and propagation not need
+    //  if  WebGL support  then particles creation  and propagation not need
     //  else we should create particles and propagate to render them on canvas.
     this.allowWebGL = false;
 
-    // everything that had a listener in the java version becomes a property
+
     PropertySet.call( this, {
         laserView: 'ray', //Whether the laser is Ray or Wave mode
         wavelength: BendingLightConstants.WAVELENGTH_RED,
@@ -104,6 +104,10 @@ define( function( require ) {
         return this.modelWidth;
       },
 
+      /**
+       *
+       * @returns {number}
+       */
       getHeight: function() {
         return this.modelHeight;
       },
@@ -118,7 +122,7 @@ define( function( require ) {
 
       /**
        *
-       * @returns {ObservableArray}
+       * @returns {ObservableArray<LightRay>}
        */
       getRays: function() {
         return this.rays;

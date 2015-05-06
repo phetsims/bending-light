@@ -17,8 +17,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {number}referenceIndexOfRefraction
-   * @param {number}wavelength
+   * @param {number} referenceIndexOfRefraction
+   * @param {number} wavelength
    * @constructor
    */
   function DispersionFunction( referenceIndexOfRefraction, wavelength ) {

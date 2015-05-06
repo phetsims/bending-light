@@ -24,9 +24,9 @@ define( function( require ) {
    *
    * @param {PrismBreakModel} prismsBreakModel - main model
    * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
-   * @param {Prism }prism
-   * @param {Node}prismToolboxNode
-   * @param {Node}prismLayer
+   * @param {Prism } prism
+   * @param {Node} prismToolboxNode
+   * @param {Node} prismLayer
    * @param {Bounds2} prismDragBounds - bounds that define where the prism may be dragged
    * @constructor
    */

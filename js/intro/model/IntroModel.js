@@ -75,6 +75,7 @@ define( function( require ) {
      * this creates them according to the laser and mediums
      */
     propagateRays: function() {
+
       //Relatively large regions to keep track of which side the light is on
       var bottom = 0;//new Rectangle( -10, -10, 20, 10 );
       var top = 0;//new Rectangle( -10, 0, 20, 10 );
@@ -264,7 +265,7 @@ define( function( require ) {
      *
      * @public
      * @param {Vector2} position
-     * @returns {*}
+     * @returns {[]}
      */
     getWaveValue: function( position ) {
       var waveValue = null;

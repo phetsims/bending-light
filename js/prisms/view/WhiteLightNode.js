@@ -22,7 +22,7 @@ define( function( require ) {
   /**
    *
    * @param {Node} rayLayer
-   * @param {Number} stageWidth
+   * @param {number} stageWidth
    * @param {number} stageHeight
    * @constructor
    */
@@ -113,7 +113,7 @@ define( function( require ) {
 
     /**
      *@private
-     * @param {Number} x0 - x position in view co-ordinates
+     * @param {number} x0 - x position in view co-ordinates
      * @param  {number} y0 - y position in view co-ordinates
      * @returns {boolean}
      */

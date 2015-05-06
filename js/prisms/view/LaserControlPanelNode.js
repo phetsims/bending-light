@@ -36,8 +36,8 @@ define( function( require ) {
 
   /**
    *
-   * @param { Property<String>} colorModeProperty - to indicate ray in singleColor or white .
-   * @param {Property<Number>} wavelengthProperty
+   * @param { Property<string>} colorModeProperty - to indicate ray in singleColor or white .
+   * @param {Property<number>} wavelengthProperty
    * @param {Object} [options]
    * @constructor
    */
@@ -154,6 +154,7 @@ define( function( require ) {
   }
 
   return inherit( Panel, LaserControlPanelNode, {
+
     reset: function() {
       this.wavelengthProperty.reset();
     }

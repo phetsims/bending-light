@@ -53,10 +53,10 @@ define( function( require ) {
    *
    * @param  view
    * @param {Property<Medium>} mediumProperty
-   * @param {string}name  - name of the medium material
-   * @param {boolean}textFieldVisible
-   * @param {number}laserWavelength
-   * @param {number}format
+   * @param {string} name  - name of the medium material
+   * @param {boolean} textFieldVisible
+   * @param {number} laserWavelength
+   * @param {number} format
    * @param {Object} [options]
    * @constructor
    */

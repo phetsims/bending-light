@@ -37,7 +37,7 @@ define( function( require ) {
    *
    * @param {BendingLightView} bendingLightView
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
-   * @param {IntensityMeter}intensityMeter  - model for the intensity meter
+   * @param {IntensityMeter} intensityMeter  - model for the intensity meter
    * @param {Bounds2} containerBounds - bounds of container for  intensity meter
    * @param {Bounds2} dragBounds - bounds that define where the intensity meter may be dragged
    * @constructor

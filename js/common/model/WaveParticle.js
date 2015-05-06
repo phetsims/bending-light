@@ -33,7 +33,7 @@ define( function( require ) {
     /**
      * get particle x position
      * @public
-     * @returns {*}
+     * @returns {number}
      */
     getX: function() {
       return this.position.x;
@@ -42,7 +42,7 @@ define( function( require ) {
     /**
      *  get particle Y position
      *  @public
-     * @returns {*}
+     * @returns {number}
      */
     getY: function() {
       return this.position.y;

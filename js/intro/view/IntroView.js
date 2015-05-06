@@ -43,7 +43,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {IntroModel}introModel -model of intro screen
+   * @param {IntroModel} introModel -model of intro screen
    * @param {number} centerOffsetLeft
    * @param {boolean} hasMoreTools
    * @param {number} IndexOfRefractionDecimals

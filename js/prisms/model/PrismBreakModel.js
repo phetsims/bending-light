@@ -90,6 +90,7 @@ define( function( require ) {
   }
 
   return inherit( BendingLightModel, PrismBreakModel, {
+
     /**
      * @public
      */
@@ -179,7 +180,7 @@ define( function( require ) {
     },
     /**
      *
-     * @returns {ObservableArray|*}
+     * @returns {ObservableArray<Prism>}
      */
     getPrisms: function() {
       return this.prisms;
@@ -189,8 +190,8 @@ define( function( require ) {
      *@private
      * @param {Vector2} tail
      * @param {Vector2} directionUnitVector
-     * @param {Number} power
-     * @param {Boolean}laserInPrism
+     * @param {number} power
+     * @param {boolean} laserInPrism
      */
     propagate: function( tail, directionUnitVector, power, laserInPrism ) {
 
@@ -358,8 +359,8 @@ define( function( require ) {
     /**
      * Find the nearest intersection between a light ray and the set of prisms in the play area
      *
-     * @param incidentRay
-     * @param prisms
+     * @param{Ray} incidentRay
+     * @param {ObservableArray<Prism>}prisms
      * @returns {null}
      */
     getIntersection: function( incidentRay, prisms ) {
