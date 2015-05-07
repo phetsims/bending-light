@@ -203,22 +203,31 @@ define( function( require ) {
       // if it intersected, then absorb the ray
       var rayAbsorbed = this.intensityMeter.enabled && intersects.length > 0;
       if ( rayAbsorbed ) {
-        if ( intersects !== null && intersects.length > 1 ) {
-          var x = intersects[ 0 ].point.x + intersects[ 1 ].point.x;
-          var y = intersects[ 0 ].point.y + intersects[ 1 ].point.y;
-          var interrupted = new LightRay( ray.trapeziumWidth, ray.tail, new Vector2( x / 2, y / 2 ),
-            ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.getColor(),
-            ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.oppositeMedium, false, ray.extendBackwards );
+        var x;
+        var y;
+        if ( intersects.length === 1 ) {
+          // intersect point at sensor shape start position when laser within sensor region
+          var reverseLightRay = new Ray2( ray.tail, Vector2.createPolar( 1, ray.getAngle() ).timesScalar( -1 ) );
+          var intersectPointAtSensorStart = this.intensityMeter.getSensorShape().intersection( reverseLightRay );
+          x = intersectPointAtSensorStart[ 0 ].point.x + intersects[ 0 ].point.x;
+          y = intersectPointAtSensorStart[ 0 ].point.y + intersects[ 0 ].point.y;
+        }
+        if ( intersects.length > 1 ) {
+          x = intersects[ 0 ].point.x + intersects[ 1 ].point.x;
+          y = intersects[ 0 ].point.y + intersects[ 1 ].point.y;
+        }
+        var interrupted = new LightRay( ray.trapeziumWidth, ray.tail, new Vector2( x / 2, y / 2 ),
+          ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.getColor(),
+          ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.oppositeMedium, false, ray.extendBackwards );
 
-          //don't let the wave intersect the intensity meter if it is behind the laser emission point
-          var isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
-          if ( interrupted.getLength() < ray.getLength() && isForward ) {
-            this.addRay( interrupted );
-          }
-          else {
-            this.addRay( ray );
-            rayAbsorbed = false;
-          }
+        //don't let the wave intersect the intensity meter if it is behind the laser emission point
+        var isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
+        if ( interrupted.getLength() < ray.getLength() && isForward ) {
+          this.addRay( interrupted );
+        }
+        else {
+          this.addRay( ray );
+          rayAbsorbed = false;
         }
       }
       else {
@@ -251,13 +260,12 @@ define( function( require ) {
      */
     getVelocity: function( position ) {
       var laserViewProperty = this.laserViewProperty;
-      var velocity = new Vector2( 0, 0 );
-      this.rays.forEach( function( ray ) {
-        if ( ray.contains( position, laserViewProperty.value === 'wave' ) ) {
-          velocity = ray.getVelocityVector();
+      for ( var i = 0; i < this.rays.length; i++ ) {
+        if ( this.rays.get( i ).contains( position, laserViewProperty.value === 'wave' ) ) {
+          return this.rays.get( i ).getVelocityVector();
         }
-      } );
-      return velocity;
+      }
+      return new Vector2( 0, 0 );
     },
 
     /**
@@ -268,9 +276,9 @@ define( function( require ) {
      * @returns {[]}
      */
     getWaveValue: function( position ) {
-      var waveValue = null;
       var introModel = this;
-      this.rays.forEach( function( ray ) {
+      for ( var i = 0; i < this.rays.length; i++ ) {
+        var ray = this.rays.get( i );
         if ( ray.contains( position, introModel.laserViewProperty.value === 'wave' ) ) {
 
           // map power to displayed amplitude
@@ -284,10 +292,10 @@ define( function( require ) {
           var phase = ray.getCosArg( distanceAlongRay );
 
           // wave is a*cos(theta)
-          waveValue = [ ray.getTime(), amplitude * Math.cos( phase + Math.PI ) ];
+          return [ ray.getTime(), amplitude * Math.cos( phase + Math.PI ) ];
         }
-      } );
-      return waveValue;
+      }
+      return null;
     },
 
     /**
