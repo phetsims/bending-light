@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * View  for the "more tools" screen, which adds more tools to the toolbox, and a few more controls for the laser.
  *
@@ -26,7 +27,7 @@ define( function( require ) {
     this.arrowScale = 1.5E-14;
     IntroView.call( this, moreToolsModel, 0, true, 3 );
 
-    //Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
+    // Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
     this.velocitySensorNode = this.createVelocitySensorTool();
     this.waveSensorNode = this.createWaveSensorTool();
     this.beforeLightLayer2.addChild( this.velocitySensorNode );

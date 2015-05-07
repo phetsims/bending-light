@@ -1,7 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
- * In the "more tools" tab, the protractor can be expanded with a "+" button and returned to
- * the original size with a "-" button.
+ * In the "more tools" tab, the protractor can be expanded with a "+" button and returned to the original size with a
+ * "-" button.
  *
  * @author Sam Reid
  * @author Chandrashekar  Bemagoni (Actual Concepts).
@@ -23,26 +24,31 @@ define( function( require ) {
    * @param {function} translateShape
    * @param {function} rotateShape
    * @param {number} ICON_WIDTH
-   * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
+   * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial
+   * position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
    * @constructor
    */
-  function ExpandableProtractorNode( moreToolsView, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
+  function ExpandableProtractorNode( moreToolsView, modelViewTransform, showProtractorProperty, protractorModel,
+                                     translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
 
-    ProtractorNode.call( this, moreToolsView, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds );
+    ProtractorNode.call( this, moreToolsView, modelViewTransform, showProtractorProperty, protractorModel,
+      translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds );
     var expandableProtractorNode = this;
 
-    // add expandable /collapse  button
+    // Add expandable /collapse  button
     var expandCollapseButton = new ExpandCollapseButton( this.expandedProperty );
     this.addChild( expandCollapseButton );
 
-    expandCollapseButton.setTranslation( expandableProtractorNode.getCenterX() + this.protractorImageNode.getWidth() / 1.6,
+    expandCollapseButton.setTranslation(
+      expandableProtractorNode.getCenterX() + this.protractorImageNode.getWidth() / 1.6,
       expandableProtractorNode.getCenterY() + this.protractorImageNode.getHeight() / 5 );
 
     this.expandedProperty.link( function( expand ) {
       expandableProtractorNode.setExpanded( expand );
     } );
     this.setProtractorScale( this.multiScale );
+
     this.expandedButtonVisibilityProperty.link( function( visibility ) {
       expandCollapseButton.visible = visibility;
     } );

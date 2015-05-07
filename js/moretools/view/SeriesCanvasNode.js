@@ -1,7 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
- *    Node for drawing the series of points.
- *  * @author Chandrashekar Bemagoni  (Actual Concepts)
+ * Node for drawing the series of points.
+ * @author Chandrashekar Bemagoni  (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -10,15 +11,15 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
 
-
   /**
    *
-   * @param {ObservableArray<DataPoint>}seriesPoints
+   * @param {ObservableArray<DataPoint>} seriesPoints
    * @param {string} color
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function SeriesCanvasNode( seriesPoints, color, options ) {
+
     CanvasNode.call( this, options );
     this.seriesPoints = seriesPoints;
     this.color = color;
@@ -28,11 +29,11 @@ define( function( require ) {
 
     /**
      * Paints the  series points on the canvas node.
+     *
      * @param {CanvasContextWrapper} wrapper
      */
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
-
       var moved = false;
 
       context.beginPath();

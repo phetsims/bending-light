@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Node that shows the chart in the "more tools" screen  intensity sensor.
  *
@@ -40,7 +41,8 @@ define( function( require ) {
     series.pathProperty.link( function() {
       series.points.clear();
       series.pathProperty.get().forEach( function( value ) {
-        series.points.push( [ modelViewTransformProperty.get().modelToViewX( value.time ), modelViewTransformProperty.get().modelToViewY( value.value ) ] );
+        series.points.push( [ modelViewTransformProperty.get().modelToViewX( value.time ),
+          modelViewTransformProperty.get().modelToViewY( value.value ) ] );
       } );
       seriesNode.seriesCanvasNode.step();
     } );
@@ -88,6 +90,7 @@ define( function( require ) {
     step: function( time ) {
       this.simulationTimeChanged( time );
     },
+
     /**
      * Move over the view port as time passes
      *
@@ -107,7 +110,7 @@ define( function( require ) {
       var verticalGridLineSpacing = this.timeWidth / 4;
       var verticalGridLineSpacingDelta = this.getDelta( verticalGridLineSpacing, time );
 
-      // ddd vertical grid lines
+      // add vertical grid lines
       for ( var x = minTime - verticalGridLineSpacingDelta + verticalGridLineSpacing;
             x <= minTime + this.timeWidth; x += this.timeWidth / 4 ) {
         this.addVerticalLine( x );
@@ -124,7 +127,7 @@ define( function( require ) {
 
       this.gridCanvasNode.step();
 
-      // remove any points that have gone outside of the time window, otherwise it is a memory leak
+      // Remove any points that have gone outside of the time window, otherwise it is a memory leak
       this.series.forEach( function( series ) {
         series.keepLastSamples( minTime );
       } );
@@ -151,7 +154,7 @@ define( function( require ) {
      */
     addVerticalLine: function( x ) {
 
-      //-1 to +1 is far enough since in model coordinates
+      // -1 to +1 is far enough since in model coordinates
       this.gridPoints.push( [ x, -1, x, 1, 0, this.modelViewTransformProperty ] );
     }
   } );

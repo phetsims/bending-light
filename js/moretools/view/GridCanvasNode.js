@@ -1,7 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Draw a horizontal or vertical grid line
- *  * @author Chandrashekar Bemagoni  (Actual Concepts)
+ * @author Chandrashekar Bemagoni  (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -10,14 +11,14 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
 
-
   /**
    *
    * @param {ObservableArray<[]>} gridPoints
-   * @param options
+   * @param {Object} [options]
    * @constructor
    */
   function GridCanvasNode( gridPoints, options ) {
+
     CanvasNode.call( this, options );
     this.gridPoints = gridPoints;
   }
@@ -26,11 +27,11 @@ define( function( require ) {
 
     /**
      * Paints the gris lines on the canvas node.
+     *
      * @param {CanvasContextWrapper} wrapper
      */
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
-
 
       for ( var i = 0; i < this.gridPoints.length; i++ ) {
         context.beginPath();
@@ -44,8 +45,6 @@ define( function( require ) {
         context.stroke();
         context.closePath();
       }
-
-
     },
 
     step: function() {

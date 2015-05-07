@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * View for the Velocity Sensor tool. Measures the velocity at the sensor's tip and shows it in the display box.
  * Also points a blue arrow along the direction of the velocity and the arrow length is proportional to the velocity.
@@ -38,7 +39,7 @@ define( function( require ) {
    * @param {MoreToolsView} moreToolsView
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
-   * @param {number}arrowScale
+   * @param {number} arrowScale
    * @param {Rectangle} container
    * @param {Bounds2} dragBounds - bounds that define where the velocity sensor   may be dragged
    * @constructor
@@ -54,7 +55,7 @@ define( function( require ) {
     var rectangleWidth = 100;
     var rectangleHeight = 70;
 
-    // adding outer rectangle
+    // Adding outer rectangle
     var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 10, 10, {
       stroke: '#DC9E24',
       fill: new LinearGradient( 0, 0, 0, rectangleHeight )
@@ -65,7 +66,7 @@ define( function( require ) {
     } );
     this.addChild( outerRectangle );
 
-    //second rectangle
+    // Second rectangle
     var innerRectangle = new Rectangle( 0, 0, rectangleWidth - 8, rectangleHeight - 10, 10, 10, {
       fill: '#C98303',
       centerX: outerRectangle.centerX,
@@ -73,7 +74,7 @@ define( function( require ) {
     } );
     this.addChild( innerRectangle );
 
-    // adding velocity meter title text
+    // Adding velocity meter title text
     var titleText = new Text( speedString,
       {
         fill: 'black',
@@ -83,7 +84,7 @@ define( function( require ) {
       } );
     this.addChild( titleText );
 
-    // adding inner rectangle
+    // Adding inner rectangle
     var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth - 20, rectangleHeight - 38 ),
       {
         baseColor: 'white',
@@ -93,7 +94,7 @@ define( function( require ) {
       } );
     this.addChild( innerMostRectangle );
 
-    // adding velocity measure label
+    // Adding velocity measure label
     var labelText = new Text( '',
       { fill: 'black', font: new PhetFont( 12 ), center: innerMostRectangle.center } );
     this.addChild( labelText );
@@ -101,7 +102,7 @@ define( function( require ) {
     var triangleWidth = 30;
     var triangleHeight = 16;
 
-    // adding triangle shape
+    // Adding triangle shape
     var triangleShapeNode = new Path( new Shape()
       .moveTo( innerRectangle.centerX - triangleWidth / 2, innerMostRectangle.y + 1 )
       .lineTo( innerRectangle.centerX, triangleHeight + innerMostRectangle.y + 1 )
@@ -112,7 +113,7 @@ define( function( require ) {
     } );
     this.addChild( triangleShapeNode );
 
-    // arrow shape
+    // Arrow shape
     var arrowWidth = 6;
     this.arrowShape = new Path( new ArrowShape( 0, 0, modelViewTransform.modelToViewDeltaX( velocitySensor.value.x ),
       modelViewTransform.modelToViewDeltaY( velocitySensor.value.y ) ), { fill: 'blue' } );
@@ -123,23 +124,23 @@ define( function( require ) {
       this.arrowShape.setShape( new ArrowShape( 0, 0, pos.x, pos.y,
         { tailWidth: arrowWidth, headWidth: 2 * arrowWidth, headHeight: 2 * arrowWidth } ) );
 
-      // set the arrowShape path position so that the center of the tail coincides with the tip of the sensor
+      // Set the arrowShape path position so that the center of the tail coincides with the tip of the sensor
       if ( this.arrowShape.bounds.isFinite() ) {
-        // if the velocity y component is positive then the arrow will face up,
-        // so set the bottom of the arrow to the tip of the sensor
+        // If the velocity y component is positive then the arrow will face up, so set the bottom of the arrow to the
+        // tip of the sensor
         if ( velocity.y >= 0 ) {
           this.arrowShape.bottom = triangleShapeNode.bottom +
                                    arrowWidth / 2 * Math.cos( Math.abs( velocity.angle() ) );
         }
         else {
-          // if the velocity y component is negative then the arrow will face down,
-          // so set the top of the arrow to the tip of the sensor
+          // if the velocity y component is negative then the arrow will face down, so set the top of the arrow to the
+          // tip of the sensor
           this.arrowShape.top = triangleShapeNode.bottom -
                                 arrowWidth / 2 * Math.cos( Math.abs( velocity.angle() ) );
         }
 
-        // if the velocity x component is positive then the arrow will direct towards right
-        // so set the left of the arrow to the tip of the sensor
+        // if the velocity x component is positive then the arrow will direct towards right, so set the left of the
+        // arrow to the tip of the sensor
         if ( velocity.x > 0 ) {
           this.arrowShape.left = outerRectangle.centerX - arrowWidth / 2 * Math.sin( Math.abs( velocity.angle() ) );
         }
@@ -154,20 +155,22 @@ define( function( require ) {
 
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
 
-    // drag handler
+    // Drag handler
     this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty,
       {
         dragBounds: modelViewTransform.viewToModelBounds( dragBounds ),
         modelViewTransform: modelViewTransform,
         startDrag: function() {
           if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
-            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(), VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
+            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(),
+              VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
             velocitySensorNode.addToMoreToolsView();
           }
         },
         endDrag: function() {
           if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
-            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
+            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
+              VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
             velocitySensor.reset();
             velocitySensorNode.addToSensorPanel();
           }
@@ -179,6 +182,7 @@ define( function( require ) {
       velocitySensorNode.setTranslation( viewPosition.x - rectangleWidth / 2 * velocitySensorNode.getScaleVector().x,
         viewPosition.y - ( rectangleHeight + triangleHeight ) * velocitySensorNode.getScaleVector().y );
     } );
+
     // Update the text when the value or units changes.
     Property.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty ],
       function( velocity, position ) {
@@ -194,7 +198,7 @@ define( function( require ) {
     var viewPosition = modelViewTransform.modelToViewPosition( velocitySensor.position );
     velocitySensorNode.setTranslation( viewPosition.x - rectangleWidth / 2 * velocitySensorNode.getScaleVector().x,
       viewPosition.y - ( rectangleHeight + triangleHeight ) * velocitySensorNode.getScaleVector().y );
-    // for visually inspecting the touch area
+    // For visually inspecting the touch area
     this.touchArea = this.localBounds;
   }
 
