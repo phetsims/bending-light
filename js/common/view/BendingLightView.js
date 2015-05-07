@@ -13,7 +13,6 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Vector2 = require( 'DOT/Vector2' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Dimension2 = require( 'DOT/Dimension2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
@@ -67,12 +66,10 @@ define( function( require ) {
     var stageWidth = this.layoutBounds.width;
     var stageHeight = this.layoutBounds.height;
 
-    // use the model aspect ratio and specified stage width to create the stage dimension
-    this.stageSize = new Dimension2( stageWidth, stageHeight );
 
     // center the stage in the canvas, specifies how things scale up and down with window size, maps stage to pixels
     // create the transform from model (SI) to view (stage) coordinates
-    var scale = this.stageSize.height / this.model.getHeight();
+    var scale = stageHeight / this.model.getHeight();
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping( new Vector2( 0, 0 ),
       new Vector2( 388 - centerOffsetLeft, stageHeight / 2 ), scale );
 
@@ -81,7 +78,7 @@ define( function( require ) {
     this.addChild( this.mediumNode );
     this.incidentWaveCanvasLayer = new Node();
 
-    this.whiteLightNode = new WhiteLightNode( this.lightRayLayer, this.stageSize.width, this.stageSize.height );
+    this.whiteLightNode = new WhiteLightNode( this.lightRayLayer, stageWidth, stageHeight);
     // layering
     this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );

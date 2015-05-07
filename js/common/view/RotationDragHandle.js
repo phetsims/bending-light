@@ -43,9 +43,8 @@ define( function( require ) {
 
     // show the drag handle if the "show drag handles" is true and if
     // the laser isn't already at the max angle.
-    notAtMaximumProperty.link( function( show ) {
-      rotationDragHandle.setVisible( show );
-    } );
+    notAtMaximumProperty.linkAttribute( rotationDragHandle, 'visible' );
+
     var image = new Image( laserImage, { scale: 0.58 } );
     var dragArrow = new Path( null, { fill: '#33FF00', stroke: 'black' } );
     this.addChild( dragArrow );

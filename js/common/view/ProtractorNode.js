@@ -31,16 +31,16 @@ define( function( require ) {
    *
    * @param {BendingLightView} bendingLightView
    * @param {ModelViewTransform2} modelViewTransform transform to convert between model and view values
-   * @param {Property<Boolean>} showProtractorProperty  controls the protractor visibility
+   * @param {Property<boolean>} showProtractorProperty  controls the protractor visibility
    * @param {ProtractorModel} protractorModel model of protractor
    * @param {function} translateShape - function that returns the part of the protractor that can be used for translating it
    * @param {function} rotateShape - function that returns the part of the protractor that can be used for rotating it
-   * @param {number} ICON_WIDTH
+   * @param {number} protractorIconWidth
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
    * @constructor
    */
-  function ProtractorNode( bendingLightView, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
+  function ProtractorNode( bendingLightView, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
@@ -48,7 +48,7 @@ define( function( require ) {
     this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
     this.protractorModel = protractorModel;
-    this.multiScale = ICON_WIDTH / protractorImage.width;
+    this.multiScale = protractorIconWidth / protractorImage.width;
 
     // true if the protractor has been made larger
     this.expandedProperty = new Property( false );
@@ -57,9 +57,8 @@ define( function( require ) {
     // load and add the image
     this.protractorImageNode = new Image( protractorImage, { pickable: true } );
     protractorNode.setScaleMagnitude( this.multiScale );
-    showProtractorProperty.link( function( showProtractor ) {
-      protractorNode.protractorImageNode.setVisible( showProtractor );
-    } );
+
+    showProtractorProperty.linkAttribute( this.protractorImageNode, 'visible' );
     this.addChild( this.protractorImageNode );
 
     var protractorImageWidth = this.protractorImageNode.getWidth();
@@ -94,17 +93,20 @@ define( function( require ) {
       protractorImageWidth * 0.6, protractorImageHeight * 0.15 )
       .close();
 
-    this.innerBarShape = new Shape().rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
+    var innerBarShape = new Shape().rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
       protractorImageWidth * 0.6, protractorImageHeight * 0.15 );
 
     //  add a mouse listener for dragging when the drag region
     // (entire body in all tabs, just the inner bar on prism break tab) is dragged
-    var translatePath = new Path( translateShape( fullShape, this.innerBarShape, outerRimShape ), {
+    var translatePath = new Path( translateShape( fullShape, innerBarShape, outerRimShape ), {
       pickable: true,
       cursor: 'pointer'
     } );
     this.addChild( translatePath );
+
     var start;
+    var protractorDragBoundsInModelCoordinates = protractorNode.modelViewTransform.viewToModelBounds( dragBounds );
+
     //TODO : use MovableDragHandler instead  of SimpleDragHandler
     translatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
@@ -118,11 +120,11 @@ define( function( require ) {
         protractorNode.expandedButtonVisibilityProperty.value = true;
       },
       drag: function( event ) {
+
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
         protractorNode.dragAll( end.minus( start ) );
-        var position = ConstraintBounds.constrainLocation( protractorNode.protractorModel.position,
-          protractorNode.modelViewTransform.viewToModelBounds( dragBounds ) );
+        var position = ConstraintBounds.constrainLocation( protractorNode.protractorModel.position, protractorDragBoundsInModelCoordinates );
         protractorNode.protractorModel.positionProperty.set( position );
         start = end;
       },
@@ -144,21 +146,25 @@ define( function( require ) {
     } ) );
 
     // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism break' tab is dragged)
-    var rotatePath = new Path( rotateShape( fullShape, this.innerBarShape, outerRimShape ), {
+    var rotatePath = new Path( rotateShape( fullShape, innerBarShape, outerRimShape ), {
       pickable: true,
       cursor: 'pointer'
     } );
     this.addChild( rotatePath );
+
+    // rotate listener
     rotatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
-        //Compute the change in angle based on the new drag event
+
+        // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
         var startAngle = protractorNode.center.minus( start ).angle();
         var angle = protractorNode.center.minus( end ).angle();
-        //Rotate the protractor model
+
+        // rotate the protractor model
         protractorModel.angle += angle - startAngle;
         start = end;
       }

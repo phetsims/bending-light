@@ -30,7 +30,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-
   var HStrut = require( 'SUN/HStrut' );
 
   // strings
@@ -51,7 +50,7 @@ define( function( require ) {
 
   /**
    *
-   * @param  view
+   * @param   view
    * @param {Property<Medium>} mediumProperty
    * @param {string} name  - name of the medium material
    * @param {boolean} textFieldVisible
@@ -65,7 +64,7 @@ define( function( require ) {
     Node.call( this );
     var mediumControlPanel = this;
 
-    var MAX_WIDTH = textFieldVisible ? 213 : 170;
+    var TEXT_MAX_WIDTH = textFieldVisible ? 213 : 170;
 
     options = _.extend( {
       xMargin: 10,
@@ -93,7 +92,7 @@ define( function( require ) {
       materialTitle.scale( (textFieldVisible ? 50 : 73 ) / materialTitle.width );
     }
 
-    var maxWidth = MAX_WIDTH - materialTitle.width - 42;
+    var maxWidth = TEXT_MAX_WIDTH - materialTitle.width - 42;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
     var createItem = function( item ) {
@@ -152,8 +151,8 @@ define( function( require ) {
     var textOptions = { font: new PhetFont( 12 ) };
     var indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
 
-    if ( indexOfRefractionLabel.width > (textFieldVisible ? MAX_WIDTH - 100 : MAX_WIDTH) ) {
-      indexOfRefractionLabel.scale( (textFieldVisible ? MAX_WIDTH - 100 : MAX_WIDTH) / indexOfRefractionLabel.width );
+    if ( indexOfRefractionLabel.width > (textFieldVisible ? TEXT_MAX_WIDTH - 100 : TEXT_MAX_WIDTH) ) {
+      indexOfRefractionLabel.scale( (textFieldVisible ? TEXT_MAX_WIDTH - 100 : TEXT_MAX_WIDTH) / indexOfRefractionLabel.width );
     }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
     var indexOfRefractionValueText = new Text( this.mediumIndexProperty.get().toFixed( format ), textOptions );

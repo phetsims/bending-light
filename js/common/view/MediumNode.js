@@ -24,18 +24,14 @@ define( function( require ) {
     Node.call( this );
 
     // add the shape that paints the medium
-    var color = mediumProperty.value.color;
-    var mediumRectangleNode = new Path( modelViewTransform.modelToViewShape( mediumProperty.value.shape ),
-      {
-        stroke: 'gray',
-        fill: new Color( color.getRed(), color.getGreen(), color.getBlue() )
-      } );
+    var mediumRectangleNode = new Path( modelViewTransform.modelToViewShape( mediumProperty.value.shape ), {
+      stroke: 'gray',
+      fill: mediumProperty.value.color
+    } );
     this.addChild( mediumRectangleNode );
+
     mediumProperty.link( function( medium ) {
-      mediumRectangleNode.fill = new Color(
-        medium.color.getRed(),
-        medium.color.getGreen(),
-        medium.color.getBlue() );
+      mediumRectangleNode.fill = medium.color;
     } );
 
     // user can't interact with the medium except through control panels.

@@ -100,6 +100,10 @@ define( function( require ) {
       rotationRegionShape, 'laser',
       centerOffsetLeft );
 
+
+    var stageWidth = this.layoutBounds.width;
+    var stageHeight = this.layoutBounds.height;
+
     // add MediumNodes for top and bottom
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMediumProperty ) );
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
@@ -107,14 +111,14 @@ define( function( require ) {
     // add control panels for setting the index of refraction for each medium
     var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
-    topMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - 2 * INSET,
+    topMediumControlPanel.setTranslation( stageWidth - topMediumControlPanel.getWidth() - 2 * INSET,
       this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() );
     this.afterLightLayer2.addChild( topMediumControlPanel );
 
     // add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
-    bottomMediumControlPanel.setTranslation( this.stageSize.width - topMediumControlPanel.getWidth() - 2 * INSET,
+    bottomMediumControlPanel.setTranslation(stageWidth - topMediumControlPanel.getWidth() - 2 * INSET,
       this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
@@ -129,7 +133,7 @@ define( function( require ) {
       } ) ) );
 
     // show the normal line where the laser strikes the interface between mediums
-    var normalLineHeight = this.stageSize.height / 2;
+    var normalLineHeight =stageHeight / 2;
     var normalLine = new NormalLine( normalLineHeight );
     normalLine.setTranslation( this.modelViewTransform.modelToViewX( 0 ),
       this.modelViewTransform.modelToViewY( 0 ) - normalLineHeight / 2 );

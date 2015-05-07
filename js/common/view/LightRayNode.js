@@ -32,13 +32,13 @@ define( function( require ) {
     this.viewStart = modelViewTransform.modelToViewPosition( this.lightRay.tip );
     this.viewEnd = modelViewTransform.modelToViewPosition( this.lightRay.tail );
 
+    // light ray color
+    var rayColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), Math.sqrt( lightRay.getPowerFraction() ) );
+
     var path = new Path( new Shape().moveTo( this.viewStart.x, this.viewStart.y )
       .lineTo( this.viewEnd.x, this.viewEnd.y ), {
-      fill: new Color( color.getRed(), color.getGreen(), color.getBlue(),
-        Math.sqrt( lightRay.getPowerFraction() ) ),
       lineWidth: modelViewTransform.modelToViewDeltaX( lightRay.getRayWidth() ),
-      stroke: new Color( color.getRed(), color.getGreen(), color.getBlue(),
-        Math.sqrt( lightRay.getPowerFraction() ) )
+      stroke: rayColor
     } );
     // add the PPath
     this.addChild( path );

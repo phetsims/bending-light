@@ -33,8 +33,8 @@ define( function( require ) {
    *
    * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
    * @param {Laser}laser - model for the laser
-   * @param { Property<Boolean> } showRotationDragHandlesProperty - to show laser node rotate arrows(direction which laser node can rotate)
-   * @param { Property<Boolean> } showTranslationDragHandlesProperty -to show laser node drag arrows(direction which laser node can drag)
+   * @param { Property<boolean> } showRotationDragHandlesProperty - to show laser node rotate arrows(direction which laser node can rotate)
+   * @param { Property<boolean> } showTranslationDragHandlesProperty -to show laser node drag arrows(direction which laser node can drag)
    * @param {function} clampDragAngle
    * @param {function} translationRegion - select from the entire region and front region which should be used for translating the laser
    * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating the laser
@@ -54,16 +54,19 @@ define( function( require ) {
     this.addChild( lightImage );
     lightImage.rotateAround( lightImage.getCenter(), Math.PI );
 
-    //Drag handlers can choose which of these regions to use for drag events
+    var lightImageWidth = lightImage.getWidth();
+    var lightImageHeight = lightImage.getHeight();
+
+    // drag handlers can choose which of these regions to use for drag events
     var fractionBackToRotateHandle = 34.0 / 177.0;
     var frontRectangle = new Shape.rect( 0, 0,
-      lightImage.getWidth() * (1 - fractionBackToRotateHandle), lightImage.getHeight() );
-    var backRectangle = new Shape.rect( lightImage.getWidth() * (1 - fractionBackToRotateHandle),
-      0,
-      lightImage.getWidth() * fractionBackToRotateHandle, lightImage.getHeight() );
-    var fullRectangle = new Shape.rect( 0, 0, lightImage.getWidth(), lightImage.getHeight() );
+      lightImageWidth * (1 - fractionBackToRotateHandle), lightImageHeight );
 
-    // Add the drag region for translating the laser
+    var backRectangle = new Shape.rect( lightImageWidth * (1 - fractionBackToRotateHandle), 0,
+      lightImageWidth * fractionBackToRotateHandle, lightImageHeight );
+    var fullRectangle = new Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
+
+    // add the drag region for translating the laser
     var start;
     var translationRegionPath = new Path( translationRegion( fullRectangle, frontRectangle ), { fill: dragRegionColor } );
     translationRegionPath.addInputListener( new SimpleDragHandler( {
@@ -110,7 +113,7 @@ define( function( require ) {
         var angle = modelPoint.minus( laser.pivot ).angle();
         var after = clampDragAngle( angle );
 
-        //Prevent laser from going to 90 degrees when in wave mode,
+        // prevent laser from going to 90 degrees when in wave mode,
         // should go until laser bumps into edge.
         if ( laser.wave && after > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
           after = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
@@ -137,7 +140,7 @@ define( function( require ) {
       var emissionPoint = modelViewTransform.modelToViewPosition( newEmissionPoint );
       laserNode.setTranslation( emissionPoint.x, emissionPoint.y );
       laserNode.setRotation( -laser.getAngle() );
-      laserNode.translate( 0, -lightImage.getHeight() / 2 );
+      laserNode.translate( 0, -lightImageHeight / 2 );
     } );
 
     // add light emission on/off button
@@ -152,6 +155,8 @@ define( function( require ) {
         touchExpansion: 10
       } );
     this.addChild( redButton );
+
+    // touch area
     this.touchArea = this.localBounds;
   }
 

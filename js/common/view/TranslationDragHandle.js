@@ -33,9 +33,9 @@ define( function( require ) {
 
     Node.call( this );
     var translationDragHandle = this;
-    showDragHandlesProperty.link( function( show ) {
-      translationDragHandle.setVisible( show );
-    } );
+
+    showDragHandlesProperty.linkAttribute( translationDragHandle, 'visible' );
+
     var image = new Image( laserImage );
 
     var counterClockwiseDragArrow = new ArrowNode( 0, 0, 0, 0, {
