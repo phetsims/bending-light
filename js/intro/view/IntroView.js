@@ -188,7 +188,7 @@ define( function( require ) {
 
     // initial tools
     var protractorNodeX = hasMoreTools ? this.sensorPanel.centerX : this.sensorPanel.centerX;
-    var protractorNodeY = hasMoreTools ? this.sensorPanel.y + 40 : this.sensorPanel.y + 48
+    var protractorNodeY = hasMoreTools ? this.sensorPanel.y + 40 : this.sensorPanel.y + 48;
     var protractorModelPositionX = this.modelViewTransform.viewToModelX( protractorNodeX );
     var protractorModelPositionY = this.modelViewTransform.viewToModelY( protractorNodeY );
     this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
