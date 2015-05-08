@@ -57,13 +57,6 @@ define( function( require ) {
 
     /**
      * @public
-     */
-    reset: function() {
-      PropertySet.prototype.reset.call( this );
-    },
-
-    /**
-     *@public
      * @param {Vector2} delta
      */
     translate: function( delta ) {

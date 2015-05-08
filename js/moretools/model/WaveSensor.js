@@ -55,13 +55,6 @@ define( function( require ) {
     addSample: function( sample ) {
       this.series.push( sample );
       this.seriesProperty._notifyObservers();
-    },
-
-    /**
-     * @override
-     */
-    reset: function() {
-      PropertySet.prototype.reset.call( this );
     }
   } );
 

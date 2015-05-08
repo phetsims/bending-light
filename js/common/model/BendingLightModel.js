@@ -192,10 +192,11 @@ define( function( require ) {
 
       /**
        * @public
+       * @override
        */
       reset: function() {
-        this.laser.reset();
         PropertySet.prototype.reset.call( this );
+        this.laser.reset();
         this.intensityMeter.reset();
       }
     },

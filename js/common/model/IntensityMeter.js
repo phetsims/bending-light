@@ -111,13 +111,6 @@ define( function( require ) {
       translateAll: function( dimension2D ) {
         this.translateBody( dimension2D );
         this.translateSensor( dimension2D );
-      },
-
-      /**
-       * @public
-       */
-      reset: function() {
-        PropertySet.prototype.reset.call( this );
       }
     },
     {

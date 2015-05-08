@@ -244,6 +244,7 @@ define( function( require ) {
 
     /**
      * @public
+     * @override
      */
     reset: function() {
       BendingLightModel.prototype.reset.call( this );

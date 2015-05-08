@@ -32,19 +32,11 @@ define( function( require ) {
   return inherit( PropertySet, VelocitySensor, {
 
     /**
-     *
+     * @public
      * @param {Vector2} delta
      */
     translate: function( delta ) {
       this.positionProperty.set( this.position.plus( delta ) );
-    },
-
-    /**
-     * @override
-     */
-    reset: function() {
-      PropertySet.prototype.reset.call( this );
     }
   } );
-} )
-;
+} );

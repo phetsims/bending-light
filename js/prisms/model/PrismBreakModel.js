@@ -92,8 +92,10 @@ define( function( require ) {
 
     /**
      * @public
+     * @override
      */
     reset: function() {
+      BendingLightModel.prototype.reset.call( this );
       this.prisms.clear();
       this.manyRaysProperty.reset();
       this.environmentMediumProperty.reset();
@@ -102,7 +104,7 @@ define( function( require ) {
       this.protractorModel.reset();
       this.showNormalsProperty.reset();
       this.showProtractorProperty.reset();
-      BendingLightModel.prototype.reset.call( this );
+
     },
 
     /**
@@ -361,7 +363,7 @@ define( function( require ) {
     /**
      * Signify that another ray/interface collision occurred
      *
-     * @param intersection
+     * @param {Intersection} intersection
      */
     addIntersection: function( intersection ) {
       this.intersections.add( intersection );

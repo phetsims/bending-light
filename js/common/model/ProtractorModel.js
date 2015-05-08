@@ -33,19 +33,12 @@ define( function( require ) {
 
 
     /**
-     *@public
+     * @public
      * @param {Vector2} delta
      */
     translate: function( delta ) {
       this.positionProperty.set( this.positionProperty.value.plus( delta ) );
       this.positionProperty._notifyObservers();
-    },
-
-    /**
-     * @public
-     */
-    reset: function() {
-      PropertySet.prototype.reset.call( this );
     }
   } );
 } );
