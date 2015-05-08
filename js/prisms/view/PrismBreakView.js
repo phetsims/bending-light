@@ -76,7 +76,8 @@ define( function( require ) {
     // Add control panels for setting the index of refraction for each medium
     var environmentMediumControlPanel = new MediumControlPanel( this, prismBreakModel.environmentMediumProperty,
       environmentString, false, prismBreakModel.wavelengthProperty, IndexOfRefractionDecimals, {
-        xMargin: 7
+        xMargin: 7,
+        yMargin: 6
       } );
     environmentMediumControlPanel.setTranslation(
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );

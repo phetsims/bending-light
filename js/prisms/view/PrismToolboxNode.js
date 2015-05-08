@@ -55,7 +55,7 @@ define( function( require ) {
 
     Node.call( this );
     var content = new HBox( {
-      spacing: 8
+      spacing: 8.4
     } );
     var prismPath = [];
 
@@ -137,7 +137,8 @@ define( function( require ) {
       prismBreakModel.wavelengthProperty,
       2, {
         lineWidth: 0,
-        xMargin: 0
+        xMargin: 0,
+        yMargin: 4
       } );
     this.objectMediumControlPanel = objectMediumControlPanel;
     var dividerBetweenPrismsAndPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10, 10, {
@@ -215,7 +216,7 @@ define( function( require ) {
 
     // pad all the rows so the text nodes are left aligned and the icons is right aligned
     var checkBoxes = new VBox( {
-      align: 'left', spacing: 10,
+      align: 'left', spacing: 4,
       children: [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ]
     } );
     content.addChild( checkBoxes );

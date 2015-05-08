@@ -144,7 +144,7 @@ define( function( require ) {
     } );
 
     var content = new VBox( {
-      spacing: 10,
+      spacing: 8.4,
       children: [ whiteLightRadio, oneColorRadio, wavelengthValue ],
       align: 'left'
     } );
