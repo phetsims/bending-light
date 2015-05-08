@@ -33,10 +33,11 @@ define( function( require ) {
     this.beforeLightLayer2.addChild( this.velocitySensorNode );
     this.beforeLightLayer2.addChild( this.waveSensorNode );
 
-    this.moreToolsModel.waveSensor.visibleProperty.link( function( isvisble ) {
-      moreToolsView.playPauseButton.visible = isvisble;
-      moreToolsView.stepButton.visible = isvisble;
-      moreToolsView.speedControl.visible = isvisble;
+    moreToolsModel.waveSensor.visibleProperty.link( function( isVisible ) {
+      var isButtonsVisible = isVisible || moreToolsModel.laserViewProperty.value === 'wave';
+      moreToolsView.playPauseButton.visible = isButtonsVisible;
+      moreToolsView.stepButton.visible = isButtonsVisible;
+      moreToolsView.speedControl.visible = isButtonsVisible;
     } );
 
   }
