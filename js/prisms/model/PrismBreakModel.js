@@ -251,8 +251,8 @@ define( function( require ) {
     },
 
     /**
-     * Determine if the laser beam originates within a prism for purpose of
-     * determining what index of refraction to use initially
+     * Determine if the laser beam originates within a prism for purpose of determining what index of refraction to use
+     * initially
      *
      * @returns {boolean}
      */
@@ -267,9 +267,8 @@ define( function( require ) {
     },
 
     /**
-     * Recursive algorithm to compute the pattern of rays in the system.
-     * This is the main computation of this model, rays are cleared beforehand
-     * and this algorithm adds them as it goes
+     * Recursive algorithm to compute the pattern of rays in the system. This is the main computation of this model,
+     * rays are cleared beforehand and this algorithm adds them as it goes
      * @private
      * @param {Ray} incidentRay
      * @param {number} count

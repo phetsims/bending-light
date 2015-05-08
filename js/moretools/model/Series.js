@@ -12,8 +12,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
   var ObservableArray = require( 'AXON/ObservableArray' );
 
   /**
@@ -33,34 +31,6 @@ define( function( require ) {
 
     getColor: function() {
       return this.color;
-    },
-
-    /**
-     * Create a Shape from the series
-     *
-     * @returns {Path}
-     */
-    toShape: function() {
-      var generalPath = new Shape();
-      var moved = false;
-
-      //Lift the pen off the paper for None values
-      this.pathProperty.get().forEach( function( value ) {
-        var point = new Vector2();
-        if ( value ) {
-          var dataPoint = value;
-          point.x = dataPoint.time;
-          point.y = dataPoint.value;
-          if ( !moved ) {
-            generalPath.moveToPoint( point );
-            moved = true;
-          }
-          else {
-            generalPath.lineToPoint( point );
-          }
-        }
-      } );
-      return generalPath;
     },
 
     /**

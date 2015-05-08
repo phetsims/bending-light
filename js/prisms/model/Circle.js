@@ -34,7 +34,7 @@ define( function( require ) {
      * @returns {Shape}
      */
     toShape: function() {
-      return new Shape.ellipse( this.center.x, this.center.y, this.radius, this.radius );
+      return Shape.ellipse( this.center.x, this.center.y, this.radius, this.radius );
     },
 
     /**
@@ -75,7 +75,7 @@ define( function( require ) {
     },
 
     /**
-     *@public
+     * @public
      * @param {number} angle
      * @param {Vector2} rotationPoint
      * @returns {Circle}
@@ -114,4 +114,3 @@ define( function( require ) {
     }
   } );
 } );
-

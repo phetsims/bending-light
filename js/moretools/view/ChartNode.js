@@ -29,13 +29,14 @@ define( function( require ) {
    *
    * @param {Series} series
    * @param {Property.<ModelViewTransform2>} modelViewTransformProperty
+   * @param {Bounds2} chartBounds
    * @constructor
    */
-  function SeriesNode( series, modelViewTransformProperty ) {
+  function SeriesNode( series, modelViewTransformProperty, chartBounds ) {
     var seriesNode = this;
     Node.call( this );
     this.seriesCanvasNode = new SeriesCanvasNode( series.points, series.getColor().toCSS(), {
-      canvasBounds: new Bounds2( 0, 0, 150, 100 )
+      canvasBounds: chartBounds
     } );
     this.addChild( this.seriesCanvasNode );
     series.pathProperty.link( function() {
@@ -63,21 +64,21 @@ define( function( require ) {
     this.chartBounds = chartBounds;
     this.series = series;
 
-    // amount of time to show on the horizontal axis of the chart
+    // Amount of time to show on the horizontal axis of the chart
     this.timeWidth = 72E-16;
     this.gridPoints = new ObservableArray();
 
-    this.gridCanvasNode = new GridCanvasNode( this.gridPoints, {
-      canvasBounds: new Bounds2( 0, 0, 150, 100 )
+    this.gridCanvasNode = new GridCanvasNode( this.gridPoints, [ DASH_ON, DASH_OFF ], {
+      canvasBounds: chartBounds
     } );
     this.addChild( this.gridCanvasNode );
-    // mapping from model (SI) to chart coordinates
+    // Mapping from model (SI) to chart coordinates
     this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping(
       new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
-    // add nodes for the grid lines and series's
+    // Add nodes for the grid lines and series's
     series.forEach( function( s ) {
-      chartNode.addChild( new SeriesNode( s, chartNode.modelViewTransformProperty ) );
+      chartNode.addChild( new SeriesNode( s, chartNode.modelViewTransformProperty, chartNode.chartBounds ) );
     } );
   }
 
@@ -98,29 +99,29 @@ define( function( require ) {
      */
     simulationTimeChanged: function( time ) {
 
-      // update the mapping from model to chart
+      // Update the mapping from model to chart
       var minTime = time - this.timeWidth;
       this.modelViewTransformProperty.set( ModelViewTransform2.createRectangleMapping(
         new Bounds2( minTime, -1, minTime + this.timeWidth, 1 ), this.chartBounds ) );
 
-      // clear grid lines points and add them back in the new positions
+      // Clear grid lines points and add them back in the new positions
       this.gridPoints.clear();
 
-      // distance between vertical grid lines
+      // Distance between vertical grid lines
       var verticalGridLineSpacing = this.timeWidth / 4;
       var verticalGridLineSpacingDelta = this.getDelta( verticalGridLineSpacing, time );
 
-      // add vertical grid lines
+      // Add vertical grid lines
       for ( var x = minTime - verticalGridLineSpacingDelta + verticalGridLineSpacing;
-            x <= minTime + this.timeWidth; x += this.timeWidth / 4 ) {
+            x <= minTime + this.timeWidth; x += verticalGridLineSpacing ) {
         this.addVerticalLine( x );
       }
 
-      // add one horizontal grid line
+      // Add one horizontal grid line
       var horizontalGridLineDelta = this.getDelta(
         this.modelViewTransformProperty.get().viewToModelDeltaX( DASH_ON + DASH_OFF ), time );
 
-      // horizontal axis
+      // Horizontal axis
       this.gridPoints.push( [ minTime, 0, minTime + this.timeWidth, 0,
         this.modelViewTransformProperty.get().modelToViewDeltaX( horizontalGridLineDelta ),
         this.modelViewTransformProperty ] );
@@ -132,7 +133,6 @@ define( function( require ) {
         series.keepLastSamples( minTime );
       } );
     },
-
 
     /**
      * Compute the phase offset so that grid lines appear to be moving at the right speed

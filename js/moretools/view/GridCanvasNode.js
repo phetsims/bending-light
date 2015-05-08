@@ -2,6 +2,7 @@
 
 /**
  * Draw a horizontal or vertical grid line
+ *
  * @author Chandrashekar Bemagoni  (Actual Concepts)
  */
 define( function( require ) {
@@ -14,13 +15,15 @@ define( function( require ) {
   /**
    *
    * @param {ObservableArray<[]>} gridPoints
+   * @param {number[]} strokeDash
    * @param {Object} [options]
    * @constructor
    */
-  function GridCanvasNode( gridPoints, options ) {
+  function GridCanvasNode( gridPoints, strokeDash, options ) {
 
     CanvasNode.call( this, options );
     this.gridPoints = gridPoints;
+    this.strokeDash = strokeDash;
   }
 
   return inherit( CanvasNode, GridCanvasNode, {
@@ -40,7 +43,7 @@ define( function( require ) {
         context.lineTo( grid[ 5 ].get().modelToViewX( grid[ 2 ] ), grid[ 5 ].get().modelToViewY( grid[ 3 ] ) );
         context.strokeStyle = 'lightGray';
         context.lineWidth = 2;
-        context.setLineDash( [ 10, 5 ] );
+        context.setLineDash( this.strokeDash );
         context.lineDashOffset = grid[ 4 ];
         context.stroke();
         context.closePath();

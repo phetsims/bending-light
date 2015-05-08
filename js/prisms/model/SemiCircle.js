@@ -28,8 +28,7 @@ define( function( require ) {
 
     this.points = points;
 
-    // index for the point used as the "reference" point,
-    // which is used as the drag handle corner for rotation
+    // index for the point used as the "reference" point, which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
     this.radius = radius;
   }

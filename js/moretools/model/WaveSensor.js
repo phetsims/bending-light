@@ -1,8 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Sensor for wave values, reads the wave amplitude as a function of time and location.
- * Two probes can be used to compare values.
+ * Sensor for wave values, reads the wave amplitude as a function of time and location. Two probes can be used to
+ * compare values.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
@@ -31,7 +31,7 @@ define( function( require ) {
       }
     );
 
-    // Note:  Created here to reduce Vector2 allocations
+    // Note: Created here to reduce Vector2 allocations
     this.probePosition = new Vector2( 0, 0 );
   }
 

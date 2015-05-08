@@ -13,7 +13,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
-  var Vector2 = require( 'DOT/Vector2' );
   var WaveSensor = require( 'BENDING_LIGHT/moretools/model/WaveSensor' );
   var VelocitySensor = require( 'BENDING_LIGHT/moretools/model/VelocitySensor' );
   var Property = require( 'AXON/Property' );
@@ -30,7 +29,7 @@ define( function( require ) {
     // bend
     IntroModel.call( this, BendingLightModel.GLASS, false );
 
-    this.velocitySensor = new VelocitySensor( new Vector2( 0, 0 ) );
+    this.velocitySensor = new VelocitySensor();
     var waveValueGetter = function( position ) {
       return moreToolsModel.getWaveValue( position );
     };

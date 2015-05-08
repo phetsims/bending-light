@@ -18,9 +18,9 @@ define( function( require ) {
   /**
    *
    * @param {MoreToolsView} moreToolsView - main view of more tools screen
-   * @param {ModelViewTransform2} modelViewTransform transform to convert between model and view values
-   * @param {Property<boolean>} showProtractorProperty  controls the protractor visibility
-   * @param {ProtractorModel} protractorModel model of protractor
+   * @param {ModelViewTransform2} modelViewTransform - convert between model and view values
+   * @param {Property<boolean>} showProtractorProperty - controls the protractor visibility
+   * @param {ProtractorModel} protractorModel - model of protractor
    * @param {function} translateShape
    * @param {function} rotateShape
    * @param {number} ICON_WIDTH

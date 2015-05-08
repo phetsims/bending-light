@@ -14,11 +14,11 @@ define( function( require ) {
 
   /**
    *
-   * @param {Vector2}  tail -ray tail position
+   * @param {Vector2} tail - ray tail position
    * @param {Vector2} directionUnitVector -ray direction
-   * @param {number} power -power of the ray
+   * @param {number} power - power of the ray
    * @param {number} wavelength - wavelength of ray
-   * @param {number} mediumIndexOfRefraction = index of refraction of medium
+   * @param {number} mediumIndexOfRefraction - index of refraction of medium
    * @param {number} frequency
    * @constructor
    */

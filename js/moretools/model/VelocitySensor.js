@@ -14,14 +14,14 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   /**
-   * @param {Vector2} value Velocity as measured by the sensor
+   *
    * @constructor
    */
-  function VelocitySensor( value ) {
+  function VelocitySensor() {
 
     PropertySet.call( this, {
       position: new Vector2( -0.000018, -0.0000044 ), //position of the sensor
-      value: value
+      value: new Vector2( 0, 0 ) // velocity as measured by the sensor
     } );
 
     this.addDerivedProperty( 'isArrowVisible', [ 'value' ], function( value ) {
