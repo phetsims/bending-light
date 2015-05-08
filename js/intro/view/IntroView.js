@@ -110,16 +110,20 @@ define( function( require ) {
 
     // add control panels for setting the index of refraction for each medium
     var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty,
-      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
+      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
+        yMargin: 7
+      } );
     topMediumControlPanel.setTranslation( stageWidth - topMediumControlPanel.getWidth() - 2 * INSET,
-      this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() );
+      this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() + 4 );
     this.afterLightLayer2.addChild( topMediumControlPanel );
 
     // add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty,
-      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals );
+      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
+        yMargin: 7
+      } );
     bottomMediumControlPanel.setTranslation(stageWidth - topMediumControlPanel.getWidth() - 2 * INSET,
-      this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET );
+      this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET + 1 );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
     // add a line that will show the border between the mediums even when both n's are the same... Just a thin line
