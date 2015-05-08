@@ -57,10 +57,10 @@ define( function( require ) {
         // Get the line values to make the next part more readable
         var start = child.getLine().start;
         var end = child.getLine().end;
-        var x1 = Math.floor( start.x );
-        var y1 = Math.floor( start.y );
-        var x2 = Math.floor( end.x );
-        var y2 = Math.floor( end.y );
+        var x1 = Math.round( start.x );
+        var y1 = Math.round( start.y );
+        var x2 = Math.round( end.x );
+        var y2 = Math.round( end.y );
 
         // Some lines don't start in the play area; have to check and swap to make sure the line isn't pruned
         if ( this.isOutOfBounds( x1, y1 ) ) {
