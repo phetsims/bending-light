@@ -58,7 +58,7 @@ define( function( require ) {
     this.protractorImageNode = new Image( protractorImage, { pickable: true } );
     protractorNode.setScaleMagnitude( this.multiScale );
 
-    showProtractorProperty.linkAttribute( this.protractorImageNode, 'visible' );
+    showProtractorProperty.linkAttribute( this, 'visible' );
     this.addChild( this.protractorImageNode );
 
     var protractorImageWidth = this.protractorImageNode.getWidth();
@@ -257,16 +257,6 @@ define( function( require ) {
        */
       dragAll: function( delta ) {
         this.protractorModel.translate( this.modelViewTransform.viewToModelDelta( delta ) );
-      },
-
-      /**
-       * Change the visibility and pickability of this ProtractorNode
-       *
-       * @param {boolean} isVisible
-       */
-      setVisible: function( isVisible ) {
-        this.setVisible( isVisible );
-        this.setPickable( isVisible );
       }
     },
     // statics
