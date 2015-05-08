@@ -73,12 +73,11 @@ define( function( require ) {
 
     //  Touch areas
     var touchExpansion = 5;
-    oneColorRadio.touchArea = new Bounds2(
-      ( oneColorRadio.localBounds.minX - touchExpansion ),
-      oneColorRadio.localBounds.minY,
-      ( oneColorRadio.localBounds.minX + maxRadioButtonWidth ),
-      oneColorRadio.localBounds.maxY
-    );
+    oneColorRadio.touchArea = new Bounds2( ( oneColorRadio.localBounds.minX - touchExpansion ), oneColorRadio.localBounds.minY,
+      ( oneColorRadio.localBounds.minX + maxRadioButtonWidth ), oneColorRadio.localBounds.maxY );
+
+    whiteLightRadio.touchArea = new Bounds2( ( whiteLightRadio.localBounds.minX - touchExpansion ), whiteLightRadio.localBounds.minY,
+      ( whiteLightRadio.localBounds.minX + maxRadioButtonWidth ), whiteLightRadio.localBounds.maxY );
 
     this.wavelengthProperty = new Property( wavelengthProperty.value * 1E9 );
 
