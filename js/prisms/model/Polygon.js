@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
- * Shape that comprises a prism.
- * Immutable here but composed with a Property<Polygon> in Prism for mutability.
+ * Shape that comprises a prism. Immutable here but composed with a Property<Polygon> in Prism for mutability.
  *
  * @author Sam Reid
  * @author Chandrashekar Bemagoni {Actual Concepts}
@@ -26,16 +26,16 @@ define( function( require ) {
   function Polygon( referencePointIndex, points ) {
 
     this.points = points;
-    // index for the point used as the "reference" point,
-    // which is used as the drag handle corner for rotation
+    // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
 
-    // centroid of the shape
+    // Centroid of the shape
     this.centroid = new Vector2( 0, 0 );
     this.vectorAboutCentroid = new Vector2( 0, 0 );
   }
 
   return inherit( Object, Polygon, {
+
     /**
      * @public
      * @returns {Shape}
@@ -61,7 +61,7 @@ define( function( require ) {
     },
 
     /**
-     *@public
+     * @public
      * @param {Vector2} delta
      * @returns {Polygon}
      */
@@ -76,7 +76,7 @@ define( function( require ) {
 
     /**
      * Gets a rotated copy of this polygon
-     *@public
+     * @public
      * @param {number} angle
      * @param {Vector2} rotationPoint
      * @returns {Polygon}
@@ -92,18 +92,6 @@ define( function( require ) {
       return new Polygon( this.referencePointIndex, newPoints );
     },
 
-    /**
-     * Lists the corner points
-     *
-     * @returns {Array}
-     */
-    toPointArray: function() {
-      var array = [];
-      for ( var i = 0; i < this.points.length; i++ ) {
-        array[ i ] = this.points[ i ];
-      }
-      return array;
-    },
 
     /**
      *
@@ -111,8 +99,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     containsPoint: function( point ) {
-      var intersection = this.toShape().intersection( new Ray2( point, Vector2.X_UNIT ) );
-      return intersection.length % 2 === 1;
+      return this.toShape().containsPoint( point );
     },
 
     /**
@@ -209,10 +196,6 @@ define( function( require ) {
         lineSegments.push( new Line( this.points[ i ], this.points[ next ] ) );
       }
       return lineSegments;
-    },
-
-    getBounds: function() {
-      return this.toShape().bounds;
     }
   } );
 } );

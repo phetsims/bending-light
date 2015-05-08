@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Series of data points to be shown in the wave sensor chart.
  *
@@ -12,7 +13,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
-  var DataPoint = require( 'BENDING_LIGHT/moretools/model/DataPoint' );
   var Vector2 = require( 'DOT/Vector2' );
   var ObservableArray = require( 'AXON/ObservableArray' );
 
@@ -30,19 +30,13 @@ define( function( require ) {
   }
 
   return inherit( Object, Series, {
+
     getColor: function() {
       return this.color;
     },
+
     /**
-     *
-     * @param {number} time
-     * @param {number} value
-     */
-    addPoint: function( time, value ) {
-      this.pathProperty.set( this.pathProperty.get().push( new DataPoint( time, value ) ) );
-    },
-    /**
-     * Create a GeneralPath from the series
+     * Create a Shape from the series
      *
      * @returns {Path}
      */

@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Shape that comprises a prism.
  *
@@ -15,7 +16,6 @@ define( function( require ) {
   var Arc = require( 'KITE/segments/Arc' );
   var Ray2 = require( 'DOT/Ray2' );
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    *
@@ -32,10 +32,10 @@ define( function( require ) {
     // which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
     this.radius = radius;
-
   }
 
   return inherit( Object, SemiCircle, {
+
     /**
      * @public
      */
@@ -58,7 +58,7 @@ define( function( require ) {
     },
 
     /**
-     *@public
+     * @public
      * @param {Vector2} delta
      * @returns {SemiCircle}
      */
@@ -73,7 +73,7 @@ define( function( require ) {
 
     /**
      * Gets a rotated copy of this SemiCircle
-     *@public
+     * @public
      * @param {number} angle
      * @param {Vector2} rotationPoint
      * @returns {SemiCircle}
@@ -94,8 +94,7 @@ define( function( require ) {
      * @returns {*}
      */
     containsPoint: function( point ) {
-      var intersection = this.toShape().intersection( new Ray2( point, Vector2.X_UNIT ) );
-      return intersection.length % 2 === 1;
+      return this.toShape().containsPoint( point );
     },
 
     /**
@@ -119,7 +118,7 @@ define( function( require ) {
 
     /**
      * Compute the intersections of the specified ray with this polygon's edges
-     *@public
+     * @public
      * @param {Ray} ray
      * @returns {Array}
      */
@@ -152,10 +151,6 @@ define( function( require ) {
         }
       }
       return intersections;
-    },
-
-    getBounds: function() {
-      return this.toShape().bounds;
     }
   } );
 } );

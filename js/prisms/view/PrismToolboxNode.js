@@ -45,7 +45,7 @@ define( function( require ) {
   /**
    *
    * @param {PrismBreakView} prismBreakView - main view of the prism screen
-   * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
+   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {PrismBreakModel} prismBreakModel - model of the prism screen
    * @param {Object} [options ] that can be passed on to the underlying node
    * @constructor
@@ -59,7 +59,7 @@ define( function( require ) {
     } );
     var prismPath = [];
 
-    // create prism icon
+    // Create prism icon
     var createPrismIcon = function( prism ) {
       var prismIconNode = new Node( { cursor: 'pointer' } );
       var knobHeight = 15;
@@ -68,13 +68,13 @@ define( function( require ) {
         stroke: '#ABA8D6'
       } ) );
 
-      // knob image
+      // Knob image
       var knobNode = new Image( KnobImage );
       if ( prism.shapeProperty.get().getReferencePoint() ) {
         prismIconNode.addChild( knobNode );
       }
-      if ( prism.shapeProperty.get().getReferencePoint() ) {
 
+      if ( prism.shapeProperty.get().getReferencePoint() ) {
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
         var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).minus(
@@ -88,9 +88,9 @@ define( function( require ) {
       }
       return prismIconNode;
     };
-    var prismsNode;
 
-    // iterate over the prism prototypes in the model and create a draggable icon for each one
+    var prismsNode;
+    // Iterate over the prism prototypes in the model and create a draggable icon for each one
     prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
       prismPath[ i ] = createPrismIcon( prism );
       var start;
@@ -102,8 +102,8 @@ define( function( require ) {
             start = prismToolBoxNode.globalToParentPoint( event.pointer.point );
             prismShape = prism.copy();
             prismBreakModel.addPrism( prismShape );
-            prismsNode = new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, prismShape, prismToolBoxNode, prismBreakView.prismLayer,
-              prismBreakView.layoutBounds );
+            prismsNode = new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, prismShape,
+              prismToolBoxNode, prismBreakView.prismLayer, prismBreakView.layoutBounds );
             prismBreakView.prismLayer.addChild( prismsNode );
             prismShape.translate( modelViewTransform.viewToModelPosition( start ) );
           },
@@ -114,7 +114,8 @@ define( function( require ) {
             start = end;
           },
           end: function() {
-            if ( prismToolBoxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
+            if ( prismToolBoxNode.visibleBounds.containsCoordinates(
+                prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
               prismBreakModel.removePrism( prismShape );
               prismBreakView.prismLayer.removeChild( prismsNode );
               prismBreakModel.dirty = true;
@@ -122,10 +123,12 @@ define( function( require ) {
           }
         }
       ) );
+
       prismPath[ i ].touchArea = prismPath[ i ].localBounds;
       content.addChild( prismPath[ i ] );
     } );
-    // allow the user to control the type of material in the prisms
+
+    // Allow the user to control the type of material in the prisms
     var environmentMediumMaterialListParent = new Node();
     var objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
       prismBreakModel.prismMediumProperty,
@@ -143,12 +146,13 @@ define( function( require ) {
     content.addChild( dividerBetweenPrismsAndPanel );
 
     content.addChild( objectMediumControlPanel );
-    var dividerBetweenMediumPanelAndControlPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10, 10, {
-      stroke: 'gray', lineWidth: 0.2, fill: 'gray'
-    } );
+    var dividerBetweenMediumPanelAndControlPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10,
+      10, {
+        stroke: 'gray', lineWidth: 0.2, fill: 'gray'
+      } );
     content.addChild( dividerBetweenMediumPanelAndControlPanel );
-    // add check boxes
-    // create an icon for the protractor check box
+    // Add check boxes
+    // Create an icon for the protractor check box
     var createProtractorIcon = function() {
       var protractorImageNode = new Image( protractorImage );
       protractorImageNode.scale( 30 / protractorImage.width );
@@ -186,8 +190,10 @@ define( function( require ) {
       spacing: 2
     };
 
-    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), prismBreakModel.showReflectionsProperty, checkBoxOptions );
-    var showNormalCheckBox = new CheckBox( createItem( showNormal ), prismBreakModel.showNormalsProperty, checkBoxOptions );
+    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), prismBreakModel.showReflectionsProperty,
+      checkBoxOptions );
+    var showNormalCheckBox = new CheckBox( createItem( showNormal ), prismBreakModel.showNormalsProperty,
+      checkBoxOptions );
     var showProtractorCheckBox = new CheckBox( createItem( showProtractor ), prismBreakModel.showProtractorProperty,
       checkBoxOptions );
 
@@ -197,22 +203,24 @@ define( function( require ) {
         } ).width + 5;
 
     // touch Areas
-    showReflectionsCheckBox.touchArea = new Bounds2( showReflectionsCheckBox.localBounds.minX - 5, showReflectionsCheckBox.localBounds.minY,
-      showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth, showReflectionsCheckBox.localBounds.maxY );
-    showNormalCheckBox.touchArea = new Bounds2( showNormalCheckBox.localBounds.minX - 5, showNormalCheckBox.localBounds.minY,
-      showNormalCheckBox.localBounds.minX + maxCheckBoxWidth, showNormalCheckBox.localBounds.maxY );
+    showReflectionsCheckBox.touchArea = new Bounds2( showReflectionsCheckBox.localBounds.minX - 5,
+      showReflectionsCheckBox.localBounds.minY, showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth,
+      showReflectionsCheckBox.localBounds.maxY );
+    showNormalCheckBox.touchArea = new Bounds2( showNormalCheckBox.localBounds.minX - 5,
+      showNormalCheckBox.localBounds.minY, showNormalCheckBox.localBounds.minX + maxCheckBoxWidth,
+      showNormalCheckBox.localBounds.maxY );
     showProtractorCheckBox.touchArea = new Bounds2( showProtractorCheckBox.localBounds.minX - 5,
       showProtractorCheckBox.localBounds.minY,
       showProtractorCheckBox.localBounds.minX + maxCheckBoxWidth, showProtractorCheckBox.localBounds.maxY );
 
     // pad all the rows so the text nodes are left aligned and the icons is right aligned
-
     var checkBoxes = new VBox( {
       align: 'left', spacing: 10,
       children: [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ]
     } );
     content.addChild( checkBoxes );
-    // add the sensors panel
+
+    // Add the sensors panel
     var sensorPanel = new Rectangle( 0, 0, content.width + 25, content.height + 2, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE'
     } );
@@ -222,8 +230,6 @@ define( function( require ) {
     content.centerX = sensorPanel.centerX;
     content.centerY = sensorPanel.centerY;
     this.mutate( options );
-
-
   }
 
   return inherit( Node, PrismToolboxNode, {} );

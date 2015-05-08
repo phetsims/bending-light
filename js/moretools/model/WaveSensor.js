@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Sensor for wave values, reads the wave amplitude as a function of time and location.
  * Two probes can be used to compare values.
@@ -30,7 +31,7 @@ define( function( require ) {
       }
     );
 
-    // Note:  created here to reduce Vector2 allocations
+    // Note:  Created here to reduce Vector2 allocations
     this.probePosition = new Vector2( 0, 0 );
   }
 
@@ -56,6 +57,9 @@ define( function( require ) {
       this.seriesProperty._notifyObservers();
     },
 
+    /**
+     * @override
+     */
     reset: function() {
       PropertySet.prototype.reset.call( this );
     }
@@ -69,10 +73,9 @@ define( function( require ) {
    */
   function WaveSensor( probe1Value, probe2Value ) {
 
-    // set the relative location of the probes and body in model coordinates (SI)
-    // these values for initial probe and body locations were obtained by printing out actual values at runtime,
-    // then dragging the objects to a good looking location.  This amount of precision is unnecessary,
-    // but these values were just sampled directly.
+    // Set the relative location of the probes and body in model coordinates (SI). These values for initial probe and
+    // body locations were obtained by printing out actual values at runtime, then dragging the objects to a good
+    // looking location.  This amount of precision is unnecessary, but these values were just sampled directly.
     this.probe1 = new Probe( -0.00001932, -0.0000052 );
     this.probe2 = new Probe( -0.0000198, -0.0000062 );
     this.bodyPositionProperty = new Property( new Vector2( -0.0000172, -0.000007 ) );
@@ -80,11 +83,11 @@ define( function( require ) {
     // in the play area
     this.visibleProperty = new Property( false );
 
-    // function for getting data from a probe at the specified point
+    // Function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;
     this.probe2Value = probe2Value;
 
-    // Note:  created here to reduce Vector2 allocations
+    // Note:  Created here to reduce Vector2 allocations
     this.bodyPosition = new Vector2( 0, 0 );
 
   }
@@ -96,7 +99,7 @@ define( function( require ) {
     },
 
     simulationTimeChanged: function() {
-      // read samples from the probes when the simulation time changes
+      // Read samples from the probes when the simulation time changes
       this.updateProbeSample( this.probe1, this.probe1Value );
       this.updateProbeSample( this.probe2, this.probe2Value );
     },
@@ -108,7 +111,7 @@ define( function( require ) {
      * @param {function} probeValue
      */
     updateProbeSample: function( probe, probeValue ) {
-      // read the value from the probe function.  May be None if not intersecting a light ray
+      // Read the value from the probe function.  May be None if not intersecting a light ray
       var value = probeValue( probe.position );
       if ( value ) {
         probe.addSample( new DataPoint( value[ 0 ], value[ 1 ] ) );
@@ -124,15 +127,6 @@ define( function( require ) {
       this.bodyPosition.y = this.bodyPositionProperty.get().y + delta.y;
       this.bodyPositionProperty.set( this.bodyPosition );
       this.bodyPositionProperty._notifyObservers();
-    },
-
-    /**
-     * Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
-     *
-     * @param {Vector2} position
-     */
-    translateToHotSpot: function( position ) {
-      this.translateAll( new Vector2( position ).minus( this.probe1.position ) );
     },
 
     /**

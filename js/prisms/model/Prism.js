@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Wrapper around a shape with convenience methods for computing intersections, etc.
  *
@@ -34,6 +35,7 @@ define( function( require ) {
 
     /**
      * Compute the intersections of the specified ray with this polygon's edges
+     *
      * @param incidentRay
      * @returns {Array}
      */
@@ -60,14 +62,6 @@ define( function( require ) {
 
     /**
      *
-     * @returns {Bounds2}
-     */
-    getBounds: function() {
-      return this.shapeProperty.get().getBounds();
-    },
-
-    /**
-     *
      * @param {number}deltaAngle
      */
     rotate: function( deltaAngle ) {
@@ -76,4 +70,3 @@ define( function( require ) {
     }
   } );
 } );
-

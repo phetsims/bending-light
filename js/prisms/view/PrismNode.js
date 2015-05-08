@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Graphically depicts a draggable prism.
  *
@@ -23,7 +24,7 @@ define( function( require ) {
   /**
    *
    * @param {PrismBreakModel} prismsBreakModel - main model
-   * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
+   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {Prism } prism
    * @param {Node} prismToolboxNode
    * @param {Node} prismLayer
@@ -31,11 +32,12 @@ define( function( require ) {
    * @constructor
    */
   function PrismNode( prismsBreakModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds ) {
+
     Node.call( this, { cursor: 'pointer' } );
     var prismsNode = this;
     var knobHeight = 15;
 
-    // it looks like a box on the side of the prism
+    // It looks like a box on the side of the prism
     var knobNode = new Image( KnobImage );
     if ( prism.shapeProperty.get().getReferencePoint() ) {
       prismsNode.addChild( knobNode );
@@ -90,6 +92,7 @@ define( function( require ) {
         }
       }
     } ) );
+
     var knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
     prism.shapeProperty.link( function() {
       prismsBreakModel.clear();
@@ -98,7 +101,6 @@ define( function( require ) {
       prismTranslationNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.value.toShape() ) );
 
       if ( prism.shapeProperty.get().getReferencePoint() ) {
-
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
         var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).minus(
@@ -111,6 +113,7 @@ define( function( require ) {
         knobNode.translate( knobCenterPoint );
       }
     } );
+
     prismsBreakModel.prismMediumProperty.link( function( prismMedium ) {
       var color = prismMedium.color;
       prismTranslationNode.fill = color;

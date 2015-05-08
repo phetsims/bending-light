@@ -1,7 +1,6 @@
 // Copyright 2002-2015, University of Colorado Boulder
 /**
- * A LightRay models one straight segment of a beam (completely within
- * a single medium), with a specific wavelength.
+ * A LightRay models one straight segment of a beam (completely within a single medium), with a specific wavelength.
  *
  * @author Sam Reid
  * @author Chandrashekar Bemagoni(Actual Concepts)
@@ -17,7 +16,6 @@ define( function( require ) {
   var Line = require( 'KITE/segments/Line' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-
 
   /**
    *
@@ -288,8 +286,7 @@ define( function( require ) {
      */
     contains: function( position, waveMode ) {
       if ( waveMode ) {
-        var intersection = this.getWaveShape().intersection( new Ray2( position, this.getUnitVector() ) );
-        return intersection.length % 2 === 1;
+        return this.getWaveShape().containsPoint( position );
       }
       else {
         return this.toLine2D().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;

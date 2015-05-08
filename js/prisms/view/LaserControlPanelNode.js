@@ -1,7 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
- * Control panel for the laser in the "prisms" Screen,
- * such as choosing whether it is white light or one color, and the wavelength.
+ * Control panel for the laser in the "prisms" Screen, such as choosing whether it is white light or one color, and the
+ * wavelength.
  *
  * @author Sam Reid
  * @author Chandrashekar Bemagoni (Actual Concepts)
@@ -70,7 +71,7 @@ define( function( require ) {
       return item.width;
     } ).width;
 
-    //touch areas
+    //  Touch areas
     var touchExpansion = 5;
     oneColorRadio.touchArea = new Bounds2(
       ( oneColorRadio.localBounds.minX - touchExpansion ),
@@ -81,7 +82,7 @@ define( function( require ) {
 
     this.wavelengthProperty = new Property( wavelengthProperty.value * 1E9 );
 
-    //  create  WavelengthSlider node
+    //  Create  WavelengthSlider node
     var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty,
       {
         cursorStroke: 'white',
@@ -101,7 +102,8 @@ define( function( require ) {
       { fill: 'white', stroke: 'black' } );
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
-      laserControlPanelNode.wavelengthProperty.set( Math.min( laserControlPanelNode.wavelengthProperty.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
+      laserControlPanelNode.wavelengthProperty.set(
+        Math.min( laserControlPanelNode.wavelengthProperty.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
     }, {
       scale: 0.6
     } );
@@ -109,7 +111,8 @@ define( function( require ) {
       plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
 
     var minusButton = new ArrowButton( 'left', function propertyMinus() {
-      laserControlPanelNode.wavelengthProperty.set( Math.max( laserControlPanelNode.wavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
+      laserControlPanelNode.wavelengthProperty.set(
+        Math.max( laserControlPanelNode.wavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
     }, {
       scale: 0.6
     } );
@@ -122,33 +125,34 @@ define( function( require ) {
     wavelengthValueText.centerX = wavelengthBoxShape.centerX;
     wavelengthValueText.centerY = wavelengthBoxShape.centerY;
 
-    // plus button to the right of the value
+    // Plus button to the right of the value
     plusButton.left = wavelengthBoxShape.right + PLUS_MINUS_SPACING;
     plusButton.centerY = wavelengthBoxShape.centerY;
 
-    // minus button to the left of the value
+    // Minus button to the left of the value
     minusButton.right = wavelengthBoxShape.left - PLUS_MINUS_SPACING;
     minusButton.centerY = wavelengthBoxShape.centerY;
-
 
     var wavelengthValue = new Node( {
       children: [ minusButton, wavelengthBoxShape, wavelengthValueText,
         plusButton, wavelengthSlider ]
     } );
+
     colorModeProperty.link( function() {
       wavelengthValue.setPickable( colorModeProperty.value === 'singleColor' );
       wavelengthValue.opacity = colorModeProperty.value === 'singleColor' ? 1 : 0.4;
     } );
+
     var content = new VBox( {
       spacing: 10,
       children: [ whiteLightRadio, oneColorRadio, wavelengthValue ],
       align: 'left'
     } );
+
     this.wavelengthProperty.link( function( wavelength ) {
       wavelengthProperty.set( wavelength / 1E9 );
       wavelengthValueText.text = wavelength + units_nmString;
     } );
-
 
     Panel.call( this, content, options );
   }

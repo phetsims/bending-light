@@ -1,4 +1,5 @@
 // Copyright 2002-2012, University of Colorado Boulder
+
 /**
  * A single immutable ray, used in the ray propagation algorithm.
  *
@@ -25,11 +26,10 @@ define( function( require ) {
 
     this.tail = tail;
 
-    // power of the ray (1 is full power of the laser),
-    // will be reduced if partial reflection/refraction
+    // Power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction
     this.power = power;
 
-    // wavelength inside the medium (depends on index of refraction)
+    // Wavelength inside the medium (depends on index of refraction)
     this.wavelength = wavelength;
     this.mediumIndexOfRefraction = mediumIndexOfRefraction;
     this.frequency = frequency;
@@ -40,6 +40,7 @@ define( function( require ) {
 
     /**
      * Gets the wavelength for this ray if it wasn't inside a medium
+     *
      * @returns {number}
      */
     getBaseWavelength: function() {

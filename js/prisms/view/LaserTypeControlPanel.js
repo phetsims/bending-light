@@ -38,7 +38,7 @@ define( function( require ) {
 
     Node.call( this );
 
-    // laser node icon first rectangle
+    // Laser node icon first rectangle
     var laserNodeFirstRoundedRect = new Path( new Shape().roundRect( 0, 0, 5, 25, 2, 1 ), {
       stroke: 'black',
       lineWidth: 0.3,
@@ -48,7 +48,8 @@ define( function( require ) {
         .addColorStop( 0.6, '#A8AAAD' )
         .addColorStop( 1, '#4F4E50' )
     } );
-    // laser node icon second rectangle
+
+    // Laser node icon second rectangle
     var laserNodeSecondRoundedRect = new Path( new Shape().roundRect( 7, 3, 7, 20, 2, 1 ), {
       stroke: 'black',
       lineWidth: 0.3,
@@ -58,8 +59,12 @@ define( function( require ) {
         .addColorStop( 0.6, '#A8AAAD' )
         .addColorStop( 1, '#4F4E50' )
     } );
-    //  icon for the single ray  button
-    var singleRayLine = new Path( new Shape().moveTo( 17, 15 ).lineTo( 49, 15 ).close(), { stroke: 'red', lineWidth: 2 } );
+
+    // Icon for the single ray  button
+    var singleRayLine = new Path( new Shape().moveTo( 17, 15 ).lineTo( 49, 15 ).close(), {
+      stroke: 'red',
+      lineWidth: 2
+    } );
     var singleRayEmitterLaserIcon = new HBox( {
       children: [
         laserNodeFirstRoundedRect,
@@ -68,7 +73,7 @@ define( function( require ) {
     } );
 
 
-    //   icon for multiple ray button
+    // Icon for multiple ray button
     var manyRaysStartX = 17;
     var manyRaysEndX = 49;
     var multiRaysLinesShape = new Shape();
@@ -102,7 +107,6 @@ define( function( require ) {
     this.addChild( radioButtonPanel );
     this.mutate( options );
   }
-
 
   return inherit( Node, LaserTypeControlPanel );
 } );

@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * View for the "Prisms" Screen.
  *
@@ -29,7 +30,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {PrismBreakModel} prismBreakModel -model of  prisms screen
+   * @param {PrismBreakModel} prismBreakModel - model of  prisms screen
    * @constructor
    */
   function PrismBreakView( prismBreakModel ) {
@@ -38,12 +39,12 @@ define( function( require ) {
     this.prismBreakModel = prismBreakModel;
     var prismBreakView = this;
 
-    // specify how the drag angle should be clamped
+    // Specify how the drag angle should be clamped
     function clampDragAngle( angle ) {
       return angle;
     }
 
-    // in prisms tab  laser node can rotate 360 degrees  .so  arrows showing  all the times when laser node rotate
+    // In prisms tab  laser node can rotate 360 degrees  .so  arrows showing  all the times when laser node rotate
     function clockwiseArrowNotAtMax() {
       return true;
     }
@@ -52,11 +53,10 @@ define( function( require ) {
       return true;
     }
 
-    // rotation if the user clicks top on the object
+    // Rotation if the user clicks top on the object
     function rotationRegionShape( full, back ) {
       return back;
     }
-
 
     function translationRegion( fullShape, backShape ) {
       //empty shape since shouldn't be rotatable in this tab
@@ -71,24 +71,26 @@ define( function( require ) {
       rotationRegionShape, 'laserKnob',
       90 );
 
-
     var IndexOfRefractionDecimals = 2;
 
-    // add control panels for setting the index of refraction for each medium
+    // Add control panels for setting the index of refraction for each medium
     var environmentMediumControlPanel = new MediumControlPanel( this, prismBreakModel.environmentMediumProperty,
       environmentString, false, prismBreakModel.wavelengthProperty, IndexOfRefractionDecimals, {
         xMargin: 7
       } );
-    environmentMediumControlPanel.setTranslation( this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
+    environmentMediumControlPanel.setTranslation(
+      this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
+
     var laserControlPanelNode = new LaserControlPanelNode( prismBreakModel.laser.colorModeProperty,
       prismBreakModel.wavelengthProperty, {
-        top:   environmentMediumControlPanel.bottom + 15,
+        top: environmentMediumControlPanel.bottom + 15,
         right: this.layoutBounds.right - 2 * INSET
       } );
     this.addChild( laserControlPanelNode );
     this.incidentWaveCanvasLayer.setVisible( false );
-    // optionally show the normal lines at each intersection
+
+    // Optionally show the normal lines at each intersection
     prismBreakModel.intersections.addItemAddedListener( function( addedIntersection ) {
       if ( prismBreakModel.showNormalsProperty.get() ) {
         var node = new IntersectionNode( prismBreakView.modelViewTransform, addedIntersection );
@@ -119,38 +121,37 @@ define( function( require ) {
           prismToolboxNode.objectMediumControlPanel.reset();
         },
         bottom: this.layoutBounds.bottom - 14,
-        right:  this.layoutBounds.right - 2 * INSET,
+        right: this.layoutBounds.right - 2 * INSET,
         radius: 20
       } );
 
     this.afterLightLayer2.addChild( resetAllButton );
 
-
-    // get the function that chooses which region of the protractor can be used for
-    // rotation--none in this tab.
+    // Get the function that chooses which region of the protractor can be used for rotation--none in this tab.
     this.getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
-      //empty shape since shouldn't be rotatable in this tab
+      // Empty shape since shouldn't be rotatable in this tab
       return outerCircle;
     };
 
-    // get the function that chooses which region of the protractor can be used for translation--both
-    // the inner bar and outer circle in this tab
+    // get the function that chooses which region of the protractor can be used for translation--both the inner bar and
+    // outer circle in this tab
     this.getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
       return innerBar;
     };
 
-    // add the protractor node
-    var protractorNode = new ProtractorNode( this, this.modelViewTransform, prismBreakModel.showProtractorProperty, prismBreakModel.protractorModel,
+    // Add the protractor node
+    var protractorNode = new ProtractorNode( this, this.modelViewTransform, prismBreakModel.showProtractorProperty,
+      prismBreakModel.protractorModel,
       this.getProtractorDragRegion, this.getProtractorRotationRegion, 125, null, this.layoutBounds );
     this.addChild( protractorNode );
 
-    // add prisms tool box Node
+    // Add prisms tool box Node
     var prismToolboxNode = new PrismToolboxNode( this, this.modelViewTransform, prismBreakModel,
       { left: this.layoutBounds.minX + 12, bottom: this.layoutBounds.bottom - INSET } );
     this.beforeLightLayer.addChild( prismToolboxNode );
     this.beforeLightLayer.addChild( this.prismLayer );
 
-    // call stepInternal at a rate of 10 times per second
+    // Call stepInternal at a rate of 10 times per second
     this.timer = new EventTimer( new EventTimer.ConstantEventModel( 30 ), function() {
       prismBreakView.stepInternal();
     } );
@@ -167,7 +168,7 @@ define( function( require ) {
 
     /**
      *
-     * @param {number} dt -time
+     * @param {number} dt - time
      */
     step: function( dt ) {
       this.timer.step( dt );

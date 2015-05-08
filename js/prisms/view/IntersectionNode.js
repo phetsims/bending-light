@@ -1,4 +1,5 @@
 // Copyright 2002-2012, University of Colorado Boulder
+
 /**
  * Node that depicts a the normal vector at a light-ray / medium interface intersection.
  *
@@ -15,7 +16,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Intersection} intersection
    * @constructor
    */
@@ -26,7 +27,7 @@ define( function( require ) {
     var unitNormal = modelViewTransform.modelToViewDelta( intersection.getUnitNormal() ).normalized();
     var length = 100;//in stage coordinates
 
-    // show a dotted line of the normal at the interface between two mediums where the laser struck
+    // Show a dotted line of the normal at the interface between two mediums where the laser struck
     this.addChild( new Path( new Shape()
       .moveToPoint( center.plus( unitNormal.times( length / 2 ) ) )
       .lineToPoint( center.plus( unitNormal.times( -length / 2 ) ) ), { stroke: 'black', lineDash: [ 10, 5 ] } ) );

@@ -51,7 +51,7 @@ define( function( require ) {
     },
 
     /**
-     * create the VelocitySensorNode
+     * Create the VelocitySensorNode
      *
      * @returns {*}
      */
@@ -61,7 +61,7 @@ define( function( require ) {
     },
 
     /**
-     * create the WaveSensorNode
+     * Create the WaveSensorNode
      *
      * @returns {*}
      */

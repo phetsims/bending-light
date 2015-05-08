@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Circle implementation for use in prisms
  *
@@ -11,7 +12,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
-  var Rectangle = require( 'DOT/Rectangle' );
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
   var Ray2 = require( 'DOT/Ray2' );
 
@@ -48,6 +48,7 @@ define( function( require ) {
 
     /**
      * Finds the intersections between the edges of the circle and the specified ray
+     *
      * @param {Ray} ray
      * @returns {Array}
      */
@@ -57,7 +58,7 @@ define( function( require ) {
       var self = this;
       intersectionArray.forEach( function( intersectionPoint ) {
 
-        // filter out getLineCircleIntersection nulls, which are returned if there is no intersection
+        // Filter out getLineCircleIntersection nulls, which are returned if there is no intersection
         if ( intersectionPoint !== null ) {
           var vector = intersectionPoint.point.minus( ray.tail );
           // only consider intersections that are in front of the ray
@@ -72,14 +73,6 @@ define( function( require ) {
       } );
       return intersectionList;
     },
-    /**
-     *
-     * @returns {Rectangle}
-     */
-    getBounds: function() {
-      return new Rectangle( this.center.x - this.radius, this.center.y - this.radius,
-        this.radius * 2, this.radius * 2 );
-    },
 
     /**
      *@public
@@ -93,6 +86,7 @@ define( function( require ) {
       var rotated = vectorAboutCentroid.getRotatedInstance( angle );
       return new Circle( rotated.plus( rotationPoint ), this.radius );
     },
+
     /**
      * @public
      * @returns {Vector2}

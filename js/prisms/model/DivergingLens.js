@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Shape that comprises a prism.
  *
@@ -60,7 +61,7 @@ define( function( require ) {
     },
 
     /**
-     *@public
+     * @public
      * @param {Vector2} delta
      * @returns {DivergingLens}
      */
@@ -96,8 +97,7 @@ define( function( require ) {
      * @returns {*}
      */
     containsPoint: function( point ) {
-      var intersection = this.toShape().intersection( new Ray2( point, Vector2.X_UNIT ) );
-      return intersection.length % 2 === 1;
+      return this.toShape().containsPoint( point );
     },
 
     /**
@@ -165,15 +165,15 @@ define( function( require ) {
     getIntersections: function( ray ) {
       var intersections = [];
       this.getEdges().forEach( function( lineSegment ) {
-        //Get the intersection if there is one
+        // Get the intersection if there is one
         var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
         if ( intersection.length !== 0 ) {
-          //Choose the normal vector that points the opposite direction of the incoming ray
+          // Choose the normal vector that points the opposite direction of the incoming ray
           var normal1 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( +Math.PI / 2 ).normalized();
           var normal2 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( -Math.PI / 2 ).normalized();
           var unitNormal = ray.directionUnitVector.dot( normal1 ) < 0 ? normal1 : normal2;
 
-          //Add to the list of intersections
+          // Add to the list of intersections
           intersections.push( new Intersection( unitNormal, intersection[ 0 ].point ) );
         }
       } );
@@ -183,7 +183,7 @@ define( function( require ) {
       var intersection = arc.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       if ( intersection.length !== 0 ) {
         var vector = intersection[ 0 ].point.minus( ray.tail );
-        //Only consider intersections that are in front of the ray
+        // Only consider intersections that are in front of the ray
         if ( vector.dot( ray.directionUnitVector ) > 0 ) {
           var normalVector = intersection[ 0 ].point.minus( center ).normalized();
           if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
@@ -206,13 +206,6 @@ define( function( require ) {
         lineSegments.push( new Line( this.points[ i ], this.points[ i + 1 ] ) );
       }
       return lineSegments;
-    },
-    /**
-     *
-     * @returns {Bounds2}
-     */
-    getBounds: function() {
-      return this.toShape().bounds;
     }
   } );
 } );

@@ -18,10 +18,12 @@ define( function( require ) {
    * @constructor
    */
   function VelocitySensor( value ) {
+
     PropertySet.call( this, {
       position: new Vector2( -0.000018, -0.0000048 ), //position of the sensor
       value: value
     } );
+
     this.addDerivedProperty( 'isArrowVisible', [ 'value' ], function( value ) {
       return value.magnitude() > 0;
     } );
@@ -31,12 +33,15 @@ define( function( require ) {
 
     /**
      *
-     * @param{Vector2} delta
+     * @param {Vector2} delta
      */
     translate: function( delta ) {
       this.positionProperty.set( this.position.plus( delta ) );
     },
 
+    /**
+     * @override
+     */
     reset: function() {
       PropertySet.prototype.reset.call( this );
     }
