@@ -113,16 +113,18 @@ define( function( require ) {
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
         yMargin: 7
       } );
-    topMediumControlPanel.setTranslation( stageWidth - topMediumControlPanel.getWidth() - 2 * INSET,
+    var topMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
+    topMediumControlPanel.setTranslation( stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - topMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() + 4 );
     this.afterLightLayer2.addChild( topMediumControlPanel );
 
     // add control panels for setting the index of refraction for each medium
+    var bottomMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
     var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty,
       materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
         yMargin: 7
       } );
-    bottomMediumControlPanel.setTranslation(stageWidth - topMediumControlPanel.getWidth() - 2 * INSET,
+    bottomMediumControlPanel.setTranslation( stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - bottomMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET + 1 );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
@@ -137,7 +139,7 @@ define( function( require ) {
       } ) ) );
 
     // show the normal line where the laser strikes the interface between mediums
-    var normalLineHeight =stageHeight / 2;
+    var normalLineHeight = stageHeight / 2;
     var normalLine = new NormalLine( normalLineHeight );
     normalLine.setTranslation( this.modelViewTransform.modelToViewX( 0 ),
       this.modelViewTransform.modelToViewY( 0 ) - normalLineHeight / 2 );
@@ -164,9 +166,11 @@ define( function( require ) {
     } );
 
     //  add laser view panel
+    var laserViewXOffset = hasMoreTools ? 13 : 12;
+    var laserViewYOffset = hasMoreTools ? 2 * INSET - 4 : 2 * INSET;
     var laserView = new LaserView( introModel, hasMoreTools, {
-      left: this.layoutBounds.minX + 12,
-      top: this.layoutBounds.top + 2 * INSET
+      left: this.layoutBounds.minX + laserViewXOffset,
+      top:  this.layoutBounds.top + laserViewYOffset
     } );
 
     this.afterLightLayer.addChild( laserView );
@@ -180,22 +184,24 @@ define( function( require ) {
     } );
     this.beforeLightLayer2.addChild( this.sensorPanel );
 
-    var ICON_WIDTH = 75;
+    var protractorIconWidth = hasMoreTools ? 60 : 75;
 
     // initial tools
-    var protractorModelPositionX = this.modelViewTransform.viewToModelX( this.sensorPanel.centerX );
-    var protractorModelPositionY = this.modelViewTransform.viewToModelY( this.sensorPanel.y + 48 );
+    var protractorNodeX = hasMoreTools ? this.sensorPanel.centerX : this.sensorPanel.centerX;
+    var protractorNodeY = hasMoreTools ? this.sensorPanel.y + 40 : this.sensorPanel.y + 48
+    var protractorModelPositionX = this.modelViewTransform.viewToModelX( protractorNodeX );
+    var protractorModelPositionY = this.modelViewTransform.viewToModelY( protractorNodeY );
     this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
 
     //  if intro screen  regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {
       this.protractorNode = new ProtractorNode( this, this.modelViewTransform, this.showProtractorProperty,
-        this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH,
+        this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
         this.sensorPanel.bounds, this.layoutBounds );
     }
     else {
       this.protractorNode = new ExpandableProtractorNode( this, this.modelViewTransform, this.showProtractorProperty,
-        this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, ICON_WIDTH,
+        this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
         this.sensorPanel.bounds, this.layoutBounds );
     }
     this.beforeLightLayer2.addChild( this.protractorNode );
@@ -288,7 +294,7 @@ define( function( require ) {
       {
         radius: 18, stroke: 'black', fill: '#005566',
         bottom: this.layoutBounds.bottom - 15,
-        left: this.speedControl.right + 10
+        left: this.speedControl.right + INSET
       } );
     this.addChild( this.playPauseButton );
 

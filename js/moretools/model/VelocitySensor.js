@@ -20,7 +20,7 @@ define( function( require ) {
   function VelocitySensor( value ) {
 
     PropertySet.call( this, {
-      position: new Vector2( -0.000018, -0.0000048 ), //position of the sensor
+      position: new Vector2( -0.000018, -0.0000044 ), //position of the sensor
       value: value
     } );
 

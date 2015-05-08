@@ -150,7 +150,7 @@ define( function( require ) {
       } );
 
       content = new VBox( {
-        spacing: 10,
+        spacing: 11,
         children: [ laserRadio, waveRadio, wavelengthValue ],
         align: 'left'
       } );
