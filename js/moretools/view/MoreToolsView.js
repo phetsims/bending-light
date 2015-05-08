@@ -14,6 +14,7 @@ define( function( require ) {
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
   var VelocitySensorNode = require( 'BENDING_LIGHT/moretools/view/VelocitySensorNode' );
   var WaveSensorNode = require( 'BENDING_LIGHT/moretools/view/WaveSensorNode' );
+  var Property = require( 'AXON/Property' );
 
   /**
    *
@@ -33,8 +34,11 @@ define( function( require ) {
     this.beforeLightLayer2.addChild( this.velocitySensorNode );
     this.beforeLightLayer2.addChild( this.waveSensorNode );
 
-    moreToolsModel.waveSensor.visibleProperty.link( function( isVisible ) {
-      var isButtonsVisible = isVisible || moreToolsModel.laserViewProperty.value === 'wave';
+    Property.multilink( [
+      moreToolsModel.laserViewProperty,
+      moreToolsModel.waveSensor.visibleProperty
+    ], function( laserView, isWaveSensorEnabled ) {
+      var isButtonsVisible = isWaveSensorEnabled || laserView === 'wave';
       moreToolsView.playPauseButton.visible = isButtonsVisible;
       moreToolsView.stepButton.visible = isButtonsVisible;
       moreToolsView.speedControl.visible = isButtonsVisible;
