@@ -90,7 +90,7 @@ define( function( require ) {
     this.addChild( this.whiteLightNode );
     this.addChild( this.afterLightLayer );
 
-    // switch between light render  for white vs nonwhite light
+    // switch between light render for white vs nonwhite light
     model.getLaser().colorModeProperty.link( function( color ) {
       var white = color === 'white';
       bendingLightView.whiteLightNode.setVisible( white );
@@ -103,21 +103,27 @@ define( function( require ) {
     var showRotationDragHandlesProperty = new Property( false );
     var showTranslationDragHandlesProperty = new Property( false );
 
-    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), Math.PI / 25,
-      showRotationDragHandlesProperty, clockwiseArrowNotAtMax ) );
-    this.addChild( new RotationDragHandle( this.modelViewTransform, model.getLaser(), -Math.PI / 25,
-      showRotationDragHandlesProperty, ccwArrowNotAtMax ) );
+    var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.getLaser(), Math.PI / 25,
+      showRotationDragHandlesProperty, clockwiseArrowNotAtMax );
+    this.addChild( leftRotationDragHandle );
+    var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.getLaser(), -Math.PI / 25,
+      showRotationDragHandlesProperty, ccwArrowNotAtMax );
+    this.addChild( rightRotationDragHandle );
 
     // add translation indicators that show if/when the laser can be moved by dragging
     var arrowLength = 100;
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), -arrowLength, 0,
-      showTranslationDragHandlesProperty ) );
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, -arrowLength,
-      showTranslationDragHandlesProperty ) );
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0,
-      showTranslationDragHandlesProperty ) );
-    this.addChild( new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength,
-      showTranslationDragHandlesProperty ) );
+    var leftTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), -arrowLength, 0,
+      showTranslationDragHandlesProperty );
+    this.addChild( leftTranslationDragHandle );
+    var rightTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, -arrowLength,
+      showTranslationDragHandlesProperty );
+    this.addChild( rightTranslationDragHandle );
+    var topTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0,
+      showTranslationDragHandlesProperty );
+    this.addChild( topTranslationDragHandle );
+    var bottomTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength,
+      showTranslationDragHandlesProperty );
+    this.addChild( bottomTranslationDragHandle );
 
     // Check to see if WebGL was prevented by a query parameter
     var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
@@ -143,6 +149,16 @@ define( function( require ) {
       showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName,
       this.layoutBounds );
     this.addChild( laserNode );
+
+    model.laser.emissionPointProperty.link( function() {
+      leftRotationDragHandle.moveToFront();
+      rightRotationDragHandle.moveToFront();
+      leftTranslationDragHandle.moveToFront();
+      rightTranslationDragHandle.moveToFront();
+      topTranslationDragHandle.moveToFront();
+      bottomTranslationDragHandle.moveToFront();
+      laserNode.moveToFront();
+    } );
 
     this.addChild( this.afterLightLayer2 );
 
