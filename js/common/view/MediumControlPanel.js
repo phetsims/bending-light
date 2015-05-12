@@ -42,7 +42,7 @@ define( function( require ) {
 
   // constants
   // range of the index of refraction slider
-  var INDEX_OF_REFRACTION_MIN = 1;
+  var INDEX_OF_REFRACTION_MIN = 1.0;
   var INDEX_OF_REFRACTION_MAX = 1.6;
   var PLUS_MINUS_SPACING = 4;
   var INSET = 10;
@@ -50,7 +50,7 @@ define( function( require ) {
 
   /**
    *
-   * @param   view
+   * @param   {BendingLightView} view
    * @param {Property<Medium>} mediumProperty
    * @param {string} name  - name of the medium material
    * @param {boolean} textFieldVisible
@@ -299,12 +299,13 @@ define( function( require ) {
       if ( mediumControlPanel.custom ) {
         mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
       }
-      plusButton.enabled = ( indexOfRefraction < INDEX_OF_REFRACTION_MAX);
-      minusButton.enabled = ( indexOfRefraction > INDEX_OF_REFRACTION_MIN );
+      plusButton.enabled = ( indexOfRefraction.toFixed( 2 ) < INDEX_OF_REFRACTION_MAX);
+      minusButton.enabled = ( indexOfRefraction.toFixed( 2 ) > INDEX_OF_REFRACTION_MIN );
     } );
   }
 
   return inherit( Node, MediumControlPanel, {
+
     /**
      * @public
      */
@@ -317,7 +318,7 @@ define( function( require ) {
      * updates the model with the specified value
      *
      * @public
-     * @param indexOfRefraction
+     * @param {number} indexOfRefraction
      */
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
 
