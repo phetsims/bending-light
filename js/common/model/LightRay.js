@@ -28,16 +28,13 @@ define( function( require ) {
    * @param {Color} color
    * @param {number} waveWidth
    * @param {number} numWavelengthsPhaseOffset
-   * @param {number} oppositeMedium
    * @param {boolean} extend
    * @param {boolean} extendBackwards
    * @constructor
    */
   function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth,
-                     numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
+                     numWavelengthsPhaseOffset, extend, extendBackwards ) {
 
-    //  Used to create a clipped shape for wave mode
-    this.oppositeMedium = oppositeMedium;
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
     // Light must be extended backwards for the transmitted wave shape to be correct

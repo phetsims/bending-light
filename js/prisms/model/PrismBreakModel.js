@@ -343,7 +343,7 @@ define( function( require ) {
         // Add the incident ray itself
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, intersection.getPoint(), n1,
           wavelengthInN1, incidentRay.power, rayColor,
-          waveWidth, 0, null, true, false ) );
+          waveWidth, 0, true, false ) );
       }
       else {
         rayColor = new Color( 0, 0, 0, 0 );
@@ -355,7 +355,7 @@ define( function( require ) {
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail,
           incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ), n1, wavelengthInN1,
           incidentRay.power, rayColor,
-          waveWidth, 0, null, true, false ) );
+          waveWidth, 0, true, false ) );
       }
     },
 

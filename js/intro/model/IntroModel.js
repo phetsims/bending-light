@@ -70,15 +70,13 @@ define( function( require ) {
   }
 
   return inherit( BendingLightModel, IntroModel, {
+
     /**
      * Light rays were cleared from model before propagateRays was called,
      * this creates them according to the laser and mediums
      */
     propagateRays: function() {
 
-      //Relatively large regions to keep track of which side the light is on
-      var bottom = 0;//new Rectangle( -10, -10, 20, 10 );
-      var top = 0;//new Rectangle( -10, 0, 20, 10 );
       if ( this.laser.on ) {
         var tail = this.laser.emissionPoint;
 
@@ -115,7 +113,7 @@ define( function( require ) {
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ),
           n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth,
-          0.0, bottom, true, false );
+          0.0, true, false );
         var rayAbsorbed = this.addAndAbsorb( incidentRay );
         if ( !rayAbsorbed ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
@@ -136,7 +134,7 @@ define( function( require ) {
             reflectedPowerRatio * sourcePower,
             color, sourceWaveWidth,
             incidentRay.getNumberOfWavelengths(),
-            bottom,
+
             true,
             true ) );
 
@@ -161,7 +159,7 @@ define( function( require ) {
                 Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2,
                 transmittedWavelength, transmittedPowerRatio * sourcePower,
                 color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(),
-                top, true, true ); //todo: using extendBackwards param to fix the shapes near y=0
+                true, true ); //todo: using extendBackwards param to fix the shapes near y=0
               this.addAndAbsorb( transmittedRay );
             }
           }
@@ -218,7 +216,7 @@ define( function( require ) {
         }
         var interrupted = new LightRay( ray.trapeziumWidth, ray.tail, new Vector2( x / 2, y / 2 ),
           ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.getColor(),
-          ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.oppositeMedium, false, ray.extendBackwards );
+          ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), false, ray.extendBackwards );
 
         //don't let the wave intersect the intensity meter if it is behind the laser emission point
         var isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
