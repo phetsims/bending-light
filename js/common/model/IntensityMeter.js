@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 /**
  * Model for the intensity meter, including the position of the sensor, body, the reading values, etc.
  * When multiple rays hit the sensor, they are summed up.
@@ -17,10 +17,10 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} sensorX
-   * @param {number} sensorY
-   * @param {number} bodyX
-   * @param {number} bodyY
+   * @param {number} sensorX -  sensor x position in model  values
+   * @param {number} sensorY - sensor  y position in model  values
+   * @param {number} bodyX - body x position in model  values
+   * @param {number} bodyY -body y position in model  values
    * @constructor
    */
   function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {
@@ -41,14 +41,14 @@ define( function( require ) {
       /**
        *
        * @public
-       * @param {Vector2}delta
+       * @param {Vector2}delta - amount space the sensor translated.
        */
       translateSensor: function( delta ) {
         this.sensorPositionProperty.set( this.sensorPosition.plus( delta ) );
       },
       /**
        *@public
-       * @param {Vector2}delta
+       * @param {Vector2}delta -amount space the body translated.
        */
       translateBody: function( delta ) {
         this.bodyPositionProperty.set( this.bodyPosition.plus( delta ) );
@@ -62,6 +62,7 @@ define( function( require ) {
         var radius = 1.215E-6;
         return new Shape().circle( this.sensorPosition.x, this.sensorPosition.y, radius );
       },
+
       /**
        *  should be called before a model update so that values from last computation
        * don't leak over into the next summation
@@ -70,9 +71,10 @@ define( function( require ) {
         this.rayReadings = [];
         this.readingProperty.set( Reading.MISS );
       },
+
       /**
        * Add a new reading to the accumulator and update the readout
-       * @param r
+       * @param {Reading/ MISS} r
        */
       addRayReading: function( r ) {
         this.rayReadings.push( r );
@@ -106,11 +108,11 @@ define( function( require ) {
       },
       /**
        *@public
-       * @param {Vector2} dimension2D
+       * @param {Vector2} delta
        */
-      translateAll: function( dimension2D ) {
-        this.translateBody( dimension2D );
-        this.translateSensor( dimension2D );
+      translateAll: function( delta ) {
+        this.translateBody( delta );
+        this.translateSensor( delta );
       }
     },
     {

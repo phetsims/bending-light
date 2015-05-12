@@ -73,7 +73,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {Vector2|*}
+     * @returns {Vector2}
      */
     getDirectionUnitVector: function() {
       this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
@@ -87,7 +87,7 @@ define( function( require ) {
     /**
      * Rotate about the fixed pivot
      * @public
-     * @param {number}angle
+     * @param {number} angle
      */
     setAngle: function( angle ) {
       var distFromPivot = this.pivot.distance( this.emissionPoint );

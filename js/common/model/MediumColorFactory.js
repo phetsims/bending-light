@@ -60,6 +60,7 @@ define( function( require ) {
         }
       }
     },
+
     /**
      * Blend colors a and b with the specified amount of "b" to use between 0 and 1
      * @param{Color} a

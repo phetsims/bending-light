@@ -36,7 +36,7 @@ define( function( require ) {
   function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth,
                      numWavelengthsPhaseOffset, oppositeMedium, extend, extendBackwards ) {
 
-    //  used to create a clipped shape for wave mode
+    //  Used to create a clipped shape for wave mode
     this.oppositeMedium = oppositeMedium;
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
@@ -46,19 +46,19 @@ define( function( require ) {
     this.waveWidth = waveWidth;
     this.trapeziumWidth = trapeziumWidth;
 
-    // directionality is important for propagation
+    // Directionality is important for propagation
     this.tip = tip;
     this.tail = tail;
 
-    // the index of refraction of the medium the lightray inhabits
+    // The index of refraction of the medium the lightray inhabits
     this.indexOfRefraction = indexOfRefraction;
     this.wavelength = wavelength;    // wavelength in meters
 
-    // amount of power this light has (full strength is 1.0)
+    // Amount of power this light has (full strength is 1.0)
     this.powerFraction = powerFraction;
 
-    // this number indicates how many wavelengths have passed before this light ray begins;
-    // it is zero for the light coming out of the laser.
+    // This number indicates how many wavelengths have passed before this light ray begins;
+    // It is zero for the light coming out of the laser.
     this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset;
 
     // has to be an integral number of wavelength so that the phases work out correctly,
@@ -96,7 +96,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {number|*}
+     * @returns {number}
      */
     getPowerFraction: function() {
       return this.powerFraction;
@@ -106,7 +106,7 @@ define( function( require ) {
      * Check to see if this light ray hits the specified sensor region
      * @public
      * @param {Shape} sensorRegion
-     * @returns {*}
+     * @returns {Array}
      */
     getIntersections: function( sensorRegion ) {
       return sensorRegion.intersection( new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) ) );
@@ -122,7 +122,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {*}
+     * @returns {number}
      */
     getLength: function() {
       return this.tip.minus( this.tail ).magnitude();
@@ -130,7 +130,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {Vector2|*}
+     * @returns {Vector2}
      */
     toVector2D: function() {
       this.vectorForm.x = this.tip.x - this.tail.x;
@@ -140,7 +140,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {Element.color|*}
+     * @returns {Color}
      */
     getColor: function() {
       return this.color;
@@ -148,7 +148,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {OneColor.wavelength|*}
+     * @returns {number}
      */
     getWavelength: function() {
       return this.wavelength;
@@ -157,7 +157,7 @@ define( function( require ) {
     /**
      * The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
      * @public
-     * @returns {*}
+     * @returns {Shape}
      */
     getWaveShape: function() {
       var tipAngle = this.extend ? Math.PI / 2 : this.getAngle();
@@ -205,7 +205,7 @@ define( function( require ) {
     /**
      * The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
      * @public
-     * @returns {[]}
+     * @returns {Array}
      */
     getWaveBounds: function() {
       if ( this.waveBounds.length > 0 ) {

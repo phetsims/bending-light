@@ -36,9 +36,19 @@ define( function( require ) {
     getIndexOfRefraction: function( wavelength ) {
       return this.mediumState.dispersionFunction.getIndexOfRefraction( wavelength );
     },
+
+    /**
+     * @public
+     * @returns {boolean}
+     */
     isMystery: function() {
       return this.mediumState.mystery;
     },
+
+    /**
+     * @public
+     * @returns {MediumState}
+     */
     getMediumState: function() {
       return this.mediumState;
     }
