@@ -90,7 +90,7 @@ define( function( require ) {
     this.addChild( this.whiteLightNode );
     this.addChild( this.afterLightLayer );
 
-    // switch between light renderers for white vs nonwhite light
+    // switch between light render  for white vs nonwhite light
     model.getLaser().colorModeProperty.link( function( color ) {
       var white = color === 'white';
       bendingLightView.whiteLightNode.setVisible( white );

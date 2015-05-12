@@ -1,6 +1,8 @@
-// Copyright (c) 2002 - 2015. University of Colorado Boulder
+// Copyright 2002 - 2015, University of Colorado Boulder
 
 /**
+ * WaveParticle  is to simulate the wave transformation in Canvas mode.
+ * WaveParticle has position , width , angle and etc..
  * @author Chandrashekar Bemagoni  (Actual Concepts)
  */
 define( function( require ) {
@@ -12,11 +14,11 @@ define( function( require ) {
   /**
    *
    * @param {Vector2} position - position of wave particle
-   * @param {number}width -width of  wave particle
-   * @param {Color}color
-   * @param {Color}particleGradientColor
-   * @param {number}angle
-   * @param {number}waveHeight
+   * @param {number} width - width of  wave particle
+   * @param {Color} color
+   * @param {Color} particleGradientColor
+   * @param {number} angle
+   * @param {number} waveHeight
    * @constructor
    */
   function WaveParticle( position, width, color, particleGradientColor, angle, waveHeight ) {

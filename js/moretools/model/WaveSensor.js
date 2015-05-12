@@ -60,8 +60,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {function} probe1Value
-   * @param {function} probe2Value
+   * @param {function} probe1Value - function for getting data from a probe at the specified point
+   * @param {function} probe2Value - function for getting data from a probe at the specified point
    * @constructor
    */
   function WaveSensor( probe1Value, probe2Value ) {
@@ -91,14 +91,15 @@ define( function( require ) {
       this.simulationTimeChanged();
     },
 
+    /**
+     * Read samples from the probes when the simulation time changes
+     */
     simulationTimeChanged: function() {
-      // Read samples from the probes when the simulation time changes
       this.updateProbeSample( this.probe1, this.probe1Value );
       this.updateProbeSample( this.probe2, this.probe2Value );
     },
 
     /**
-     * Read samples from the probes when the simulation time changes
      *
      * @param {Probe} probe
      * @param {function} probeValue

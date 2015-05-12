@@ -29,13 +29,17 @@ define( function( require ) {
 
   return inherit( Object, Series, {
 
+    /**
+     * @public
+     * @returns {Color}
+     */
     getColor: function() {
       return this.color;
     },
 
     /**
      * Discard early samples that have gone out of range
-     *
+     * @public
      * @param {number} minTime
      */
     keepLastSamples: function( minTime ) {
