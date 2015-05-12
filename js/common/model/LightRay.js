@@ -283,7 +283,10 @@ define( function( require ) {
      */
     contains: function( position, waveMode ) {
       if ( waveMode ) {
-        return this.getWaveShape().containsPoint( position );
+        // todo:  Need to Change kite/js/segments/Line.js    ( s < 0.000001 ) = >   ( s < 0.0000001 )
+        //  return this.getWaveShape().containsPoint( position );
+        var intersection = this.getWaveShape().intersection( new Ray2( position, this.getUnitVector() ) );
+        return intersection.length % 2 === 1;
       }
       else {
         return this.toLine2D().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;
