@@ -111,9 +111,17 @@ define( function( require ) {
 
         // since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
-        var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ),
-          n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth,
-          0.0, true, false );
+        var incidentRay = new LightRay( trapeziumWidth,
+          tail,
+          new Vector2( 0, 0 ),
+          n1,
+          wavelengthInTopMedium,
+          sourcePower,
+          color,
+          sourceWaveWidth,
+          0.0,
+          true,
+          false );
         var rayAbsorbed = this.addAndAbsorb( incidentRay );
         if ( !rayAbsorbed ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
@@ -128,13 +136,15 @@ define( function( require ) {
           else {
             reflectedPowerRatio = 1.0;
           }
-          this.addAndAbsorb( new LightRay( trapeziumWidth, new Vector2( 0, 0 ),
+          this.addAndAbsorb( new LightRay( trapeziumWidth,
+            new Vector2( 0, 0 ),
             Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ),
-            n1, wavelengthInTopMedium,
+            n1,
+            wavelengthInTopMedium,
             reflectedPowerRatio * sourcePower,
-            color, sourceWaveWidth,
+            color,
+            sourceWaveWidth,
             incidentRay.getNumberOfWavelengths(),
-
             true,
             true ) );
 
@@ -155,11 +165,17 @@ define( function( require ) {
               var transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
               var transmittedWaveWidth = transmittedBeamHalfWidth * 2;
               // intercepted
-              var transmittedRay = new LightRay( trapeziumWidth, new Vector2( 0, 0 ),
-                Vector2.createPolar( 1, theta2 - Math.PI / 2 ), n2,
-                transmittedWavelength, transmittedPowerRatio * sourcePower,
-                color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(),
-                true, true ); //todo: using extendBackwards param to fix the shapes near y=0
+              var transmittedRay = new LightRay( trapeziumWidth,
+                new Vector2( 0, 0 ),
+                Vector2.createPolar( 1, theta2 - Math.PI / 2 ),
+                n2,
+                transmittedWavelength,
+                transmittedPowerRatio * sourcePower,
+                color,
+                transmittedWaveWidth,
+                incidentRay.getNumberOfWavelengths(),
+                true,
+                true ); //todo: using extendBackwards param to fix the shapes near y=0
               this.addAndAbsorb( transmittedRay );
             }
           }

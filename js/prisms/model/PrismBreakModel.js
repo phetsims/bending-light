@@ -341,9 +341,17 @@ define( function( require ) {
           rayVisibleColor.getAlpha() );
 
         // Add the incident ray itself
-        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail, intersection.getPoint(), n1,
-          wavelengthInN1, incidentRay.power, rayColor,
-          waveWidth, 0, true, false ) );
+        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2,
+          incidentRay.tail,
+          intersection.getPoint(),
+          n1,
+          wavelengthInN1,
+          incidentRay.power,
+          rayColor,
+          waveWidth,
+          0,
+          true,
+          false ) );
       }
       else {
         rayColor = new Color( 0, 0, 0, 0 );
@@ -352,10 +360,17 @@ define( function( require ) {
           rayVisibleColor.getAlpha() );
 
         // No intersection, so the light ray should just keep going
-        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2, incidentRay.tail,
-          incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ), n1, wavelengthInN1,
-          incidentRay.power, rayColor,
-          waveWidth, 0, true, false ) );
+        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2,
+          incidentRay.tail,
+          incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ),
+          n1,
+          wavelengthInN1,
+          incidentRay.power,
+          rayColor,
+          waveWidth,
+          0,
+          true,
+          false ) );
       }
     },
 
