@@ -55,7 +55,7 @@ define( function( require ) {
     //Control boxes next
     //Protractor
     //Laser beam
-    //To implement this, we specify before light layer and 2 after light layers
+    //To implement this, we specify 2  before light layer and 2 after light layers
     this.beforeLightLayer = new Node();
     this.beforeLightLayer2 = new Node();
 
@@ -89,6 +89,11 @@ define( function( require ) {
     this.addChild( this.incidentWaveCanvasLayer );
     this.addChild( this.whiteLightNode );
     this.addChild( this.afterLightLayer );
+
+    // This layer  is to add laser view control panel
+    //  Note: this layer to make protractor behind laser view   panel and laser node on top of laser view panel.
+    this.laserViewLayer = new Node();
+    this.addChild( this.laserViewLayer );
 
     // switch between light render for white vs nonwhite light
     model.getLaser().colorModeProperty.link( function( color ) {
@@ -150,15 +155,9 @@ define( function( require ) {
       this.layoutBounds );
     this.addChild( laserNode );
 
-    model.laser.emissionPointProperty.link( function() {
-      leftRotationDragHandle.moveToFront();
-      rightRotationDragHandle.moveToFront();
-      leftTranslationDragHandle.moveToFront();
-      rightTranslationDragHandle.moveToFront();
-      topTranslationDragHandle.moveToFront();
-      bottomTranslationDragHandle.moveToFront();
-      laserNode.moveToFront();
-    } );
+    // add laser node  rotation  and translation in array  , for to move them to front of all in prism screen
+    this.laserLayerArray = [ leftRotationDragHandle, rightRotationDragHandle, leftTranslationDragHandle,
+      rightTranslationDragHandle, topTranslationDragHandle, bottomTranslationDragHandle, laserNode ];
 
     this.addChild( this.afterLightLayer2 );
 

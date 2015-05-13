@@ -156,6 +156,13 @@ define( function( require ) {
     this.timer = new EventTimer( new EventTimer.ConstantEventModel( 30 ), function() {
       prismBreakView.stepInternal();
     } );
+
+// Move the laser node to front of all other nodes of prism screen.
+    prismBreakModel.laser.emissionPointProperty.link( function() {
+      for ( var i = 0; i < prismBreakView.laserLayerArray.length; i++ ) {
+        prismBreakView.laserLayerArray[ i ].moveToFront();
+      }
+    } );
   }
 
   return inherit( BendingLightView, PrismBreakView, {

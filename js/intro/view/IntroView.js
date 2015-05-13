@@ -173,7 +173,7 @@ define( function( require ) {
       top:  this.layoutBounds.top + laserViewYOffset
     } );
 
-    this.afterLightLayer2.addChild( laserView );
+    this.laserViewLayer.addChild( laserView );
 
     var sensorPanelHeight = hasMoreTools ? 303 : 203;
 
