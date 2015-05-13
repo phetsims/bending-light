@@ -236,13 +236,23 @@ define( function( require ) {
     },
 
     addToMoreToolsView: function() {
-      this.moreToolsView.beforeLightLayer2.removeChild( this );
-      this.moreToolsView.afterLightLayer2.addChild( this );
+
+      if ( this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
+        this.moreToolsView.beforeLightLayer2.removeChild( this );
+      }
+      if ( !this.moreToolsView.afterLightLayer2.isChild( this ) ) {
+        this.moreToolsView.afterLightLayer2.addChild( this );
+      }
     },
 
     addToSensorPanel: function() {
-      this.moreToolsView.afterLightLayer2.removeChild( this );
-      this.moreToolsView.beforeLightLayer2.addChild( this );
+
+      if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
+        this.moreToolsView.afterLightLayer2.removeChild( this );
+      }
+      if ( !this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
+        this.moreToolsView.beforeLightLayer2.addChild( this );
+      }
     },
 
     reset: function() {

@@ -238,16 +238,26 @@ define( function( require ) {
        * @public
        */
       addToBendingLightView: function() {
-        this.bendingLightView.beforeLightLayer2.removeChild( this );
-        this.bendingLightView.afterLightLayer.addChild( this );
+
+        if ( this.bendingLightView.beforeLightLayer2.isChild( this ) ) {
+          this.bendingLightView.beforeLightLayer2.removeChild( this );
+        }
+        if ( !this.bendingLightView.afterLightLayer.isChild( this ) ) {
+          this.bendingLightView.afterLightLayer.addChild( this );
+        }
       },
 
       /**
        * @public
        */
       addToSensorPanel: function() {
-        this.bendingLightView.afterLightLayer.removeChild( this );
-        this.bendingLightView.beforeLightLayer2.addChild( this );
+
+        if ( this.bendingLightView.afterLightLayer.isChild( this ) ) {
+          this.bendingLightView.afterLightLayer.removeChild( this );
+        }
+        if ( !this.bendingLightView.beforeLightLayer2.isChild( this ) ) {
+          this.bendingLightView.beforeLightLayer2.addChild( this );
+        }
       },
 
       /**

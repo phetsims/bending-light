@@ -173,7 +173,7 @@ define( function( require ) {
       top:  this.layoutBounds.top + laserViewYOffset
     } );
 
-    this.addChild( laserView );
+    this.afterLightLayer2.addChild( laserView );
 
     var sensorPanelHeight = hasMoreTools ? 303 : 203;
 
@@ -284,7 +284,7 @@ define( function( require ) {
       spacing: radioButtonSpacing,
       children: [ normalMotionRadioBox, slowMotionRadioBox ]
     } );
-    this.addChild( this.speedControl.mutate( {
+    this.afterLightLayer2.addChild( this.speedControl.mutate( {
       left: this.sensorPanel.right + 25,
       bottom: this.layoutBounds.bottom - 15
     } ) );
@@ -296,7 +296,7 @@ define( function( require ) {
         bottom: this.layoutBounds.bottom - 15,
         left: this.speedControl.right + INSET
       } );
-    this.addChild( this.playPauseButton );
+    this.afterLightLayer2.addChild( this.playPauseButton );
 
     this.stepButton = new StepButton(
       function() {
@@ -319,7 +319,7 @@ define( function( require ) {
         y: this.playPauseButton.centerY
       }
     );
-    this.addChild( this.stepButton );
+    this.afterLightLayer2.addChild( this.stepButton );
     introModel.laserViewProperty.link( function( laserType ) {
 
       introView.playPauseButton.visible = (laserType === 'wave');
