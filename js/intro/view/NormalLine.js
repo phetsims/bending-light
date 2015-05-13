@@ -17,9 +17,11 @@ define( function( require ) {
   /**
    *
    * @param {number} height -height of normal
+   * @param {number} on
+   * @param {number} off
    * @constructor
    */
-  function NormalLine( height ) {
+  function NormalLine( height, on, off ) {
     Node.call( this );
 
     // normal Line
@@ -29,7 +31,7 @@ define( function( require ) {
       .moveTo( x, y1 )//x1,y1
       .lineTo( x, height );//x2,y2
 
-    this.addChild( new Path( shape, { stroke: 'black', lineDash: [ 6, 4 ] } ) );
+    this.addChild( new Path( shape, { stroke: 'black', lineDash: [ on, off ] } ) );
 
   }
 

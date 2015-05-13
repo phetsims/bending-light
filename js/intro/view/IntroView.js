@@ -43,7 +43,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {IntroModel} introModel -model of intro screen
+   * @param {IntroModel} introModel - model of intro screen
    * @param {number} centerOffsetLeft
    * @param {boolean} hasMoreTools
    * @param {number} IndexOfRefractionDecimals
@@ -60,34 +60,31 @@ define( function( require ) {
       return Util.clamp( angle, Math.PI / 2, Math.PI );
     }
 
-    // indicate if the laser is not at its max angle,
-    // and therefore can be dragged to larger angles
+    // indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
     function clockwiseArrowNotAtMax( laserAngle ) {
       return laserAngle < Math.PI;
     }
 
-    // indicate if the laser is not at its min angle,
-    // and can therefore be dragged to smaller angles.
+    // indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
     function ccwArrowNotAtMax( laserAngle ) {
       return laserAngle > Math.PI / 2;
     }
 
     // rotation if the user clicks anywhere on the object
     function rotationRegionShape( full, back ) {
-      // in this screen, clicking anywhere on the laser (i.e. on its 'full' bounds)
-      // translates it, so always return the 'full' region
+      // in this screen, clicking anywhere on the laser (i.e. on its 'full' bounds) translates it, so always return the
+      // 'full' region
       return full;
     }
 
-    // get the function that chooses which region of the protractor can be used for
-    // rotation--none in this tab.
+    // get the function that chooses which region of the protractor can be used for rotation--none in this tab.
     this.getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
       // empty shape since shouldn't be rotatable in this tab
       return new Shape.rect( 0, 0, 0, 0 );
     };
 
-    // get the function that chooses which region of the protractor can be used for translation--both
-    // the inner bar and outer circle in this screen
+    // get the function that chooses which region of the protractor can be used for translation--both the inner bar and
+    // outer circle in this screen
     this.getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
       return fullShape;
     };
@@ -128,8 +125,8 @@ define( function( require ) {
       this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET + 1 );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
-    // add a line that will show the border between the mediums even when both n's are the same... Just a thin line
-    // will be fine.
+    // add a line that will show the border between the mediums even when both n's are the same... Just a thin line will
+    // be fine.
     this.beforeLightLayer.addChild( new Path( this.modelViewTransform.modelToViewShape(
       new Shape()
         .moveTo( -1, 0 )
@@ -140,7 +137,7 @@ define( function( require ) {
 
     // show the normal line where the laser strikes the interface between mediums
     var normalLineHeight = stageHeight / 2;
-    var normalLine = new NormalLine( normalLineHeight );
+    var normalLine = new NormalLine( normalLineHeight, 7, 6 );
     normalLine.setTranslation( this.modelViewTransform.modelToViewX( 0 ),
       this.modelViewTransform.modelToViewY( 0 ) - normalLineHeight / 2 );
     this.afterLightLayer2.addChild( normalLine );
@@ -170,7 +167,7 @@ define( function( require ) {
     var laserViewYOffset = hasMoreTools ? 2 * INSET - 4 : 2 * INSET;
     var laserView = new LaserView( introModel, hasMoreTools, {
       left: this.layoutBounds.minX + laserViewXOffset,
-      top:  this.layoutBounds.top + laserViewYOffset
+      top: this.layoutBounds.top + laserViewYOffset
     } );
 
     this.laserViewLayer.addChild( laserView );
@@ -226,7 +223,7 @@ define( function( require ) {
     this.beforeLightLayer2.addChild( normalCheckBox );
 
     // add normal
-    var normalIcon = new NormalLine( 34 );
+    var normalIcon = new NormalLine( 34, 4, 3 );
     normalIcon.setTranslation( this.sensorPanel.x + this.sensorPanel.width / 2,
       this.sensorPanel.y + sensorPanelHeight - 41 );
     this.beforeLightLayer2.addChild( normalIcon );
@@ -335,8 +332,8 @@ define( function( require ) {
       if ( this.introModel.isPlaying ) {
         this.stepInternal();
 
-        // This is required to clear the previous canvas particle layers from the view.
-        // When the sim is paused in wave mode and the laser is dragged or the mode is switched from wave to ray
+        // This is required to clear the previous canvas particle layers from the view. When the sim is paused in wave
+        // mode and the laser is dragged or the mode is switched from wave to ray
         for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
           this.waveCanvasLayer.children[ k ].step();
         }

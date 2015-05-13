@@ -155,7 +155,7 @@ define( function( require ) {
       this.layoutBounds );
     this.addChild( laserNode );
 
-    // add laser node  rotation  and translation in array  , for to move them to front of all in prism screen
+    // add laser node  rotation  and translation  arrows in array  , for to move them to front of all other nodes in prism screen
     this.laserLayerArray = [ leftRotationDragHandle, rightRotationDragHandle, leftTranslationDragHandle,
       rightTranslationDragHandle, topTranslationDragHandle, bottomTranslationDragHandle, laserNode ];
 

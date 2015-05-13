@@ -1,8 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * View for the Velocity Sensor tool. Measures the velocity at the sensor's tip and shows it in the display box.
- * Also points a blue arrow along the direction of the velocity and the arrow length is proportional to the velocity.
+ * View for the Velocity Sensor tool. Measures the velocity at the sensor's tip and shows it in the display box. Also
+ * points a blue arrow along the direction of the velocity and the arrow length is proportional to the velocity.
  *
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
@@ -37,7 +37,7 @@ define( function( require ) {
   /**
    *
    * @param {MoreToolsView} moreToolsView
-   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param {number} arrowScale
    * @param {Rectangle} container
@@ -56,7 +56,7 @@ define( function( require ) {
     var rectangleHeight = 70;
 
     // Adding outer rectangle
-    var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 10, 10, {
+    var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 15, 15, {
       stroke: '#DC9E24',
       fill: new LinearGradient( 0, 0, 0, rectangleHeight )
         .addColorStop( 0, '#E9AA35' )

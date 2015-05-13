@@ -70,7 +70,6 @@ define( function( require ) {
         if ( container.bounds.containsPoint( probeNode.center ) ) {
           fromSensorPanel = true;
           waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
-          waveSensorNode.setWaveSensorNodeScale( modelViewTransform.viewToModelPosition( start ), 1 );
           waveSensorNode.waveSensor.visibleProperty.set( true );
           waveSensorNode.addMoreToolsView();
         }
@@ -96,7 +95,8 @@ define( function( require ) {
       },
       end: function() {
         // Check intersection only with the outer rectangle.
-        if ( container.bounds.containsPoint( probeNode.center ) ) {
+        if ( container.bounds.containsPoint( probeNode.center ) ||
+             container.bounds.containsPoint( waveSensorNode.probe1Node.center ) ) {
           toSensorPanel = true;
           waveSensorNode.waveSensor.visibleProperty.set( false );
           waveSensorNode.addToSensorPanel();
@@ -104,8 +104,6 @@ define( function( require ) {
         if ( toSensorPanel ) {
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             waveSensorNode.waveSensor.probe1.positionProperty.initialValue, waveSensorNodeScaleInSideContainer );
-          waveSensorNode.setWaveSensorNodeScale( waveSensorNode.waveSensor.probe1.positionProperty.initialValue,
-            waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
         }
       }
@@ -211,7 +209,6 @@ define( function( require ) {
         if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ) {
           fromSensorPanel = true;
           waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
-          waveSensorNode.setWaveSensorNodeScale( modelViewTransform.viewToModelPosition( start ), 1 );
           waveSensor.visibleProperty.set( true );
           waveSensorNode.addMoreToolsView();
         }
@@ -246,8 +243,6 @@ define( function( require ) {
         }
         if ( toSensorPanel ) {
           waveSensorNode.setWaveSensorNodeScaleAnimation( waveSensor.probe1.positionProperty.initialValue,
-            waveSensorNodeScaleInSideContainer );
-          waveSensorNode.setWaveSensorNodeScale( waveSensor.probe1.positionProperty.initialValue,
             waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
         }
@@ -316,15 +311,17 @@ define( function( require ) {
       this.probe1Node.setScaleMagnitude( scale );
       this.probe2Node.setScaleMagnitude( scale );
 
-      var delta1 = this.waveSensor.bodyPositionProperty.get().minus(
-        this.waveSensor.probe1.position ).multiply( scale / prevScale );
-      this.waveSensor.bodyPositionProperty.set( new Vector2(
-        this.waveSensor.probe1.position.x + delta1.x, this.waveSensor.probe1.position.y + delta1.y ) );
+      var delta1X = this.waveSensor.probe1.position.x * ( 1 - scale / prevScale ) +
+                    this.waveSensor.bodyPositionProperty.get().x * scale / prevScale;
+      var delta1Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
+                    this.waveSensor.bodyPositionProperty.get().y * scale / prevScale;
+      this.waveSensor.bodyPositionProperty.set( new Vector2( delta1X, delta1Y ) );
 
-      var delta2 = this.waveSensor.probe2.position.minus(
-        this.waveSensor.probe1.position ).multiply( scale / prevScale );
-      this.waveSensor.probe2.positionProperty.set( new Vector2(
-        this.waveSensor.probe1.position.x + delta2.x, this.waveSensor.probe1.position.y + delta2.y ) );
+      var delta2X = this.waveSensor.probe1.position.x * ( 1 - scale / prevScale ) +
+                    this.waveSensor.probe2.position.x * scale / prevScale;
+      var delta2Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
+                    this.waveSensor.probe2.position.y * scale / prevScale;
+      this.waveSensor.probe2.positionProperty.set( new Vector2( delta2X, delta2Y ) );
 
       this.waveSensor.translateAll( endPosition.minus( this.waveSensor.probe1.position ) );
     },
