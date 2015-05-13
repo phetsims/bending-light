@@ -57,11 +57,13 @@ define( function( require ) {
 
     // Adding outer rectangle
     var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 15, 15, {
-      stroke: '#DC9E24',
+      stroke: '#844702',
       fill: new LinearGradient( 0, 0, 0, rectangleHeight )
-        .addColorStop( 0, '#E9AA35' )
-        .addColorStop( 0.5, '#C88214' )
-        .addColorStop( 1, '#C07D03' ),
+        .addColorStop( 0, '#F3D092' )
+        .addColorStop( 0.2, '#DE9103' )
+        .addColorStop( 0.6, '#CF8702' )
+        .addColorStop( 0.8, '#DE9103' )
+        .addColorStop( 1, '#B07200' ),
       lineWidth: 1
     } );
     this.addChild( outerRectangle );
@@ -85,10 +87,11 @@ define( function( require ) {
     this.addChild( titleText );
 
     // Adding inner rectangle
-    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth - 20, rectangleHeight - 38 ),
+    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth - 10, rectangleHeight - 38 ),
       {
         baseColor: 'white',
         lightSource: 'rightBottom',
+        cornerRadius: 5,
         centerX: innerRectangle.centerX,
         bottom: innerRectangle.bottom - 5
       } );
@@ -108,7 +111,7 @@ define( function( require ) {
       .lineTo( innerRectangle.centerX, triangleHeight + innerMostRectangle.y + 1 )
       .lineTo( innerRectangle.centerX + triangleWidth / 2, innerMostRectangle.y + 1 ), {
       fill: '#C88203',
-      stroke: '#937133',
+      stroke: '#844702',
       top: outerRectangle.bottom - 1
     } );
     this.addChild( triangleShapeNode );
@@ -185,7 +188,7 @@ define( function( require ) {
 
     // Update the text when the value or units changes.
     Property.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty ],
-      function( velocity, position ) {
+      function( velocity ) {
         if ( velocity.magnitude() === 0 ) {
           labelText.text = '?';
         }
