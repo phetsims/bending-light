@@ -322,17 +322,16 @@ define( function( require ) {
     },
 
     stepInternal: function() {
-
-      if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
-        if ( !this.allowWebGL ) {
-          this.propagateParticles();
-        }
-      }
       this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
       var introModel = this;
       this.rays.forEach( function( ray ) {
         ray.setTime( introModel.time );
       } );
+      if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
+        if ( !this.allowWebGL ) {
+          this.propagateParticles();
+        }
+      }
     },
 
     /**

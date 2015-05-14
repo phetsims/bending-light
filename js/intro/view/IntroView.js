@@ -297,7 +297,6 @@ define( function( require ) {
 
     this.stepButton = new StepButton(
       function() {
-        introView.stepInternal();
         introModel.stepInternal();
         introView.stepInternal();
       },
