@@ -59,8 +59,6 @@ define( function( require ) {
     } );
 
     // Note: vectors that are used in step function are created here to reduce Vector2 allocations
-    // vector for light Ray
-    this.waveVector = new Vector2( 0, 0 );
     // light ray tail position
     this.tailVector = new Vector2( 0, 0 );
     // light ray tip position
@@ -320,16 +318,16 @@ define( function( require ) {
 
       if ( this.isPlaying ) {
         this.stepInternal();
-        var particleDeltaFactor = this.speed === 'normal' ? 20 : 45;
-        if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
-          if ( !this.allowWebGL ) {
-            this.propagateParticles( particleDeltaFactor );
-          }
-        }
       }
     },
 
     stepInternal: function() {
+
+      if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
+        if ( !this.allowWebGL ) {
+          this.propagateParticles();
+        }
+      }
       this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
       var introModel = this;
       this.rays.forEach( function( ray ) {
@@ -338,89 +336,43 @@ define( function( require ) {
     },
 
     /**
-     * add  a particle
-     */
-    addParticle: function() {
-      var particleColor;
-      var particleGradientColor;
-      var lightRayToPropagate;
-      for ( var k = 0; k < this.rays.length; k++ ) {
-        lightRayToPropagate = this.rays.get( k );
-        var angle = lightRayToPropagate.getAngle();
-        particleColor = new Color( lightRayToPropagate.color.getRed(), lightRayToPropagate.color.getGreen(),
-          lightRayToPropagate.color.getBlue(), Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
-        particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) );
-        var viewWavelength = lightRayToPropagate.getWavelength();
-        var vector = lightRayToPropagate.toVector2D();
-        var directionVectorX = vector.x / vector.magnitude();
-        var directionVectorY = vector.y / vector.magnitude();
-
-        this.waveVector.x = directionVectorX * viewWavelength;
-        this.waveVector.y = directionVectorY * viewWavelength;
-        var particlePosition = new Vector2( 0, 0 );
-        if ( k === 0 ) {
-
-          //var lastX = lightRayToPropagate.particles.get( lightRayToPropagate.particles.length - 1 ).position.x;
-          //var lastY = lightRayToPropagate.particles.get( lightRayToPropagate.particles.length - 1 ).position.y;
-          //particlePosition.x = lastX - (directionVectorX * lightRayToPropagate.getWavelength());
-          //particlePosition.y = lastY - (directionVectorY * lightRayToPropagate.getWavelength());
-          particlePosition.x = lightRayToPropagate.tail.x;// - (directionVectorX * lightRayToPropagate.getWavelength());
-          particlePosition.y = lightRayToPropagate.tail.y;// - (directionVectorY * lightRayToPropagate.getWavelength());
-        }
-        else {
-          particlePosition.x = lightRayToPropagate.tail.x - (directionVectorX * lightRayToPropagate.trapeziumWidth / 2 * Math.cos( angle ));
-          particlePosition.y = lightRayToPropagate.tail.y - (directionVectorY * lightRayToPropagate.trapeziumWidth / 2 * Math.cos( angle ));
-        }
-        lightRayToPropagate.particles.push( new WaveParticle(
-          particlePosition,
-          lightRayToPropagate.getWaveWidth(),
-          particleColor.toCSS(),
-          particleGradientColor.toCSS(),
-          angle,
-          this.waveVector.magnitude() ) );
-      }
-    },
-
-    /**
      * create the particles between light ray tail and and tip
      */
     createInitialParticles: function() {
       var lightRayInRay2Form;
-      var lightRayToPropagate;
+      var lightRay;
       var particleColor;
       var particleGradientColor;
       var j;
       for ( var k = 0; k < this.rays.length; k++ ) {
-        lightRayToPropagate = this.rays.get( k );
-        var directionVector = lightRayToPropagate.toVector2D().normalized();
-        var viewWavelength = lightRayToPropagate.getWavelength();
-        var angle = lightRayToPropagate.getAngle();
+        lightRay = this.rays.get( k );
+        var directionVector = lightRay.getUnitVector();
+        var wavelength = lightRay.getWavelength();
+        var angle = lightRay.getAngle();
         if ( k === 0 ) {
-          this.tipVector.x = lightRayToPropagate.tip.x + directionVector.x * lightRayToPropagate.trapeziumWidth / 2 * Math.cos( angle );
-          this.tipVector.y = lightRayToPropagate.tip.y + directionVector.y * lightRayToPropagate.trapeziumWidth / 2 * Math.cos( angle );
-          this.tailVector.x = lightRayToPropagate.tail.x;
-          this.tailVector.y = lightRayToPropagate.tail.y;
+          this.tipVector.x = lightRay.tip.x + directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle );
+          this.tipVector.y = lightRay.tip.y + directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle );
+          this.tailVector.x = lightRay.tail.x;
+          this.tailVector.y = lightRay.tail.y;
         }
         else {
-          // magnitude * Math.cos( angle ), magnitude * Math.sin( angle )
           this.tipVector.x = ( 1 ) * Math.cos( angle );
           this.tipVector.y = ( 1 ) * Math.sin( angle );
-          this.tailVector.x = lightRayToPropagate.tail.x -
-                              (directionVector.x * lightRayToPropagate.trapeziumWidth / 2 * Math.cos( angle ) );
-          this.tailVector.y = lightRayToPropagate.tail.y - ( directionVector.y * lightRayToPropagate.trapeziumWidth / 2 * Math.cos( angle ) );
+          this.tailVector.x = lightRay.tail.x - directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle );
+          this.tailVector.y = lightRay.tail.y - directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle );
         }
         lightRayInRay2Form = new Ray2( this.tailVector, directionVector );
         var distance = this.tipVector.distance( this.tailVector );
-        var gapBetweenSuccessiveParticles = viewWavelength;
-        particleColor = new Color( lightRayToPropagate.color.getRed(), lightRayToPropagate.color.getGreen(), lightRayToPropagate.color.getBlue(),
-          Math.sqrt( lightRayToPropagate.getPowerFraction() ) ).toCSS();
-        particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRayToPropagate.getPowerFraction() ) ).toCSS();
-        var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;// : this.simDisplayWindowHeight;
+        var gapBetweenSuccessiveParticles = wavelength;
+        particleColor = new Color( lightRay.color.getRed(), lightRay.color.getGreen(), lightRay.color.getBlue(),
+          Math.sqrt( lightRay.getPowerFraction() ) ).toCSS();
+        particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.getPowerFraction() ) ).toCSS();
+        var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;
         var waveParticleGap = 0;
-        var particleWidth = lightRayToPropagate.getWaveWidth();
+        var particleWidth = lightRay.getWaveWidth();
 
         for ( j = 0; j < numberOfParticles; j++ ) {
-          lightRayToPropagate.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ), particleWidth, particleColor, particleGradientColor, angle, viewWavelength ) );
+          lightRay.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ), particleWidth, particleColor, particleGradientColor, angle, wavelength ) );
           waveParticleGap += gapBetweenSuccessiveParticles;
         }
       }
@@ -428,50 +380,37 @@ define( function( require ) {
     },
 
     /**
-     *
-     * @param {number} particleDeltaFactor
+     * Propagate the particles
      */
-    propagateParticles: function( particleDeltaFactor ) {
-      var particle;
-      var particlesToRemove = [];
-      var reflectedParticlesToRemove = [];
-      var refractedParticlesToRemove = [];
-      var waveParticles = [];
+    propagateParticles: function() {
       for ( var i = 0; i < this.rays.length; i++ ) {
-        var lightRayToPropagate = this.rays.get( i );
-        var lightRayBounds = lightRayToPropagate.getWaveBounds();
-        waveParticles = lightRayToPropagate.particles;
-        var lightRayAngle = lightRayToPropagate.getAngle();
-        var deltaX = lightRayToPropagate.wavelength / particleDeltaFactor * Math.cos( lightRayAngle );
-        var deltaY = lightRayToPropagate.wavelength / particleDeltaFactor * Math.sin( lightRayAngle );
-        waveParticles = lightRayToPropagate.particles;
+        var lightRay = this.rays.get( i );
+        var wavelength = lightRay.getWavelength();
+        var directionVector = lightRay.getUnitVector();
+        var waveParticles = lightRay.particles;
 
-        for ( var j = 0; j < waveParticles.length; j++ ) {
-          particle = waveParticles.get( j );
-          particle.position.x = particle.position.x + deltaX;
-          particle.position.y = particle.position.y + deltaY;
-          if ( (i === 0 && particle.position.y + particle.height <= lightRayBounds[ 3 ].y) &&
-               (particle.position.x + particle.width / 2 * Math.abs( Math.sin( particle.angle ) ) - particle.height * Math.cos( particle.angle ) + 0.1 * particle.height) >= lightRayBounds[ 3 ].x ) {
-            particlesToRemove.push( particle );
-          }
-          var yOffsetToDeleteParticle = 3 * particle.width;
-          if ( i === 1 && particle.position.y >= this.simDisplayWindowHeightInModel / 2 + yOffsetToDeleteParticle ) {
-            reflectedParticlesToRemove.push( particle );
-          }
-          if ( i === 2 && particle.position.y <= -this.simDisplayWindowHeightInModel / 2 - yOffsetToDeleteParticle ) {
-            refractedParticlesToRemove.push( particle );
-          }
+        // Compute the total phase along the length of the ray.
+        var totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
+        var phaseDiff = (totalPhaseOffsetInNumberOfWavelengths % 1) * wavelength;
+        var tailX;
+        var tailY;
+        var angle = lightRay.getAngle();
+        if ( i === 0 ) {
+          tailX = lightRay.tail.x;
+          tailY = lightRay.tail.y;
         }
-      }
-      if ( particlesToRemove.length > 0 ) {
-        this.rays.get( 0 ).particles.removeAll( particlesToRemove );
-        this.addParticle();
-      }
-      if ( reflectedParticlesToRemove.length > 0 ) {
-        this.rays.get( 1 ).particles.removeAll( reflectedParticlesToRemove );
-      }
-      if ( refractedParticlesToRemove.length > 0 ) {
-        this.rays.get( 2 ).particles.removeAll( refractedParticlesToRemove );
+        else {
+          var distance = lightRay.trapeziumWidth / 2 * Math.cos( angle );
+          phaseDiff = (distance + phaseDiff) % wavelength;
+          tailX = lightRay.tail.x - (directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle ));
+          tailY = lightRay.tail.y - (directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle ));
+        }
+        // Changing the wave particle position  within the  wave particle phase
+        for ( var j = 0; j < waveParticles.length; j++ ) {
+          var particle = waveParticles.get( j );
+          particle.position.x = tailX + (directionVector.x * ( (j * wavelength) + phaseDiff ));
+          particle.position.y = tailY + (directionVector.y * ( (j * wavelength) + phaseDiff ));
+        }
       }
     }
   } );

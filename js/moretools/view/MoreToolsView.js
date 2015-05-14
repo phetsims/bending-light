@@ -48,7 +48,11 @@ define( function( require ) {
 
   return inherit( IntroView, MoreToolsView, {
 
+    /**
+     * @protected
+     */
     stepInternal: function() {
+      IntroView.prototype.stepInternal.call( this );
       if ( this.waveSensorNode.waveSensor.visibleProperty.get() ) {
         this.waveSensorNode.waveSensor.step();
         this.waveSensorNode.chartNode.step( this.moreToolsModel.time );
@@ -58,7 +62,7 @@ define( function( require ) {
     /**
      * Create the VelocitySensorNode
      *
-     * @returns {*}
+     * @returns {VelocitySensorNode}
      */
     createVelocitySensorTool: function() {
       return new VelocitySensorNode( this, this.modelViewTransform, this.moreToolsModel.velocitySensor,
@@ -68,16 +72,18 @@ define( function( require ) {
     /**
      * Create the WaveSensorNode
      *
-     * @returns {*}
+     * @returns {WaveSensorNode}
      */
     createWaveSensorTool: function() {
       return new WaveSensorNode( this, this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel,
         this.layoutBounds );
     },
 
+    /**
+     *  @protected
+     */
     reset: function() {
-      this.protractorModel.reset();
-      this.protractorNode.reset();
+      IntroView.prototype.reset.call( this );
       this.velocitySensorNode.reset();
       this.waveSensorNode.reset();
     }
