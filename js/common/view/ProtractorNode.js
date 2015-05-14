@@ -177,8 +177,8 @@ define( function( require ) {
       var center = protractorNode.modelViewTransform.modelToViewPosition( position );
       var point = new Vector2( center.x - (protractorNode.protractorImageNode.width * protractorNode.getScaleVector().x / 2),
         center.y - (protractorNode.protractorImageNode.height * protractorNode.getScaleVector().y / 2) );
-      var newPoint = point.minus( center ).rotate( protractorNode.getRotation() );
-      protractorNode.setTranslation( newPoint.plus( center ) );
+      var newPoint = point.subtract( center ).rotate( protractorNode.getRotation() );
+      protractorNode.setTranslation( newPoint.add( center ) );
     } );
     this.touchArea = this.localBounds;
   }

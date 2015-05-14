@@ -81,7 +81,7 @@ define( function( require ) {
         prism.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
         var position = ConstraintBounds.constrainLocation( prism.shapeProperty.get().getRotationCenter(),
           modelViewTransform.viewToModelBounds( prismDragBounds ) );
-        prism.translate( position.minus( prism.shapeProperty.get().getRotationCenter() ) );
+        prism.translate( position.subtract( prism.shapeProperty.get().getRotationCenter() ) );
         start = end;
       },
       end: function() {
@@ -124,4 +124,3 @@ define( function( require ) {
 
   return inherit( Node, PrismNode, {} );
 } );
-
