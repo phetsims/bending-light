@@ -39,13 +39,13 @@ define( function( require ) {
       // Simple example for custom shader
       var vertexShaderSource = [
         // Position
-        'attribute vec3 aPosition;',
-        'attribute float aPowerFraction;',
-        'attribute vec3 aColor;',
-        'attribute vec2 aTail;',
-        'attribute float aAngle;',
-        'attribute float aWaveLength;',
-        'attribute float aPhase;',
+        'attribute vec3 aPosition;', // vertex attribute
+        'attribute float aPowerFraction;', // light ray power fraction
+        'attribute vec3 aColor;', // Color of the wave
+        'attribute vec2 aTail;', // Tail point
+        'attribute float aAngle;', // Angle of the Ray
+        'attribute float aWaveLength;', // Wavelength of the Ray
+        'attribute float aPhase;', // phase difference of the Ray
         'varying float vPowerFraction;',
         'varying vec3 vColor;',
         'varying vec2 vTail;',
@@ -79,22 +79,25 @@ define( function( require ) {
         'varying float vAngle;',
         'varying float vWaveLength;',
         'varying float vPhase;',
-        'uniform vec2 uCanvasOffset;', // dimensions of the Canvas
+        'uniform vec2 uCanvasOffset;', // Canvas Offset
         'uniform float uScale;',
         'void main( void ) {',
+        // converting pixel coordinates to view coordinates.
         'float x1 = (gl_FragCoord.x-uCanvasOffset.x)/uScale;',
         'float y1 = (gl_FragCoord.y-uCanvasOffset.y)/uScale;',
-        'float distance = dot(vec2(cos(vAngle),sin(vAngle)), vec2(x1-vTail.x,y1-vTail.y));',
-        'float positionDiff = abs(distance)>vPhase?distance - vPhase:distance- vPhase +vWaveLength;',
-        'if(abs(positionDiff)>vWaveLength){',
-        'positionDiff =mod(positionDiff, vWaveLength);',
-        '}',
-        'if(abs(positionDiff)<vWaveLength/2.0){',
-        'gl_FragColor = vec4( ( vColor*(abs(positionDiff)/(vWaveLength/2.0)) + vec3(0,0,0)*(1.0-abs(positionDiff)/(vWaveLength/2.0)) )*vPowerFraction,vPowerFraction ) ;',
+        // Perpendicular distance from tail to rendering coordinate. This is obtained by Coordinate Transformation to
+        // tail point and applying dot product to the unit vector in the direction of ray and rendering coordinate
+        // tail coordinate is mapped from view to canvas (layoutBounds.height - vTail.y)
+        'float distance = dot(vec2(cos(vAngle),sin(vAngle)), vec2(x1-vTail.x,y1+vTail.y-524.0));',
+        // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
+        'float positionDiff = distance>0.0? mod( vWaveLength - vPhase + distance, vWaveLength): vWaveLength - mod( vPhase - distance, vWaveLength);',
+        // color is determined by perpendicular distance of coordinate from the start of the particle.
+        'if((positionDiff)<vWaveLength/2.0){',
+        'gl_FragColor = vec4( ( vColor*((positionDiff)/(vWaveLength/2.0)) + vec3(0,0,0)*(1.0-(positionDiff)/(vWaveLength/2.0)) )*vPowerFraction,vPowerFraction ) ;',
         '}',
         'else{',
         'positionDiff = positionDiff>0.0?positionDiff -vWaveLength/2.0:positionDiff +vWaveLength/2.0;',
-        'gl_FragColor = vec4(( vec3(0,0,0)*(1.0-abs(positionDiff)/(vWaveLength/2.0)) + vColor*(((vWaveLength/2.0)-abs(positionDiff))/(vWaveLength/2.0)))*vPowerFraction,vPowerFraction ) ;',
+        'gl_FragColor = vec4(( vec3(0,0,0)*(1.0-(positionDiff)/(vWaveLength/2.0)) + vColor*(((vWaveLength/2.0)-(positionDiff))/(vWaveLength/2.0)))*vPowerFraction,vPowerFraction ) ;',
         '}',
         '}'
       ].join( '\n' );
@@ -134,7 +137,7 @@ define( function( require ) {
         var point4X = this.modelViewTransform.modelToViewX( lightRay.getWaveShape().subpaths[ 0 ].points[ 2 ].x );
         var point4Y = this.modelViewTransform.modelToViewY( lightRay.getWaveShape().subpaths[ 0 ].points[ 2 ].y );
 
-        // elements
+        // points  to draw  light ray beam
         elements.push( point1X, point1Y, 1 );
         elements.push( point2X, point2Y, 1 );
         elements.push( point3X, point3Y, 1 );
