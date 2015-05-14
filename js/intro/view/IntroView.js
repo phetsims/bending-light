@@ -328,8 +328,6 @@ define( function( require ) {
 
     stepInternal: function() {
 
-      // This is required to clear the previous canvas particle layers from the view. When the sim is paused in wave
-      // mode and the laser is dragged or the mode is switched from wave to ray
       for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
         this.waveCanvasLayer.children[ k ].step();
       }
@@ -338,11 +336,6 @@ define( function( require ) {
           this.incidentWaveCanvasLayer.children[ k ].step();
         }
       }
-      var scale = Math.min( window.innerWidth / this.layoutBounds.width,
-        window.innerHeight / this.layoutBounds.height );
-      this.introModel.simDisplayWindowHeight = ( window.innerHeight) / scale;
-      this.introModel.simDisplayWindowHeightInModel = Math.abs( this.modelViewTransform.viewToModelDeltaY(
-        this.introModel.simDisplayWindowHeight ) );
     },
 
     /**

@@ -64,7 +64,6 @@ define( function( require ) {
     // light ray tip position
     this.tipVector = new Vector2( 0, 0 );
 
-    this.simDisplayWindowHeightInModel = 0;
   }
 
   return inherit( BendingLightModel, IntroModel, {
