@@ -20,6 +20,9 @@
     "sherpa",
     "sun"
   ],
+  "preload": [
+    "../sherpa/lib/Tween-r12.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/phetsims/bending-light.git"
