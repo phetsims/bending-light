@@ -31,7 +31,7 @@ define( function( require ) {
 
     /**
      *
-     * @param drawable
+     * @param {Drawable} drawable
      */
     initializeWebGLDrawable: function( drawable ) {
       var gl = drawable.gl;
@@ -110,8 +110,8 @@ define( function( require ) {
 
     /**
      *
-     * @param drawable
-     * @param matrix
+     * @param{Drawable} drawable
+     * @param {Matrix3} matrix
      */
     paintWebGLDrawable: function( drawable, matrix ) {
       var gl = drawable.gl;
@@ -127,15 +127,15 @@ define( function( require ) {
 
       for ( var i = this.rays.length - 1; i >= 0; i-- ) {
         var lightRay = this.rays.get( i );
-
-        var point1X = this.modelViewTransform.modelToViewX( lightRay.getWaveShape().subpaths[ 0 ].points[ 0 ].x );
-        var point1Y = this.modelViewTransform.modelToViewY( lightRay.getWaveShape().subpaths[ 0 ].points[ 0 ].y );
-        var point2X = this.modelViewTransform.modelToViewX( lightRay.getWaveShape().subpaths[ 0 ].points[ 1 ].x );
-        var point2Y = this.modelViewTransform.modelToViewY( lightRay.getWaveShape().subpaths[ 0 ].points[ 1 ].y );
-        var point3X = this.modelViewTransform.modelToViewX( lightRay.getWaveShape().subpaths[ 0 ].points[ 3 ].x );
-        var point3Y = this.modelViewTransform.modelToViewY( lightRay.getWaveShape().subpaths[ 0 ].points[ 3 ].y );
-        var point4X = this.modelViewTransform.modelToViewX( lightRay.getWaveShape().subpaths[ 0 ].points[ 2 ].x );
-        var point4Y = this.modelViewTransform.modelToViewY( lightRay.getWaveShape().subpaths[ 0 ].points[ 2 ].y );
+        var lightRayWaveSubPath = lightRay.getWaveShape().subpaths[ 0 ];
+        var point1X = this.modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 0 ].x );
+        var point1Y = this.modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 0 ].y );
+        var point2X = this.modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 1 ].x );
+        var point2Y = this.modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 1 ].y );
+        var point3X = this.modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 3 ].x );
+        var point3Y = this.modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 3 ].y );
+        var point4X = this.modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 2 ].x );
+        var point4Y = this.modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 2 ].y );
 
         // points  to draw  light ray beam
         elements.push( point1X, point1Y, 1 );
