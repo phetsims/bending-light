@@ -86,7 +86,7 @@ define( function( require ) {
       for ( var k = 0; k < this.points.length; k++ ) {
         var vectorAboutCentroid = this.points[ k ].minus( rotationPoint );
         var rotated = vectorAboutCentroid.rotate( angle );
-        newPoints.push( rotated.add( rotationPoint ) );
+        newPoints.push( rotated.plus( rotationPoint ) );
       }
       return new DivergingLens( this.referencePointIndex, newPoints, this.radius );
     },

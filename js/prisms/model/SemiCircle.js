@@ -82,7 +82,7 @@ define( function( require ) {
       for ( var k = 0; k < this.points.length; k++ ) {
         var vectorAboutCentroid = this.points[ k ].minus( rotationPoint );
         var rotated = vectorAboutCentroid.rotate( angle );
-        newPoints.push( rotated.add( rotationPoint ) );
+        newPoints.push( rotated.plus( rotationPoint ) );
       }
       return new SemiCircle( this.referencePointIndex, newPoints, this.radius );
     },
@@ -90,7 +90,7 @@ define( function( require ) {
     /**
      *
      * @param {Vector2} point
-     * @returns {*}
+     * @returns {Vector2}
      */
     containsPoint: function( point ) {
       return this.toShape().containsPoint( point );
@@ -99,7 +99,7 @@ define( function( require ) {
     /**
      * Just use the 0th point for the reference point for rotation drag handles
      *
-     * @returns {*}
+     * @returns {Vector2}
      */
     getReferencePoint: function() {
       return this.getPoint( this.referencePointIndex );
@@ -119,7 +119,7 @@ define( function( require ) {
      * Compute the intersections of the specified ray with this polygon's edges
      * @public
      * @param {Ray} ray
-     * @returns {Array}
+     * @returns {[]}
      */
     getIntersections: function( ray ) {
       var intersections = [];

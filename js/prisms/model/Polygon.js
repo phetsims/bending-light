@@ -87,7 +87,7 @@ define( function( require ) {
         this.vectorAboutCentroid.x = this.points[ k ].x - rotationPoint.x;
         this.vectorAboutCentroid.y = this.points[ k ].y - rotationPoint.y;
         var rotated = this.vectorAboutCentroid.rotate( angle );
-        newPoints.push( rotated.add( rotationPoint ) );
+        newPoints.push( rotated.plus( rotationPoint ) );
       }
       return new Polygon( this.referencePointIndex, newPoints );
     },

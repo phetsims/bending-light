@@ -84,7 +84,7 @@ define( function( require ) {
       // we create a new circle with a rotated center point
       var vectorAboutCentroid = this.getRotationCenter().minus( rotationPoint );
       var rotated = vectorAboutCentroid.getRotatedInstance( angle );
-      return new Circle( rotated.add( rotationPoint ), this.radius );
+      return new Circle( rotated.plus( rotationPoint ), this.radius );
     },
 
     /**
