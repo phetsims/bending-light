@@ -37,6 +37,7 @@ define( function( require ) {
 
   // constants
   var waveSensorNodeScaleInSideContainer = 0.33;
+  var waveSensorNodeScaleOutSideContainer = 1;
 
   /**
    * View for rendering a probe that can be used to sense wave values
@@ -69,7 +70,7 @@ define( function( require ) {
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( container.bounds.containsPoint( probeNode.center ) ) {
           fromSensorPanel = true;
-          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
+          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), waveSensorNodeScaleOutSideContainer );
           waveSensorNode.waveSensor.visibleProperty.set( true );
           waveSensorNode.addMoreToolsView();
         }
@@ -117,7 +118,7 @@ define( function( require ) {
     this.touchArea = this.localBounds;
   }
 
-  inherit( Node, ProbeNode, {} );
+  inherit( Node, ProbeNode );
 
   /**
    *
@@ -208,7 +209,7 @@ define( function( require ) {
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ) {
           fromSensorPanel = true;
-          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), 1 );
+          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), waveSensorNodeScaleOutSideContainer );
           waveSensor.visibleProperty.set( true );
           waveSensorNode.addMoreToolsView();
         }
@@ -371,6 +372,9 @@ define( function( require ) {
       }
     },
 
+    /**
+     * @public
+     */
     addToSensorPanel: function() {
 
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
@@ -404,12 +408,12 @@ define( function( require ) {
      */
     reset: function() {
       this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
-      this.waveSensor.reset();
       this.waveSensor.visibleProperty.set( false );
       this.chartNode.gridPoints.clear();
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }
+      this.waveSensor.reset();
     }
   } );
 } );

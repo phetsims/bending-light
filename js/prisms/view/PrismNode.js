@@ -43,6 +43,7 @@ define( function( require ) {
       prismsNode.addChild( knobNode );
     }
 
+    // prism rotation with knob
     var previousAngle;
     knobNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
@@ -81,7 +82,7 @@ define( function( require ) {
         prism.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
         var position = ConstraintBounds.constrainLocation( prism.shapeProperty.get().getRotationCenter(),
           modelViewTransform.viewToModelBounds( prismDragBounds ) );
-        prism.translate( position.subtract( prism.shapeProperty.get().getRotationCenter() ) );
+        prism.translate( position.minus( prism.shapeProperty.get().getRotationCenter() ) );
         start = end;
       },
       end: function() {

@@ -23,35 +23,32 @@ define( function( require ) {
    * @param {ProtractorModel} protractorModel - model of protractor
    * @param {function} translateShape
    * @param {function} rotateShape
-   * @param {number} ICON_WIDTH
+   * @param {number} protractorIconWidth
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial
    * position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
    * @constructor
    */
   function ExpandableProtractorNode( moreToolsView, modelViewTransform, showProtractorProperty, protractorModel,
-                                     translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds ) {
+                                     translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {
 
     ProtractorNode.call( this, moreToolsView, modelViewTransform, showProtractorProperty, protractorModel,
-      translateShape, rotateShape, ICON_WIDTH, containerBounds, dragBounds );
+      translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds );
     var expandableProtractorNode = this;
 
     // Add expandable /collapse  button
-    var expandCollapseButton = new ExpandCollapseButton( this.expandedProperty );
+    var expandCollapseButton = new ExpandCollapseButton( this.expandedProperty, {
+      x: expandableProtractorNode.getCenterX() + this.protractorImageNode.getWidth() / 1.6,
+      y: expandableProtractorNode.getCenterY() + this.protractorImageNode.getHeight() / 5
+    } );
     this.addChild( expandCollapseButton );
-
-    expandCollapseButton.setTranslation(
-      expandableProtractorNode.getCenterX() + this.protractorImageNode.getWidth() / 1.6,
-      expandableProtractorNode.getCenterY() + this.protractorImageNode.getHeight() / 5 );
 
     this.expandedProperty.link( function( expand ) {
       expandableProtractorNode.setExpanded( expand );
     } );
     this.setProtractorScale( this.multiScale );
 
-    this.expandedButtonVisibilityProperty.link( function( visibility ) {
-      expandCollapseButton.visible = visibility;
-    } );
+    this.expandedButtonVisibilityProperty.linkAttribute( expandCollapseButton, 'visible' );
   }
 
   return inherit( ProtractorNode, ExpandableProtractorNode, {
