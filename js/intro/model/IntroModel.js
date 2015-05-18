@@ -35,9 +35,9 @@ define( function( require ) {
   function IntroModel( bottomMediumState, centerOffsetLeft ) {
     var introModel = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT, centerOffsetLeft );
-    this.topMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
+    this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), BendingLightModel.AIR,
       MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
-    this.bottomMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), bottomMediumState,
+    this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomMediumState,
       MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
     this.time = 0;
     Property.multilink( [
@@ -157,11 +157,11 @@ define( function( require ) {
               var transmittedPowerRatio = this.getTransmittedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
 
               // make the beam width depend on the input beam width, so that the same beam width is transmitted as was
+              // intercepted
               var beamHalfWidth = a / 2;
               var extentInterceptedHalfWidth = beamHalfWidth / Math.sin( Math.PI / 2 - theta1 ) / 2;
               var transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
               var transmittedWaveWidth = transmittedBeamHalfWidth * 2;
-              // intercepted
               var transmittedRay = new LightRay( trapeziumWidth,
                 new Vector2( 0, 0 ),
                 Vector2.createPolar( 1, theta2 - Math.PI / 2 ),

@@ -14,6 +14,8 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Line = require( 'KITE/segments/Line' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Ray2 = require( 'DOT/Ray2' );
 
   /**
    *
@@ -31,6 +33,18 @@ define( function( require ) {
     // update the view coordinates for the start and end of this ray
     this.viewStart = modelViewTransform.modelToViewPosition( this.lightRay.tip );
     this.viewEnd = modelViewTransform.modelToViewPosition( this.lightRay.tail );
+
+
+    // Restricted the  light ray view coordinates (start and end )within the specific  window(rectangle) area to support in firefox browser
+    // Note : if the values are to long rays rendering  different directions
+    // Todo : need to find out , why firefox behaving differently
+    var shape = new Rectangle( -100000, -100000, 200000, 200000 );
+    if ( !shape.getShape().containsPoint( this.viewStart ) ) {
+      var intersection = shape.getShape().intersection( new Ray2( this.viewEnd, this.viewStart.minus( this.viewEnd ).normalized() ) );
+      if ( intersection.length ) {
+        this.viewStart = intersection[ 0 ].point;
+      }
+    }
 
     // light ray color
     var rayColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), Math.sqrt( lightRay.getPowerFraction() ) );
