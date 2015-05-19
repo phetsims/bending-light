@@ -47,7 +47,6 @@ define( function( require ) {
       this.topMediumProperty,
       this.bottomMediumProperty,
       this.laser.emissionPointProperty,
-      this.intensityMeter.enabledProperty,
       this.laser.colorProperty
     ], function() {
       introModel.updateModel();

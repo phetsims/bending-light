@@ -48,9 +48,7 @@ define( function( require ) {
     this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
     this.intensityMeter = intensityMeter;
-    intensityMeter.enabledProperty.link( function() {
-      intensityMeterNode.setVisible( intensityMeter.enabled );
-    } );
+
 
     // add sensor node
     var sensorShape = new Shape()
