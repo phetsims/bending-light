@@ -211,7 +211,7 @@ define( function( require ) {
       var intersects = ray.getIntersections( this.intensityMeter.getSensorShape() );
 
       // if it intersected, then absorb the ray
-      var rayAbsorbed = this.intensityMeter.enabled && intersects.length > 0;
+      var rayAbsorbed = intersects.length > 0;
       if ( rayAbsorbed ) {
         var x;
         var y;
