@@ -113,7 +113,7 @@ define( function( require ) {
      * @public
      * @returns {Line}
      */
-    toLine2D: function() {
+    toLine: function() {
       return new Line( this.tail, this.tip );
     },
 
@@ -129,7 +129,7 @@ define( function( require ) {
      * @public
      * @returns {Vector2}
      */
-    toVector2D: function() {
+    toVector: function() {
       this.vectorForm.x = this.tip.x - this.tail.x;
       this.vectorForm.y = this.tip.y - this.tail.y;
       return this.vectorForm;
@@ -157,15 +157,19 @@ define( function( require ) {
      * @returns {Shape}
      */
     getWaveShape: function() {
+
+      // angle of tail is Math.PI/2 for transmitted and reflected rays.
       var tipAngle = this.extend ? Math.PI / 2 : this.getAngle();
       var tailAngle = this.extendBackwards ? Math.PI / 2 : this.getAngle();
       var tipWidth = this.extend ? this.trapeziumWidth : this.waveWidth;
       var tailWidth = this.extendBackwards ? this.trapeziumWidth : this.waveWidth;
 
+      // Calculating two end points of tip. They are at the angle of Math.PI/2 with respect to tha ray angle
       var tipVector = Vector2.createPolar( 1, tipAngle + Math.PI / 2 );
       tipVector.x = tipVector.x * tipWidth / 2;
       tipVector.y = tipVector.y * tipWidth / 2;
 
+      // Calculating two end points of tail. They are at the angle of Math.PI/2 with respect to tha ray angle
       var tailVector = Vector2.createPolar( 1, tailAngle + Math.PI / 2 );
       tailVector.x = tailVector.x * tailWidth / 2;
       tailVector.y = tailVector.y * tailWidth / 2;
@@ -175,6 +179,7 @@ define( function( require ) {
       var tailPoint1 = this.tail.minus( tailVector );
       var tailPoint2 = this.tail.plus( tailVector );
 
+      // Getting correct order of points
       var tipPoint1X = tipPoint2.x > tipPoint1.x ? tipPoint2.x : tipPoint1.x;
       var tipPoint1Y = tipPoint2.x > tipPoint1.x ? tipPoint2.y : tipPoint1.y;
       var tipPoint2X = tipPoint2.x < tipPoint1.x ? tipPoint2.x : tipPoint1.x;
@@ -185,9 +190,11 @@ define( function( require ) {
       var tailPoint2X = tailPoint1.x > tailPoint2.x ? tailPoint1.x : tailPoint2.x;
       var tailPoint2Y = tailPoint1.x > tailPoint2.x ? tailPoint1.y : tailPoint2.y;
 
+      // This is to avoid drawing of wave backwards (near the intersection of mediums) when it intersects intensity
+      // meter sensor shape
       if ( (tailPoint2X - tipPoint1X) > 1E-10 ) {
         tipPoint1Y = tailPoint2Y;
-        tailPoint2X = this.toVector2D().magnitude() / Math.cos( this.getAngle() );
+        tailPoint2X = this.toVector().magnitude() / Math.cos( this.getAngle() );
         tipPoint1X = tailPoint2X;
       }
       var shape = new Shape();
@@ -244,7 +251,7 @@ define( function( require ) {
      * @returns {number}
      */
     getAngle: function() {
-      return this.toVector2D().angle();
+      return this.toVector().angle();
     },
     // todo:Update the time and notify wave listeners so they can update the phase of the wave graphic
 
@@ -289,7 +296,7 @@ define( function( require ) {
         return intersection.length % 2 === 1;
       }
       else {
-        return this.toLine2D().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;
+        return this.toLine().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;
       }
     },
 

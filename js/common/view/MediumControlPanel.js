@@ -50,7 +50,7 @@ define( function( require ) {
 
   /**
    *
-   * @param   {BendingLightView} view
+   * @param {BendingLightView} view
    * @param {Property<Medium>} mediumProperty
    * @param {string} name  - name of the medium material
    * @param {boolean} textFieldVisible
@@ -338,7 +338,7 @@ define( function( require ) {
      * @param {MediumState} mediumState
      */
     setMediumState: function( mediumState ) {
-      this.setMedium( new Medium( this.mediumProperty.shape, mediumState,
+      this.setMedium( new Medium( this.mediumProperty.get().shape, mediumState,
         MediumColorFactory.getColor(
           mediumState.getIndexOfRefractionForRedLight() ) ) );
     },

@@ -231,7 +231,7 @@ define( function( require ) {
           ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), false, ray.extendBackwards );
 
         //don't let the wave intersect the intensity meter if it is behind the laser emission point
-        var isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
+        var isForward = ray.toVector().dot( interrupted.toVector() ) > 0;
         if ( interrupted.getLength() < ray.getLength() && isForward ) {
           this.addRay( interrupted );
         }
