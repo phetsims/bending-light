@@ -123,5 +123,5 @@ define( function( require ) {
     this.touchArea = this.localBounds;
   }
 
-  return inherit( Node, PrismNode, {} );
+  return inherit( Node, PrismNode );
 } );

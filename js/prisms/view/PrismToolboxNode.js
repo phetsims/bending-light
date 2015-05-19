@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2002 - 2015, University of Colorado Boulder
 
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel
@@ -204,14 +204,13 @@ define( function( require ) {
         } ).width + 5;
 
     // touch Areas
-    showReflectionsCheckBox.touchArea = new Bounds2( showReflectionsCheckBox.localBounds.minX - 5,
-      showReflectionsCheckBox.localBounds.minY, showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth,
-      showReflectionsCheckBox.localBounds.maxY );
-    showNormalCheckBox.touchArea = new Bounds2( showNormalCheckBox.localBounds.minX - 5,
-      showNormalCheckBox.localBounds.minY, showNormalCheckBox.localBounds.minX + maxCheckBoxWidth,
-      showNormalCheckBox.localBounds.maxY );
-    showProtractorCheckBox.touchArea = new Bounds2( showProtractorCheckBox.localBounds.minX - 5,
-      showProtractorCheckBox.localBounds.minY,
+    showReflectionsCheckBox.touchArea = new Bounds2( showReflectionsCheckBox.localBounds.minX - 5, showReflectionsCheckBox.localBounds.minY,
+      showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth, showReflectionsCheckBox.localBounds.maxY );
+
+    showNormalCheckBox.touchArea = new Bounds2( showNormalCheckBox.localBounds.minX - 5, showNormalCheckBox.localBounds.minY,
+      showNormalCheckBox.localBounds.minX + maxCheckBoxWidth, showNormalCheckBox.localBounds.maxY );
+
+    showProtractorCheckBox.touchArea = new Bounds2( showProtractorCheckBox.localBounds.minX - 5, showProtractorCheckBox.localBounds.minY,
       showProtractorCheckBox.localBounds.minX + maxCheckBoxWidth, showProtractorCheckBox.localBounds.maxY );
 
     // pad all the rows so the text nodes are left aligned and the icons is right aligned

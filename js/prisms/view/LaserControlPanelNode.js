@@ -59,13 +59,13 @@ define( function( require ) {
       return new Text( text, { font: new PhetFont( 12 ) } );
     };
 
-    var AQUA_RADIO_BUTTON_OPTIONS = { radius: 7, font: new PhetFont( 12 ) };
+    var aquaRadioButtonOptions = { radius: 7, font: new PhetFont( 12 ) };
 
     // create the radio buttons
     var whiteLightRadio = new AquaRadioButton( colorModeProperty, 'white', createButtonTextNode( whiteLightString ),
-      AQUA_RADIO_BUTTON_OPTIONS );
+      aquaRadioButtonOptions );
     var oneColorRadio = new AquaRadioButton( colorModeProperty, 'singleColor', createButtonTextNode( oneColorString ),
-      AQUA_RADIO_BUTTON_OPTIONS );
+      aquaRadioButtonOptions );
 
     var maxRadioButtonWidth = _.max( [ whiteLightRadio, oneColorRadio ], function( item ) {
       return item.width;
@@ -73,17 +73,16 @@ define( function( require ) {
 
     //  Touch areas
     var touchExpansion = 5;
-    oneColorRadio.touchArea = new Bounds2( ( oneColorRadio.localBounds.minX - touchExpansion ), oneColorRadio.localBounds.minY,
-      ( oneColorRadio.localBounds.minX + maxRadioButtonWidth ), oneColorRadio.localBounds.maxY );
+    oneColorRadio.touchArea = new Bounds2( oneColorRadio.localBounds.minX - touchExpansion, oneColorRadio.localBounds.minY,
+      oneColorRadio.localBounds.minX + maxRadioButtonWidth, oneColorRadio.localBounds.maxY );
 
-    whiteLightRadio.touchArea = new Bounds2( ( whiteLightRadio.localBounds.minX - touchExpansion ), whiteLightRadio.localBounds.minY,
-      ( whiteLightRadio.localBounds.minX + maxRadioButtonWidth ), whiteLightRadio.localBounds.maxY );
+    whiteLightRadio.touchArea = new Bounds2( whiteLightRadio.localBounds.minX - touchExpansion, whiteLightRadio.localBounds.minY,
+      whiteLightRadio.localBounds.minX + maxRadioButtonWidth, whiteLightRadio.localBounds.maxY );
 
     this.wavelengthProperty = new Property( wavelengthProperty.value * 1E9 );
 
     //  Create  WavelengthSlider node
-    var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty,
-      {
+    var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty, {
         cursorStroke: 'white',
         maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
         thumbWidth: 20,
@@ -97,8 +96,7 @@ define( function( require ) {
       } );
 
     var wavelengthValueText = new Text( this.wavelengthProperty.get() + units_nmString );
-    var wavelengthBoxShape = new Rectangle( 0, 0, 45, 18, 2, 2,
-      { fill: 'white', stroke: 'black' } );
+    var wavelengthBoxShape = new Rectangle( 0, 0, 45, 18, 2, 2, { fill: 'white', stroke: 'black' } );
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
       laserControlPanelNode.wavelengthProperty.set(
@@ -158,6 +156,9 @@ define( function( require ) {
 
   return inherit( Panel, LaserControlPanelNode, {
 
+    /**
+     * @public
+     */
     reset: function() {
       this.wavelengthProperty.reset();
     }

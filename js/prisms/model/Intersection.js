@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado Boulder
+// Copyright 2002 - 2015, University of Colorado Boulder
 
 /**
  * Models the intersection between a light ray and an interface, needed so we can optionally depict normals at each

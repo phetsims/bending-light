@@ -1,4 +1,4 @@
-// Copyright (c) 2002 - 2015. University of Colorado Boulder
+// Copyright  2002 - 2015. University of Colorado Boulder
 
 /**
  * Control panel for  choosing whether it  single ray  or multiple ray.
@@ -95,8 +95,7 @@ define( function( require ) {
       { value: 2, node: multipleRayEmitterLaserIcon }
     ];
 
-    var radioButtonPanel = new Panel( new RadioButtonGroup( laserTypeProperty,
-      radioButtonContent, {
+    var radioButtonPanel = new Panel( new RadioButtonGroup( laserTypeProperty, radioButtonContent, {
         baseColor: 'white',
         spacing: 5
       } ), {

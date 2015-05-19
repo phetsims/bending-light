@@ -37,6 +37,7 @@ define( function( require ) {
 
     /**
      * @public
+     * @return {Shape}
      */
     toShape: function() {
       var center = this.points[ 0 ].plus( this.points[ 1 ] ).times( 0.5 );
@@ -50,7 +51,7 @@ define( function( require ) {
      * Get the specified corner point
      *
      * @param {number} i
-     * @returns {*}
+     * @returns {Vector2}
      */
     getPoint: function( i ) {
       return this.points[ i ];

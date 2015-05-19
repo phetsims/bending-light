@@ -44,19 +44,19 @@ define( function( require ) {
    *
    * @param {WaveSensorNode} waveSensorNode
    * @param probe
-   * @param {string} imageName
+   * @param {string} probeImageName
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Rectangle} container
    * @param {Bounds2} dragBounds - bounds that define where the probe   may be dragged
    * @constructor
    */
-  function ProbeNode( waveSensorNode, probe, imageName, modelViewTransform, container, dragBounds ) {
+  function ProbeNode( waveSensorNode, probe, probeImageName, modelViewTransform, container, dragBounds ) {
 
     var probeNode = this;
     Node.call( this, { cursor: 'pointer' } );
 
     // Add the probe
-    this.addChild( new Image( imageName, { scale: 0.8 } ) );
+    this.addChild( new Image( probeImageName, { scale: 0.8 } ) );
 
     // Interaction: Translates when dragged, but keep it bounded within the play area
     var start;

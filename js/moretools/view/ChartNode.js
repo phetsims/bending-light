@@ -28,24 +28,24 @@ define( function( require ) {
    * Node for drawing the series of points.
    *
    * @param {Series} series
-   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty
+   * @param {Property<ModelViewTransform2>} modelViewTransformProperty
    * @param {Bounds2} chartBounds
    * @constructor
    */
   function SeriesNode( series, modelViewTransformProperty, chartBounds ) {
     var seriesNode = this;
     Node.call( this );
-    this.seriesCanvasNode = new SeriesCanvasNode( series.points, series.getColor().toCSS(), {
+    var seriesCanvasNode = new SeriesCanvasNode( series.points, series.getColor().toCSS(), {
       canvasBounds: chartBounds
     } );
-    this.addChild( this.seriesCanvasNode );
+    this.addChild( seriesCanvasNode );
     series.pathProperty.link( function() {
       series.points.clear();
       series.pathProperty.get().forEach( function( value ) {
         series.points.push( [ modelViewTransformProperty.get().modelToViewX( value.time ),
           modelViewTransformProperty.get().modelToViewY( value.value ) ] );
       } );
-      seriesNode.seriesCanvasNode.step();
+      seriesCanvasNode.step();
     } );
   }
 
