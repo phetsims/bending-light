@@ -20,7 +20,7 @@ define( function( require ) {
    * @constructor
    */
   function MediumNode( modelViewTransform, mediumProperty ) {
-    Node.call( this );
+    Node.call( this, { pickable: false } );  // user can't interact with the medium except through control panels.
 
     // add the shape that paints the medium
     var mediumRectangleNode = new Path( modelViewTransform.modelToViewShape( mediumProperty.value.shape ), {
@@ -32,11 +32,8 @@ define( function( require ) {
     mediumProperty.link( function( medium ) {
       mediumRectangleNode.fill = medium.color;
     } );
-
-    // user can't interact with the medium except through control panels.
-    this.setPickable( false );
   }
 
-  return inherit( Node, MediumNode, {} );
+  return inherit( Node, MediumNode );
 } );
 

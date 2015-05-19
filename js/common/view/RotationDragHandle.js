@@ -68,9 +68,7 @@ define( function( require ) {
       dragArrow.setTranslation( modelViewTransform.modelToViewPosition( laser.pivot ) );
     };
     // update the shape when the laser moves
-    laser.emissionPointProperty.link( function() {
-      update();
-    } );
+    laser.emissionPointProperty.link( update );
   }
 
   return inherit( Node, RotationDragHandle );

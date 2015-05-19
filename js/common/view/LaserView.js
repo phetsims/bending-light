@@ -34,7 +34,7 @@ define( function( require ) {
 
   /**
    *
-   * @param model
+   * @param {BendingLightModel} model
    * @param {boolean} hasMoreTools
    * @param {Object} [options]
    * @constructor
@@ -52,7 +52,7 @@ define( function( require ) {
     var laserView = this;
     this.hasMoreTools = hasMoreTools;
 
-    var AQUA_RADIO_BUTTON_OPTIONS = { radius: 6, font: new PhetFont( 12 ) };
+    var radioButtonOptions = { radius: 6, font: new PhetFont( 12 ) };
 
     var createButtonTextNode = function( text ) {
       return new Text( text, { font: new PhetFont( 12 ) } );
@@ -60,30 +60,24 @@ define( function( require ) {
 
     // Create the radio buttons
     var laserRadio = new AquaRadioButton( model.laserViewProperty, 'ray', createButtonTextNode( rayString ),
-      AQUA_RADIO_BUTTON_OPTIONS );
+      radioButtonOptions );
     var waveRadio = new AquaRadioButton( model.laserViewProperty, 'wave', createButtonTextNode( waveString ),
-      AQUA_RADIO_BUTTON_OPTIONS );
+      radioButtonOptions );
 
 
     // touch areas
     var touchExpansion = 5;
+    var touchYExpansion = 5;
     var maxRadioButtonWidth = _.max( [ laserRadio, waveRadio ], function( item ) {
       return item.width;
     } ).width;
 
     //touch areas
-    laserRadio.touchArea = new Bounds2(
-      ( laserRadio.localBounds.minX - touchExpansion ),
-      laserRadio.localBounds.minY,
-      ( laserRadio.localBounds.minX + maxRadioButtonWidth ),
-      laserRadio.localBounds.maxY
-    );
+    laserRadio.touchArea = new Bounds2( laserRadio.localBounds.minX - touchExpansion, laserRadio.localBounds.minY - touchYExpansion,
+      laserRadio.localBounds.minX + maxRadioButtonWidth, laserRadio.localBounds.maxY + touchYExpansion );
 
-    waveRadio.touchArea = new Bounds2(
-      ( waveRadio.localBounds.minX - touchExpansion ),
-      waveRadio.localBounds.minY,
-      ( waveRadio.localBounds.minX + maxRadioButtonWidth ),
-      waveRadio.localBounds.maxY );
+    waveRadio.touchArea = new Bounds2( waveRadio.localBounds.minX - touchExpansion, waveRadio.localBounds.minY - touchYExpansion,
+      waveRadio.localBounds.minX + maxRadioButtonWidth, waveRadio.localBounds.maxY + touchYExpansion );
 
     var content;
     if ( hasMoreTools ) {

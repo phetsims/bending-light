@@ -185,6 +185,9 @@ define( function( require ) {
 
   return inherit( Node, ProtractorNode, {
 
+      /**
+       * @public
+       */
       reset: function() {
         this.expandedProperty.reset();
         this.expandedButtonVisibilityProperty.reset();

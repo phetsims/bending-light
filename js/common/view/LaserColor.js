@@ -11,6 +11,11 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
+  /**
+   *
+   * @param {number} wavelength
+   * @constructor
+   */
   var OneColor = function( wavelength ) {
     this.wavelength = wavelength;
   };

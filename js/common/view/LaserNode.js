@@ -22,7 +22,7 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // images
-  var laserWithoutImage = require( 'image!BENDING_LIGHT/laser.png' );
+  var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
   var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
 
   //constants
@@ -38,16 +38,16 @@ define( function( require ) {
    * @param {function} clampDragAngle
    * @param {function} translationRegion - select from the entire region and front region which should be used for translating the laser
    * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating the laser
-   * @param {string} imageName
+   * @param {string} laserImageName -  if  name is 'laser' use laser image without knob else use laser with knob
    * @param {Bounds2} dragBounds - bounds that define where the laser may be dragged
    * @constructor
    */
   function LaserNode( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
-                      clampDragAngle, translationRegion, rotationRegion, imageName, dragBounds ) {
+                      clampDragAngle, translationRegion, rotationRegion, laserImageName, dragBounds ) {
 
     Node.call( this, { cursor: 'pointer' } );
     var laserNode = this;
-    var laserImage = (imageName === 'laser') ? laserWithoutImage : laserKnobImage;
+    var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
 
     //add laser image
     var lightImage = new Image( laserImage, { scale: 0.58 } );
@@ -111,14 +111,14 @@ define( function( require ) {
         localLaserPosition = ConstraintBounds.constrainLocation( localLaserPosition, dragBounds );
         var modelPoint = modelViewTransform.viewToModelPosition( localLaserPosition );
         var angle = modelPoint.minus( laser.pivot ).angle();
-        var after = clampDragAngle( angle );
+        var laserAngleAfterClamp = clampDragAngle( angle );
 
         // prevent laser from going to 90 degrees when in wave mode,
         // should go until laser bumps into edge.
-        if ( laser.wave && after > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
-          after = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
+        if ( laser.wave && laserAngleAfterClamp > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
+          laserAngleAfterClamp = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
         }
-        laser.setAngle( after );
+        laser.setAngle( laserAngleAfterClamp );
         showTranslationDragHandlesProperty.value = false;
         showRotationDragHandlesProperty.value = true;
       },
@@ -144,15 +144,14 @@ define( function( require ) {
     } );
 
     // add light emission on/off button
-    var redButton = new RoundStickyToggleButton( false, true, laser.onProperty,
-      {
+    var redButton = new RoundStickyToggleButton( false, true, laser.onProperty, {
         radius: 11,
         centerX: lightImage.centerX,
         centerY: lightImage.centerY,
         baseColor: 'red',
         stroke: 'red',
         fill: 'red',
-        touchExpansion: 10
+      touchExpansion: 5
       } );
     this.addChild( redButton );
 

@@ -79,11 +79,11 @@ define( function( require ) {
 
     // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
     // if we kept the same index of refraction, the user could use that to easily look up the mystery values.
-    this.lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
+    var lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
 
     // dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
     var customState = new MediumState( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
-    this.custom = true;
+    var custom = true;
 
     // add material combo box
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
@@ -124,12 +124,12 @@ define( function( require ) {
       // otherwise pressing "air" then "custom" will make the combobox jump back to "air"
       if ( selected !== -1 && !mediumProperty.get().getMediumState().custom ) {
         comboBoxMediumState.set( mediumStates[ selected ] );
-        mediumControlPanel.custom = false;
+        custom = false;
       }
       else {
         // no match to a named medium, so it must be a custom medium
         comboBoxMediumState.set( customState );
-        mediumControlPanel.custom = true;
+        custom = true;
       }
     };
     // items
@@ -162,7 +162,7 @@ define( function( require ) {
     } );
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
-      mediumControlPanel.custom = true;
+      custom = true;
       mediumControlPanel.mediumIndexProperty.set( Util.toFixedNumber( Math.min( mediumControlPanel.mediumIndexProperty.get() + 1 / Math.pow( 10, format ),
         INDEX_OF_REFRACTION_MAX ), format ) );
     }, {
@@ -176,7 +176,7 @@ define( function( require ) {
       plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
 
     var minusButton = new ArrowButton( 'left', function propertyMinus() {
-      mediumControlPanel.custom = true;
+      custom = true;
       mediumControlPanel.mediumIndexProperty.set( Util.toFixedNumber( Math.max( mediumControlPanel.mediumIndexProperty.get() - 1 / Math.pow( 10, format ),
         INDEX_OF_REFRACTION_MIN ), format ) );
     }, {
@@ -224,7 +224,7 @@ define( function( require ) {
         majorTickLength: 11,
         tickLabelSpacing: 3,
         startDrag: function() {
-          mediumControlPanel.custom = true;
+          custom = true;
         }
       } );
     indexOfRefractionSlider.addMajorTick( BendingLightModel.AIR.getIndexOfRefractionForRedLight(), airTitle );
@@ -270,7 +270,7 @@ define( function( require ) {
     this.addChild( mediumPanel );
     Property.multilink( [ mediumProperty, this.laserWavelength ],
       function() {
-        mediumControlPanel.custom = mediumProperty.get().getMediumState().custom;
+        custom = mediumProperty.get().getMediumState().custom;
         indexOfRefractionValueText.text = mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ).toFixed( format );
       } );
 
@@ -281,8 +281,8 @@ define( function( require ) {
       indexOfRefractionSlider.setVisible( !mediumProperty.get().isMystery() );
       updateComboBox();
       if ( !mediumProperty.get().isMystery() ) {
-        mediumControlPanel.lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
-        mediumControlPanel.mediumIndexProperty.set( mediumControlPanel.lastNonMysteryIndexAtRed );
+        lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
+        mediumControlPanel.mediumIndexProperty.set( lastNonMysteryIndexAtRed );
       }
     } );
     comboBoxMediumState.link( function( selected ) {
@@ -291,12 +291,12 @@ define( function( require ) {
       }
       // if it was custom, then use the the index of refraction but keep the name as "custom"
       else {
-        mediumControlPanel.setMediumState( new MediumState( selected.name, mediumControlPanel.lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
+        mediumControlPanel.setMediumState( new MediumState( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
       }
     } );
 
     this.mediumIndexProperty.link( function( indexOfRefraction ) {
-      if ( mediumControlPanel.custom ) {
+      if ( custom ) {
         mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
       }
       plusButton.enabled = ( indexOfRefraction.toFixed( 2 ) < INDEX_OF_REFRACTION_MAX);

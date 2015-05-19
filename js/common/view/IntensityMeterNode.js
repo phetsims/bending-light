@@ -275,11 +275,11 @@ define( function( require ) {
     this.bodyNode.setTranslation( this.modelViewTransform.modelToViewPosition( this.intensityMeter.bodyPosition ) );
 
     //Connect the sensor to the body with a gray wire
-    this.wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty,
+    var wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty,
       this.sensorNode, this.bodyNode, 'gray' );
 
     //add the components
-    this.addChild( this.wireNode );
+    this.addChild( wireNode );
     this.addChild( this.sensorNode );
     this.addChild( this.bodyNode );
   }

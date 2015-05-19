@@ -44,7 +44,6 @@ define( function( require ) {
 
     var bendingLightView = this;
     this.showProtractorProperty = new Property( true );
-    this.model = model;
     this.lightRayLayer = new Node();
     this.lightWaveLayer = new Node();
     this.laserView = new LaserView( model, false );

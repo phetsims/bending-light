@@ -25,7 +25,7 @@ define( function( require ) {
    */
   function LightRayNode( modelViewTransform, lightRay ) {
 
-    Node.call( this );
+    Node.call( this, { pickable: false } );
     this.lightRay = lightRay;
     var color = this.lightRay.getColor();
     this.modelViewTransform = modelViewTransform;
@@ -49,15 +49,14 @@ define( function( require ) {
     // light ray color
     var rayColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), Math.sqrt( lightRay.getPowerFraction() ) );
 
-    var path = new Path( new Shape().moveTo( this.viewStart.x, this.viewStart.y )
+    var lightRayPath = new Path( new Shape().moveTo( this.viewStart.x, this.viewStart.y )
       .lineTo( this.viewEnd.x, this.viewEnd.y ), {
       lineWidth: modelViewTransform.modelToViewDeltaX( lightRay.getRayWidth() ),
       stroke: rayColor
     } );
     // add the PPath
-    this.addChild( path );
-    // user cannot interact with the light ray directly
-    this.setPickable( false );
+    this.addChild( lightRayPath );
+
   }
 
   return inherit( Node, LightRayNode, {
