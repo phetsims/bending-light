@@ -4,21 +4,7 @@
   "license": "GPLv3",
   "simTitleStringKey": "BENDING_LIGHT/bending-light.name",
   "phetLibs": [
-    "bending-light",
-    "assert",
-    "axon",
-    "babel",
-    "brand",
-    "chipper",
-    "dot",
-    "joist",
-    "kite",
-    "phet-core",
-    "phetcommon",
-    "scenery",
-    "scenery-phet",
-    "sherpa",
-    "sun"
+    "bending-light"
   ],
   "preload": [
     "../sherpa/lib/Tween-r12.js"
