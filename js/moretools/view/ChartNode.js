@@ -33,7 +33,6 @@ define( function( require ) {
    * @constructor
    */
   function SeriesNode( series, modelViewTransformProperty, chartBounds ) {
-    var seriesNode = this;
     Node.call( this );
     var seriesCanvasNode = new SeriesCanvasNode( series.points, series.getColor().toCSS(), {
       canvasBounds: chartBounds
