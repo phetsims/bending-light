@@ -137,14 +137,13 @@ define( function( require ) {
 
     // show the normal line where the laser strikes the interface between mediums
     var normalLineHeight = stageHeight / 2;
-    var normalLine = new NormalLine( normalLineHeight, 7, 6 );
-    normalLine.setTranslation( this.modelViewTransform.modelToViewX( 0 ),
-      this.modelViewTransform.modelToViewY( 0 ) - normalLineHeight / 2 );
+    var normalLine = new NormalLine( normalLineHeight, 7, 6, {
+      x: this.modelViewTransform.modelToViewX( 0 ),
+      y: this.modelViewTransform.modelToViewY( 0 ) - normalLineHeight / 2
+    } );
     this.afterLightLayer2.addChild( normalLine );
 
-    introModel.showNormalProperty.link( function( showNormal ) {
-      normalLine.setVisible( showNormal );
-    } );
+    introModel.showNormalProperty.linkAttribute( normalLine, 'visible' );
 
     Property.multilink( [
       introModel.laserViewProperty,
@@ -207,10 +206,6 @@ define( function( require ) {
       this.sensorPanel.visibleBounds, this.layoutBounds );
     this.beforeLightLayer2.addChild( this.intensityMeterNode );
 
-    var checkBoxOptions = {
-      boxWidth: 20,
-      spacing: 5
-    };
 
     var normalText = new Text( normalString );
 
@@ -218,14 +213,19 @@ define( function( require ) {
     if ( normalText.width > normalText_Max_Width ) {
       normalText.scale( normalText_Max_Width / normalText.width );
     }
-    var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, checkBoxOptions );
-    normalCheckBox.setTranslation( this.sensorPanel.x + 6, this.sensorPanel.y + sensorPanelHeight - 40 );
+    var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, {
+      boxWidth: 20,
+      spacing: 5,
+      x: this.sensorPanel.x + 6,
+      y: this.sensorPanel.y + sensorPanelHeight - 40
+    } );
     this.beforeLightLayer2.addChild( normalCheckBox );
 
     // add normal
-    var normalIcon = new NormalLine( 34, 4, 3 );
-    normalIcon.setTranslation( this.sensorPanel.x + this.sensorPanel.width / 2,
-      this.sensorPanel.y + sensorPanelHeight - 41 );
+    var normalIcon = new NormalLine( 34, 4, 3, {
+      x: this.sensorPanel.x + this.sensorPanel.width / 2,
+      y: this.sensorPanel.y + sensorPanelHeight - 41
+    } );
     this.beforeLightLayer2.addChild( normalIcon );
 
     // add reset all button

@@ -68,7 +68,7 @@ define( function( require ) {
 
     // center the stage in the canvas, specifies how things scale up and down with window size, maps stage to pixels
     // create the transform from model (SI) to view (stage) coordinates
-    var scale = stageHeight / this.model.getHeight();
+    var scale = stageHeight / model.getHeight();
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping( new Vector2( 0, 0 ),
       new Vector2( 388 - centerOffsetLeft, stageHeight / 2 ), scale );
 
