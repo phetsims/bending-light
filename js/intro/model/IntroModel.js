@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Model for the "intro" Screen, which has an upper and lower medium, interfacing at the middle of the screen,
  * and the laser at the top left shining toward the interface.
@@ -23,7 +24,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-  //constants
+  // constants
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   /**
@@ -33,13 +34,17 @@ define( function( require ) {
    * @constructor
    */
   function IntroModel( bottomMediumState, centerOffsetLeft ) {
+
     var introModel = this;
-    BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT, centerOffsetLeft );
+    BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT,
+      centerOffsetLeft );
+
     this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), BendingLightModel.AIR,
       MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomMediumState,
       MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
     this.time = 0;
+
     Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
@@ -70,6 +75,7 @@ define( function( require ) {
     /**
      * Light rays were cleared from model before propagateRays was called,
      * this creates them according to the laser and mediums
+     * @public
      */
     propagateRays: function() {
 
@@ -107,17 +113,9 @@ define( function( require ) {
 
         // since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
-        var incidentRay = new LightRay( trapeziumWidth,
-          tail,
-          new Vector2( 0, 0 ),
-          n1,
-          wavelengthInTopMedium,
-          sourcePower,
-          color,
-          sourceWaveWidth,
-          0.0,
-          true,
-          false );
+        var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
+          sourcePower, color, sourceWaveWidth, 0.0, true, false );
+
         var rayAbsorbed = this.addAndAbsorb( incidentRay );
         if ( !rayAbsorbed ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
@@ -182,7 +180,7 @@ define( function( require ) {
 
     /**
      * Get the top medium index of refraction
-     *
+     * @public
      * @returns {number}
      */
     getN1: function() {
@@ -191,7 +189,7 @@ define( function( require ) {
 
     /**
      * Get the bottom medium index of refraction
-     *
+     * @public
      * @returns {number}
      */
     getN2: function() {
@@ -201,7 +199,7 @@ define( function( require ) {
     /**
      * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
      * If the intensity meter misses the ray, the original ray is added.
-     *
+     * @private
      * @param {LightRay} ray
      * @returns {boolean}
      */
@@ -281,7 +279,6 @@ define( function( require ) {
 
     /**
      * Determine the wave value of the topmost light ray at the specified position, or None if none exists
-     *
      * @public
      * @param {Vector2} position
      * @returns {[]}
@@ -311,6 +308,7 @@ define( function( require ) {
 
     /**
      * Called by the animation loop.
+     * @protected
      */
     step: function() {
 
@@ -319,6 +317,9 @@ define( function( require ) {
       }
     },
 
+    /**
+     * @public
+     */
     stepInternal: function() {
       this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
       var introModel = this;
@@ -334,15 +335,15 @@ define( function( require ) {
 
     /**
      * create the particles between light ray tail and and tip
+     * @private
      */
     createInitialParticles: function() {
-      var lightRayInRay2Form;
-      var lightRay;
+
       var particleColor;
       var particleGradientColor;
       var j;
       for ( var k = 0; k < this.rays.length; k++ ) {
-        lightRay = this.rays.get( k );
+        var lightRay = this.rays.get( k );
         var directionVector = lightRay.getUnitVector();
         var wavelength = lightRay.getWavelength();
         var angle = lightRay.getAngle();
@@ -358,7 +359,7 @@ define( function( require ) {
           this.tailVector.x = lightRay.tail.x - directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle );
           this.tailVector.y = lightRay.tail.y - directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle );
         }
-        lightRayInRay2Form = new Ray2( this.tailVector, directionVector );
+        var lightRayInRay2Form = new Ray2( this.tailVector, directionVector );
         var distance = this.tipVector.distance( this.tailVector );
         var gapBetweenSuccessiveParticles = wavelength;
         particleColor = new Color( lightRay.color.getRed(), lightRay.color.getGreen(), lightRay.color.getBlue(),
@@ -366,10 +367,10 @@ define( function( require ) {
         particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.getPowerFraction() ) ).toCSS();
         var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;
         var waveParticleGap = 0;
-        var particleWidth = lightRay.getWaveWidth();
 
         for ( j = 0; j < numberOfParticles; j++ ) {
-          lightRay.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ), particleWidth, particleColor, particleGradientColor, angle, wavelength ) );
+          lightRay.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ),
+            lightRay.getWaveWidth(), particleColor, particleGradientColor, angle, wavelength ) );
           waveParticleGap += gapBetweenSuccessiveParticles;
         }
       }
@@ -378,8 +379,10 @@ define( function( require ) {
 
     /**
      * Propagate the particles
+     * @private
      */
     propagateParticles: function() {
+
       for ( var i = 0; i < this.rays.length; i++ ) {
         var lightRay = this.rays.get( i );
         var wavelength = lightRay.getWavelength();

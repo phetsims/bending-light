@@ -1,6 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Wave WebGl Rendering.
+ *
  * @author Chandrashekar Bemagoni  (Actual Concepts)
  */
 define( function( require ) {
@@ -13,10 +15,10 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {ObservableArray<LightRay>} rays
    * @param {Number} screenWidth - width of the dev area
-   * @param {Number} screenHeight -height of the dev area
+   * @param {Number} screenHeight - height of the dev area
    * @constructor
    */
   function WaveWebGLNode( modelViewTransform, rays, screenWidth, screenHeight ) {
@@ -30,7 +32,7 @@ define( function( require ) {
   return inherit( WebGLNode, WaveWebGLNode, {
 
     /**
-     *
+     * @protected
      * @param {Drawable} drawable
      */
     initializeWebGLDrawable: function( drawable ) {
@@ -109,7 +111,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @protected
      * @param{Drawable} drawable
      * @param {Matrix3} matrix
      */
@@ -238,13 +240,18 @@ define( function( require ) {
       shaderProgram.unuse();
     },
 
+    /**
+     * @protected
+     * @param drawable
+     */
     disposeWebGLDrawable: function( drawable ) {
       drawable.shaderProgram.dispose();
       drawable.gl.deleteBuffer( drawable.vertexBuffer );
       drawable.shaderProgram = null;
     },
+
     /**
-     *
+     * @public
      */
     step: function() {
       this.invalidatePaint();

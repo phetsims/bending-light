@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * View for intro screen
  *
@@ -88,6 +89,7 @@ define( function( require ) {
     this.getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
       return fullShape;
     };
+
     BendingLightView.call( this,
       introModel,
       clampDragAngle,
@@ -97,7 +99,6 @@ define( function( require ) {
       rotationRegionShape, 'laser',
       centerOffsetLeft );
 
-
     var stageWidth = this.layoutBounds.width;
     var stageHeight = this.layoutBounds.height;
 
@@ -106,22 +107,20 @@ define( function( require ) {
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
 
     // add control panels for setting the index of refraction for each medium
-    var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty,
-      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
-        yMargin: 7
-      } );
+    var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty, materialString, true,
+      introModel.wavelengthProperty, IndexOfRefractionDecimals, { yMargin: 7 } );
     var topMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
-    topMediumControlPanel.setTranslation( stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - topMediumControlPanelXOffset,
+    topMediumControlPanel.setTranslation(
+      stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - topMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() + 4 );
     this.afterLightLayer2.addChild( topMediumControlPanel );
 
     // add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
-    var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty,
-      materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
-        yMargin: 7
-      } );
-    bottomMediumControlPanel.setTranslation( stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - bottomMediumControlPanelXOffset,
+    var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty, materialString, true,
+      introModel.wavelengthProperty, IndexOfRefractionDecimals, { yMargin: 7 } );
+    bottomMediumControlPanel.setTranslation(
+      stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - bottomMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET + 1 );
     this.afterLightLayer2.addChild( bottomMediumControlPanel );
 
@@ -206,9 +205,7 @@ define( function( require ) {
       this.sensorPanel.visibleBounds, this.layoutBounds );
     this.beforeLightLayer2.addChild( this.intensityMeterNode );
 
-
     var normalText = new Text( normalString );
-
     var normalText_Max_Width = 50;
     if ( normalText.width > normalText_Max_Width ) {
       normalText.scale( normalText_Max_Width / normalText.width );
@@ -320,12 +317,19 @@ define( function( require ) {
 
   return inherit( BendingLightView, IntroView, {
 
+    /**
+     * Called by the animation loop.
+     * @protected
+     */
     step: function() {
       if ( this.introModel.isPlaying ) {
         this.stepInternal();
       }
     },
 
+    /**
+     * @public
+     */
     stepInternal: function() {
 
       for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {

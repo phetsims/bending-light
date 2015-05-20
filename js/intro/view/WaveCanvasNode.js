@@ -1,7 +1,9 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
- *  * A  Wave particle layer rendered on canvas
- *  * @author Chandrashekar Bemagoni  (Actual Concepts)
+ * A Wave particle layer rendered on canvas
+ *
+ * @author Chandrashekar Bemagoni  (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -13,7 +15,7 @@ define( function( require ) {
   /**
    *
    * @param {ObservableArray<WaveParticle>} waveParticles
-   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Object} [options]
    * @constructor
    */
@@ -28,29 +30,21 @@ define( function( require ) {
 
     /**
      * Paints the particles on the canvas node.
+     * @protected
      * @param {CanvasContextWrapper} wrapper
      */
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
-      var particle;
-      var x;
-      var y;
-      var angle;
-      var point1X;
-      var point1Y;
-      var point2X;
-      var point2Y;
-      var particleWidth;
       for ( var i = 0; i < this.waveParticles.length; i++ ) {
-        particle = this.waveParticles.get( i );
-        particleWidth = this.modelViewTransform.modelToViewDeltaX( particle.width );
-        x = this.modelViewTransform.modelToViewX( particle.position.x );
-        y = this.modelViewTransform.modelToViewY( particle.position.y );
-        angle = particle.angle;
-        point1X = x + (particleWidth * Math.sin( angle ) / 2);
-        point1Y = y + (particleWidth * Math.cos( angle ) / 2);
-        point2X = x - (particleWidth * Math.sin( angle ) / 2);
-        point2Y = y - (particleWidth * Math.cos( angle ) / 2);
+        var particle = this.waveParticles.get( i );
+        var particleWidth = this.modelViewTransform.modelToViewDeltaX( particle.width );
+        var x = this.modelViewTransform.modelToViewX( particle.position.x );
+        var y = this.modelViewTransform.modelToViewY( particle.position.y );
+        var angle = particle.angle;
+        var point1X = x + (particleWidth * Math.sin( angle ) / 2);
+        var point1Y = y + (particleWidth * Math.cos( angle ) / 2);
+        var point2X = x - (particleWidth * Math.sin( angle ) / 2);
+        var point2Y = y - (particleWidth * Math.cos( angle ) / 2);
         var lineWidth = this.modelViewTransform.modelToViewDeltaX( particle.height );
         var gradient = context.createLinearGradient( x, y, x - lineWidth * Math.cos( angle ), y + lineWidth * Math.sin( angle ) );
         gradient.addColorStop( 0, particle.color );
@@ -67,6 +61,9 @@ define( function( require ) {
       }
     },
 
+    /**
+     * @public
+     */
     step: function() {
       this.invalidatePaint();
     }
