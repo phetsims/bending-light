@@ -24,8 +24,8 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
-  var ChartNode = require( 'BENDING_LIGHT/moretools/view/ChartNode' );
-  var Series = require( 'BENDING_LIGHT/moretools/model/Series' );
+  var ChartNode = require( 'BENDING_LIGHT/more-tools/view/ChartNode' );
+  var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
   var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // strings
@@ -190,6 +190,7 @@ define( function( require ) {
       [ new Series( waveSensor.probe1.seriesProperty, darkProbeColor ),
         new Series( waveSensor.probe2.seriesProperty, lightProbeColor ) ] );
     this.bodyNode.addChild( this.chartNode );
+
     //Synchronize the body position with the model (centered on the model point)
     waveSensor.bodyPositionProperty.link( function( position ) {
       var viewPoint = modelViewTransform.modelToViewPosition( position );
@@ -271,7 +272,7 @@ define( function( require ) {
   return inherit( Node, WaveSensorNode, {
 
     /**
-     *
+     * @public
      * @param {number} scale
      */
     setWaveSensorScale: function( scale ) {
@@ -298,7 +299,7 @@ define( function( require ) {
 
     /**
      * Resize the WaveSensorNode
-     *
+     * @public
      * @param {Vector2} endPosition
      * @param {number} scale
      */
@@ -329,7 +330,7 @@ define( function( require ) {
 
     /**
      * Resize the WaveSensorNode with Animation
-     *
+     * @private
      * @param {Vector2} endPosition
      * @param {number} scale
      */
@@ -344,7 +345,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {Object} startPoint
      * @param {Object} endPoint
      */
@@ -387,7 +388,7 @@ define( function( require ) {
 
     /**
      * Called when dragged out of the toolbox, drags all parts together (including body and probes)
-     *
+     * @private
      * @param {Vector2} delta
      */
     dragAll: function( delta ) {
@@ -396,7 +397,7 @@ define( function( require ) {
 
     /**
      * Drag bodyNode
-     *
+     * @private
      * @param {Vector2} delta
      */
     dragBody: function( delta ) {

@@ -63,4 +63,3 @@ define( function( require ) {
     }
   } );
 } );
-

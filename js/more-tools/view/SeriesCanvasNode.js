@@ -29,7 +29,7 @@ define( function( require ) {
 
     /**
      * Paints the  series points on the canvas node.
-     *
+     * @protected
      * @param {CanvasContextWrapper} wrapper
      */
     paintCanvas: function( wrapper ) {
@@ -54,8 +54,12 @@ define( function( require ) {
       context.setLineDash( [] );
       context.lineDashOffset = 0;
       context.stroke();
+      context.closePath();
     },
 
+    /**
+     * @public
+     */
     step: function() {
       this.invalidatePaint();
     }

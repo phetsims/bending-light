@@ -9,8 +9,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var MoreToolsModel = require( 'BENDING_LIGHT/moretools/model/MoreToolsModel' );
-  var MoreToolsView = require( 'BENDING_LIGHT/moretools/view/MoreToolsView' );
+  var MoreToolsModel = require( 'BENDING_LIGHT/more-tools/model/MoreToolsModel' );
+  var MoreToolsView = require( 'BENDING_LIGHT/more-tools/view/MoreToolsView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );

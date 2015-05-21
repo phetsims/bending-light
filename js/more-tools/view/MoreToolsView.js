@@ -12,8 +12,8 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
-  var VelocitySensorNode = require( 'BENDING_LIGHT/moretools/view/VelocitySensorNode' );
-  var WaveSensorNode = require( 'BENDING_LIGHT/moretools/view/WaveSensorNode' );
+  var VelocitySensorNode = require( 'BENDING_LIGHT/more-tools/view/VelocitySensorNode' );
+  var WaveSensorNode = require( 'BENDING_LIGHT/more-tools/view/WaveSensorNode' );
   var Property = require( 'AXON/Property' );
 
   /**
@@ -25,7 +25,7 @@ define( function( require ) {
 
     var moreToolsView = this;
     this.moreToolsModel = moreToolsModel;
-    this.arrowScale = 1.5E-14;
+    this.arrowScale = 1.5E-14; // @public read-only
     IntroView.call( this, moreToolsModel, 0, true, 3 );
 
     // Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
@@ -34,15 +34,13 @@ define( function( require ) {
     this.beforeLightLayer2.addChild( this.velocitySensorNode );
     this.beforeLightLayer2.addChild( this.waveSensorNode );
 
-    Property.multilink( [
-      moreToolsModel.laserViewProperty,
-      moreToolsModel.waveSensor.visibleProperty
-    ], function( laserView, isWaveSensorEnabled ) {
-      var isButtonsVisible = isWaveSensorEnabled || laserView === 'wave';
-      moreToolsView.playPauseButton.visible = isButtonsVisible;
-      moreToolsView.stepButton.visible = isButtonsVisible;
-      moreToolsView.speedControl.visible = isButtonsVisible;
-    } );
+    Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.visibleProperty ],
+      function( laserView, isWaveSensorEnabled ) {
+        var isButtonsVisible = isWaveSensorEnabled || laserView === 'wave';
+        moreToolsView.playPauseButton.visible = isButtonsVisible;
+        moreToolsView.stepButton.visible = isButtonsVisible;
+        moreToolsView.speedControl.visible = isButtonsVisible;
+      } );
 
   }
 
@@ -61,7 +59,7 @@ define( function( require ) {
 
     /**
      * Create the VelocitySensorNode
-     *
+     * @private
      * @returns {VelocitySensorNode}
      */
     createVelocitySensorTool: function() {
@@ -71,7 +69,7 @@ define( function( require ) {
 
     /**
      * Create the WaveSensorNode
-     *
+     * @private
      * @returns {WaveSensorNode}
      */
     createWaveSensorTool: function() {
@@ -80,13 +78,12 @@ define( function( require ) {
     },
 
     /**
-     *  @protected
+     * @protected
      */
     reset: function() {
       IntroView.prototype.reset.call( this );
       this.velocitySensorNode.reset();
       this.waveSensorNode.reset();
     }
-
   } );
 } );

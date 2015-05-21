@@ -23,7 +23,11 @@ define( function( require ) {
   function Series( pathProperty, color ) {
 
     this.pathProperty = pathProperty;
+
+    // @public read-only
     this.color = color;
+
+    // @public
     this.points = new ObservableArray();
   }
 

@@ -14,7 +14,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
-  var DataPoint = require( 'BENDING_LIGHT/moretools/model/DataPoint' );
+  var DataPoint = require( 'BENDING_LIGHT/more-tools/model/DataPoint' );
 
   /**
    * Model for a probe, including its position and recorded data series
@@ -38,7 +38,7 @@ define( function( require ) {
   inherit( PropertySet, Probe, {
 
     /**
-     *
+     * @public
      * @param {Vector2} delta
      */
     translate: function( delta ) {
@@ -49,7 +49,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @public
      * @param {Option<DataPoint>} sample
      */
     addSample: function( sample ) {
@@ -73,6 +73,7 @@ define( function( require ) {
     this.probe2 = new Probe( -0.0000198, -0.0000062 );
     this.bodyPositionProperty = new Property( new Vector2( -0.0000172, -0.000007 ) );
 
+    // @public
     // in the play area
     this.visibleProperty = new Property( false );
 
@@ -87,12 +88,16 @@ define( function( require ) {
 
   return inherit( Object, WaveSensor, {
 
+    /**
+     * @public
+     */
     step: function() {
       this.simulationTimeChanged();
     },
 
     /**
      * Read samples from the probes when the simulation time changes
+     * @private
      */
     simulationTimeChanged: function() {
       this.updateProbeSample( this.probe1, this.probe1Value );
@@ -100,7 +105,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {Probe} probe
      * @param {function} probeValue
      */
@@ -113,7 +118,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @public
      * @param {Vector2} delta
      */
     translateBody: function( delta ) {
@@ -125,7 +130,7 @@ define( function( require ) {
 
     /**
      * Translate the body and probes by the specified model delta
-     *
+     * @public
      * @param {Vector2} delta
      */
     translateAll: function( delta ) {
@@ -134,6 +139,9 @@ define( function( require ) {
       this.translateBody( delta );
     },
 
+    /**
+     * @public
+     */
     reset: function() {
       this.bodyPositionProperty.reset();
       this.probe1.reset();

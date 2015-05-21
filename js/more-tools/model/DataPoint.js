@@ -19,7 +19,10 @@ define( function( require ) {
    */
   function DataPoint( time, value ) {
 
+    // @public read-only
     this.time = time;
+
+    // @public read-only
     this.value = value;
   }
 

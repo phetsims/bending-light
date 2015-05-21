@@ -30,7 +30,7 @@ define( function( require ) {
 
     /**
      * Paints the gris lines on the canvas node.
-     *
+     * @protected
      * @param {CanvasContextWrapper} wrapper
      */
     paintCanvas: function( wrapper ) {
@@ -44,12 +44,15 @@ define( function( require ) {
         context.strokeStyle = 'lightGray';
         context.lineWidth = 2;
         context.setLineDash( this.strokeDash );
-        context.lineDashOffset = grid[ 4 ];
+        context.lineDashOffset = grid[ 4 ]; //Have to model the phase to make it look like the grid line is moving
         context.stroke();
         context.closePath();
       }
     },
 
+    /**
+     * @public
+     */
     step: function() {
       this.invalidatePaint();
     }

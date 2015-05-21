@@ -48,6 +48,8 @@ define( function( require ) {
 
     var velocitySensorNode = this;
     Node.call( this, { cursor: 'pointer', pickable: true } );
+
+    // @public read-only
     this.modelViewTransform = modelViewTransform;
     this.velocitySensor = velocitySensor;
     this.moreToolsView = moreToolsView;
@@ -208,7 +210,7 @@ define( function( require ) {
   return inherit( Node, VelocitySensorNode, {
 
     /**
-     *
+     * @public
      * @param {Vector2} endPoint
      * @param {number} scale
      */
@@ -223,7 +225,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {Object} initialPosition
      * @param {Object} finalPosition
      */
@@ -238,6 +240,9 @@ define( function( require ) {
         } ).start();
     },
 
+    /**
+     * @public
+     */
     addToMoreToolsView: function() {
 
       if ( this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
@@ -248,6 +253,9 @@ define( function( require ) {
       }
     },
 
+    /**
+     * @public
+     */
     addToSensorPanel: function() {
 
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
@@ -258,6 +266,9 @@ define( function( require ) {
       }
     },
 
+    /**
+     * @public
+     */
     reset: function() {
       this.setScaleMagnitude( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
@@ -267,7 +278,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {Vector2} delta
      */
     dragAll: function( delta ) {

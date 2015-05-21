@@ -16,9 +16,9 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
-  var SeriesCanvasNode = require( 'BENDING_LIGHT/moretools/view/SeriesCanvasNode' );
+  var SeriesCanvasNode = require( 'BENDING_LIGHT/more-tools/view/SeriesCanvasNode' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  var GridCanvasNode = require( 'BENDING_LIGHT/moretools/view/GridCanvasNode' );
+  var GridCanvasNode = require( 'BENDING_LIGHT/more-tools/view/GridCanvasNode' );
 
   //stroke dash parameters
   var DASH_ON = 10;
@@ -33,11 +33,13 @@ define( function( require ) {
    * @constructor
    */
   function SeriesNode( series, modelViewTransformProperty, chartBounds ) {
+
     Node.call( this );
     var seriesCanvasNode = new SeriesCanvasNode( series.points, series.getColor().toCSS(), {
       canvasBounds: chartBounds
     } );
     this.addChild( seriesCanvasNode );
+
     series.pathProperty.link( function() {
       series.points.clear();
       series.pathProperty.get().forEach( function( value ) {
@@ -63,14 +65,16 @@ define( function( require ) {
     this.chartBounds = chartBounds;
     this.series = series;
 
+    // @public read-only
     // Amount of time to show on the horizontal axis of the chart
     this.timeWidth = 72E-16;
-    this.gridPoints = new ObservableArray();
 
+    this.gridPoints = new ObservableArray();
     this.gridCanvasNode = new GridCanvasNode( this.gridPoints, [ DASH_ON, DASH_OFF ], {
       canvasBounds: chartBounds
     } );
     this.addChild( this.gridCanvasNode );
+
     // Mapping from model (SI) to chart coordinates
     this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping(
       new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
@@ -84,7 +88,7 @@ define( function( require ) {
   return inherit( Node, ChartNode, {
 
     /**
-     *
+     * @public
      * @param {number} time
      */
     step: function( time ) {
@@ -93,7 +97,7 @@ define( function( require ) {
 
     /**
      * Move over the view port as time passes
-     *
+     * @private
      * @param {number} time
      */
     simulationTimeChanged: function( time ) {
@@ -124,7 +128,6 @@ define( function( require ) {
       this.gridPoints.push( [ minTime, 0, minTime + this.timeWidth, 0,
         this.modelViewTransformProperty.get().modelToViewDeltaX( horizontalGridLineDelta ),
         this.modelViewTransformProperty ] );
-
       this.gridCanvasNode.step();
 
       // Remove any points that have gone outside of the time window, otherwise it is a memory leak
@@ -135,7 +138,7 @@ define( function( require ) {
 
     /**
      * Compute the phase offset so that grid lines appear to be moving at the right speed
-     *
+     * @private
      * @param {number} verticalGridLineSpacing
      * @param {number} time
      * @returns {number}
@@ -148,7 +151,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {number} x
      */
     addVerticalLine: function( x ) {

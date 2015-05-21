@@ -13,8 +13,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
-  var WaveSensor = require( 'BENDING_LIGHT/moretools/model/WaveSensor' );
-  var VelocitySensor = require( 'BENDING_LIGHT/moretools/model/VelocitySensor' );
+  var WaveSensor = require( 'BENDING_LIGHT/more-tools/model/WaveSensor' );
+  var VelocitySensor = require( 'BENDING_LIGHT/more-tools/model/VelocitySensor' );
   var Property = require( 'AXON/Property' );
 
   /**
@@ -29,11 +29,13 @@ define( function( require ) {
     // bend
     IntroModel.call( this, BendingLightModel.GLASS, false );
 
+    // @public
     this.velocitySensor = new VelocitySensor();
     var waveValueGetter = function( position ) {
       return moreToolsModel.getWaveValue( position );
     };
 
+    // @public
     this.waveSensor = new WaveSensor( waveValueGetter, waveValueGetter );
 
     // Update the velocity sensor value when anything relevant in the model changes
