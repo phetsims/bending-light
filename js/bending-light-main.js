@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var IntroScreen = require( 'BENDING_LIGHT/intro/IntroScreen' );
   var PrismsScreen = require( 'BENDING_LIGHT/prisms/PrismsScreen' );
-  var MoreToolsScreen = require( 'BENDING_LIGHT/moretools/MoreToolsScreen' );
+  var MoreToolsScreen = require( 'BENDING_LIGHT/more-tools/MoreToolsScreen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
 

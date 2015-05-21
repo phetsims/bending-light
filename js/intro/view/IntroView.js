@@ -32,7 +32,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
-  var ExpandableProtractorNode = require( 'BENDING_LIGHT/moretools/view/ExpandableProtractorNode' );
+  var ExpandableProtractorNode = require( 'BENDING_LIGHT/more-tools/view/ExpandableProtractorNode' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
