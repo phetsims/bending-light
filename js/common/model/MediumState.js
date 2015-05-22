@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".
  *
@@ -31,7 +32,7 @@ define( function( require ) {
   return inherit( Object, MediumState, {
 
     /**
-     *
+     * @public
      * @returns {string}
      */
     toString: function() {
@@ -47,4 +48,3 @@ define( function( require ) {
     }
   } );
 } );
-

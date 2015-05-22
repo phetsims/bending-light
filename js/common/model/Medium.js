@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * A Medium is a substance through which LightRay instances propagate.
  *
@@ -12,7 +13,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {Shape} shape
+   * @param {Shape} shape - shape of the medium
    * @param {MediumState} mediumState - state of the medium
    * @param {Color} color - color of the medium
    * @constructor
@@ -54,4 +55,3 @@ define( function( require ) {
     }
   } );
 } );
-

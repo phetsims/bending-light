@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * For determining the colors of different mediums as a function of characteristic index of refraction.
  *
@@ -22,8 +23,8 @@ define( function( require ) {
   return {
 
     /**
-     *  Maps index of refraction to color using linear functions
-     *  @public
+     * Maps index of refraction to color using linear functions
+     * @public
      * @param {number} indexForRed
      * @returns {Color}
      */
@@ -63,20 +64,21 @@ define( function( require ) {
 
     /**
      * Blend colors a and b with the specified amount of "b" to use between 0 and 1
-     *
-     *  @public
+     * @public
      * @param{Color} a
-     * @param {Color}b
-     * @param {number}ratio
+     * @param {Color} b
+     * @param {number} ratio
      * @returns {Color}
      */
     colorBlend: function( a, b, ratio ) {
-      return new Color( this.clamp( ((a.getRed()) * (1 - ratio) + (b.getRed()) * ratio) ), this.clamp( ((a.getGreen()) * (1 - ratio) + (b.getGreen()) * ratio) ), this.clamp( ((a.getBlue()) * (1 - ratio) + (b.getBlue()) * ratio) ), this.clamp( ((a.getAlpha()) * (1 - ratio) + (b.getAlpha()) * ratio) ) );
+      return new Color( this.clamp( ((a.getRed()) * (1 - ratio) + (b.getRed()) * ratio) ),
+        this.clamp( ((a.getGreen()) * (1 - ratio) + (b.getGreen()) * ratio) ),
+        this.clamp( ((a.getBlue()) * (1 - ratio) + (b.getBlue()) * ratio) ),
+        this.clamp( ((a.getAlpha()) * (1 - ratio) + (b.getAlpha()) * ratio) ) );
     },
 
     /**
      * Make sure light doesn't go outside of the 0..255 bounds
-     *
      * @public
      * @param {number} value
      * @returns {number}

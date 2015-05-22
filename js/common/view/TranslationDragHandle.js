@@ -14,7 +14,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
 
   //images

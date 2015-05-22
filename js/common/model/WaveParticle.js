@@ -3,6 +3,7 @@
 /**
  * WaveParticle  is to simulate the wave transformation in Canvas mode.
  * WaveParticle has position , width , angle and etc..
+ *
  * @author Chandrashekar Bemagoni  (Actual Concepts)
  */
 define( function( require ) {
@@ -42,8 +43,8 @@ define( function( require ) {
     },
 
     /**
-     *  get particle Y position
-     *  @public
+     * get particle Y position
+     * @public
      * @returns {number}
      */
     getY: function() {
@@ -61,7 +62,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @param{number} y  - y position in model values
+     * @param{number} y - y position in model values
      */
     setY: function( y ) {
       this.position.y = y;

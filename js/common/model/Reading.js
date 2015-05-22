@@ -52,14 +52,14 @@ define( function( require ) {
    */
   function Reading( value ) {
 
-    // Immutable
+    // @public read-only
     this.value = value;
   }
 
   return inherit( Object, Reading, {
 
       /**
-       *  @public
+       * @public
        * @return {string}
        */
       getString: function() {
@@ -68,7 +68,7 @@ define( function( require ) {
 
       /**
        * @public
-       * @param {number}value
+       * @param {number} value
        * @returns {string}
        */
       format: function( value ) {
@@ -76,7 +76,7 @@ define( function( require ) {
       },
 
       /**
-       *  @public
+       * @public
        * @return {boolean}
        */
       isHit: function() {
@@ -91,7 +91,7 @@ define( function( require ) {
         return this.value;
       }
     },
-    //statics
+    // statics
     {
       MISS: new MISS()
     } );

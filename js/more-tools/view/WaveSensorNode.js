@@ -58,6 +58,8 @@ define( function( require ) {
     // Add the probe
     this.addChild( new Image( probeImageName, { scale: 0.8 } ) );
 
+    var probeDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co-ordinates
+
     // Interaction: Translates when dragged, but keep it bounded within the play area
     var start;
     var fromSensorPanel;
@@ -82,14 +84,12 @@ define( function( require ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
           waveSensorNode.dragAll( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( waveSensorNode.waveSensor.probe1.position,
-            modelViewTransform.viewToModelBounds( dragBounds ) );
+          position = ConstraintBounds.constrainLocation( waveSensorNode.waveSensor.probe1.position, probeDragBounds );
           waveSensorNode.waveSensor.translateAll( position.minus( waveSensorNode.waveSensor.probe1.position ) );
         }
         else {
           probe.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
-          position = ConstraintBounds.constrainLocation( probe.position,
-            modelViewTransform.viewToModelBounds( dragBounds ) );
+          position = ConstraintBounds.constrainLocation( probe.position, probeDragBounds );
           probe.positionProperty.set( position );
         }
         start = end;
@@ -141,7 +141,7 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform;
     this.waveSensor = waveSensor;
     this.moreToolsView = moreToolsView;
-
+    var waveSensorDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co-ordinates
     // Add body node
     var rectangleWidth = 135;
     var rectangleHeight = 100;
@@ -222,14 +222,12 @@ define( function( require ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
           waveSensorNode.dragAll( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( waveSensor.probe1.position,
-            modelViewTransform.viewToModelBounds( dragBounds ) );
+          position = ConstraintBounds.constrainLocation( waveSensor.probe1.position, waveSensorDragBounds );
           waveSensor.translateAll( position.minus( waveSensorNode.waveSensor.probe1.position ) );
         }
         else {
           waveSensorNode.dragBody( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( waveSensor.bodyPositionProperty.get(),
-            modelViewTransform.viewToModelBounds( dragBounds ) );
+          position = ConstraintBounds.constrainLocation( waveSensor.bodyPositionProperty.get(), waveSensorDragBounds );
           waveSensor.bodyPositionProperty.set( position );
         }
         start = end;
@@ -280,21 +278,18 @@ define( function( require ) {
       this.bodyNode.setScaleMagnitude( scale );
       this.probe1Node.setScaleMagnitude( scale );
       this.probe2Node.setScaleMagnitude( scale );
+
       this.bodyNode.setTranslation(
-        this.modelViewTransform.modelToViewPosition( this.waveSensor.bodyPositionProperty.get() ).x -
-        this.bodyNode.width / 2,
-        this.modelViewTransform.modelToViewPosition( this.waveSensor.bodyPositionProperty.get() ).y -
-        this.bodyNode.height );
+        this.modelViewTransform.modelToViewX( this.waveSensor.bodyPositionProperty.get().x ) - this.bodyNode.width / 2,
+        this.modelViewTransform.modelToViewY( this.waveSensor.bodyPositionProperty.get().y ) - this.bodyNode.height );
+
       this.probe1Node.setTranslation(
-        this.modelViewTransform.modelToViewPosition( this.waveSensor.probe1.position ).x -
-        this.probe1Node.getWidth() / 2,
-        this.modelViewTransform.modelToViewPosition( this.waveSensor.probe1.position ).y -
-        this.probe1Node.getHeight() / 2 );
+        this.modelViewTransform.modelToViewX( this.waveSensor.probe1.position.x ) - this.probe1Node.getWidth() / 2,
+        this.modelViewTransform.modelToViewY( this.waveSensor.probe1.position.y ) - this.probe1Node.getHeight() / 2 );
+
       this.probe2Node.setTranslation(
-        this.modelViewTransform.modelToViewPosition( this.waveSensor.probe2.position ).x -
-        this.probe2Node.getWidth() / 2,
-        this.modelViewTransform.modelToViewPosition( this.waveSensor.probe2.position ).y -
-        this.probe2Node.getHeight() / 2 );
+        this.modelViewTransform.modelToViewX( this.waveSensor.probe2.position.x ) - this.probe2Node.getWidth() / 2,
+        this.modelViewTransform.modelToViewY( this.waveSensor.probe2.position.y ) - this.probe2Node.getHeight() / 2 );
     },
 
     /**

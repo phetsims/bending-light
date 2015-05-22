@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Models dispersion functions for each material.  Uses the actual dispersion equation for air (A) and the actual dispersion equation for glass (G)
  * then interpolates between the functions n(lambda) = beta * A(lambda) + (1-beta) * G(lambda) where 0<=beta<=infinity is a characteristic of the material.
@@ -57,7 +58,8 @@ define( function( require ) {
     },
 
     /**
-     *@public
+     * See class-level documentation for an explanation of this algorithm
+     * @public
      * @param {number} wavelength
      * @returns {number}
      */
@@ -88,4 +90,3 @@ define( function( require ) {
     }
   } );
 } );
-

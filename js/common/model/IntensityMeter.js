@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Model for the intensity meter, including the position of the sensor, body, the reading values, etc.
  * When multiple rays hit the sensor, they are summed up.
@@ -17,10 +18,10 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} sensorX -  sensor x position in model  values
-   * @param {number} sensorY - sensor  y position in model  values
-   * @param {number} bodyX - body x position in model  values
-   * @param {number} bodyY -body y position in model  values
+   * @param {number} sensorX - sensor x position in model values
+   * @param {number} sensorY - sensor  y position in model values
+   * @param {number} bodyX - body x position in model values
+   * @param {number} bodyY - body y position in model values
    * @constructor
    */
   function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {
@@ -32,6 +33,12 @@ define( function( require ) {
       }
     );
 
+    //
+    this.newSensorPosition = new Vector2();
+
+    //
+    this.newBodyPosition = new Vector2();
+
     // accumulation of readings
     this.rayReadings = [];
   }
@@ -39,35 +46,43 @@ define( function( require ) {
   return inherit( PropertySet, IntensityMeter, {
 
       /**
-       *
        * @public
-       * @param {Vector2}delta - amount space the sensor translated.
+       * @param {number} deltaX - amount space in x the sensor translated.
+       * @param {number} deltaY - amount space in y the sensor translated.
        */
-      translateSensor: function( delta ) {
-        this.sensorPositionProperty.set( this.sensorPosition.plus( delta ) );
+      translateSensorXY: function( deltaX, deltaY ) {
+        this.newSensorPosition.x = this.sensorPosition.x + deltaX;
+        this.newSensorPosition.y = this.sensorPosition.y + deltaY;
+        this.sensorPositionProperty.set( this.newSensorPosition );
+        this.sensorPositionProperty._notifyObservers();
       },
 
       /**
-       *@public
-       * @param {Vector2}delta -amount space the body translated.
+       * @public
+       * @param {number} deltaX - amount space in x the body translated.
+       * @param {number} deltaY - amount space in y the body translated.
        */
-      translateBody: function( delta ) {
-        this.bodyPositionProperty.set( this.bodyPosition.plus( delta ) );
+      translateBodyXY: function( deltaX, deltaY ) {
+        this.newBodyPosition.x = this.bodyPosition.x + deltaX;
+        this.newBodyPosition.y = this.bodyPosition.y + deltaY;
+        this.bodyPositionProperty.set( this.newBodyPosition );
+        this.bodyPositionProperty._notifyObservers();
       },
 
       /**
-       *
+       * @public
        * @returns {Shape}
        */
       getSensorShape: function() {
         // fine tuned to match the given image
         var radius = 1.215E-6;
-        return new Shape().circle( this.sensorPosition.x, this.sensorPosition.y, radius );
+        return new Shape().arcPoint( this.sensorPosition, radius, 0, Math.PI * 2, false );
       },
 
       /**
-       *  should be called before a model update so that values from last computation
+       * Should be called before a model update so that values from last computation
        * don't leak over into the next summation
+       * @public
        */
       clearRayReadings: function() {
         this.rayReadings = [];
@@ -76,6 +91,7 @@ define( function( require ) {
 
       /**
        * Add a new reading to the accumulator and update the readout
+       * @public
        * @param {Reading/ MISS} r
        */
       addRayReading: function( r ) {
@@ -85,6 +101,7 @@ define( function( require ) {
 
       /**
        * Update the body text based on the accumulated Reading values
+       * @private
        */
       updateReading: function() {
 
@@ -111,16 +128,16 @@ define( function( require ) {
       },
 
       /**
-       *@public
-       * @param {Vector2} delta
+       * @public
+       * @param {number} deltaX
+       * @param {number} deltaY
        */
-      translateAll: function( delta ) {
-        this.translateBody( delta );
-        this.translateSensor( delta );
+      translateAllXY: function( deltaX, deltaY ) {
+        this.translateBodyXY( deltaX, deltaY );
+        this.translateSensorXY( deltaX, deltaY );
       }
     },
     {
       Reading: Reading
     } );
 } );
-

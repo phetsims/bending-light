@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Base class for Bending Light
  *
@@ -26,7 +27,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {BendingLightModel} model - main model of  the simulations
+   * @param {BendingLightModel} model - main model of the simulations
    * @param {function} clampDragAngle
    * @param {function} clockwiseArrowNotAtMax
    * @param {function} ccwArrowNotAtMax
@@ -36,9 +37,8 @@ define( function( require ) {
    * @param {number} centerOffsetLeft
    * @constructor
    */
-  function BendingLightView( model, clampDragAngle, clockwiseArrowNotAtMax,
-                             ccwArrowNotAtMax, laserTranslationRegion, laserRotationRegion,
-                             laserImageName, centerOffsetLeft ) {
+  function BendingLightView( model, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserTranslationRegion,
+                             laserRotationRegion, laserImageName, centerOffsetLeft ) {
 
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
@@ -48,13 +48,13 @@ define( function( require ) {
     this.lightWaveLayer = new Node();
     this.laserView = new LaserView( model, false );
 
-    //In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
+    // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
     // suggested this layering order:
-    //laser on top
-    //Control boxes next
-    //Protractor
-    //Laser beam
-    //To implement this, we specify 2  before light layer and 2 after light layers
+    // laser on top
+    // Control boxes next
+    // Protractor
+    // Laser beam
+    // To implement this, we specify 2  before light layer and 2 after light layers
     this.beforeLightLayer = new Node();
     this.beforeLightLayer2 = new Node();
 
@@ -64,7 +64,6 @@ define( function( require ) {
 
     var stageWidth = this.layoutBounds.width;
     var stageHeight = this.layoutBounds.height;
-
 
     // center the stage in the canvas, specifies how things scale up and down with window size, maps stage to pixels
     // create the transform from model (SI) to view (stage) coordinates
@@ -77,7 +76,7 @@ define( function( require ) {
     this.addChild( this.mediumNode );
     this.incidentWaveCanvasLayer = new Node();
 
-    this.whiteLightNode = new WhiteLightNode( this.lightRayLayer, stageWidth, stageHeight);
+    this.whiteLightNode = new WhiteLightNode( this.lightRayLayer, stageWidth, stageHeight );
     // layering
     this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );
@@ -90,7 +89,7 @@ define( function( require ) {
     this.addChild( this.afterLightLayer );
 
     // This layer  is to add laser view control panel
-    //  Note: this layer to make protractor behind laser view   panel and laser node on top of laser view panel.
+    // Note: this layer to make protractor behind laser view   panel and laser node on top of laser view panel.
     this.laserViewLayer = new Node();
     this.addChild( this.laserViewLayer );
 
@@ -102,8 +101,7 @@ define( function( require ) {
       bendingLightView.lightWaveLayer.setVisible( !white );
     } );
 
-    // add rotation for the laser that show if/when the laser can be rotated
-    // about its pivot
+    // add rotation for the laser that show if/when the laser can be rotated about its pivot
     var showRotationDragHandlesProperty = new Property( false );
     var showTranslationDragHandlesProperty = new Property( false );
 
@@ -164,7 +162,6 @@ define( function( require ) {
       model.laser.wave = (model.laserViewProperty.value === 'wave');
     } );
 
-
     model.rays.addItemAddedListener( function( ray ) {
       var node;
       if ( model.laserViewProperty.value === 'ray' ) {
@@ -198,4 +195,3 @@ define( function( require ) {
 
   return inherit( ScreenView, BendingLightView );
 } );
-

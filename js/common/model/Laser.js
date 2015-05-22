@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Model for the laser, which emits LightRays.
  *
@@ -15,19 +16,19 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-
   /**
    *
-   * @param {number}  distanceFromPivot - distance from laser pivot point
-   * @param {number}  angle - laser angle
+   * @param {number} distanceFromPivot - distance from laser pivot point
+   * @param {number} angle - laser angle
    * @param {Boolean} topLeftQuadrant
    * @constructor
    */
   function Laser( distanceFromPivot, angle, topLeftQuadrant ) {
+
     this.topLeftQuadrant = topLeftQuadrant;
     var laser = this;
     PropertySet.call( this, {
-      pivot: new Vector2( 0, 0 ),// point to be pivoted about, and at which the laser points
+      pivot: new Vector2( 0, 0 ), // point to be pivoted about, and at which the laser points
       color: new LaserColor.OneColor( BendingLightConstants.WAVELENGTH_RED ),
       on: false,    // true if the laser is activated and emitting light
       wave: false,
@@ -37,11 +38,13 @@ define( function( require ) {
       emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
     } );
 
-    //  reusable vectors   to avoid to many vector allocations
-    // vector for to store new laser emission point
+    // reusable vectors to avoid to many vector allocations
+    // vector to store new laser emission point
     this.newEmissionPoint = new Vector2( 0, 0 );
+
     // vector for to store new laser pivot point
     this.newPivotPoint = new Vector2( 0, 0 );
+
     //  laser direction vector
     this.directionUnitVector = new Vector2( 0, 0 );
 
@@ -76,11 +79,9 @@ define( function( require ) {
      * @returns {Vector2}
      */
     getDirectionUnitVector: function() {
-      this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
-      this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
-      var magnitude = this.directionUnitVector.magnitude();
-      this.directionUnitVector.x = this.directionUnitVector.x / magnitude;
-      this.directionUnitVector.y = this.directionUnitVector.y / magnitude;
+      var magnitude = this.pivot.distance( this.emissionPoint );
+      this.directionUnitVector.x = (this.pivot.x - this.emissionPoint.x) / magnitude;
+      this.directionUnitVector.y = (this.pivot.y - this.emissionPoint.y) / magnitude;
       return this.directionUnitVector;
     },
 
@@ -111,9 +112,7 @@ define( function( require ) {
      * @returns {number}
      */
     getDistanceFromPivot: function() {
-      this.directionUnitVector.x = this.pivot.x - this.emissionPoint.x;
-      this.directionUnitVector.y = this.pivot.y - this.emissionPoint.y;
-      return this.directionUnitVector.magnitude();
+      return this.pivot.distance( this.emissionPoint );
     },
 
     /**
@@ -131,7 +130,5 @@ define( function( require ) {
     getFrequency: function() {
       return BendingLightConstants.SPEED_OF_LIGHT / this.getWavelength();
     }
-
   } );
 } );
-

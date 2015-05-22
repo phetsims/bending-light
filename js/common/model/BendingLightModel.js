@@ -1,7 +1,9 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Main model for bending light application.  Rays are recomputed whenever laser parameters changed.
- * Each ray oscillates in time, as shown in the wave view.  There are model representations for several tools as well as their visibility.
+ * Each ray oscillates in time, as shown in the wave view.  There are model representations for several tools as well
+ * as their visibility.
  *
  * @author Sam Reid
  */
@@ -18,10 +20,6 @@ define( function( require ) {
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-  // default values
-  var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
-  var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
-
   //  strings
   var airString = require( 'string!BENDING_LIGHT/air' );
   var waterString = require( 'string!BENDING_LIGHT/water' );
@@ -29,6 +27,11 @@ define( function( require ) {
   var diamondString = require( 'string!BENDING_LIGHT/diamond' );
   var mysteryAString = require( 'string!BENDING_LIGHT/mysteryA' );
   var mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
+
+  // constants
+  // default values
+  var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
+  var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
   // mediums that can be selected
   var AIR = new MediumState( airString, 1.000293, false, false );
@@ -58,13 +61,12 @@ define( function( require ) {
     var bendingLightModel = this;
 
     // dimensions of the model, guaranteed to be shown in entirety on the stage
-    this.modelWidth = CHARACTERISTIC_LENGTH * 62;
-    this.modelHeight = this.modelWidth * 0.7;
+    this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public read-only
+    this.modelHeight = this.modelWidth * 0.7; // @public read-only
 
     //  if  WebGL support  then particles creation  and propagation not need
     //  else we should create particles and propagate to render them on canvas.
     this.allowWebGL = false;
-
 
     PropertySet.call( this, {
         laserView: 'ray', //Whether the laser is Ray or Wave mode
@@ -77,13 +79,13 @@ define( function( require ) {
     );
 
     // model components
-    this.intensityMeter = new IntensityMeter( centerOffsetLeft ? -this.modelWidth * 0.34 : -this.modelWidth * 0.48, -this.modelHeight * 0.285,
+    this.intensityMeter = new IntensityMeter(
+      centerOffsetLeft ? -this.modelWidth * 0.34 : -this.modelWidth * 0.48, -this.modelHeight * 0.285,
       centerOffsetLeft ? -this.modelWidth * 0.308 : -this.modelWidth * 0.448, -this.modelHeight * 0.285 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
     this.wavelengthProperty.link( function( wavelength ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );
     } );
-
   }
 
   return inherit( PropertySet, BendingLightModel, {
@@ -130,7 +132,6 @@ define( function( require ) {
 
       /**
        * clear the model in preparation for another ray propagation update phase
-       *
        * @public
        */
       clearModel: function() {
@@ -139,14 +140,12 @@ define( function( require ) {
           this.rays.get( i ).particles.clear();
         }
         this.rays.clear();
-        // clear the accumulator in the intensity meter so it can sum up the newly
-        // created rays
+        // clear the accumulator in the intensity meter so it can sum up the newly created rays
         this.intensityMeter.clearRayReadings();
       },
 
       /**
        * update the model by clearing the rays, then recreating them
-       *
        * @public
        */
       updateModel: function() {
@@ -156,7 +155,6 @@ define( function( require ) {
 
       /**
        * Get the fraction of power transmitted through the medium
-       *
        * @public
        * @param {number} n1
        * @param {number} n2
@@ -170,7 +168,6 @@ define( function( require ) {
 
       /**
        * Get the fraction of power reflected from the medium
-       *
        * @public
        * @param {number} n1
        * @param {number} n2
@@ -204,4 +201,3 @@ define( function( require ) {
       MYSTERY_B: MYSTERY_B
     } );
 } );
-

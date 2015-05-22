@@ -125,8 +125,11 @@ define( function( require ) {
     this.addChild( this.arrowShape );
 
     velocitySensor.valueProperty.link( function( velocity ) {
-      var pos = modelViewTransform.modelToViewDelta( velocitySensor.value ).times( arrowScale );
-      this.arrowShape.setShape( new ArrowShape( 0, 0, pos.x, pos.y,
+
+      var positionX = modelViewTransform.modelToViewDeltaX( velocitySensor.value.x ) * arrowScale;
+      var positionY = modelViewTransform.modelToViewDeltaY( velocitySensor.value.y ) * arrowScale;
+
+      this.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY,
         { tailWidth: arrowWidth, headWidth: 2 * arrowWidth, headHeight: 2 * arrowWidth } ) );
 
       // Set the arrowShape path position so that the center of the tail coincides with the tip of the sensor
@@ -161,31 +164,35 @@ define( function( require ) {
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
 
     // Drag handler
-    this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty,
-      {
+    this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
         dragBounds: modelViewTransform.viewToModelBounds( dragBounds ),
         modelViewTransform: modelViewTransform,
         startDrag: function() {
-          if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
+          if ( container.bounds.containsCoordinates( velocitySensorNode.getCenterX(), velocitySensorNode.getCenterY() ) ) {
             velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(),
               VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
             velocitySensorNode.addToMoreToolsView();
           }
         },
         endDrag: function() {
-          if ( container.bounds.containsPoint( velocitySensorNode.center ) ) {
+          if ( container.bounds.containsCoordinates( velocitySensorNode.getCenterX(), velocitySensorNode.getCenterY() ) ) {
             velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
               VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
             velocitySensor.reset();
             velocitySensorNode.addToSensorPanel();
           }
         }
-      } ) );
+    } ) );
 
     velocitySensor.positionProperty.link( function( position ) {
-      var viewPosition = modelViewTransform.modelToViewPosition( position );
-      velocitySensorNode.setTranslation( viewPosition.x - rectangleWidth / 2 * velocitySensorNode.getScaleVector().x,
-        viewPosition.y - ( rectangleHeight + triangleHeight ) * velocitySensorNode.getScaleVector().y );
+
+      var velocitySensorNodeScaleVector = velocitySensorNode.getScaleVector();
+      var velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
+      var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
+
+      velocitySensorNode.setTranslation(
+        velocitySensorXPosition - rectangleWidth / 2 * velocitySensorNodeScaleVector.x,
+        velocitySensorYPosition - ( rectangleHeight + triangleHeight ) * velocitySensorNodeScaleVector.y );
     } );
 
     // Update the text when the value or units changes.
@@ -200,9 +207,14 @@ define( function( require ) {
         labelText.center = innerMostRectangle.center;
       } );
     velocitySensorNode.setScaleMagnitude( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
-    var viewPosition = modelViewTransform.modelToViewPosition( velocitySensor.position );
-    velocitySensorNode.setTranslation( viewPosition.x - rectangleWidth / 2 * velocitySensorNode.getScaleVector().x,
-      viewPosition.y - ( rectangleHeight + triangleHeight ) * velocitySensorNode.getScaleVector().y );
+
+    var velocitySensorNodeScaleVector = velocitySensorNode.getScaleVector();
+    var velocitySensorXPosition = modelViewTransform.modelToViewX( velocitySensor.position.x );
+    var velocitySensorYPosition = modelViewTransform.modelToViewY( velocitySensor.position.y );
+    velocitySensorNode.setTranslation(
+      velocitySensorXPosition - rectangleWidth / 2 * velocitySensorNodeScaleVector.x,
+      velocitySensorYPosition - ( rectangleHeight + triangleHeight ) * velocitySensorNodeScaleVector.y );
+
     // For visually inspecting the touch area
     this.touchArea = this.localBounds;
   }

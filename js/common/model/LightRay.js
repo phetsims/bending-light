@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * A LightRay models one straight segment of a beam (completely within a single medium), with a specific wavelength.
  *
@@ -76,7 +77,7 @@ define( function( require ) {
   return inherit( Object, LightRay, {
 
     /**
-     *
+     * @public
      * @param {number} time
      */
     setTime: function( time ) {
@@ -122,7 +123,7 @@ define( function( require ) {
      * @returns {number}
      */
     getLength: function() {
-      return this.tip.minus( this.tail ).magnitude();
+      return this.tip.distance( this.tail );
     },
 
     /**
@@ -180,57 +181,26 @@ define( function( require ) {
       var tailPoint2 = this.tail.plus( tailVector );
 
       // Getting correct order of points
-      var tipPoint1X = tipPoint2.x > tipPoint1.x ? tipPoint2.x : tipPoint1.x;
-      var tipPoint1Y = tipPoint2.x > tipPoint1.x ? tipPoint2.y : tipPoint1.y;
-      var tipPoint2X = tipPoint2.x < tipPoint1.x ? tipPoint2.x : tipPoint1.x;
-      var tipPoint2Y = tipPoint2.x < tipPoint1.x ? tipPoint2.y : tipPoint1.y;
+      var tipPoint1XY = tipPoint2.x > tipPoint1.x ? tipPoint2 : tipPoint1;
+      var tipPoint2XY = tipPoint2.x < tipPoint1.x ? tipPoint2 : tipPoint1;
 
-      var tailPoint1X = tailPoint1.x < tailPoint2.x ? tailPoint1.x : tailPoint2.x;
-      var tailPoint1Y = tailPoint1.x < tailPoint2.x ? tailPoint1.y : tailPoint2.y;
-      var tailPoint2X = tailPoint1.x > tailPoint2.x ? tailPoint1.x : tailPoint2.x;
-      var tailPoint2Y = tailPoint1.x > tailPoint2.x ? tailPoint1.y : tailPoint2.y;
+      var tailPoint1XY = tailPoint1.x < tailPoint2.x ? tailPoint1 : tailPoint2;
+      var tailPoint2XY = tailPoint1.x > tailPoint2.x ? tailPoint1 : tailPoint2;
 
       // This is to avoid drawing of wave backwards (near the intersection of mediums) when it intersects intensity
       // meter sensor shape
-      if ( (tailPoint2X - tipPoint1X) > 1E-10 ) {
-        tipPoint1Y = tailPoint2Y;
-        tailPoint2X = this.toVector().magnitude() / Math.cos( this.getAngle() );
-        tipPoint1X = tailPoint2X;
+      if ( (tailPoint2XY.x - tipPoint1XY.x) > 1E-10 ) {
+        tipPoint1XY.y = tailPoint2XY.y;
+        tailPoint2XY.x = this.toVector().magnitude() / Math.cos( this.getAngle() );
+        tipPoint1XY.x = tailPoint2XY.x;
       }
       var shape = new Shape();
-      shape.moveTo( tailPoint1X, tailPoint1Y )
-        .lineTo( tailPoint2X, tailPoint2Y )
-        .lineTo( tipPoint1X, tipPoint1Y )
-        .lineTo( tipPoint2X, tipPoint2Y )
+      shape.moveToPoint( tailPoint1XY )
+        .lineToPoint( tailPoint2XY )
+        .lineToPoint( tipPoint1XY )
+        .lineToPoint( tipPoint2XY )
         .close();
       return shape;
-    },
-
-    /**
-     * The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
-     * @public
-     * @returns {Array}
-     */
-    getWaveBounds: function() {
-      if ( this.waveBounds.length > 0 ) {
-        return this.waveBounds;
-      }
-
-      var angle = this.extendBackwards ? Math.abs( this.getAngle() ) : Math.PI / 2;
-      var tailWidth = this.waveWidth;
-      var tipWidth = this.trapeziumWidth;
-
-      // tip point
-      var tipPoint1 = new Vector2( this.tip.x + tipWidth / 2, this.tip.y );
-      var tipPoint2 = new Vector2( this.tip.x - tipWidth / 2, this.tip.y );
-
-      //tail
-      var tailPoint1 = new Vector2( this.tail.x + tailWidth / 2 * Math.sin( angle ),
-        this.tail.y + tailWidth / 2 * Math.cos( angle ) );
-      var tailPoint2 = new Vector2( this.tail.x - tailWidth / 2 * Math.sin( angle ),
-        this.tail.y - tailWidth / 2 * Math.cos( angle ) );
-      this.waveBounds = [ tailPoint1, tailPoint2, tipPoint2, tipPoint1 ];
-      return this.waveBounds;
     },
 
     /**
@@ -238,25 +208,23 @@ define( function( require ) {
      * @returns {Vector2}
      */
     getUnitVector: function() {
-      var x = this.tip.x - this.tail.x;
-      var y = this.tip.y - this.tail.y;
-      var magnitude = Math.sqrt( x * x + y * y );
-      this.unitVector.x = x / magnitude;
-      this.unitVector.y = y / magnitude;
+      var magnitude = this.tip.distance( this.tail );
+      this.unitVector.x = (this.tip.x - this.tail.x) / magnitude;
+      this.unitVector.y = (this.tip.y - this.tail.y) / magnitude;
       return this.unitVector;
     },
 
     /**
-     *  @public
+     * @public
      * @returns {number}
      */
     getAngle: function() {
-      return this.toVector().angle();
+      return Math.atan2( this.tip.y - this.tail.y, this.tip.x - this.tail.x );
     },
     // todo:Update the time and notify wave listeners so they can update the phase of the wave graphic
 
     /**
-     * @pub
+     * @public
      * @returns {number}
      */
     getWaveWidth: function() {
@@ -264,7 +232,7 @@ define( function( require ) {
     },
 
     /**
-     *  @public
+     * @public
      * @returns {number}
      */
     getNumberOfWavelengths: function() {
@@ -278,7 +246,6 @@ define( function( require ) {
     getNumWavelengthsPhaseOffset: function() {
       return this.numWavelengthsPhaseOffset;
     },
-
 
     /**
      * Determine if the light ray contains the specified position,
@@ -314,7 +281,7 @@ define( function( require ) {
      * @returns {Vector2}
      */
     getVelocityVector: function() {
-      return this.tip.minus( this.tail ).normalized().times( this.getSpeed() );
+      return this.tip.minus( this.tail ).normalize().multiplyScalar( this.getSpeed() );
     },
 
     /**

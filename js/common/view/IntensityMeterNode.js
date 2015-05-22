@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * View for the intensity meter, including its movable sensor and readout region (called the body).
  *
@@ -36,7 +37,7 @@ define( function( require ) {
    *
    * @param {BendingLightView} bendingLightView
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {IntensityMeter} intensityMeter  - model for the intensity meter
+   * @param {IntensityMeter} intensityMeter - model for the intensity meter
    * @param {Bounds2} containerBounds - bounds of container for  intensity meter
    * @param {Bounds2} dragBounds - bounds that define where the intensity meter may be dragged
    * @constructor
@@ -48,7 +49,7 @@ define( function( require ) {
     this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
     this.intensityMeter = intensityMeter;
-
+    var intensityMeterDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); //  in model co- ordinates
 
     // add sensor node
     var sensorShape = new Shape()
@@ -116,11 +117,14 @@ define( function( require ) {
         isFromSensorPanel = false;
         isToSensorPanel = false;
         start = intensityMeterNode.globalToParentPoint( event.pointer.point );
-        if ( containerBounds.containsPoint( intensityMeterNode.sensorNode.center ) ) {
-          intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ),
-            INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
-          intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ),
-            INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
+        if ( containerBounds.containsCoordinates(
+            intensityMeterNode.sensorNode.getCenterX(), intensityMeterNode.sensorNode.getCenterY() ) ) {
+          var sensorStartPositionX = modelViewTransform.viewToModelX( start.x );
+          var sensorStartPositionY = modelViewTransform.viewToModelY( start.y );
+          intensityMeterNode.setIntensityMeterScaleAnimation(
+            sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
+          intensityMeterNode.setIntensityMeterScale(
+            sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
           isFromSensorPanel = true;
           intensityMeterNode.addToBendingLightView();
         }
@@ -130,30 +134,30 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
+        var sensorPosition = intensityMeter.sensorPosition;
         if ( isFromSensorPanel ) {
-          intensityMeterNode.dragAll( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( intensityMeter.sensorPosition,
-            modelViewTransform.viewToModelBounds( dragBounds ) );
-          intensityMeter.translateAll( position.minus( intensityMeter.sensorPosition ) );
+          intensityMeterNode.dragAllXY( end.x - start.x, end.y - start.y );
+          position = ConstraintBounds.constrainLocation( sensorPosition, intensityMeterDragBounds );
+          intensityMeter.translateAllXY( position.x - sensorPosition.x, position.y - sensorPosition.y );
         }
         else {
-          intensityMeterNode.dragSensor( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( intensityMeter.sensorPosition,
-            modelViewTransform.viewToModelBounds( dragBounds ) );
+          intensityMeterNode.dragSensorXY( end.x - start.x, end.y - start.y );
+          position = ConstraintBounds.constrainLocation( sensorPosition, intensityMeterDragBounds );
           intensityMeter.sensorPositionProperty.set( position );
         }
         start = end;
       },
       end: function() {
         // check intersection only with the outer rectangle.
-        if ( containerBounds.containsPoint( intensityMeterNode.sensorNode.center ) ) {
+        if ( containerBounds.containsCoordinates( intensityMeterNode.sensorNode.getCenterX(), intensityMeterNode.sensorNode.getCenterY() ) ) {
           isToSensorPanel = true;
         }
         if ( isToSensorPanel ) {
-          intensityMeterNode.setIntensityMeterScaleAnimation( intensityMeter.sensorPositionProperty.initialValue,
-            INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-          intensityMeterNode.setIntensityMeterScale( intensityMeter.sensorPositionProperty.initialValue,
-            INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+          var sensorNodeInitialPosition = intensityMeter.sensorPositionProperty.initialValue;
+          intensityMeterNode.setIntensityMeterScaleAnimation(
+            sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+          intensityMeterNode.setIntensityMeterScale(
+            sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
           intensityMeterNode.intensityMeter.reset();
           intensityMeterNode.addToSensorPanel();
         }
@@ -226,11 +230,14 @@ define( function( require ) {
         isToSensorPanel = false;
         intensityMeterNode.moveToFront();
         start = intensityMeterNode.globalToParentPoint( event.pointer.point );
-        if ( containerBounds.containsPoint( intensityMeterNode.bodyNode.center ) ) {
-          intensityMeterNode.setIntensityMeterScaleAnimation( modelViewTransform.viewToModelPosition( start ),
-            INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
-          intensityMeterNode.setIntensityMeterScale( modelViewTransform.viewToModelPosition( start ),
-            INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
+        if ( containerBounds.containsCoordinates(
+            intensityMeterNode.bodyNode.getCenterX(), intensityMeterNode.bodyNode.getCenterY() ) ) {
+          var startPositionX = modelViewTransform.viewToModelX( start.x );
+          var startPositionY = modelViewTransform.viewToModelY( start.y );
+          intensityMeterNode.setIntensityMeterScaleAnimation(
+            startPositionX, startPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
+          intensityMeterNode.setIntensityMeterScale(
+            startPositionX, startPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
           isFromSensorPanel = true;
           intensityMeterNode.addToBendingLightView();
         }
@@ -240,43 +247,48 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
+        var sensorPosition = intensityMeter.sensorPosition;
         if ( isFromSensorPanel ) {
-          intensityMeterNode.dragAll( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( intensityMeter.sensorPosition,
-            modelViewTransform.viewToModelBounds( dragBounds ) );
-          intensityMeter.translateAll( position.minus( intensityMeter.sensorPosition ) );
+          intensityMeterNode.dragAllXY( end.x - start.x, end.y - start.y );
+          position = ConstraintBounds.constrainLocation( sensorPosition, intensityMeterDragBounds );
+          intensityMeter.translateAllXY( position.x - sensorPosition.x, position.y - sensorPosition.y );
         }
         else {
-          intensityMeterNode.dragBody( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( intensityMeter.bodyPosition,
-            modelViewTransform.viewToModelBounds( dragBounds ) );
+          intensityMeterNode.dragBodyXY( end.x - start.x, end.y - start.y );
+          position = ConstraintBounds.constrainLocation( intensityMeter.bodyPosition, intensityMeterDragBounds );
           intensityMeter.bodyPositionProperty.set( position );
         }
         start = end;
       },
       end: function() {
         // check intersection only with the outer rectangle.
-        if ( containerBounds.containsPoint( intensityMeterNode.bodyNode.center ) ||
-             containerBounds.containsPoint( intensityMeterNode.sensorNode.center ) ) {
+        if ( containerBounds.containsCoordinates(
+            intensityMeterNode.bodyNode.getCenterX(), intensityMeterNode.bodyNode.getCenterY() ) ||
+             containerBounds.containsCoordinates(
+               intensityMeterNode.sensorNode.getCenterX(), intensityMeterNode.sensorNode.getCenterY() ) ) {
           isToSensorPanel = true;
         }
         if ( isToSensorPanel ) {
-          intensityMeterNode.setIntensityMeterScaleAnimation( intensityMeter.sensorPositionProperty.initialValue,
-            INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-          intensityMeterNode.setIntensityMeterScale( intensityMeter.sensorPositionProperty.initialValue,
-            INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+          var sensorInitialPosition = intensityMeter.sensorPositionProperty.initialValue;
+          intensityMeterNode.setIntensityMeterScaleAnimation(
+            sensorInitialPosition.x, sensorInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+          intensityMeterNode.setIntensityMeterScale(
+            sensorInitialPosition.x, sensorInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
           intensityMeterNode.intensityMeter.reset();
           intensityMeterNode.addToSensorPanel();
         }
       }
     } ) );
+
     // scale sensorNode and bodyNode and translating
     this.bodyNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
     this.sensorNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-    var sensorViewPoint = this.modelViewTransform.modelToViewPosition( this.intensityMeter.sensorPosition );
-    this.sensorNode.setTranslation( sensorViewPoint.x - (this.sensorWidth * this.sensorNode.getScaleVector().x / 2),
-      sensorViewPoint.y - (this.sensorHeight * 0.32 * this.sensorNode.getScaleVector().x) );
-    this.bodyNode.setTranslation( this.modelViewTransform.modelToViewPosition( this.intensityMeter.bodyPosition ) );
+    var sensorScale = this.sensorNode.getScaleVector();
+    this.sensorNode.setTranslation(
+      modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ) - (this.sensorWidth * sensorScale.x / 2),
+      modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ) - (this.sensorHeight * 0.32 * sensorScale.x) );
+    this.bodyNode.setTranslation( modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ),
+      this.modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ) );
 
     //Connect the sensor to the body with a gray wire
     var wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty,
@@ -292,41 +304,45 @@ define( function( require ) {
 
     /**
      * Resize the intensityMeterNode
-     *
-     * @param {Vector2} endPosition
+     * @public
+     * @param {number} endPositionX
+     * @param {number} endPositionY
      * @param {number} scale
      */
-    setIntensityMeterScale: function( endPosition, scale ) {
+    setIntensityMeterScale: function( endPositionX, endPositionY, scale ) {
+
       //previous scale for scaling the distance between the sensorNode and bodyNode
       var prevScale = this.sensorNode.getScaleVector().x;
       this.bodyNode.setScaleMagnitude( scale );
       this.sensorNode.setScaleMagnitude( scale );
-      this.intensityMeter.bodyPositionProperty.set( new Vector2(
-        this.intensityMeter.sensorPosition.x + this.intensityMeter.bodyPosition.minus(
-          this.intensityMeter.sensorPosition ).x * scale / prevScale, this.intensityMeter.sensorPosition.y ) );
-      this.intensityMeter.translateAll( endPosition.minus( this.intensityMeter.sensorPosition ) );
 
+      var sensorPosition = this.intensityMeter.sensorPosition;
+      this.intensityMeter.bodyPositionProperty.set(
+        new Vector2( sensorPosition.x + (this.intensityMeter.bodyPosition.x - sensorPosition.x ) * scale / prevScale,
+          sensorPosition.y ) );
+      this.intensityMeter.translateAllXY( endPositionX - sensorPosition.x, endPositionY - sensorPosition.y );
     },
 
     /**
      * Resize the intensityMeterNode with Animation
-     *
-     * @param {Vector2} endPosition
+     * @private
+     * @param {number} endPositionX
+     * @param {number} endPositionY
      * @param {number} scale
      */
-    setIntensityMeterScaleAnimation: function( endPosition, scale ) {
+    setIntensityMeterScaleAnimation: function( endPositionX, endPositionY, scale ) {
       var prevScale = this.sensorNode.getScaleVector().x;
       var startPoint = {
         x: this.intensityMeter.sensorPosition.x,
         y: this.intensityMeter.sensorPosition.y,
         scale: prevScale
       };
-      var endPoint = { x: endPosition.x, y: endPosition.y, scale: scale };
+      var endPoint = { x: endPositionX, y: endPositionY, scale: scale };
       this.init( startPoint, endPoint );
     },
 
     /**
-     *
+     * @private
      * @param {Object} startPoint
      * @param {Object} endPoint
      */
@@ -336,7 +352,7 @@ define( function( require ) {
         .to( endPoint, 100 )
         .easing( TWEEN.Easing.Linear.None )
         .onUpdate( function() {
-          target.setIntensityMeterScale( new Vector2( startPoint.x, startPoint.y ), startPoint.scale );
+          target.setIntensityMeterScale( startPoint.x, startPoint.y, startPoint.scale );
         } ).start();
     },
 
@@ -369,37 +385,50 @@ define( function( require ) {
 
     /**
      * Drag all components, called when dragging from toolbox
-     *
-     * @param {Vector2}delta
+     * @private
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
-    dragAll: function( delta ) {
-      this.intensityMeter.translateAll( this.modelViewTransform.viewToModelDelta( delta ) );
+    dragAllXY: function( deltaX, deltaY ) {
+      this.intensityMeter.translateAllXY(
+        this.modelViewTransform.viewToModelDeltaX( deltaX ),
+        this.modelViewTransform.viewToModelDeltaY( deltaY ) );
     },
 
     /**
      * Drag sensorNode
-     *
-     * @param {Vector2}delta
+     * @private
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
-    dragSensor: function( delta ) {
-      this.intensityMeter.translateSensor( this.modelViewTransform.viewToModelDelta( delta ) );
+    dragSensorXY: function( deltaX, deltaY ) {
+      this.intensityMeter.translateSensorXY(
+        this.modelViewTransform.viewToModelDeltaX( deltaX ),
+        this.modelViewTransform.viewToModelDeltaY( deltaY ) );
     },
 
     /**
      * Drag bodyNode
-     *
-     * @param {Vector2}delta
+     * @private
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
-    dragBody: function( delta ) {
-      this.intensityMeter.translateBody( this.modelViewTransform.viewToModelDelta( delta ) );
+    dragBodyXY: function( deltaX, deltaY ) {
+      this.intensityMeter.translateBodyXY(
+        this.modelViewTransform.viewToModelDeltaX( deltaX ),
+        this.modelViewTransform.viewToModelDeltaY( deltaY ) );
     },
+
+    /**
+     * @public
+     */
     reset: function() {
-      this.setIntensityMeterScale( this.intensityMeter.sensorPositionProperty.initialValue,
-        INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+      var sensorinitialPosition = this.intensityMeter.sensorPositionProperty.initialValue;
+      this.setIntensityMeterScale(
+        sensorinitialPosition.x, sensorinitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
       if ( this.bendingLightView.beforeLightLayer.isChild( this ) ) {
         this.addToSensorPanel();
       }
     }
   } );
-
 } );
