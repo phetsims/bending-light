@@ -243,7 +243,7 @@ define( function( require ) {
 
           // Many parallel rays
           for ( var x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
-            var offset = directionUnitVector.rotated( Math.PI / 2 ).times( x );
+            var offset = directionUnitVector.rotated( Math.PI / 2 ).multiplyScalar( x );
             this.propagate( tail.plus( offset ), directionUnitVector, 1.0, laserInPrism );
           }
         }
@@ -253,7 +253,7 @@ define( function( require ) {
     /**
      * Determine if the laser beam originates within a prism for purpose of determining what index of refraction to use
      * initially
-     *
+     * @public
      * @returns {boolean}
      */
     isLaserInPrism: function() {
@@ -291,7 +291,7 @@ define( function( require ) {
 
         // List the intersection in the model
         this.addIntersection( intersection );
-        var pointOnOtherSide = intersection.getPoint().plus( incidentRay.directionUnitVector.times( 1E-12 ) );
+        var pointOnOtherSide = (incidentRay.directionUnitVector.times( 1E-12 )).add( intersection.getPoint() );
         var outputInsidePrism = false;
         var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
         this.prisms.forEach( function( prism ) {
@@ -311,23 +311,24 @@ define( function( require ) {
         var n = intersection.getUnitNormal();
 
         // Compute the output rays, see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
-        var cosTheta1 = n.dot( L.times( -1 ) );
+        var cosTheta1 = n.dotXY( L.x * -1, L.y * -1 );
         var cosTheta2Radicand = 1 - Math.pow( n1 / n2, 2 ) * (1 - Math.pow( cosTheta1, 2 ));
         var cosTheta2 = Math.sqrt( cosTheta2Radicand );
         var totalInternalReflection = cosTheta2Radicand < 0;
-        var vReflect = L.plus( n.times( 2 * cosTheta1 ) );
-        var vRefract = cosTheta1 > 0 ? L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 - cosTheta2 ) )
-          : L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 + cosTheta2 ) );
+        var vReflect = (n.times( 2 * cosTheta1 )).add( L );
+        var vRefract = cosTheta1 > 0
+          ? (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 - cosTheta2 ) )
+          : (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 + cosTheta2 ) );
         var reflectedPower = totalInternalReflection ? 1
           : Util.clamp( this.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
         var transmittedPower = totalInternalReflection ? 0
           : Util.clamp( this.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );// clamp(value,min,max)
 
         // Create the new rays and propagate them recursively
-        var reflected = new Ray( point.plus( incidentRay.directionUnitVector.times( -1E-12 ) ),
+        var reflected = new Ray( ( incidentRay.directionUnitVector.times( -1E-12 )).add( point ),
           vReflect, incidentRay.power * reflectedPower, incidentRay.wavelength,
           incidentRay.mediumIndexOfRefraction, incidentRay.frequency );
-        var refracted = new Ray( point.plus( incidentRay.directionUnitVector.times( +1E-12 ) ),
+        var refracted = new Ray( (incidentRay.directionUnitVector.times( +1E-12 )).add( point ),
           vRefract, incidentRay.power * transmittedPower, incidentRay.wavelength, n2,
           incidentRay.frequency );
         if ( this.showReflectionsProperty.get() || totalInternalReflection ) {
@@ -362,7 +363,7 @@ define( function( require ) {
         // No intersection, so the light ray should just keep going
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2,
           incidentRay.tail,
-          incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ),
+          incidentRay.tail.plus( incidentRay.directionUnitVector ),
           n1,
           wavelengthInN1,
           incidentRay.power,
@@ -410,4 +411,3 @@ define( function( require ) {
     }
   } );
 } );
-

@@ -97,7 +97,7 @@ define( function( require ) {
       },
 
       /**
-       *
+       * @public
        * @returns {number}
        */
       getWidth: function() {
@@ -105,7 +105,7 @@ define( function( require ) {
       },
 
       /**
-       *
+       * @public
        * @returns {number}
        */
       getHeight: function() {
@@ -113,7 +113,7 @@ define( function( require ) {
       },
 
       /**
-       *
+       * @public
        * @returns {Laser}
        */
       getLaser: function() {
@@ -121,15 +121,7 @@ define( function( require ) {
       },
 
       /**
-       *
-       * @returns {ObservableArray<LightRay>}
-       */
-      getRays: function() {
-        return this.rays;
-      },
-
-      /**
-       *
+       * @public
        * @returns {IntensityMeter}
        */
       getIntensityMeter: function() {

@@ -77,7 +77,7 @@ define( function( require ) {
       if ( prism.shapeProperty.get().getReferencePoint() ) {
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
-        var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).minus(
+        var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).subtract(
           modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() ) ).angle();
         var offsetX = -knobNode.getWidth() - 7;
         var offsetY = -knobNode.getHeight() / 2 - 8;

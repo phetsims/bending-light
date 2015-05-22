@@ -37,6 +37,7 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, IntensityMeter, {
+
       /**
        *
        * @public
@@ -45,6 +46,7 @@ define( function( require ) {
       translateSensor: function( delta ) {
         this.sensorPositionProperty.set( this.sensorPosition.plus( delta ) );
       },
+
       /**
        *@public
        * @param {Vector2}delta -amount space the body translated.
@@ -52,6 +54,7 @@ define( function( require ) {
       translateBody: function( delta ) {
         this.bodyPositionProperty.set( this.bodyPosition.plus( delta ) );
       },
+
       /**
        *
        * @returns {Shape}
@@ -79,6 +82,7 @@ define( function( require ) {
         this.rayReadings.push( r );
         this.updateReading();
       },
+
       /**
        * Update the body text based on the accumulated Reading values
        */
@@ -105,6 +109,7 @@ define( function( require ) {
           this.readingProperty.set( new Reading( total ) );
         }
       },
+
       /**
        *@public
        * @param {Vector2} delta

@@ -31,7 +31,6 @@ define( function( require ) {
 
     // Centroid of the shape
     this.centroid = new Vector2( 0, 0 );
-    this.vectorAboutCentroid = new Vector2( 0, 0 );
   }
 
   return inherit( Object, Polygon, {
@@ -42,17 +41,17 @@ define( function( require ) {
      */
     toShape: function() {
       var shape = new Shape();
-      shape.moveTo( this.points[ 0 ].x || 0, this.points[ 0 ].y || 0 );
+      shape.moveToPoint( this.points[ 0 ] );
       for ( var i = 1; i < this.points.length; i++ ) {
-        shape.lineTo( this.points[ i ].x, this.points[ i ].y );
+        shape.lineToPoint( this.points[ i ] );
       }
-      shape.close();
-      return shape;
+      return shape.close();
     },
 
     /**
      * Get the specified corner point
      *
+     * @public
      * @param {number} i
      * @returns {Vector2}
      */
@@ -84,17 +83,16 @@ define( function( require ) {
     getRotatedInstance: function( angle, rotationPoint ) {
       var newPoints = [];
       for ( var k = 0; k < this.points.length; k++ ) {
-        this.vectorAboutCentroid.x = this.points[ k ].x - rotationPoint.x;
-        this.vectorAboutCentroid.y = this.points[ k ].y - rotationPoint.y;
-        var rotated = this.vectorAboutCentroid.rotate( angle );
-        newPoints.push( rotated.plus( rotationPoint ) );
+        var vectorAboutCentroid = this.points[ k ].minus( rotationPoint );
+        var rotated = vectorAboutCentroid.rotate( angle );
+        newPoints.push( rotated.add( rotationPoint ) );
       }
       return new Polygon( this.referencePointIndex, newPoints );
     },
 
 
     /**
-     *
+     * @public
      * @param {Vector2} point
      * @returns {boolean}
      */
@@ -104,7 +102,7 @@ define( function( require ) {
 
     /**
      * Just use the 0th point for the reference point for rotation drag handles
-     *
+     * @public
      * @returns {Vector2}
      */
     getReferencePoint: function() {
@@ -114,7 +112,7 @@ define( function( require ) {
     /**
      * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
      * "mass")
-     *
+     * @public
      * @returns {Vector2}
      */
     getRotationCenter: function() {
@@ -122,7 +120,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {Vector2[]} p
      * @returns {Vector2}
      */
@@ -145,7 +143,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {Vector2[]}p
      * @returns {number}
      */
@@ -162,7 +160,7 @@ define( function( require ) {
 
     /**
      * Compute the intersections of the specified ray with this polygon's edges
-     *
+     * @public
      * @param {Ray} ray
      * @returns {Array}
      */
@@ -173,8 +171,8 @@ define( function( require ) {
         var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
         if ( intersection.length !== 0 ) {
           //Choose the normal vector that points the opposite direction of the incoming ray
-          var normal1 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( +Math.PI / 2 ).normalized();
-          var normal2 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( -Math.PI / 2 ).normalized();
+          var normal1 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotate( +Math.PI / 2 ).normalize();
+          var normal2 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotate( -Math.PI / 2 ).normalize();
           var unitNormal = ray.directionUnitVector.dot( normal1 ) < 0 ? normal1 : normal2;
 
           //Add to the list of intersections
@@ -186,7 +184,7 @@ define( function( require ) {
 
     /**
      * List all bounding edges in the polygon
-     *
+     * @private
      * @returns {Array}
      */
     getEdges: function() {

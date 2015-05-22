@@ -1,4 +1,4 @@
-// Copyright 2002-2014, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * A single (immutable) reading for the intensity meter.
@@ -26,9 +26,19 @@ define( function( require ) {
   }
 
   inherit( Object, MISS, {
+
+    /**
+     * @public
+     * @return {string}
+     */
     getString: function() {
       return miss;
     },
+
+    /**
+     *
+     * @return {boolean}
+     */
     isHit: function() {
       return false;
     }
@@ -47,20 +57,36 @@ define( function( require ) {
   }
 
   return inherit( Object, Reading, {
+
+      /**
+       *  @public
+       * @return {string}
+       */
       getString: function() {
         return this.format( this.value * 100 );
       },
+
       /**
-       *
+       * @public
        * @param {number}value
        * @returns {string}
        */
       format: function( value ) {
         return (value).toFixed( VALUE_DECIMALS ) + "%";
       },
+
+      /**
+       *  @public
+       * @return {boolean}
+       */
       isHit: function() {
         return true;
       },
+
+      /**
+       * @public
+       * @return {number}
+       */
       getValue: function() {
         return this.value;
       }

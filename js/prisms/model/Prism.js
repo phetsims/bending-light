@@ -26,7 +26,7 @@ define( function( require ) {
   return inherit( Object, Prism, {
 
     /**
-     *
+     * @public
      * @param {Vector2} delta
      */
     translate: function( delta ) {
@@ -35,7 +35,7 @@ define( function( require ) {
 
     /**
      * Compute the intersections of the specified ray with this polygon's edges
-     *
+     * @public
      * @param incidentRay
      * @returns {Array}
      */
@@ -44,7 +44,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @public
      * @param point
      * @returns {boolean}
      */
@@ -53,7 +53,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @public
      * @returns {Prism}
      */
     copy: function() {
@@ -61,7 +61,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @public
      * @param {number}deltaAngle
      */
     rotate: function( deltaAngle ) {

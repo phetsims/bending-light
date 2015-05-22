@@ -14,8 +14,8 @@ define( function( require ) {
 
   /**
    *
-   * @param unitNormal
-   * @param {Vector2}point
+   * @param {Vector2} unitNormal
+   * @param {Vector2} point
    * @constructor
    */
   function Intersection( unitNormal, point ) {
@@ -46,4 +46,3 @@ define( function( require ) {
     }
   } );
 } );
-

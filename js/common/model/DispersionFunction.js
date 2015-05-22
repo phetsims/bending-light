@@ -55,6 +55,7 @@ define( function( require ) {
     getIndexOfRefractionForRed: function() {
       return this.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
     },
+
     /**
      *@public
      * @param {number} wavelength

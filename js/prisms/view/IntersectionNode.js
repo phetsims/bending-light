@@ -24,15 +24,17 @@ define( function( require ) {
 
     Node.call( this );
     var center = modelViewTransform.modelToViewPosition( intersection.getPoint() );
-    var unitNormal = modelViewTransform.modelToViewDelta( intersection.getUnitNormal() ).normalized();
+    var unitNormal = modelViewTransform.modelToViewDelta( intersection.getUnitNormal() ).normalize();
     var length = 100;//in stage coordinates
 
     // Show a dotted line of the normal at the interface between two mediums where the laser struck
     this.addChild( new Path( new Shape()
-      .moveToPoint( center.plus( unitNormal.times( length / 2 ) ) )
-      .lineToPoint( center.plus( unitNormal.times( -length / 2 ) ) ), { stroke: 'black', lineDash: [ 10, 5 ] } ) );
+      .moveToPoint( center.plusXY( unitNormal.x * length / 2, unitNormal.y * length / 2 ) )
+      .lineToPoint( center.plusXY( unitNormal.x * -length / 2, unitNormal.y * -length / 2 ) ), {
+      stroke: 'black',
+      lineDash: [ 10, 5 ]
+    } ) );
   }
 
   return inherit( Node, IntersectionNode, {} );
 } );
-

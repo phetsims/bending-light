@@ -38,7 +38,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @public
      * @param {Vector2} delta
      * @returns {Circle}
      */
@@ -48,7 +48,7 @@ define( function( require ) {
 
     /**
      * Finds the intersections between the edges of the circle and the specified ray
-     *
+     * @public
      * @param {Ray} ray
      * @returns {Array}
      */
@@ -83,7 +83,7 @@ define( function( require ) {
     getRotatedInstance: function( angle, rotationPoint ) {
       // we create a new circle with a rotated center point
       var vectorAboutCentroid = this.getRotationCenter().minus( rotationPoint );
-      var rotated = vectorAboutCentroid.getRotatedInstance( angle );
+      var rotated = vectorAboutCentroid.rotate( angle );
       return new Circle( rotated.plus( rotationPoint ), this.radius );
     },
 
@@ -97,7 +97,7 @@ define( function( require ) {
 
     /**
      * Signify that the circle can't be rotated
-     *
+     * @public
      * @returns {null}
      */
     getReferencePoint: function() {
@@ -105,7 +105,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @public
      * @param {Vector2} point
      * @returns {boolean}
      */

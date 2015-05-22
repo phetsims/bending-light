@@ -41,18 +41,18 @@ define( function( require ) {
      * @returns {Shape}
      */
     toShape: function() {
-      var center = this.points[ 0 ].plus( this.points[ 3 ] ).times( 0.5 );
-      var startAngle = center.minus( this.points[ 3 ] ).angle();
+      var center = this.points[ 0 ].plus( this.points[ 3 ] ).multiplyScalar( 0.5 );
+      var startAngle = Math.atan2( center.y - this.points[ 3 ].y, center.x - this.points[ 3 ].x );
       return new Shape()
-        .ellipticalArc( center.x, center.y, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, true )
-        .lineTo( this.points[ 2 ].x, this.points[ 2 ].y )
-        .lineTo( this.points[ 1 ].x, this.points[ 1 ].y )
-        .lineTo( this.points[ 0 ].x, this.points[ 0 ].y );
+        .ellipticalArcPoint( center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, true )
+        .lineToPoint( this.points[ 2 ] )
+        .lineToPoint( this.points[ 1 ] )
+        .lineToPoint( this.points[ 0 ] );
     },
 
     /**
      * Get the specified corner point
-     *
+     * @public
      * @param {number} i
      * @returns {Vector2}
      */
@@ -76,7 +76,7 @@ define( function( require ) {
 
     /**
      * Gets a rotated copy of this DivergingLens
-     *
+     * @public
      * @param {number} angle
      * @param {Vector2} rotationPoint
      * @returns {DivergingLens}
@@ -86,13 +86,13 @@ define( function( require ) {
       for ( var k = 0; k < this.points.length; k++ ) {
         var vectorAboutCentroid = this.points[ k ].minus( rotationPoint );
         var rotated = vectorAboutCentroid.rotate( angle );
-        newPoints.push( rotated.plus( rotationPoint ) );
+        newPoints.push( rotated.add( rotationPoint ) );
       }
       return new DivergingLens( this.referencePointIndex, newPoints, this.radius );
     },
 
     /**
-     *
+     * @public
      * @param {Vector2} point
      * @returns {*}
      */
@@ -102,7 +102,7 @@ define( function( require ) {
 
     /**
      * Just use the 0th point for the reference point for rotation drag handles
-     *
+     * @public
      * @returns {Vector2}
      */
     getReferencePoint: function() {
@@ -112,7 +112,7 @@ define( function( require ) {
     /**
      * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
      * "mass")
-     *
+     * @public
      * @returns {Vector2}
      */
     getRotationCenter: function() {
@@ -120,7 +120,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {Vector2[]} p
      * @returns {Vector2}
      */
@@ -141,7 +141,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {Vector2[]} p
      * @returns {number}
      */
@@ -158,7 +158,7 @@ define( function( require ) {
 
     /**
      * Compute the intersections of the specified ray with this polygon's edges
-     *
+     * @public
      * @param {Ray} ray
      * @returns {Array}
      */
@@ -169,25 +169,25 @@ define( function( require ) {
         var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
         if ( intersection.length !== 0 ) {
           // Choose the normal vector that points the opposite direction of the incoming ray
-          var normal1 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( +Math.PI / 2 ).normalized();
-          var normal2 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotated( -Math.PI / 2 ).normalized();
+          var normal1 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotate( +Math.PI / 2 ).normalize();
+          var normal2 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotate( -Math.PI / 2 ).normalize();
           var unitNormal = ray.directionUnitVector.dot( normal1 ) < 0 ? normal1 : normal2;
 
           // Add to the list of intersections
           intersections.push( new Intersection( unitNormal, intersection[ 0 ].point ) );
         }
       } );
-      var center = this.points[ 0 ].plus( this.points[ 3 ] ).times( 0.5 );
-      var startAngle = center.minus( this.points[ 3 ] ).angle();
+      var center = this.points[ 0 ].plus( this.points[ 3 ] ).multiplyScalar( 0.5 );
+      var startAngle = Math.atan2( center.y - this.points[ 3 ].y, center.x - this.points[ 3 ].x );
       var arc = new Arc( center, this.radius, startAngle, startAngle + Math.PI, true );
       var intersection = arc.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       if ( intersection.length !== 0 ) {
         var vector = intersection[ 0 ].point.minus( ray.tail );
         // Only consider intersections that are in front of the ray
         if ( vector.dot( ray.directionUnitVector ) > 0 ) {
-          var normalVector = intersection[ 0 ].point.minus( center ).normalized();
+          var normalVector = intersection[ 0 ].point.minus( center ).normalize();
           if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
-            normalVector = normalVector.negated();
+            normalVector.negate();
           }
           intersections.push( new Intersection( normalVector, intersection[ 0 ].point ) );
         }
@@ -197,7 +197,7 @@ define( function( require ) {
 
     /**
      * List all bounding edges in the polygon
-     *
+     * @private
      * @returns {Array}
      */
     getEdges: function() {

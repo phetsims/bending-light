@@ -47,13 +47,13 @@ define( function( require ) {
     var previousAngle;
     knobNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-        previousAngle = prism.shapeProperty.get().getRotationCenter().minus(
+        previousAngle = prism.shapeProperty.get().getRotationCenter().subtract(
           modelViewTransform.viewToModelPosition( knobNode.globalToParentPoint( event.pointer.point ) ) )
           .angle();
       },
       drag: function( event ) {
         var end = knobNode.globalToParentPoint( event.pointer.point );
-        var angle = prism.shapeProperty.get().getRotationCenter().minus(
+        var angle = prism.shapeProperty.get().getRotationCenter().subtract(
           modelViewTransform.viewToModelPosition( end ) ).angle();
         prism.rotate( angle - previousAngle );
         previousAngle = angle;
@@ -104,7 +104,7 @@ define( function( require ) {
       if ( prism.shapeProperty.get().getReferencePoint() ) {
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
-        var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).minus(
+        var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).subtract(
           modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() ) ).angle();
         knobCenterPoint.x = -knobNode.getWidth() - 7;
         knobCenterPoint.y = -knobNode.getHeight() / 2 - 8;

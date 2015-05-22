@@ -22,7 +22,7 @@ define( function( require ) {
   /**
    *
    * @param {Property<number>} laserTypeProperty
-   * @param {Object} [options] that can be passed on to the underlying node
+   * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
   function LaserTypeControlPanel( laserTypeProperty, options ) {
@@ -72,7 +72,6 @@ define( function( require ) {
         singleRayLine ]
     } );
 
-
     // Icon for multiple ray button
     var manyRaysStartX = 17;
     var manyRaysEndX = 49;
@@ -96,9 +95,9 @@ define( function( require ) {
     ];
 
     var radioButtonPanel = new Panel( new RadioButtonGroup( laserTypeProperty, radioButtonContent, {
-        baseColor: 'white',
-        spacing: 5
-      } ), {
+      baseColor: 'white',
+      spacing: 5
+    } ), {
       stroke: 'black',
       lineWidth: 0
     } );

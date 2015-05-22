@@ -63,6 +63,8 @@ define( function( require ) {
 
     /**
      * Blend colors a and b with the specified amount of "b" to use between 0 and 1
+     *
+     *  @public
      * @param{Color} a
      * @param {Color}b
      * @param {number}ratio
@@ -74,6 +76,8 @@ define( function( require ) {
 
     /**
      * Make sure light doesn't go outside of the 0..255 bounds
+     *
+     * @public
      * @param {number} value
      * @returns {number}
      */
