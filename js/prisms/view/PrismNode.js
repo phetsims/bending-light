@@ -45,16 +45,21 @@ define( function( require ) {
 
     // prism rotation with knob
     var previousAngle;
+    var prismCenterPoint;
     knobNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-        previousAngle = prism.shapeProperty.get().getRotationCenter().subtract(
-          modelViewTransform.viewToModelPosition( knobNode.globalToParentPoint( event.pointer.point ) ) )
-          .angle();
+        var start = knobNode.globalToParentPoint( event.pointer.point );
+        prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
+        var statX = modelViewTransform.viewToModelX( start.x );// model values
+        var startY = modelViewTransform.viewToModelY( start.y );// model values
+        previousAngle = Math.atan2( (prismCenterPoint.y - startY), ( prismCenterPoint.x - statX ) );
       },
       drag: function( event ) {
         var end = knobNode.globalToParentPoint( event.pointer.point );
-        var angle = prism.shapeProperty.get().getRotationCenter().subtract(
-          modelViewTransform.viewToModelPosition( end ) ).angle();
+        prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
+        var endX = modelViewTransform.viewToModelX( end.x );// model values
+        var endY = modelViewTransform.viewToModelY( end.y );// model values
+        var angle = Math.atan2( (prismCenterPoint.y - endY), ( prismCenterPoint.x - endX ) );
         prism.rotate( angle - previousAngle );
         previousAngle = angle;
       },
@@ -73,16 +78,19 @@ define( function( require ) {
     this.addChild( prismTranslationNode );
 
     var start;
+    var delta = new Vector2( 0, 0 ); // re-usable vector
     prismTranslationNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = prismsNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
         var end = prismsNode.globalToParentPoint( event.pointer.point );
-        prism.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
-        var position = ConstraintBounds.constrainLocation( prism.shapeProperty.get().getRotationCenter(),
-          modelViewTransform.viewToModelBounds( prismDragBounds ) );
-        prism.translate( position.minus( prism.shapeProperty.get().getRotationCenter() ) );
+        delta.x = end.x - start.x;
+        delta.y = end.y - start.y;
+        prism.translate( modelViewTransform.viewToModelDelta( delta ) );
+        var prismCenter = prism.shapeProperty.get().getRotationCenter();
+        var position = ConstraintBounds.constrainLocation( prismCenter, modelViewTransform.viewToModelBounds( prismDragBounds ) );
+        prism.translate( position.minus( prismCenter ) );
         start = end;
       },
       end: function() {
@@ -101,16 +109,22 @@ define( function( require ) {
       prismsBreakModel.dirty = true;
       prismTranslationNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.value.toShape() ) );
 
-      if ( prism.shapeProperty.get().getReferencePoint() ) {
+      var prismReferencePoint = prism.shapeProperty.get().getReferencePoint();
+      if ( prismReferencePoint ) {
+        var prismShapeCenter = prism.shapeProperty.get().getRotationCenter();
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
-        var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).subtract(
-          modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() ) ).angle();
+
+        var prismReferenceXPosition = modelViewTransform.modelToViewX( prismReferencePoint.x );
+        var prismReferenceYPosition = modelViewTransform.modelToViewY( prismReferencePoint.y );
+        var prismCenterX = modelViewTransform.modelToViewX( prismShapeCenter.x );
+        var prismCenterY = modelViewTransform.modelToViewY( prismShapeCenter.y );
+        //  calculate angle
+        var angle = Math.atan2( (prismCenterY - prismReferenceYPosition), ( prismCenterX - prismReferenceXPosition ) );
         knobCenterPoint.x = -knobNode.getWidth() - 7;
         knobCenterPoint.y = -knobNode.getHeight() / 2 - 8;
         knobNode.rotateAround( knobCenterPoint, angle );
-        var knobPosition = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() );
-        knobNode.setTranslation( knobPosition.x, knobPosition.y );
+        knobNode.setTranslation( prismReferenceXPosition, prismReferenceYPosition );
         knobNode.translate( knobCenterPoint );
       }
     } );
