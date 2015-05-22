@@ -34,7 +34,8 @@ define( function( require ) {
      * @returns {Shape}
      */
     toShape: function() {
-      return Shape.ellipse( this.center.x, this.center.y, this.radius, this.radius );
+      return new Shape().ellipticalArcPoint( this.center, this.radius, this.radius, 0, 0, Math.PI * 2, false );
+      // return Shape.ellipse( this.center.x, this.center.y, this.radius, this.radius );
     },
 
     /**

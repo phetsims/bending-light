@@ -42,6 +42,7 @@ define( function( require ) {
       y: expandableProtractorNode.getCenterY() + this.protractorImageNode.getHeight() / 5
     } );
     this.addChild( expandCollapseButton );
+    expandCollapseButton.touchArea = expandCollapseButton.localBounds.dilatedXY( 30, 30 );
 
     this.expandedProperty.link( function( expand ) {
       expandableProtractorNode.setExpanded( expand );
