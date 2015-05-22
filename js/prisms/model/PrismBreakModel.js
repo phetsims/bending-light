@@ -316,8 +316,7 @@ define( function( require ) {
         var cosTheta2 = Math.sqrt( cosTheta2Radicand );
         var totalInternalReflection = cosTheta2Radicand < 0;
         var vReflect = (n.times( 2 * cosTheta1 )).add( L );
-        var vRefract = cosTheta1 > 0
-          ? (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 - cosTheta2 ) )
+        var vRefract = cosTheta1 > 0 ? (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 - cosTheta2 ) )
           : (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 + cosTheta2 ) );
         var reflectedPower = totalInternalReflection ? 1
           : Util.clamp( this.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
