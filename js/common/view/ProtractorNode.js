@@ -173,11 +173,15 @@ define( function( require ) {
       protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
     } );
     this.protractorModel.positionProperty.link( function( position ) {
-      var center = protractorNode.modelViewTransform.modelToViewPosition( position );
-      var point = new Vector2( center.x - (protractorNode.protractorImageNode.width * protractorNode.getScaleVector().x / 2),
-        center.y - (protractorNode.protractorImageNode.height * protractorNode.getScaleVector().y / 2) );
-      var newPoint = point.minus( center ).rotate( protractorNode.getRotation() );
-      protractorNode.setTranslation( newPoint.plus( center ) );
+      var protractorNodeScaleVector = protractorNode.getScaleVector();
+      var protractorCenterX = protractorNode.modelViewTransform.modelToViewX( position.x );
+      var protractorCenterY = protractorNode.modelViewTransform.modelToViewY( position.y );
+      var point = new Vector2( -( protractorImageWidth * protractorNodeScaleVector.x / 2 ),
+        -( protractorImageHeight * protractorNodeScaleVector.y / 2 ) );
+      var newPoint = point.rotate( protractorNode.getRotation() );
+      newPoint.x = newPoint.x + protractorCenterX;
+      newPoint.y = newPoint.y + protractorCenterY;
+      protractorNode.setTranslation( newPoint );
     } );
     this.touchArea = this.localBounds;
   }
@@ -203,8 +207,9 @@ define( function( require ) {
        */
       setProtractorScale: function( scale ) {
         this.setScaleMagnitude( scale );
-        var point2D = this.modelViewTransform.modelToViewPosition( this.protractorModel.position );
-        this.setTranslation( point2D.x - (this.width / 2), point2D.y - (this.height / 2 ) );
+        var protractorX = this.modelViewTransform.modelToViewX( this.protractorModel.position.x );
+        var protractorY = this.modelViewTransform.modelToViewY( this.protractorModel.position.y );
+        this.setTranslation( protractorX - (this.width / 2), protractorY - (this.height / 2 ) );
       },
 
       /**

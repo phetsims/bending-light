@@ -98,10 +98,12 @@ define( function( require ) {
 
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
-      var sensorViewPoint = modelViewTransform.modelToViewPosition( location );
+      var sensorNodeScaleVector = intensityMeterNode.sensorNode.getScaleVector();
+      var sensorPositionX = modelViewTransform.modelToViewX( location.x );
+      var sensorPositionY = modelViewTransform.modelToViewY( location.y );
       intensityMeterNode.sensorNode.setTranslation(
-        sensorViewPoint.x - (intensityMeterNode.sensorWidth * intensityMeterNode.sensorNode.getScaleVector().x / 2),
-        sensorViewPoint.y - intensityMeterNode.sensorHeight * 0.32 * intensityMeterNode.sensorNode.getScaleVector().y );
+        sensorPositionX - (intensityMeterNode.sensorWidth * sensorNodeScaleVector.x / 2),
+        sensorPositionY - intensityMeterNode.sensorHeight * 0.32 * sensorNodeScaleVector.y );
     } );
 
     // sensor node drag handler
@@ -212,7 +214,9 @@ define( function( require ) {
 
     //body location
     intensityMeter.bodyPositionProperty.link( function( location ) {
-      intensityMeterNode.bodyNode.setTranslation( modelViewTransform.modelToViewPosition( location ) );
+      var bodyPositionX = modelViewTransform.modelToViewX( location.x );
+      var bodyPositionY = modelViewTransform.modelToViewY( location.y );
+      intensityMeterNode.bodyNode.setTranslation( bodyPositionX, bodyPositionY );
     } );
 
     // body drag handler

@@ -48,11 +48,13 @@ define( function( require ) {
 
     // update the location when laser pivot or emission point change
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty ],
-      function() {
-        var laserEmissionViewPoint = modelViewTransform.modelToViewPosition( laser.emissionPoint );
-        var viewDelta = Vector2.createPolar( image.getWidth() * 0.35, -laser.getAngle() );
-        var tailX = laserEmissionViewPoint.x + viewDelta.x;
-        var tailY = laserEmissionViewPoint.y + viewDelta.y;
+      function( laserPivot, laserEmission ) {
+        var laserAngle = -laser.getAngle();
+        var magnitude = image.getWidth() * 0.35;
+        var viewDeltaX = magnitude * Math.cos( laserAngle );
+        var viewDeltaY = magnitude * Math.sin( laserAngle );
+        var tailX = modelViewTransform.modelToViewX( laserEmission.x ) + viewDeltaX;
+        var tailY = modelViewTransform.modelToViewY( laserEmission.y ) + viewDeltaY;
         counterClockwiseDragArrow.setTailAndTip( tailX, tailY, tailX + dx * 0.76, tailY + dy * 0.76 );
       } );
   }

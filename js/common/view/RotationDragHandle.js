@@ -65,7 +65,9 @@ define( function( require ) {
         anticlockwise: isArrowDirectionAntiClockWise
       } );
       dragArrow.setShape( counterClockwiseDragArrow );
-      dragArrow.setTranslation( modelViewTransform.modelToViewPosition( laser.pivot ) );
+      var dragArrowX = modelViewTransform.modelToViewX( laser.pivot.x );
+      var dragArrowY = modelViewTransform.modelToViewY( laser.pivot.y );
+      dragArrow.setTranslation( dragArrowX, dragArrowY );
     };
     // update the shape when the laser moves
     laser.emissionPointProperty.link( update );

@@ -137,22 +137,23 @@ define( function( require ) {
 
 
     laser.emissionPointProperty.link( function( newEmissionPoint ) {
-      var emissionPoint = modelViewTransform.modelToViewPosition( newEmissionPoint );
-      laserNode.setTranslation( emissionPoint.x, emissionPoint.y );
+      var emissionPointX = modelViewTransform.modelToViewX( newEmissionPoint.x );
+      var emissionPointY = modelViewTransform.modelToViewY( newEmissionPoint.y );
+      laserNode.setTranslation( emissionPointX, emissionPointY );
       laserNode.setRotation( -laser.getAngle() );
       laserNode.translate( 0, -lightImageHeight / 2 );
     } );
 
     // add light emission on/off button
     var redButton = new RoundStickyToggleButton( false, true, laser.onProperty, {
-        radius: 11,
-        centerX: lightImage.centerX,
-        centerY: lightImage.centerY,
-        baseColor: 'red',
-        stroke: 'red',
-        fill: 'red',
+      radius: 11,
+      centerX: lightImage.centerX,
+      centerY: lightImage.centerY,
+      baseColor: 'red',
+      stroke: 'red',
+      fill: 'red',
       touchExpansion: 5
-      } );
+    } );
     this.addChild( redButton );
 
     // touch area
