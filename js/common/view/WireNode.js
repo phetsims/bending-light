@@ -35,15 +35,24 @@ define( function( require ) {
     } );
 
     var updateCurve = function() {
-      wireNode.lineWidth = 5 * bodyNode.getScaleVector().x;
+      var bodyNodeScaleVector = bodyNode.getScaleVector();
+      var probeNodeScaleVector = probeNode.getScaleVector();
+      wireNode.lineWidth = 5 * bodyNodeScaleVector.x;
 
       // connect left-center of body to bottom-center of probe.
-      var bodyConnectionPoint = new Vector2( bodyNode.x, bodyNode.centerY );
-      var probeConnectionPoint = new Vector2( probeNode.centerX, probeNode.bottom );
+      var bodyConnectionPointX = bodyNode.x;
+      var bodyConnectionPointY = bodyNode.centerY;
+      var probeConnectionPointX = probeNode.centerX;
+      var probeConnectionPointY = probeNode.bottom;
 
+      var connectionPointXOffsetFactor = 40;
       wireNode.shape = new Shape()
-        .moveTo( bodyConnectionPoint.x, bodyConnectionPoint.y )
-        .cubicCurveTo( bodyConnectionPoint.x - 40 * bodyNode.getScaleVector().x, bodyConnectionPoint.y, probeConnectionPoint.x, probeConnectionPoint.y + 40 * probeNode.getScaleVector().x, probeConnectionPoint.x, probeConnectionPoint.y );
+        .moveTo( bodyConnectionPointX, bodyConnectionPointY )
+        .cubicCurveTo( bodyConnectionPointX - connectionPointXOffsetFactor * bodyNodeScaleVector.x,
+        bodyConnectionPointY,
+        probeConnectionPointX,
+        probeConnectionPointY + connectionPointXOffsetFactor * probeNodeScaleVector.x,
+        probeConnectionPointX, probeConnectionPointY );
     };
 
     bodyPositionProperty.link( updateCurve );

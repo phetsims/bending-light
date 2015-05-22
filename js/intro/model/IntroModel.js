@@ -408,8 +408,8 @@ define( function( require ) {
         // Changing the wave particle position  within the  wave particle phase
         for ( var j = 0; j < waveParticles.length; j++ ) {
           var particle = waveParticles.get( j );
-          particle.position.x = tailX + (directionVector.x * ( (j * wavelength) + phaseDiff ));
-          particle.position.y = tailY + (directionVector.y * ( (j * wavelength) + phaseDiff ));
+          particle.setX( tailX + (directionVector.x * ( ( j * wavelength ) + phaseDiff ) ) );
+          particle.setY( tailY + (directionVector.y * ( ( j * wavelength ) + phaseDiff ) ) );
         }
       }
     }

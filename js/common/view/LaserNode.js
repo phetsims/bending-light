@@ -110,7 +110,7 @@ define( function( require ) {
         var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
         localLaserPosition = ConstraintBounds.constrainLocation( localLaserPosition, dragBounds );
         var modelPoint = modelViewTransform.viewToModelPosition( localLaserPosition );
-        var angle = modelPoint.minus( laser.pivot ).angle();
+        var angle = modelPoint.subtract( laser.pivot ).angle();
         var laserAngleAfterClamp = clampDragAngle( angle );
 
         // prevent laser from going to 90 degrees when in wave mode,

@@ -107,7 +107,6 @@ define( function( require ) {
     var start;
     var protractorDragBoundsInModelCoordinates = protractorNode.modelViewTransform.viewToModelBounds( dragBounds );
 
-    //TODO : use MovableDragHandler instead  of SimpleDragHandler
     translatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );

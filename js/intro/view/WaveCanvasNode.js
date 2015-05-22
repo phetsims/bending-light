@@ -38,8 +38,8 @@ define( function( require ) {
       for ( var i = 0; i < this.waveParticles.length; i++ ) {
         var particle = this.waveParticles.get( i );
         var particleWidth = this.modelViewTransform.modelToViewDeltaX( particle.width );
-        var x = this.modelViewTransform.modelToViewX( particle.position.x );
-        var y = this.modelViewTransform.modelToViewY( particle.position.y );
+        var x = this.modelViewTransform.modelToViewX( particle.getX() );
+        var y = this.modelViewTransform.modelToViewY( particle.getY() );
         var angle = particle.angle;
         var point1X = x + (particleWidth * Math.sin( angle ) / 2);
         var point1Y = y + (particleWidth * Math.cos( angle ) / 2);
