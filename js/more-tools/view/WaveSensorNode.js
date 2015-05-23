@@ -26,7 +26,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var ChartNode = require( 'BENDING_LIGHT/more-tools/view/ChartNode' );
   var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
-  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // strings
   var timeString = require( 'string!BENDING_LIGHT/time' );
@@ -84,12 +83,12 @@ define( function( require ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
           waveSensorNode.dragAll( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( waveSensorNode.waveSensor.probe1.position, probeDragBounds );
+          position = probeDragBounds.closestToPoint( waveSensorNode.waveSensor.probe1.position );
           waveSensorNode.waveSensor.translateAll( position.minus( waveSensorNode.waveSensor.probe1.position ) );
         }
         else {
           probe.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
-          position = ConstraintBounds.constrainLocation( probe.position, probeDragBounds );
+          position = probeDragBounds.closestPointTo( probe.position );
           probe.positionProperty.set( position );
         }
         start = end;
@@ -222,12 +221,12 @@ define( function( require ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
           waveSensorNode.dragAll( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( waveSensor.probe1.position, waveSensorDragBounds );
+          position = waveSensorDragBounds.closestPointTo( waveSensor.probe1.position );
           waveSensor.translateAll( position.minus( waveSensorNode.waveSensor.probe1.position ) );
         }
         else {
           waveSensorNode.dragBody( end.minus( start ) );
-          position = ConstraintBounds.constrainLocation( waveSensor.bodyPositionProperty.get(), waveSensorDragBounds );
+          position = waveSensorDragBounds.closestPointTo( waveSensor.bodyPositionProperty.get() );
           waveSensor.bodyPositionProperty.set( position );
         }
         start = end;

@@ -18,7 +18,6 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   var Shape = require( 'KITE/Shape' );
-  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // images
@@ -66,6 +65,8 @@ define( function( require ) {
       lightImageWidth * fractionBackToRotateHandle, lightImageHeight );
     var fullRectangle = new Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
 
+    var laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( dragBounds );
+
     // add the drag region for translating the laser
     var start;
     var translationRegionPath = new Path( translationRegion( fullRectangle, frontRectangle ), { fill: dragRegionColor } );
@@ -77,8 +78,7 @@ define( function( require ) {
       drag: function( event ) {
         var endDrag = laserNode.globalToParentPoint( event.pointer.point );
         laser.translate( modelViewTransform.viewToModelDelta( endDrag.minus( start ) ) );
-        var position = ConstraintBounds.constrainLocation( laser.emissionPoint,
-          modelViewTransform.viewToModelBounds( dragBounds ) );
+        var position = laserDragBoundsInModelValues.closestPointTo( laser.emissionPoint );
         laser.translate( position.minus( laser.emissionPoint ) );
         start = endDrag;
         showTranslationDragHandlesProperty.value = true;
@@ -108,7 +108,7 @@ define( function( require ) {
       drag: function( event ) {
         var coordinateFrame = laserNode.parents[ 0 ];
         var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
-        localLaserPosition = ConstraintBounds.constrainLocation( localLaserPosition, dragBounds );
+        localLaserPosition = dragBounds.closestPointTo( localLaserPosition );
         var modelPoint = modelViewTransform.viewToModelPosition( localLaserPosition );
         var angle = modelPoint.subtract( laser.pivot ).angle();
         var laserAngleAfterClamp = clampDragAngle( angle );

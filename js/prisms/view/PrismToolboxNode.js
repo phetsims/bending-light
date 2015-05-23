@@ -27,7 +27,6 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Vector2 = require( 'DOT/Vector2' );
   var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
-  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   //strings
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
@@ -109,7 +108,7 @@ define( function( require ) {
           },
           drag: function( event ) {
             var end = prismToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
-            end = ConstraintBounds.constrainLocation( end, prismBreakView.layoutBounds );
+            end = prismBreakView.layoutBounds.closestPointTo( end );
             prismShape.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
             start = end;
           },

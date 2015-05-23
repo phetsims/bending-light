@@ -19,7 +19,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
-  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // images
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
@@ -123,7 +122,7 @@ define( function( require ) {
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
         protractorNode.dragAll( end.minus( start ) );
-        var position = ConstraintBounds.constrainLocation( protractorNode.protractorModel.position, protractorDragBoundsInModelCoordinates );
+        var position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorNode.protractorModel.position );
         protractorNode.protractorModel.positionProperty.set( position );
         start = end;
       },

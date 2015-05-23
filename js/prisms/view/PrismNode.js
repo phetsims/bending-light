@@ -16,7 +16,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // images
   var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
@@ -71,6 +70,7 @@ define( function( require ) {
       }
     } ) );
 
+    var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( prismDragBounds );
     var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().toShape() ), {
       fill: prismsBreakModel.prismMediumProperty.get().color,
       stroke: prismsBreakModel.prismMediumProperty.get().color.darkerColor( 0.9 )
@@ -89,7 +89,7 @@ define( function( require ) {
         delta.y = end.y - start.y;
         prism.translate( modelViewTransform.viewToModelDelta( delta ) );
         var prismCenter = prism.shapeProperty.get().getRotationCenter();
-        var position = ConstraintBounds.constrainLocation( prismCenter, modelViewTransform.viewToModelBounds( prismDragBounds ) );
+        var position = prismDragBoundsInModelValues.closestPointTo( prismCenter );
         prism.translate( position.minus( prismCenter ) );
         start = end;
       },

@@ -24,7 +24,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Vector2 = require( 'DOT/Vector2' );
-  var ConstraintBounds = require( 'BENDING_LIGHT/common/ConstraintBounds' );
 
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
@@ -137,12 +136,12 @@ define( function( require ) {
         var sensorPosition = intensityMeter.sensorPosition;
         if ( isFromSensorPanel ) {
           intensityMeterNode.dragAllXY( end.x - start.x, end.y - start.y );
-          position = ConstraintBounds.constrainLocation( sensorPosition, intensityMeterDragBounds );
+          position = intensityMeterDragBounds.closestPointTo( sensorPosition );
           intensityMeter.translateAllXY( position.x - sensorPosition.x, position.y - sensorPosition.y );
         }
         else {
           intensityMeterNode.dragSensorXY( end.x - start.x, end.y - start.y );
-          position = ConstraintBounds.constrainLocation( sensorPosition, intensityMeterDragBounds );
+          position = intensityMeterDragBounds.closestPointTo( intensityMeter.sensorPosition );
           intensityMeter.sensorPositionProperty.set( position );
         }
         start = end;
@@ -250,12 +249,12 @@ define( function( require ) {
         var sensorPosition = intensityMeter.sensorPosition;
         if ( isFromSensorPanel ) {
           intensityMeterNode.dragAllXY( end.x - start.x, end.y - start.y );
-          position = ConstraintBounds.constrainLocation( sensorPosition, intensityMeterDragBounds );
+          position = intensityMeterDragBounds.closestPointTo( sensorPosition );
           intensityMeter.translateAllXY( position.x - sensorPosition.x, position.y - sensorPosition.y );
         }
         else {
           intensityMeterNode.dragBodyXY( end.x - start.x, end.y - start.y );
-          position = ConstraintBounds.constrainLocation( intensityMeter.bodyPosition, intensityMeterDragBounds );
+          position = intensityMeterDragBounds.closestPointTo( intensityMeter.bodyPosition );
           intensityMeter.bodyPositionProperty.set( position );
         }
         start = end;
@@ -423,9 +422,9 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      var sensorinitialPosition = this.intensityMeter.sensorPositionProperty.initialValue;
+      var sensorInitialPosition = this.intensityMeter.sensorPositionProperty.initialValue;
       this.setIntensityMeterScale(
-        sensorinitialPosition.x, sensorinitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+        sensorInitialPosition.x, sensorInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
       if ( this.bendingLightView.beforeLightLayer.isChild( this ) ) {
         this.addToSensorPanel();
       }
