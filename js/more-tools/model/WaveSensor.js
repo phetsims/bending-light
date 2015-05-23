@@ -38,12 +38,14 @@ define( function( require ) {
   inherit( PropertySet, Probe, {
 
     /**
+     *
      * @public
-     * @param {Vector2} delta
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
-    translate: function( delta ) {
-      this.probePosition.x = this.position.x + delta.x;
-      this.probePosition.y = this.position.y + delta.y;
+    translateXY: function( deltaX, deltaY ) {
+      this.probePosition.x = this.position.x + deltaX;
+      this.probePosition.y = this.position.y + deltaY;
       this.positionProperty.set( this.probePosition );
       this.positionProperty._notifyObservers();
     },
@@ -118,12 +120,13 @@ define( function( require ) {
     },
 
     /**
-     * @public
-     * @param {Vector2} delta
+     *
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
-    translateBody: function( delta ) {
-      this.bodyPosition.x = this.bodyPositionProperty.get().x + delta.x;
-      this.bodyPosition.y = this.bodyPositionProperty.get().y + delta.y;
+    translateBodyXY: function( deltaX, deltaY ) {
+      this.bodyPosition.x = this.bodyPositionProperty.get().x + deltaX;
+      this.bodyPosition.y = this.bodyPositionProperty.get().y + deltaY;
       this.bodyPositionProperty.set( this.bodyPosition );
       this.bodyPositionProperty._notifyObservers();
     },
@@ -131,12 +134,13 @@ define( function( require ) {
     /**
      * Translate the body and probes by the specified model delta
      * @public
-     * @param {Vector2} delta
+     * @param {number } deltaX
+     * @param  {number }  deltaY
      */
-    translateAll: function( delta ) {
-      this.probe1.translate( delta );
-      this.probe2.translate( delta );
-      this.translateBody( delta );
+    translateAllXY: function( deltaX, deltaY ) {
+      this.probe1.translateXY( deltaX, deltaY );
+      this.probe2.translateXY( deltaX, deltaY );
+      this.translateBodyXY( deltaX, deltaY );
     },
 
     /**
@@ -144,6 +148,7 @@ define( function( require ) {
      */
     reset: function() {
       this.bodyPositionProperty.reset();
+      this.visibleProperty.reset();
       this.probe1.reset();
       this.probe2.reset();
     }

@@ -42,7 +42,7 @@ define( function( require ) {
    * View for rendering a probe that can be used to sense wave values
    *
    * @param {WaveSensorNode} waveSensorNode
-   * @param probe
+   * @param {Probe} probe
    * @param {string} probeImageName
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Rectangle} container
@@ -82,12 +82,14 @@ define( function( require ) {
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
-          waveSensorNode.dragAll( end.minus( start ) );
-          position = probeDragBounds.closestToPoint( waveSensorNode.waveSensor.probe1.position );
-          waveSensorNode.waveSensor.translateAll( position.minus( waveSensorNode.waveSensor.probe1.position ) );
+          waveSensorNode.dragAllXY( end.x - start.x, end.y - start.y );
+          var probePosition = waveSensorNode.waveSensor.probe1.position;
+          position = probeDragBounds.closestPointTo( probePosition );
+          waveSensorNode.waveSensor.translateAllXY( position.x - probePosition.x, position.y - probePosition.y );
         }
         else {
-          probe.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
+          probe.translateXY( modelViewTransform.viewToModelDeltaX( end.x - start.x ),
+            modelViewTransform.viewToModelDeltaY( end.y - start.y ) );
           position = probeDragBounds.closestPointTo( probe.position );
           probe.positionProperty.set( position );
         }
@@ -111,8 +113,9 @@ define( function( require ) {
 
     // Probe location
     probe.positionProperty.link( function( position ) {
-      var viewPoint = modelViewTransform.modelToViewPosition( position );
-      probeNode.setTranslation( viewPoint.x - probeNode.getWidth() / 2, viewPoint.y - probeNode.getHeight() / 2 );
+      var probePositionX = modelViewTransform.modelToViewX( position.x );
+      var probePositionY = modelViewTransform.modelToViewY( position.y );
+      probeNode.setTranslation( probePositionX - probeNode.getWidth() / 2, probePositionY - probeNode.getHeight() / 2 );
     } );
     this.touchArea = this.localBounds;
   }
@@ -164,8 +167,7 @@ define( function( require ) {
       centerY: outerRectangle.centerY
     } );
     // Adding inner rectangle
-    var innerMostRectangle = new ShadedRectangle(
-      new Bounds2( 10, 0, rectangleWidth * 0.98, rectangleHeight * 0.63 ),
+    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth * 0.98, rectangleHeight * 0.63 ),
       {
         baseColor: 'white',
         lightSource: 'rightBottom',
@@ -176,10 +178,7 @@ define( function( require ) {
     this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle ], scale: 0.93 } );
 
     // Add the "time" axis label at the bottom center of the chart
-    var titleNode = new Text( timeString, {
-      font: new PhetFont( 18 ),
-      fill: 'white'
-    } );
+    var titleNode = new Text( timeString, { font: new PhetFont( 18 ), fill: 'white' } );
     this.bodyNode.touchArea = this.bodyNode.localBounds;
     this.bodyNode.addChild( titleNode );
     titleNode.setTranslation( this.bodyNode.getCenterX() - titleNode.getWidth() / 2, this.bodyNode.height * 0.82 );
@@ -192,9 +191,10 @@ define( function( require ) {
 
     //Synchronize the body position with the model (centered on the model point)
     waveSensor.bodyPositionProperty.link( function( position ) {
-      var viewPoint = modelViewTransform.modelToViewPosition( position );
-      waveSensorNode.bodyNode.setTranslation( viewPoint.x - waveSensorNode.bodyNode.getWidth() / 2,
-        viewPoint.y - waveSensorNode.bodyNode.getHeight() );
+      var waveSensorBodyPositionX = modelViewTransform.modelToViewX( position.x );
+      var waveSensorBodyPositionY = modelViewTransform.modelToViewY( position.y );
+      waveSensorNode.bodyNode.setTranslation( waveSensorBodyPositionX - waveSensorNode.bodyNode.getWidth() / 2,
+        waveSensorBodyPositionY - waveSensorNode.bodyNode.getHeight() );
     } );
 
     // Add interaction, the body is draggable, but keep it constrained to stay in the play area
@@ -220,12 +220,12 @@ define( function( require ) {
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
-          waveSensorNode.dragAll( end.minus( start ) );
+          waveSensorNode.dragAllXY( end.x - start.x, end.y - start.y );
           position = waveSensorDragBounds.closestPointTo( waveSensor.probe1.position );
-          waveSensor.translateAll( position.minus( waveSensorNode.waveSensor.probe1.position ) );
+          waveSensor.translateAllXY( position.x - waveSensor.probe1.position.x, position.y - waveSensor.probe1.position.y );
         }
         else {
-          waveSensorNode.dragBody( end.minus( start ) );
+          waveSensorNode.dragBodyXY( end.x - start.x, end.y - start.y );
           position = waveSensorDragBounds.closestPointTo( waveSensor.bodyPositionProperty.get() );
           waveSensor.bodyPositionProperty.set( position );
         }
@@ -264,6 +264,9 @@ define( function( require ) {
     this.addChild( this.bodyNode );
     this.addChild( this.probe1Node );
     this.addChild( this.probe2Node );
+    this.waveSensorBodyNewPosition = new Vector2();
+    this.probe1NewPosition = new Vector2();
+    this.probe2NewPosition = new Vector2();
   }
 
   return inherit( Node, WaveSensorNode, {
@@ -294,10 +297,11 @@ define( function( require ) {
     /**
      * Resize the WaveSensorNode
      * @public
-     * @param {Vector2} endPosition
+     * @param {number} endPositionX
+     * @param {number}endPositionY
      * @param {number} scale
      */
-    setWaveSensorNodeScale: function( endPosition, scale ) {
+    setWaveSensorNodeScale: function( endPositionX, endPositionY, scale ) {
 
       // Previous scale for scaling the distance among probeNodes and bodyNode
       var prevScale = this.bodyNode.getScaleVector().x;
@@ -311,15 +315,20 @@ define( function( require ) {
                     this.waveSensor.bodyPositionProperty.get().x * scale / prevScale;
       var delta1Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
                     this.waveSensor.bodyPositionProperty.get().y * scale / prevScale;
-      this.waveSensor.bodyPositionProperty.set( new Vector2( delta1X, delta1Y ) );
+      this.waveSensorBodyNewPosition.setXY( delta1X, delta1Y );
+      this.waveSensor.bodyPositionProperty.set( this.waveSensorBodyNewPosition );
+      this.waveSensor.bodyPositionProperty._notifyObservers();
 
       var delta2X = this.waveSensor.probe1.position.x * ( 1 - scale / prevScale ) +
                     this.waveSensor.probe2.position.x * scale / prevScale;
       var delta2Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
                     this.waveSensor.probe2.position.y * scale / prevScale;
-      this.waveSensor.probe2.positionProperty.set( new Vector2( delta2X, delta2Y ) );
+      this.probe2NewPosition.setXY( delta2X, delta2Y );
+      this.waveSensor.probe2.positionProperty.set( this.probe2NewPosition );
+      this.waveSensor.probe2.positionProperty._notifyObservers();
 
-      this.waveSensor.translateAll( endPosition.minus( this.waveSensor.probe1.position ) );
+      this.waveSensor.translateAllXY( endPositionX - this.waveSensor.probe1.position.x,
+        endPositionY - this.waveSensor.probe1.position.y );
     },
 
     /**
@@ -349,7 +358,7 @@ define( function( require ) {
         .to( endPoint, 100 )
         .easing( TWEEN.Easing.Linear.None )
         .onUpdate( function() {
-          target.setWaveSensorNodeScale( new Vector2( startPoint.x, startPoint.y ), startPoint.scale );
+          target.setWaveSensorNodeScale( startPoint.x, startPoint.y, startPoint.scale );
         } ).start();
     },
 
@@ -383,19 +392,23 @@ define( function( require ) {
     /**
      * Called when dragged out of the toolbox, drags all parts together (including body and probes)
      * @private
-     * @param {Vector2} delta
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
-    dragAll: function( delta ) {
-      this.waveSensor.translateAll( this.modelViewTransform.viewToModelDelta( delta ) );
+    dragAllXY: function( deltaX, deltaY ) {
+      this.waveSensor.translateAllXY( this.modelViewTransform.viewToModelDeltaX( deltaX ),
+        this.modelViewTransform.viewToModelDeltaY( deltaY ) );
     },
 
     /**
      * Drag bodyNode
      * @private
-     * @param {Vector2} delta
+     * @param {number} deltaX
+     * @param {number}deltaY
      */
-    dragBody: function( delta ) {
-      this.waveSensor.translateBody( this.modelViewTransform.viewToModelDelta( delta ) );
+    dragBodyXY: function( deltaX, deltaY ) {
+      this.waveSensor.translateBodyXY( this.modelViewTransform.viewToModelDeltaX( deltaX ),
+        this.modelViewTransform.viewToModelDeltaY( deltaY ) );
     },
 
     /**
@@ -403,7 +416,6 @@ define( function( require ) {
      */
     reset: function() {
       this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
-      this.waveSensor.visibleProperty.set( false );
       this.chartNode.gridPoints.clear();
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
