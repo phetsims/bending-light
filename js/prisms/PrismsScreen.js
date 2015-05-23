@@ -9,7 +9,7 @@ define( function( require ) {
 
   // modules
   var PrismBreakModel = require( 'BENDING_LIGHT/prisms/model/PrismBreakModel' );
-  var PrismBreakView = require( 'BENDING_LIGHT/prisms/view/PrismBreakView' );
+  var PrismsView = require( 'BENDING_LIGHT/prisms/view/PrismsView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );
@@ -32,7 +32,7 @@ define( function( require ) {
       function() {
         return prismModel;
       },
-      function( model ) { return new PrismBreakView( model ); },
+      function( model ) { return new PrismsView( model ); },
       { backgroundColor: 'white' }
     );
     // update the background  when its medium changes

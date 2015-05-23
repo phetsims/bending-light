@@ -33,7 +33,7 @@ define( function( require ) {
    * @param {PrismBreakModel} prismBreakModel - model of  prisms screen
    * @constructor
    */
-  function PrismBreakView( prismBreakModel ) {
+  function PrismsView( prismBreakModel ) {
 
     this.prismLayer = new Node();
     this.prismBreakModel = prismBreakModel;
@@ -164,7 +164,7 @@ define( function( require ) {
     } );
   }
 
-  return inherit( BendingLightView, PrismBreakView, {
+  return inherit( BendingLightView, PrismsView, {
 
     /**
      * @public
