@@ -11,6 +11,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * Wire that connects the body and probe.
@@ -33,6 +34,12 @@ define( function( require ) {
       pickable: false // no need to drag the wire, and we don't want to do cubic-curve intersection here, or have it get in the way
     } );
 
+    // re- usable vector
+    var curveStartPoint = new Vector2( 0, 0 );
+    var curveControlPoint1 = new Vector2( 0, 0 );
+    var curveControlPoint2 = new Vector2( 0, 0 );
+    var curveControlPoint3 = new Vector2( 0, 0 );
+
     var updateCurve = function() {
       var bodyNodeScaleVector = bodyNode.getScaleVector();
       var probeNodeScaleVector = probeNode.getScaleVector();
@@ -45,13 +52,17 @@ define( function( require ) {
       var probeConnectionPointY = probeNode.bottom;
 
       var connectionPointXOffsetFactor = 40;
+
+      curveControlPoint1.setXY( bodyConnectionPointX - connectionPointXOffsetFactor * bodyNodeScaleVector.x,
+        bodyConnectionPointY );
+      curveControlPoint2.setXY( probeConnectionPointX,
+        probeConnectionPointY + connectionPointXOffsetFactor * probeNodeScaleVector.x );
+      curveControlPoint3.setXY( probeConnectionPointX, probeConnectionPointY );
+      curveStartPoint.setXY( bodyConnectionPointX, bodyConnectionPointY );
+
       wireNode.shape = new Shape()
-        .moveTo( bodyConnectionPointX, bodyConnectionPointY )
-        .cubicCurveTo( bodyConnectionPointX - connectionPointXOffsetFactor * bodyNodeScaleVector.x,
-        bodyConnectionPointY,
-        probeConnectionPointX,
-        probeConnectionPointY + connectionPointXOffsetFactor * probeNodeScaleVector.x,
-        probeConnectionPointX, probeConnectionPointY );
+        .moveToPoint( curveStartPoint )
+        .cubicCurveToPoint( curveControlPoint1, curveControlPoint2, curveControlPoint3 );
     };
 
     bodyPositionProperty.link( updateCurve );

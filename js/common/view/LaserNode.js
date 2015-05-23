@@ -77,9 +77,11 @@ define( function( require ) {
       },
       drag: function( event ) {
         var endDrag = laserNode.globalToParentPoint( event.pointer.point );
-        laser.translate( modelViewTransform.viewToModelDelta( endDrag.minus( start ) ) );
+        var deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
+        var deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
+        laser.translate( deltaX, deltaY );
         var position = laserDragBoundsInModelValues.closestPointTo( laser.emissionPoint );
-        laser.translate( position.minus( laser.emissionPoint ) );
+        laser.translate( position.x - laser.emissionPoint.x, position.y - laser.emissionPoint.y );
         start = endDrag;
         showTranslationDragHandlesProperty.value = true;
       },

@@ -60,14 +60,15 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {Vector2} delta
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
-    translate: function( delta ) {
+    translate: function( deltaX, deltaY ) {
 
-      this.newEmissionPoint.x = this.emissionPoint.x + delta.x;
-      this.newEmissionPoint.y = this.emissionPoint.y + delta.y;
-      this.newPivotPoint.x = this.pivot.x + delta.x;
-      this.newPivotPoint.y = this.pivot.y + delta.y;
+      this.newEmissionPoint.x = this.emissionPoint.x + deltaX;
+      this.newEmissionPoint.y = this.emissionPoint.y + deltaY;
+      this.newPivotPoint.x = this.pivot.x + deltaX;
+      this.newPivotPoint.y = this.pivot.y + deltaY;
       this.emissionPointProperty.set( this.newEmissionPoint );
       this.pivotProperty.set( this.newPivotPoint );
       this.emissionPointProperty._notifyObservers();
