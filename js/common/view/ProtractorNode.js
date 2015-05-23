@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * The protractor node is a circular device for measuring angles.
  * In this sim it is used for measuring the angle of the incident,
@@ -29,14 +30,14 @@ define( function( require ) {
   /**
    *
    * @param {BendingLightView} bendingLightView
-   * @param {ModelViewTransform2} modelViewTransform transform to convert between model and view values
-   * @param {Property<boolean>} showProtractorProperty  controls the protractor visibility
-   * @param {ProtractorModel} protractorModel model of protractor
+   * @param {ModelViewTransform2} modelViewTransform - converts between model and view values
+   * @param {Property<boolean>} showProtractorProperty - controls the protractor visibility
+   * @param {ProtractorModel} protractorModel - model of protractor
    * @param {function} translateShape - function that returns the part of the protractor that can be used for translating it
    * @param {function} rotateShape - function that returns the part of the protractor that can be used for rotating it
    * @param {number} protractorIconWidth
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
-   * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
+   * @param {Bounds2} dragBounds - bounds that define where the protractor may be dragged
    * @constructor
    */
   function ProtractorNode( bendingLightView, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {

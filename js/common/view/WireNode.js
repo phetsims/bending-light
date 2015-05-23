@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * View that connects a sensor (the probe) to its body (where the readout appears)
  *

@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Controls for changing and viewing the medium type, including its current index of refraction
  * (depends on the laser wavelength through the dispersion function).
@@ -52,7 +53,7 @@ define( function( require ) {
    *
    * @param {BendingLightView} view
    * @param {Property<Medium>} mediumProperty
-   * @param {string} name  - name of the medium material
+   * @param {string} name - name of the medium material
    * @param {boolean} textFieldVisible
    * @param {number} laserWavelength
    * @param {number} format
@@ -107,7 +108,13 @@ define( function( require ) {
       } ), item );
     };
     // states to choose from (and indicate) in the combo box
-    var mediumStates = [ BendingLightModel.AIR, BendingLightModel.WATER, BendingLightModel.GLASS, BendingLightModel.MYSTERY_A, BendingLightModel.MYSTERY_B, customState ];
+    var mediumStates = [
+      BendingLightModel.AIR,
+      BendingLightModel.WATER,
+      BendingLightModel.GLASS,
+      BendingLightModel.MYSTERY_A,
+      BendingLightModel.MYSTERY_B,
+      customState ];
     var comboBoxMediumState = new Property( initialMediumState );
 
     // update combo box
@@ -115,7 +122,8 @@ define( function( require ) {
       var selected = -1;
       for ( var i = 0; i < mediumStates.length; i++ ) {
         var mediumState = mediumStates[ i ];
-        if ( mediumState.dispersionFunction.getIndexOfRefraction( laserWavelength.get() ) === mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) ) {
+        if ( mediumState.dispersionFunction.getIndexOfRefraction( laserWavelength.get() ) ===
+             mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) ) {
           selected = i;
         }
       }
@@ -163,8 +171,9 @@ define( function( require ) {
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
       custom = true;
-      mediumControlPanel.mediumIndexProperty.set( Util.toFixedNumber( Math.min( mediumControlPanel.mediumIndexProperty.get() + 1 / Math.pow( 10, format ),
-        INDEX_OF_REFRACTION_MAX ), format ) );
+      mediumControlPanel.mediumIndexProperty.set(
+        Util.toFixedNumber( Math.min( mediumControlPanel.mediumIndexProperty.get() + 1 / Math.pow( 10, format ),
+          INDEX_OF_REFRACTION_MAX ), format ) );
     }, {
       scale: 0.7,
       xMargin: 5,
@@ -177,8 +186,9 @@ define( function( require ) {
 
     var minusButton = new ArrowButton( 'left', function propertyMinus() {
       custom = true;
-      mediumControlPanel.mediumIndexProperty.set( Util.toFixedNumber( Math.max( mediumControlPanel.mediumIndexProperty.get() - 1 / Math.pow( 10, format ),
-        INDEX_OF_REFRACTION_MIN ), format ) );
+      mediumControlPanel.mediumIndexProperty.set(
+        Util.toFixedNumber( Math.max( mediumControlPanel.mediumIndexProperty.get() - 1 / Math.pow( 10, format ),
+          INDEX_OF_REFRACTION_MIN ), format ) );
     }, {
       scale: 0.7,
       xMargin: 5,
@@ -291,7 +301,8 @@ define( function( require ) {
       }
       // if it was custom, then use the the index of refraction but keep the name as "custom"
       else {
-        mediumControlPanel.setMediumState( new MediumState( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
+        mediumControlPanel.setMediumState(
+          new MediumState( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
       }
     } );
 
@@ -316,7 +327,6 @@ define( function( require ) {
     /**
      * Called when the user enters a new index of refraction (with text box or slider),
      * updates the model with the specified value
-     *
      * @public
      * @param {number} indexOfRefraction
      */
@@ -332,8 +342,7 @@ define( function( require ) {
     },
 
     /**
-     *  Update the medium state from the combo box
-     *
+     * Update the medium state from the combo box
      * @public
      * @param {MediumState} mediumState
      */
@@ -344,7 +353,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @private
      * @param {Medium} medium
      */
     setMedium: function( medium ) {
@@ -352,5 +361,4 @@ define( function( require ) {
     }
   } );
 } );
-
 

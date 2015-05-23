@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Display type for the rays, can be shown as rays (non moving lines) or waves (animating).
  *
@@ -64,7 +65,6 @@ define( function( require ) {
     var waveRadio = new AquaRadioButton( model.laserViewProperty, 'wave', createButtonTextNode( waveString ),
       radioButtonOptions );
 
-
     // touch areas
     var touchExpansion = 5;
     var touchYExpansion = 5;
@@ -72,18 +72,20 @@ define( function( require ) {
       return item.width;
     } ).width;
 
-    //touch areas
-    laserRadio.touchArea = new Bounds2( laserRadio.localBounds.minX - touchExpansion, laserRadio.localBounds.minY - touchYExpansion,
+    // touch areas
+    laserRadio.touchArea = new Bounds2(
+      laserRadio.localBounds.minX - touchExpansion, laserRadio.localBounds.minY - touchYExpansion,
       laserRadio.localBounds.minX + maxRadioButtonWidth, laserRadio.localBounds.maxY + touchYExpansion );
 
-    waveRadio.touchArea = new Bounds2( waveRadio.localBounds.minX - touchExpansion, waveRadio.localBounds.minY - touchYExpansion,
+    waveRadio.touchArea = new Bounds2(
+      waveRadio.localBounds.minX - touchExpansion, waveRadio.localBounds.minY - touchYExpansion,
       waveRadio.localBounds.minX + maxRadioButtonWidth, waveRadio.localBounds.maxY + touchYExpansion );
 
     var content;
     if ( hasMoreTools ) {
       this.laserWavelengthProperty = new Property( model.wavelengthProperty.value * 1E9 );
 
-      // add  WavelengthSlider node
+      // add WavelengthSlider node
       var wavelengthSlider = new WavelengthSlider( this.laserWavelengthProperty,
         {
           cursorStroke: 'white',
@@ -99,11 +101,11 @@ define( function( require ) {
         } );
 
       var wavelengthValueText = new Text( this.laserWavelengthProperty.get() + units_nmString );
-      var wavelengthBoxShape = new Rectangle( 0, 0, 50, 18, 2, 2,
-        { fill: 'white', stroke: 'black' } );
+      var wavelengthBoxShape = new Rectangle( 0, 0, 50, 18, 2, 2, { fill: 'white', stroke: 'black' } );
 
       var plusButton = new ArrowButton( 'right', function propertyPlus() {
-        laserView.laserWavelengthProperty.set( Math.min( laserView.laserWavelengthProperty.get() + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
+        laserView.laserWavelengthProperty.set(
+          Math.min( laserView.laserWavelengthProperty.get() + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
@@ -111,7 +113,8 @@ define( function( require ) {
         plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
 
       var minusButton = new ArrowButton( 'left', function propertyMinus() {
-        laserView.laserWavelengthProperty.set( Math.max( laserView.laserWavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
+        laserView.laserWavelengthProperty.set(
+          Math.max( laserView.laserWavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
@@ -137,10 +140,8 @@ define( function( require ) {
       minusButton.right = wavelengthBoxShape.left - PLUS_MINUS_SPACING;
       minusButton.centerY = wavelengthBoxShape.centerY;
 
-
       var wavelengthValue = new Node( {
-        children: [ minusButton, wavelengthBoxShape, wavelengthValueText,
-          plusButton, wavelengthSlider ]
+        children: [ minusButton, wavelengthBoxShape, wavelengthValueText, plusButton, wavelengthSlider ]
       } );
 
       content = new VBox( {
@@ -168,7 +169,6 @@ define( function( require ) {
 
     /**
      * reset only if laser panel has wavelength slider
-     *
      * @public
      */
     reset: function() {
@@ -179,7 +179,7 @@ define( function( require ) {
 
     /**
      * Create the node for the specified lightRay and shows in the lightRayLayer
-     *
+     * @public
      * @param {ModelViewTransform2} modelViewTransform
      * @param {LightRay} lightRay
      */

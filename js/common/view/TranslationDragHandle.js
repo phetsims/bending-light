@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Graphic that depicts how the laser may be moved.
  * It is only shown when the cursor is over the laser and is non-interactive.
@@ -21,7 +22,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinate frames
+   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinate frames
    * @param {Laser} laser - model of laser
    * @param {number} dx
    * @param {number} dy

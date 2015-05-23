@@ -40,7 +40,7 @@ define( function( require ) {
 
     /**
      * Gets the wavelength for this ray if it wasn't inside a medium
-     *
+     * @public
      * @returns {number}
      */
     getBaseWavelength: function() {
@@ -48,4 +48,3 @@ define( function( require ) {
     }
   } );
 } );
-

@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
- * Node for drawing the laser itself, including an on/off button and ability to
- * rotate/translate.
+ * Node for drawing the laser itself, including an on/off button and ability to rotate/translate.
  *
  * @author Sam Reid
  * @author Chandrashekar bemagoni(Actual Concepts)
@@ -30,14 +30,14 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
-   * @param {Laser}laser - model for the laser
-   * @param { Property<boolean> } showRotationDragHandlesProperty - to show laser node rotate arrows(direction which laser node can rotate)
-   * @param { Property<boolean> } showTranslationDragHandlesProperty -to show laser node drag arrows(direction which laser node can drag)
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
+   * @param {Laser} laser - model for the laser
+   * @param {Property<boolean>} showRotationDragHandlesProperty - to show laser node rotate arrows(direction which laser node can rotate)
+   * @param {Property<boolean>} showTranslationDragHandlesProperty - to show laser node drag arrows(direction which laser node can drag)
    * @param {function} clampDragAngle
    * @param {function} translationRegion - select from the entire region and front region which should be used for translating the laser
    * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating the laser
-   * @param {string} laserImageName -  if  name is 'laser' use laser image without knob else use laser with knob
+   * @param {string} laserImageName - if name is 'laser' use laser image without knob else use laser with knob
    * @param {Bounds2} dragBounds - bounds that define where the laser may be dragged
    * @constructor
    */
@@ -48,7 +48,7 @@ define( function( require ) {
     var laserNode = this;
     var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
 
-    //add laser image
+    // add laser image
     var lightImage = new Image( laserImage, { scale: 0.58 } );
     this.addChild( lightImage );
     lightImage.rotateAround( lightImage.getCenter(), Math.PI );
@@ -115,8 +115,7 @@ define( function( require ) {
         var angle = modelPoint.subtract( laser.pivot ).angle();
         var laserAngleAfterClamp = clampDragAngle( angle );
 
-        // prevent laser from going to 90 degrees when in wave mode,
-        // should go until laser bumps into edge.
+        // prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
         if ( laser.wave && laserAngleAfterClamp > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
           laserAngleAfterClamp = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
         }
@@ -136,7 +135,6 @@ define( function( require ) {
         showRotationDragHandlesProperty.value = false;
       }
     } );
-
 
     laser.emissionPointProperty.link( function( newEmissionPoint ) {
       var emissionPointX = modelViewTransform.modelToViewX( newEmissionPoint.x );
@@ -164,4 +162,3 @@ define( function( require ) {
 
   return inherit( Node, LaserNode );
 } );
-

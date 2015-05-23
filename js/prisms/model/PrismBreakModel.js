@@ -182,7 +182,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @public
      * @returns {ObservableArray<Prism>}
      */
     getPrisms: function() {
@@ -227,6 +227,7 @@ define( function( require ) {
 
     /**
      * Algorithm that computes the trajectories of the rays throughout the system
+     * @public
      */
     propagateRays: function() {
 
@@ -376,7 +377,7 @@ define( function( require ) {
 
     /**
      * Signify that another ray/interface collision occurred
-     *
+     * @private
      * @param {Intersection} intersection
      */
     addIntersection: function( intersection ) {
@@ -385,7 +386,7 @@ define( function( require ) {
 
     /**
      * Find the nearest intersection between a light ray and the set of prisms in the play area
-     *
+     * @private
      * @param{Ray} incidentRay
      * @param {ObservableArray<Prism>}prisms
      * @returns {null}
@@ -405,6 +406,9 @@ define( function( require ) {
       return allIntersections.length === 0 ? null : allIntersections[ 0 ];
     },
 
+    /**
+     * @public
+     */
     clear: function() {
       this.intersections.clear();
     }

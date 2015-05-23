@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * View for drawing a single light ray.
  *
@@ -19,7 +20,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {LightRay} lightRay
    * @constructor
    */
@@ -34,13 +35,13 @@ define( function( require ) {
     this.viewStart = modelViewTransform.modelToViewPosition( this.lightRay.tip );
     this.viewEnd = modelViewTransform.modelToViewPosition( this.lightRay.tail );
 
-
     // Restricted the  light ray view coordinates (start and end )within the specific  window(rectangle) area to support in firefox browser
     // Note : if the values are to long rays rendering  different directions
     // Todo : need to find out , why firefox behaving differently
     var shape = new Rectangle( -100000, -100000, 200000, 200000 );
     if ( !shape.getShape().containsPoint( this.viewStart ) ) {
-      var intersection = shape.getShape().intersection( new Ray2( this.viewEnd, this.viewStart.minus( this.viewEnd ).normalized() ) );
+      var intersection = shape.getShape().intersection(
+        new Ray2( this.viewEnd, this.viewStart.minus( this.viewEnd ).normalize() ) );
       if ( intersection.length ) {
         this.viewStart = intersection[ 0 ].point;
       }
@@ -49,21 +50,20 @@ define( function( require ) {
     // light ray color
     var rayColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), Math.sqrt( lightRay.getPowerFraction() ) );
 
-    var lightRayPath = new Path( new Shape().moveTo( this.viewStart.x, this.viewStart.y )
-      .lineTo( this.viewEnd.x, this.viewEnd.y ), {
+    var lightRayPath = new Path( new Shape().moveToPoint( this.viewStart )
+      .lineToPoint( this.viewEnd ), {
       lineWidth: modelViewTransform.modelToViewDeltaX( lightRay.getRayWidth() ),
       stroke: rayColor
     } );
-    // add the PPath
+    // add the Path
     this.addChild( lightRayPath );
-
   }
 
   return inherit( Node, LightRayNode, {
 
     /**
-     * Get the line traversed by this light ray in view coordinates,
-     * for usage with the Bresenham algorithm in the WhiteLightNode
+     * Get the line traversed by this light ray in view coordinates, for usage with the Bresenham algorithm in the
+     * WhiteLightNode
      * @public
      * @returns {Line}
      */
@@ -88,4 +88,3 @@ define( function( require ) {
     }
   } );
 } );
-

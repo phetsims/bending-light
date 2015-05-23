@@ -44,7 +44,7 @@ define( function( require ) {
 
     /**
      * Paints the particles on the canvas node.
-     *
+     * @protected
      * @param {CanvasContextWrapper} wrapper
      */
     paintCanvas: function( wrapper ) {
@@ -153,9 +153,13 @@ define( function( require ) {
       current[ 3 ] = current[ 3 ] + intensity;
     },
 
+    /**
+     * @public
+     */
     step: function() {
       this.invalidatePaint();
     },
+
     /**
      * @private
      * @param {number} x0 - x position in view co-ordinates
@@ -208,4 +212,3 @@ define( function( require ) {
     }
   } );
 } );
-

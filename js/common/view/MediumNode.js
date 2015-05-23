@@ -12,10 +12,9 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Node = require( 'SCENERY/nodes/Node' );
 
-
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform to convert between model and view co-ordinates
+   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {Property<Medium>} mediumProperty
    * @constructor
    */
@@ -29,6 +28,7 @@ define( function( require ) {
     } );
     this.addChild( mediumRectangleNode );
 
+    // Update whenever the medium changes
     mediumProperty.link( function( medium ) {
       mediumRectangleNode.fill = medium.color;
     } );
@@ -36,4 +36,3 @@ define( function( require ) {
 
   return inherit( Node, MediumNode );
 } );
-

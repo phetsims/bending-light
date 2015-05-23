@@ -1,4 +1,5 @@
 // Copyright 2002-2015, University of Colorado Boulder
+
 /**
  * Graphic that depicts how the laser may be moved (in one direction).
  * It is only shown when the cursor is over the laser and is non-interactive.
@@ -22,7 +23,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Laser} laser
    * @param {number} deltaAngle - deltaAngle in radians
    * @param {Property<boolean>} showDragHandlesProperty

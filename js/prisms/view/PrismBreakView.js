@@ -113,17 +113,17 @@ define( function( require ) {
 
     //Add the reset all button
     var resetAllButton = new ResetAllButton( {
-        listener: function() {
-          prismBreakModel.reset();
-          prismBreakView.reset();
-          laserControlPanelNode.reset();
-          environmentMediumControlPanel.reset();
-          prismToolboxNode.objectMediumControlPanel.reset();
-        },
-        bottom: this.layoutBounds.bottom - 14,
-        right: this.layoutBounds.right - 2 * INSET,
-        radius: 20
-      } );
+      listener: function() {
+        prismBreakModel.reset();
+        prismBreakView.reset();
+        laserControlPanelNode.reset();
+        environmentMediumControlPanel.reset();
+        prismToolboxNode.objectMediumControlPanel.reset();
+      },
+      bottom: this.layoutBounds.bottom - 14,
+      right:  this.layoutBounds.right - 2 * INSET,
+      radius: 20
+    } );
 
     this.afterLightLayer2.addChild( resetAllButton );
 
@@ -156,7 +156,7 @@ define( function( require ) {
       prismBreakView.stepInternal();
     } );
 
-// Move the laser node to front of all other nodes of prism screen.
+    // Move the laser node to front of all other nodes of prism screen.
     prismBreakModel.laser.emissionPointProperty.link( function() {
       for ( var i = 0; i < prismBreakView.laserLayerArray.length; i++ ) {
         prismBreakView.laserLayerArray[ i ].moveToFront();
@@ -174,20 +174,21 @@ define( function( require ) {
     },
 
     /**
-     *
+     * @protected
      * @param {number} dt - time
      */
     step: function( dt ) {
       this.timer.step( dt );
     },
 
+    /**
+     * @private
+     */
     stepInternal: function() {
       if ( this.prismBreakModel.laser.colorModeProperty.value === 'white' && this.prismBreakModel.dirty ) {
         this.whiteLightNode.step();
         this.prismBreakModel.dirty = false;
       }
     }
-
   } );
 } );
-
