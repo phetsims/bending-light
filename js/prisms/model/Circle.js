@@ -35,7 +35,6 @@ define( function( require ) {
      */
     toShape: function() {
       return new Shape().ellipticalArcPoint( this.center, this.radius, this.radius, 0, 0, Math.PI * 2, false );
-      // return Shape.ellipse( this.center.x, this.center.y, this.radius, this.radius );
     },
 
     /**
@@ -44,7 +43,7 @@ define( function( require ) {
      * @returns {Circle}
      */
     getTranslatedInstance: function( delta ) {
-      return new Circle( this.center.plus( delta ), this.radius );
+      return new Circle( this.center.add( delta ), this.radius );
     },
 
     /**
@@ -83,9 +82,9 @@ define( function( require ) {
      */
     getRotatedInstance: function( angle, rotationPoint ) {
       // we create a new circle with a rotated center point
-      var vectorAboutCentroid = this.getRotationCenter().minus( rotationPoint );
+      var vectorAboutCentroid = this.getRotationCenter().subtract( rotationPoint );
       var rotated = vectorAboutCentroid.rotate( angle );
-      return new Circle( rotated.plus( rotationPoint ), this.radius );
+      return new Circle( rotated.add( rotationPoint ), this.radius );
     },
 
     /**

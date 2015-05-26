@@ -46,7 +46,7 @@ define( function( require ) {
    * @param {string} probeImageName
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Rectangle} container
-   * @param {Bounds2} dragBounds - bounds that define where the probe   may be dragged
+   * @param {Bounds2} dragBounds - bounds that define where the probe may be dragged
    * @constructor
    */
   function ProbeNode( waveSensorNode, probe, probeImageName, modelViewTransform, container, dragBounds ) {
@@ -71,7 +71,8 @@ define( function( require ) {
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( container.bounds.containsPoint( probeNode.center ) ) {
           fromSensorPanel = true;
-          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), waveSensorNodeScaleOutSideContainer );
+          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelX( start.x ),
+            modelViewTransform.viewToModelY( start.y ), waveSensorNodeScaleOutSideContainer );
           waveSensorNode.waveSensor.visibleProperty.set( true );
           waveSensorNode.addMoreToolsView();
         }
@@ -104,8 +105,9 @@ define( function( require ) {
           waveSensorNode.addToSensorPanel();
         }
         if ( toSensorPanel ) {
+          var probeInitialPosition = waveSensorNode.waveSensor.probe1.positionProperty.initialValue;
           waveSensorNode.setWaveSensorNodeScaleAnimation(
-            waveSensorNode.waveSensor.probe1.positionProperty.initialValue, waveSensorNodeScaleInSideContainer );
+            probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
         }
       }
@@ -125,8 +127,8 @@ define( function( require ) {
   /**
    *
    * @param {MoreToolsView} moreToolsView
-   * @param {ModelViewTransform2} modelViewTransform , Transform between model and view coordinate frames
-   * @param {WaveSensor} waveSensor  - model for the wave sensor
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
+   * @param {WaveSensor} waveSensor - model for the wave sensor
    * @param {Rectangle} container
    * @param {Bounds2} dragBounds - bounds that define where the waves sensor  may be dragged
    * @constructor
@@ -209,7 +211,8 @@ define( function( require ) {
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ) {
           fromSensorPanel = true;
-          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelPosition( start ), waveSensorNodeScaleOutSideContainer );
+          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelX( start.x ),
+            modelViewTransform.viewToModelY( start.y ), waveSensorNodeScaleOutSideContainer );
           waveSensor.visibleProperty.set( true );
           waveSensorNode.addMoreToolsView();
         }
@@ -241,8 +244,9 @@ define( function( require ) {
           waveSensorNode.addToSensorPanel();
         }
         if ( toSensorPanel ) {
-          waveSensorNode.setWaveSensorNodeScaleAnimation( waveSensor.probe1.positionProperty.initialValue,
-            waveSensorNodeScaleInSideContainer );
+          var probeInitialPosition = waveSensor.probe1.positionProperty.initialValue;
+          waveSensorNode.setWaveSensorNodeScaleAnimation(
+            probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
         }
       }
@@ -298,7 +302,7 @@ define( function( require ) {
      * Resize the WaveSensorNode
      * @public
      * @param {number} endPositionX
-     * @param {number}endPositionY
+     * @param {number} endPositionY
      * @param {number} scale
      */
     setWaveSensorNodeScale: function( endPositionX, endPositionY, scale ) {
@@ -334,16 +338,17 @@ define( function( require ) {
     /**
      * Resize the WaveSensorNode with Animation
      * @private
-     * @param {Vector2} endPosition
+     * @param {number} endPositionX
+     * @param {number} endPositionY
      * @param {number} scale
      */
-    setWaveSensorNodeScaleAnimation: function( endPosition, scale ) {
+    setWaveSensorNodeScaleAnimation: function( endPositionX, endPositionY, scale ) {
       var prevScale = this.bodyNode.getScaleVector().x;
       var startPoint = {
         x: this.waveSensor.probe1.position.x, y: this.waveSensor.probe1.position.y,
         scale: prevScale
       };
-      var endPoint = { x: endPosition.x, y: endPosition.y, scale: scale };
+      var endPoint = { x: endPositionX, y: endPositionY, scale: scale };
       this.init( startPoint, endPoint );
     },
 
@@ -404,7 +409,7 @@ define( function( require ) {
      * Drag bodyNode
      * @private
      * @param {number} deltaX
-     * @param {number}deltaY
+     * @param {number} deltaY
      */
     dragBodyXY: function( deltaX, deltaY ) {
       this.waveSensor.translateBodyXY( this.modelViewTransform.viewToModelDeltaX( deltaX ),

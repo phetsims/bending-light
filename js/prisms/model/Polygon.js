@@ -30,7 +30,7 @@ define( function( require ) {
     this.referencePointIndex = referencePointIndex;
 
     // Centroid of the shape
-    this.centroid = new Vector2( 0, 0 );
+    this.centroid = this.getCentroid( this.points );
   }
 
   return inherit( Object, Polygon, {
@@ -68,7 +68,7 @@ define( function( require ) {
 
       var newPoints = [];
       for ( var j = 0; j < this.points.length; j++ ) {
-        newPoints.push( this.points[ j ].plus( delta ) );
+        newPoints.push( this.points[ j ].add( delta ) );
       }
       return new Polygon( this.referencePointIndex, newPoints );
     },
@@ -83,7 +83,7 @@ define( function( require ) {
     getRotatedInstance: function( angle, rotationPoint ) {
       var newPoints = [];
       for ( var k = 0; k < this.points.length; k++ ) {
-        var vectorAboutCentroid = this.points[ k ].minus( rotationPoint );
+        var vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
         var rotated = vectorAboutCentroid.rotate( angle );
         newPoints.push( rotated.add( rotationPoint ) );
       }
@@ -116,7 +116,7 @@ define( function( require ) {
      * @returns {Vector2}
      */
     getRotationCenter: function() {
-      return this.getCentroid( this.points );
+      return this.centroid;
     },
 
     /**
@@ -137,14 +137,12 @@ define( function( require ) {
       var f = 1 / ( a * 6);
       cx *= f;
       cy *= f;
-      this.centroid.x = cx;
-      this.centroid.y = cy;
-      return this.centroid;
+      return new Vector2( cx, cy );
     },
 
     /**
      * @private
-     * @param {Vector2[]}p
+     * @param {Vector2[]} p
      * @returns {number}
      */
     getArea: function( p ) {

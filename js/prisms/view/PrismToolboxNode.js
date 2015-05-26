@@ -43,7 +43,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {PrismBreakView} prismBreakView - main view of the prism screen
+   * @param {PrismsView} prismBreakView - main view of the prism screen
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {PrismBreakModel} prismBreakModel - model of the prism screen
    * @param {Object} [options ] that can be passed on to the underlying node

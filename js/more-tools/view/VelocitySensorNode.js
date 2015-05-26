@@ -165,23 +165,23 @@ define( function( require ) {
 
     // Drag handler
     this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
-        dragBounds: modelViewTransform.viewToModelBounds( dragBounds ),
-        modelViewTransform: modelViewTransform,
-        startDrag: function() {
-          if ( container.bounds.containsCoordinates( velocitySensorNode.getCenterX(), velocitySensorNode.getCenterY() ) ) {
-            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(),
-              VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
-            velocitySensorNode.addToMoreToolsView();
-          }
-        },
-        endDrag: function() {
-          if ( container.bounds.containsCoordinates( velocitySensorNode.getCenterX(), velocitySensorNode.getCenterY() ) ) {
-            velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
-              VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
-            velocitySensor.reset();
-            velocitySensorNode.addToSensorPanel();
-          }
+      dragBounds: modelViewTransform.viewToModelBounds( dragBounds ),
+      modelViewTransform: modelViewTransform,
+      startDrag: function() {
+        if ( container.bounds.containsCoordinates( velocitySensorNode.getCenterX(), velocitySensorNode.getCenterY() ) ) {
+          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(),
+            VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
+          velocitySensorNode.addToMoreToolsView();
         }
+      },
+      endDrag: function() {
+        if ( container.bounds.containsCoordinates( velocitySensorNode.getCenterX(), velocitySensorNode.getCenterY() ) ) {
+          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
+            VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
+          velocitySensor.reset();
+          velocitySensorNode.addToSensorPanel();
+        }
+      }
     } ) );
 
     velocitySensor.positionProperty.link( function( position ) {
@@ -227,13 +227,13 @@ define( function( require ) {
      * @param {number} scale
      */
     setScaleAnimation: function( endPoint, scale ) {
-      var startPoint = {
+      var startPosition = {
         x: this.velocitySensor.position.x,
         y: this.velocitySensor.position.y,
         scale: this.getScaleVector().x
       };
       var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
-      this.init( startPoint, finalPosition );
+      this.init( startPosition, finalPosition );
     },
 
     /**

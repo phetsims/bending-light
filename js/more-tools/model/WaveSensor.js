@@ -134,8 +134,8 @@ define( function( require ) {
     /**
      * Translate the body and probes by the specified model delta
      * @public
-     * @param {number } deltaX
-     * @param  {number }  deltaY
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
     translateAllXY: function( deltaX, deltaY ) {
       this.probe1.translateXY( deltaX, deltaY );
