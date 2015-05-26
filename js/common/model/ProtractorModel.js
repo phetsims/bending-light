@@ -27,7 +27,7 @@ define( function( require ) {
       }
     );
 
-    // reusable vectors to avoid to many vector allocations
+    // reusable vectors to avoid too many vector allocations
     // vector to store new Protractor position
     this.newPosition = new Vector2( 0, 0 );
   }
@@ -36,11 +36,11 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {Vector2} delta
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
-    translate: function( delta ) {
-      this.newPosition.x = this.positionProperty.get().x + delta.x;
-      this.newPosition.y = this.positionProperty.get().y + delta.y;
+    translateXY: function( deltaX, deltaY ) {
+      this.newPosition.setXY( this.positionProperty.get().x + deltaX, this.positionProperty.get().y + deltaY );
       this.positionProperty.set( this.newPosition );
       this.positionProperty._notifyObservers();
     }

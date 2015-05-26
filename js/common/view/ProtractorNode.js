@@ -40,7 +40,8 @@ define( function( require ) {
    * @param {Bounds2} dragBounds - bounds that define where the protractor may be dragged
    * @constructor
    */
-  function ProtractorNode( bendingLightView, modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {
+  function ProtractorNode( bendingLightView, modelViewTransform, showProtractorProperty, protractorModel,
+                           translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
@@ -122,7 +123,7 @@ define( function( require ) {
 
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
-        protractorNode.dragAll( end.minus( start ) );
+        protractorNode.dragAllXY( end.x - start.x, end.y - start.y );
         var position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorNode.protractorModel.position );
         protractorNode.protractorModel.positionProperty.set( position );
         start = end;
@@ -160,8 +161,9 @@ define( function( require ) {
 
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
-        var startAngle = protractorNode.center.minus( start ).angle();
-        var angle = protractorNode.center.minus( end ).angle();
+        var center = protractorNode.center;
+        var startAngle = Math.atan2( center.y - start.y, center.x - start.x );
+        var angle = Math.atan2( center.y - end.y, center.x - end.x );
 
         // rotate the protractor model
         protractorModel.angle += angle - startAngle;
@@ -202,7 +204,7 @@ define( function( require ) {
 
       /**
        * Resize the protractor
-       *
+       * @public
        * @param {number} scale
        */
       setProtractorScale: function( scale ) {
@@ -213,7 +215,7 @@ define( function( require ) {
       },
 
       /**
-       *
+       * @private
        * @param {Vector2}endPoint
        * @param {number} scale
        */
@@ -225,7 +227,7 @@ define( function( require ) {
       },
 
       /**
-       *
+       * @private
        * @param {Object} initialPosition
        * @param {Object} finalPosition
        */
@@ -269,11 +271,13 @@ define( function( require ) {
 
       /**
        * Translate the protractor, this method is called when dragging out of the toolbox
-       *
-       * @param {Vector2} delta
+       * @private
+       * @param {number} deltaX
+       * @param {number} deltaY
        */
-      dragAll: function( delta ) {
-        this.protractorModel.translate( this.modelViewTransform.viewToModelDelta( delta ) );
+      dragAllXY: function( deltaX, deltaY ) {
+        this.protractorModel.translateXY(
+          this.modelViewTransform.viewToModelDeltaX( deltaX ), this.modelViewTransform.viewToModelDeltaY( deltaY ) );
       }
     },
     // statics
