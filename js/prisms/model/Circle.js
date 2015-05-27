@@ -43,7 +43,7 @@ define( function( require ) {
      * @returns {Circle}
      */
     getTranslatedInstance: function( delta ) {
-      return new Circle( this.center.add( delta ), this.radius );
+      return new Circle( this.center.plus( delta ), this.radius );
     },
 
     /**

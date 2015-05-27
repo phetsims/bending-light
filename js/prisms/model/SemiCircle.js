@@ -66,7 +66,7 @@ define( function( require ) {
 
       var newPoints = [];
       for ( var j = 0; j < this.points.length; j++ ) {
-        newPoints.push( this.points[ j ].add( delta ) );
+        newPoints.push( this.points[ j ].plus( delta ) );
       }
       return new SemiCircle( this.referencePointIndex, newPoints, this.radius );
     },
