@@ -84,9 +84,15 @@ define( function( require ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
           waveSensorNode.dragAllXY( end.x - start.x, end.y - start.y );
-          var probePosition = waveSensorNode.waveSensor.probe1.position;
-          position = probeDragBounds.closestPointTo( probePosition );
-          waveSensorNode.waveSensor.translateAllXY( position.x - probePosition.x, position.y - probePosition.y );
+          var probe1Position = waveSensorNode.waveSensor.probe1.position;
+          position = probeDragBounds.closestPointTo( probe1Position );
+          waveSensorNode.waveSensor.translateAllXY( position.x - probe1Position.x, position.y - probe1Position.y );
+          var probe2Position = waveSensorNode.waveSensor.probe2.position;
+          position = probeDragBounds.closestPointTo( probe2Position );
+          waveSensorNode.waveSensor.translateAllXY( position.x - probe2Position.x, position.y - probe2Position.y );
+          var bodyPosition = waveSensorNode.waveSensor.bodyPositionProperty.get();
+          position = probeDragBounds.closestPointTo( bodyPosition );
+          waveSensorNode.waveSensor.translateAllXY( position.x - bodyPosition.x, position.y - bodyPosition.y );
         }
         else {
           probe.translateXY( modelViewTransform.viewToModelDeltaX( end.x - start.x ),
@@ -224,8 +230,15 @@ define( function( require ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         if ( fromSensorPanel ) {
           waveSensorNode.dragAllXY( end.x - start.x, end.y - start.y );
-          position = waveSensorDragBounds.closestPointTo( waveSensor.probe1.position );
-          waveSensor.translateAllXY( position.x - waveSensor.probe1.position.x, position.y - waveSensor.probe1.position.y );
+          var probe1Position = waveSensorNode.waveSensor.probe1.position;
+          position = waveSensorDragBounds.closestPointTo( probe1Position );
+          waveSensorNode.waveSensor.translateAllXY( position.x - probe1Position.x, position.y - probe1Position.y );
+          var probe2Position = waveSensorNode.waveSensor.probe2.position;
+          position = waveSensorDragBounds.closestPointTo( probe2Position );
+          waveSensorNode.waveSensor.translateAllXY( position.x - probe2Position.x, position.y - probe2Position.y );
+          var bodyPosition = waveSensorNode.waveSensor.bodyPositionProperty.get();
+          position = waveSensorDragBounds.closestPointTo( bodyPosition );
+          waveSensorNode.waveSensor.translateAllXY( position.x - bodyPosition.x, position.y - bodyPosition.y );
         }
         else {
           waveSensorNode.dragBodyXY( end.x - start.x, end.y - start.y );

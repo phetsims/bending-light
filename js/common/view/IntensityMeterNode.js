@@ -138,6 +138,9 @@ define( function( require ) {
           intensityMeterNode.dragAllXY( end.x - start.x, end.y - start.y );
           position = intensityMeterDragBounds.closestPointTo( sensorPosition );
           intensityMeter.translateAllXY( position.x - sensorPosition.x, position.y - sensorPosition.y );
+          position = intensityMeterDragBounds.closestPointTo( intensityMeter.bodyPosition );
+          intensityMeter.translateAllXY(
+            position.x - intensityMeter.bodyPosition.x, position.y - intensityMeter.bodyPosition.y );
         }
         else {
           intensityMeterNode.dragSensorXY( end.x - start.x, end.y - start.y );
@@ -251,6 +254,9 @@ define( function( require ) {
           intensityMeterNode.dragAllXY( end.x - start.x, end.y - start.y );
           position = intensityMeterDragBounds.closestPointTo( sensorPosition );
           intensityMeter.translateAllXY( position.x - sensorPosition.x, position.y - sensorPosition.y );
+          position = intensityMeterDragBounds.closestPointTo( intensityMeter.bodyPosition );
+          intensityMeter.translateAllXY(
+            position.x - intensityMeter.bodyPosition.x, position.y - intensityMeter.bodyPosition.y );
         }
         else {
           intensityMeterNode.dragBodyXY( end.x - start.x, end.y - start.y );

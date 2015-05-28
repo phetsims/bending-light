@@ -109,10 +109,10 @@ define( function( require ) {
       },
       drag: function( event ) {
         var coordinateFrame = laserNode.parents[ 0 ];
+        var laserAnglebeforeRotate = laser.getAngle();
         var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
-        localLaserPosition = dragBounds.closestPointTo( localLaserPosition );
-        var modelPoint = modelViewTransform.viewToModelPosition( localLaserPosition );
-        var angle = modelPoint.subtract( laser.pivot ).angle();
+        var angle = Math.atan2( modelViewTransform.viewToModelY( localLaserPosition.y ) - laser.pivot.y,
+          modelViewTransform.viewToModelX( localLaserPosition.x ) - laser.pivot.x );
         var laserAngleAfterClamp = clampDragAngle( angle );
 
         // prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
@@ -120,6 +120,9 @@ define( function( require ) {
           laserAngleAfterClamp = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
         }
         laser.setAngle( laserAngleAfterClamp );
+        if ( !laserDragBoundsInModelValues.containsPoint( laser.emissionPoint ) ) {
+          laser.setAngle( laserAnglebeforeRotate );
+        }
         showTranslationDragHandlesProperty.value = false;
         showRotationDragHandlesProperty.value = true;
       },
