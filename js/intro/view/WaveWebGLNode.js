@@ -90,7 +90,7 @@ define( function( require ) {
         // Perpendicular distance from tail to rendering coordinate. This is obtained by Coordinate Transformation to
         // tail point and applying dot product to the unit vector in the direction of ray and rendering coordinate
         // tail coordinate is mapped from view to canvas (layoutBounds.height - vTail.y)
-        'float distance = dot(vec2(cos(vAngle),sin(vAngle)), vec2(x1-vTail.x,y1+vTail.y-524.0));',
+        'float distance = dot(vec2(cos(vAngle),sin(vAngle)), vec2(x1-vTail.x,y1+vTail.y-525.5));',
         // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
         'float positionDiff = distance>0.0? mod( vWaveLength - vPhase + distance, vWaveLength): vWaveLength - mod( vPhase - distance, vWaveLength);',
         // color is determined by perpendicular distance of coordinate from the start of the particle.
@@ -99,7 +99,7 @@ define( function( require ) {
         '}',
         'else{',
         'positionDiff = positionDiff>0.0?positionDiff -vWaveLength/2.0:positionDiff +vWaveLength/2.0;',
-        'gl_FragColor = vec4(( vec3(0,0,0)*(1.0-(positionDiff)/(vWaveLength/2.0)) + vColor*(((vWaveLength/2.0)-(positionDiff))/(vWaveLength/2.0)))*vPowerFraction,vPowerFraction ) ;',
+        'gl_FragColor = vec4(( vec3(0,0,0)*(1.0-(positionDiff)/(vWaveLength/2.0)) + vColor*(1.0-(positionDiff)/(vWaveLength/2.0)))*vPowerFraction,vPowerFraction ) ;',
         '}',
         '}'
       ].join( '\n' );
@@ -177,7 +177,7 @@ define( function( require ) {
         }
       }
 
-      var scale = Math.min( window.innerWidth / this.screenWidth, window.innerHeight / this.screenHeight );
+      var scale = Math.min( window.innerWidth / this.screenWidth, window.innerHeight / this.screenHeight ) * 0.915;
       var widthOffset = (window.innerWidth - (  this.screenWidth * scale)) / 2;
       var heightOffset = (window.innerHeight - (  this.screenHeight * scale)) / 2;
 

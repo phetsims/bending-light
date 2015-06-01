@@ -387,8 +387,8 @@ define( function( require ) {
     /**
      * Find the nearest intersection between a light ray and the set of prisms in the play area
      * @private
-     * @param{Ray} incidentRay
-     * @param {ObservableArray<Prism>}prisms
+     * @param {Ray} incidentRay
+     * @param {ObservableArray<Prism>} prisms
      * @returns {null}
      */
     getIntersection: function( incidentRay, prisms ) {

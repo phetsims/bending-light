@@ -10,9 +10,9 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
+  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+
 
   /**
    * Wire that connects the body and probe.
@@ -26,49 +26,54 @@ define( function( require ) {
    */
   function WireNode( probePositionProperty, bodyPositionProperty, probeNode, bodyNode, color ) {
 
-    var wireNode = this;
-    Path.call( wireNode, new Shape(), {
-      stroke: color,
-      lineWidth: 5,
-      lineCap: 'square',
-      lineJoin: 'round',
-      pickable: false // no need to drag the wire, and we don't want to do cubic-curve intersection here, or have it get in the way
+    this.probeNode = probeNode;
+    this.bodyNode = bodyNode;
+    this.color = color;
+    CanvasNode.call( this, {
+      canvasBounds: new Bounds2( 0, 0, 834, 504 )
     } );
+    var wireNode = this;
+    bodyPositionProperty.link( function() {
+      wireNode.invalidatePaint();
+    } );
+    probePositionProperty.link( function() {
+      wireNode.invalidatePaint();
+    } );
+  }
 
-    // re- usable vector
-    var curveStartPoint = new Vector2( 0, 0 );
-    var curveControlPoint1 = new Vector2( 0, 0 );
-    var curveControlPoint2 = new Vector2( 0, 0 );
-    var curveControlPoint3 = new Vector2( 0, 0 );
+  return inherit( CanvasNode, WireNode, {
 
-    var updateCurve = function() {
-      var bodyNodeScaleVector = bodyNode.getScaleVector();
-      var probeNodeScaleVector = probeNode.getScaleVector();
-      wireNode.lineWidth = 5 * bodyNodeScaleVector.x;
+    /**
+     * @protected
+     * @param {CanvasContextWrapper} wrapper
+     */
+    paintCanvas: function( wrapper ) {
+      var context = wrapper.context;
+      context.beginPath();
+
+      var bodyNodeScaleVector = this.bodyNode.getScaleVector();
+      var probeNodeScaleVector = this.probeNode.getScaleVector();
+      var lineWidth = 5 * bodyNodeScaleVector.x;
 
       // connect left-center of body to bottom-center of probe.
-      var bodyConnectionPointX = bodyNode.x;
-      var bodyConnectionPointY = bodyNode.centerY;
-      var probeConnectionPointX = probeNode.centerX;
-      var probeConnectionPointY = probeNode.bottom;
+      var bodyConnectionPointX = this.bodyNode.x;
+      var bodyConnectionPointY = this.bodyNode.centerY;
+      var probeConnectionPointX = this.probeNode.centerX;
+      var probeConnectionPointY = this.probeNode.bottom;
 
       var connectionPointXOffsetFactor = 40;
 
-      curveControlPoint1.setXY( bodyConnectionPointX - connectionPointXOffsetFactor * bodyNodeScaleVector.x,
-        bodyConnectionPointY );
-      curveControlPoint2.setXY( probeConnectionPointX,
-        probeConnectionPointY + connectionPointXOffsetFactor * probeNodeScaleVector.x );
-      curveControlPoint3.setXY( probeConnectionPointX, probeConnectionPointY );
-      curveStartPoint.setXY( bodyConnectionPointX, bodyConnectionPointY );
-
-      wireNode.shape = new Shape()
-        .moveToPoint( curveStartPoint )
-        .cubicCurveToPoint( curveControlPoint1, curveControlPoint2, curveControlPoint3 );
-    };
-
-    bodyPositionProperty.link( updateCurve );
-    probePositionProperty.link( updateCurve );
-  }
-
-  return inherit( Path, WireNode );
+      context.moveTo( bodyConnectionPointX, bodyConnectionPointY );
+      context.bezierCurveTo(
+        bodyConnectionPointX - connectionPointXOffsetFactor * bodyNodeScaleVector.x, bodyConnectionPointY,
+        probeConnectionPointX, probeConnectionPointY + connectionPointXOffsetFactor * probeNodeScaleVector.x,
+        probeConnectionPointX, probeConnectionPointY );
+      context.lineWidth = lineWidth;
+      context.lineCap = 'square';
+      context.lineJoin = 'round';
+      context.strokeStyle = this.color;
+      context.stroke();
+      context.closePath();
+    }
+  } );
 } );

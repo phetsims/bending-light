@@ -275,14 +275,13 @@ define( function( require ) {
 
     // Rendering order, including wires
     this.addChild( new WireNode( waveSensor.probe1.positionProperty, waveSensor.bodyPositionProperty,
-      this.probe1Node, this.bodyNode, darkProbeColor ) );
+      this.probe1Node, this.bodyNode, darkProbeColor.toCSS() ) );
     this.addChild( new WireNode( waveSensor.probe2.positionProperty, waveSensor.bodyPositionProperty,
-      this.probe2Node, this.bodyNode, lightProbeColor ) );
+      this.probe2Node, this.bodyNode, lightProbeColor.toCSS() ) );
     this.addChild( this.bodyNode );
     this.addChild( this.probe1Node );
     this.addChild( this.probe2Node );
     this.waveSensorBodyNewPosition = new Vector2();
-    this.probe1NewPosition = new Vector2();
     this.probe2NewPosition = new Vector2();
   }
 

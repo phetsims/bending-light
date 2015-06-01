@@ -92,18 +92,15 @@ define( function( require ) {
       children: [ sensorOuterShape, sensorInnerShape, sensorInnerCircle ],
       cursor: 'pointer'
     } );
-    this.sensorHeight = this.sensorNode.height;
-    this.sensorWidth = this.sensorNode.width;
     this.sensorNode.touchArea = this.sensorNode.localBounds;
 
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
-      var sensorNodeScaleVector = intensityMeterNode.sensorNode.getScaleVector();
       var sensorPositionX = modelViewTransform.modelToViewX( location.x );
       var sensorPositionY = modelViewTransform.modelToViewY( location.y );
       intensityMeterNode.sensorNode.setTranslation(
-        sensorPositionX - (intensityMeterNode.sensorWidth * sensorNodeScaleVector.x / 2),
-        sensorPositionY - intensityMeterNode.sensorHeight * 0.32 * sensorNodeScaleVector.y );
+        sensorPositionX - (intensityMeterNode.sensorNode.getWidth() / 2),
+        sensorPositionY - intensityMeterNode.sensorNode.getHeight() * 0.32 );
     } );
 
     // sensor node drag handler
@@ -288,10 +285,9 @@ define( function( require ) {
     // scale sensorNode and bodyNode and translating
     this.bodyNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
     this.sensorNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-    var sensorScale = this.sensorNode.getScaleVector();
     this.sensorNode.setTranslation(
-      modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ) - (this.sensorWidth * sensorScale.x / 2),
-      modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ) - (this.sensorHeight * 0.32 * sensorScale.x) );
+      modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ) - (this.sensorNode.getWidth() / 2),
+      modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ) - (this.sensorNode.getHeight() * 0.32) );
     this.bodyNode.setTranslation( modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ),
       this.modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ) );
 
