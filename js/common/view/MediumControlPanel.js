@@ -310,8 +310,8 @@ define( function( require ) {
       if ( custom ) {
         mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
       }
-      plusButton.enabled = ( indexOfRefraction.toFixed( 2 ) < INDEX_OF_REFRACTION_MAX);
-      minusButton.enabled = ( indexOfRefraction.toFixed( 2 ) > INDEX_OF_REFRACTION_MIN );
+      plusButton.enabled = ( indexOfRefraction.toFixed( format ) < INDEX_OF_REFRACTION_MAX);
+      minusButton.enabled = ( indexOfRefraction.toFixed( format ) > INDEX_OF_REFRACTION_MIN );
     } );
   }
 
@@ -361,4 +361,3 @@ define( function( require ) {
     }
   } );
 } );
-

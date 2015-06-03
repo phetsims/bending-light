@@ -162,10 +162,10 @@ define( function( require ) {
     }.bind( velocitySensorNode ) );
 
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
-
+    var velocityNodeDragBounds = dragBounds.shiftedY( (rectangleHeight + triangleHeight) / 2 );
     // Drag handler
     this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
-      dragBounds: modelViewTransform.viewToModelBounds( dragBounds ),
+      dragBounds: modelViewTransform.viewToModelBounds( velocityNodeDragBounds ),
       modelViewTransform: modelViewTransform,
       startDrag: function() {
         if ( container.bounds.containsCoordinates( velocitySensorNode.getCenterX(), velocitySensorNode.getCenterY() ) ) {

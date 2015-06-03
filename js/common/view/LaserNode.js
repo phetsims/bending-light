@@ -65,7 +65,8 @@ define( function( require ) {
       lightImageWidth * fractionBackToRotateHandle, lightImageHeight );
     var fullRectangle = new Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
 
-    var laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( dragBounds );
+    var laserNodeDragBounds = dragBounds.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
+    var laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
 
     // add the drag region for translating the laser
     var start;

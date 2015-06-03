@@ -81,7 +81,7 @@ define( function( require ) {
     // model components
     this.intensityMeter = new IntensityMeter(
       centerOffsetLeft ? -this.modelWidth * 0.34 : -this.modelWidth * 0.48, -this.modelHeight * 0.285,
-      centerOffsetLeft ? -this.modelWidth * 0.308 : -this.modelWidth * 0.448, -this.modelHeight * 0.285 );
+      centerOffsetLeft ? -this.modelWidth * 0.282 : -this.modelWidth * 0.421, -this.modelHeight * 0.312 );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
     this.wavelengthProperty.link( function( wavelength ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );

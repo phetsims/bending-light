@@ -73,7 +73,7 @@ define( function( require ) {
     // looking location.  This amount of precision is unnecessary, but these values were just sampled directly.
     this.probe1 = new Probe( -0.00001932, -0.0000052 );
     this.probe2 = new Probe( -0.0000198, -0.0000062 );
-    this.bodyPositionProperty = new Property( new Vector2( -0.0000172, -0.000007 ) );
+    this.bodyPositionProperty = new Property( new Vector2( -0.0000172, -0.00000605 ) );
 
     // @public
     // in the play area

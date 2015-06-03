@@ -88,7 +88,7 @@ define( function( require ) {
         top: environmentMediumControlPanel.bottom + 15,
         right: this.layoutBounds.right - 2 * INSET
       } );
-    this.addChild( laserControlPanelNode );
+    this.afterLightLayer2.addChild( laserControlPanelNode );
     this.incidentWaveCanvasLayer.setVisible( false );
 
     // Optionally show the normal lines at each intersection

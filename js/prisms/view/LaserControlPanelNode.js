@@ -83,24 +83,24 @@ define( function( require ) {
 
     //  Create  WavelengthSlider node
     var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty, {
-        cursorStroke: 'white',
-        maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
-        thumbWidth: 20,
-        thumbHeight: 20,
-        trackWidth: 155,
-        trackHeight: 20,
-        tweakersVisible: false,
-        valueVisible: false,
-        thumbTouchAreaExpandY: 10,
-        pointerAreasOverTrack: true
-      } );
+      cursorStroke: 'white',
+      maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
+      thumbWidth: 20,
+      thumbHeight: 20,
+      trackWidth: 155,
+      trackHeight: 20,
+      tweakersVisible: false,
+      valueVisible: false,
+      thumbTouchAreaExpandY: 10,
+      pointerAreasOverTrack: true
+    } );
 
     var wavelengthValueText = new Text( this.wavelengthProperty.get() + units_nmString );
     var wavelengthBoxShape = new Rectangle( 0, 0, 45, 18, 2, 2, { fill: 'white', stroke: 'black' } );
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
       laserControlPanelNode.wavelengthProperty.set(
-        Math.min( laserControlPanelNode.wavelengthProperty.get() + 1, VisibleColor.MAX_WAVELENGTH ) );
+        Math.min( laserControlPanelNode.wavelengthProperty.get() + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
     }, {
       scale: 0.6
     } );
@@ -112,6 +112,10 @@ define( function( require ) {
         Math.max( laserControlPanelNode.wavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
     }, {
       scale: 0.6
+    } );
+    this.wavelengthProperty.link( function( wavelength ) {
+      plusButton.enabled = ( wavelength < BendingLightConstants.LASER_MAX_WAVELENGTH);
+      minusButton.enabled = ( wavelength > VisibleColor.MIN_WAVELENGTH );
     } );
     minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
       minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );

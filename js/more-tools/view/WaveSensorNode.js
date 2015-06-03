@@ -202,7 +202,7 @@ define( function( require ) {
       var waveSensorBodyPositionX = modelViewTransform.modelToViewX( position.x );
       var waveSensorBodyPositionY = modelViewTransform.modelToViewY( position.y );
       waveSensorNode.bodyNode.setTranslation( waveSensorBodyPositionX - waveSensorNode.bodyNode.getWidth() / 2,
-        waveSensorBodyPositionY - waveSensorNode.bodyNode.getHeight() );
+        waveSensorBodyPositionY - waveSensorNode.bodyNode.getHeight() / 2 );
     } );
 
     // Add interaction, the body is draggable, but keep it constrained to stay in the play area
@@ -299,7 +299,7 @@ define( function( require ) {
 
       this.bodyNode.setTranslation(
         this.modelViewTransform.modelToViewX( this.waveSensor.bodyPositionProperty.get().x ) - this.bodyNode.width / 2,
-        this.modelViewTransform.modelToViewY( this.waveSensor.bodyPositionProperty.get().y ) - this.bodyNode.height );
+        this.modelViewTransform.modelToViewY( this.waveSensor.bodyPositionProperty.get().y ) - this.bodyNode.height / 2 );
 
       this.probe1Node.setTranslation(
         this.modelViewTransform.modelToViewX( this.waveSensor.probe1.position.x ) - this.probe1Node.getWidth() / 2,

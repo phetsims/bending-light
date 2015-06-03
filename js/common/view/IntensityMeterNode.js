@@ -219,7 +219,8 @@ define( function( require ) {
     intensityMeter.bodyPositionProperty.link( function( location ) {
       var bodyPositionX = modelViewTransform.modelToViewX( location.x );
       var bodyPositionY = modelViewTransform.modelToViewY( location.y );
-      intensityMeterNode.bodyNode.setTranslation( bodyPositionX, bodyPositionY );
+      intensityMeterNode.bodyNode.setTranslation( bodyPositionX - intensityMeterNode.bodyNode.getWidth() / 2,
+        bodyPositionY - intensityMeterNode.bodyNode.getHeight() / 2 );
     } );
 
     // body drag handler
@@ -288,8 +289,9 @@ define( function( require ) {
     this.sensorNode.setTranslation(
       modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ) - (this.sensorNode.getWidth() / 2),
       modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ) - (this.sensorNode.getHeight() * 0.32) );
-    this.bodyNode.setTranslation( modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ),
-      this.modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ) );
+    this.bodyNode.setTranslation(
+      modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ) - this.bodyNode.getWidth() / 2,
+      modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ) - this.bodyNode.getHeight() / 2 );
 
     //Connect the sensor to the body with a gray wire
     var wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty,
@@ -320,7 +322,7 @@ define( function( require ) {
       var sensorPosition = this.intensityMeter.sensorPosition;
       this.intensityMeter.bodyPositionProperty.set(
         new Vector2( sensorPosition.x + (this.intensityMeter.bodyPosition.x - sensorPosition.x ) * scale / prevScale,
-          sensorPosition.y ) );
+          sensorPosition.y + (this.intensityMeter.bodyPosition.y - sensorPosition.y ) * scale / prevScale ) );
       this.intensityMeter.translateAllXY( endPositionX - sensorPosition.x, endPositionY - sensorPosition.y );
     },
 
