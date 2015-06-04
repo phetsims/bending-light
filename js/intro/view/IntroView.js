@@ -218,6 +218,10 @@ define( function( require ) {
     } );
     this.beforeLightLayer2.addChild( normalCheckBox );
 
+    normalCheckBox.touchArea = new Bounds2(
+      normalCheckBox.localBounds.minX, normalCheckBox.localBounds.minY - 3,
+      normalCheckBox.localBounds.maxX + 25, normalCheckBox.localBounds.maxY + 3 );
+
     // add normal
     var normalIcon = new NormalLine( 34, 4, 3, {
       x: this.sensorPanel.x + this.sensorPanel.width / 2,

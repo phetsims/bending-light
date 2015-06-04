@@ -16,6 +16,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Shape = require( 'KITE/Shape' );
 
   // images
   var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
@@ -69,6 +70,7 @@ define( function( require ) {
         }
       }
     } ) );
+    knobNode.touchArea = Shape.circle( 0, 10, 40 );
 
     var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( prismDragBounds );
     var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().toShape() ), {
@@ -134,7 +136,6 @@ define( function( require ) {
       prismTranslationNode.fill = color;
       prismTranslationNode.stroke = color.darkerColor( 0.9 );
     } );
-    this.touchArea = this.localBounds;
   }
 
   return inherit( Node, PrismNode );

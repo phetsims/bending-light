@@ -96,7 +96,7 @@ define( function( require ) {
           trackHeight: 20,
           tweakersVisible: false,
           valueVisible: false,
-          thumbTouchAreaExpandY: 10,
+          thumbTouchAreaExpandY: 4,
           pointerAreasOverTrack: true
         } );
 
@@ -110,7 +110,7 @@ define( function( require ) {
         scale: 0.6
       } );
       plusButton.touchArea = new Bounds2( plusButton.localBounds.minX - 20, plusButton.localBounds.minY - 5,
-        plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
+        plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 8 );
 
       var minusButton = new ArrowButton( 'left', function propertyMinus() {
         laserView.laserWavelengthProperty.set(
@@ -124,7 +124,7 @@ define( function( require ) {
       } );
 
       minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
-        minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
+        minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 8 );
 
       wavelengthBoxShape.centerX = wavelengthSlider.centerX;
       wavelengthBoxShape.bottom = wavelengthSlider.top - 5;
