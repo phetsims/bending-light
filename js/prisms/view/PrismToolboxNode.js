@@ -155,7 +155,7 @@ define( function( require ) {
     // Create an icon for the protractor check box
     var createProtractorIcon = function() {
       var protractorImageNode = new Image( protractorImage );
-      protractorImageNode.scale( 30 / protractorImage.width );
+      protractorImageNode.scale( 20 / protractorImage.width );
       return protractorImageNode;
     };
 
