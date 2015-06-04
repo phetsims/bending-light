@@ -39,7 +39,15 @@ define( function( require ) {
     Node.call( this );
 
     // Laser node icon first rectangle
-    var laserNodeFirstRoundedRect = new Path( new Shape().roundRect( 0, 0, 5, 25, 2, 1 ), {
+    var laserNodeFirstRoundedRect = new Path( new Shape()
+      .moveTo( 0, 0 )
+      .lineTo( 3, 0 )
+      .quadraticCurveTo( 5, 0, 5, 2 )
+      .lineTo( 5, 23 )
+      .quadraticCurveTo( 5, 25, 3, 25 )
+      .lineTo( 0, 25 )
+      .lineTo( 0, 0 )
+      .close(), {
       stroke: 'black',
       lineWidth: 0.3,
       fill: new LinearGradient( 0, 0, 0, 29 )
@@ -50,7 +58,15 @@ define( function( require ) {
     } );
 
     // Laser node icon second rectangle
-    var laserNodeSecondRoundedRect = new Path( new Shape().roundRect( 7, 3, 7, 20, 2, 1 ), {
+    var laserNodeSecondRoundedRect = new Path( new Shape()
+      .moveTo( 5, 3 )
+      .lineTo( 10, 3 )
+      .quadraticCurveTo( 12, 3, 12, 5 )
+      .lineTo( 12, 21 )
+      .quadraticCurveTo( 12, 23, 10, 23 )
+      .lineTo( 5, 23 )
+      .lineTo( 5, 3 )
+      .close(), {
       stroke: 'black',
       lineWidth: 0.3,
       fill: new LinearGradient( 0, 0, 0, 27 )
