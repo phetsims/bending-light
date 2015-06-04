@@ -16,7 +16,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
+  var BooleanRoundStickyToggleButton = require( 'SUN/buttons/BooleanRoundStickyToggleButton' );
   var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
@@ -149,13 +149,11 @@ define( function( require ) {
     } );
 
     // add light emission on/off button
-    var redButton = new RoundStickyToggleButton( false, true, laser.onProperty, {
+    var redButton = new BooleanRoundStickyToggleButton( laser.onProperty, {
       radius: 11,
       centerX: lightImage.centerX,
       centerY: lightImage.centerY,
       baseColor: 'red',
-      stroke: 'red',
-      fill: 'red',
       touchExpansion: 5
     } );
     this.addChild( redButton );
