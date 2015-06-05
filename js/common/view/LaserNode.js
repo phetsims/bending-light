@@ -140,14 +140,6 @@ define( function( require ) {
       }
     } );
 
-    laser.emissionPointProperty.link( function( newEmissionPoint ) {
-      var emissionPointX = modelViewTransform.modelToViewX( newEmissionPoint.x );
-      var emissionPointY = modelViewTransform.modelToViewY( newEmissionPoint.y );
-      laserNode.setTranslation( emissionPointX, emissionPointY );
-      laserNode.setRotation( -laser.getAngle() );
-      laserNode.translate( 0, -lightImageHeight / 2 );
-    } );
-
     // add light emission on/off button
     var redButton = new BooleanRoundStickyToggleButton( laser.onProperty, {
       radius: 11,
@@ -157,6 +149,15 @@ define( function( require ) {
       touchExpansion: 5
     } );
     this.addChild( redButton );
+
+    laser.emissionPointProperty.link( function( newEmissionPoint ) {
+      var emissionPointX = modelViewTransform.modelToViewX( newEmissionPoint.x );
+      var emissionPointY = modelViewTransform.modelToViewY( newEmissionPoint.y );
+      laserNode.setTranslation( emissionPointX, emissionPointY );
+      laserNode.setRotation( -laser.getAngle() );
+      laserNode.translate( 0, -lightImageHeight / 2 );
+      redButton.setRotation( laser.getAngle() );
+    } );
 
     // touch area
     this.touchArea = this.localBounds;
