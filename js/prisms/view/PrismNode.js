@@ -65,8 +65,10 @@ define( function( require ) {
       },
       end: function() {
         if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
-          prismsBreakModel.removePrism( prism );
-          prismLayer.removeChild( prismsNode );
+          if ( prismLayer.isChild( prismsNode ) ) {
+            prismsBreakModel.removePrism( prism );
+            prismLayer.removeChild( prismsNode );
+          }
         }
       }
     } ) );
@@ -97,8 +99,10 @@ define( function( require ) {
       },
       end: function() {
         if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
-          prismsBreakModel.removePrism( prism );
-          prismLayer.removeChild( prismsNode );
+          if ( prismLayer.isChild( prismsNode ) ) {
+            prismsBreakModel.removePrism( prism );
+            prismLayer.removeChild( prismsNode );
+          }
           prismsBreakModel.dirty = true;
         }
       }
