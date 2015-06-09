@@ -20,6 +20,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Bounds2 = require( 'DOT/Bounds2' );
 
   // images
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
@@ -56,7 +57,7 @@ define( function( require ) {
     this.expandedButtonVisibilityProperty = new Property( false );
 
     // load and add the image
-    this.protractorImageNode = new Image( protractorImage, { pickable: true } );
+    this.protractorImageNode = new Image( protractorImage );
     protractorNode.setScaleMagnitude( this.multiScale );
 
     showProtractorProperty.linkAttribute( this, 'visible' );
@@ -185,7 +186,6 @@ define( function( require ) {
       newPoint.y = newPoint.y + protractorCenterY;
       protractorNode.setTranslation( newPoint );
     } );
-    this.touchArea = this.localBounds;
   }
 
   return inherit( Node, ProtractorNode, {
@@ -254,6 +254,7 @@ define( function( require ) {
         if ( !this.bendingLightView.afterLightLayer.isChild( this ) ) {
           this.bendingLightView.afterLightLayer.addChild( this );
         }
+        this.touchArea = null;
       },
 
       /**
@@ -267,6 +268,9 @@ define( function( require ) {
         if ( !this.bendingLightView.beforeLightLayer2.isChild( this ) ) {
           this.bendingLightView.beforeLightLayer2.addChild( this );
         }
+        this.touchArea = new Bounds2(
+          this.localBounds.minX - 100, this.localBounds.minY - 50,
+          this.localBounds.maxX + 90, this.localBounds.maxY + 50 );
       },
 
       /**
