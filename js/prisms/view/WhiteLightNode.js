@@ -23,18 +23,20 @@ define( function( require ) {
 
   /**
    *
-   * @param {Node} rayLayer
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param {ObservableArray} whiteLightRays
    * @param {number} stageWidth
    * @param {number} stageHeight
    * @constructor
    */
-  function WhiteLightNode( rayLayer, stageWidth, stageHeight ) {
+  function WhiteLightNode( modelViewTransform, whiteLightRays, stageWidth, stageHeight ) {
 
     CanvasNode.call( this, {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
     } );
     this.invalidatePaint();
-    this.rayLayer = rayLayer;
+    this.modelViewTransform = modelViewTransform;
+    this.whiteLightRays = whiteLightRays;
     this.stageHeight = stageHeight;
     this.stageWidth = stageWidth;
     this.hashMapPointArray = [];
@@ -51,18 +53,16 @@ define( function( require ) {
       var context = wrapper.context;
       context.beginPath();
       var map = {};
-      for ( var i = 0; i < this.rayLayer.getChildrenCount(); i++ ) {
-        var child = this.rayLayer.getChildAt( i );
+      for ( var i = 0; i < this.whiteLightRays.length; i++ ) {
+        var child = this.whiteLightRays.get( i );
 
         // Get the line values to make the next part more readable
-        var start = child.getLine().start;
-        var end = child.getLine().end;
-        var x1 = Math.round( start.x );
-        var y1 = Math.round( start.y );
-        var x2 = Math.round( end.x );
-        var y2 = Math.round( end.y );
+        var x1 = Math.round( this.modelViewTransform.modelToViewX( child.tip.x ) );
+        var y1 = Math.round( this.modelViewTransform.modelToViewY( child.tip.y ) );
+        var x2 = Math.round( this.modelViewTransform.modelToViewX( child.tail.x ) );
+        var y2 = Math.round( this.modelViewTransform.modelToViewY( child.tail.y ) );
 
-        // Some lines don't start in the play area; have to check and swap to make sure the line isn't pruned
+        // Some lines don't start in the play area, have to check and swap to make sure the line isn't pruned
         if ( this.isOutOfBounds( x1, y1 ) ) {
           this.draw( x2, y2, x1, y1, child, map );
         }
@@ -169,7 +169,7 @@ define( function( require ) {
      */
     setPixel: function( x0, y0, child, map ) {
       var color = child.getColor();
-      var intensity = child.getLightRay().getPowerFraction();
+      var intensity = child.getPowerFraction();
       this.addToMap( x0, y0, color, intensity, map );
       //Some additional points makes it look a lot better (less sparse) without slowing it down too much
       this.addToMap( x0 + 0.5, y0, color, intensity, map );
@@ -178,12 +178,12 @@ define( function( require ) {
 
     /**
      * @private
-     * @param {number}x0 - x position in view co-ordinates
-     * @param {number}y0 - y position in view co-ordinates
-     * @param {number}x1 - x position in view co-ordinates
-     * @param {number}y1  - y position in view co-ordinates
-     * @param {Node}child
-     * @param {Object}map
+     * @param {number} x0 - x position in view co-ordinates
+     * @param {number} y0 - y position in view co-ordinates
+     * @param {number} x1 - x position in view co-ordinates
+     * @param {number} y1  - y position in view co-ordinates
+     * @param {Node} child
+     * @param {Object} map
      */
     draw: function( x0, y0, x1, y1, child, map ) {
       var dx = Math.abs( x1 - x0 );

@@ -24,6 +24,7 @@ define( function( require ) {
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
   var Util = require( 'SCENERY/util/Util' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
 
   /**
    *
@@ -45,7 +46,6 @@ define( function( require ) {
     var bendingLightView = this;
     this.showProtractorProperty = new Property( true );
     this.lightRayLayer = new Node();
-    this.lightWaveLayer = new Node();
     this.laserView = new LaserView( model, false );
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
@@ -75,13 +75,12 @@ define( function( require ) {
     this.mediumNode = new Node();
     this.addChild( this.mediumNode );
     this.incidentWaveCanvasLayer = new Node();
-
-    this.whiteLightNode = new WhiteLightNode( this.lightRayLayer, stageWidth, stageHeight );
+    var whiteLightRays = new ObservableArray();
+    this.whiteLightNode = new WhiteLightNode( this.modelViewTransform, whiteLightRays, stageWidth, stageHeight );
     // layering
     this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );
     this.addChild( this.lightRayLayer );
-    this.addChild( this.lightWaveLayer );
     this.waveCanvasLayer = new Node();
     this.addChild( this.waveCanvasLayer );
     this.addChild( this.incidentWaveCanvasLayer );
@@ -98,7 +97,6 @@ define( function( require ) {
       var white = color === 'white';
       bendingLightView.whiteLightNode.setVisible( white );
       bendingLightView.lightRayLayer.setVisible( !white );
-      bendingLightView.lightWaveLayer.setVisible( !white );
     } );
 
     // add rotation for the laser that show if/when the laser can be rotated about its pivot
@@ -164,7 +162,10 @@ define( function( require ) {
 
     model.rays.addItemAddedListener( function( ray ) {
       var node;
-      if ( model.laserViewProperty.value === 'ray' ) {
+      if ( model.getLaser().colorMode === 'white' ) {
+        whiteLightRays.push( ray );
+      }
+      if ( model.laserViewProperty.value === 'ray' && model.getLaser().colorMode === 'singleColor' ) {
         node = bendingLightView.laserView.createLightRayNode( bendingLightView.modelViewTransform, ray );
         bendingLightView.lightRayLayer.addChild( node );
       }
@@ -185,11 +186,11 @@ define( function( require ) {
     } );
     model.rays.addItemRemovedListener( function() {
       bendingLightView.lightRayLayer.removeAllChildren();
-      bendingLightView.lightWaveLayer.removeAllChildren();
       bendingLightView.waveCanvasLayer.removeAllChildren();
       if ( !allowWebGL ) {
         bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
       }
+      whiteLightRays.clear();
     } );
   }
 

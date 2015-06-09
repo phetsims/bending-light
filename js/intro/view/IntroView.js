@@ -199,11 +199,11 @@ define( function( require ) {
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
         this.sensorPanel.bounds, this.layoutBounds );
     }
-    this.beforeLightLayer2.addChild( this.protractorNode );
+    this.protractorNode.addToSensorPanel();
 
     this.intensityMeterNode = new IntensityMeterNode( this, this.modelViewTransform, introModel.getIntensityMeter(),
       this.sensorPanel.visibleBounds, this.layoutBounds );
-    this.beforeLightLayer2.addChild( this.intensityMeterNode );
+    this.intensityMeterNode.addToSensorPanel();
 
     var normalText = new Text( normalString );
     var normalText_Max_Width = 50;

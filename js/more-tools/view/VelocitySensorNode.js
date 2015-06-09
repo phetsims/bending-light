@@ -82,10 +82,12 @@ define( function( require ) {
     var titleText = new Text( speedString,
       {
         fill: 'black',
-        font: new PhetFont( 18 ),
-        centerX: innerRectangle.centerX,
-        top: innerRectangle.top + 2
+        font: new PhetFont( 18 )
       } );
+    if ( titleText.width > rectangleWidth - 15 ) {
+      titleText.scale( (rectangleWidth - 15) / titleText.width );
+    }
+    titleText.setTranslation( innerRectangle.centerX - titleText.width / 2, innerRectangle.y + 15 );
     this.addChild( titleText );
 
     // Adding inner rectangle
@@ -214,9 +216,6 @@ define( function( require ) {
     velocitySensorNode.setTranslation(
       velocitySensorXPosition - rectangleWidth / 2 * velocitySensorNodeScaleVector.x,
       velocitySensorYPosition - ( rectangleHeight + triangleHeight ) * velocitySensorNodeScaleVector.y );
-
-    // For visually inspecting the touch area
-    this.touchArea = this.localBounds;
   }
 
   return inherit( Node, VelocitySensorNode, {
@@ -263,6 +262,7 @@ define( function( require ) {
       if ( !this.moreToolsView.afterLightLayer2.isChild( this ) ) {
         this.moreToolsView.afterLightLayer2.addChild( this );
       }
+      this.touchArea = this.localBounds;
     },
 
     /**
@@ -276,6 +276,9 @@ define( function( require ) {
       if ( !this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
         this.moreToolsView.beforeLightLayer2.addChild( this );
       }
+      this.touchArea = new Bounds2(
+        this.localBounds.minX - 15, this.localBounds.minY - 5,
+        this.localBounds.maxX + 5, this.localBounds.maxY + 5 );
     },
 
     /**

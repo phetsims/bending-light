@@ -125,7 +125,6 @@ define( function( require ) {
       var probePositionY = modelViewTransform.modelToViewY( position.y );
       probeNode.setTranslation( probePositionX - probeNode.getWidth() / 2, probePositionY - probeNode.getHeight() / 2 );
     } );
-    this.touchArea = this.localBounds;
   }
 
   inherit( Node, ProbeNode );
@@ -187,7 +186,9 @@ define( function( require ) {
 
     // Add the "time" axis label at the bottom center of the chart
     var titleNode = new Text( timeString, { font: new PhetFont( 18 ), fill: 'white' } );
-    this.bodyNode.touchArea = this.bodyNode.localBounds;
+    if ( titleNode.width > rectangleWidth - 15 ) {
+      titleNode.scale( (rectangleWidth - 15) / titleNode.width );
+    }
     this.bodyNode.addChild( titleNode );
     titleNode.setTranslation( this.bodyNode.getCenterX() - titleNode.getWidth() / 2, this.bodyNode.height * 0.82 );
 
@@ -391,6 +392,10 @@ define( function( require ) {
       if ( !this.moreToolsView.afterLightLayer2.isChild( this ) ) {
         this.moreToolsView.afterLightLayer2.addChild( this );
       }
+      this.touchArea = null;
+      this.probe1Node.touchArea = this.probe1Node.localBounds;
+      this.probe2Node.touchArea = this.probe2Node.localBounds;
+      this.bodyNode.touchArea = this.bodyNode.localBounds;
     },
 
     /**
@@ -404,6 +409,10 @@ define( function( require ) {
       if ( !this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
         this.moreToolsView.beforeLightLayer2.addChild( this );
       }
+      this.touchArea = new Bounds2( 20, 335, 105, 380 );
+      this.probe1Node.touchArea = null;
+      this.probe2Node.touchArea = null;
+      this.bodyNode.touchArea = null;
     },
 
     /**

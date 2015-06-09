@@ -94,13 +94,8 @@ define( function( require ) {
         // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
         'float positionDiff = distance>0.0? mod( vWaveLength - vPhase + distance, vWaveLength): vWaveLength - mod( vPhase - distance, vWaveLength);',
         // color is determined by perpendicular distance of coordinate from the start of the particle.
-        'if((positionDiff)<vWaveLength/2.0){',
-        'gl_FragColor = vec4( ( vColor*((positionDiff)/(vWaveLength/2.0)) + vec3(0,0,0)*(1.0-(positionDiff)/(vWaveLength/2.0)) )*vPowerFraction,vPowerFraction ) ;',
-        '}',
-        'else{',
-        'positionDiff = positionDiff>0.0?positionDiff -vWaveLength/2.0:positionDiff +vWaveLength/2.0;',
-        'gl_FragColor = vec4(( vec3(0,0,0)*(1.0-(positionDiff)/(vWaveLength/2.0)) + vColor*(1.0-(positionDiff)/(vWaveLength/2.0)))*vPowerFraction,vPowerFraction ) ;',
-        '}',
+        'float colorFactor = abs(1.0-positionDiff / (vWaveLength/2.0) );',
+        'gl_FragColor = vec4( ( vColor*(colorFactor) + vec3(0,0,0)*(1.0-colorFactor) )*vPowerFraction,vPowerFraction ) ;',
         '}'
       ].join( '\n' );
 

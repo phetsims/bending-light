@@ -92,7 +92,6 @@ define( function( require ) {
       children: [ sensorOuterShape, sensorInnerShape, sensorInnerCircle ],
       cursor: 'pointer'
     } );
-    this.sensorNode.touchArea = this.sensorNode.localBounds;
 
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
@@ -195,8 +194,10 @@ define( function( require ) {
       } );
 
     //Add a "Intensity" title to the body node
-    var titleNode = new Text( intensityString,
-      { font: new PhetFont( 20 ), fill: 'white' } );
+    var titleNode = new Text( intensityString, { font: new PhetFont( 20 ), fill: 'white' } );
+    if ( titleNode.width > rectangleWidth - 15 ) {
+      titleNode.scale( (rectangleWidth - 15) / titleNode.width );
+    }
     //Add the reading to the body node
     var valueNode = new Text( intensityMeter.reading.getString(),
       { font: new PhetFont( 25 ), fill: 'black' } );
@@ -207,7 +208,6 @@ define( function( require ) {
     } );
     titleNode.setTranslation( (this.bodyNode.getWidth() - titleNode.getWidth()) / 2,
       this.bodyNode.getHeight() * 0.23 );
-    this.bodyNode.touchArea = this.bodyNode.localBounds;
     // displayed value
     intensityMeter.readingProperty.link( function() {
       valueNode.setText( intensityMeter.reading.getString() );
@@ -370,6 +370,9 @@ define( function( require ) {
       if ( !this.bendingLightView.beforeLightLayer.isChild( this ) ) {
         this.bendingLightView.beforeLightLayer.addChild( this );
       }
+      this.touchArea = null;
+      this.sensorNode.touchArea = this.sensorNode.localBounds;
+      this.bodyNode.touchArea = this.bodyNode.localBounds;
     },
 
     /**
@@ -384,6 +387,9 @@ define( function( require ) {
       if ( !this.bendingLightView.beforeLightLayer2.isChild( this ) ) {
         this.bendingLightView.beforeLightLayer2.addChild( this );
       }
+      this.touchArea = new Bounds2( 20, 380, 105, 425 );
+      this.sensorNode.touchArea = null;
+      this.bodyNode.touchArea = null;
     },
 
     /**

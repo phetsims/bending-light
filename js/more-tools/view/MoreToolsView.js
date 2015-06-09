@@ -31,8 +31,8 @@ define( function( require ) {
     // Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
     this.velocitySensorNode = this.createVelocitySensorTool();
     this.waveSensorNode = this.createWaveSensorTool();
-    this.beforeLightLayer2.addChild( this.velocitySensorNode );
-    this.beforeLightLayer2.addChild( this.waveSensorNode );
+    this.velocitySensorNode.addToSensorPanel();
+    this.waveSensorNode.addToSensorPanel();
 
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.visibleProperty ],
       function( laserView, isWaveSensorEnabled ) {
