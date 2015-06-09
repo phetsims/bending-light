@@ -289,11 +289,11 @@ define( function( require ) {
       indexOfRefractionNode.setVisible( !mediumProperty.get().isMystery() );
       unknown.setVisible( mediumProperty.get().isMystery() );
       indexOfRefractionSlider.setVisible( !mediumProperty.get().isMystery() );
-      updateComboBox();
       if ( !mediumProperty.get().isMystery() ) {
         lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
         mediumControlPanel.mediumIndexProperty.set( lastNonMysteryIndexAtRed );
       }
+      updateComboBox();
     } );
     comboBoxMediumState.link( function( selected ) {
       if ( !selected.custom ) {
