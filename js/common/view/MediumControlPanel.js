@@ -65,7 +65,7 @@ define( function( require ) {
     Node.call( this );
     var mediumControlPanel = this;
 
-    var TEXT_MAX_WIDTH = textFieldVisible ? 213 : 170;
+    var TEXT_MAX_WIDTH = textFieldVisible ? 252 : 170;
 
     options = _.extend( {
       xMargin: 10,
@@ -89,11 +89,11 @@ define( function( require ) {
     // add material combo box
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
 
-    if ( materialTitle.width > (textFieldVisible ? 50 : 73) ) {
-      materialTitle.scale( (textFieldVisible ? 50 : 73 ) / materialTitle.width );
+    if ( materialTitle.width > (textFieldVisible ? 80 : 73) ) {
+      materialTitle.scale( (textFieldVisible ? 80 : 73 ) / materialTitle.width );
     }
 
-    var maxWidth = TEXT_MAX_WIDTH - materialTitle.width - 42;
+    var maxWidth = textFieldVisible ? 130 : TEXT_MAX_WIDTH - materialTitle.width - 42;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
     var createItem = function( item ) {
