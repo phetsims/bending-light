@@ -56,6 +56,7 @@ define( function( require ) {
 
     var rectangleWidth = 100;
     var rectangleHeight = 70;
+    this.bodyNode = new Node();
 
     // Adding outer rectangle
     var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 15, 15, {
@@ -68,7 +69,7 @@ define( function( require ) {
         .addColorStop( 1, '#B07200' ),
       lineWidth: 1
     } );
-    this.addChild( outerRectangle );
+    this.bodyNode.addChild( outerRectangle );
 
     // Second rectangle
     var innerRectangle = new Rectangle( 0, 0, rectangleWidth - 8, rectangleHeight - 10, 10, 10, {
@@ -76,7 +77,7 @@ define( function( require ) {
       centerX: outerRectangle.centerX,
       centerY: outerRectangle.centerY
     } );
-    this.addChild( innerRectangle );
+    this.bodyNode.addChild( innerRectangle );
 
     // Adding velocity meter title text
     var titleText = new Text( speedString,
@@ -88,7 +89,7 @@ define( function( require ) {
       titleText.scale( (rectangleWidth - 15) / titleText.width );
     }
     titleText.setTranslation( innerRectangle.centerX - titleText.width / 2, innerRectangle.y + 15 );
-    this.addChild( titleText );
+    this.bodyNode.addChild( titleText );
 
     // Adding inner rectangle
     var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth - 10, rectangleHeight - 38 ),
@@ -99,12 +100,12 @@ define( function( require ) {
         centerX: innerRectangle.centerX,
         bottom: innerRectangle.bottom - 5
       } );
-    this.addChild( innerMostRectangle );
+    this.bodyNode.addChild( innerMostRectangle );
 
     // Adding velocity measure label
     var labelText = new Text( '',
       { fill: 'black', font: new PhetFont( 12 ), center: innerMostRectangle.center } );
-    this.addChild( labelText );
+    this.bodyNode.addChild( labelText );
 
     var triangleWidth = 30;
     var triangleHeight = 16;
@@ -118,13 +119,14 @@ define( function( require ) {
       stroke: '#844702',
       top: outerRectangle.bottom - 1
     } );
-    this.addChild( triangleShapeNode );
+    this.bodyNode.addChild( triangleShapeNode );
+    this.addChild( this.bodyNode );
 
     // Arrow shape
     var arrowWidth = 6;
     this.arrowShape = new Path( new ArrowShape( 0, 0, modelViewTransform.modelToViewDeltaX( velocitySensor.value.x ),
       modelViewTransform.modelToViewDeltaY( velocitySensor.value.y ) ), { fill: 'blue' } );
-    this.addChild( this.arrowShape );
+    this.bodyNode.addChild( this.arrowShape );
 
     velocitySensor.valueProperty.link( function( velocity ) {
 
@@ -169,30 +171,53 @@ define( function( require ) {
     this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
       dragBounds: modelViewTransform.viewToModelBounds( velocityNodeDragBounds ),
       modelViewTransform: modelViewTransform,
-      startDrag: function() {
-        if ( container.bounds.containsCoordinates( velocitySensorNode.getCenterX(), velocitySensorNode.getCenterY() ) ) {
-          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(),
-            VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
-          velocitySensorNode.addToMoreToolsView();
-        }
-      },
       endDrag: function() {
-        if ( container.bounds.containsCoordinates( velocitySensorNode.getCenterX(), velocitySensorNode.getCenterY() ) ) {
+        if ( container.bounds.containsCoordinates( velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
           velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
             VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
           velocitySensor.reset();
           velocitySensorNode.addToSensorPanel();
+          velocitySensor.enabledProperty.set( false );
         }
       }
     } ) );
+    this.shape = new Path( Shape.rectangle( 20, 265, 85, 69 ), {
+      pickable: true,
+      cursor: 'pointer'
+    } );
+    this.addChild( this.shape );
+    this.shape.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
+      dragBounds: modelViewTransform.viewToModelBounds( velocityNodeDragBounds ),
+      modelViewTransform: modelViewTransform,
+      startDrag: function() {
+        if ( container.bounds.containsCoordinates( velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
+          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(),
+            VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
+          velocitySensorNode.addToMoreToolsView();
+          velocitySensor.enabledProperty.set( true );
+        }
+      },
+      endDrag: function() {
+        if ( container.bounds.containsCoordinates( velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
+          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
+            VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
+          velocitySensor.reset();
+          velocitySensorNode.addToSensorPanel();
+          velocitySensor.enabledProperty.set( false );
+        }
+      }
+    } ) );
+    velocitySensor.enabledProperty.link( function( enable ) {
+      velocitySensorNode.shape.setVisible( !enable );
+    } );
 
     velocitySensor.positionProperty.link( function( position ) {
 
-      var velocitySensorNodeScaleVector = velocitySensorNode.getScaleVector();
+      var velocitySensorNodeScaleVector = velocitySensorNode.bodyNode.getScaleVector();
       var velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
       var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
 
-      velocitySensorNode.setTranslation(
+      velocitySensorNode.bodyNode.setTranslation(
         velocitySensorXPosition - rectangleWidth / 2 * velocitySensorNodeScaleVector.x,
         velocitySensorYPosition - ( rectangleHeight + triangleHeight ) * velocitySensorNodeScaleVector.y );
     } );
@@ -208,17 +233,20 @@ define( function( require ) {
         }
         labelText.center = innerMostRectangle.center;
       } );
-    velocitySensorNode.setScaleMagnitude( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
-
-    var velocitySensorNodeScaleVector = velocitySensorNode.getScaleVector();
-    var velocitySensorXPosition = modelViewTransform.modelToViewX( velocitySensor.position.x );
-    var velocitySensorYPosition = modelViewTransform.modelToViewY( velocitySensor.position.y );
-    velocitySensorNode.setTranslation(
-      velocitySensorXPosition - rectangleWidth / 2 * velocitySensorNodeScaleVector.x,
-      velocitySensorYPosition - ( rectangleHeight + triangleHeight ) * velocitySensorNodeScaleVector.y );
+    this.setVelocitySensorScale( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
   }
 
   return inherit( Node, VelocitySensorNode, {
+
+    setVelocitySensorScale: function( scale ) {
+      var velocitySensorNodeScaleVector = this.bodyNode.getScaleVector();
+      this.bodyNode.setScaleMagnitude( scale );
+      var velocitySensorXPosition = this.modelViewTransform.modelToViewX( this.velocitySensor.position.x );
+      var velocitySensorYPosition = this.modelViewTransform.modelToViewY( this.velocitySensor.position.y );
+      this.bodyNode.setTranslation(
+        velocitySensorXPosition - this.bodyNode.getWidth() / 2 * velocitySensorNodeScaleVector.x,
+        velocitySensorYPosition - ( this.bodyNode.getHeight() ) * velocitySensorNodeScaleVector.y );
+    },
 
     /**
      * @public
@@ -241,13 +269,14 @@ define( function( require ) {
      * @param {Object} finalPosition
      */
     init: function( initialPosition, finalPosition ) {
-      var target = this;
+      var bodyNode = this.bodyNode;
+      var VelocitySensorNode = this;
       new TWEEN.Tween( initialPosition )
         .to( finalPosition, 100 )
         .easing( TWEEN.Easing.Linear.None )
         .onUpdate( function() {
-          target.setScaleMagnitude( initialPosition.scale );
-          target.velocitySensor.positionProperty.set( new Vector2( initialPosition.x, initialPosition.y ) );
+          bodyNode.setScaleMagnitude( initialPosition.scale );
+          VelocitySensorNode.velocitySensor.positionProperty.set( new Vector2( initialPosition.x, initialPosition.y ) );
         } ).start();
     },
 
@@ -262,7 +291,7 @@ define( function( require ) {
       if ( !this.moreToolsView.afterLightLayer2.isChild( this ) ) {
         this.moreToolsView.afterLightLayer2.addChild( this );
       }
-      this.touchArea = this.localBounds;
+      this.touchArea = this.bodyNode.bounds;
     },
 
     /**
@@ -276,16 +305,14 @@ define( function( require ) {
       if ( !this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
         this.moreToolsView.beforeLightLayer2.addChild( this );
       }
-      this.touchArea = new Bounds2(
-        this.localBounds.minX - 15, this.localBounds.minY - 5,
-        this.localBounds.maxX + 5, this.localBounds.maxY + 5 );
+      this.touchArea = this.shape.bounds;
     },
 
     /**
      * @public
      */
     reset: function() {
-      this.setScaleMagnitude( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
+      this.setVelocitySensorScale( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }

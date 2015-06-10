@@ -21,7 +21,8 @@ define( function( require ) {
 
     PropertySet.call( this, {
       position: new Vector2( -0.000018, -0.0000044 ), //position of the sensor
-      value: new Vector2( 0, 0 ) // velocity as measured by the sensor
+      value: new Vector2( 0, 0 ), // velocity as measured by the sensor
+      enabled: false // True if it is in the play area
     } );
 
     this.addDerivedProperty( 'isArrowVisible', [ 'value' ], function( value ) {

@@ -29,7 +29,8 @@ define( function( require ) {
     PropertySet.call( this, {
         reading: Reading.MISS,  // value to show on the body
         sensorPosition: new Vector2( sensorX, sensorY ),
-        bodyPosition: new Vector2( bodyX, bodyY )
+        bodyPosition: new Vector2( bodyX, bodyY ),
+        enabled: false // True if it is in the play area
       }
     );
 

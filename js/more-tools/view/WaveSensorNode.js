@@ -26,6 +26,8 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var ChartNode = require( 'BENDING_LIGHT/more-tools/view/ChartNode' );
   var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
 
   // strings
   var timeString = require( 'string!BENDING_LIGHT/time' );
@@ -61,60 +63,28 @@ define( function( require ) {
 
     // Interaction: Translates when dragged, but keep it bounded within the play area
     var start;
-    var fromSensorPanel;
-    var toSensorPanel;
     var position;
     probeNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-        fromSensorPanel = false;
-        toSensorPanel = false;
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
-        if ( container.bounds.containsPoint( probeNode.center ) ) {
-          fromSensorPanel = true;
-          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelX( start.x ),
-            modelViewTransform.viewToModelY( start.y ), waveSensorNodeScaleOutSideContainer );
-          waveSensorNode.waveSensor.visibleProperty.set( true );
-          waveSensorNode.addMoreToolsView();
-        }
-        else {
-          fromSensorPanel = false;
-        }
       },
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
-        if ( fromSensorPanel ) {
-          waveSensorNode.dragAllXY( end.x - start.x, end.y - start.y );
-          var probe1Position = waveSensorNode.waveSensor.probe1.position;
-          position = probeDragBounds.closestPointTo( probe1Position );
-          waveSensorNode.waveSensor.translateAllXY( position.x - probe1Position.x, position.y - probe1Position.y );
-          var probe2Position = waveSensorNode.waveSensor.probe2.position;
-          position = probeDragBounds.closestPointTo( probe2Position );
-          waveSensorNode.waveSensor.translateAllXY( position.x - probe2Position.x, position.y - probe2Position.y );
-          var bodyPosition = waveSensorNode.waveSensor.bodyPositionProperty.get();
-          position = probeDragBounds.closestPointTo( bodyPosition );
-          waveSensorNode.waveSensor.translateAllXY( position.x - bodyPosition.x, position.y - bodyPosition.y );
-        }
-        else {
-          probe.translateXY( modelViewTransform.viewToModelDeltaX( end.x - start.x ),
-            modelViewTransform.viewToModelDeltaY( end.y - start.y ) );
-          position = probeDragBounds.closestPointTo( probe.position );
-          probe.positionProperty.set( position );
-        }
+        probe.translateXY( modelViewTransform.viewToModelDeltaX( end.x - start.x ),
+          modelViewTransform.viewToModelDeltaY( end.y - start.y ) );
+        position = probeDragBounds.closestPointTo( probe.position );
+        probe.positionProperty.set( position );
         start = end;
       },
       end: function() {
         // Check intersection only with the outer rectangle.
-        if ( container.bounds.containsPoint( probeNode.center ) ||
-             container.bounds.containsPoint( waveSensorNode.probe1Node.center ) ) {
-          toSensorPanel = true;
-          waveSensorNode.waveSensor.visibleProperty.set( false );
-          waveSensorNode.addToSensorPanel();
-        }
-        if ( toSensorPanel ) {
+        if ( container.bounds.containsPoint( probeNode.center ) ) {
           var probeInitialPosition = waveSensorNode.waveSensor.probe1.positionProperty.initialValue;
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
+          waveSensorNode.waveSensor.visibleProperty.set( false );
+          waveSensorNode.addToSensorPanel();
         }
       }
     } ) );
@@ -208,60 +178,27 @@ define( function( require ) {
 
     // Add interaction, the body is draggable, but keep it constrained to stay in the play area
     var start;
-    var fromSensorPanel;
-    var toSensorPanel;
     var position;
     this.bodyNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-        fromSensorPanel = false;
-        toSensorPanel = false;
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
-        if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ) {
-          fromSensorPanel = true;
-          waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelX( start.x ),
-            modelViewTransform.viewToModelY( start.y ), waveSensorNodeScaleOutSideContainer );
-          waveSensor.visibleProperty.set( true );
-          waveSensorNode.addMoreToolsView();
-        }
-        else {
-          fromSensorPanel = false;
-        }
       },
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
-        if ( fromSensorPanel ) {
-          waveSensorNode.dragAllXY( end.x - start.x, end.y - start.y );
-          var probe1Position = waveSensorNode.waveSensor.probe1.position;
-          position = waveSensorDragBounds.closestPointTo( probe1Position );
-          waveSensorNode.waveSensor.translateAllXY( position.x - probe1Position.x, position.y - probe1Position.y );
-          var probe2Position = waveSensorNode.waveSensor.probe2.position;
-          position = waveSensorDragBounds.closestPointTo( probe2Position );
-          waveSensorNode.waveSensor.translateAllXY( position.x - probe2Position.x, position.y - probe2Position.y );
-          var bodyPosition = waveSensorNode.waveSensor.bodyPositionProperty.get();
-          position = waveSensorDragBounds.closestPointTo( bodyPosition );
-          waveSensorNode.waveSensor.translateAllXY( position.x - bodyPosition.x, position.y - bodyPosition.y );
-        }
-        else {
-          waveSensorNode.dragBodyXY( end.x - start.x, end.y - start.y );
-          position = waveSensorDragBounds.closestPointTo( waveSensor.bodyPositionProperty.get() );
-          waveSensor.bodyPositionProperty.set( position );
-        }
+        waveSensorNode.dragBodyXY( end.x - start.x, end.y - start.y );
+        position = waveSensorDragBounds.closestPointTo( waveSensor.bodyPositionProperty.get() );
+        waveSensor.bodyPositionProperty.set( position );
         start = end;
       },
       end: function() {
         // Check intersection only with the outer rectangle.
-        if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ||
-             container.bounds.containsPoint( waveSensorNode.probe1Node.center ) ||
-             container.bounds.containsPoint( waveSensorNode.probe2Node.center ) ) {
-          toSensorPanel = true;
-          waveSensor.visibleProperty.set( false );
-          waveSensorNode.addToSensorPanel();
-        }
-        if ( toSensorPanel ) {
+        if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ) {
           var probeInitialPosition = waveSensor.probe1.positionProperty.initialValue;
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
+          waveSensor.visibleProperty.set( false );
+          waveSensorNode.addToSensorPanel();
         }
       }
     } ) );
@@ -284,6 +221,53 @@ define( function( require ) {
     this.addChild( this.probe2Node );
     this.waveSensorBodyNewPosition = new Vector2();
     this.probe2NewPosition = new Vector2();
+
+
+    this.shape = new Path( Shape.rectangle( 20, 335, 85, 45 ), {
+      pickable: true,
+      cursor: 'pointer'
+    } );
+    this.addChild( this.shape );
+
+    this.shape.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        start = waveSensorNode.globalToParentPoint( event.pointer.point );
+        waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelX( start.x ),
+          modelViewTransform.viewToModelY( start.y ), waveSensorNodeScaleOutSideContainer );
+        waveSensor.visibleProperty.set( true );
+        waveSensorNode.addMoreToolsView();
+      },
+      drag: function( event ) {
+        var end = waveSensorNode.globalToParentPoint( event.pointer.point );
+        waveSensorNode.dragAllXY( end.x - start.x, end.y - start.y );
+        var probe1Position = waveSensorNode.waveSensor.probe1.position;
+        position = waveSensorDragBounds.closestPointTo( probe1Position );
+        waveSensorNode.waveSensor.translateAllXY( position.x - probe1Position.x, position.y - probe1Position.y );
+        var probe2Position = waveSensorNode.waveSensor.probe2.position;
+        position = waveSensorDragBounds.closestPointTo( probe2Position );
+        waveSensorNode.waveSensor.translateAllXY( position.x - probe2Position.x, position.y - probe2Position.y );
+        var bodyPosition = waveSensorNode.waveSensor.bodyPositionProperty.get();
+        position = waveSensorDragBounds.closestPointTo( bodyPosition );
+        waveSensorNode.waveSensor.translateAllXY( position.x - bodyPosition.x, position.y - bodyPosition.y );
+        start = end;
+      },
+      end: function() {
+        // Check intersection only with the outer rectangle.
+        if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ||
+             container.bounds.containsPoint( waveSensorNode.probe1Node.center ) ||
+             container.bounds.containsPoint( waveSensorNode.probe2Node.center ) ) {
+          var probeInitialPosition = waveSensor.probe1.positionProperty.initialValue;
+          waveSensorNode.setWaveSensorNodeScaleAnimation(
+            probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
+          waveSensorNode.reset();
+          waveSensor.visibleProperty.set( false );
+          waveSensorNode.addToSensorPanel();
+        }
+      }
+    } ) );
+    waveSensor.visibleProperty.link( function( visible ) {
+      waveSensorNode.shape.setVisible( !visible );
+    } );
   }
 
   return inherit( Node, WaveSensorNode, {
@@ -409,7 +393,7 @@ define( function( require ) {
       if ( !this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
         this.moreToolsView.beforeLightLayer2.addChild( this );
       }
-      this.touchArea = new Bounds2( 20, 335, 105, 380 );
+      this.touchArea = this.shape.bounds;
       this.probe1Node.touchArea = null;
       this.probe2Node.touchArea = null;
       this.bodyNode.touchArea = null;
