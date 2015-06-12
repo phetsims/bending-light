@@ -245,7 +245,7 @@ define( function( require ) {
           // Many parallel rays
           for ( var x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
             var offset = directionUnitVector.rotated( Math.PI / 2 ).multiplyScalar( x );
-            this.propagate( tail.plus( offset ), directionUnitVector, 1.0, laserInPrism );
+            this.propagate( offset.add( tail ), directionUnitVector, 1.0, laserInPrism );
           }
         }
       }
