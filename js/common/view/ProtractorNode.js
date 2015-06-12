@@ -310,9 +310,7 @@ define( function( require ) {
         if ( !this.bendingLightView.beforeLightLayer2.isChild( this ) ) {
           this.bendingLightView.beforeLightLayer2.addChild( this );
         }
-        this.touchArea = new Bounds2(
-          this.localBounds.minX - 100, this.localBounds.minY - 50,
-          this.localBounds.maxX + 90, this.localBounds.maxY + 50 );
+        this.touchArea = this.shape.bounds;
       },
 
       /**
