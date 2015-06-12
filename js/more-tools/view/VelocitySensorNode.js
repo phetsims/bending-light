@@ -121,6 +121,8 @@ define( function( require ) {
     } );
     this.bodyNode.addChild( triangleShapeNode );
     this.addChild( this.bodyNode );
+    this.bodyWidth = rectangleWidth;
+    this.bodyHeight = rectangleHeight + triangleHeight;
 
     // Arrow shape
     var arrowWidth = 6;
@@ -172,7 +174,8 @@ define( function( require ) {
       dragBounds: modelViewTransform.viewToModelBounds( velocityNodeDragBounds ),
       modelViewTransform: modelViewTransform,
       endDrag: function() {
-        if ( container.bounds.containsCoordinates( velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
+        if ( container.bounds.containsCoordinates(
+            velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
           velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
             VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
           velocitySensor.reset();
@@ -190,7 +193,8 @@ define( function( require ) {
       dragBounds: modelViewTransform.viewToModelBounds( velocityNodeDragBounds ),
       modelViewTransform: modelViewTransform,
       startDrag: function() {
-        if ( container.bounds.containsCoordinates( velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
+        if ( container.bounds.containsCoordinates(
+            velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
           velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(),
             VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
           velocitySensorNode.addToMoreToolsView();
@@ -198,7 +202,8 @@ define( function( require ) {
         }
       },
       endDrag: function() {
-        if ( container.bounds.containsCoordinates( velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
+        if ( container.bounds.containsCoordinates(
+            velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
           velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
             VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
           velocitySensor.reset();
@@ -218,8 +223,8 @@ define( function( require ) {
       var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
 
       velocitySensorNode.bodyNode.setTranslation(
-        velocitySensorXPosition - rectangleWidth / 2 * velocitySensorNodeScaleVector.x,
-        velocitySensorYPosition - ( rectangleHeight + triangleHeight ) * velocitySensorNodeScaleVector.y );
+        velocitySensorXPosition - velocitySensorNode.bodyWidth / 2 * velocitySensorNodeScaleVector.x,
+        velocitySensorYPosition - velocitySensorNode.bodyHeight * velocitySensorNodeScaleVector.y );
     } );
 
     // Update the text when the value or units changes.
@@ -239,13 +244,13 @@ define( function( require ) {
   return inherit( Node, VelocitySensorNode, {
 
     setVelocitySensorScale: function( scale ) {
-      var velocitySensorNodeScaleVector = this.bodyNode.getScaleVector();
       this.bodyNode.setScaleMagnitude( scale );
+      var velocitySensorNodeScaleVector = this.bodyNode.getScaleVector();
       var velocitySensorXPosition = this.modelViewTransform.modelToViewX( this.velocitySensor.position.x );
       var velocitySensorYPosition = this.modelViewTransform.modelToViewY( this.velocitySensor.position.y );
       this.bodyNode.setTranslation(
-        velocitySensorXPosition - this.bodyNode.getWidth() / 2 * velocitySensorNodeScaleVector.x,
-        velocitySensorYPosition - ( this.bodyNode.getHeight() ) * velocitySensorNodeScaleVector.y );
+        velocitySensorXPosition - this.bodyWidth / 2 * velocitySensorNodeScaleVector.x,
+        velocitySensorYPosition - this.bodyHeight * velocitySensorNodeScaleVector.y );
     },
 
     /**
@@ -257,7 +262,7 @@ define( function( require ) {
       var startPosition = {
         x: this.velocitySensor.position.x,
         y: this.velocitySensor.position.y,
-        scale: this.getScaleVector().x
+        scale: this.bodyNode.getScaleVector().x
       };
       var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
       this.init( startPosition, finalPosition );
