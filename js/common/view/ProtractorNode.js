@@ -51,6 +51,7 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform;
     this.protractorModel = protractorModel;
     this.multiScale = protractorIconWidth / protractorImage.width;
+    this.showProtractorProperty = showProtractorProperty;
 
     // true if the protractor has been made larger
     this.expandedProperty = new Property( false );
@@ -112,12 +113,6 @@ define( function( require ) {
     translatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
-        if ( containerBounds ) {
-          if ( containerBounds.containsPoint( protractorNode.center ) ) {
-            protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
-            protractorNode.addToBendingLightView();
-          }
-        }
         protractorNode.expandedButtonVisibilityProperty.value = true;
       },
       drag: function( event ) {
@@ -125,19 +120,20 @@ define( function( require ) {
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
         protractorNode.dragAllXY( end.x - start.x, end.y - start.y );
-        var position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorNode.protractorModel.position );
-        protractorNode.protractorModel.positionProperty.set( position );
+        var position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
+        protractorModel.positionProperty.set( position );
         start = end;
       },
       end: function() {
         if ( containerBounds ) {
           if ( containerBounds.containsPoint( protractorNode.center ) ) {
             var point2D = protractorNode.modelViewTransform.modelToViewPosition(
-              protractorNode.protractorModel.positionProperty.initialValue );
+              protractorModel.positionProperty.initialValue );
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
             protractorNode.expandedButtonVisibilityProperty.value = false;
             protractorNode.expandedProperty.value = false;
             protractorNode.addToSensorPanel();
+            protractorModel.enabledProperty.set( false );
           }
         }
         else {
@@ -172,10 +168,10 @@ define( function( require ) {
       }
     } ) );
 
-    this.protractorModel.angleProperty.link( function( angle ) {
+    protractorModel.angleProperty.link( function( angle ) {
       protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
     } );
-    this.protractorModel.positionProperty.link( function( position ) {
+    protractorModel.positionProperty.link( function( position ) {
       var protractorNodeScaleVector = protractorNode.getScaleVector();
       var protractorCenterX = protractorNode.modelViewTransform.modelToViewX( position.x );
       var protractorCenterY = protractorNode.modelViewTransform.modelToViewY( position.y );
@@ -186,6 +182,52 @@ define( function( require ) {
       newPoint.y = newPoint.y + protractorCenterY;
       protractorNode.setTranslation( newPoint );
     } );
+
+    this.shape = new Path( Shape.rectangle( 0, 0, this.getWidth() / this.multiScale, this.getHeight() / this.multiScale ), {
+      pickable: true,
+      cursor: 'pointer'
+    } );
+
+    this.addChild( this.shape );
+    this.shape.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        start = protractorNode.globalToParentPoint( event.pointer.point );
+        if ( containerBounds ) {
+          protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
+          protractorNode.addToBendingLightView();
+          protractorModel.enabledProperty.set( true );
+        }
+        protractorNode.expandedButtonVisibilityProperty.value = true;
+      },
+      drag: function( event ) {
+
+        // compute the change in angle based on the new drag event
+        var end = protractorNode.globalToParentPoint( event.pointer.point );
+        protractorNode.dragAllXY( end.x - start.x, end.y - start.y );
+        var position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
+        protractorModel.positionProperty.set( position );
+        start = end;
+      },
+      end: function() {
+        if ( containerBounds ) {
+          if ( containerBounds.containsPoint( protractorNode.center ) ) {
+            var point2D = protractorNode.modelViewTransform.modelToViewPosition(
+              protractorModel.positionProperty.initialValue );
+            protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
+            protractorNode.expandedButtonVisibilityProperty.value = false;
+            protractorNode.expandedProperty.value = false;
+            protractorNode.addToSensorPanel();
+            protractorModel.enabledProperty.set( false );
+          }
+        }
+        else {
+          protractorNode.expandedButtonVisibilityProperty.value = true;
+        }
+      }
+    } ) );
+    protractorModel.enabledProperty.link( function( enabled ) {
+      protractorNode.shape.setVisible( !enabled && containerBounds !== null );
+    } )
   }
 
   return inherit( Node, ProtractorNode, {
