@@ -227,7 +227,7 @@ define( function( require ) {
     } ) );
     protractorModel.enabledProperty.link( function( enabled ) {
       protractorNode.shape.setVisible( !enabled && containerBounds !== null );
-    } )
+    } );
   }
 
   return inherit( Node, ProtractorNode, {
