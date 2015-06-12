@@ -31,7 +31,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var HStrut = require( 'SUN/HStrut' );
+  var HStrut = require( 'SCENERY/nodes/HStrut' );
 
   // strings
   var airString = require( 'string!BENDING_LIGHT/air' );
