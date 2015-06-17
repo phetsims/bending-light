@@ -77,7 +77,7 @@ define( function( require ) {
     } );
 
     // Icon for the single ray  button
-    var singleRayLine = new Path( new Shape().moveTo( 17, 15 ).lineTo( 49, 15 ).close(), {
+    var singleRayLine = new Path( new Shape().moveTo( 17, 15 ).lineTo( 49, 15 ), {
       stroke: 'red',
       lineWidth: 2
     } );
