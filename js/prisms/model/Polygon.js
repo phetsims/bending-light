@@ -61,14 +61,15 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {Vector2} delta
+     * @param {number} deltaX
+     * @param {number} deltaY
      * @returns {Polygon}
      */
-    getTranslatedInstance: function( delta ) {
+    getTranslatedInstance: function( deltaX, deltaY ) {
 
       var newPoints = [];
       for ( var j = 0; j < this.points.length; j++ ) {
-        newPoints.push( this.points[ j ].plus( delta ) );
+        newPoints.push( this.points[ j ].plusXY( deltaX, deltaY ) );
       }
       return new Polygon( this.referencePointIndex, newPoints );
     },
@@ -120,7 +121,7 @@ define( function( require ) {
     },
 
     /**
-     * @private
+     * @public
      * @param {Vector2[]} p
      * @returns {Vector2}
      */
@@ -169,9 +170,8 @@ define( function( require ) {
         var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
         if ( intersection.length !== 0 ) {
           //Choose the normal vector that points the opposite direction of the incoming ray
-          var normal1 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotate( +Math.PI / 2 ).normalize();
-          var normal2 = lineSegment.getEnd().minus( lineSegment.getStart() ).rotate( -Math.PI / 2 ).normalize();
-          var unitNormal = ray.directionUnitVector.dot( normal1 ) < 0 ? normal1 : normal2;
+          var normal = lineSegment.getEnd().minus( lineSegment.getStart() ).rotate( +Math.PI / 2 ).normalize();
+          var unitNormal = ray.directionUnitVector.dot( normal ) < 0 ? normal : normal.rotate( Math.PI );
 
           //Add to the list of intersections
           intersections.push( new Intersection( unitNormal, intersection[ 0 ].point ) );

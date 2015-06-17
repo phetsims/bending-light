@@ -82,19 +82,18 @@ define( function( require ) {
     this.addChild( prismTranslationNode );
 
     var start;
-    var delta = new Vector2( 0, 0 ); // re-usable vector
     prismTranslationNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = prismsNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
         var end = prismsNode.globalToParentPoint( event.pointer.point );
-        delta.x = end.x - start.x;
-        delta.y = end.y - start.y;
-        prism.translate( modelViewTransform.viewToModelDelta( delta ) );
+        var deltaX = end.x - start.x;
+        var deltaY = end.y - start.y;
+        prism.translate( modelViewTransform.viewToModelDeltaX( deltaX ), modelViewTransform.viewToModelDeltaY( deltaY ) );
         var prismCenter = prism.shapeProperty.get().getRotationCenter();
         var position = prismDragBoundsInModelValues.closestPointTo( prismCenter );
-        prism.translate( position.minus( prismCenter ) );
+        prism.translate( position.x - prismCenter.x, position.y - prismCenter.y );
         start = end;
       },
       end: function() {

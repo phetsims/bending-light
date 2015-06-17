@@ -39,11 +39,12 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {Vector2} delta
+     * @param {number} deltaX
+     * @param {number} deltaY
      * @returns {Circle}
      */
-    getTranslatedInstance: function( delta ) {
-      return new Circle( this.center.plus( delta ), this.radius );
+    getTranslatedInstance: function( deltaX, deltaY ) {
+      return new Circle( this.center.plusXY( deltaX, deltaY ), this.radius );
     },
 
     /**
@@ -60,12 +61,12 @@ define( function( require ) {
 
         // Filter out getLineCircleIntersection nulls, which are returned if there is no intersection
         if ( intersectionPoint !== null ) {
-          var vector = intersectionPoint.point.minus( ray.tail );
           // only consider intersections that are in front of the ray
-          if ( vector.dot( ray.directionUnitVector ) > 0 ) {
-            var normalVector = intersectionPoint.point.minus( self.center ).normalized();
+          if ( ((intersectionPoint.point.x - ray.tail.x) * ray.directionUnitVector.x +
+                (intersectionPoint.point.y - ray.tail.y) * ray.directionUnitVector.y) > 0 ) {
+            var normalVector = intersectionPoint.point.minus( self.center ).normalize();
             if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
-              normalVector = normalVector.negated();
+              normalVector = normalVector.negate();
             }
             intersectionList.push( new Intersection( normalVector, intersectionPoint.point ) );
           }

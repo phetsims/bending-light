@@ -66,8 +66,7 @@ define( function( require ) {
     this.protractorModel = new ProtractorModel( 0, 0 );
 
     var prismsBreakModel = this;
-    BendingLightModel.call( this, Math.PI, false,
-      BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1 );
+    BendingLightModel.call( this, Math.PI, false, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1 );
 
     Property.multilink( [ this.manyRaysProperty,
       this.environmentMediumProperty,
@@ -161,7 +160,7 @@ define( function( require ) {
 
     },
 
-    // Adds a prism to the model; doesn't signal a "prism added event", adding graphics must be handled by the client
+    // Adds a prism to the model. doesn't signal a "prism added event", adding graphics must be handled by the client
     // that added the prism. This gives the client fine-grained control over creation of model elements and associated
     // nodes, but future TODOs could investigate using standard model creation/notification scheme
     /**
@@ -211,15 +210,14 @@ define( function( require ) {
         for ( var wavelength = min; wavelength <= max; wavelength += dw ) {
           mediumIndexOfRefraction = laserInPrism ? this.prismMediumProperty.get().getIndexOfRefraction( wavelength ) :
                                     this.environmentMediumProperty.get().getIndexOfRefraction( wavelength );
-          this.propagateTheRay( new Ray( tail, directionUnitVector, power,
-            wavelength, mediumIndexOfRefraction, BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0 );
+          this.propagateTheRay( new Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction,
+            BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0 );
         }
       }
       else {
         mediumIndexOfRefraction = laserInPrism ?
                                   this.prismMediumProperty.get().getIndexOfRefraction( this.laser.getWavelength() ) :
-                                  this.environmentMediumProperty.get().getIndexOfRefraction(
-                                    this.laser.getWavelength() );
+                                  this.environmentMediumProperty.get().getIndexOfRefraction( this.laser.getWavelength() );
         this.propagateTheRay( new Ray( tail, directionUnitVector, power, this.laser.getWavelength(),
           mediumIndexOfRefraction, this.laser.getFrequency() ), 0 );
       }
@@ -303,8 +301,8 @@ define( function( require ) {
         } );
 
         // Index of refraction of the other medium
-        var n2 = outputInsidePrism ? this.prismMediumProperty.get().getIndexOfRefraction(
-          incidentRay.getBaseWavelength() ) :
+        var n2 = outputInsidePrism ?
+                 this.prismMediumProperty.get().getIndexOfRefraction( incidentRay.getBaseWavelength() ) :
                  this.environmentMediumProperty.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
 
         // Precompute for readability
@@ -325,12 +323,11 @@ define( function( require ) {
           : Util.clamp( this.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );// clamp(value,min,max)
 
         // Create the new rays and propagate them recursively
-        var reflected = new Ray( ( incidentRay.directionUnitVector.times( -1E-12 )).add( point ),
-          vReflect, incidentRay.power * reflectedPower, incidentRay.wavelength,
-          incidentRay.mediumIndexOfRefraction, incidentRay.frequency );
-        var refracted = new Ray( (incidentRay.directionUnitVector.times( +1E-12 )).add( point ),
-          vRefract, incidentRay.power * transmittedPower, incidentRay.wavelength, n2,
+        var reflected = new Ray( ( incidentRay.directionUnitVector.times( -1E-12 )).add( point ), vReflect,
+          incidentRay.power * reflectedPower, incidentRay.wavelength, incidentRay.mediumIndexOfRefraction,
           incidentRay.frequency );
+        var refracted = new Ray( (incidentRay.directionUnitVector.times( +1E-12 )).add( point ), vRefract,
+          incidentRay.power * transmittedPower, incidentRay.wavelength, n2, incidentRay.frequency );
         if ( this.showReflectionsProperty.get() || totalInternalReflection ) {
           this.propagateTheRay( reflected, count + 1 );
         }

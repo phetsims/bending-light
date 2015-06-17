@@ -27,10 +27,11 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {Vector2} delta
+     * @param {number} deltaX
+     * @param {number} deltaY
      */
-    translate: function( delta ) {
-      this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( delta ) );
+    translate: function( deltaX, deltaY ) {
+      this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( deltaX, deltaY ) );
     },
 
     /**

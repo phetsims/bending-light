@@ -104,12 +104,13 @@ define( function( require ) {
             prismsNode = new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, prismShape,
               prismToolBoxNode, prismBreakView.prismLayer, prismBreakView.layoutBounds );
             prismBreakView.prismLayer.addChild( prismsNode );
-            prismShape.translate( modelViewTransform.viewToModelPosition( start ) );
+            prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
           },
           drag: function( event ) {
             var end = prismToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
             end = prismBreakView.layoutBounds.closestPointTo( end );
-            prismShape.translate( modelViewTransform.viewToModelDelta( end.minus( start ) ) );
+            prismShape.translate( modelViewTransform.viewToModelDeltaX( end.x - start.x ),
+              modelViewTransform.viewToModelDeltaY( end.y - start.y ) );
             start = end;
           },
           end: function() {
@@ -203,13 +204,16 @@ define( function( require ) {
         } ).width + 5;
 
     // touch Areas
-    showReflectionsCheckBox.touchArea = new Bounds2( showReflectionsCheckBox.localBounds.minX - 5, showReflectionsCheckBox.localBounds.minY,
+    showReflectionsCheckBox.touchArea = new Bounds2(
+      showReflectionsCheckBox.localBounds.minX - 5, showReflectionsCheckBox.localBounds.minY,
       showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth, showReflectionsCheckBox.localBounds.maxY );
 
-    showNormalCheckBox.touchArea = new Bounds2( showNormalCheckBox.localBounds.minX - 5, showNormalCheckBox.localBounds.minY,
+    showNormalCheckBox.touchArea = new Bounds2(
+      showNormalCheckBox.localBounds.minX - 5, showNormalCheckBox.localBounds.minY,
       showNormalCheckBox.localBounds.minX + maxCheckBoxWidth, showNormalCheckBox.localBounds.maxY );
 
-    showProtractorCheckBox.touchArea = new Bounds2( showProtractorCheckBox.localBounds.minX - 5, showProtractorCheckBox.localBounds.minY,
+    showProtractorCheckBox.touchArea = new Bounds2(
+      showProtractorCheckBox.localBounds.minX - 5, showProtractorCheckBox.localBounds.minY,
       showProtractorCheckBox.localBounds.minX + maxCheckBoxWidth, showProtractorCheckBox.localBounds.maxY );
 
     // pad all the rows so the text nodes are left aligned and the icons is right aligned

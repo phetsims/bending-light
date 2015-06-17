@@ -59,14 +59,15 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {Vector2} delta
+     * @param {number} deltaX
+     * @param {number} deltaY
      * @returns {SemiCircle}
      */
-    getTranslatedInstance: function( delta ) {
+    getTranslatedInstance: function( deltaX, deltaY ) {
 
       var newPoints = [];
       for ( var j = 0; j < this.points.length; j++ ) {
-        newPoints.push( this.points[ j ].plus( delta ) );
+        newPoints.push( this.points[ j ].plusXY( deltaX, deltaY ) );
       }
       return new SemiCircle( this.referencePointIndex, newPoints, this.radius );
     },
@@ -129,9 +130,8 @@ define( function( require ) {
       var intersection = segment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       if ( intersection.length !== 0 ) {
         // Choose the normal vector that points the opposite direction of the incoming ray
-        var normal1 = segment.getEnd().minus( segment.getStart() ).rotate( +Math.PI / 2 ).normalize();
-        var normal2 = segment.getEnd().minus( segment.getStart() ).rotate( -Math.PI / 2 ).normalize();
-        var unitNormal = ray.directionUnitVector.dot( normal1 ) < 0 ? normal1 : normal2;
+        var normal = segment.getEnd().minus( segment.getStart() ).rotate( +Math.PI / 2 ).normalize();
+        var unitNormal = ray.directionUnitVector.dot( normal ) < 0 ? normal : normal.rotate( Math.PI );
         // Add to the list of intersections
         intersections.push( new Intersection( unitNormal, intersection[ 0 ].point ) );
       }
@@ -139,9 +139,9 @@ define( function( require ) {
       var arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
       intersection = arc.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       if ( intersection.length !== 0 ) {
-        var vector = intersection[ 0 ].point.minus( ray.tail );
         // Only consider intersections that are in front of the ray
-        if ( vector.dot( ray.directionUnitVector ) > 0 ) {
+        if ( ((intersection[ 0 ].point.x - ray.tail.x) * ray.directionUnitVector.x +
+              (intersection[ 0 ].point.y - ray.tail.y) * ray.directionUnitVector.y) > 0 ) {
           var normalVector = intersection[ 0 ].point.minus( this.center ).normalize();
           if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
             normalVector.negate();

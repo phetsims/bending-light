@@ -20,7 +20,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Bounds2 = require( 'DOT/Bounds2' );
 
   // images
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
@@ -76,8 +75,7 @@ define( function( require ) {
       .lineTo( protractorImageWidth, protractorImageHeight / 2 )
       .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, false )
       .lineTo( protractorImageWidth * 0.2, protractorImageHeight / 2 )
-      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, true )
-      .close();
+      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, true );
 
     var fullShape = new Shape()
       .moveTo( protractorImageWidth, protractorImageHeight / 2 )
@@ -93,9 +91,7 @@ define( function( require ) {
       .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2,
       protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, true )
       .rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
-      protractorImageWidth * 0.6, protractorImageHeight * 0.15 )
-      .close();
-
+      protractorImageWidth * 0.6, protractorImageHeight * 0.15 );
     var innerBarShape = new Shape().rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
       protractorImageWidth * 0.6, protractorImageHeight * 0.15 );
 
@@ -126,7 +122,7 @@ define( function( require ) {
       },
       end: function() {
         if ( containerBounds ) {
-          if ( containerBounds.containsPoint( protractorNode.center ) ) {
+          if ( containerBounds.containsCoordinates( protractorNode.getCenterX(), protractorNode.getCenterY() ) ) {
             var point2D = protractorNode.modelViewTransform.modelToViewPosition(
               protractorModel.positionProperty.initialValue );
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
@@ -158,9 +154,10 @@ define( function( require ) {
 
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
-        var center = protractorNode.center;
-        var startAngle = Math.atan2( center.y - start.y, center.x - start.x );
-        var angle = Math.atan2( center.y - end.y, center.x - end.x );
+        var centerX = protractorNode.getCenterX();
+        var centerY = protractorNode.getCenterY();
+        var startAngle = Math.atan2( centerY - start.y, centerX - start.x );
+        var angle = Math.atan2( centerY - end.y, centerX - end.x );
 
         // rotate the protractor model
         protractorModel.angle += angle - startAngle;
@@ -210,7 +207,7 @@ define( function( require ) {
       },
       end: function() {
         if ( containerBounds ) {
-          if ( containerBounds.containsPoint( protractorNode.center ) ) {
+          if ( containerBounds.containsCoordinates( protractorNode.getCenterX(), protractorNode.getCenterY() ) ) {
             var point2D = protractorNode.modelViewTransform.modelToViewPosition(
               protractorModel.positionProperty.initialValue );
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );

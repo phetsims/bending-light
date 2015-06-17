@@ -48,14 +48,14 @@ define( function( require ) {
     this.tip = tip;
     this.tail = tail;
 
-    // The index of refraction of the medium the lightray inhabits
+    // The index of refraction of the medium the light ray inhabits
     this.indexOfRefraction = indexOfRefraction;
     this.wavelength = wavelength;    // wavelength in meters
 
     // Amount of power this light has (full strength is 1.0)
     this.powerFraction = powerFraction;
 
-    // This number indicates how many wavelengths have passed before this light ray begins;
+    // This number indicates how many wavelengths have passed before this light ray begins.
     // It is zero for the light coming out of the laser.
     this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset;
 
@@ -63,7 +63,6 @@ define( function( require ) {
     // turing this up too high past 1E6 causes things not to render properly
     this.extend = extend;
 
-    this.waveBounds = [];
     this.vectorForm = new Vector2( 0, 0 );
     this.unitVector = new Vector2( 0, 0 );
 
@@ -77,6 +76,7 @@ define( function( require ) {
   return inherit( Object, LightRay, {
 
     /**
+     * Update the time, so it can update the phase of the wave graphic
      * @public
      * @param {number} time
      */
@@ -166,19 +166,17 @@ define( function( require ) {
       var tailWidth = this.extendBackwards ? this.trapeziumWidth : this.waveWidth;
 
       // Calculating two end points of tip. They are at the angle of Math.PI/2 with respect to tha ray angle
-      var tipVector = Vector2.createPolar( 1, tipAngle + Math.PI / 2 );
-      tipVector.x = tipVector.x * tipWidth / 2;
-      tipVector.y = tipVector.y * tipWidth / 2;
+      var tipVectorX = tipWidth * Math.cos( tipAngle + Math.PI / 2 ) / 2;
+      var tipVectorY = tipWidth * Math.sin( tipAngle + Math.PI / 2 ) / 2;
 
       // Calculating two end points of tail. They are at the angle of Math.PI/2 with respect to tha ray angle
-      var tailVector = Vector2.createPolar( 1, tailAngle + Math.PI / 2 );
-      tailVector.x = tailVector.x * tailWidth / 2;
-      tailVector.y = tailVector.y * tailWidth / 2;
+      var tailVectorX = tailWidth * Math.cos( tailAngle + Math.PI / 2 ) / 2;
+      var tailVectorY = tailWidth * Math.sin( tailAngle + Math.PI / 2 ) / 2;
 
-      var tipPoint1 = this.tip.minus( tipVector );
-      var tipPoint2 = this.tip.plus( tipVector );
-      var tailPoint1 = this.tail.minus( tailVector );
-      var tailPoint2 = this.tail.plus( tailVector );
+      var tipPoint1 = this.tip.minusXY( tipVectorX, tipVectorY );
+      var tipPoint2 = this.tip.plusXY( tipVectorX, tipVectorY );
+      var tailPoint1 = this.tail.minusXY( tailVectorX, tailVectorY );
+      var tailPoint2 = this.tail.plusXY( tailVectorX, tailVectorY );
 
       // Getting correct order of points
       var tipPoint1XY = tipPoint2.x > tipPoint1.x ? tipPoint2 : tipPoint1;
@@ -194,13 +192,11 @@ define( function( require ) {
         tailPoint2XY.x = this.toVector().magnitude() / Math.cos( this.getAngle() );
         tipPoint1XY.x = tailPoint2XY.x;
       }
-      var shape = new Shape();
-      shape.moveToPoint( tailPoint1XY )
+      return new Shape()
+        .moveToPoint( tailPoint1XY )
         .lineToPoint( tailPoint2XY )
         .lineToPoint( tipPoint1XY )
-        .lineToPoint( tipPoint2XY )
-        .close();
-      return shape;
+        .lineToPoint( tipPoint2XY );
     },
 
     /**
@@ -221,7 +217,6 @@ define( function( require ) {
     getAngle: function() {
       return Math.atan2( this.tip.y - this.tail.y, this.tip.x - this.tail.x );
     },
-    // todo:Update the time and notify wave listeners so they can update the phase of the wave graphic
 
     /**
      * @public
@@ -257,10 +252,7 @@ define( function( require ) {
      */
     contains: function( position, waveMode ) {
       if ( waveMode ) {
-        // todo:  Need to Change kite/js/segments/Line.js    ( s < 0.000001 ) = >   ( s < 0.0000001 )
-        //  return this.getWaveShape().containsPoint( position );
-        var intersection = this.getWaveShape().intersection( new Ray2( position, this.getUnitVector() ) );
-        return intersection.length % 2 === 1;
+        return this.getWaveShape().containsPoint( position );
       }
       else {
         return this.toLine().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;

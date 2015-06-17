@@ -23,14 +23,19 @@ define( function( require ) {
   function IntersectionNode( modelViewTransform, intersection ) {
 
     Node.call( this );
-    var center = modelViewTransform.modelToViewPosition( intersection.getPoint() );
-    var unitNormal = modelViewTransform.modelToViewDelta( intersection.getUnitNormal() ).normalize();
+    var centerX = modelViewTransform.modelToViewX( intersection.getPoint().x );
+    var centerY = modelViewTransform.modelToViewY( intersection.getPoint().y );
+    var normalX = modelViewTransform.modelToViewDeltaX( intersection.getUnitNormal().x );
+    var normalY = modelViewTransform.modelToViewDeltaY( intersection.getUnitNormal().y );
+    var normalMagnitude = Math.sqrt( normalX * normalX + normalY * normalY );
+    var unitNormalX = normalX / normalMagnitude;
+    var unitNormalY = normalY / normalMagnitude;
     var length = 100;//in stage coordinates
 
     // Show a dotted line of the normal at the interface between two mediums where the laser struck
     this.addChild( new Path( new Shape()
-      .moveToPoint( center.plusXY( unitNormal.x * length / 2, unitNormal.y * length / 2 ) )
-      .lineToPoint( center.plusXY( unitNormal.x * -length / 2, unitNormal.y * -length / 2 ) ), {
+      .moveTo( centerX + unitNormalX * length / 2, centerY + unitNormalY * length / 2 )
+      .lineTo( centerX + unitNormalX * -length / 2, centerY + unitNormalY * -length / 2 ), {
       stroke: 'black',
       lineDash: [ 10, 5 ]
     } ) );

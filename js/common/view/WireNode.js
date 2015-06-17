@@ -30,7 +30,7 @@ define( function( require ) {
     this.bodyNode = bodyNode;
     this.color = color;
     CanvasNode.call( this, {
-      canvasBounds: new Bounds2( 0, 0, 834, 504 )
+      canvasBounds: new Bounds2( -100, 0, 834, 604 )
     } );
     var wireNode = this;
     bodyPositionProperty.link( function() {

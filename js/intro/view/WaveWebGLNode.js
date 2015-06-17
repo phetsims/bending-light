@@ -43,13 +43,11 @@ define( function( require ) {
         // Position
         'attribute vec3 aPosition;', // vertex attribute
         'attribute float aPowerFraction;', // light ray power fraction
-        'attribute vec3 aColor;', // Color of the wave
         'attribute vec2 aTail;', // Tail point
         'attribute float aAngle;', // Angle of the Ray
         'attribute float aWaveLength;', // Wavelength of the Ray
         'attribute float aPhase;', // phase difference of the Ray
         'varying float vPowerFraction;',
-        'varying vec3 vColor;',
         'varying vec2 vTail;',
         'varying float vAngle;',
         'varying float vWaveLength;',
@@ -58,14 +56,13 @@ define( function( require ) {
         'uniform mat3 uProjectionMatrix;',
         'void main( void ) {',
         '  vPowerFraction = aPowerFraction;',
-        '  vColor = aColor;',
         '  vTail = aTail;',
         '  vAngle = aAngle;',
         '  vWaveLength = aWaveLength;',
         '  vPhase = aPhase;',
         // homogeneous model-view transformation
         '  vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );',
-        // homogeneous map to to normalized device coordinates
+        // homogeneous map to normalized device coordinates
         '  vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );',
         // combine with the z coordinate specified
         '  gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );',
@@ -76,13 +73,13 @@ define( function( require ) {
       var fragmentShaderSource = [
         'precision mediump float;',
         'varying float vPowerFraction;',
-        'varying vec3 vColor;',
         'varying vec2 vTail;',
         'varying float vAngle;',
         'varying float vWaveLength;',
         'varying float vPhase;',
         'uniform vec2 uCanvasOffset;', // Canvas Offset
         'uniform float uScale;',
+        'uniform vec3 uColor;',  // Color of the wave
         'void main( void ) {',
         // converting pixel coordinates to view coordinates.
         'float x1 = (gl_FragCoord.x-uCanvasOffset.x)/uScale;',
@@ -94,15 +91,21 @@ define( function( require ) {
         // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
         'float positionDiff = distance>0.0? mod( vWaveLength - vPhase + distance, vWaveLength): vWaveLength - mod( vPhase - distance, vWaveLength);',
         // color is determined by perpendicular distance of coordinate from the start of the particle.
-        'float colorFactor = abs(1.0-positionDiff / (vWaveLength/2.0) );',
-        'gl_FragColor = vec4( ( vColor*(colorFactor) + vec3(0,0,0)*(1.0-colorFactor) )*vPowerFraction,vPowerFraction ) ;',
+        'float colorFactor = abs(1.0-positionDiff / (vWaveLength*0.5) );',
+        'gl_FragColor = vec4(( uColor*colorFactor + vec3(0,0,0)*(1.0-colorFactor) )*vPowerFraction,vPowerFraction ) ;',
         '}'
       ].join( '\n' );
 
       drawable.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
-        attributes: [ 'aPosition', 'aPowerFraction', 'aColor', 'aTail', 'aAngle', 'aWaveLength', 'aPhase' ],
-        uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uScale', 'uCanvasOffset' ]
+        attributes: [ 'aPosition', 'aPowerFraction', 'aTail', 'aAngle', 'aWaveLength', 'aPhase' ],
+        uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uScale', 'uColor', 'uCanvasOffset' ]
       } );
+      drawable.vertexBuffer = gl.createBuffer();
+      drawable.powerFractionBuffer = gl.createBuffer();
+      drawable.tailBuffer = gl.createBuffer();
+      drawable.angleBuffer = gl.createBuffer();
+      drawable.waveLengthBuffer = gl.createBuffer();
+      drawable.phaseBuffer = gl.createBuffer();
     },
 
     /**
@@ -116,11 +119,13 @@ define( function( require ) {
 
       var elements = [];
       var powerFractionArray = [];
-      var colorArray = [];
       var tailPointArray = [];
       var anglesArray = [];
       var waveLengthArray = [];
       var phaseArray = [];
+      var red;
+      var green;
+      var blue;
 
       for ( var i = this.rays.length - 1; i >= 0; i-- ) {
         var lightRay = this.rays.get( i );
@@ -147,9 +152,9 @@ define( function( require ) {
         var lightRayPowerFraction = lightRay.getPowerFraction();
 
         // light ray color
-        var red = lightRay.getColor().r / 255;
-        var green = lightRay.getColor().g / 255;
-        var blue = lightRay.getColor().b / 255;
+        red = lightRay.getColor().r / 255;
+        green = lightRay.getColor().g / 255;
+        blue = lightRay.getColor().b / 255;
 
         // tail position in view co-ordinates
         var tailViewX = this.modelViewTransform.modelToViewX( lightRay.tail.x );
@@ -164,7 +169,6 @@ define( function( require ) {
 
         for ( var k = 0; k < numberOfVertexPoints; k++ ) {
           powerFractionArray.push( lightRayPowerFraction );
-          colorArray.push( red, green, blue );
           tailPointArray.push( tailViewX, tailViewY );
           anglesArray.push( lightRayAngle );
           waveLengthArray.push( this.modelViewTransform.modelToViewDeltaX( lightRay.wavelength ) );
@@ -176,31 +180,21 @@ define( function( require ) {
       var widthOffset = (window.innerWidth - (  this.screenWidth * scale)) / 2;
       var heightOffset = (window.innerHeight - (  this.screenHeight * scale)) / 2;
 
-      drawable.vertexBuffer = gl.createBuffer();
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( elements ), gl.STATIC_DRAW );
 
-      drawable.powerFractionBuffer = gl.createBuffer();
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.powerFractionBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( powerFractionArray ), gl.STATIC_DRAW );
 
-      drawable.colorBuffer = gl.createBuffer();
-      gl.bindBuffer( gl.ARRAY_BUFFER, drawable.colorBuffer );
-      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( colorArray ), gl.STATIC_DRAW );
-
-      drawable.tailBuffer = gl.createBuffer();
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.tailBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( tailPointArray ), gl.STATIC_DRAW );
 
-      drawable.angleBuffer = gl.createBuffer();
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.angleBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( anglesArray ), gl.STATIC_DRAW );
 
-      drawable.waveLengthBuffer = gl.createBuffer();
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.waveLengthBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( waveLengthArray ), gl.STATIC_DRAW );
 
-      drawable.phaseBuffer = gl.createBuffer();
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.phaseBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( phaseArray ), gl.STATIC_DRAW );
 
@@ -208,6 +202,7 @@ define( function( require ) {
       gl.uniformMatrix3fv( shaderProgram.uniformLocations.uModelViewMatrix, false, new Float32Array( matrix.entries ) );
       gl.uniformMatrix3fv( shaderProgram.uniformLocations.uProjectionMatrix, false, new Float32Array( drawable.webGLBlock.projectionMatrixArray ) );
       gl.uniform1f( shaderProgram.uniformLocations.uScale, scale );
+      gl.uniform3f( shaderProgram.uniformLocations.uColor, red, green, blue );
       gl.uniform2f( shaderProgram.uniformLocations.uCanvasOffset, widthOffset, heightOffset );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
@@ -215,9 +210,6 @@ define( function( require ) {
 
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.powerFractionBuffer );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aPowerFraction, 1, gl.FLOAT, false, 0, 0 );
-
-      gl.bindBuffer( gl.ARRAY_BUFFER, drawable.colorBuffer );
-      gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 3, gl.FLOAT, false, 0, 0 );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.tailBuffer );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aTail, 2, gl.FLOAT, false, 0, 0 );

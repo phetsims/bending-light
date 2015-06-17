@@ -46,8 +46,7 @@ define( function( require ) {
       .lineTo( 5, 23 )
       .quadraticCurveTo( 5, 25, 3, 25 )
       .lineTo( 0, 25 )
-      .lineTo( 0, 0 )
-      .close(), {
+      .lineTo( 0, 0 ), {
       stroke: 'black',
       lineWidth: 0.3,
       fill: new LinearGradient( 0, 0, 0, 29 )
@@ -65,8 +64,7 @@ define( function( require ) {
       .lineTo( 12, 21 )
       .quadraticCurveTo( 12, 23, 10, 23 )
       .lineTo( 5, 23 )
-      .lineTo( 5, 3 )
-      .close(), {
+      .lineTo( 5, 3 ), {
       stroke: 'black',
       lineWidth: 0.3,
       fill: new LinearGradient( 0, 0, 0, 27 )

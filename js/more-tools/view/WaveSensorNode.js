@@ -192,7 +192,8 @@ define( function( require ) {
       },
       end: function() {
         // Check intersection only with the outer rectangle.
-        if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ) {
+        if ( container.bounds.containsCoordinates(
+            waveSensorNode.bodyNode.getCenterX(), waveSensorNode.bodyNode.getCenterY() ) ) {
           var probeInitialPosition = waveSensor.probe1.positionProperty.initialValue;
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
@@ -253,9 +254,9 @@ define( function( require ) {
       },
       end: function() {
         // Check intersection only with the outer rectangle.
-        if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ||
-             container.bounds.containsPoint( waveSensorNode.probe1Node.center ) ||
-             container.bounds.containsPoint( waveSensorNode.probe2Node.center ) ) {
+        if ( container.bounds.containsCoordinates( waveSensorNode.bodyNode.getCenterX(), waveSensorNode.bodyNode.getCenterY() ) ||
+             container.bounds.containsCoordinates( waveSensorNode.probe1Node.getCenterX(), waveSensorNode.probe1Node.getCenterY() ) ||
+             container.bounds.containsCoordinates( waveSensorNode.probe2Node.getCenterX(), waveSensorNode.probe2Node.getCenterY() ) ) {
           var probeInitialPosition = waveSensor.probe1.positionProperty.initialValue;
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );

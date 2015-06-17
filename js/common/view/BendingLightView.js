@@ -111,19 +111,13 @@ define( function( require ) {
     this.addChild( rightRotationDragHandle );
 
     // add translation indicators that show if/when the laser can be moved by dragging
-    var arrowLength = 100;
-    var leftTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), -arrowLength, 0,
+    var arrowLength = 76;
+    var horizontalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0,
       showTranslationDragHandlesProperty );
-    this.addChild( leftTranslationDragHandle );
-    var rightTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, -arrowLength,
+    this.addChild( horizontalTranslationDragHandle );
+    var verticalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength,
       showTranslationDragHandlesProperty );
-    this.addChild( rightTranslationDragHandle );
-    var topTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), arrowLength, 0,
-      showTranslationDragHandlesProperty );
-    this.addChild( topTranslationDragHandle );
-    var bottomTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.getLaser(), 0, arrowLength,
-      showTranslationDragHandlesProperty );
-    this.addChild( bottomTranslationDragHandle );
+    this.addChild( verticalTranslationDragHandle );
 
     // Check to see if WebGL was prevented by a query parameter
     var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
@@ -151,8 +145,8 @@ define( function( require ) {
     this.addChild( laserNode );
 
     // add laser node  rotation  and translation  arrows in array  , for to move them to front of all other nodes in prism screen
-    this.laserLayerArray = [ leftRotationDragHandle, rightRotationDragHandle, leftTranslationDragHandle,
-      rightTranslationDragHandle, topTranslationDragHandle, bottomTranslationDragHandle, laserNode ];
+    this.laserLayerArray = [ leftRotationDragHandle, rightRotationDragHandle, horizontalTranslationDragHandle,
+      verticalTranslationDragHandle, laserNode ];
 
     this.addChild( this.afterLightLayer2 );
 

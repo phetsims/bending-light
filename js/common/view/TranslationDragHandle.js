@@ -42,7 +42,8 @@ define( function( require ) {
       headHeight: 16,
       headWidth: 16,
       tailWidth: 8,
-      fill: '#33FF00'
+      fill: '#33FF00',
+      doubleHead: true
     } );
     translationDragHandle.addChild( counterClockwiseDragArrow );
 
@@ -55,7 +56,7 @@ define( function( require ) {
         var viewDeltaY = magnitude * Math.sin( laserAngle );
         var tailX = modelViewTransform.modelToViewX( laserEmission.x ) + viewDeltaX;
         var tailY = modelViewTransform.modelToViewY( laserEmission.y ) + viewDeltaY;
-        counterClockwiseDragArrow.setTailAndTip( tailX, tailY, tailX + dx * 0.76, tailY + dy * 0.76 );
+        counterClockwiseDragArrow.setTailAndTip( tailX - dx, tailY - dy, tailX + dx, tailY + dy );
       } );
   }
 
