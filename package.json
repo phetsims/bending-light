@@ -1,6 +1,6 @@
 {
   "name": "bending-light",
-  "version": "1.0.0-dev.3",
+  "version": "1.0.0-dev.4",
   "license": "GPLv3",
   "simTitleStringKey": "BENDING_LIGHT/bending-light.name",
   "phetLibs": [
