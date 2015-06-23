@@ -30,13 +30,6 @@ define( function( require ) {
     }
   };
 
-  // Appending '?dev' to the URL will enable developer-only features.
-  if ( phet.chipper.getQueryParameter( 'dev' ) ) {
-    simOptions = _.extend( {
-      // add dev-specific options here
-    }, simOptions );
-  }
-
   SimLauncher.launch( function() {
     var sim = new Sim( simTitle, [ new IntroScreen(), new PrismsScreen(), new MoreToolsScreen() ], simOptions );
     sim.start();
