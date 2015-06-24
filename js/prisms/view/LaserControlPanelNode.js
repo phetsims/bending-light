@@ -45,6 +45,8 @@ define( function( require ) {
   function LaserControlPanelNode( colorModeProperty, wavelengthProperty, options ) {
 
     var laserControlPanelNode = this;
+    var MAX_WIDTH = options.minWidth - 35;
+
 
     options = _.extend( {
       fill: '#EEEEEE ',
@@ -56,7 +58,11 @@ define( function( require ) {
     }, options );
 
     var createButtonTextNode = function( text ) {
-      return new Text( text, { font: new PhetFont( 12 ) } );
+      var itemName = new Text( text, { font: new PhetFont( 12 ) } );
+      if ( itemName.width > MAX_WIDTH ) {
+        itemName.scale( MAX_WIDTH / itemName.width );
+      }
+      return itemName;
     };
 
     var aquaRadioButtonOptions = { radius: 7, font: new PhetFont( 12 ) };
@@ -87,7 +93,7 @@ define( function( require ) {
       maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
       thumbWidth: 20,
       thumbHeight: 20,
-      trackWidth: 155,
+      trackWidth: MAX_WIDTH,
       trackHeight: 20,
       tweakersVisible: false,
       valueVisible: false,
@@ -95,8 +101,11 @@ define( function( require ) {
       pointerAreasOverTrack: true
     } );
 
-    var wavelengthValueText = new Text( this.wavelengthProperty.get() + units_nmString );
-    var wavelengthBoxShape = new Rectangle( 0, 0, 45, 18, 2, 2, { fill: 'white', stroke: 'black' } );
+    var wavelengthValueText = new Text( this.wavelengthProperty.get() + ' ' + units_nmString );
+    var wavelengthBoxShape = new Rectangle( 0, 0, new Text( units_nmString ).width + 31, 18, 2, 2, {
+      fill: 'white',
+      stroke: 'black'
+    } );
 
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
       laserControlPanelNode.wavelengthProperty.set(
@@ -135,8 +144,7 @@ define( function( require ) {
     minusButton.centerY = wavelengthBoxShape.centerY;
 
     var wavelengthValue = new Node( {
-      children: [ minusButton, wavelengthBoxShape, wavelengthValueText,
-        plusButton, wavelengthSlider ]
+      children: [ minusButton, wavelengthBoxShape, wavelengthValueText, plusButton, wavelengthSlider ]
     } );
 
     colorModeProperty.link( function() {
@@ -152,7 +160,7 @@ define( function( require ) {
 
     this.wavelengthProperty.link( function( wavelength ) {
       wavelengthProperty.set( wavelength / 1E9 );
-      wavelengthValueText.text = wavelength + units_nmString;
+      wavelengthValueText.text = wavelength + ' ' + units_nmString;
     } );
 
     Panel.call( this, content, options );

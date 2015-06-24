@@ -85,8 +85,10 @@ define( function( require ) {
 
     var laserControlPanelNode = new LaserControlPanelNode( prismBreakModel.laser.colorModeProperty,
       prismBreakModel.wavelengthProperty, {
-        top: environmentMediumControlPanel.bottom + 15,
-        right: this.layoutBounds.right - 2 * INSET
+        top:   environmentMediumControlPanel.bottom + 15,
+        right: this.layoutBounds.right - 2 * INSET,
+        minWidth: environmentMediumControlPanel.width,
+        align: 'center'
       } );
     this.afterLightLayer2.addChild( laserControlPanelNode );
     this.incidentWaveCanvasLayer.setVisible( false );
@@ -122,7 +124,7 @@ define( function( require ) {
       },
       bottom: this.layoutBounds.bottom - 14,
       right:  this.layoutBounds.right - 2 * INSET,
-      radius: 20
+      radius: 19
     } );
 
     this.afterLightLayer2.addChild( resetAllButton );

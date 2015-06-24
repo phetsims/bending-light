@@ -100,8 +100,11 @@ define( function( require ) {
           pointerAreasOverTrack: true
         } );
 
-      var wavelengthValueText = new Text( this.laserWavelengthProperty.get() + units_nmString );
-      var wavelengthBoxShape = new Rectangle( 0, 0, 50, 18, 2, 2, { fill: 'white', stroke: 'black' } );
+      var wavelengthValueText = new Text( this.laserWavelengthProperty.get() + ' ' + units_nmString );
+      var wavelengthBoxShape = new Rectangle( 0, 0, new Text( units_nmString ).width + 36, 18, 2, 2, {
+        fill: 'white',
+        stroke: 'black'
+      } );
 
       var plusButton = new ArrowButton( 'right', function propertyPlus() {
         laserView.laserWavelengthProperty.set(
@@ -151,7 +154,7 @@ define( function( require ) {
       } );
       this.laserWavelengthProperty.link( function( wavelength ) {
         model.wavelengthProperty.set( wavelength / 1E9 );
-        wavelengthValueText.text = wavelength + units_nmString;
+        wavelengthValueText.text = wavelength + ' ' + units_nmString;
       } );
     }
     else {

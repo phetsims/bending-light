@@ -47,7 +47,6 @@ define( function( require ) {
   var INDEX_OF_REFRACTION_MAX = 1.6;
   var PLUS_MINUS_SPACING = 4;
   var INSET = 10;
-  var LABEL_TEXT_MAX_WIDTH = 30;
 
   /**
    *
@@ -64,8 +63,6 @@ define( function( require ) {
 
     Node.call( this );
     var mediumControlPanel = this;
-
-    var TEXT_MAX_WIDTH = textFieldVisible ? 252 : 170;
 
     options = _.extend( {
       xMargin: 10,
@@ -87,19 +84,20 @@ define( function( require ) {
     var custom = true;
 
     // add material combo box
+    var materialTitleWidth = textFieldVisible ? 80 : 90;
     var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
-
-    if ( materialTitle.width > (textFieldVisible ? 80 : 73) ) {
-      materialTitle.scale( (textFieldVisible ? 80 : 73 ) / materialTitle.width );
+    if ( materialTitle.width > materialTitleWidth ) {
+      materialTitle.scale( materialTitleWidth / materialTitle.width );
     }
 
-    var maxWidth = textFieldVisible ? 130 : TEXT_MAX_WIDTH - materialTitle.width - 42;
+    var maxWidth = (textFieldVisible ? 178 : 128) - materialTitle.width;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
     var createItem = function( item ) {
+      var comboBoxTextWidth = textFieldVisible ? 130 : 75;
       var itemName = new Text( item.name, textOptionsOfComboBoxStrings );
-      if ( itemName.width > maxWidth ) {
-        itemName.scale( maxWidth / itemName.width );
+      if ( itemName.width > comboBoxTextWidth ) {
+        itemName.scale( comboBoxTextWidth / itemName.width );
       }
       var strutWidth = maxWidth - itemName.width;
 
@@ -157,10 +155,10 @@ define( function( require ) {
     } );
 
     var textOptions = { font: new PhetFont( 12 ) };
+    var indexOfRefractionLabelWidth = textFieldVisible ? 152 : 208;
     var indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
-
-    if ( indexOfRefractionLabel.width > (textFieldVisible ? TEXT_MAX_WIDTH - 100 : TEXT_MAX_WIDTH) ) {
-      indexOfRefractionLabel.scale( (textFieldVisible ? TEXT_MAX_WIDTH - 100 : TEXT_MAX_WIDTH) / indexOfRefractionLabel.width );
+    if ( indexOfRefractionLabel.width > indexOfRefractionLabelWidth ) {
+      indexOfRefractionLabel.scale( indexOfRefractionLabelWidth / indexOfRefractionLabel.width );
     }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
     var indexOfRefractionValueText = new Text( this.mediumIndexProperty.get().toFixed( format ), textOptions );
@@ -213,23 +211,25 @@ define( function( require ) {
     indexOfRefractionLabel.right = minusButton.left - INSET;
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
+    var sliderWidth = Math.max( materialComboBox.width, indexOfRefractionLabel.width ) - 35;
+    var labelWidth = sliderWidth * 0.25;
     var airTitle = new Text( airString );
-    if ( airTitle.width > LABEL_TEXT_MAX_WIDTH ) {
-      airTitle.scale( LABEL_TEXT_MAX_WIDTH / airTitle.width );
+    if ( airTitle.width > labelWidth ) {
+      airTitle.scale( labelWidth / airTitle.width );
     }
     var waterTitle = new Text( waterString );
-    if ( waterTitle.width > LABEL_TEXT_MAX_WIDTH ) {
-      waterTitle.scale( LABEL_TEXT_MAX_WIDTH / waterTitle.width );
+    if ( waterTitle.width > labelWidth ) {
+      waterTitle.scale( labelWidth / waterTitle.width );
     }
     var glassTitle = new Text( glassString );
-    if ( glassTitle.width > LABEL_TEXT_MAX_WIDTH ) {
-      glassTitle.scale( LABEL_TEXT_MAX_WIDTH / glassTitle.width );
+    if ( glassTitle.width > labelWidth ) {
+      glassTitle.scale( labelWidth / glassTitle.width );
     }
     var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty,
       { min: INDEX_OF_REFRACTION_MIN, max: INDEX_OF_REFRACTION_MAX },
       {
         trackFill: 'white',
-        trackSize: new Dimension2( 145, 1 ),
+        trackSize: new Dimension2( sliderWidth, 1 ),
         thumbSize: new Dimension2( 10, 20 ),
         majorTickLength: 11,
         tickLabelSpacing: 3,
