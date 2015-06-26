@@ -72,7 +72,7 @@ define( function( require ) {
         // Perpendicular distance from tail to rendering coordinate. This is obtained by Coordinate Transformation to
         // tail point and applying dot product to the unit vector in the direction of ray and rendering coordinate
         // tail coordinate is mapped from view to canvas (layoutBounds.height - uTail.y)
-        'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(x1-uTail.x,y1+uTail.y-525.5));',
+        'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(x1-uTail.x,y1+uTail.y-504.0));',
         // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
         'float positionDiff =  mod( abs( distance - uPhase), uWaveLength);',
         // color is determined by perpendicular distance of coordinate from the start of the particle.
@@ -101,9 +101,19 @@ define( function( require ) {
 
       shaderProgram.use();
 
-      var scale = Math.max( window.innerWidth / this.screenWidth, window.innerHeight / this.screenHeight ) * 0.915;
-      var widthOffset = (window.innerWidth - (  this.screenWidth * scale)) / 2;
-      var heightOffset = (window.innerHeight - (  this.screenHeight * scale)) / 2;
+      var widthOffset;
+      var heightOffset;
+      var scale = Math.min( window.innerWidth / this.screenWidth, window.innerHeight / this.screenHeight );
+      if ( scale === window.innerWidth / this.screenWidth ) {
+        widthOffset = 0;
+        heightOffset = ((window.innerHeight - (this.screenHeight + 40) * scale) / 2) + 40 * scale;
+      }
+      else {
+        var navBarHeight = 40 * scale;
+        scale = (window.innerHeight - navBarHeight) / this.screenHeight;
+        widthOffset = (window.innerWidth - (  this.screenWidth * scale)) / 2;
+        heightOffset = navBarHeight;
+      }
 
       for ( var i = this.rays.length - 1; i >= 0; i-- ) {
         var elements = [];
