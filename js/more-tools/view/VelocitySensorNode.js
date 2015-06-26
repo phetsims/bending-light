@@ -25,6 +25,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Util = require( 'DOT/Util' );
 
   // strings
   var speedString = require( 'string!BENDING_LIGHT/speed' );
@@ -234,7 +235,7 @@ define( function( require ) {
           labelText.text = '?';
         }
         else {
-          labelText.text = (velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT).toFixed( 2 ) + " " + c_units;
+          labelText.text = Util.toFixed( velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT, 2 ) + " " + c_units;
         }
         labelText.center = innerMostRectangle.center;
       } );

@@ -161,7 +161,7 @@ define( function( require ) {
       indexOfRefractionLabel.scale( indexOfRefractionLabelWidth / indexOfRefractionLabel.width );
     }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
-    var indexOfRefractionValueText = new Text( this.mediumIndexProperty.get().toFixed( format ), textOptions );
+    var indexOfRefractionValueText = new Text( Util.toFixed( this.mediumIndexProperty.get(), format ), textOptions );
     var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 45, 20, 2, 2, {
       fill: 'white',
       stroke: 'black'
@@ -211,7 +211,8 @@ define( function( require ) {
     indexOfRefractionLabel.right = minusButton.left - INSET;
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
-    var sliderWidth = Math.max( materialComboBox.width, indexOfRefractionLabel.width ) - 35;
+    var sliderWidth = Math.max( materialComboBox.width,
+        textFieldVisible ? indexOfRefractionLabel.width + 90 : indexOfRefractionLabel.width ) - 35;
     var labelWidth = sliderWidth * 0.25;
     var airTitle = new Text( airString );
     if ( airTitle.width > labelWidth ) {
@@ -281,7 +282,8 @@ define( function( require ) {
     Property.multilink( [ mediumProperty, this.laserWavelength ],
       function() {
         custom = mediumProperty.get().getMediumState().custom;
-        indexOfRefractionValueText.text = mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ).toFixed( format );
+        indexOfRefractionValueText.text = Util.toFixed(
+          mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), format );
       } );
 
 
@@ -310,8 +312,8 @@ define( function( require ) {
       if ( custom ) {
         mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
       }
-      plusButton.enabled = ( indexOfRefraction.toFixed( format ) < INDEX_OF_REFRACTION_MAX);
-      minusButton.enabled = ( indexOfRefraction.toFixed( format ) > INDEX_OF_REFRACTION_MIN );
+      plusButton.enabled = ( Util.toFixed( indexOfRefraction, format ) < INDEX_OF_REFRACTION_MAX);
+      minusButton.enabled = ( Util.toFixed( indexOfRefraction, format ) > INDEX_OF_REFRACTION_MIN );
     } );
   }
 

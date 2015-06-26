@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var Util = require( 'DOT/Util' );
 
   // strings
   var miss = require( 'string!BENDING_LIGHT/miss' );
@@ -72,7 +73,7 @@ define( function( require ) {
        * @returns {string}
        */
       format: function( value ) {
-        return (value).toFixed( VALUE_DECIMALS ) + "%";
+        return Util.toFixed( value, VALUE_DECIMALS ) + "%";
       },
 
       /**
