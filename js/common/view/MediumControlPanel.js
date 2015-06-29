@@ -55,11 +55,11 @@ define( function( require ) {
    * @param {string} name - name of the medium material
    * @param {boolean} textFieldVisible
    * @param {number} laserWavelength
-   * @param {number} format
+   * @param {number} decimalPlaces
    * @param {Object} [options]
    * @constructor
    */
-  function MediumControlPanel( view, mediumProperty, name, textFieldVisible, laserWavelength, format, options ) {
+  function MediumControlPanel( view, mediumProperty, name, textFieldVisible, laserWavelength, decimalPlaces, options ) {
 
     Node.call( this );
     var mediumControlPanel = this;
@@ -161,7 +161,7 @@ define( function( require ) {
       indexOfRefractionLabel.scale( indexOfRefractionLabelWidth / indexOfRefractionLabel.width );
     }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
-    var indexOfRefractionValueText = new Text( Util.toFixed( this.mediumIndexProperty.get(), format ), textOptions );
+    var indexOfRefractionValueText = new Text( Util.toFixed( this.mediumIndexProperty.get(), decimalPlaces ), textOptions );
     var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 45, 20, 2, 2, {
       fill: 'white',
       stroke: 'black'
@@ -170,8 +170,8 @@ define( function( require ) {
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
       custom = true;
       mediumControlPanel.mediumIndexProperty.set(
-        Util.toFixedNumber( Math.min( mediumControlPanel.mediumIndexProperty.get() + 1 / Math.pow( 10, format ),
-          INDEX_OF_REFRACTION_MAX ), format ) );
+        Util.toFixedNumber( Math.min( mediumControlPanel.mediumIndexProperty.get() + 1 / Math.pow( 10, decimalPlaces ),
+          INDEX_OF_REFRACTION_MAX ), decimalPlaces ) );
     }, {
       scale: 0.7,
       xMargin: 5,
@@ -185,8 +185,8 @@ define( function( require ) {
     var minusButton = new ArrowButton( 'left', function propertyMinus() {
       custom = true;
       mediumControlPanel.mediumIndexProperty.set(
-        Util.toFixedNumber( Math.max( mediumControlPanel.mediumIndexProperty.get() - 1 / Math.pow( 10, format ),
-          INDEX_OF_REFRACTION_MIN ), format ) );
+        Util.toFixedNumber( Math.max( mediumControlPanel.mediumIndexProperty.get() - 1 / Math.pow( 10, decimalPlaces ),
+          INDEX_OF_REFRACTION_MIN ), decimalPlaces ) );
     }, {
       scale: 0.7,
       xMargin: 5,
@@ -283,7 +283,7 @@ define( function( require ) {
       function() {
         custom = mediumProperty.get().getMediumState().custom;
         indexOfRefractionValueText.text = Util.toFixed(
-          mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), format );
+          mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), decimalPlaces );
       } );
 
 
@@ -312,8 +312,8 @@ define( function( require ) {
       if ( custom ) {
         mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
       }
-      plusButton.enabled = ( Util.toFixed( indexOfRefraction, format ) < INDEX_OF_REFRACTION_MAX);
-      minusButton.enabled = ( Util.toFixed( indexOfRefraction, format ) > INDEX_OF_REFRACTION_MIN );
+      plusButton.enabled = ( Util.toFixed( indexOfRefraction, decimalPlaces ) < INDEX_OF_REFRACTION_MAX);
+      minusButton.enabled = ( Util.toFixed( indexOfRefraction, decimalPlaces ) > INDEX_OF_REFRACTION_MIN );
     } );
   }
 
