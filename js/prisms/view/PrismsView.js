@@ -85,7 +85,7 @@ define( function( require ) {
 
     var laserControlPanelNode = new LaserControlPanelNode( prismBreakModel.laser.colorModeProperty,
       prismBreakModel.wavelengthProperty, {
-        top:   environmentMediumControlPanel.bottom + 15,
+        top: environmentMediumControlPanel.bottom + 15,
         right: this.layoutBounds.right - 2 * INSET,
         minWidth: environmentMediumControlPanel.width,
         align: 'center'
@@ -123,7 +123,7 @@ define( function( require ) {
         prismToolboxNode.objectMediumControlPanel.reset();
       },
       bottom: this.layoutBounds.bottom - 14,
-      right:  this.layoutBounds.right - 2 * INSET,
+      right: this.layoutBounds.right - 2 * INSET,
       radius: 19
     } );
 
