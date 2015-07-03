@@ -1,9 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Main model for bending light application.  Rays are recomputed whenever laser parameters changed.
- * Each ray oscillates in time, as shown in the wave view.  There are model representations for several tools as well
- * as their visibility.
+ * Main model for bending light application.  Rays are recomputed whenever laser parameters changed. Each ray oscillates
+ * in time, as shown in the wave view.  There are model representations for several tools as well as their visibility.
  *
  * @author Sam Reid
  */
@@ -45,8 +44,7 @@ define( function( require ) {
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   /**
-   * Main constructor for BendingLightModel,
-   * which contains all of the model logic for the entire sim screen.
+   * Main constructor for BendingLightModel, which contains all of the model logic for the entire sim screen.
    *
    * @param {number} laserAngle
    * @param {boolean} topLeftQuadrant
@@ -189,6 +187,7 @@ define( function( require ) {
         this.intensityMeter.reset();
       }
     },
+    
     //statics
     {
       DEFAULT_LASER_DISTANCE_FROM_PIVOT: DEFAULT_LASER_DISTANCE_FROM_PIVOT,
