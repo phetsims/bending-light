@@ -62,12 +62,12 @@ define( function( require ) {
     this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public read-only
     this.modelHeight = this.modelWidth * 0.7; // @public read-only
 
-    //  if  WebGL support  then particles creation  and propagation not need
-    //  else we should create particles and propagate to render them on canvas.
+    // if WebGL support then particles creation and propagation not need else we should create particles and propagate 
+    // to render them on canvas.
     this.allowWebGL = false;
 
     PropertySet.call( this, {
-        laserView: 'ray', //Whether the laser is Ray or Wave mode
+        laserView: 'ray', // Whether the laser is Ray or Wave mode
         wavelength: BendingLightConstants.WAVELENGTH_RED,
         isPlaying: true,
         speed: 'normal',

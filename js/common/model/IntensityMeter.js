@@ -19,7 +19,7 @@ define( function( require ) {
   /**
    *
    * @param {number} sensorX - sensor x position in model values
-   * @param {number} sensorY - sensor  y position in model values
+   * @param {number} sensorY - sensor y position in model values
    * @param {number} bodyX - body x position in model values
    * @param {number} bodyY - body y position in model values
    * @constructor
