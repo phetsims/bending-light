@@ -73,7 +73,7 @@ define( function( require ) {
        * @returns {string}
        */
       format: function( value ) {
-        return Util.toFixed( value, VALUE_DECIMALS ) + "%";
+        return Util.toFixed( value, VALUE_DECIMALS ) + '%';
       },
 
       /**
