@@ -160,7 +160,7 @@ define( function( require ) {
         introModel.laser.onProperty.value && introModel.laserViewProperty.value === 'wave' );
     } );
 
-    //  add laser view panel
+    // add laser view panel
     var laserViewXOffset = hasMoreTools ? 13 : 12;
     var laserViewYOffset = hasMoreTools ? 2 * INSET - 4 : 2 * INSET;
     var laserView = new LaserView( introModel, hasMoreTools, {
@@ -188,7 +188,7 @@ define( function( require ) {
     var protractorModelPositionY = this.modelViewTransform.viewToModelY( protractorNodeY );
     this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
 
-    //  if intro screen  regular protractor node else expandable protractor node.
+    // if intro screen  regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {
       this.protractorNode = new ProtractorNode( this, this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,

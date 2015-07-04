@@ -124,7 +124,7 @@ define( function( require ) {
         var prismReferenceYPosition = modelViewTransform.modelToViewY( prismReferencePoint.y );
         var prismCenterX = modelViewTransform.modelToViewX( prismShapeCenter.x );
         var prismCenterY = modelViewTransform.modelToViewY( prismShapeCenter.y );
-        //  calculate angle
+        // calculate angle
         var angle = Math.atan2( (prismCenterY - prismReferenceYPosition), ( prismCenterX - prismReferenceXPosition ) );
         knobCenterPoint.x = -knobNode.getWidth() - 7;
         knobCenterPoint.y = -knobNode.getHeight() / 2 - 8;

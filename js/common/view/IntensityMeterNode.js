@@ -28,7 +28,7 @@ define( function( require ) {
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
 
-  //  constants
+  // constants
   var INTENSITY_METER_SCALE_INSIDE_TOOLBOX = 0.25;
   var INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX = 0.85;
 
@@ -48,7 +48,7 @@ define( function( require ) {
     this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
     this.intensityMeter = intensityMeter;
-    var intensityMeterDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); //  in model co- ordinates
+    var intensityMeterDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co- ordinates
 
     // add sensor node
     var sensorShape = new Shape()

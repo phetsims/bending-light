@@ -54,7 +54,7 @@ define( function( require ) {
         '}'
       ].join( '\n' );
 
-      //   custom  fragment shader
+      // custom fragment shader
       var fragmentShaderSource = [
         'precision mediump float;',
         'uniform float uPowerFraction;', // light ray power fraction
@@ -150,7 +150,7 @@ define( function( require ) {
         // light ray wavelength
         var wavelength = this.modelViewTransform.modelToViewDeltaX( lightRay.wavelength );
 
-        //  phase
+        // phase
         var totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
         var phaseDiff = this.modelViewTransform.modelToViewDeltaX(
           (totalPhaseOffsetInNumberOfWavelengths % 1) * lightRay.wavelength );

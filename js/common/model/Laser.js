@@ -45,7 +45,7 @@ define( function( require ) {
     // vector for to store new laser pivot point
     this.newPivotPoint = new Vector2( 0, 0 );
 
-    //  laser direction vector
+    // laser direction vector
     this.directionUnitVector = new Vector2( 0, 0 );
 
     this.waveProperty.link( function() {

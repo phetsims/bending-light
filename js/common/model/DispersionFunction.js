@@ -15,7 +15,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-
   /**
    *
    * @param {number} referenceIndexOfRefraction

@@ -77,7 +77,7 @@ define( function( require ) {
       return item.width;
     } ).width;
 
-    //  Touch areas
+    // Touch areas
     var touchExpansion = 5;
     oneColorRadio.touchArea = new Bounds2( oneColorRadio.localBounds.minX - touchExpansion, oneColorRadio.localBounds.minY,
       oneColorRadio.localBounds.minX + maxRadioButtonWidth, oneColorRadio.localBounds.maxY );
@@ -87,7 +87,7 @@ define( function( require ) {
 
     this.wavelengthProperty = new Property( wavelengthProperty.value * 1E9 );
 
-    //  Create  WavelengthSlider node
+    // Create  WavelengthSlider node
     var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty, {
       cursorStroke: 'white',
       maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,

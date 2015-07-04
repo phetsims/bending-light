@@ -95,7 +95,7 @@ define( function( require ) {
     var innerBarShape = new Shape().rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
       protractorImageWidth * 0.6, protractorImageHeight * 0.15 );
 
-    //  add a mouse listener for dragging when the drag region
+    // add a mouse listener for dragging when the drag region
     // (entire body in all tabs, just the inner bar on prism break tab) is dragged
     var translatePath = new Path( translateShape( fullShape, innerBarShape, outerRimShape ), {
       pickable: true,

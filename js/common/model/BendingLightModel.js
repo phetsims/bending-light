@@ -19,7 +19,7 @@ define( function( require ) {
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-  //  strings
+  // strings
   var airString = require( 'string!BENDING_LIGHT/air' );
   var waterString = require( 'string!BENDING_LIGHT/water' );
   var glassString = require( 'string!BENDING_LIGHT/glass' );
