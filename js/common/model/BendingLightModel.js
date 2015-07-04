@@ -81,7 +81,8 @@ define( function( require ) {
       -this.modelWidth * (centerOffsetLeft ? 0.34 : 0.48),
       -this.modelHeight * 0.285,
       -this.modelWidth * (centerOffsetLeft ? 0.282 : 0.421),
-      -this.modelHeight * 0.312 );
+      -this.modelHeight * 0.312
+    );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
     this.wavelengthProperty.link( function( wavelength ) {
       bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );
