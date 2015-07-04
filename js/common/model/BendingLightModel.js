@@ -161,7 +161,7 @@ define( function( require ) {
        * @param {number} n1
        * @param {number} n2
        * @param {number} cosTheta1
-       * @param {number}cosTheta2
+       * @param {number} cosTheta2
        * @returns {number}
        */
       getTransmittedPower: function( n1, n2, cosTheta1, cosTheta2 ) {
