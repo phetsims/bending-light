@@ -141,6 +141,7 @@ define( function( require ) {
           this.rays.get( i ).particles.clear();
         }
         this.rays.clear();
+        
         // clear the accumulator in the intensity meter so it can sum up the newly created rays
         this.intensityMeter.clearRayReadings();
       },
