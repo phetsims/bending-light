@@ -105,7 +105,7 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor
    * @param {Rectangle} container
-   * @param {Bounds2} dragBounds - bounds that define where the waves sensor  may be dragged
+   * @param {Bounds2} dragBounds - bounds that define where the waves sensor may be dragged
    * @constructor
    */
   function WaveSensorNode( moreToolsView, modelViewTransform, waveSensor, container, dragBounds ) {

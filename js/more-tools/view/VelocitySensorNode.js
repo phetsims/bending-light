@@ -42,7 +42,7 @@ define( function( require ) {
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param {number} arrowScale
    * @param {Rectangle} container
-   * @param {Bounds2} dragBounds - bounds that define where the velocity sensor   may be dragged
+   * @param {Bounds2} dragBounds - bounds that define where the velocity sensor may be dragged
    * @constructor
    */
   function VelocitySensorNode( moreToolsView, modelViewTransform, velocitySensor, arrowScale, container, dragBounds ) {
