@@ -3,6 +3,7 @@
 /**
  * Display type for the rays, can be shown as rays (non moving lines) or waves (animating).
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -24,11 +25,13 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var rayString = require( 'string!BENDING_LIGHT/ray' );
   var waveString = require( 'string!BENDING_LIGHT/wave' );
   var units_nmString = require( 'string!BENDING_LIGHT/units_nm' );
+  var waveLengthPattern = require( 'string!BENDING_LIGHT/waveLengthPattern' );
 
   // constants
   var PLUS_MINUS_SPACING = 4;
@@ -154,7 +157,7 @@ define( function( require ) {
       } );
       this.laserWavelengthProperty.link( function( wavelength ) {
         model.wavelengthProperty.set( wavelength / 1E9 );
-        wavelengthValueText.text = wavelength + ' ' + units_nmString;
+        wavelengthValueText.setText( StringUtils.format( waveLengthPattern, wavelength, units_nmString ) );
       } );
     }
     else {

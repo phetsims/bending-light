@@ -112,5 +112,8 @@
   },
   "c_units": {
     "value": "c"
+  },
+  "waveLengthPattern": {
+    "value": "{0} {1}"
   }
 }

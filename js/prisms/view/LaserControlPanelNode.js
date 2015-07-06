@@ -4,8 +4,8 @@
  * Control panel for the laser in the "prisms" Screen, such as choosing whether it is white light or one color, and the
  * wavelength.
  *
- * @author Sam Reid
  * @author Chandrashekar Bemagoni (Actual Concepts)
+ * @author Sam Reid
  */
 
 define( function( require ) {
@@ -26,11 +26,13 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var oneColorString = require( 'string!BENDING_LIGHT/oneColor' );
   var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
   var units_nmString = require( 'string!BENDING_LIGHT/units_nm' );
+  var waveLengthPattern = require( 'string!BENDING_LIGHT/waveLengthPattern' );
 
   // constants
   var PLUS_MINUS_SPACING = 4;
@@ -160,7 +162,7 @@ define( function( require ) {
 
     this.wavelengthProperty.link( function( wavelength ) {
       wavelengthProperty.set( wavelength / 1E9 );
-      wavelengthValueText.text = wavelength + ' ' + units_nmString;
+      wavelengthValueText.setText( StringUtils.format( waveLengthPattern, wavelength, units_nmString ) );
     } );
 
     Panel.call( this, content, options );
