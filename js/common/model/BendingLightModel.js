@@ -40,6 +40,33 @@ define( function( require ) {
   var MYSTERY_A = new MediumState( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
   var MYSTERY_B = new MediumState( mysteryBString, 1.4, true, false );
 
+
+  /**
+   * Get the fraction of power reflected from the medium
+   * @public
+   * @param {number} n1
+   * @param {number} n2
+   * @param {number} cosTheta1
+   * @param {number} cosTheta2
+   * @returns {number}
+   */
+  var getReflectedPower = function getReflectedPower( n1, n2, cosTheta1, cosTheta2 ) {
+    return Math.pow( (n1 * cosTheta1 - n2 * cosTheta2) / (n1 * cosTheta1 + n2 * cosTheta2), 2 );
+  };
+
+  /**
+   * Get the fraction of power transmitted through the medium
+   * @public
+   * @param {number} n1
+   * @param {number} n2
+   * @param {number} cosTheta1
+   * @param {number} cosTheta2
+   * @returns {number}
+   */
+  var getTransmittedPower = function getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ) {
+    return 4 * n1 * n2 * cosTheta1 * cosTheta2 / (Math.pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ));
+  };
+
   // a good size for the units being used in the sim; used to determine the dimensions of various model objects
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
@@ -155,31 +182,7 @@ define( function( require ) {
         this.propagateRays();
       },
 
-      /**
-       * Get the fraction of power transmitted through the medium
-       * @public
-       * @param {number} n1
-       * @param {number} n2
-       * @param {number} cosTheta1
-       * @param {number} cosTheta2
-       * @returns {number}
-       */
-      getTransmittedPower: function( n1, n2, cosTheta1, cosTheta2 ) {
-        return 4 * n1 * n2 * cosTheta1 * cosTheta2 / (Math.pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ));
-      },
 
-      /**
-       * Get the fraction of power reflected from the medium
-       * @public
-       * @param {number} n1
-       * @param {number} n2
-       * @param {number} cosTheta1
-       * @param {number} cosTheta2
-       * @returns {number}
-       */
-      getReflectedPower: function( n1, n2, cosTheta1, cosTheta2 ) {
-        return Math.pow( (n1 * cosTheta1 - n2 * cosTheta2) / (n1 * cosTheta1 + n2 * cosTheta2), 2 );
-      },
 
       /**
        * @public
@@ -201,6 +204,8 @@ define( function( require ) {
       GLASS: GLASS,
       DIAMOND: DIAMOND,
       MYSTERY_A: MYSTERY_A,
-      MYSTERY_B: MYSTERY_B
+      MYSTERY_B: MYSTERY_B,
+      getReflectedPower: getReflectedPower,
+      getTransmittedPower: getTransmittedPower
     } );
 } );

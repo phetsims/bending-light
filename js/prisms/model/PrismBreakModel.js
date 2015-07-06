@@ -318,9 +318,9 @@ define( function( require ) {
         var vRefract = cosTheta1 > 0 ? (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 - cosTheta2 ) )
           : (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 + cosTheta2 ) );
         var reflectedPower = totalInternalReflection ? 1
-          : Util.clamp( this.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
+          : Util.clamp( BendingLightModel.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
         var transmittedPower = totalInternalReflection ? 0
-          : Util.clamp( this.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );// clamp(value,min,max)
+          : Util.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );// clamp(value,min,max)
 
         // Create the new rays and propagate them recursively
         var reflected = new Ray( ( incidentRay.directionUnitVector.times( -1E-12 )).add( point ), vReflect,

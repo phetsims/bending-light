@@ -125,7 +125,7 @@ define( function( require ) {
           // assuming perpendicular beam polarization, compute percent power
           var reflectedPowerRatio;
           if ( hasTransmittedRay ) {
-            reflectedPowerRatio = this.getReflectedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
+            reflectedPowerRatio = BendingLightModel.getReflectedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
           }
           else {
             reflectedPowerRatio = 1.0;
@@ -151,7 +151,7 @@ define( function( require ) {
             if ( isNaN( theta2 ) || !isFinite( theta2 ) ) {
             }
             else {
-              var transmittedPowerRatio = this.getTransmittedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
+              var transmittedPowerRatio = BendingLightModel.getTransmittedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
 
               // make the beam width depend on the input beam width, so that the same beam width is transmitted as was
               // intercepted
