@@ -3,6 +3,7 @@
 /**
  * Base class for Bending Light
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -23,7 +24,6 @@ define( function( require ) {
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
-  var Util = require( 'SCENERY/util/Util' );
   var ObservableArray = require( 'AXON/ObservableArray' );
 
   /**
@@ -119,18 +119,7 @@ define( function( require ) {
       showTranslationDragHandlesProperty );
     this.addChild( verticalTranslationDragHandle );
 
-    // Check to see if WebGL was prevented by a query parameter
-    var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
-
-    // The mobile WebGL implementation will work with basic WebGL support
-    var allowMobileWebGL = Util.checkWebGLSupport() && !disallowWebGL;
-
-    // The unlimited-particle implementation will work only with OES_texture_float where writing to
-    // float textures is supported.
-    var allowWebGL = allowMobileWebGL && Util.checkWebGLSupport( [ 'OES_texture_float' ] );
-
-    model.allowWebGL = allowWebGL;
-    if ( allowWebGL ) {
+    if ( model.allowWebGL ) {
       var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
         model.rays,
         bendingLightView.layoutBounds.width,
@@ -164,7 +153,7 @@ define( function( require ) {
         bendingLightView.lightRayLayer.addChild( node );
       }
       else {
-        if ( !allowWebGL ) {
+        if ( !model.allowWebGL ) {
           for ( var k = 0; k < model.rays.length; k++ ) {
             var waveShape = model.rays.get( k ).getWaveShape();
             var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles,
@@ -181,7 +170,7 @@ define( function( require ) {
     model.rays.addItemRemovedListener( function() {
       bendingLightView.lightRayLayer.removeAllChildren();
       bendingLightView.waveCanvasLayer.removeAllChildren();
-      if ( !allowWebGL ) {
+      if ( !model.allowWebGL ) {
         bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
       }
       whiteLightRays.clear();

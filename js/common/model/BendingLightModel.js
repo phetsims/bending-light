@@ -4,6 +4,7 @@
  * Main model for bending light application.  Rays are recomputed whenever laser parameters changed. Each ray oscillates
  * in time, as shown in the wave view.  There are model representations for several tools as well as their visibility.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -18,6 +19,7 @@ define( function( require ) {
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Util = require( 'SCENERY/util/Util' );
 
   // strings
   var airString = require( 'string!BENDING_LIGHT/air' );
@@ -90,8 +92,11 @@ define( function( require ) {
     this.modelHeight = this.modelWidth * 0.7; // @public read-only
 
     // if WebGL support then particles creation and propagation not need else we should create particles and propagate 
-    // to render them on canvas.
-    this.allowWebGL = false;
+    // to render them on canvas. Check to see if WebGL was prevented by a query parameter
+    var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
+
+    // The mobile WebGL implementation will work with basic WebGL support
+    this.allowWebGL = Util.checkWebGLSupport() && !disallowWebGL;
 
     PropertySet.call( this, {
         laserView: 'ray', // Whether the laser is Ray or Wave mode
@@ -168,7 +173,7 @@ define( function( require ) {
           this.rays.get( i ).particles.clear();
         }
         this.rays.clear();
-        
+
         // clear the accumulator in the intensity meter so it can sum up the newly created rays
         this.intensityMeter.clearRayReadings();
       },
