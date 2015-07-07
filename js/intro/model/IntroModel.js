@@ -45,7 +45,6 @@ define( function( require ) {
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomMediumState,
       MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
     this.time = 0;
-
     Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
