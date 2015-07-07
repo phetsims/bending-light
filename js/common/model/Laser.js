@@ -15,21 +15,22 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PropertySet = require( 'AXON/PropertySet' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
 
   /**
    *
+   * @param {Property<number>}wavelengthProperty
    * @param {number} distanceFromPivot - distance from laser pivot point
    * @param {number} angle - laser angle
    * @param {Boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
    * @constructor
    */
-  function Laser( distanceFromPivot, angle, topLeftQuadrant ) {
+  function Laser( wavelengthProperty, distanceFromPivot, angle, topLeftQuadrant ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
     var laser = this;
     PropertySet.call( this, {
       pivot: new Vector2( 0, 0 ), // point to be pivoted about, and at which the laser points
-      color: new LaserColor( BendingLightConstants.WAVELENGTH_RED ),
       on: false,    // true if the laser is activated and emitting light
       wave: false,
       colorMode: 'singleColor',
@@ -37,7 +38,9 @@ define( function( require ) {
       // where the light comes from
       emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
     } );
-
+    this.colorProperty = new DerivedProperty( [ wavelengthProperty ], function( wavelength ) {
+      return new LaserColor( wavelength );
+    } );
     // reusable vectors to avoid to many vector allocations
     // vector to store new laser emission point
     this.newEmissionPoint = new Vector2( 0, 0 );
@@ -121,7 +124,7 @@ define( function( require ) {
      * @returns {number}
      */
     getWavelength: function() {
-      return this.color.wavelength;
+      return this.colorProperty.get().wavelength;
     },
 
     /**

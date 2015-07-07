@@ -105,8 +105,8 @@ define( function( require ) {
         var sourceWaveWidth = a / 2;
 
         // according to http://en.wikipedia.org/wiki/Wavelength
-        var color = this.laser.color.getColor();
-        var wavelengthInTopMedium = this.laser.color.wavelength / n1;
+        var color = this.laser.colorProperty.get().getColor();
+        var wavelengthInTopMedium = this.laser.colorProperty.get().wavelength / n1;
 
         // calculated wave width of reflected and refracted wave width.
         // specially used in in wave Mode
@@ -185,7 +185,7 @@ define( function( require ) {
      * @returns {number}
      */
     getN1: function() {
-      return this.topMediumProperty.get().getIndexOfRefraction( this.laser.color.wavelength );
+      return this.topMediumProperty.get().getIndexOfRefraction( this.laser.colorProperty.get().wavelength );
     },
 
     /**
@@ -194,7 +194,7 @@ define( function( require ) {
      * @returns {number}
      */
     getN2: function() {
-      return this.bottomMediumProperty.get().getIndexOfRefraction( this.laser.color.wavelength );
+      return this.bottomMediumProperty.get().getIndexOfRefraction( this.laser.colorProperty.get().wavelength );
     },
 
     /**
@@ -226,7 +226,7 @@ define( function( require ) {
           y = intersects[ 0 ].point.y + intersects[ 1 ].point.y;
         }
         var interrupted = new LightRay( ray.trapeziumWidth, ray.tail, new Vector2( x / 2, y / 2 ),
-          ray.indexOfRefraction, ray.wavelength, ray.powerFraction, this.laser.color.getColor(),
+          ray.indexOfRefraction, ray.wavelength, ray.powerFraction, this.laser.colorProperty.get().getColor(),
           ray.waveWidth, ray.numWavelengthsPhaseOffset, false, ray.extendBackwards );
 
         //don't let the wave intersect the intensity meter if it is behind the laser emission point

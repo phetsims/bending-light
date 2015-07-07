@@ -115,10 +115,7 @@ define( function( require ) {
       -this.modelWidth * (centerOffsetLeft ? 0.282 : 0.421),
       -this.modelHeight * 0.312
     );
-    this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
-    this.wavelengthProperty.link( function( wavelength ) {
-      bendingLightModel.laser.colorProperty.set( new LaserColor( wavelength ) );
-    } );
+    this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }
 
   return inherit( PropertySet, BendingLightModel, {

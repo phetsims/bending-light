@@ -115,5 +115,8 @@
   },
   "waveLengthPattern": {
     "value": "{0} {1}"
+  },
+  "velocityPattern": {
+    "value": "{0} {1}"
   }
 }
