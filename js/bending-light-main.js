@@ -21,13 +21,11 @@ define( function( require ) {
 
   var simOptions = {
     credits: {
-      //TODO fill in proper credits, all of these fields are optional, see joist.AboutDialog
-      leadDesign: '',
-      softwareDevelopment: '',
-      team: '',
-      qualityAssurance: '',
-      graphicArts: '',
-      thanks: ''
+      leadDesign: 'Amy Rouinfar (HTML5),  Noah Podolefsky (Java)',
+      softwareDevelopment: 'Sam Reid',
+      team: 'Trish Loeblein, Ariel Paul, Kathy Perkins',
+      qualityAssurance: 'Steele Dalton, Elise Morgan, Oliver Orejola, Arnab Purkayastha, Brian Yoelin',
+      thanks: 'Thanks to Actual Concepts for working with the PhET development team\nto convert this simulation to HTML5.'
     }
   };
 
