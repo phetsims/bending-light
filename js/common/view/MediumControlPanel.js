@@ -4,8 +4,8 @@
  * Controls for changing and viewing the medium type, including its current index of refraction
  * (depends on the laser wavelength through the dispersion function).
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -53,10 +53,10 @@ define( function( require ) {
    * @param {BendingLightView} view
    * @param {Property<Medium>} mediumProperty
    * @param {string} name - name of the medium material
-   * @param {boolean} textFieldVisible
+   * @param {boolean} textFieldVisible - whether to display index of refraction value
    * @param {number} laserWavelength
-   * @param {number} decimalPlaces
-   * @param {Object} [options]
+   * @param {number} decimalPlaces - decimalPlaces to show for index of refraction
+   * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
   function MediumControlPanel( view, mediumProperty, name, textFieldVisible, laserWavelength, decimalPlaces, options ) {
@@ -73,7 +73,7 @@ define( function( require ) {
     }, options );
     this.mediumProperty = mediumProperty; // the medium to observe
     this.laserWavelength = laserWavelength;
-    var initialMediumState = mediumProperty.get().getMediumState();
+    var initialMediumState = mediumProperty.get().mediumState;
 
     // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
     // if we kept the same index of refraction, the user could use that to easily look up the mystery values.
@@ -128,7 +128,7 @@ define( function( require ) {
 
       // only set to a different substance if "custom" wasn't specified.
       // otherwise pressing "air" then "custom" will make the combobox jump back to "air"
-      if ( selected !== -1 && !mediumProperty.get().getMediumState().custom ) {
+      if ( selected !== -1 && !mediumProperty.get().mediumState.custom ) {
         comboBoxMediumState.set( mediumStates[ selected ] );
         custom = false;
       }
@@ -281,7 +281,7 @@ define( function( require ) {
     this.addChild( mediumPanel );
     Property.multilink( [ mediumProperty, this.laserWavelength ],
       function() {
-        custom = mediumProperty.get().getMediumState().custom;
+        custom = mediumProperty.get().mediumState.custom;
         indexOfRefractionValueText.text = Util.toFixed(
           mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), decimalPlaces );
       } );

@@ -26,10 +26,12 @@ define( function( require ) {
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Util = require( 'DOT/Util' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var speedString = require( 'string!BENDING_LIGHT/speed' );
   var c_units = require( 'string!BENDING_LIGHT/c_units' );
+  var velocityPattern = require( 'string!BENDING_LIGHT/velocityPattern' );
 
   // constants
   var VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX = 0.7;
@@ -41,7 +43,7 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param {number} arrowScale
-   * @param {Rectangle} container
+   * @param {Rectangle} container - toolbox node bounds
    * @param {Bounds2} dragBounds - bounds that define where the velocity sensor may be dragged
    * @constructor
    */
@@ -235,7 +237,7 @@ define( function( require ) {
           labelText.text = '?';
         }
         else {
-          labelText.text = Util.toFixed( velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT, 2 ) + " " + c_units;
+          labelText.setText( StringUtils.format( velocityPattern, Util.toFixed( velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT, 2 ), c_units ) );
         }
         labelText.center = innerMostRectangle.center;
       } );

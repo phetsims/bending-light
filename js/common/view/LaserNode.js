@@ -3,8 +3,8 @@
 /**
  * Node for drawing the laser itself, including an on/off button and ability to rotate/translate.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';

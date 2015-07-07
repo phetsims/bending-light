@@ -3,6 +3,7 @@
 /**
  * View that connects a sensor (the probe) to its body (where the readout appears)
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -21,7 +22,7 @@ define( function( require ) {
    * @param {Property<Vector2>} bodyPositionProperty
    * @param {Node} probeNode
    * @param {Node} bodyNode
-   * @param {Color} color
+   * @param {Color} color - color of the wire
    * @constructor
    */
   function WireNode( probePositionProperty, bodyPositionProperty, probeNode, bodyNode, color ) {

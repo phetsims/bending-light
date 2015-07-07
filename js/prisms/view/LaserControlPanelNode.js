@@ -41,7 +41,7 @@ define( function( require ) {
    *
    * @param { Property<string>} colorModeProperty - to indicate ray in singleColor or white .
    * @param {Property<number>} wavelengthProperty
-   * @param {Object} [options]
+   * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
   function LaserControlPanelNode( colorModeProperty, wavelengthProperty, options ) {

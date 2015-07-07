@@ -4,8 +4,8 @@
  * Graphic that depicts how the laser may be moved.
  * It is only shown when the cursor is over the laser and is non-interactive.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -24,8 +24,8 @@ define( function( require ) {
    *
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinate frames
    * @param {Laser} laser - model of laser
-   * @param {number} dx
-   * @param {number} dy
+   * @param {number} dx - length of horizontal arrow
+   * @param {number} dy - length of vertical arrow
    * @param {Property<boolean>} showDragHandlesProperty
    * @constructor
    */

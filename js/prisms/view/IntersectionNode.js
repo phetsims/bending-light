@@ -3,6 +3,7 @@
 /**
  * Node that depicts a the normal vector at a light-ray / medium interface intersection.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -23,10 +24,10 @@ define( function( require ) {
   function IntersectionNode( modelViewTransform, intersection ) {
 
     Node.call( this );
-    var centerX = modelViewTransform.modelToViewX( intersection.getPoint().x );
-    var centerY = modelViewTransform.modelToViewY( intersection.getPoint().y );
-    var normalX = modelViewTransform.modelToViewDeltaX( intersection.getUnitNormal().x );
-    var normalY = modelViewTransform.modelToViewDeltaY( intersection.getUnitNormal().y );
+    var centerX = modelViewTransform.modelToViewX( intersection.point.x );
+    var centerY = modelViewTransform.modelToViewY( intersection.point.y );
+    var normalX = modelViewTransform.modelToViewDeltaX( intersection.unitNormal.x );
+    var normalY = modelViewTransform.modelToViewDeltaY( intersection.unitNormal.y );
     var normalMagnitude = Math.sqrt( normalX * normalX + normalY * normalY );
     var unitNormalX = normalX / normalMagnitude;
     var unitNormalY = normalY / normalMagnitude;

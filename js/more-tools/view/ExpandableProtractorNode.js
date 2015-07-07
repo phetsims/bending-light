@@ -4,8 +4,8 @@
  * In the "more tools" tab, the protractor can be expanded with a "+" button and returned to the original size with a
  * "-" button.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar  Bemagoni (Actual Concepts).
  */
 define( function( require ) {
   'use strict';
@@ -21,9 +21,9 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform - convert between model and view values
    * @param {Property<boolean>} showProtractorProperty - controls the protractor visibility
    * @param {ProtractorModel} protractorModel - model of protractor
-   * @param {function} translateShape
-   * @param {function} rotateShape
-   * @param {number} protractorIconWidth
+   * @param {function} translateShape - function that returns the shape that can be translated
+   * @param {function} rotateShape - function that returns the shape that can be rotated
+   * @param {number} protractorIconWidth - width of protractor icon to show in toolbox node
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial
    * position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged

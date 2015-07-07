@@ -3,6 +3,7 @@
 /**
  * For determining the colors of different mediums as a function of characteristic index of refraction.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {

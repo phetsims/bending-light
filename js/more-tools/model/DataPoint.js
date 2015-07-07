@@ -3,6 +3,7 @@
 /**
  * Immutable data point class used in the intensity meter charts.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {

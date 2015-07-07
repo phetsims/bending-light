@@ -3,6 +3,7 @@
 /**
  * View for drawing a single light ray.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -28,7 +29,7 @@ define( function( require ) {
 
     Node.call( this, { pickable: false } );
     this.lightRay = lightRay;
-    var color = this.lightRay.getColor();
+    var color = this.lightRay.color;
     this.modelViewTransform = modelViewTransform;
 
     // update the view coordinates for the start and end of this ray
@@ -48,7 +49,7 @@ define( function( require ) {
     }
 
     // light ray color
-    var rayColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), Math.sqrt( lightRay.getPowerFraction() ) );
+    var rayColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), Math.sqrt( lightRay.powerFraction ) );
 
     var lightRayPath = new Path( new Shape().moveToPoint( this.viewStart )
       .lineToPoint( this.viewEnd ), {
@@ -76,15 +77,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getColor: function() {
-      return this.lightRay.getColor();
-    },
-
-    /**
-     * @public
-     * @returns {LightRay}
-     */
-    getLightRay: function() {
-      return this.lightRay;
+      return this.lightRay.color;
     }
   } );
 } );

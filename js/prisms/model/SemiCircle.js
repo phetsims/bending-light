@@ -3,8 +3,8 @@
 /**
  * Shape that comprises a prism.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni  {Actual Concepts}
  */
 define( function( require ) {
   'use strict';
@@ -21,7 +21,7 @@ define( function( require ) {
    *
    * @param {number} referencePointIndex
    * @param {Vector2[]} points
-   * @param {number} radius
+   * @param {number} radius - radius of semicircle
    * @constructor
    */
   function SemiCircle( referencePointIndex, points, radius ) {

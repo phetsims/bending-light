@@ -3,8 +3,8 @@
 /**
  * View for the wave sensor, which shows 2 sensor probes and a chart area (the body)
  *
- * @author Sam Reid
  * @author Chandrashekar Bemagoni (Actual Concepts)
+ * @author Sam Reid
  */
 
 define( function( require ) {
@@ -45,9 +45,9 @@ define( function( require ) {
    *
    * @param {WaveSensorNode} waveSensorNode
    * @param {Probe} probe
-   * @param {string} probeImageName
+   * @param {string} probeImageName - name of the probe image
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {Rectangle} container
+   * @param {Rectangle} container - toolbox node bounds
    * @param {Bounds2} dragBounds - bounds that define where the probe may be dragged
    * @constructor
    */
@@ -104,7 +104,7 @@ define( function( require ) {
    * @param {MoreToolsView} moreToolsView
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor
-   * @param {Rectangle} container
+   * @param {Rectangle} container - toolbox node bounds
    * @param {Bounds2} dragBounds - bounds that define where the waves sensor may be dragged
    * @constructor
    */

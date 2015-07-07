@@ -3,8 +3,8 @@
 /**
  * Model for the laser, which emits LightRays.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -20,7 +20,7 @@ define( function( require ) {
    *
    * @param {number} distanceFromPivot - distance from laser pivot point
    * @param {number} angle - laser angle
-   * @param {Boolean} topLeftQuadrant
+   * @param {Boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
    * @constructor
    */
   function Laser( distanceFromPivot, angle, topLeftQuadrant ) {
@@ -29,7 +29,7 @@ define( function( require ) {
     var laser = this;
     PropertySet.call( this, {
       pivot: new Vector2( 0, 0 ), // point to be pivoted about, and at which the laser points
-      color: new LaserColor.OneColor( BendingLightConstants.WAVELENGTH_RED ),
+      color: new LaserColor( BendingLightConstants.WAVELENGTH_RED ),
       on: false,    // true if the laser is activated and emitting light
       wave: false,
       colorMode: 'singleColor',
@@ -60,8 +60,8 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - amount of space in x direction laser to be translated
+     * @param {number} deltaY - amount of space in y direction laser to be translated
      */
     translate: function( deltaX, deltaY ) {
 
@@ -89,7 +89,7 @@ define( function( require ) {
     /**
      * Rotate about the fixed pivot
      * @public
-     * @param {number} angle
+     * @param {number} angle - angle to be rotated
      */
     setAngle: function( angle ) {
       var distFromPivot = this.pivot.distance( this.emissionPoint );
@@ -121,7 +121,7 @@ define( function( require ) {
      * @returns {number}
      */
     getWavelength: function() {
-      return this.color.getWavelength();
+      return this.color.wavelength;
     },
 
     /**

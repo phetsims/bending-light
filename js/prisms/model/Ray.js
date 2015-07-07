@@ -3,6 +3,7 @@
 /**
  * A single immutable ray, used in the ray propagation algorithm.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -15,11 +16,11 @@ define( function( require ) {
   /**
    *
    * @param {Vector2} tail - ray tail position
-   * @param {Vector2} directionUnitVector -ray direction
+   * @param {Vector2} directionUnitVector - ray direction
    * @param {number} power - power of the ray
    * @param {number} wavelength - wavelength of ray
    * @param {number} mediumIndexOfRefraction - index of refraction of medium
-   * @param {number} frequency
+   * @param {number} frequency - frequency of ray
    * @constructor
    */
   function Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, frequency ) {

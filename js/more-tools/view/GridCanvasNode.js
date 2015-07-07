@@ -3,7 +3,7 @@
 /**
  * Draw a horizontal or vertical grid line
  *
- * @author Chandrashekar Bemagoni  (Actual Concepts)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -16,7 +16,7 @@ define( function( require ) {
    *
    * @param {ObservableArray<[]>} gridPoints
    * @param {number[]} strokeDash
-   * @param {Object} [options]
+   * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
   function GridCanvasNode( gridPoints, strokeDash, options ) {

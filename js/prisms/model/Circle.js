@@ -3,8 +3,8 @@
 /**
  * Circle implementation for use in prisms
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni {Actual Concepts}
  */
 define( function( require ) {
   'use strict';
@@ -17,8 +17,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {Vector2} center
-   * @param {number} radius
+   * @param {Vector2} center - center of the circle
+   * @param {number} radius - radius of the circle
    * @constructor
    */
   function Circle( center, radius ) {
@@ -39,8 +39,8 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - amount of space to be translate in x direction
+     * @param {number} deltaY - amount of space to be translate in y direction
      * @returns {Circle}
      */
     getTranslatedInstance: function( deltaX, deltaY ) {

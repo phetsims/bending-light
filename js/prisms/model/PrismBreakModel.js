@@ -3,6 +3,7 @@
 /**
  * Model for the "prism " screen, in which the user can move the laser and many prisms.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -290,7 +291,7 @@ define( function( require ) {
 
         // List the intersection in the model
         this.addIntersection( intersection );
-        var pointOnOtherSide = (incidentRay.directionUnitVector.times( 1E-12 )).add( intersection.getPoint() );
+        var pointOnOtherSide = (incidentRay.directionUnitVector.times( 1E-12 )).add( intersection.point );
         var outputInsidePrism = false;
         var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
         this.prisms.forEach( function( prism ) {
@@ -306,8 +307,8 @@ define( function( require ) {
                  this.environmentMediumProperty.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
 
         // Precompute for readability
-        var point = intersection.getPoint();
-        var n = intersection.getUnitNormal();
+        var point = intersection.point;
+        var n = intersection.unitNormal;
 
         // Compute the output rays, see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
         var cosTheta1 = n.dotXY( L.x * -1, L.y * -1 );
@@ -341,7 +342,7 @@ define( function( require ) {
         // Add the incident ray itself
         this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2,
           incidentRay.tail,
-          intersection.getPoint(),
+          intersection.point,
           n1,
           wavelengthInN1,
           incidentRay.power,
@@ -398,7 +399,7 @@ define( function( require ) {
 
       // Get the closest one (which would be hit first)
       allIntersections = _.sortBy( allIntersections, function( allIntersection ) {
-        return allIntersection.getPoint().distance( incidentRay.tail );
+        return allIntersection.point.distance( incidentRay.tail );
       } );
       return allIntersections.length === 0 ? null : allIntersections[ 0 ];
     },

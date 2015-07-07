@@ -4,6 +4,7 @@
  * Model for the "intro" Screen, which has an upper and lower medium, interfacing at the middle of the screen,
  * and the laser at the top left shining toward the interface.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -29,8 +30,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {MediumState} bottomMediumState
-   * @param {boolean} centerOffsetLeft
+   * @param {MediumState} bottomMediumState - state of bottom medium
+   * @param {boolean} centerOffsetLeft - specifies center alignment
    * @constructor
    */
   function IntroModel( bottomMediumState, centerOffsetLeft ) {
@@ -105,7 +106,7 @@ define( function( require ) {
 
         // according to http://en.wikipedia.org/wiki/Wavelength
         var color = this.laser.color.getColor();
-        var wavelengthInTopMedium = this.laser.color.getWavelength() / n1;
+        var wavelengthInTopMedium = this.laser.color.wavelength / n1;
 
         // calculated wave width of reflected and refracted wave width.
         // specially used in in wave Mode
@@ -147,7 +148,7 @@ define( function( require ) {
 
             // transmitted
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
-            var transmittedWavelength = incidentRay.getWavelength() / n2 * n1;
+            var transmittedWavelength = incidentRay.wavelength / n2 * n1;
             if ( isNaN( theta2 ) || !isFinite( theta2 ) ) {
             }
             else {
@@ -184,7 +185,7 @@ define( function( require ) {
      * @returns {number}
      */
     getN1: function() {
-      return this.topMediumProperty.get().getIndexOfRefraction( this.laser.color.getWavelength() );
+      return this.topMediumProperty.get().getIndexOfRefraction( this.laser.color.wavelength );
     },
 
     /**
@@ -193,7 +194,7 @@ define( function( require ) {
      * @returns {number}
      */
     getN2: function() {
-      return this.bottomMediumProperty.get().getIndexOfRefraction( this.laser.color.getWavelength() );
+      return this.bottomMediumProperty.get().getIndexOfRefraction( this.laser.color.wavelength );
     },
 
     /**
@@ -225,8 +226,8 @@ define( function( require ) {
           y = intersects[ 0 ].point.y + intersects[ 1 ].point.y;
         }
         var interrupted = new LightRay( ray.trapeziumWidth, ray.tail, new Vector2( x / 2, y / 2 ),
-          ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), this.laser.color.getColor(),
-          ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), false, ray.extendBackwards );
+          ray.indexOfRefraction, ray.wavelength, ray.powerFraction, this.laser.color.getColor(),
+          ray.waveWidth, ray.numWavelengthsPhaseOffset, false, ray.extendBackwards );
 
         //don't let the wave intersect the intensity meter if it is behind the laser emission point
         var isForward = ray.toVector().dot( interrupted.toVector() ) > 0;
@@ -242,7 +243,7 @@ define( function( require ) {
         this.addRay( ray );
       }
       if ( rayAbsorbed ) {
-        this.intensityMeter.addRayReading( new Reading( ray.getPowerFraction() ) );
+        this.intensityMeter.addRayReading( new Reading( ray.powerFraction ) );
       }
       else {
         this.intensityMeter.addRayReading( Reading.MISS );
@@ -290,7 +291,7 @@ define( function( require ) {
         if ( ray.contains( position, introModel.laserViewProperty.value === 'wave' ) ) {
 
           // map power to displayed amplitude
-          var amplitude = Math.sqrt( ray.getPowerFraction() );
+          var amplitude = Math.sqrt( ray.powerFraction );
 
           // find out how far the light has come, so we can compute the remainder of phases
           var rayUnitVector = ray.getUnitVector();
@@ -300,7 +301,7 @@ define( function( require ) {
           var phase = ray.getCosArg( distanceAlongRay );
 
           // wave is a*cos(theta)
-          return [ ray.getTime(), amplitude * Math.cos( phase + Math.PI ) ];
+          return [ ray.time, amplitude * Math.cos( phase + Math.PI ) ];
         }
       }
       return null;
@@ -345,7 +346,7 @@ define( function( require ) {
       for ( var k = 0; k < this.rays.length; k++ ) {
         var lightRay = this.rays.get( k );
         var directionVector = lightRay.getUnitVector();
-        var wavelength = lightRay.getWavelength();
+        var wavelength = lightRay.wavelength;
         var angle = lightRay.getAngle();
         if ( k === 0 ) {
           this.tipVector.x = lightRay.tip.x + directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle );
@@ -363,14 +364,14 @@ define( function( require ) {
         var distance = this.tipVector.distance( this.tailVector );
         var gapBetweenSuccessiveParticles = wavelength;
         particleColor = new Color( lightRay.color.getRed(), lightRay.color.getGreen(), lightRay.color.getBlue(),
-          Math.sqrt( lightRay.getPowerFraction() ) ).toCSS();
-        particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.getPowerFraction() ) ).toCSS();
+          Math.sqrt( lightRay.powerFraction ) ).toCSS();
+        particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.powerFraction ) ).toCSS();
         var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;
         var waveParticleGap = 0;
 
         for ( j = 0; j < numberOfParticles; j++ ) {
           lightRay.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ),
-            lightRay.getWaveWidth(), particleColor, particleGradientColor, angle, wavelength ) );
+            lightRay.waveWidth, particleColor, particleGradientColor, angle, wavelength ) );
           waveParticleGap += gapBetweenSuccessiveParticles;
         }
       }
@@ -385,7 +386,7 @@ define( function( require ) {
 
       for ( var i = 0; i < this.rays.length; i++ ) {
         var lightRay = this.rays.get( i );
-        var wavelength = lightRay.getWavelength();
+        var wavelength = lightRay.wavelength;
         var directionVector = lightRay.getUnitVector();
         var waveParticles = lightRay.particles;
 

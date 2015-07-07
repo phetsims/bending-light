@@ -3,8 +3,8 @@
 /**
  * A LightRay models one straight segment of a beam (completely within a single medium), with a specific wavelength.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -21,14 +21,14 @@ define( function( require ) {
   /**
    *
    * @param {number} trapeziumWidth
-   * @param {Vector2} tail
-   * @param {Vector2} tip
-   * @param {number} indexOfRefraction
-   * @param {number} wavelength
-   * @param {number} powerFraction
-   * @param {Color} color
-   * @param {number} waveWidth
-   * @param {number} numWavelengthsPhaseOffset
+   * @param {Vector2} tail - tail position of light ray
+   * @param {Vector2} tip - tip position of light ray
+   * @param {number} indexOfRefraction - The index of refraction of the medium the lightray inhabits
+   * @param {number} wavelength - wavelength in meters
+   * @param {number} powerFraction - amount of power this light has (full strength is 1.0)
+   * @param {Color} color - color of light ray
+   * @param {number} waveWidth - width of the wave
+   * @param {number} numWavelengthsPhaseOffset - indicates how many wavelengths have passed before this light ray begins
    * @param {boolean} extend
    * @param {boolean} extendBackwards
    * @constructor
@@ -93,14 +93,6 @@ define( function( require ) {
     },
 
     /**
-     * @public
-     * @returns {number}
-     */
-    getPowerFraction: function() {
-      return this.powerFraction;
-    },
-
-    /**
      * Check to see if this light ray hits the specified sensor region
      * @public
      * @param {Shape} sensorRegion
@@ -134,22 +126,6 @@ define( function( require ) {
       this.vectorForm.x = this.tip.x - this.tail.x;
       this.vectorForm.y = this.tip.y - this.tail.y;
       return this.vectorForm;
-    },
-
-    /**
-     * @public
-     * @returns {Color}
-     */
-    getColor: function() {
-      return this.color;
-    },
-
-    /**
-     * @public
-     * @returns {number}
-     */
-    getWavelength: function() {
-      return this.wavelength;
     },
 
     /**
@@ -222,24 +198,8 @@ define( function( require ) {
      * @public
      * @returns {number}
      */
-    getWaveWidth: function() {
-      return this.waveWidth;
-    },
-
-    /**
-     * @public
-     * @returns {number}
-     */
     getNumberOfWavelengths: function() {
       return this.getLength() / this.wavelength;
-    },
-
-    /**
-     * @public
-     * @returns {number}
-     */
-    getNumWavelengthsPhaseOffset: function() {
-      return this.numWavelengthsPhaseOffset;
     },
 
     /**
@@ -281,7 +241,7 @@ define( function( require ) {
      * @returns {number}
      */
     getFrequency: function() {
-      return this.getSpeed() / this.getWavelength();
+      return this.getSpeed() / this.wavelength;
     },
 
     /**
@@ -308,18 +268,10 @@ define( function( require ) {
      */
     getCosArg: function( distanceAlongRay ) {
       var w = this.getAngularFrequency();
-      var k = 2 * Math.PI / this.getWavelength();
+      var k = 2 * Math.PI / this.wavelength;
       var x = distanceAlongRay;
       var t = this.time;
-      return k * x - w * t - 2 * Math.PI * this.numWavelengthsPhaseOffset;
-    },
-
-    /**
-     * @public
-     * @returns {number}
-     */
-    getTime: function() {
-      return this.time;
+      return k * x - w * t + 2 * Math.PI * this.numWavelengthsPhaseOffset;
     }
   } );
 } );

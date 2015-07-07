@@ -10,6 +10,7 @@
  * value (which is the sum of the ray intensities). The intensity is converted to a transparency value according to
  * alpha = sqrt(intensity/3), which is also clamped to be between 0 and 255.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -23,10 +24,10 @@ define( function( require ) {
 
   /**
    *
-   * @param {ModelViewTransform2} modelViewTransform
+   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {ObservableArray} whiteLightRays
-   * @param {number} stageWidth
-   * @param {number} stageHeight
+   * @param {number} stageWidth - width of the dev area
+   * @param {number} stageHeight - height of the dev area
    * @constructor
    */
   function WhiteLightNode( modelViewTransform, whiteLightRays, stageWidth, stageHeight ) {
@@ -168,8 +169,8 @@ define( function( require ) {
      * @param {Object} map
      */
     setPixel: function( x0, y0, child, map ) {
-      var color = child.getColor();
-      var intensity = child.getPowerFraction();
+      var color = child.color;
+      var intensity = child.powerFraction;
       this.addToMap( x0, y0, color, intensity, map );
       //Some additional points makes it look a lot better (less sparse) without slowing it down too much
       this.addToMap( x0 + 0.5, y0, color, intensity, map );

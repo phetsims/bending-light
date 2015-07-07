@@ -46,10 +46,10 @@ define( function( require ) {
   /**
    * Get the fraction of power reflected from the medium
    * @public
-   * @param {number} n1
-   * @param {number} n2
-   * @param {number} cosTheta1
-   * @param {number} cosTheta2
+   * @param {number} n1 - index of refraction of first medium
+   * @param {number} n2 - index of refraction of second medium
+   * @param {number} cosTheta1 - cosine of incident angle
+   * @param {number} cosTheta2 - cosine of reflected angle
    * @returns {number}
    */
   var getReflectedPower = function getReflectedPower( n1, n2, cosTheta1, cosTheta2 ) {
@@ -59,10 +59,10 @@ define( function( require ) {
   /**
    * Get the fraction of power transmitted through the medium
    * @public
-   * @param {number} n1
-   * @param {number} n2
-   * @param {number} cosTheta1
-   * @param {number} cosTheta2
+   * @param {number} n1 - index of refraction of first medium
+   * @param {number} n2 - index of refraction of second medium
+   * @param {number} cosTheta1 - cosine of incident angle
+   * @param {number} cosTheta2 - cosine of transmitted angle
    * @returns {number}
    */
   var getTransmittedPower = function getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ) {
@@ -75,10 +75,10 @@ define( function( require ) {
   /**
    * Main constructor for BendingLightModel, which contains all of the model logic for the entire sim screen.
    *
-   * @param {number} laserAngle
-   * @param {boolean} topLeftQuadrant
-   * @param {number} laserDistanceFromPivot
-   * @param {boolean} centerOffsetLeft
+   * @param {number} laserAngle - laser angle in radians
+   * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
+   * @param {number} laserDistanceFromPivot - distance of laser from pivot point
+   * @param {boolean} centerOffsetLeft - specifies alignment of the center to left
    * @constructor
    */
   function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot, centerOffsetLeft ) {
@@ -117,7 +117,7 @@ define( function( require ) {
     );
     this.laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
     this.wavelengthProperty.link( function( wavelength ) {
-      bendingLightModel.laser.colorProperty.set( new LaserColor.OneColor( wavelength ) );
+      bendingLightModel.laser.colorProperty.set( new LaserColor( wavelength ) );
     } );
   }
 
@@ -125,42 +125,10 @@ define( function( require ) {
 
       /**
        * @public
-       * @param {LightRay}ray
+       * @param {LightRay} ray
        */
       addRay: function( ray ) {
         this.rays.add( ray );
-      },
-
-      /**
-       * @public
-       * @returns {number}
-       */
-      getWidth: function() {
-        return this.modelWidth;
-      },
-
-      /**
-       * @public
-       * @returns {number}
-       */
-      getHeight: function() {
-        return this.modelHeight;
-      },
-
-      /**
-       * @public
-       * @returns {Laser}
-       */
-      getLaser: function() {
-        return this.laser;
-      },
-
-      /**
-       * @public
-       * @returns {IntensityMeter}
-       */
-      getIntensityMeter: function() {
-        return this.intensityMeter;
       },
 
       /**
@@ -186,7 +154,6 @@ define( function( require ) {
         this.clearModel();
         this.propagateRays();
       },
-
 
 
       /**

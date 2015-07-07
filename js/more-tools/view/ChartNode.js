@@ -3,8 +3,8 @@
 /**
  * Node that shows the chart in the "more tools" screen  intensity sensor.
  *
- * @author Sam Reid
  * @author Chandrashekar Bemagoni (Actual Concepts)
+ * @author Sam Reid
  */
 
 define( function( require ) {
@@ -29,13 +29,13 @@ define( function( require ) {
    *
    * @param {Series} series
    * @param {Property<ModelViewTransform2>} modelViewTransformProperty
-   * @param {Bounds2} chartBounds
+   * @param {Bounds2} chartBounds - bounds of the chart node
    * @constructor
    */
   function SeriesNode( series, modelViewTransformProperty, chartBounds ) {
 
     Node.call( this );
-    var seriesCanvasNode = new SeriesCanvasNode( series.points, series.getColor().toCSS(), {
+    var seriesCanvasNode = new SeriesCanvasNode( series.points, series.color.toCSS(), {
       canvasBounds: chartBounds
     } );
     this.addChild( seriesCanvasNode );
@@ -54,7 +54,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {Bounds2} chartBounds
+   * @param {Bounds2} chartBounds - bounds of the chart node
    * @param {Series[]} series
    * @constructor
    */

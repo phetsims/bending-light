@@ -3,8 +3,8 @@
 /**
  * Wrapper around a shape with convenience methods for computing intersections, etc.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni {Actual Concepts}
  */
 define( function( require ) {
   'use strict';
@@ -27,8 +27,8 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - amount of space in x direction the prism to be translated
+     * @param {number} deltaY - amount of space in y direction the prism to be translated
      */
     translate: function( deltaX, deltaY ) {
       this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( deltaX, deltaY ) );

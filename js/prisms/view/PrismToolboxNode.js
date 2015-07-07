@@ -3,9 +3,9 @@
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel
  * for their index of refraction.
-
+ *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni {Actual Concepts}
  */
 define( function( require ) {
   'use strict';
@@ -27,6 +27,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Vector2 = require( 'DOT/Vector2' );
   var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
+  var Shape = require( 'KITE/Shape' );
 
   //strings
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
@@ -94,8 +95,13 @@ define( function( require ) {
       prismPath[ i ] = createPrismIcon( prism );
       var start;
       var prismShape;
+      var prismIconBounds = prismPath[ i ].bounds;
       prismPath[ i ].scale( 55 / prismPath[ i ].height );
-      prismPath[ i ].addInputListener( new SimpleDragHandler( {
+      var shape = new Path( Shape.rectangle( prismIconBounds.minX, prismIconBounds.minY, prismIconBounds.getWidth(), prismIconBounds.getHeight() ), {
+        pickable: true,
+        cursor: 'pointer'
+      } );
+      shape.addInputListener( new SimpleDragHandler( {
 
           start: function( event ) {
             start = prismToolBoxNode.globalToParentPoint( event.pointer.point );
@@ -126,6 +132,7 @@ define( function( require ) {
 
       prismPath[ i ].touchArea = prismPath[ i ].localBounds;
       content.addChild( prismPath[ i ] );
+      prismPath[ i ].addChild( shape );
     } );
 
     // Allow the user to control the type of material in the prisms

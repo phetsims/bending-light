@@ -3,7 +3,7 @@
 /**
  * A Wave particle layer rendered on canvas
  *
- * @author Chandrashekar Bemagoni  (Actual Concepts)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -16,7 +16,7 @@ define( function( require ) {
    *
    * @param {ObservableArray<WaveParticle>} waveParticles
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {Object} [options]
+   * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
   function WaveCanvasNode( waveParticles, modelViewTransform, options ) {

@@ -4,6 +4,7 @@
  * View for intro screen
  *
  * @author Siddhartha Chinthapally (Actual Concepts)
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
@@ -45,9 +46,9 @@ define( function( require ) {
   /**
    *
    * @param {IntroModel} introModel - model of intro screen
-   * @param {number} centerOffsetLeft
-   * @param {boolean} hasMoreTools
-   * @param {number} IndexOfRefractionDecimals
+   * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
+   * @param {boolean} hasMoreTools - whether contain more tools
+   * @param {number} IndexOfRefractionDecimals - decimalPlaces to show for index of refraction
    * @constructor
    */
   function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals ) {
@@ -136,7 +137,7 @@ define( function( require ) {
 
     // show the normal line where the laser strikes the interface between mediums
     var normalLineHeight = stageHeight / 2;
-    var normalLine = new NormalLine( normalLineHeight, 7, 6, {
+    var normalLine = new NormalLine( normalLineHeight, [ 7, 6 ], {
       x: this.modelViewTransform.modelToViewX( 0 ),
       y: this.modelViewTransform.modelToViewY( 0 ) - normalLineHeight / 2
     } );
@@ -201,7 +202,7 @@ define( function( require ) {
     }
     this.protractorNode.addToSensorPanel();
 
-    this.intensityMeterNode = new IntensityMeterNode( this, this.modelViewTransform, introModel.getIntensityMeter(),
+    this.intensityMeterNode = new IntensityMeterNode( this, this.modelViewTransform, introModel.intensityMeter,
       this.sensorPanel.visibleBounds, this.layoutBounds );
     this.intensityMeterNode.addToSensorPanel();
 
@@ -223,7 +224,7 @@ define( function( require ) {
       normalCheckBox.localBounds.maxX + 25, normalCheckBox.localBounds.maxY + 3 );
 
     // add normal
-    var normalIcon = new NormalLine( 34, 4, 3, {
+    var normalIcon = new NormalLine( 34, [ 4, 3 ], {
       x: this.sensorPanel.x + this.sensorPanel.width / 2,
       y: this.sensorPanel.y + sensorPanelHeight - 41
     } );

@@ -5,6 +5,7 @@
  * then interpolates between the functions n(lambda) = beta * A(lambda) + (1-beta) * G(lambda) where 0<=beta<=infinity is a characteristic of the material.
  * The material is characterized by a reference wavelength, so that when light is the specified wavelength, the index of refraction takes the reference value.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -18,7 +19,7 @@ define( function( require ) {
   /**
    *
    * @param {number} referenceIndexOfRefraction
-   * @param {number} wavelength
+   * @param {number} wavelength - wavelength in meters
    * @constructor
    */
   function DispersionFunction( referenceIndexOfRefraction, wavelength ) {
@@ -33,7 +34,7 @@ define( function( require ) {
     /**
      * See http://en.wikipedia.org/wiki/Sellmeier_equation
      * @public
-     * @param {number}wavelength
+     * @param {number} wavelength - wavelength in meters
      * @returns {number}
      */
     getSellmeierValue: function( wavelength ) {
@@ -59,7 +60,7 @@ define( function( require ) {
     /**
      * See class-level documentation for an explanation of this algorithm
      * @public
-     * @param {number} wavelength
+     * @param {number} wavelength - wavelength in meters
      * @returns {number}
      */
     getIndexOfRefraction: function( wavelength ) {
@@ -81,7 +82,7 @@ define( function( require ) {
     /**
      * See http://refractiveindex.info/?group=GASES&material=Air
      * @private
-     * @param {number} wavelength
+     * @param {number} wavelength - wavelength in meters
      * @returns {number}
      */
     getAirIndex: function( wavelength ) {

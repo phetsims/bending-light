@@ -3,6 +3,7 @@
 /**
  * Enum type pattern for the laser color, which may be white or a specific wavelength.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -14,14 +15,14 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} wavelength
+   * @param {number} wavelength - wavelength (in meters) of the light
    * @constructor
    */
-  var OneColor = function( wavelength ) {
+  function OneColor( wavelength ) {
     this.wavelength = wavelength;
-  };
+  }
 
-  inherit( Object, OneColor, {
+  return inherit( Object, OneColor, {
 
     /**
      * Determine the color of the light.
@@ -30,18 +31,6 @@ define( function( require ) {
      */
     getColor: function() {
       return VisibleColor.wavelengthToColor( this.wavelength * 1E9 ); // convert to nanometers
-    },
-
-    /**
-     * Determine the wavelength (in nm) of the light.
-     * @public
-     * @returns {number}
-     */
-    getWavelength: function() {
-      return this.wavelength;
     }
   } );
-  return {
-    OneColor: OneColor
-  };
 } );

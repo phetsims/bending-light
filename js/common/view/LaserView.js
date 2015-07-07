@@ -39,8 +39,8 @@ define( function( require ) {
   /**
    *
    * @param {BendingLightModel} model
-   * @param {boolean} hasMoreTools
-   * @param {Object} [options]
+   * @param {boolean} hasMoreTools - whether contain more tools
+   * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
   function LaserView( model, hasMoreTools, options ) {

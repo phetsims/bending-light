@@ -3,6 +3,7 @@
 /**
  * A single (immutable) reading for the intensity meter.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
@@ -82,14 +83,6 @@ define( function( require ) {
        */
       isHit: function() {
         return true;
-      },
-
-      /**
-       * @public
-       * @return {number}
-       */
-      getValue: function() {
-        return this.value;
       }
     },
     // statics

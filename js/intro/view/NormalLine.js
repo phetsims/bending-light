@@ -4,6 +4,7 @@
  * The normal line is a graphic that indicates the point of intersection of the light ray and
  * the perpendicular angle at the interface.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -17,13 +18,12 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} height -height of normal
-   * @param {number} on
-   * @param {number} off
-   * @param {Object} [options ]
+   * @param {number} height - height of normal
+   * @param {number[]} lineDash
+   * @param {Object} [options ] - options that can be passed on to the underlying node
    * @constructor
    */
-  function NormalLine( height, on, off, options ) {
+  function NormalLine( height, lineDash, options ) {
     Node.call( this );
 
     // normal Line
@@ -31,7 +31,7 @@ define( function( require ) {
       .moveTo( 0, 0 )  //x1,y1
       .lineTo( 0, height ); //x2,y2
 
-    this.addChild( new Path( shape, { stroke: 'black', lineDash: [ on, off ] } ) );
+    this.addChild( new Path( shape, { stroke: 'black', lineDash: lineDash } ) );
     this.mutate( options );
 
   }

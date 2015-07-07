@@ -3,7 +3,8 @@
 /**
  * Model for the protractor angle and position
  *
- * @author Chandrashekar Bemagoni(Actual Concepts)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
@@ -37,8 +38,8 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - amount of space in x direction Protractor to be translated
+     * @param {number} deltaY - amount of space in y direction Protractor to be translated
      */
     translateXY: function( deltaX, deltaY ) {
       this.newPosition.setXY( this.positionProperty.get().x + deltaX, this.positionProperty.get().y + deltaY );

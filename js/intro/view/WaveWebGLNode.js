@@ -3,7 +3,7 @@
 /**
  * Wave WebGl Rendering.
  *
- * @author Chandrashekar Bemagoni  (Actual Concepts)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -138,7 +138,7 @@ define( function( require ) {
         elements.push( point4X, point4Y, 1 );
 
         // light ray power fraction
-        var lightRayPowerFraction = lightRay.getPowerFraction();
+        var lightRayPowerFraction = lightRay.powerFraction;
 
         // tail position in view co-ordinates
         var tailViewX = this.modelViewTransform.modelToViewX( lightRay.tail.x );
@@ -156,9 +156,9 @@ define( function( require ) {
           (totalPhaseOffsetInNumberOfWavelengths % 1) * lightRay.wavelength );
 
         // light ray color
-        red = lightRay.getColor().r / 255;
-        green = lightRay.getColor().g / 255;
-        blue = lightRay.getColor().b / 255;
+        red = lightRay.color.r / 255;
+        green = lightRay.color.g / 255;
+        blue = lightRay.color.b / 255;
 
         gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
         gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( elements ), gl.STATIC_DRAW );

@@ -4,6 +4,7 @@
  * Model for the intensity meter, including the position of the sensor, body, the reading values, etc.
  * When multiple rays hit the sensor, they are summed up.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -122,7 +123,7 @@ define( function( require ) {
         {
           var total = 0.0;
           hits.forEach( function( hit ) {
-            total += hit.getValue();
+            total += hit.value;
           } );
           this.readingProperty.set( new Reading( total ) );
         }
@@ -130,8 +131,8 @@ define( function( require ) {
 
       /**
        * @public
-       * @param {number} deltaX
-       * @param {number} deltaY
+       * @param {number} deltaX - amount of space in x direction intensity meter node to be translated
+       * @param {number} deltaY - amount of space in y direction intensity meter node to be translated
        */
       translateAllXY: function( deltaX, deltaY ) {
         this.translateBodyXY( deltaX, deltaY );

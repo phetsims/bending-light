@@ -3,8 +3,8 @@
 /**
  * Graphically depicts a draggable prism.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni {Actual Concepts}
  */
 define( function( require ) {
   'use strict';

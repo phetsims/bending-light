@@ -19,8 +19,8 @@ define( function( require ) {
   /**
    * Model for a probe, including its position and recorded data series
    *
-   * @param {number} x
-   * @param {number} y
+   * @param {number} x - x position of probe
+   * @param {number} y - y position of probe
    * @constructor
    */
   function Probe( x, y ) {
@@ -40,8 +40,8 @@ define( function( require ) {
     /**
      *
      * @public
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - amount of space in x direction probe to be translated
+     * @param {number} deltaY - amount of space in y direction probe to be translated
      */
     translateXY: function( deltaX, deltaY ) {
       this.probePosition.x = this.position.x + deltaX;

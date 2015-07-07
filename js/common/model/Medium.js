@@ -3,6 +3,7 @@
 /**
  * A Medium is a substance through which LightRay instances propagate.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -44,14 +45,6 @@ define( function( require ) {
      */
     isMystery: function() {
       return this.mediumState.mystery;
-    },
-
-    /**
-     * @public
-     * @returns {MediumState}
-     */
-    getMediumState: function() {
-      return this.mediumState;
     }
   } );
 } );

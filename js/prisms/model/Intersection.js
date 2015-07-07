@@ -4,6 +4,7 @@
  * Models the intersection between a light ray and an interface, needed so we can optionally depict normals at each
  * intersection.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -27,22 +28,5 @@ define( function( require ) {
     this.point = point;
   }
 
-  return inherit( Object, Intersection, {
-
-    /**
-     * @public
-     * @returns {Pointer.point|*}
-     */
-    getPoint: function() {
-      return this.point;
-    },
-
-    /**
-     * @public
-     * @returns {*}
-     */
-    getUnitNormal: function() {
-      return this.unitNormal;
-    }
-  } );
+  return inherit( Object, Intersection );
 } );

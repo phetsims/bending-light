@@ -3,8 +3,8 @@
 /**
  * Series of data points to be shown in the wave sensor chart.
  *
- * @author Sam Reid
  * @author Chandrashekar Bemagoni (Actual Concepts)
+ * @author Sam Reid
  */
 
 define( function( require ) {
@@ -32,14 +32,6 @@ define( function( require ) {
   }
 
   return inherit( Object, Series, {
-
-    /**
-     * @public
-     * @returns {Color}
-     */
-    getColor: function() {
-      return this.color;
-    },
 
     /**
      * Discard early samples that have gone out of range

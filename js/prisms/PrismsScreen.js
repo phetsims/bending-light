@@ -2,6 +2,7 @@
 
 /**
  * The 'Prisms' screen.
+ *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {

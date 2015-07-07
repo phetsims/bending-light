@@ -3,8 +3,8 @@
 /**
  * View for the intensity meter, including its movable sensor and readout region (called the body).
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -384,8 +384,8 @@ define( function( require ) {
     /**
      * Drag all components, called when dragging from toolbox
      * @private
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - amount of space in x direction to be translated
+     * @param {number} deltaY - amount of space in y direction to be translated
      */
     dragAllXY: function( deltaX, deltaY ) {
       this.intensityMeter.translateAllXY(
@@ -396,8 +396,8 @@ define( function( require ) {
     /**
      * Drag sensorNode
      * @private
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - amount of space in x direction the sensor to be translated
+     * @param {number} deltaY - amount of space in y direction the sensor to be translated
      */
     dragSensorXY: function( deltaX, deltaY ) {
       this.intensityMeter.translateSensorXY(
@@ -408,8 +408,8 @@ define( function( require ) {
     /**
      * Drag bodyNode
      * @private
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - amount of space in x direction the body to be translated
+     * @param {number} deltaY - amount of space in y direction the body to be translated
      */
     dragBodyXY: function( deltaX, deltaY ) {
       this.intensityMeter.translateBodyXY(

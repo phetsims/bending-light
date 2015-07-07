@@ -3,6 +3,7 @@
 /**
  * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {
@@ -30,14 +31,6 @@ define( function( require ) {
 
 
   return inherit( Object, MediumState, {
-
-    /**
-     * @public
-     * @returns {string}
-     */
-    toString: function() {
-      return this.name;
-    },
 
     /**
      * @public

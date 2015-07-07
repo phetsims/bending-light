@@ -2,7 +2,8 @@
 
 /**
  * Node for drawing the series of points.
- * @author Chandrashekar Bemagoni  (Actual Concepts)
+ *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -15,7 +16,7 @@ define( function( require ) {
    *
    * @param {ObservableArray<DataPoint>} seriesPoints
    * @param {string} color
-   * @param {Object} [options]
+   * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
   function SeriesCanvasNode( seriesPoints, color, options ) {

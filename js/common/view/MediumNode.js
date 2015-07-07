@@ -2,6 +2,7 @@
 /**
  * Graphic that draws a medium such as air, water, glass, etc.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
 define( function( require ) {

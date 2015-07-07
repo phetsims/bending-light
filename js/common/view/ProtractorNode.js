@@ -5,8 +5,8 @@
  * In this sim it is used for measuring the angle of the incident,
  * reflected and refracted light.
  *
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
- * @author Chandrashekar Bemagoni(Actual Concepts)
  */
 define( function( require ) {
   'use strict';
@@ -35,7 +35,7 @@ define( function( require ) {
    * @param {ProtractorModel} protractorModel - model of protractor
    * @param {function} translateShape - function that returns the part of the protractor that can be used for translating it
    * @param {function} rotateShape - function that returns the part of the protractor that can be used for rotating it
-   * @param {number} protractorIconWidth
+   * @param {number} protractorIconWidth - width of protractor icon to show in toolbox node
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor may be dragged
    * @constructor
