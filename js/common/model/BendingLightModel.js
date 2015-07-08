@@ -17,7 +17,6 @@ define( function( require ) {
   var IntensityMeter = require( 'BENDING_LIGHT/common/model/IntensityMeter' );
   var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
-  var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Util = require( 'SCENERY/util/Util' );
 
@@ -85,7 +84,6 @@ define( function( require ) {
 
     // list of rays in the model
     this.rays = new ObservableArray();
-    var bendingLightModel = this;
 
     // dimensions of the model, guaranteed to be shown in entirety on the stage
     this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public read-only
