@@ -34,7 +34,7 @@ define( function( require ) {
    * @param {function} ccwArrowNotAtMax - shows whether laser at min angle
    * @param {function} laserTranslationRegion - region that defines laser translation
    * @param {function} laserRotationRegion - region that defines laser rotation
-   * @param {string } laserImageName - name of laser image
+   * @param {string} laserImageName - name of laser image
    * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
    * @constructor
    */
