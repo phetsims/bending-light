@@ -26,7 +26,7 @@ define( function( require ) {
    * @param {Laser} laser - model of laser
    * @param {number} dx - length of horizontal arrow
    * @param {number} dy - length of vertical arrow
-   * @param {Property<boolean>} showDragHandlesProperty
+   * @param {Property.<boolean>} showDragHandlesProperty - determines whether to show arrows
    * @constructor
    */
   function TranslationDragHandle( modelViewTransform, laser, dx, dy, showDragHandlesProperty ) {

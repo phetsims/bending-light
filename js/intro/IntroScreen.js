@@ -3,7 +3,7 @@
 /**
  * The 'Intro ' screen.
  *
- * @author Chandrashekar  Bemagoni (Actual Concepts)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';

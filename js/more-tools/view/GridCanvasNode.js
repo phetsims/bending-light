@@ -15,7 +15,7 @@ define( function( require ) {
   /**
    *
    * @param {ObservableArray<[]>} gridPoints
-   * @param {number[]} strokeDash
+   * @param {array.<number>} strokeDash
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */

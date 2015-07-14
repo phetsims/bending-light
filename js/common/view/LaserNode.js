@@ -32,9 +32,9 @@ define( function( require ) {
    *
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Laser} laser - model for the laser
-   * @param {Property<boolean>} showRotationDragHandlesProperty - to show laser node rotate arrows(direction which laser node can rotate)
-   * @param {Property<boolean>} showTranslationDragHandlesProperty - to show laser node drag arrows(direction which laser node can drag)
-   * @param {function} clampDragAngle
+   * @param {Property.<boolean>} showRotationDragHandlesProperty - to show laser node rotate arrows(direction which laser node can rotate)
+   * @param {Property.<boolean>} showTranslationDragHandlesProperty - to show laser node drag arrows(direction which laser node can drag)
+   * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
    * @param {function} translationRegion - select from the entire region and front region which should be used for translating the laser
    * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating the laser
    * @param {string} laserImageName - if name is 'laser' use laser image without knob else use laser with knob

@@ -34,7 +34,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {BendingLightView} bendingLightView
+   * @param {BendingLightView} bendingLightView - view of the simulation
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
    * @param {Bounds2} containerBounds - bounds of container for  intensity meter
@@ -297,9 +297,9 @@ define( function( require ) {
     /**
      * Resize the intensityMeterNode
      * @public
-     * @param {number} endPositionX
-     * @param {number} endPositionY
-     * @param {number} scale
+     * @param {number} endPositionX - x coordinate of end point
+     * @param {number} endPositionY - y coordinate of end point
+     * @param {number} scale - scale to be applied to intensity meter
      */
     setIntensityMeterScale: function( endPositionX, endPositionY, scale ) {
 
@@ -318,9 +318,9 @@ define( function( require ) {
     /**
      * Resize the intensityMeterNode with Animation
      * @private
-     * @param {number} endPositionX
-     * @param {number} endPositionY
-     * @param {number} scale
+     * @param {number} endPositionX - x coordinate of end point
+     * @param {number} endPositionY - y coordinate of end point
+     * @param {number} scale - scale to be applied to intensity meter
      */
     setIntensityMeterScaleAnimation: function( endPositionX, endPositionY, scale ) {
       var prevScale = this.sensorNode.getScaleVector().x;
@@ -335,8 +335,8 @@ define( function( require ) {
 
     /**
      * @private
-     * @param {Object} startPoint
-     * @param {Object} endPoint
+     * @param {Object} startPoint - object containing details of initial state i.e, x, y positions and scale
+     * @param {Object} endPoint - object containing details of final state i.e, x, y positions and scale
      */
     init: function( startPoint, endPoint ) {
       var target = this;

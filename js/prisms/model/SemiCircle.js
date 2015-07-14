@@ -20,7 +20,7 @@ define( function( require ) {
   /**
    *
    * @param {number} referencePointIndex
-   * @param {Vector2[]} points
+   * @param {array.<Vector2>} points
    * @param {number} radius - radius of semicircle
    * @constructor
    */
@@ -75,8 +75,8 @@ define( function( require ) {
     /**
      * Gets a rotated copy of this SemiCircle
      * @public
-     * @param {number} angle
-     * @param {Vector2} rotationPoint
+     * @param {number} angle - angle to be rotated
+     * @param {Vector2} rotationPoint - point around which semicircle to be rotated
      * @returns {SemiCircle}
      */
     getRotatedInstance: function( angle, rotationPoint ) {
@@ -121,7 +121,7 @@ define( function( require ) {
      * Compute the intersections of the specified ray with this polygon's edges
      * @public
      * @param {Ray} ray
-     * @returns {[]}
+     * @returns {array.<Intersection>}
      */
     getIntersections: function( ray ) {
       var intersections = [];

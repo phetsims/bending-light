@@ -66,7 +66,7 @@ define( function( require ) {
     /**
      * Blend colors a and b with the specified amount of "b" to use between 0 and 1
      * @public
-     * @param{Color} a
+     * @param {Color} a
      * @param {Color} b
      * @param {number} ratio
      * @returns {Color}

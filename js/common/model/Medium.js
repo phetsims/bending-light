@@ -32,7 +32,7 @@ define( function( require ) {
     /**
      *
      * @public
-     * @param {number} wavelength
+     * @param {number} wavelength - wavelength of the medium
      * @returns {number}
      */
     getIndexOfRefraction: function( wavelength ) {

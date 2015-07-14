@@ -38,7 +38,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {BendingLightModel} model
+   * @param {BendingLightModel} model - model of the simulation
    * @param {boolean} hasMoreTools - whether contain more tools
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
@@ -186,7 +186,7 @@ define( function( require ) {
     /**
      * Create the node for the specified lightRay and shows in the lightRayLayer
      * @public
-     * @param {ModelViewTransform2} modelViewTransform
+     * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
      * @param {LightRay} lightRay
      */
     createLightRayNode: function( modelViewTransform, lightRay ) {

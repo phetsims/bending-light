@@ -7,7 +7,6 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
-
 define( function( require ) {
   'use strict';
 
@@ -39,8 +38,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {Property<string>} colorModeProperty - to indicate ray in singleColor or white .
-   * @param {Property<number>} wavelengthProperty
+   * @param { Property.<string>} colorModeProperty - to indicate ray in singleColor or white .
+   * @param {Property.<number>} wavelengthProperty
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */

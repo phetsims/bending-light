@@ -94,10 +94,10 @@ define( function( require ) {
       /**
        * Add a new reading to the accumulator and update the readout
        * @public
-       * @param {Reading/ MISS} rayReading
+       * @param {Reading/ MISS} r - intensity of the wave
        */
-      addRayReading: function( rayReading ) {
-        this.rayReadings.push( rayReading );
+      addRayReading: function( r ) {
+        this.rayReadings.push( r );
         this.updateReading();
       },
 

@@ -20,9 +20,9 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} referencePointIndex
-   * @param {Vector2[]} points
-   * @param {number} radius
+   * @param {number} referencePointIndex - index of reference point
+   * @param {array.<Vector2>} points - array of corner points
+   * @param {number} radius - radius of diverging lens
    * @constructor
    */
   function DivergingLens( referencePointIndex, points, radius ) {
@@ -54,7 +54,7 @@ define( function( require ) {
     /**
      * Get the specified corner point
      * @public
-     * @param {number} i
+     * @param {number} i - index of points
      * @returns {Vector2}
      */
     getPoint: function( i ) {
@@ -63,8 +63,8 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - x coordinate to be translated
+     * @param {number} deltaY - y coordinate to be translated
      * @returns {DivergingLens}
      */
     getTranslatedInstance: function( deltaX, deltaY ) {
@@ -79,7 +79,7 @@ define( function( require ) {
     /**
      * Gets a rotated copy of this DivergingLens
      * @public
-     * @param {number} angle
+     * @param {number} angle - angle to be rotated
      * @param {Vector2} rotationPoint
      * @returns {DivergingLens}
      */
@@ -123,7 +123,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {Vector2[]} p
+     * @param {array.<Vector2>} p
      * @returns {Vector2}
      */
     getCentroid: function( p ) {
@@ -144,7 +144,7 @@ define( function( require ) {
 
     /**
      * @private
-     * @param {Vector2[]} p
+     * @param {array<Vector2>} p
      * @returns {number}
      */
     getArea: function( p ) {

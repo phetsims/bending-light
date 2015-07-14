@@ -18,7 +18,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} referenceIndexOfRefraction
+   * @param {number} referenceIndexOfRefraction - IndexOfRefraction of medium
    * @param {number} wavelength - wavelength in meters
    * @constructor
    */

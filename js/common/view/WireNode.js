@@ -18,8 +18,8 @@ define( function( require ) {
   /**
    * Wire that connects the body and probe.
    *
-   * @param {Property<Vector2>} probePositionProperty
-   * @param {Property<Vector2>} bodyPositionProperty
+   * @param {Property.<Vector2>} probePositionProperty
+   * @param {Property.<Vector2>} bodyPositionProperty
    * @param {Node} probeNode
    * @param {Node} bodyNode
    * @param {Color} color - color of the wire
