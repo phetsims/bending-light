@@ -16,7 +16,7 @@ define( function( require ) {
   /**
    *
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {Property<Medium>} mediumProperty
+   * @param {Property.<Medium>} mediumProperty
    * @constructor
    */
   function MediumNode( modelViewTransform, mediumProperty ) {

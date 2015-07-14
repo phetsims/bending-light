@@ -20,7 +20,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {Property<number>} laserTypeProperty
+   * @param {Property.<number>} laserTypeProperty
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */

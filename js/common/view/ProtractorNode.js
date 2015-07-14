@@ -29,9 +29,9 @@ define( function( require ) {
 
   /**
    *
-   * @param {BendingLightView} bendingLightView
+   * @param {BendingLightView} bendingLightView - view of the simulation
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view values
-   * @param {Property<boolean>} showProtractorProperty - controls the protractor visibility
+   * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
    * @param {ProtractorModel} protractorModel - model of protractor
    * @param {function} translateShape - function that returns the part of the protractor that can be used for translating it
    * @param {function} rotateShape - function that returns the part of the protractor that can be used for rotating it
@@ -244,7 +244,7 @@ define( function( require ) {
       /**
        * Resize the protractor
        * @public
-       * @param {number} scale
+       * @param {number} scale - scale to be applied for the protractor
        */
       setProtractorScale: function( scale ) {
         this.setScaleMagnitude( scale );
@@ -255,8 +255,8 @@ define( function( require ) {
 
       /**
        * @private
-       * @param {Vector2}endPoint
-       * @param {number} scale
+       * @param {Vector2} endPoint - position at final stage of animation
+       * @param {number} scale - scale at final stage of animation
        */
       setProtractorScaleAnimation: function( endPoint, scale ) {
         var startPoint = { x: this.centerX, y: this.centerY, scale: this.getScaleVector().x };
@@ -267,8 +267,8 @@ define( function( require ) {
 
       /**
        * @private
-       * @param {Object} initialPosition
-       * @param {Object} finalPosition
+       * @param {Object} initialPosition - object containing details of initial state i.e, x, y positions and scale
+       * @param {Object} finalPosition - object containing details of final state i.e, x, y positions and scale
        */
       init: function( initialPosition, finalPosition ) {
         var target = this;
@@ -313,8 +313,8 @@ define( function( require ) {
       /**
        * Translate the protractor, this method is called when dragging out of the toolbox
        * @private
-       * @param {number} deltaX
-       * @param {number} deltaY
+       * @param {number} deltaX - amount of space in x direction the protractor to be translated
+       * @param {number} deltaY - amount of space in y direction the sensor to be translated
        */
       dragAllXY: function( deltaX, deltaY ) {
         this.protractorModel.translateXY(

@@ -281,7 +281,7 @@ define( function( require ) {
      * Determine the wave value of the topmost light ray at the specified position, or None if none exists
      * @public
      * @param {Vector2} position
-     * @returns {[]}
+     * @returns {array.<number>}
      */
     getWaveValue: function( position ) {
       var introModel = this;

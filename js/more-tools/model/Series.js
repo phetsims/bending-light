@@ -6,7 +6,6 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
-
 define( function( require ) {
   'use strict';
 
@@ -16,7 +15,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {Property<[]>} pathProperty - path of series
+   * @param {Property.<[]>} pathProperty - path of series
    * @param {Color} color - color of series
    * @constructor
    */

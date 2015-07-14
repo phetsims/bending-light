@@ -20,17 +20,17 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} trapeziumWidth
+   * @param {number} trapeziumWidth - width of wave at intersection of mediums
    * @param {Vector2} tail - tail position of light ray
    * @param {Vector2} tip - tip position of light ray
-   * @param {number} indexOfRefraction - The index of refraction of the medium the lightray inhabits
+   * @param {number} indexOfRefraction - The index of refraction of the medium the light ray inhabits
    * @param {number} wavelength - wavelength in meters
    * @param {number} powerFraction - amount of power this light has (full strength is 1.0)
    * @param {Color} color - color of light ray
    * @param {number} waveWidth - width of the wave
    * @param {number} numWavelengthsPhaseOffset - indicates how many wavelengths have passed before this light ray begins
-   * @param {boolean} extend
-   * @param {boolean} extendBackwards
+   * @param {boolean} extend - indicates whether to extend it at tip of the wave
+   * @param {boolean} extendBackwards - indicates whether to extend backwards it at tail of the wave
    * @constructor
    */
   function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth,
@@ -95,7 +95,7 @@ define( function( require ) {
     /**
      * Check to see if this light ray hits the specified sensor region
      * @public
-     * @param {Shape} sensorRegion
+     * @param {Shape} sensorRegion - sensor region of intensity meter
      * @returns {Array}
      */
     getIntersections: function( sensorRegion ) {

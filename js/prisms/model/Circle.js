@@ -77,8 +77,8 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number} angle
-     * @param {Vector2} rotationPoint
+     * @param {number} angle - angle to be rotated
+     * @param {Vector2} rotationPoint - point around which circle to be rotated
      * @returns {Circle}
      */
     getRotatedInstance: function( angle, rotationPoint ) {

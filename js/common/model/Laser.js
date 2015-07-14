@@ -19,7 +19,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {Property<number>}wavelengthProperty
+   * @param {Property.<number>} wavelengthProperty - wavelength of light
    * @param {number} distanceFromPivot - distance from laser pivot point
    * @param {number} angle - laser angle
    * @param {Boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant

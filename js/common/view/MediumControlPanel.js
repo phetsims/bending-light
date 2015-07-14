@@ -50,11 +50,11 @@ define( function( require ) {
 
   /**
    *
-   * @param {BendingLightView} view
-   * @param {Property<Medium>} mediumProperty
+   * @param {BendingLightView} view - view of the simulation
+   * @param {Property.<Medium>} mediumProperty
    * @param {string} name - name of the medium material
    * @param {boolean} textFieldVisible - whether to display index of refraction value
-   * @param {number} laserWavelength
+   * @param {number} laserWavelength - wavelength of laser
    * @param {number} decimalPlaces - decimalPlaces to show for index of refraction
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
@@ -330,7 +330,7 @@ define( function( require ) {
      * Called when the user enters a new index of refraction (with text box or slider),
      * updates the model with the specified value
      * @public
-     * @param {number} indexOfRefraction
+     * @param {number} indexOfRefraction - indexOfRefraction of medium
      */
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
 

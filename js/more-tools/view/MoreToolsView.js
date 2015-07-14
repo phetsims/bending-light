@@ -18,7 +18,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {MoreToolsModel} moreToolsModel
+   * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
    * @constructor
    */
   function MoreToolsView( moreToolsModel ) {

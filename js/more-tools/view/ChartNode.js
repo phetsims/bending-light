@@ -6,6 +6,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
+
 define( function( require ) {
   'use strict';
 
@@ -27,7 +28,7 @@ define( function( require ) {
    * Node for drawing the series of points.
    *
    * @param {Series} series
-   * @param {Property<ModelViewTransform2>} modelViewTransformProperty
+   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty
    * @param {Bounds2} chartBounds - bounds of the chart node
    * @constructor
    */
@@ -54,7 +55,7 @@ define( function( require ) {
   /**
    *
    * @param {Bounds2} chartBounds - bounds of the chart node
-   * @param {Series[]} series
+   * @param {array.<Series>} series
    * @constructor
    */
   function ChartNode( chartBounds, series ) {

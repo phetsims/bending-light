@@ -25,7 +25,7 @@ define( function( require ) {
   /**
    *
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {ObservableArray} whiteLightRays
+   * @param {ObservableArray} whiteLightRays - array of white light rays
    * @param {number} stageWidth - width of the dev area
    * @param {number} stageHeight - height of the dev area
    * @constructor
@@ -129,9 +129,9 @@ define( function( require ) {
      * @private
      * @param {number} x0 - x position in view co-ordinates
      * @param  {number} y0 - y position in view co-ordinates
-     * @param {Color} color
-     * @param {number} intensity
-     * @param {Object} map
+     * @param {Color} color - color of the ray
+     * @param {number} intensity - intensity of the ray
+     * @param {Object} map - object containing array of color components, intensities of a point
      */
     addToMap: function( x0, y0, color, intensity, map ) {
       // So that rays don't start fully saturated: this makes it so that it is possible to see the decrease in intensity
@@ -165,8 +165,8 @@ define( function( require ) {
      * @private
      * @param {number} x0 - x position in view co-ordinates
      * @param  {number} y0 - y position in view co-ordinates
-     * @param {Node} child
-     * @param {Object} map
+     * @param {Node} child - lightRay
+     * @param {Object} map - object containing array of color components, intensities of a point
      */
     setPixel: function( x0, y0, child, map ) {
       var color = child.color;
@@ -182,9 +182,9 @@ define( function( require ) {
      * @param {number} x0 - x position in view co-ordinates
      * @param {number} y0 - y position in view co-ordinates
      * @param {number} x1 - x position in view co-ordinates
-     * @param {number} y1  - y position in view co-ordinates
-     * @param {Node} child
-     * @param {Object} map
+     * @param {number} y1 - y position in view co-ordinates
+     * @param {Node} child - lightRay
+     * @param {Object} map - object containing array of color components, intensities of a point
      */
     draw: function( x0, y0, x1, y1, child, map ) {
       var dx = Math.abs( x1 - x0 );

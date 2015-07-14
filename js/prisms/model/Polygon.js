@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Shape that comprises a prism. Immutable here but composed with a Property<Polygon> in Prism for mutability.
+ * Shape that comprises a prism. Immutable here but composed with a Property.<Polygon> in Prism for mutability.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
@@ -20,7 +20,7 @@ define( function( require ) {
   /**
    *
    * @param {number} referencePointIndex
-   * @param {Vector2[]} points
+   * @param {array.<Vector2>} points
    * @constructor
    */
   function Polygon( referencePointIndex, points ) {
@@ -77,8 +77,8 @@ define( function( require ) {
     /**
      * Gets a rotated copy of this polygon
      * @public
-     * @param {number} angle
-     * @param {Vector2} rotationPoint
+     * @param {number} angle - angle to be rotated
+     * @param {Vector2} rotationPoint - point around which polygon to be rotated
      * @returns {Polygon}
      */
     getRotatedInstance: function( angle, rotationPoint ) {
@@ -122,7 +122,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {Vector2[]} p
+     * @param {array.<Vector2>} p
      * @returns {Vector2}
      */
     getCentroid: function( p ) {
@@ -143,7 +143,7 @@ define( function( require ) {
 
     /**
      * @private
-     * @param {Vector2[]} p
+     * @param {array.<Vector2>} p
      * @returns {number}
      */
     getArea: function( p ) {

@@ -29,7 +29,7 @@ define( function( require ) {
   /**
    *
    * @param {BendingLightModel} model - main model of the simulations
-   * @param {function} clampDragAngle
+   * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
    * @param {function} clockwiseArrowNotAtMax - shows whether laser at max angle
    * @param {function} ccwArrowNotAtMax - shows whether laser at min angle
    * @param {function} laserTranslationRegion - region that defines laser translation

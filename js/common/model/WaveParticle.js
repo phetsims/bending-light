@@ -1,8 +1,8 @@
 // Copyright 2002 - 2015, University of Colorado Boulder
 
 /**
- * WaveParticle  is to simulate the wave transformation in Canvas mode.
- * WaveParticle has position , width , angle and etc..
+ * WaveParticle is to simulate the wave transformation in Canvas mode.
+ * WaveParticle has position, width, angle and etc..
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */

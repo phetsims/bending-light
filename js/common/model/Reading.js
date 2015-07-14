@@ -70,7 +70,7 @@ define( function( require ) {
 
       /**
        * @public
-       * @param {number} value
+       * @param {number} value - value to be displayed on intensity meter
        * @returns {string}
        */
       format: function( value ) {
