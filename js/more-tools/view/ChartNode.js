@@ -6,7 +6,6 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
  */
-
 define( function( require ) {
   'use strict';
 
@@ -27,8 +26,8 @@ define( function( require ) {
   /**
    * Node for drawing the series of points.
    *
-   * @param {Series} series
-   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty
+   * @param {Series} series - series of data points
+   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate frames
    * @param {Bounds2} chartBounds - bounds of the chart node
    * @constructor
    */
@@ -55,7 +54,7 @@ define( function( require ) {
   /**
    *
    * @param {Bounds2} chartBounds - bounds of the chart node
-   * @param {array.<Series>} series
+   * @param {array.<Series>} series - series of data points
    * @constructor
    */
   function ChartNode( chartBounds, series ) {
@@ -139,7 +138,7 @@ define( function( require ) {
     /**
      * Compute the phase offset so that grid lines appear to be moving at the right speed
      * @private
-     * @param {number} verticalGridLineSpacing
+     * @param {number} verticalGridLineSpacing - space between vertical grid lines
      * @param {number} time
      * @returns {number}
      */
@@ -152,7 +151,7 @@ define( function( require ) {
 
     /**
      * @private
-     * @param {number} x
+     * @param {number} x - x coordinate of vertical grid lines
      */
     addVerticalLine: function( x ) {
 

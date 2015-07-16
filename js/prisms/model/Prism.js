@@ -63,7 +63,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number}deltaAngle
+     * @param {number} deltaAngle - angle to be rotated
      */
     rotate: function( deltaAngle ) {
       this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle,

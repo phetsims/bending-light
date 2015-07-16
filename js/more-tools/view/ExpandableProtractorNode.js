@@ -57,7 +57,7 @@ define( function( require ) {
     /**
      * Set whether the protractor should be shown as large (expanded) or regular
      * @private
-     * @param {boolean}expanded
+     * @param {boolean} expanded
      */
     setExpanded: function( expanded ) {
       this.setProtractorScale( expanded ? 0.8 : 0.4 );

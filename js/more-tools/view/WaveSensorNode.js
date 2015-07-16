@@ -275,7 +275,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number} scale
+     * @param {number} scale - scale to be applied to wave sensor node
      */
     setWaveSensorScale: function( scale ) {
       //Scaling all components and translating
@@ -299,8 +299,8 @@ define( function( require ) {
     /**
      * Resize the WaveSensorNode
      * @public
-     * @param {number} endPositionX
-     * @param {number} endPositionY
+     * @param {number} endPositionX - x coordinate of end point
+     * @param {number} endPositionY - y coordinate of end point
      * @param {number} scale
      */
     setWaveSensorNodeScale: function( endPositionX, endPositionY, scale ) {
@@ -336,9 +336,9 @@ define( function( require ) {
     /**
      * Resize the WaveSensorNode with Animation
      * @private
-     * @param {number} endPositionX
-     * @param {number} endPositionY
-     * @param {number} scale
+     * @param {number} endPositionX - x coordinate of end point at final state of animation
+     * @param {number} endPositionY - y coordinate of end point at final state of animation
+     * @param {number} scale - scale at final state of animation
      */
     setWaveSensorNodeScaleAnimation: function( endPositionX, endPositionY, scale ) {
       var prevScale = this.bodyNode.getScaleVector().x;
@@ -352,8 +352,8 @@ define( function( require ) {
 
     /**
      * @private
-     * @param {Object} startPoint
-     * @param {Object} endPoint
+     * @param {Object} startPoint - object containing details of initial state i.e, x, y positions and scale
+     * @param {Object} endPoint - object containing details of final state i.e, x, y positions and scale
      */
     init: function( startPoint, endPoint ) {
       var target = this;
@@ -403,8 +403,8 @@ define( function( require ) {
     /**
      * Called when dragged out of the toolbox, drags all parts together (including body and probes)
      * @private
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - distance in x direction to be dragged
+     * @param {number} deltaY - distance in y direction to be dragged
      */
     dragAllXY: function( deltaX, deltaY ) {
       this.waveSensor.translateAllXY( this.modelViewTransform.viewToModelDeltaX( deltaX ),
@@ -414,8 +414,8 @@ define( function( require ) {
     /**
      * Drag bodyNode
      * @private
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - distance in x direction to be dragged
+     * @param {number} deltaY - distance in y direction to be dragged
      */
     dragBodyXY: function( deltaX, deltaY ) {
       this.waveSensor.translateBodyXY( this.modelViewTransform.viewToModelDeltaX( deltaX ),

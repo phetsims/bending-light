@@ -246,6 +246,10 @@ define( function( require ) {
 
   return inherit( Node, VelocitySensorNode, {
 
+    /**
+     * @public
+     * @param {number} scale - scale to be applied to velocity node
+     */
     setVelocitySensorScale: function( scale ) {
       this.bodyNode.setScaleMagnitude( scale );
       var velocitySensorNodeScaleVector = this.bodyNode.getScaleVector();
@@ -258,8 +262,8 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {Vector2} endPoint
-     * @param {number} scale
+     * @param {Vector2} endPoint - position at final state of animation
+     * @param {number} scale - scale at final state of animation
      */
     setScaleAnimation: function( endPoint, scale ) {
       var startPosition = {
@@ -273,8 +277,8 @@ define( function( require ) {
 
     /**
      * @private
-     * @param {Object} initialPosition
-     * @param {Object} finalPosition
+     * @param {Object} initialPosition - object containing details of initial state of animation
+     * @param {Object} finalPosition - object containing details of final state of animation
      */
     init: function( initialPosition, finalPosition ) {
       var bodyNode = this.bodyNode;

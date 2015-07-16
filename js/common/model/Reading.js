@@ -12,9 +12,11 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Util = require( 'DOT/Util' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var miss = require( 'string!BENDING_LIGHT/miss' );
+  var valuePercentString = require( 'string!BENDING_LIGHT/pattern_0value_percent' );
 
   // constants
   var VALUE_DECIMALS = 2;
@@ -74,7 +76,7 @@ define( function( require ) {
        * @returns {string}
        */
       format: function( value ) {
-        return Util.toFixed( value, VALUE_DECIMALS ) + '%';
+        return StringUtils.format( valuePercentString, Util.toFixed( value, VALUE_DECIMALS ) );
       },
 
       /**

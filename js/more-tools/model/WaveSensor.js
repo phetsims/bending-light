@@ -109,7 +109,7 @@ define( function( require ) {
     /**
      * @private
      * @param {Probe} probe
-     * @param {function} probeValue
+     * @param {function} probeValue - function for getting data from a probe at the specified point
      */
     updateProbeSample: function( probe, probeValue ) {
       // Read the value from the probe function.  May be None if not intersecting a light ray
@@ -121,8 +121,8 @@ define( function( require ) {
 
     /**
      *
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - distance in x direction to be dragged
+     * @param {number} deltaY - distance in y direction to be dragged
      */
     translateBodyXY: function( deltaX, deltaY ) {
       this.bodyPosition.x = this.bodyPositionProperty.get().x + deltaX;
@@ -134,8 +134,8 @@ define( function( require ) {
     /**
      * Translate the body and probes by the specified model delta
      * @public
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - distance in x direction to be dragged
+     * @param {number} deltaY - distance in y direction to be dragged
      */
     translateAllXY: function( deltaX, deltaY ) {
       this.probe1.translateXY( deltaX, deltaY );
