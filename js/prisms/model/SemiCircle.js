@@ -59,8 +59,8 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number} deltaX
-     * @param {number} deltaY
+     * @param {number} deltaX - distance in x direction to be translated
+     * @param {number} deltaY - distance in y direction to be translated
      * @returns {SemiCircle}
      */
     getTranslatedInstance: function( deltaX, deltaY ) {

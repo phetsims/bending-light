@@ -118,5 +118,8 @@
   },
   "velocityPattern": {
     "value": "{0} {1}"
+  },
+  "pattern_0value_percent": {
+    "value": "{0}%"
   }
 }
