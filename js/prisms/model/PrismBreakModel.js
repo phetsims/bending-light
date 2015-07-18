@@ -387,7 +387,7 @@ define( function( require ) {
      * @private
      * @param {Ray} incidentRay
      * @param {ObservableArray<Prism>} prisms
-     * @returns {null}
+     * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
      */
     getIntersection: function( incidentRay, prisms ) {
       var allIntersections = [];
