@@ -15,9 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );
-
-  // images
-  var introMockUpImage = require( 'image!BENDING_LIGHT/mockup-intro.png' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // strings
   var introTitleString = require( 'string!BENDING_LIGHT/intro' );
@@ -27,7 +25,7 @@ define( function( require ) {
    * @constructor
    */
   function IntroScreen() {
-    Screen.call( this, introTitleString, new Image( introMockUpImage ),
+    Screen.call( this, introTitleString, new Rectangle( 0, 0, 548, 373, { fill: 'red' } ),
       function() { return new IntroModel( BendingLightModel.WATER, true ); },
       function( model ) { return new IntroView( model, 102, false, 2 ); },
       { backgroundColor: 'white' }

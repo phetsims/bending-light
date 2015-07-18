@@ -14,9 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );
-
-  // images
-  var moreToolsMockUpImage = require( 'image!BENDING_LIGHT/mockup-more-tools.png' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // strings
   var moreToolsTitleString = require( 'string!BENDING_LIGHT/moreTools' );
@@ -26,7 +24,7 @@ define( function( require ) {
    * @constructor
    */
   function MoreToolsScreen() {
-    Screen.call( this, moreToolsTitleString, new Image( moreToolsMockUpImage ),
+    Screen.call( this, moreToolsTitleString, new Rectangle( 0, 0, 548, 373, { fill: 'blue' } ),
       function() { return new MoreToolsModel(); },
       function( model ) { return new MoreToolsView( model ); },
       { backgroundColor: 'white' }

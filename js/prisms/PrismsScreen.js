@@ -14,13 +14,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );
-
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // strings
   var prismsTitleString = require( 'string!BENDING_LIGHT/prisms' );
-
-  // images
-  var prismsMockUpImage = require( 'image!BENDING_LIGHT/mockup-prisms.png' );
 
   /**
    *
@@ -29,7 +26,7 @@ define( function( require ) {
   function PrismsScreen() {
     var screen = this;
     var prismModel = new PrismBreakModel();
-    Screen.call( this, prismsTitleString, new Image( prismsMockUpImage ),
+    Screen.call( this, prismsTitleString, new Rectangle( 0, 0, 548, 373, { fill: 'green' } ),
       function() {
         return prismModel;
       },
