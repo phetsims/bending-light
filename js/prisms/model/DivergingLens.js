@@ -54,7 +54,7 @@ define( function( require ) {
     /**
      * Get the specified corner point
      * @public
-     * @param {number} i - index of points
+     * @param {number} i - index of point
      * @returns {Vector2}
      */
     getPoint: function( i ) {

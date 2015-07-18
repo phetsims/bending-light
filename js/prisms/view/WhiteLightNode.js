@@ -172,7 +172,8 @@ define( function( require ) {
       var color = child.color;
       var intensity = child.powerFraction;
       this.addToMap( x0, y0, color, intensity, map );
-      //Some additional points makes it look a lot better (less sparse) without slowing it down too much
+
+      // Some additional points makes it look a lot better (less sparse) without slowing it down too much
       this.addToMap( x0 + 0.5, y0, color, intensity, map );
       this.addToMap( x0, y0 + 0.5, color, intensity, map );
     },
