@@ -30,7 +30,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {PrismBreakModel} prismBreakModel - model of  prisms screen
+   * @param {PrismBreakModel} prismBreakModel - model of prisms screen
    * @constructor
    */
   function PrismsView( prismBreakModel ) {
@@ -44,7 +44,7 @@ define( function( require ) {
       return angle;
     }
 
-    // In prisms tab  laser node can rotate 360 degrees  .so  arrows showing  all the times when laser node rotate
+    // In prisms tab laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
     function clockwiseArrowNotAtMax() {
       return true;
     }
@@ -59,7 +59,7 @@ define( function( require ) {
     }
 
     function translationRegion( fullShape, backShape ) {
-      //empty shape since shouldn't be rotatable in this tab
+      // Empty shape since shouldn't be rotatable in this tab
       return fullShape;
     }
 
@@ -113,7 +113,7 @@ define( function( require ) {
     } );
     this.addChild( laserTypeControlPanel );
 
-    //Add the reset all button
+    // Add the reset all button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
         prismBreakModel.reset();
@@ -135,7 +135,7 @@ define( function( require ) {
       return outerCircle;
     };
 
-    // get the function that chooses which region of the protractor can be used for translation--both the inner bar and
+    // Get the function that chooses which region of the protractor can be used for translation--both the inner bar and
     // outer circle in this tab
     var getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
       return innerBar;

@@ -1,8 +1,8 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Main model for bending light application.  Rays are recomputed whenever laser parameters changed. Each ray oscillates
- * in time, as shown in the wave view.  There are model representations for several tools as well as their visibility.
+ * Main model for bending light application. Rays are recomputed whenever laser parameters changed. Each ray oscillates
+ * in time, as shown in the wave view. There are model representations for several tools as well as their visibility.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
@@ -119,8 +119,9 @@ define( function( require ) {
   return inherit( PropertySet, BendingLightModel, {
 
       /**
+       * Adds a ray to the model
        * @public
-       * @param {LightRay} ray
+       * @param {LightRay} ray - model of light ray
        */
       addRay: function( ray ) {
         this.rays.add( ray );

@@ -44,7 +44,7 @@ define( function( require ) {
    * View for rendering a probe that can be used to sense wave values
    *
    * @param {WaveSensorNode} waveSensorNode
-   * @param {Probe} probe
+   * @param {Probe} probe - probe containing position and recorded data series
    * @param {string} probeImageName - name of the probe image
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Rectangle} container - toolbox node bounds
@@ -101,7 +101,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {MoreToolsView} moreToolsView
+   * @param {MoreToolsView} moreToolsView - view of the moreTools screen
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor
    * @param {Rectangle} container - toolbox node bounds
@@ -168,7 +168,7 @@ define( function( require ) {
         new Series( waveSensor.probe2.seriesProperty, lightProbeColor ) ] );
     this.bodyNode.addChild( this.chartNode );
 
-    //Synchronize the body position with the model (centered on the model point)
+    // Synchronize the body position with the model (centered on the model point)
     waveSensor.bodyPositionProperty.link( function( position ) {
       var waveSensorBodyPositionX = modelViewTransform.modelToViewX( position.x );
       var waveSensorBodyPositionY = modelViewTransform.modelToViewY( position.y );
@@ -274,11 +274,12 @@ define( function( require ) {
   return inherit( Node, WaveSensorNode, {
 
     /**
+     * Resize the WaveSensorNode
      * @public
      * @param {number} scale - scale to be applied to wave sensor node
      */
     setWaveSensorScale: function( scale ) {
-      //Scaling all components and translating
+      // Scaling all components and translating
       this.bodyNode.setScaleMagnitude( scale );
       this.probe1Node.setScaleMagnitude( scale );
       this.probe2Node.setScaleMagnitude( scale );
@@ -301,7 +302,7 @@ define( function( require ) {
      * @public
      * @param {number} endPositionX - x coordinate of end point
      * @param {number} endPositionY - y coordinate of end point
-     * @param {number} scale
+     * @param {number} scale - scale to be applied to wavesensor node
      */
     setWaveSensorNodeScale: function( endPositionX, endPositionY, scale ) {
 
@@ -366,6 +367,7 @@ define( function( require ) {
     },
 
     /**
+     * Adds WaveSensorNode to play area and removes from tool box
      * @public
      */
     addMoreToolsView: function() {
@@ -384,6 +386,7 @@ define( function( require ) {
     },
 
     /**
+     * Adds WaveSensorNode to tool box and removes from play area if present
      * @public
      */
     addToSensorPanel: function() {

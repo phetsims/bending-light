@@ -32,6 +32,7 @@ define( function( require ) {
   inherit( Object, MISS, {
 
     /**
+     * Get string to display on intensity sensor
      * @public
      * @return {string}
      */
@@ -40,7 +41,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * Determines whether ray hit the intensity sensor or not
      * @return {boolean}
      */
     isHit: function() {
@@ -63,6 +64,7 @@ define( function( require ) {
   return inherit( Object, Reading, {
 
       /**
+       * Get string to display on intensity sensor
        * @public
        * @return {string}
        */
@@ -80,6 +82,7 @@ define( function( require ) {
       },
 
       /**
+       * Determines whether ray hit the intensity sensor or not
        * @public
        * @return {boolean}
        */

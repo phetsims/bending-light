@@ -38,7 +38,7 @@ define( function( require ) {
   inherit( PropertySet, Probe, {
 
     /**
-     *
+     * Translate the probe in model
      * @public
      * @param {number} deltaX - amount of space in x direction probe to be translated
      * @param {number} deltaY - amount of space in y direction probe to be translated
@@ -70,7 +70,7 @@ define( function( require ) {
 
     // Set the relative location of the probes and body in model coordinates (SI). These values for initial probe and
     // body locations were obtained by printing out actual values at runtime, then dragging the objects to a good
-    // looking location.  This amount of precision is unnecessary, but these values were just sampled directly.
+    // looking location. This amount of precision is unnecessary, but these values were just sampled directly.
     this.probe1 = new Probe( -0.00001932, -0.0000052 );
     this.probe2 = new Probe( -0.0000198, -0.0000062 );
     this.bodyPositionProperty = new Property( new Vector2( -0.0000172, -0.00000605 ) );
@@ -83,7 +83,7 @@ define( function( require ) {
     this.probe1Value = probe1Value;
     this.probe2Value = probe2Value;
 
-    // Note:  Created here to reduce Vector2 allocations
+    // Note: Created here to reduce Vector2 allocations
     this.bodyPosition = new Vector2( 0, 0 );
 
   }
@@ -107,12 +107,13 @@ define( function( require ) {
     },
 
     /**
+     * Read the value from the probe function. May be None if not intersecting a light ray
      * @private
      * @param {Probe} probe
      * @param {function} probeValue - function for getting data from a probe at the specified point
      */
     updateProbeSample: function( probe, probeValue ) {
-      // Read the value from the probe function.  May be None if not intersecting a light ray
+      // Read the value from the probe function. May be None if not intersecting a light ray
       var value = probeValue( probe.position );
       if ( value ) {
         probe.addSample( new DataPoint( value[ 0 ], value[ 1 ] ) );
@@ -120,7 +121,7 @@ define( function( require ) {
     },
 
     /**
-     *
+     * Translate the body in model
      * @param {number} deltaX - distance in x direction to be dragged
      * @param {number} deltaY - distance in y direction to be dragged
      */

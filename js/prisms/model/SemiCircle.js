@@ -19,8 +19,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} referencePointIndex
-   * @param {array.<Vector2>} points
+   * @param {number} referencePointIndex - is used as the drag handle corner for rotation
+   * @param {array.<Vector2>} points - corner points
    * @param {number} radius - radius of semicircle
    * @constructor
    */
@@ -28,7 +28,7 @@ define( function( require ) {
 
     this.points = points;
 
-    // index for the point used as the "reference" point, which is used as the drag handle corner for rotation
+    // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
     this.radius = radius;
     this.center = this.points[ 0 ].plus( this.points[ 1 ] ).multiplyScalar( 0.5 );
@@ -37,6 +37,7 @@ define( function( require ) {
   return inherit( Object, SemiCircle, {
 
     /**
+     * Creates a shape
      * @public
      * @return {Shape}
      */
@@ -50,7 +51,7 @@ define( function( require ) {
     /**
      * Get the specified corner point
      * @public
-     * @param {number} i
+     * @param {number} i - index of point
      * @returns {Vector2}
      */
     getPoint: function( i ) {
@@ -58,6 +59,7 @@ define( function( require ) {
     },
 
     /**
+     * Create a new SemiCircle translated by the specified amount
      * @public
      * @param {number} deltaX - distance in x direction to be translated
      * @param {number} deltaY - distance in y direction to be translated
@@ -90,6 +92,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines whether shape contains given point or not
      * @public
      * @param {Vector2} point
      * @returns {Vector2}
@@ -120,7 +123,7 @@ define( function( require ) {
     /**
      * Compute the intersections of the specified ray with this polygon's edges
      * @public
-     * @param {Ray} ray
+     * @param {Ray} ray - model of the ray
      * @returns {array.<Intersection>}
      */
     getIntersections: function( ray ) {

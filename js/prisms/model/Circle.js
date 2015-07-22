@@ -30,6 +30,7 @@ define( function( require ) {
   return inherit( Object, Circle, {
 
     /**
+     * Creates a shape
      * @public
      * @returns {Shape}
      */
@@ -38,6 +39,7 @@ define( function( require ) {
     },
 
     /**
+     * Create a new Circle translated by the specified amount
      * @public
      * @param {number} deltaX - amount of space to be translate in x direction
      * @param {number} deltaY - amount of space to be translate in y direction
@@ -50,7 +52,7 @@ define( function( require ) {
     /**
      * Finds the intersections between the edges of the circle and the specified ray
      * @public
-     * @param {Ray} ray
+     * @param {Ray} ray - model of the ray
      * @returns {Array}
      */
     getIntersections: function( ray ) {
@@ -61,7 +63,7 @@ define( function( require ) {
 
         // Filter out getLineCircleIntersection nulls, which are returned if there is no intersection
         if ( intersectionPoint !== null ) {
-          // only consider intersections that are in front of the ray
+          // Only consider intersections that are in front of the ray
           if ( ((intersectionPoint.point.x - ray.tail.x) * ray.directionUnitVector.x +
                 (intersectionPoint.point.y - ray.tail.y) * ray.directionUnitVector.y) > 0 ) {
             var normalVector = intersectionPoint.point.minus( self.center ).normalize();
@@ -76,6 +78,7 @@ define( function( require ) {
     },
 
     /**
+     * Create a new Circle rotated by the specified angle
      * @public
      * @param {number} angle - angle to be rotated
      * @param {Vector2} rotationPoint - point around which circle to be rotated
@@ -89,6 +92,7 @@ define( function( require ) {
     },
 
     /**
+     * Computes the centroid of the corner points
      * @public
      * @returns {Vector2}
      */
@@ -106,6 +110,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines whether shape contains given point or not
      * @public
      * @param {Vector2} point
      * @returns {boolean}

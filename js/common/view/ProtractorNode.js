@@ -254,6 +254,7 @@ define( function( require ) {
       },
 
       /**
+       * Resize the protractor with Animation
        * @private
        * @param {Vector2} endPoint - position at final stage of animation
        * @param {number} scale - scale at final stage of animation
@@ -283,6 +284,7 @@ define( function( require ) {
       },
 
       /**
+       * Adds ProtractorNode to play area and removes from tool box
        * @public
        */
       addToBendingLightView: function() {
@@ -297,6 +299,7 @@ define( function( require ) {
       },
 
       /**
+       * Adds ProtractorNode to tool box and removes from play area
        * @public
        */
       addToSensorPanel: function() {

@@ -37,7 +37,7 @@ define( function( require ) {
    * @param {BendingLightView} bendingLightView - view of the simulation
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
-   * @param {Bounds2} containerBounds - bounds of container for  intensity meter
+   * @param {Bounds2} containerBounds - bounds of container for intensity meter
    * @param {Bounds2} dragBounds - bounds that define where the intensity meter may be dragged
    * @constructor
    */
@@ -147,7 +147,7 @@ define( function( require ) {
       lineWidth: 2
     } );
 
-    //second rectangle
+    // second rectangle
     var innerRectangle = new Rectangle( 2, 2, rectangleWidth - 10, rectangleHeight - 10, 5, 5, {
       fill: '#008541',
       centerX: outerRectangle.centerX,
@@ -163,12 +163,12 @@ define( function( require ) {
         centerY: rectangleHeight * 0.6
       } );
 
-    //Add a "Intensity" title to the body node
+    // Add a "Intensity" title to the body node
     var titleNode = new Text( intensityString, { font: new PhetFont( 20 ), fill: 'white' } );
     if ( titleNode.width > rectangleWidth - 15 ) {
       titleNode.scale( (rectangleWidth - 15) / titleNode.width );
     }
-    //Add the reading to the body node
+    // Add the reading to the body node
     var valueNode = new Text( intensityMeter.reading.getString(),
       { font: new PhetFont( 25 ), fill: 'black' } );
 
@@ -185,7 +185,7 @@ define( function( require ) {
         innerMostRectangle.centerY + valueNode.height / 2 );
     } );
 
-    //body location
+    // body location
     intensityMeter.bodyPositionProperty.link( function( location ) {
       var bodyPositionX = modelViewTransform.modelToViewX( location.x );
       var bodyPositionY = modelViewTransform.modelToViewY( location.y );
@@ -232,11 +232,11 @@ define( function( require ) {
       modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ) - this.bodyNode.getWidth() / 2,
       modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ) - this.bodyNode.getHeight() / 2 );
 
-    //Connect the sensor to the body with a gray wire
+    // Connect the sensor to the body with a gray wire
     var wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty,
       this.sensorNode, this.bodyNode, 'gray' );
 
-    //add the components
+    // add the components
     this.addChild( wireNode );
     this.addChild( this.sensorNode );
     this.addChild( this.bodyNode );
@@ -303,7 +303,7 @@ define( function( require ) {
      */
     setIntensityMeterScale: function( endPositionX, endPositionY, scale ) {
 
-      //previous scale for scaling the distance between the sensorNode and bodyNode
+      // previous scale for scaling the distance between the sensorNode and bodyNode
       var prevScale = this.sensorNode.getScaleVector().x;
       this.bodyNode.setScaleMagnitude( scale );
       this.sensorNode.setScaleMagnitude( scale );
@@ -349,6 +349,7 @@ define( function( require ) {
     },
 
     /**
+     * Adds IntensityMeterNode to play area and removes from tool box
      * @public
      */
     addToBendingLightView: function() {
@@ -365,6 +366,7 @@ define( function( require ) {
     },
 
     /**
+     * Adds IntensityMeterNode to tool box and removes from play area
      * @public
      */
     addToSensorPanel: function() {

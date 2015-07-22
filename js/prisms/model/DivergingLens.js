@@ -39,6 +39,7 @@ define( function( require ) {
   return inherit( Object, DivergingLens, {
 
     /**
+     * Creates a shape
      * @public
      * @returns {Shape}
      */
@@ -62,6 +63,7 @@ define( function( require ) {
     },
 
     /**
+     * Create a new DivergingLens translated by the specified amount
      * @public
      * @param {number} deltaX - x coordinate to be translated
      * @param {number} deltaY - y coordinate to be translated
@@ -80,7 +82,7 @@ define( function( require ) {
      * Gets a rotated copy of this DivergingLens
      * @public
      * @param {number} angle - angle to be rotated
-     * @param {Vector2} rotationPoint
+     * @param {Vector2} rotationPoint - point around which DivergingLens to be rotated
      * @returns {DivergingLens}
      */
     getRotatedInstance: function( angle, rotationPoint ) {
@@ -94,9 +96,10 @@ define( function( require ) {
     },
 
     /**
+     * Determines whether shape contains given point or not
      * @public
      * @param {Vector2} point
-     * @returns {*}
+     * @returns {boolean}
      */
     containsPoint: function( point ) {
       return this.toShape().containsPoint( point );
@@ -122,8 +125,9 @@ define( function( require ) {
     },
 
     /**
+     * Centroid of the rectangle formed by the corner points
      * @public
-     * @param {array.<Vector2>} p
+     * @param {array.<Vector2>} p - array of corner points
      * @returns {Vector2}
      */
     getCentroid: function( p ) {
@@ -143,8 +147,9 @@ define( function( require ) {
     },
 
     /**
+     * Area of the rectangle formed by the corner points
      * @private
-     * @param {array<Vector2>} p
+     * @param {array<Vector2>} p - array of corner points
      * @returns {number}
      */
     getArea: function( p ) {
@@ -161,7 +166,7 @@ define( function( require ) {
     /**
      * Compute the intersections of the specified ray with this polygon's edges
      * @public
-     * @param {Ray} ray
+     * @param {Ray} ray - model of the ray
      * @returns {Array}
      */
     getIntersections: function( ray ) {

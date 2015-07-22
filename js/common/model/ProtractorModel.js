@@ -16,7 +16,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {number } x - protractor x position in model co-ordinates
+   * @param {number} x - protractor x position in model co-ordinates
    * @param {number} y - protractor y position in model co-ordinates
    * @constructor
    */
@@ -37,6 +37,7 @@ define( function( require ) {
   return inherit( PropertySet, ProtractorModel, {
 
     /**
+     * Translate the protractor in model
      * @public
      * @param {number} deltaX - amount of space in x direction Protractor to be translated
      * @param {number} deltaY - amount of space in y direction Protractor to be translated

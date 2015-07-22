@@ -70,6 +70,7 @@ define( function( require ) {
       var dragArrowY = modelViewTransform.modelToViewY( laser.pivot.y );
       dragArrow.setTranslation( dragArrowX, dragArrowY );
     };
+
     // update the shape when the laser moves
     laser.emissionPointProperty.link( update );
   }

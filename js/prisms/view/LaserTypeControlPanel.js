@@ -1,7 +1,7 @@
-// Copyright  2002 - 2015. University of Colorado Boulder
+// Copyright 2002 - 2015. University of Colorado Boulder
 
 /**
- * Control panel for  choosing whether it  single ray  or multiple ray.
+ * Control panel for choosing whether it single ray or multiple ray.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
@@ -29,7 +29,7 @@ define( function( require ) {
     options = _.extend( {
       xMargin: 5,
       yMargin: 8,
-      fill: '#eeeeee  ',
+      fill: '#eeeeee',
       stroke: 'gray',
       lineWidth: 1,
       cornerRadius: 5 // radius of the rounded corners on the background
@@ -73,7 +73,7 @@ define( function( require ) {
         .addColorStop( 1, '#4F4E50' )
     } );
 
-    // Icon for the single ray  button
+    // Icon for the single ray button
     var singleRayLine = new Path( new Shape().moveTo( 17, 15 ).lineTo( 49, 15 ), {
       stroke: 'red',
       lineWidth: 2

@@ -36,6 +36,7 @@ define( function( require ) {
   return inherit( Object, Polygon, {
 
     /**
+     * Creates a shape
      * @public
      * @returns {Shape}
      */
@@ -50,9 +51,8 @@ define( function( require ) {
 
     /**
      * Get the specified corner point
-     *
      * @public
-     * @param {number} i
+     * @param {number} i - index of point
      * @returns {Vector2}
      */
     getPoint: function( i ) {
@@ -60,6 +60,7 @@ define( function( require ) {
     },
 
     /**
+     * Create a new Polygon translated by the specified amount
      * @public
      * @param {number} deltaX - distance in x direction to be translated
      * @param {number} deltaY - distance in y direction to be translated
@@ -93,6 +94,7 @@ define( function( require ) {
 
 
     /**
+     * Determines whether shape contains given point or not
      * @public
      * @param {Vector2} point
      * @returns {boolean}
@@ -121,8 +123,9 @@ define( function( require ) {
     },
 
     /**
+     * Centroid of the polygon
      * @public
-     * @param {array.<Vector2>} p
+     * @param {array.<Vector2>} p - array of corner points
      * @returns {Vector2}
      */
     getCentroid: function( p ) {
@@ -142,8 +145,9 @@ define( function( require ) {
     },
 
     /**
+     * Area of the polygon
      * @private
-     * @param {array.<Vector2>} p
+     * @param {array.<Vector2>} p - array of corner points
      * @returns {number}
      */
     getArea: function( p ) {
@@ -160,7 +164,7 @@ define( function( require ) {
     /**
      * Compute the intersections of the specified ray with this polygon's edges
      * @public
-     * @param {Ray} ray
+     * @param {Ray} ray - model of the ray
      * @returns {Array}
      */
     getIntersections: function( ray ) {

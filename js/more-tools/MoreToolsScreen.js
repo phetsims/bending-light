@@ -1,7 +1,7 @@
 // Copyright 2002 - 2015, University of Colorado Boulder
 
 /**
- * The 'more tools'  screen
+ * The 'more tools' screen
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
@@ -12,7 +12,6 @@ define( function( require ) {
   var MoreToolsModel = require( 'BENDING_LIGHT/more-tools/model/MoreToolsModel' );
   var MoreToolsView = require( 'BENDING_LIGHT/more-tools/view/MoreToolsView' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 

@@ -200,7 +200,7 @@ define( function( require ) {
      * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
      * If the intensity meter misses the ray, the original ray is added.
      * @private
-     * @param {LightRay} ray
+     * @param {LightRay} ray - model of light ray
      * @returns {boolean}
      */
     addAndAbsorb: function( ray ) {
@@ -262,9 +262,8 @@ define( function( require ) {
 
     /**
      * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
-     *
      * @public
-     * @param {Vector2} position
+     * @param {Vector2} position - position where the velocity to be determined
      * @returns {Vector2}
      */
     getVelocity: function( position ) {
@@ -280,8 +279,8 @@ define( function( require ) {
     /**
      * Determine the wave value of the topmost light ray at the specified position, or None if none exists
      * @public
-     * @param {Vector2} position
-     * @returns {array.<number>}
+     * @param {Vector2} position - position where the wave value to be determined
+     * @returns {array.<number>|null} - returns array of time and magnitude if point is on ray otherwise returns null
      */
     getWaveValue: function( position ) {
       var introModel = this;
@@ -405,7 +404,7 @@ define( function( require ) {
           tailX = lightRay.tail.x - (directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle ));
           tailY = lightRay.tail.y - (directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle ));
         }
-        // Changing the wave particle position  within the  wave particle phase
+        // Changing the wave particle position within the wave particle phase
         for ( var j = 0; j < waveParticles.length; j++ ) {
           var particle = waveParticles.get( j );
           particle.setX( tailX + (directionVector.x * ( ( j * wavelength ) + phaseDiff ) ) );

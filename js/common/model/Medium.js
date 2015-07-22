@@ -21,7 +21,7 @@ define( function( require ) {
    */
   function Medium( shape, mediumState, color ) {
 
-    //immutable shape
+    // immutable shape
     this.shape = shape;
     this.mediumState = mediumState;
     this.color = color; // color is based on the index of refraction at red wavelength
@@ -30,7 +30,7 @@ define( function( require ) {
   return inherit( Object, Medium, {
 
     /**
-     *
+     * Determines the index of refraction of medium
      * @public
      * @param {number} wavelength - wavelength of the medium
      * @returns {number}
@@ -40,6 +40,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines whether the medium is mystery or not
      * @public
      * @returns {boolean}
      */

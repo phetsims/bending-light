@@ -5,7 +5,7 @@
  * as is the default when drawing transparent colors on top of each other in Java).
  * <p/>
  * This class uses the Bresenham line drawing algorithm (with a stroke thickness of 2) to determine which pixels each
- * ray inhabits. When multiple rays hit the same pixel, their RGB values are added.  If any of the RG or B values is
+ * ray inhabits. When multiple rays hit the same pixel, their RGB values are added. If any of the RG or B values is
  * greater than the maximum of 255, then RGB values are scaled down and the leftover part is put into the "intensity"
  * value (which is the sum of the ray intensities). The intensity is converted to a transparency value according to
  * alpha = sqrt(intensity/3), which is also clamped to be between 0 and 255.
@@ -114,9 +114,10 @@ define( function( require ) {
     },
 
     /**
+     * Computing points outside of the bounds
      * @private
      * @param {number} x0 - x position in view co-ordinates
-     * @param  {number} y0 - y position in view co-ordinates
+     * @param {number} y0 - y position in view co-ordinates
      * @returns {boolean}
      */
     isOutOfBounds: function( x0, y0 ) {
@@ -128,7 +129,7 @@ define( function( require ) {
      * values. Take the intensity as the last component of the array
      * @private
      * @param {number} x0 - x position in view co-ordinates
-     * @param  {number} y0 - y position in view co-ordinates
+     * @param {number} y0 - y position in view co-ordinates
      * @param {Color} color - color of the ray
      * @param {number} intensity - intensity of the ray
      * @param {Object} map - object containing array of color components, intensities of a point
@@ -162,9 +163,10 @@ define( function( require ) {
     },
 
     /**
+     * The specified pixel got hit by white light, so update the map
      * @private
      * @param {number} x0 - x position in view co-ordinates
-     * @param  {number} y0 - y position in view co-ordinates
+     * @param {number} y0 - y position in view co-ordinates
      * @param {Node} child - lightRay
      * @param {Object} map - object containing array of color components, intensities of a point
      */
@@ -179,6 +181,7 @@ define( function( require ) {
     },
 
     /**
+     * See http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
      * @private
      * @param {number} x0 - x position in view co-ordinates
      * @param {number} y0 - y position in view co-ordinates

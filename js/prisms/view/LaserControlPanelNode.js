@@ -39,7 +39,7 @@ define( function( require ) {
   /**
    *
    * @param { Property.<string>} colorModeProperty - to indicate ray in singleColor or white .
-   * @param {Property.<number>} wavelengthProperty
+   * @param {Property.<number>} wavelengthProperty - specifies wavelength
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
@@ -68,7 +68,7 @@ define( function( require ) {
 
     var aquaRadioButtonOptions = { radius: 7, font: new PhetFont( 12 ) };
 
-    // create the radio buttons
+    // Create the radio buttons
     var whiteLightRadio = new AquaRadioButton( colorModeProperty, 'white', createButtonTextNode( whiteLightString ),
       aquaRadioButtonOptions );
     var oneColorRadio = new AquaRadioButton( colorModeProperty, 'singleColor', createButtonTextNode( oneColorString ),
@@ -88,7 +88,7 @@ define( function( require ) {
 
     this.wavelengthProperty = new Property( wavelengthProperty.value * 1E9 );
 
-    // Create  WavelengthSlider node
+    // Create WavelengthSlider node
     var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty, {
       cursorStroke: 'white',
       maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,

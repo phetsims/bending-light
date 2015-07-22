@@ -39,10 +39,10 @@ define( function( require ) {
 
   /**
    *
-   * @param {MoreToolsView} moreToolsView
+   * @param {MoreToolsView} moreToolsView - view of moreTools screen
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
-   * @param {number} arrowScale
+   * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
    * @param {Rectangle} container - toolbox node bounds
    * @param {Bounds2} dragBounds - bounds that define where the velocity sensor may be dragged
    * @constructor
@@ -247,6 +247,7 @@ define( function( require ) {
   return inherit( Node, VelocitySensorNode, {
 
     /**
+     * Resize the VelocitySensorNode
      * @public
      * @param {number} scale - scale to be applied to velocity node
      */
@@ -261,6 +262,7 @@ define( function( require ) {
     },
 
     /**
+     * Resize the VelocitySensorNode with Animation
      * @public
      * @param {Vector2} endPoint - position at final state of animation
      * @param {number} scale - scale at final state of animation
@@ -293,6 +295,7 @@ define( function( require ) {
     },
 
     /**
+     * Adds VelocitySensorNode to play area and removes from tool box
      * @public
      */
     addToMoreToolsView: function() {
@@ -307,6 +310,7 @@ define( function( require ) {
     },
 
     /**
+     * Adds VelocitySensorNode to tool box and removes from play area if present
      * @public
      */
     addToSensorPanel: function() {
@@ -332,8 +336,9 @@ define( function( require ) {
     },
 
     /**
+     * drags VelocitySensorNode
      * @private
-     * @param {Vector2} delta
+     * @param {Vector2} delta - amount to be translated
      */
     dragAll: function( delta ) {
       this.velocitySensor.translate( this.modelViewTransform.viewToModelDelta( delta ) );

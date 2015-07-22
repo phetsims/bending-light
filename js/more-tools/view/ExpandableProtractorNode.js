@@ -26,7 +26,7 @@ define( function( require ) {
    * @param {number} protractorIconWidth - width of protractor icon to show in toolbox node
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial
    * position when it in container
-   * @param {Bounds2} dragBounds - bounds that define where the protractor    may be dragged
+   * @param {Bounds2} dragBounds - bounds that define where the protractor may be dragged
    * @constructor
    */
   function ExpandableProtractorNode( moreToolsView, modelViewTransform, showProtractorProperty, protractorModel,
@@ -36,7 +36,7 @@ define( function( require ) {
       translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds );
     var expandableProtractorNode = this;
 
-    // Add expandable /collapse  button
+    // Add expandable /collapse button
     var expandCollapseButton = new ExpandCollapseButton( this.expandedProperty, {
       x: expandableProtractorNode.getCenterX() + this.protractorImageNode.getWidth() / 1.6,
       y: expandableProtractorNode.getCenterY() + this.protractorImageNode.getHeight() / 5
@@ -57,7 +57,7 @@ define( function( require ) {
     /**
      * Set whether the protractor should be shown as large (expanded) or regular
      * @private
-     * @param {boolean} expanded
+     * @param {boolean} expanded - whether to expand the protractor
      */
     setExpanded: function( expanded ) {
       this.setProtractorScale( expanded ? 0.8 : 0.4 );

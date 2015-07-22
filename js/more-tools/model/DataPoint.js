@@ -14,8 +14,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} time
-   * @param {number} value
+   * @param {number} time - time of simulation
+   * @param {number} value - amplitude at particular time
    * @constructor
    */
   function DataPoint( time, value ) {

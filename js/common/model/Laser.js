@@ -31,7 +31,7 @@ define( function( require ) {
     var laser = this;
     PropertySet.call( this, {
       pivot: new Vector2( 0, 0 ), // point to be pivoted about, and at which the laser points
-      on: false,    // true if the laser is activated and emitting light
+      on: false, // true if the laser is activated and emitting light
       wave: false,
       colorMode: 'singleColor',
       // model the point where light comes out of the laser
@@ -62,6 +62,7 @@ define( function( require ) {
   return inherit( PropertySet, Laser, {
 
     /**
+     * Translate the laser in model
      * @public
      * @param {number} deltaX - amount of space in x direction laser to be translated
      * @param {number} deltaY - amount of space in y direction laser to be translated
@@ -79,6 +80,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines the unit vector of light ray
      * @public
      * @returns {Vector2}
      */
@@ -103,15 +105,17 @@ define( function( require ) {
     },
 
     /**
+     * Determines the angle of the laser
      * @public
      * @returns {number}
      */
     getAngle: function() {
-      //TODO: why is this backwards by 180 degrees?
+      // TODO: why is this backwards by 180 degrees?
       return this.getDirectionUnitVector().angle() + Math.PI;
     },
 
     /**
+     * Determines the distance of laser from pivot point
      * @public
      * @returns {number}
      */
@@ -120,6 +124,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines the wavelength of the laser
      * @public
      * @returns {number}
      */
@@ -128,6 +133,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines the wavelength of the laser
      * @public
      * @returns {number}
      */

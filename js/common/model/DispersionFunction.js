@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Models dispersion functions for each material.  Uses the actual dispersion equation for air (A) and the actual dispersion equation for glass (G)
+ * Models dispersion functions for each material. Uses the actual dispersion equation for air (A) and the actual dispersion equation for glass (G)
  * then interpolates between the functions n(lambda) = beta * A(lambda) + (1-beta) * G(lambda) where 0<=beta<=infinity is a characteristic of the material.
  * The material is characterized by a reference wavelength, so that when light is the specified wavelength, the index of refraction takes the reference value.
  *
@@ -50,6 +50,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines the index of refraction for the WAVELENGTH_RED
      * @public
      * @returns {number}
      */

@@ -28,7 +28,7 @@ define( function( require ) {
   function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {
 
     PropertySet.call( this, {
-        reading: Reading.MISS,  // value to show on the body
+        reading: Reading.MISS, // value to show on the body
         sensorPosition: new Vector2( sensorX, sensorY ),
         bodyPosition: new Vector2( bodyX, bodyY ),
         enabled: false // True if it is in the play area
@@ -48,6 +48,7 @@ define( function( require ) {
   return inherit( PropertySet, IntensityMeter, {
 
       /**
+       * Translate sensor in model
        * @public
        * @param {number} deltaX - amount space in x the sensor translated.
        * @param {number} deltaY - amount space in y the sensor translated.
@@ -60,6 +61,7 @@ define( function( require ) {
       },
 
       /**
+       * Translate body in model
        * @public
        * @param {number} deltaX - amount space in x the body translated.
        * @param {number} deltaY - amount space in y the body translated.
@@ -130,6 +132,7 @@ define( function( require ) {
       },
 
       /**
+       * Translate the intensity meter in model
        * @public
        * @param {number} deltaX - amount of space in x direction intensity meter node to be translated
        * @param {number} deltaY - amount of space in y direction intensity meter node to be translated

@@ -44,7 +44,7 @@ define( function( require ) {
 
     this.prisms = new ObservableArray( [] );
 
-    //Show multiple beams to help show how lenses work
+    // Show multiple beams to help show how lenses work
     this.manyRaysProperty = new Property( 1 );
 
     // If false, will hide non TIR reflections
@@ -84,7 +84,7 @@ define( function( require ) {
       prismsBreakModel.updateModel();
       prismsBreakModel.dirty = true;
     } );
-    // coalesce repeat updates so work is not duplicated  in white light node.
+    // coalesce repeat updates so work is not duplicated in white light node.
     this.dirty = true;
   }
 
@@ -173,6 +173,7 @@ define( function( require ) {
     },
 
     /**
+     * Removes a prism from the model
      * @public
      * @param {Prism} prism
      */
@@ -190,21 +191,22 @@ define( function( require ) {
     },
 
     /**
+     * Determines whether white light or single color light
      * @private
-     * @param {Vector2} tail
-     * @param {Vector2} directionUnitVector
-     * @param {number} power
-     * @param {boolean} laserInPrism
+     * @param {Vector2} tail - tail position of light ray
+     * @param {Vector2} directionUnitVector - unit vector of the light ray
+     * @param {number} power - amount of power this light has
+     * @param {boolean} laserInPrism - specifies whether laser in prism
      */
     propagate: function( tail, directionUnitVector, power, laserInPrism ) {
 
-      //Determines whether to use white light or single color light
+      // Determines whether to use white light or single color light
       var mediumIndexOfRefraction;
       if ( this.laser.colorModeProperty.value === 'white' ) {
         var min = VisibleColor.MIN_WAVELENGTH / 1E9;
         var max = VisibleColor.MAX_WAVELENGTH / 1E9;
 
-        // This number sets the number of (equally spaced wavelength) rays to show in a white beam.  More rays looks
+        // This number sets the number of (equally spaced wavelength) rays to show in a white beam. More rays looks
         // better but is more computationally intensive.
         var dw = (max - min) / 16;
 
@@ -270,8 +272,8 @@ define( function( require ) {
      * Recursive algorithm to compute the pattern of rays in the system. This is the main computation of this model,
      * rays are cleared beforehand and this algorithm adds them as it goes
      * @private
-     * @param {Ray} incidentRay
-     * @param {number} count
+     * @param {Ray} incidentRay - model of the ray
+     * @param {number} count - number of rays
      */
     propagateTheRay: function( incidentRay, count ) {
       var rayColor;
@@ -376,7 +378,7 @@ define( function( require ) {
     /**
      * Signify that another ray/interface collision occurred
      * @private
-     * @param {Intersection} intersection
+     * @param {Intersection} intersection - intersection of light ray with prism
      */
     addIntersection: function( intersection ) {
       this.intersections.add( intersection );
@@ -385,7 +387,7 @@ define( function( require ) {
     /**
      * Find the nearest intersection between a light ray and the set of prisms in the play area
      * @private
-     * @param {Ray} incidentRay
+     * @param {Ray} incidentRay - model of the ray
      * @param {ObservableArray<Prism>} prisms
      * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
      */

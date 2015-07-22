@@ -22,7 +22,7 @@ define( function( require ) {
   /**
    *
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {LightRay} lightRay
+   * @param {LightRay} lightRay - model of light ray
    * @constructor
    */
   function LightRayNode( modelViewTransform, lightRay ) {
@@ -36,8 +36,8 @@ define( function( require ) {
     this.viewStart = modelViewTransform.modelToViewPosition( this.lightRay.tip );
     this.viewEnd = modelViewTransform.modelToViewPosition( this.lightRay.tail );
 
-    // Restricted the  light ray view coordinates (start and end )within the specific  window(rectangle) area to support in firefox browser
-    // Note : if the values are to long rays rendering  different directions
+    // Restricted the light ray view coordinates (start and end )within the specific window(rectangle) area to support in firefox browser
+    // Note : if the values are to long rays rendering different directions
     // Todo : need to find out , why firefox behaving differently
     var shape = new Rectangle( -100000, -100000, 200000, 200000 );
     if ( !shape.getShape().containsPoint( this.viewStart ) ) {
@@ -73,6 +73,7 @@ define( function( require ) {
     },
 
     /**
+     * Get the color of the light ray
      * @public
      * @returns {Color}
      */

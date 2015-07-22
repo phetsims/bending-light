@@ -89,8 +89,8 @@ define( function( require ) {
       return prismIconNode;
     };
 
-    var prismsNode;
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
+    var prismsNode;
     prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
       prismPath[ i ] = createPrismIcon( prism );
       var start;
@@ -159,6 +159,7 @@ define( function( require ) {
         stroke: 'gray', lineWidth: 0.2, fill: 'gray'
       } );
     content.addChild( dividerBetweenMediumPanelAndControlPanel );
+
     // Add check boxes
     // Create an icon for the protractor check box
     var createProtractorIcon = function() {

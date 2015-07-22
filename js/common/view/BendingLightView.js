@@ -54,7 +54,7 @@ define( function( require ) {
     // Control boxes next
     // Protractor
     // Laser beam
-    // To implement this, we specify 2  before light layer and 2 after light layers
+    // To implement this, we specify 2 before light layer and 2 after light layers
     this.beforeLightLayer = new Node();
     this.beforeLightLayer2 = new Node();
 
@@ -87,8 +87,8 @@ define( function( require ) {
     this.addChild( this.whiteLightNode );
     this.addChild( this.afterLightLayer );
 
-    // This layer  is to add laser view control panel
-    // Note: this layer to make protractor behind laser view   panel and laser node on top of laser view panel.
+    // This layer is to add laser view control panel
+    // Note: this layer to make protractor behind laser view panel and laser node on top of laser view panel.
     this.laserViewLayer = new Node();
     this.addChild( this.laserViewLayer );
 
@@ -133,7 +133,7 @@ define( function( require ) {
       this.layoutBounds );
     this.addChild( laserNode );
 
-    // add laser node  rotation  and translation  arrows in array  , for to move them to front of all other nodes in prism screen
+    // add laser node rotation and translation arrows in array, for to move them to front of all other nodes in prism screen
     this.laserLayerArray = [ leftRotationDragHandle, rightRotationDragHandle, horizontalTranslationDragHandle,
       verticalTranslationDragHandle, laserNode ];
 

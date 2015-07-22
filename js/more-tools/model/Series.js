@@ -35,7 +35,7 @@ define( function( require ) {
     /**
      * Discard early samples that have gone out of range
      * @public
-     * @param {number} minTime
+     * @param {number} minTime - minimum time to be displayed on chart node
      */
     keepLastSamples: function( minTime ) {
       var startIndex = 0;

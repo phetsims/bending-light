@@ -1,7 +1,7 @@
 // Copyright 2002 - 2015, University of Colorado Boulder
 
 /**
- * The 'Intro ' screen.
+ * The 'Intro' screen.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
@@ -13,7 +13,6 @@ define( function( require ) {
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 

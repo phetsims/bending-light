@@ -50,7 +50,7 @@ define( function( require ) {
 
     // The index of refraction of the medium the light ray inhabits
     this.indexOfRefraction = indexOfRefraction;
-    this.wavelength = wavelength;    // wavelength in meters
+    this.wavelength = wavelength; // wavelength in meters
 
     // Amount of power this light has (full strength is 1.0)
     this.powerFraction = powerFraction;
@@ -78,13 +78,14 @@ define( function( require ) {
     /**
      * Update the time, so it can update the phase of the wave graphic
      * @public
-     * @param {number} time
+     * @param {number} time - simulation time
      */
     setTime: function( time ) {
       this.time = time;
     },
 
     /**
+     * Determines the speed of the light ray
      * @public
      * @returns {number}
      */
@@ -111,6 +112,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines length of light ray
      * @public
      * @returns {number}
      */
@@ -176,6 +178,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines the unit vector of light ray
      * @public
      * @returns {Vector2}
      */
@@ -187,6 +190,7 @@ define( function( require ) {
     },
 
     /**
+     * Determines the angle of light ray
      * @public
      * @returns {number}
      */
@@ -207,7 +211,7 @@ define( function( require ) {
      * accounting for whether it is shown as a thin light ray or wide wave
      * @public
      * @param {Vector2} position
-     * @param {boolean} waveMode
+     * @param {boolean} waveMode - specifies whether ray or wave mode
      * @returns {boolean}
      */
     contains: function( position, waveMode ) {
@@ -263,7 +267,7 @@ define( function( require ) {
     /**
      * Get the total argument to the cosine for the wave function(k * x - omega * t + phase)
      * @public
-     * @param {number} distanceAlongRay
+     * @param {number} distanceAlongRay - distance of a specific point from the start of the ray
      * @returns {number}
      */
     getCosArg: function( distanceAlongRay ) {

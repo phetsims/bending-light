@@ -14,7 +14,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {ObservableArray<[]>} gridPoints
+   * @param {ObservableArray<[]>} gridPoints - contains details of each grid line
    * @param {array.<number>} strokeDash
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
@@ -29,7 +29,7 @@ define( function( require ) {
   return inherit( CanvasNode, GridCanvasNode, {
 
     /**
-     * Paints the gris lines on the canvas node.
+     * Paints the grid lines on the canvas node.
      * @protected
      * @param {CanvasContextWrapper} wrapper
      */
@@ -44,7 +44,7 @@ define( function( require ) {
         context.strokeStyle = 'lightGray';
         context.lineWidth = 2;
         context.setLineDash( this.strokeDash );
-        context.lineDashOffset = grid[ 4 ]; //Have to model the phase to make it look like the grid line is moving
+        context.lineDashOffset = grid[ 4 ]; // Have to model the phase to make it look like the grid line is moving
         context.stroke();
         context.closePath();
       }

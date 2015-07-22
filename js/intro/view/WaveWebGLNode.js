@@ -16,7 +16,7 @@ define( function( require ) {
   /**
    *
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {ObservableArray<LightRay>} rays
+   * @param {ObservableArray<LightRay>} rays - light rays
    * @param {Number} screenWidth - width of the dev area
    * @param {Number} screenHeight - height of the dev area
    * @constructor
@@ -46,11 +46,11 @@ define( function( require ) {
         'uniform mat3 uProjectionMatrix;',
         'void main( void ) {',
         // homogeneous model-view transformation
-        '  vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );',
+        'vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );',
         // homogeneous map to normalized device coordinates
-        '  vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );',
+        'vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );',
         // combine with the z coordinate specified
-        '  gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );',
+        'gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );',
         '}'
       ].join( '\n' );
 
@@ -59,12 +59,12 @@ define( function( require ) {
         'precision mediump float;',
         'uniform float uPowerFraction;', // light ray power fraction
         'uniform vec2 uTail;', // Tail point
-        'uniform float uAngle;',  // Angle of the Ray
+        'uniform float uAngle;', // Angle of the Ray
         'uniform float uWaveLength;', // Wavelength of the Ray
-        'uniform float uPhase;',  // phase difference of the Ray
+        'uniform float uPhase;', // phase difference of the Ray
         'uniform vec2 uCanvasOffset;', // Canvas Offset
         'uniform float uScale;',
-        'uniform vec3 uColor;',  // Color of the wave
+        'uniform vec3 uColor;', // Color of the wave
         'void main( void ) {',
         // converting pixel coordinates to view coordinates.
         'float x1 = (gl_FragCoord.x-uCanvasOffset.x)/uScale;',
@@ -74,7 +74,7 @@ define( function( require ) {
         // tail coordinate is mapped from view to canvas (layoutBounds.height - uTail.y)
         'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(x1-uTail.x,y1+uTail.y-504.0));',
         // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
-        'float positionDiff =  mod( abs( distance - uPhase), uWaveLength);',
+        'float positionDiff = mod( abs( distance - uPhase), uWaveLength);',
         // color is determined by perpendicular distance of coordinate from the start of the particle.
         'float colorFactor = abs( 1.0 - positionDiff / ( uWaveLength * 0.5 ) );',
         'gl_FragColor.rgb = uColor * (colorFactor * uPowerFraction);',
@@ -92,7 +92,7 @@ define( function( require ) {
 
     /**
      * @protected
-     * @param{Drawable} drawable
+     * @param {Drawable} drawable
      * @param {Matrix3} matrix
      */
     paintWebGLDrawable: function( drawable, matrix ) {
@@ -111,7 +111,7 @@ define( function( require ) {
       else {
         var navBarHeight = 40 * scale;
         scale = (window.innerHeight - navBarHeight) / this.screenHeight;
-        widthOffset = (window.innerWidth - (  this.screenWidth * scale)) / 2;
+        widthOffset = (window.innerWidth - ( this.screenWidth * scale)) / 2;
         heightOffset = navBarHeight;
       }
 
@@ -131,7 +131,7 @@ define( function( require ) {
         var point4X = this.modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 2 ].x );
         var point4Y = this.modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 2 ].y );
 
-        // points  to draw  light ray beam
+        // points to draw light ray beam
         elements.push( point1X, point1Y, 1 );
         elements.push( point2X, point2Y, 1 );
         elements.push( point3X, point3Y, 1 );
@@ -144,7 +144,7 @@ define( function( require ) {
         var tailViewX = this.modelViewTransform.modelToViewX( lightRay.tail.x );
         var tailViewY = this.modelViewTransform.modelToViewY( lightRay.tail.y );
 
-        // light ray  angle
+        // light ray angle
         var lightRayAngle = lightRay.getAngle();
 
         // light ray wavelength
@@ -186,7 +186,7 @@ define( function( require ) {
 
     /**
      * @protected
-     * @param drawable
+     * @param {Drawable} drawable
      */
     disposeWebGLDrawable: function( drawable ) {
       drawable.shaderProgram.dispose();

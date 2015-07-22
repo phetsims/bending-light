@@ -24,7 +24,7 @@ define( function( require ) {
   var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
   var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
 
-  //constants
+  // constants
   var dragRegionColor = new Color( 255, 0, 0, 0 );
   var rotationRegionColor = new Color( 0, 0, 255, 0 );
 

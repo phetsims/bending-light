@@ -51,7 +51,7 @@ define( function( require ) {
   /**
    *
    * @param {BendingLightView} view - view of the simulation
-   * @param {Property.<Medium>} mediumProperty
+   * @param {Property.<Medium>} mediumProperty - specifies medium
    * @param {string} name - name of the medium material
    * @param {boolean} textFieldVisible - whether to display index of refraction value
    * @param {number} laserWavelength - wavelength of laser
@@ -346,7 +346,7 @@ define( function( require ) {
     /**
      * Update the medium state from the combo box
      * @public
-     * @param {MediumState} mediumState
+     * @param {MediumState} mediumState - specifies state of the medium
      */
     setMediumState: function( mediumState ) {
       this.setMedium( new Medium( this.mediumProperty.get().shape, mediumState,
@@ -355,8 +355,9 @@ define( function( require ) {
     },
 
     /**
+     * Update the medium
      * @private
-     * @param {Medium} medium
+     * @param {Medium} medium - specifies medium
      */
     setMedium: function( medium ) {
       this.mediumProperty.set( medium );

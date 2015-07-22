@@ -12,7 +12,6 @@ define( function( require ) {
   var PrismBreakModel = require( 'BENDING_LIGHT/prisms/model/PrismBreakModel' );
   var PrismsView = require( 'BENDING_LIGHT/prisms/view/PrismsView' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var Screen = require( 'JOIST/Screen' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
@@ -33,7 +32,7 @@ define( function( require ) {
       function( model ) { return new PrismsView( model ); },
       { backgroundColor: 'white' }
     );
-    // update the background  when its medium changes
+    // update the background when its medium changes
     prismModel.environmentMediumProperty.link( function( environmentMedium ) {
       screen.backgroundColor = environmentMedium.color;
     } );

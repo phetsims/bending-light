@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Node that shows the chart in the "more tools" screen  intensity sensor.
+ * Node that shows the chart in the "more tools" screen intensity sensor.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
@@ -88,7 +88,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @param {number} time
+     * @param {number} time - simulation time
      */
     step: function( time ) {
       this.simulationTimeChanged( time );
@@ -97,7 +97,7 @@ define( function( require ) {
     /**
      * Move over the view port as time passes
      * @private
-     * @param {number} time
+     * @param {number} time - simulation time
      */
     simulationTimeChanged: function( time ) {
 
@@ -139,7 +139,7 @@ define( function( require ) {
      * Compute the phase offset so that grid lines appear to be moving at the right speed
      * @private
      * @param {number} verticalGridLineSpacing - space between vertical grid lines
-     * @param {number} time
+     * @param {number} time - simulation time
      * @returns {number}
      */
     getDelta: function( verticalGridLineSpacing, time ) {
@@ -150,6 +150,7 @@ define( function( require ) {
     },
 
     /**
+     * Adds vertical lines to the grid
      * @private
      * @param {number} x - x coordinate of vertical grid lines
      */

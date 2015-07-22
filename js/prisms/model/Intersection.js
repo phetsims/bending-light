@@ -15,8 +15,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {Vector2} unitNormal
-   * @param {Vector2} point
+   * @param {Vector2} unitNormal - unit normal at the intersection of light ray
+   * @param {Vector2} point - point where the light ray intersects
    * @constructor
    */
   function Intersection( unitNormal, point ) {

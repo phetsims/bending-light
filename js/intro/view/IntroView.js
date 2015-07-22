@@ -189,7 +189,7 @@ define( function( require ) {
     var protractorModelPositionY = this.modelViewTransform.viewToModelY( protractorNodeY );
     this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
 
-    // if intro screen  regular protractor node else expandable protractor node.
+    // if intro screen regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {
       this.protractorNode = new ProtractorNode( this, this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,

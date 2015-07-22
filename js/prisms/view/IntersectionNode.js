@@ -18,7 +18,7 @@ define( function( require ) {
   /**
    *
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {Intersection} intersection
+   * @param {Intersection} intersection - specifies details of intersection point and unit normal
    * @constructor
    */
   function IntersectionNode( modelViewTransform, intersection ) {

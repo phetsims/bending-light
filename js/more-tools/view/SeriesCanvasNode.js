@@ -29,7 +29,7 @@ define( function( require ) {
   return inherit( CanvasNode, SeriesCanvasNode, {
 
     /**
-     * Paints the  series points on the canvas node.
+     * Paints the series points on the canvas node.
      * @protected
      * @param {CanvasContextWrapper} wrapper
      */

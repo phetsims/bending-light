@@ -187,7 +187,7 @@ define( function( require ) {
      * Create the node for the specified lightRay and shows in the lightRayLayer
      * @public
      * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-     * @param {LightRay} lightRay
+     * @param {LightRay} lightRay - model of light ray
      */
     createLightRayNode: function( modelViewTransform, lightRay ) {
       return new LightRayNode( modelViewTransform, lightRay );

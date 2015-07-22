@@ -17,7 +17,7 @@ define( function( require ) {
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var Property = require( 'AXON/Property' );
 
-  //images
+  // images
   var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
 
   /**

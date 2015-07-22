@@ -16,11 +16,11 @@ define( function( require ) {
   /**
    *
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {Property.<Medium>} mediumProperty
+   * @param {Property.<Medium>} mediumProperty - specifies medium
    * @constructor
    */
   function MediumNode( modelViewTransform, mediumProperty ) {
-    Node.call( this, { pickable: false } );  // user can't interact with the medium except through control panels.
+    Node.call( this, { pickable: false } ); // user can't interact with the medium except through control panels.
 
     // add the shape that paints the medium
     var mediumRectangleNode = new Path( modelViewTransform.modelToViewShape( mediumProperty.value.shape ), {

@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * View  for the "more tools" screen, which adds more tools to the toolbox, and a few more controls for the laser.
+ * View for the "more tools" screen, which adds more tools to the toolbox, and a few more controls for the laser.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid

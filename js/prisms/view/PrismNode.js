@@ -27,7 +27,7 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {Prism } prism
    * @param {Node} prismToolboxNode
-   * @param {Node} prismLayer
+   * @param {Node} prismLayer - layer consisting of prisms in play area
    * @param {Bounds2} prismDragBounds - bounds that define where the prism may be dragged
    * @constructor
    */
@@ -43,7 +43,7 @@ define( function( require ) {
       prismsNode.addChild( knobNode );
     }
 
-    // prism rotation with knob
+    // Prism rotation with knob
     var previousAngle;
     var prismCenterPoint;
     knobNode.addInputListener( new SimpleDragHandler( {
@@ -124,7 +124,7 @@ define( function( require ) {
         var prismReferenceYPosition = modelViewTransform.modelToViewY( prismReferencePoint.y );
         var prismCenterX = modelViewTransform.modelToViewX( prismShapeCenter.x );
         var prismCenterY = modelViewTransform.modelToViewY( prismShapeCenter.y );
-        // calculate angle
+        // Calculate angle
         var angle = Math.atan2( (prismCenterY - prismReferenceYPosition), ( prismCenterX - prismReferenceXPosition ) );
         knobCenterPoint.x = -knobNode.getWidth() - 7;
         knobCenterPoint.y = -knobNode.getHeight() / 2 - 8;

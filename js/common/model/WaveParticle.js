@@ -62,7 +62,7 @@ define( function( require ) {
 
     /**
      * @public
-     * @param{number} y - y position in model values
+     * @param {number} y - y position in model values
      */
     setY: function( y ) {
       this.position.y = y;

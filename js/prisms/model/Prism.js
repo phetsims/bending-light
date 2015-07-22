@@ -15,7 +15,7 @@ define( function( require ) {
 
   /**
    *
-   * @param shape
+   * @param {Polygon/Circle/SemiCircle/DivergingLens} shape
    * @constructor
    */
   function Prism( shape ) {
@@ -26,6 +26,7 @@ define( function( require ) {
   return inherit( Object, Prism, {
 
     /**
+     * Translate prism by the specified amount
      * @public
      * @param {number} deltaX - amount of space in x direction the prism to be translated
      * @param {number} deltaY - amount of space in y direction the prism to be translated
@@ -37,7 +38,7 @@ define( function( require ) {
     /**
      * Compute the intersections of the specified ray with this polygon's edges
      * @public
-     * @param incidentRay
+     * @param {Ray} incidentRay - model of the ray
      * @returns {Array}
      */
     getIntersections: function( incidentRay ) {
@@ -45,8 +46,9 @@ define( function( require ) {
     },
 
     /**
+     * Determines whether shape contains given point or not
      * @public
-     * @param point
+     * @param {Vector2} point
      * @returns {boolean}
      */
     contains: function( point ) {
@@ -54,6 +56,7 @@ define( function( require ) {
     },
 
     /**
+     * Creates a copy of the prism
      * @public
      * @returns {Prism}
      */
@@ -62,6 +65,7 @@ define( function( require ) {
     },
 
     /**
+     * Rotate prism by the specified angle
      * @public
      * @param {number} deltaAngle - angle to be rotated
      */
