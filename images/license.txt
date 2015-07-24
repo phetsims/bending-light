@@ -1,6 +1,50 @@
-knob.png author=phet notes=NP, taken from laser_knob.png
-laser.png author=phet notes=NP
-laser_knob.png author=phet notes=NP
-protractor.png author=phet notes=SR generated with software
-wave_detector_probe_dark.png author=phet notes=NP
-wave_detector_probe_light.png author=phet notes=NP
+{
+  "knob.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Noah Podolefsky, taken from laser_knob.png"
+  },
+  "laser.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Noah Podolefsky"
+  },
+  "laser_knob.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Noah Podolefsky"
+  },
+  "protractor.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Sam Reid"
+  },
+  "wave_detector_probe_dark.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Noah Podolefsky"
+  },
+  "wave_detector_probe_light.png": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Noah Podolefsky"
+  }
+}
