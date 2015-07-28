@@ -114,7 +114,7 @@ define( function( require ) {
         // since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
-          sourcePower, color, sourceWaveWidth, 0.0, true, false );
+          sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserViewProperty );
 
         var rayAbsorbed = this.addAndAbsorb( incidentRay );
         if ( !rayAbsorbed ) {
@@ -140,7 +140,7 @@ define( function( require ) {
             sourceWaveWidth,
             incidentRay.getNumberOfWavelengths(),
             true,
-            true ) );
+            true, this.laserViewProperty ) );
 
           // fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
@@ -169,7 +169,7 @@ define( function( require ) {
                 transmittedWaveWidth,
                 incidentRay.getNumberOfWavelengths(),
                 true,
-                true ); //todo: using extendBackwards param to fix the shapes near y=0
+                true, this.laserViewProperty );
               this.addAndAbsorb( transmittedRay );
             }
           }
@@ -226,7 +226,7 @@ define( function( require ) {
         }
         var interrupted = new LightRay( ray.trapeziumWidth, ray.tail, new Vector2( x / 2, y / 2 ),
           ray.indexOfRefraction, ray.wavelength, ray.powerFraction, this.laser.colorProperty.get().getColor(),
-          ray.waveWidth, ray.numWavelengthsPhaseOffset, false, ray.extendBackwards );
+          ray.waveWidth, ray.numWavelengthsPhaseOffset, false, ray.extendBackwards, this.laserViewProperty );
 
         //don't let the wave intersect the intensity meter if it is behind the laser emission point
         var isForward = ray.toVector().dot( interrupted.toVector() ) > 0;

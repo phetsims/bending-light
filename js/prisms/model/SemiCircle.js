@@ -32,21 +32,15 @@ define( function( require ) {
     this.referencePointIndex = referencePointIndex;
     this.radius = radius;
     this.center = this.points[ 0 ].plus( this.points[ 1 ] ).multiplyScalar( 0.5 );
+
+    // Creates a shape
+    var startAngle = Math.atan2( this.center.y - this.points[ 1 ].y, this.center.x - this.points[ 1 ].x );
+    this.shape = new Shape()
+      .ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, false )
+      .close();
   }
 
   return inherit( Object, SemiCircle, {
-
-    /**
-     * Creates a shape
-     * @public
-     * @return {Shape}
-     */
-    toShape: function() {
-      var startAngle = Math.atan2( this.center.y - this.points[ 1 ].y, this.center.x - this.points[ 1 ].x );
-      return new Shape()
-        .ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, false )
-        .close();
-    },
 
     /**
      * Get the specified corner point
@@ -95,10 +89,10 @@ define( function( require ) {
      * Determines whether shape contains given point or not
      * @public
      * @param {Vector2} point
-     * @returns {Vector2}
+     * @returns {boolean}
      */
     containsPoint: function( point ) {
-      return this.toShape().containsPoint( point );
+      return this.shape.containsPoint( point );
     },
 
     /**

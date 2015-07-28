@@ -25,18 +25,12 @@ define( function( require ) {
 
     this.center = center;
     this.radius = radius;
+
+    // Creates a shape
+    this.shape = new Shape().ellipticalArcPoint( this.center, this.radius, this.radius, 0, 0, Math.PI * 2, false );
   }
 
   return inherit( Object, Circle, {
-
-    /**
-     * Creates a shape
-     * @public
-     * @returns {Shape}
-     */
-    toShape: function() {
-      return new Shape().ellipticalArcPoint( this.center, this.radius, this.radius, 0, 0, Math.PI * 2, false );
-    },
 
     /**
      * Create a new Circle translated by the specified amount
@@ -56,7 +50,7 @@ define( function( require ) {
      * @returns {Array}
      */
     getIntersections: function( ray ) {
-      var intersectionArray = this.toShape().intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
+      var intersectionArray = this.shape.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       var intersectionList = [];
       var self = this;
       intersectionArray.forEach( function( intersectionPoint ) {

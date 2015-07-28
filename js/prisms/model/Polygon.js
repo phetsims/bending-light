@@ -31,23 +31,17 @@ define( function( require ) {
 
     // Centroid of the shape
     this.centroid = this.getCentroid( this.points );
+
+    // Creates a shape
+    this.shape = new Shape();
+    this.shape.moveToPoint( this.points[ 0 ] );
+    for ( var i = 1; i < this.points.length; i++ ) {
+      this.shape.lineToPoint( this.points[ i ] );
+    }
+    this.shape.close();
   }
 
   return inherit( Object, Polygon, {
-
-    /**
-     * Creates a shape
-     * @public
-     * @returns {Shape}
-     */
-    toShape: function() {
-      var shape = new Shape();
-      shape.moveToPoint( this.points[ 0 ] );
-      for ( var i = 1; i < this.points.length; i++ ) {
-        shape.lineToPoint( this.points[ i ] );
-      }
-      return shape.close();
-    },
 
     /**
      * Get the specified corner point
@@ -100,7 +94,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     containsPoint: function( point ) {
-      return this.toShape().containsPoint( point );
+      return this.shape.containsPoint( point );
     },
 
     /**

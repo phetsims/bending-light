@@ -121,7 +121,7 @@ define( function( require ) {
         var green;
         var blue;
         var lightRay = this.rays.get( i );
-        var lightRayWaveSubPath = lightRay.getWaveShape().subpaths[ 0 ];
+        var lightRayWaveSubPath = lightRay.waveShape.subpaths[ 0 ];
         var point1X = this.modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 0 ].x );
         var point1Y = this.modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 0 ].y );
         var point2X = this.modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 1 ].x );

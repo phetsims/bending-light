@@ -63,7 +63,7 @@ define( function( require ) {
     var createPrismIcon = function( prism ) {
       var prismIconNode = new Node( { cursor: 'pointer' } );
       var knobHeight = 15;
-      prismIconNode.addChild( new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().toShape() ), {
+      prismIconNode.addChild( new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().shape ), {
         fill: '#ABA8D6',
         stroke: '#ABA8D6'
       } ) );

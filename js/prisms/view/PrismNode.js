@@ -75,7 +75,7 @@ define( function( require ) {
     knobNode.touchArea = Shape.circle( 0, 10, 40 );
 
     var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( prismDragBounds );
-    var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().toShape() ), {
+    var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().shape ), {
       fill: prismsBreakModel.prismMediumProperty.get().color,
       stroke: prismsBreakModel.prismMediumProperty.get().color.darkerColor( 0.9 )
     } );
@@ -112,7 +112,7 @@ define( function( require ) {
       prismsBreakModel.clear();
       prismsBreakModel.updateModel();
       prismsBreakModel.dirty = true;
-      prismTranslationNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.value.toShape() ) );
+      prismTranslationNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.value.shape ) );
 
       var prismReferencePoint = prism.shapeProperty.get().getReferencePoint();
       if ( prismReferencePoint ) {

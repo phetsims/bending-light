@@ -31,10 +31,11 @@ define( function( require ) {
    * @param {number} numWavelengthsPhaseOffset - indicates how many wavelengths have passed before this light ray begins
    * @param {boolean} extend - indicates whether to extend it at tip of the wave
    * @param {boolean} extendBackwards - indicates whether to extend backwards it at tail of the wave
+   * @param {Property.<string>} laserViewProperty - specifies the laser view whether ray or wave mode
    * @constructor
    */
   function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth,
-                     numWavelengthsPhaseOffset, extend, extendBackwards ) {
+                     numWavelengthsPhaseOffset, extend, extendBackwards, laserViewProperty ) {
 
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
@@ -71,6 +72,49 @@ define( function( require ) {
 
     // time used in wave sensor node
     this.time = 0;
+
+    if ( laserViewProperty.get() === 'wave' ) {
+
+      //The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
+      // angle of tail is Math.PI/2 for transmitted and reflected rays.
+      var tipAngle = this.extend ? Math.PI / 2 : this.getAngle();
+      var tailAngle = this.extendBackwards ? Math.PI / 2 : this.getAngle();
+      var tipWidth = this.extend ? this.trapeziumWidth : this.waveWidth;
+      var tailWidth = this.extendBackwards ? this.trapeziumWidth : this.waveWidth;
+
+      // Calculating two end points of tip. They are at the angle of Math.PI/2 with respect to the ray angle
+      var tipVectorX = tipWidth * Math.cos( tipAngle + Math.PI / 2 ) / 2;
+      var tipVectorY = tipWidth * Math.sin( tipAngle + Math.PI / 2 ) / 2;
+
+      // Calculating two end points of tail. They are at the angle of Math.PI/2 with respect to the ray angle
+      var tailVectorX = tailWidth * Math.cos( tailAngle + Math.PI / 2 ) / 2;
+      var tailVectorY = tailWidth * Math.sin( tailAngle + Math.PI / 2 ) / 2;
+
+      var tipPoint1 = this.tip.minusXY( tipVectorX, tipVectorY );
+      var tipPoint2 = this.tip.plusXY( tipVectorX, tipVectorY );
+      var tailPoint1 = this.tail.minusXY( tailVectorX, tailVectorY );
+      var tailPoint2 = this.tail.plusXY( tailVectorX, tailVectorY );
+
+      // Getting correct order of points
+      var tipPoint1XY = tipPoint2.x > tipPoint1.x ? tipPoint2 : tipPoint1;
+      var tipPoint2XY = tipPoint2.x < tipPoint1.x ? tipPoint2 : tipPoint1;
+
+      var tailPoint1XY = tailPoint1.x < tailPoint2.x ? tailPoint1 : tailPoint2;
+      var tailPoint2XY = tailPoint1.x > tailPoint2.x ? tailPoint1 : tailPoint2;
+
+      // This is to avoid drawing of wave backwards (near the intersection of mediums) when it intersects intensity
+      // meter sensor shape
+      if ( (tailPoint2XY.x - tipPoint1XY.x) > 1E-10 ) {
+        tipPoint1XY.y = tailPoint2XY.y;
+        tailPoint2XY.x = this.toVector().magnitude() / Math.cos( this.getAngle() );
+        tipPoint1XY.x = tailPoint2XY.x;
+      }
+      this.waveShape = new Shape()
+        .moveToPoint( tailPoint1XY )
+        .lineToPoint( tailPoint2XY )
+        .lineToPoint( tipPoint1XY )
+        .lineToPoint( tipPoint2XY );
+    }
   }
 
   return inherit( Object, LightRay, {
@@ -131,53 +175,6 @@ define( function( require ) {
     },
 
     /**
-     * The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
-     * @public
-     * @returns {Shape}
-     */
-    getWaveShape: function() {
-
-      // angle of tail is Math.PI/2 for transmitted and reflected rays.
-      var tipAngle = this.extend ? Math.PI / 2 : this.getAngle();
-      var tailAngle = this.extendBackwards ? Math.PI / 2 : this.getAngle();
-      var tipWidth = this.extend ? this.trapeziumWidth : this.waveWidth;
-      var tailWidth = this.extendBackwards ? this.trapeziumWidth : this.waveWidth;
-
-      // Calculating two end points of tip. They are at the angle of Math.PI/2 with respect to tha ray angle
-      var tipVectorX = tipWidth * Math.cos( tipAngle + Math.PI / 2 ) / 2;
-      var tipVectorY = tipWidth * Math.sin( tipAngle + Math.PI / 2 ) / 2;
-
-      // Calculating two end points of tail. They are at the angle of Math.PI/2 with respect to tha ray angle
-      var tailVectorX = tailWidth * Math.cos( tailAngle + Math.PI / 2 ) / 2;
-      var tailVectorY = tailWidth * Math.sin( tailAngle + Math.PI / 2 ) / 2;
-
-      var tipPoint1 = this.tip.minusXY( tipVectorX, tipVectorY );
-      var tipPoint2 = this.tip.plusXY( tipVectorX, tipVectorY );
-      var tailPoint1 = this.tail.minusXY( tailVectorX, tailVectorY );
-      var tailPoint2 = this.tail.plusXY( tailVectorX, tailVectorY );
-
-      // Getting correct order of points
-      var tipPoint1XY = tipPoint2.x > tipPoint1.x ? tipPoint2 : tipPoint1;
-      var tipPoint2XY = tipPoint2.x < tipPoint1.x ? tipPoint2 : tipPoint1;
-
-      var tailPoint1XY = tailPoint1.x < tailPoint2.x ? tailPoint1 : tailPoint2;
-      var tailPoint2XY = tailPoint1.x > tailPoint2.x ? tailPoint1 : tailPoint2;
-
-      // This is to avoid drawing of wave backwards (near the intersection of mediums) when it intersects intensity
-      // meter sensor shape
-      if ( (tailPoint2XY.x - tipPoint1XY.x) > 1E-10 ) {
-        tipPoint1XY.y = tailPoint2XY.y;
-        tailPoint2XY.x = this.toVector().magnitude() / Math.cos( this.getAngle() );
-        tipPoint1XY.x = tailPoint2XY.x;
-      }
-      return new Shape()
-        .moveToPoint( tailPoint1XY )
-        .lineToPoint( tailPoint2XY )
-        .lineToPoint( tipPoint1XY )
-        .lineToPoint( tipPoint2XY );
-    },
-
-    /**
      * Determines the unit vector of light ray
      * @public
      * @returns {Vector2}
@@ -203,7 +200,7 @@ define( function( require ) {
      * @returns {number}
      */
     getNumberOfWavelengths: function() {
-      return this.getLength() / this.wavelength;
+      return this.getLength() / this.wavelength;// todos: kjkkkjjk
     },
 
     /**
@@ -216,7 +213,7 @@ define( function( require ) {
      */
     contains: function( position, waveMode ) {
       if ( waveMode ) {
-        return this.getWaveShape().containsPoint( position );
+        return this.waveShape.containsPoint( position );
       }
       else {
         return this.toLine().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;

@@ -297,7 +297,7 @@ define( function( require ) {
         var outputInsidePrism = false;
         var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
         this.prisms.forEach( function( prism ) {
-          var intersection = prism.shapeProperty.get().toShape().intersection( lightRayAfterIntersectionInRay2Form );
+          var intersection = prism.shapeProperty.get().shape.intersection( lightRayAfterIntersectionInRay2Form );
           if ( intersection.length % 2 === 1 ) {
             outputInsidePrism = true;
           }
@@ -352,7 +352,7 @@ define( function( require ) {
           waveWidth,
           0,
           true,
-          false ) );
+          false, this.laserViewProperty ) );
       }
       else {
         rayColor = new Color( 0, 0, 0, 0 );
@@ -371,7 +371,7 @@ define( function( require ) {
           waveWidth,
           0,
           true,
-          false ) );
+          false, this.laserViewProperty ) );
       }
     },
 

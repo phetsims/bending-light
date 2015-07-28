@@ -155,7 +155,7 @@ define( function( require ) {
       else {
         if ( !model.allowWebGL ) {
           for ( var k = 0; k < model.rays.length; k++ ) {
-            var waveShape = model.rays.get( k ).getWaveShape();
+            var waveShape = model.rays.get( k ).waveShape;
             var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles,
               bendingLightView.modelViewTransform, {
                 canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,

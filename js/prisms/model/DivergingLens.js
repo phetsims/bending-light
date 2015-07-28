@@ -34,23 +34,17 @@ define( function( require ) {
     this.radius = radius;
     this.centroid = this.getCentroid( this.points );
     this.center = this.points[ 0 ].plus( this.points[ 3 ] ).multiplyScalar( 0.5 );
+
+    // Creates a shape
+    var startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
+    this.shape = new Shape()
+      .ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, true )
+      .lineToPoint( this.points[ 2 ] )
+      .lineToPoint( this.points[ 1 ] )
+      .lineToPoint( this.points[ 0 ] );
   }
 
   return inherit( Object, DivergingLens, {
-
-    /**
-     * Creates a shape
-     * @public
-     * @returns {Shape}
-     */
-    toShape: function() {
-      var startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
-      return new Shape()
-        .ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, true )
-        .lineToPoint( this.points[ 2 ] )
-        .lineToPoint( this.points[ 1 ] )
-        .lineToPoint( this.points[ 0 ] );
-    },
 
     /**
      * Get the specified corner point
@@ -102,7 +96,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     containsPoint: function( point ) {
-      return this.toShape().containsPoint( point );
+      return this.shape.containsPoint( point );
     },
 
     /**

@@ -35,10 +35,10 @@ define( function( require ) {
       }
     );
 
-    //
+    // vector to store sensor position
     this.newSensorPosition = new Vector2();
 
-    //
+    // vector to store body position
     this.newBodyPosition = new Vector2();
 
     // accumulation of readings
