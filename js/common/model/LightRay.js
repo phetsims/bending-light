@@ -200,7 +200,7 @@ define( function( require ) {
      * @returns {number}
      */
     getNumberOfWavelengths: function() {
-      return this.getLength() / this.wavelength;// todos: kjkkkjjk
+      return this.getLength() / this.wavelength;
     },
 
     /**
