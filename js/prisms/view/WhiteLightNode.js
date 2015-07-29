@@ -1,4 +1,4 @@
-// Copyright 2002 - 2015, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * In order to support white light, we need to perform additive color mixing (not subtractive,

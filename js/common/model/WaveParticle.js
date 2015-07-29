@@ -1,4 +1,4 @@
-// Copyright 2002 - 2015, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * WaveParticle is to simulate the wave transformation in Canvas mode.
