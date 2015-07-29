@@ -139,9 +139,9 @@ define( function( require ) {
     },
 
     /**
-     * Area of the polygon
+     * Computes the area of a polygon using the algorithm descibed at http://www.mathopenref.com/coordpolygonarea2.html
      * @private
-     * @param {array.<Vector2>} p - array of corner points
+     * @param {array<Vector2>} p - array of corner points
      * @returns {number}
      */
     getArea: function( p ) {

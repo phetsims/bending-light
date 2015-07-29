@@ -141,7 +141,7 @@ define( function( require ) {
     },
 
     /**
-     * Area of the rectangle formed by the corner points
+     * Computes the area of a polygon using the algorithm descibed at http://www.mathopenref.com/coordpolygonarea2.html
      * @private
      * @param {array<Vector2>} p - array of corner points
      * @returns {number}
