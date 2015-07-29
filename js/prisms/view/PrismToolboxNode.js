@@ -243,5 +243,5 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  return inherit( Node, PrismToolboxNode, {} );
+  return inherit( Node, PrismToolboxNode );
 } );

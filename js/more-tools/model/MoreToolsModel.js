@@ -53,5 +53,5 @@ define( function( require ) {
     } );
   }
 
-  return inherit( IntroModel, MoreToolsModel, {} );
+  return inherit( IntroModel, MoreToolsModel );
 } );

@@ -42,5 +42,5 @@ define( function( require ) {
     } ) );
   }
 
-  return inherit( Node, IntersectionNode, {} );
+  return inherit( Node, IntersectionNode );
 } );
