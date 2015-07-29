@@ -139,7 +139,8 @@ define( function( require ) {
     },
 
     /**
-     * Computes the area of a polygon using the algorithm descibed at http://www.mathopenref.com/coordpolygonarea2.html
+     * Computes the area of a polygon using the algorithm described at http://www.mathopenref.com/coordpolygonarea2.html
+     * Used to compute the centroid for a lens so it can be rotated about its center.
      * @private
      * @param {array<Vector2>} p - array of corner points
      * @returns {number}
