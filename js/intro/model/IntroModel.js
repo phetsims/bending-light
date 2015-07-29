@@ -176,7 +176,6 @@ define( function( require ) {
             }
           }
         }
-
       }
     },
 
