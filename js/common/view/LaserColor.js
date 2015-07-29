@@ -18,11 +18,11 @@ define( function( require ) {
    * @param {number} wavelength - wavelength (in meters) of the light
    * @constructor
    */
-  function OneColor( wavelength ) {
+  function LaserColor( wavelength ) {
     this.wavelength = wavelength;
   }
 
-  return inherit( Object, OneColor, {
+  return inherit( Object, LaserColor, {
 
     /**
      * Determine the color of the light.
