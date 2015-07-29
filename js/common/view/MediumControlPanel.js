@@ -113,7 +113,7 @@ define( function( require ) {
       BendingLightModel.MYSTERY_A,
       BendingLightModel.MYSTERY_B,
       customState ];
-    var comboBoxMediumState = new Property( initialMediumState );
+    var comboBoxMediumStateProperty = new Property( initialMediumState );
 
     // update combo box
     var updateComboBox = function() {
@@ -129,12 +129,12 @@ define( function( require ) {
       // only set to a different substance if "custom" wasn't specified.
       // otherwise pressing "air" then "custom" will make the combobox jump back to "air"
       if ( selected !== -1 && !mediumProperty.get().mediumState.custom ) {
-        comboBoxMediumState.set( mediumStates[ selected ] );
+        comboBoxMediumStateProperty.set( mediumStates[ selected ] );
         custom = false;
       }
       else {
         // no match to a named medium, so it must be a custom medium
-        comboBoxMediumState.set( customState );
+        comboBoxMediumStateProperty.set( customState );
         custom = true;
       }
     };
@@ -144,7 +144,7 @@ define( function( require ) {
       var material = mediumStates[ i ];
       items[ i ] = createItem( material );
     }
-    var materialComboBox = new ComboBox( items, comboBoxMediumState, view, {
+    var materialComboBox = new ComboBox( items, comboBoxMediumStateProperty, view, {
       labelNode: materialTitle,
       listPosition: 'below',
       buttonXMargin: 5,
@@ -297,7 +297,7 @@ define( function( require ) {
       }
       updateComboBox();
     } );
-    comboBoxMediumState.link( function( selected ) {
+    comboBoxMediumStateProperty.link( function( selected ) {
       if ( !selected.custom ) {
         mediumControlPanel.setMediumState( selected );
       }
