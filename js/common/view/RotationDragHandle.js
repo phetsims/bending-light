@@ -37,10 +37,13 @@ define( function( require ) {
     var rotationDragHandle = this;
 
     // temporary property to help determine whether the drag handle should be shown
-    var notAtMaximumProperty = new DerivedProperty( [ laser.emissionPointProperty, laser.pivotProperty,
-      showDragHandlesProperty ], function() {
-      return notAtMax( laser.getAngle() ) && ( showDragHandlesProperty.get() );
-    } );
+    var notAtMaximumProperty = new DerivedProperty( [
+        laser.emissionPointProperty,
+        laser.pivotProperty,
+        showDragHandlesProperty ],
+      function() {
+        return notAtMax( laser.getAngle() ) && showDragHandlesProperty.get();
+      } );
 
     // show the drag handle if the "show drag handles" is true and if
     // the laser isn't already at the max angle.
