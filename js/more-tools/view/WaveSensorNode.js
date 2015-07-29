@@ -77,6 +77,7 @@ define( function( require ) {
         start = end;
       },
       end: function() {
+
         // Check intersection only with the outer rectangle.
         if ( container.bounds.containsPoint( probeNode.center ) ) {
           var probeInitialPosition = waveSensorNode.waveSensor.probe1.positionProperty.initialValue;
@@ -121,6 +122,7 @@ define( function( require ) {
     this.waveSensor = waveSensor;
     this.moreToolsView = moreToolsView;
     var waveSensorDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co-ordinates
+
     // Add body node
     var rectangleWidth = 135;
     var rectangleHeight = 100;
@@ -143,6 +145,7 @@ define( function( require ) {
       centerX: outerRectangle.centerX,
       centerY: outerRectangle.centerY
     } );
+
     // Adding inner rectangle
     var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth * 0.98, rectangleHeight * 0.63 ),
       {
@@ -191,6 +194,7 @@ define( function( require ) {
         start = end;
       },
       end: function() {
+
         // Check intersection only with the outer rectangle.
         if ( container.bounds.containsCoordinates(
             waveSensorNode.bodyNode.getCenterX(), waveSensorNode.bodyNode.getCenterY() ) ) {
@@ -253,6 +257,7 @@ define( function( require ) {
         start = end;
       },
       end: function() {
+
         // Check intersection only with the outer rectangle.
         if ( container.bounds.containsCoordinates( waveSensorNode.bodyNode.getCenterX(), waveSensorNode.bodyNode.getCenterY() ) ||
              container.bounds.containsCoordinates( waveSensorNode.probe1Node.getCenterX(), waveSensorNode.probe1Node.getCenterY() ) ||
@@ -279,6 +284,7 @@ define( function( require ) {
      * @param {number} scale - scale to be applied to wave sensor node
      */
     setWaveSensorScale: function( scale ) {
+
       // Scaling all components and translating
       this.bodyNode.setScaleMagnitude( scale );
       this.probe1Node.setScaleMagnitude( scale );

@@ -324,6 +324,7 @@ define( function( require ) {
           this.modelViewTransform.viewToModelDeltaX( deltaX ), this.modelViewTransform.viewToModelDeltaY( deltaY ) );
       }
     },
+
     // statics
     {
       DEFAULT_SCALE: DEFAULT_SCALE

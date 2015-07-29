@@ -84,6 +84,7 @@ define( function( require ) {
       prismsBreakModel.updateModel();
       prismsBreakModel.dirty = true;
     } );
+
     // coalesce repeat updates so work is not duplicated in white light node.
     this.dirty = true;
   }
@@ -161,10 +162,10 @@ define( function( require ) {
 
     },
 
-    // Adds a prism to the model. doesn't signal a "prism added event", adding graphics must be handled by the client
-    // that added the prism. This gives the client fine-grained control over creation of model elements and associated
-    // nodes, but future TODOs could investigate using standard model creation/notification scheme
     /**
+     * Adds a prism to the model. doesn't signal a "prism added event", adding graphics must be handled by the client
+     * that added the prism. This gives the client fine-grained control over creation of model elements and associated
+     * nodes, but future TODOs could investigate using standard model creation/notification scheme
      * @public
      * @param {Prism} prism
      */
@@ -284,6 +285,7 @@ define( function( require ) {
       if ( count > 50 || incidentRay.power < 0.001 ) {
         return;
       }
+
       // Check for an intersection
       var intersection = this.getIntersection( incidentRay, this.prisms );
       var L = incidentRay.directionUnitVector;
@@ -335,6 +337,7 @@ define( function( require ) {
           this.propagateTheRay( reflected, count + 1 );
         }
         this.propagateTheRay( refracted, count + 1 );
+
         // TODO: add ray color without creating new Color object.
         rayColor = new Color( 0, 0, 0, 0 );
         rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );

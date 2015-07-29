@@ -73,9 +73,11 @@ define( function( require ) {
 
       // determine the mapping and make sure it is in a good range
       var delta = nGlassReference - nAirReference;
+
       // 0 to 1 (air to glass)
       var x = (this.referenceIndexOfRefraction - nAirReference) / delta;
       x = Util.clamp( x, 0, Number.POSITIVE_INFINITY );
+
       // take a linear combination of glass and air equations
       return x * this.getSellmeierValue( wavelength ) + (1 - x) * this.getAirIndex( wavelength );
     },

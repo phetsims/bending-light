@@ -38,7 +38,7 @@ define( function( require ) {
 
     // Restricted the light ray view coordinates (start and end )within the specific window(rectangle) area to support in firefox browser
     // Note : if the values are to long rays rendering different directions
-    // Todo : need to find out , why firefox behaving differently
+    // TODO : need to find out , why firefox behaving differently
     var shape = new Rectangle( -100000, -100000, 200000, 200000 );
     if ( !shape.getShape().containsPoint( this.viewStart ) ) {
       var intersection = shape.getShape().intersection(
@@ -56,6 +56,7 @@ define( function( require ) {
       lineWidth: modelViewTransform.modelToViewDeltaX( lightRay.getRayWidth() ),
       stroke: rayColor
     } );
+
     // add the Path
     this.addChild( lightRayPath );
   }

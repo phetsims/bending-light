@@ -78,6 +78,7 @@ define( function( require ) {
        * @returns {Shape}
        */
       getSensorShape: function() {
+
         // fine tuned to match the given image
         var radius = 1.215E-6;
         return new Shape().arcPoint( this.sensorPosition, radius, 0, Math.PI * 2, false );
@@ -121,8 +122,9 @@ define( function( require ) {
         if ( hits.length === 0 ) {
           this.readingProperty.set( Reading.MISS );
         }
-        else // otherwise, sum the intensities
-        {
+        else {
+
+          // otherwise, sum the intensities
           var total = 0.0;
           hits.forEach( function( hit ) {
             total += hit.value;

@@ -28,6 +28,7 @@ define( function( require ) {
   function DivergingLens( referencePointIndex, points, radius ) {
 
     this.points = points;
+
     // index for the point used as the "reference" point,
     // which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
@@ -167,9 +168,11 @@ define( function( require ) {
     getIntersections: function( ray ) {
       var intersections = [];
       this.getEdges().forEach( function( lineSegment ) {
+
         // Get the intersection if there is one
         var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
         if ( intersection.length !== 0 ) {
+
           // Choose the normal vector that points the opposite direction of the incoming ray
           var normal = lineSegment.getEnd().minus( lineSegment.getStart() ).rotate( +Math.PI / 2 ).normalize();
           var unitNormal = ray.directionUnitVector.dot( normal ) < 0 ? normal : normal.rotate( Math.PI );
@@ -182,6 +185,7 @@ define( function( require ) {
       var arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
       var intersection = arc.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       if ( intersection.length !== 0 ) {
+
         // Only consider intersections that are in front of the ray
         if ( ((intersection[ 0 ].point.x - ray.tail.x) * ray.directionUnitVector.x +
               (intersection[ 0 ].point.y - ray.tail.y) * ray.directionUnitVector.y) > 0 ) {

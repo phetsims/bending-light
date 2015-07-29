@@ -117,6 +117,7 @@ define( function( require ) {
         start = end;
       },
       end: function() {
+
         // check intersection only with the outer rectangle.
         if ( containerBounds.containsCoordinates(
             intensityMeterNode.sensorNode.getCenterX(), intensityMeterNode.sensorNode.getCenterY() ) ) {
@@ -168,6 +169,7 @@ define( function( require ) {
     if ( titleNode.width > rectangleWidth - 15 ) {
       titleNode.scale( (rectangleWidth - 15) / titleNode.width );
     }
+
     // Add the reading to the body node
     var valueNode = new Text( intensityMeter.reading.getString(),
       { font: new PhetFont( 25 ), fill: 'black' } );
@@ -178,6 +180,7 @@ define( function( require ) {
     } );
     titleNode.setTranslation( (this.bodyNode.getWidth() - titleNode.getWidth()) / 2,
       this.bodyNode.getHeight() * 0.23 );
+
     // displayed value
     intensityMeter.readingProperty.link( function() {
       valueNode.setText( intensityMeter.reading.getString() );
@@ -207,6 +210,7 @@ define( function( require ) {
         start = end;
       },
       end: function() {
+
         // check intersection only with the outer rectangle.
         if ( containerBounds.containsCoordinates(
             intensityMeterNode.bodyNode.getCenterX(), intensityMeterNode.bodyNode.getCenterY() ) ) {
@@ -271,6 +275,7 @@ define( function( require ) {
         start = end;
       },
       end: function() {
+
         // check intersection only with the outer rectangle.
         if ( containerBounds.containsCoordinates(
             intensityMeterNode.sensorNode.getCenterX(), intensityMeterNode.sensorNode.getCenterY() ) ||

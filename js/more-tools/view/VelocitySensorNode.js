@@ -143,6 +143,7 @@ define( function( require ) {
 
       // Set the arrowShape path position so that the center of the tail coincides with the tip of the sensor
       if ( this.arrowShape.bounds.isFinite() ) {
+
         // If the velocity y component is positive then the arrow will face up, so set the bottom of the arrow to the
         // tip of the sensor
         if ( velocity.y >= 0 ) {
@@ -150,6 +151,7 @@ define( function( require ) {
                                    arrowWidth / 2 * Math.cos( Math.abs( velocity.angle() ) );
         }
         else {
+
           // if the velocity y component is negative then the arrow will face down, so set the top of the arrow to the
           // tip of the sensor
           this.arrowShape.top = triangleShapeNode.bottom -
@@ -172,6 +174,7 @@ define( function( require ) {
 
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
     var velocityNodeDragBounds = dragBounds.shiftedY( (rectangleHeight + triangleHeight) / 2 );
+
     // Drag handler
     this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
       dragBounds: modelViewTransform.viewToModelBounds( velocityNodeDragBounds ),

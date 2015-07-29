@@ -26,6 +26,7 @@ define( function( require ) {
   function Polygon( referencePointIndex, points ) {
 
     this.points = points;
+
     // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
 

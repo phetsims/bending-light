@@ -123,12 +123,15 @@ define( function( require ) {
     getIntersections: function( ray ) {
       var intersections = [];
       var segment = new Line( this.points[ 0 ], this.points[ 1 ] );
+
       // Get the intersection if there is one
       var intersection = segment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       if ( intersection.length !== 0 ) {
+
         // Choose the normal vector that points the opposite direction of the incoming ray
         var normal = segment.getEnd().minus( segment.getStart() ).rotate( +Math.PI / 2 ).normalize();
         var unitNormal = ray.directionUnitVector.dot( normal ) < 0 ? normal : normal.rotate( Math.PI );
+
         // Add to the list of intersections
         intersections.push( new Intersection( unitNormal, intersection[ 0 ].point ) );
       }
@@ -136,6 +139,7 @@ define( function( require ) {
       var arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
       intersection = arc.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
       if ( intersection.length !== 0 ) {
+
         // Only consider intersections that are in front of the ray
         if ( ((intersection[ 0 ].point.x - ray.tail.x) * ray.directionUnitVector.x +
               (intersection[ 0 ].point.y - ray.tail.y) * ray.directionUnitVector.y) > 0 ) {

@@ -57,6 +57,7 @@ define( function( require ) {
 
         // Filter out getLineCircleIntersection nulls, which are returned if there is no intersection
         if ( intersectionPoint !== null ) {
+
           // Only consider intersections that are in front of the ray
           if ( ((intersectionPoint.point.x - ray.tail.x) * ray.directionUnitVector.x +
                 (intersectionPoint.point.y - ray.tail.y) * ray.directionUnitVector.y) > 0 ) {
@@ -79,6 +80,7 @@ define( function( require ) {
      * @returns {Circle}
      */
     getRotatedInstance: function( angle, rotationPoint ) {
+
       // we create a new circle with a rotated center point
       var vectorAboutCentroid = this.getRotationCenter().subtract( rotationPoint );
       var rotated = vectorAboutCentroid.rotate( angle );

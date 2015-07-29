@@ -34,6 +34,7 @@ define( function( require ) {
       on: false, // true if the laser is activated and emitting light
       wave: false,
       colorMode: 'singleColor',
+
       // model the point where light comes out of the laser
       // where the light comes from
       emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
@@ -41,6 +42,7 @@ define( function( require ) {
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], function( wavelength ) {
       return new LaserColor( wavelength );
     } );
+
     // reusable vectors to avoid to many vector allocations
     // vector to store new laser emission point
     this.newEmissionPoint = new Vector2( 0, 0 );
@@ -52,6 +54,7 @@ define( function( require ) {
     this.directionUnitVector = new Vector2( 0, 0 );
 
     this.waveProperty.link( function() {
+
       // prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
       if ( laser.wave && laser.getAngle() > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
         laser.setAngle( BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE );
@@ -110,6 +113,7 @@ define( function( require ) {
      * @returns {number}
      */
     getAngle: function() {
+
       // TODO: why is this backwards by 180 degrees?
       return this.getDirectionUnitVector().angle() + Math.PI;
     },

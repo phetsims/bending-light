@@ -77,6 +77,7 @@ define( function( require ) {
     this.incidentWaveCanvasLayer = new Node();
     var whiteLightRays = new ObservableArray();
     this.whiteLightNode = new WhiteLightNode( this.modelViewTransform, whiteLightRays, stageWidth, stageHeight );
+
     // layering
     this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );

@@ -75,7 +75,7 @@ define( function( require ) {
 
     if ( laserViewProperty.get() === 'wave' ) {
 
-      //The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
+      // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
       // angle of tail is Math.PI/2 for transmitted and reflected rays.
       var tipAngle = this.extend ? Math.PI / 2 : this.getAngle();
       var tailAngle = this.extendBackwards ? Math.PI / 2 : this.getAngle();

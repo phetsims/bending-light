@@ -71,6 +71,7 @@ define( function( require ) {
           this.draw( x1, y1, x2, y2, child, map );
         }
       }
+
       // Don't let things become completely white, since the background is white
       var whiteLimit = 0.2;
       var maxChannel = 1 - whiteLimit;
@@ -135,6 +136,7 @@ define( function( require ) {
      * @param {Object} map - object containing array of color components, intensities of a point
      */
     addToMap: function( x0, y0, color, intensity, map ) {
+
       // So that rays don't start fully saturated: this makes it so that it is possible to see the decrease in intensity
       // after a (nontotal) reflection
       var keyPoint = (17647448 * x0 + 13333 * y0 + 33);
@@ -147,10 +149,12 @@ define( function( require ) {
       var brightnessFactor = 0.017;
       var current = map[ keyPoint ];
       var term = [ color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255 ];
+
       // Don't apply brightness factor to intensities
       for ( var a = 0; a < 3; a++ ) {
         current[ a ] = current[ a ] + term[ a ] * brightnessFactor;
       }
+
       // Add intensities, then convert to alpha later;
       current[ 3 ] = current[ 3 ] + intensity;
     },

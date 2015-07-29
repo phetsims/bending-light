@@ -138,6 +138,7 @@ define( function( require ) {
         custom = true;
       }
     };
+
     // items
     var items = [];
     for ( var i = 0; i < mediumStates.length; i++ ) {
@@ -301,8 +302,9 @@ define( function( require ) {
       if ( !selected.custom ) {
         mediumControlPanel.setMediumState( selected );
       }
-      // if it was custom, then use the the index of refraction but keep the name as "custom"
       else {
+
+        // if it was custom, then use the the index of refraction but keep the name as "custom"
         mediumControlPanel.setMediumState(
           new MediumState( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
       }

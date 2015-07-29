@@ -40,15 +40,19 @@ define( function( require ) {
 
       // Simple example for custom shader
       var vertexShaderSource = [
+
         // Position
         'attribute vec3 aPosition;', // vertex attribute
         'uniform mat3 uModelViewMatrix;',
         'uniform mat3 uProjectionMatrix;',
         'void main( void ) {',
+
         // homogeneous model-view transformation
         'vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );',
+
         // homogeneous map to normalized device coordinates
         'vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );',
+
         // combine with the z coordinate specified
         'gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );',
         '}'
@@ -66,15 +70,19 @@ define( function( require ) {
         'uniform float uScale;',
         'uniform vec3 uColor;', // Color of the wave
         'void main( void ) {',
+
         // converting pixel coordinates to view coordinates.
         'float x1 = (gl_FragCoord.x-uCanvasOffset.x)/uScale;',
         'float y1 = (gl_FragCoord.y-uCanvasOffset.y)/uScale;',
+
         // Perpendicular distance from tail to rendering coordinate. This is obtained by Coordinate Transformation to
         // tail point and applying dot product to the unit vector in the direction of ray and rendering coordinate
         // tail coordinate is mapped from view to canvas (layoutBounds.height - uTail.y)
         'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(x1-uTail.x,y1+uTail.y-504.0));',
+
         // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
         'float positionDiff = mod( abs( distance - uPhase), uWaveLength);',
+
         // color is determined by perpendicular distance of coordinate from the start of the particle.
         'float colorFactor = abs( 1.0 - positionDiff / ( uWaveLength * 0.5 ) );',
         'gl_FragColor.rgb = uColor * (colorFactor * uPowerFraction);',

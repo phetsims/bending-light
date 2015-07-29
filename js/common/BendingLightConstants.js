@@ -22,6 +22,7 @@ define( function( require ) {
   // so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.
   // this value was determined by printing out actual angle values at runtime and sampling a good value.
   var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
+
   return {
 
     SCREEN_VIEW_OPTIONS: { layoutBounds: new Bounds2( 0, 0, 834, 504 ) },

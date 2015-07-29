@@ -7,6 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 require.config( {
+
   // An array of dependencies to load. Useful when require is defined as a config object before require.js
   // is loaded, and you want to specify dependencies to load as soon as require() is defined.
   deps: [ 'bending-light-main' ],

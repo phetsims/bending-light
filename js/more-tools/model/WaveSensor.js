@@ -113,6 +113,7 @@ define( function( require ) {
      * @param {function} probeValue - function for getting data from a probe at the specified point
      */
     updateProbeSample: function( probe, probeValue ) {
+
       // Read the value from the probe function. May be None if not intersecting a light ray
       var value = probeValue( probe.position );
       if ( value ) {

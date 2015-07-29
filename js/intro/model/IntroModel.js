@@ -65,9 +65,9 @@ define( function( require ) {
     // Note: vectors that are used in step function are created here to reduce Vector2 allocations
     // light ray tail position
     this.tailVector = new Vector2( 0, 0 );
+
     // light ray tip position
     this.tipVector = new Vector2( 0, 0 );
-
   }
 
   return inherit( BendingLightModel, IntroModel, {
@@ -100,6 +100,7 @@ define( function( require ) {
 
         // cross section of incident light, used to compute wave widths
         var a = CHARACTERISTIC_LENGTH * 4;
+
         //This one fixes the input beam to be a fixed width independent of angle
         var sourceWaveWidth = a / 2;
 
@@ -121,6 +122,7 @@ define( function( require ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
           var hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) ||
                                   theta1 < thetaOfTotalInternalReflection;
+
           // reflected
           // assuming perpendicular beam polarization, compute percent power
           var reflectedPowerRatio;
@@ -214,6 +216,7 @@ define( function( require ) {
         var x;
         var y;
         if ( intersects.length === 1 ) {
+
           // intersect point at sensor shape start position when laser within sensor region
           var reverseLightRay = new Ray2( ray.tail, Vector2.createPolar( 1, ray.getAngle() ).timesScalar( -1 ) );
           var intersectPointAtSensorStart = this.intensityMeter.getSensorShape().intersection( reverseLightRay );
@@ -404,6 +407,7 @@ define( function( require ) {
           tailX = lightRay.tail.x - (directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle ));
           tailY = lightRay.tail.y - (directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle ));
         }
+
         // Changing the wave particle position within the wave particle phase
         for ( var j = 0; j < waveParticles.length; j++ ) {
           var particle = waveParticles.get( j );
