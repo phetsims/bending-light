@@ -18,7 +18,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var Path = require( 'SCENERY/nodes/Path' );
 
-  //images
+  // images
   var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
 
   /**

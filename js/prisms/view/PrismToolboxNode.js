@@ -29,7 +29,7 @@ define( function( require ) {
   var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   var Shape = require( 'KITE/Shape' );
 
-  //strings
+  // strings
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
   var reflectionsString = require( 'string!BENDING_LIGHT/reflections' );
   var normalString = require( 'string!BENDING_LIGHT/normal' );
