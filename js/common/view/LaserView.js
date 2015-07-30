@@ -89,19 +89,18 @@ define( function( require ) {
       this.laserWavelengthProperty = new Property( model.wavelengthProperty.value * 1E9 );
 
       // add WavelengthSlider node
-      var wavelengthSlider = new WavelengthSlider( this.laserWavelengthProperty,
-        {
-          cursorStroke: 'white',
-          maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
-          thumbWidth: 20,
-          thumbHeight: 20,
-          trackWidth: 140,
-          trackHeight: 20,
-          tweakersVisible: false,
-          valueVisible: false,
-          thumbTouchAreaExpandY: 4,
-          pointerAreasOverTrack: true
-        } );
+      var wavelengthSlider = new WavelengthSlider( this.laserWavelengthProperty, {
+        cursorStroke: 'white',
+        maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
+        thumbWidth: 20,
+        thumbHeight: 20,
+        trackWidth: 140,
+        trackHeight: 20,
+        tweakersVisible: false,
+        valueVisible: false,
+        thumbTouchAreaExpandY: 4,
+        pointerAreasOverTrack: true
+      } );
 
       var wavelengthValueText = new Text( this.laserWavelengthProperty.get() + ' ' + units_nmString );
       var wavelengthBoxShape = new Rectangle( 0, 0, new Text( units_nmString ).width + 36, 18, 2, 2, {

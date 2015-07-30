@@ -156,13 +156,12 @@ define( function( require ) {
     } );
 
     // adding inner rectangle
-    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth * 0.8, rectangleHeight * 0.5 ),
-      {
-        baseColor: 'white',
-        lightSource: 'rightBottom',
-        centerX: innerRectangle.centerX,
-        centerY: rectangleHeight * 0.6
-      } );
+    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth * 0.8, rectangleHeight * 0.5 ), {
+      baseColor: 'white',
+      lightSource: 'rightBottom',
+      centerX: innerRectangle.centerX,
+      centerY: rectangleHeight * 0.6
+    } );
 
     // Add a "Intensity" title to the body node
     var titleNode = new Text( intensityString, { font: new PhetFont( 20 ), fill: 'white' } );
