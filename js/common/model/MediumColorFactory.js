@@ -72,10 +72,13 @@ define( function( require ) {
      * @returns {Color}
      */
     colorBlend: function( a, b, ratio ) {
-      return new Color( this.clamp( ((a.getRed()) * (1 - ratio) + (b.getRed()) * ratio) ),
-        this.clamp( ((a.getGreen()) * (1 - ratio) + (b.getGreen()) * ratio) ),
-        this.clamp( ((a.getBlue()) * (1 - ratio) + (b.getBlue()) * ratio) ),
-        this.clamp( ((a.getAlpha()) * (1 - ratio) + (b.getAlpha()) * ratio) ) );
+      var reduction = (1 - ratio);
+      return new Color(
+        this.clamp( a.getRed() * reduction + b.getRed() * ratio ),
+        this.clamp( a.getGreen() * reduction + b.getGreen() * ratio ),
+        this.clamp( a.getBlue() * reduction + b.getBlue() * ratio ),
+        this.clamp( a.getAlpha() * reduction + b.getAlpha() * ratio )
+      );
     },
 
     /**
