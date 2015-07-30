@@ -354,15 +354,6 @@ define( function( require ) {
         scale: prevScale
       };
       var endPoint = { x: endPositionX, y: endPositionY, scale: scale };
-      this.init( startPoint, endPoint );
-    },
-
-    /**
-     * @private
-     * @param {Object} startPoint - object containing details of initial state i.e, x, y positions and scale
-     * @param {Object} endPoint - object containing details of final state i.e, x, y positions and scale
-     */
-    init: function( startPoint, endPoint ) {
       var target = this;
       new TWEEN.Tween( startPoint )
         .to( endPoint, 100 )

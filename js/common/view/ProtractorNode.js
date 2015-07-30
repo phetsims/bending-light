@@ -262,25 +262,16 @@ define( function( require ) {
       setProtractorScaleAnimation: function( endPoint, scale ) {
         var startPoint = { x: this.centerX, y: this.centerY, scale: this.getScaleVector().x };
         var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
-        this.init( startPoint, finalPosition );
-        this.protractorModel.positionProperty.set( this.modelViewTransform.viewToModelPosition( endPoint ) );
-      },
-
-      /**
-       * @private
-       * @param {Object} initialPosition - object containing details of initial state i.e, x, y positions and scale
-       * @param {Object} finalPosition - object containing details of final state i.e, x, y positions and scale
-       */
-      init: function( initialPosition, finalPosition ) {
         var target = this;
-        new TWEEN.Tween( initialPosition )
+        new TWEEN.Tween( startPoint )
           .to( finalPosition, 100 )
           .easing( TWEEN.Easing.Linear.None )
           .onUpdate( function() {
-            target.setScaleMagnitude( initialPosition.scale );
-            target.centerX = initialPosition.x;
-            target.centerY = initialPosition.y;
+            target.setScaleMagnitude( startPoint.scale );
+            target.centerX = startPoint.x;
+            target.centerY = startPoint.y;
           } ).start();
+        this.protractorModel.positionProperty.set( this.modelViewTransform.viewToModelPosition( endPoint ) );
       },
 
       /**

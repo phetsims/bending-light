@@ -277,23 +277,14 @@ define( function( require ) {
         scale: this.bodyNode.getScaleVector().x
       };
       var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
-      this.init( startPosition, finalPosition );
-    },
-
-    /**
-     * @private
-     * @param {Object} initialPosition - object containing details of initial state of animation
-     * @param {Object} finalPosition - object containing details of final state of animation
-     */
-    init: function( initialPosition, finalPosition ) {
       var bodyNode = this.bodyNode;
       var VelocitySensorNode = this;
-      new TWEEN.Tween( initialPosition )
+      new TWEEN.Tween( startPosition )
         .to( finalPosition, 100 )
         .easing( TWEEN.Easing.Linear.None )
         .onUpdate( function() {
-          bodyNode.setScaleMagnitude( initialPosition.scale );
-          VelocitySensorNode.velocitySensor.positionProperty.set( new Vector2( initialPosition.x, initialPosition.y ) );
+          bodyNode.setScaleMagnitude( startPosition.scale );
+          VelocitySensorNode.velocitySensor.positionProperty.set( new Vector2( startPosition.x, startPosition.y ) );
         } ).start();
     },
 
