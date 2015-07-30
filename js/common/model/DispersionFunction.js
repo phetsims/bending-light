@@ -43,6 +43,7 @@ define( function( require ) {
       var B1 = 1.03961212;
       var B2 = 0.231792344;
       var B3 = 1.01046945;
+
       // convert to metric
       var C1 = 6.00069867E-3 * 1E-12;
       var C2 = 2.00179144E-2 * 1E-12;
