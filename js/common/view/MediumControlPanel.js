@@ -227,18 +227,19 @@ define( function( require ) {
     if ( glassTitle.width > labelWidth ) {
       glassTitle.scale( labelWidth / glassTitle.width );
     }
-    var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty,
-      { min: INDEX_OF_REFRACTION_MIN, max: INDEX_OF_REFRACTION_MAX },
-      {
-        trackFill: 'white',
-        trackSize: new Dimension2( sliderWidth, 1 ),
-        thumbSize: new Dimension2( 10, 20 ),
-        majorTickLength: 11,
-        tickLabelSpacing: 3,
-        startDrag: function() {
-          custom = true;
-        }
-      } );
+    var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty, {
+      min: INDEX_OF_REFRACTION_MIN,
+      max: INDEX_OF_REFRACTION_MAX
+    }, {
+      trackFill: 'white',
+      trackSize: new Dimension2( sliderWidth, 1 ),
+      thumbSize: new Dimension2( 10, 20 ),
+      majorTickLength: 11,
+      tickLabelSpacing: 3,
+      startDrag: function() {
+        custom = true;
+      }
+    } );
     indexOfRefractionSlider.addMajorTick( BendingLightModel.AIR.getIndexOfRefractionForRedLight(), airTitle );
     indexOfRefractionSlider.addMajorTick( BendingLightModel.WATER.getIndexOfRefractionForRedLight(), waterTitle );
     indexOfRefractionSlider.addMajorTick( BendingLightModel.GLASS.getIndexOfRefractionForRedLight(), glassTitle );
