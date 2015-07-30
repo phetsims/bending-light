@@ -327,15 +327,6 @@ define( function( require ) {
         this.addToSensorPanel();
       }
       this.velocitySensor.reset();
-    },
-
-    /**
-     * drags VelocitySensorNode
-     * @private
-     * @param {Vector2} delta - amount to be translated
-     */
-    dragAll: function( delta ) {
-      this.velocitySensor.translate( this.modelViewTransform.viewToModelDelta( delta ) );
     }
   } );
 } );
