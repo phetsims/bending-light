@@ -24,11 +24,10 @@ define( function( require ) {
   var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
 
   return {
-
-    SCREEN_VIEW_OPTIONS: { layoutBounds: new Bounds2( 0, 0, 834, 504 ) },
-
+    SCREEN_VIEW_OPTIONS: {
+      layoutBounds: new Bounds2( 0, 0, 834, 504 )
+    },
     LASER_MAX_WAVELENGTH: LASER_MAX_WAVELENGTH,
-    // Constants moved from BendingLightModel
     SPEED_OF_LIGHT: SPEED_OF_LIGHT,
     MAX_ANGLE_IN_WAVE_MODE: MAX_ANGLE_IN_WAVE_MODE,
     WAVELENGTH_RED: WAVELENGTH_RED

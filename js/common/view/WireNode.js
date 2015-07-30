@@ -14,7 +14,6 @@ define( function( require ) {
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
 
-
   /**
    * Wire that connects the body and probe.
    *

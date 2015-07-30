@@ -159,7 +159,8 @@ define( function( require ) {
               var extentInterceptedHalfWidth = beamHalfWidth / Math.sin( Math.PI / 2 - theta1 ) / 2;
               var transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
               var transmittedWaveWidth = transmittedBeamHalfWidth * 2;
-              var transmittedRay = new LightRay( trapeziumWidth,
+              var transmittedRay = new LightRay(
+                trapeziumWidth,
                 new Vector2( 0, 0 ),
                 Vector2.createPolar( 1, theta2 - Math.PI / 2 ),
                 n2,
@@ -169,7 +170,8 @@ define( function( require ) {
                 transmittedWaveWidth,
                 incidentRay.getNumberOfWavelengths(),
                 true,
-                true, this.laserViewProperty );
+                true,
+                this.laserViewProperty );
               this.addAndAbsorb( transmittedRay );
             }
           }
@@ -224,9 +226,20 @@ define( function( require ) {
           x = intersects[ 0 ].point.x + intersects[ 1 ].point.x;
           y = intersects[ 0 ].point.y + intersects[ 1 ].point.y;
         }
-        var interrupted = new LightRay( ray.trapeziumWidth, ray.tail, new Vector2( x / 2, y / 2 ),
-          ray.indexOfRefraction, ray.wavelength, ray.powerFraction, this.laser.colorProperty.get().getColor(),
-          ray.waveWidth, ray.numWavelengthsPhaseOffset, false, ray.extendBackwards, this.laserViewProperty );
+        var interrupted = new LightRay(
+          ray.trapeziumWidth,
+          ray.tail,
+          new Vector2( x / 2, y / 2 ),
+          ray.indexOfRefraction,
+          ray.wavelength,
+          ray.powerFraction,
+          this.laser.colorProperty.get().getColor(),
+          ray.waveWidth,
+          ray.numWavelengthsPhaseOffset,
+          false,
+          ray.extendBackwards,
+          this.laserViewProperty
+        );
 
         //don't let the wave intersect the intensity meter if it is behind the laser emission point
         var isForward = ray.toVector().dot( interrupted.toVector() ) > 0;
