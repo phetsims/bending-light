@@ -64,6 +64,7 @@ define( function( require ) {
     // turing this up too high past 1E6 causes things not to render properly
     this.extend = extend;
 
+    // @private, for internal use only.  Clients should use toVector()
     this.vectorForm = new Vector2( 0, 0 );
     this.unitVector = new Vector2( 0, 0 );
 
