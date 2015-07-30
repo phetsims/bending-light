@@ -83,7 +83,6 @@ define( function( require ) {
       return x * this.getSellmeierValue( wavelength ) + (1 - x) * this.getAirIndex( wavelength );
     },
 
-
     /**
      * See http://refractiveindex.info/?group=GASES&material=Air
      * @private
