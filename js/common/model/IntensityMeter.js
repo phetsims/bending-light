@@ -19,10 +19,10 @@ define( function( require ) {
 
   /**
    *
-   * @param {number} sensorX - sensor x position in model values
-   * @param {number} sensorY - sensor y position in model values
-   * @param {number} bodyX - body x position in model values
-   * @param {number} bodyY - body y position in model values
+   * @param {number} sensorX - sensor x position in model coordinates
+   * @param {number} sensorY - sensor y position in model coordinates
+   * @param {number} bodyX - body x position in model coordinates
+   * @param {number} bodyY - body y position in model coordinates
    * @constructor
    */
   function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {
@@ -50,8 +50,8 @@ define( function( require ) {
       /**
        * Translate sensor in model
        * @public
-       * @param {number} deltaX - amount space in x the sensor translated.
-       * @param {number} deltaY - amount space in y the sensor translated.
+       * @param {number} deltaX - distance the sensor translated in the x-direction, in model units
+       * @param {number} deltaY - distance the sensor translated in the y-direction, in model units
        */
       translateSensorXY: function( deltaX, deltaY ) {
         this.newSensorPosition.x = this.sensorPosition.x + deltaX;
@@ -63,8 +63,8 @@ define( function( require ) {
       /**
        * Translate body in model
        * @public
-       * @param {number} deltaX - amount space in x the body translated.
-       * @param {number} deltaY - amount space in y the body translated.
+       * @param {number} deltaX - distance the sensor translated in the x-direction, in model units
+       * @param {number} deltaY - distance the sensor translated in the y-direction, in model units
        */
       translateBodyXY: function( deltaX, deltaY ) {
         this.newBodyPosition.x = this.bodyPosition.x + deltaX;
@@ -85,8 +85,8 @@ define( function( require ) {
       },
 
       /**
-       * Should be called before a model update so that values from last computation
-       * don't leak over into the next summation
+       * Should be called before a model update so that values from last computation don't leak over into the next
+       * summation.
        * @public
        */
       clearRayReadings: function() {
@@ -136,8 +136,8 @@ define( function( require ) {
       /**
        * Translate the intensity meter in model
        * @public
-       * @param {number} deltaX - amount of space in x direction intensity meter node to be translated
-       * @param {number} deltaY - amount of space in y direction intensity meter node to be translated
+       * @param {number} deltaX - distance the sensor translated in the x-direction, in model units
+       * @param {number} deltaY - distance the sensor translated in the y-direction, in model units
        */
       translateAllXY: function( deltaX, deltaY ) {
         this.translateBodyXY( deltaX, deltaY );
