@@ -150,9 +150,7 @@ define( function( require ) {
             // transmitted
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
             var transmittedWavelength = incidentRay.wavelength / n2 * n1;
-            if ( isNaN( theta2 ) || !isFinite( theta2 ) ) {
-            }
-            else {
+            if ( !( isNaN( theta2 ) || !isFinite( theta2 )) ) {
               var transmittedPowerRatio = BendingLightModel.getTransmittedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
 
               // make the beam width depend on the input beam width, so that the same beam width is transmitted as was
