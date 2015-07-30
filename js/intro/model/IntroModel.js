@@ -73,8 +73,8 @@ define( function( require ) {
   return inherit( BendingLightModel, IntroModel, {
 
     /**
-     * Light rays were cleared from model before propagateRays was called,
-     * this creates them according to the laser and mediums
+     * Light rays were cleared from model before propagateRays was called, this creates them according to the laser and
+     * mediums
      * @public
      */
     propagateRays: function() {

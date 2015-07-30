@@ -177,7 +177,7 @@ define( function( require ) {
         disableUnselected: false,
         minWidth: hasMoreTools ? 175 : 67,
         left: this.layoutBounds.minX + laserViewXOffset,
-        top:  this.layoutBounds.top + laserViewYOffset
+        top: this.layoutBounds.top + laserViewYOffset
       } );
 
     this.laserViewLayer.addChild( laserControlPanel );
@@ -232,7 +232,8 @@ define( function( require ) {
 
     normalCheckBox.touchArea = new Bounds2(
       normalCheckBox.localBounds.minX, normalCheckBox.localBounds.minY - 3,
-      normalCheckBox.localBounds.maxX + 25, normalCheckBox.localBounds.maxY + 3 );
+      normalCheckBox.localBounds.maxX + 25, normalCheckBox.localBounds.maxY + 3
+    );
 
     // add normal
     var normalIcon = new NormalLine( 34, [ 4, 3 ], {
@@ -242,21 +243,19 @@ define( function( require ) {
     this.beforeLightLayer2.addChild( normalIcon );
 
     // add reset all button
-    var resetAllButton = new ResetAllButton(
-      {
-        listener: function() {
-          introView.intensityMeterNode.reset();
-          introModel.reset();
-          introView.reset();
-          laserControlPanel.reset();
-          topMediumControlPanel.reset();
-          bottomMediumControlPanel.reset();
-
-        },
-        bottom: this.layoutBounds.bottom - 14,
-        right: this.layoutBounds.right - 2 * INSET,
-        radius: 19
-      } );
+    var resetAllButton = new ResetAllButton( {
+      listener: function() {
+        introView.intensityMeterNode.reset();
+        introModel.reset();
+        introView.reset();
+        laserControlPanel.reset();
+        topMediumControlPanel.reset();
+        bottomMediumControlPanel.reset();
+      },
+      bottom: this.layoutBounds.bottom - 14,
+      right: this.layoutBounds.right - 2 * INSET,
+      radius: 19
+    } );
 
     this.afterLightLayer2.addChild( resetAllButton );
 
@@ -278,14 +277,14 @@ define( function( require ) {
     slowMotionRadioBox.touchArea = new Bounds2(
       slowMotionRadioBox.localBounds.minX,
       slowMotionRadioBox.localBounds.minY - touchAreaHeightExpansion,
-      ( slowMotionRadioBox.localBounds.minX + speedControlMaxWidth ),
+      slowMotionRadioBox.localBounds.minX + speedControlMaxWidth,
       slowMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
     );
 
     normalMotionRadioBox.touchArea = new Bounds2(
       normalMotionRadioBox.localBounds.minX,
       normalMotionRadioBox.localBounds.minY - touchAreaHeightExpansion,
-      ( normalMotionRadioBox.localBounds.minX + speedControlMaxWidth ),
+      normalMotionRadioBox.localBounds.minX + speedControlMaxWidth,
       normalMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
     );
 
@@ -313,8 +312,7 @@ define( function( require ) {
         introModel.stepInternal();
         introView.stepInternal();
       },
-      introModel.isPlayingProperty,
-      {
+      introModel.isPlayingProperty, {
         radius: 12,
         stroke: 'black',
         fill: '#005566',
