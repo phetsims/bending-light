@@ -13,12 +13,8 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var Property = require( 'AXON/Property' );
-
-  // images
-  var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
 
   /**
    *
@@ -27,16 +23,15 @@ define( function( require ) {
    * @param {number} dx - length of horizontal arrow
    * @param {number} dy - length of vertical arrow
    * @param {Property.<boolean>} showDragHandlesProperty - determines whether to show arrows
+   * @param {number} laserImageWidth - width of the laser
    * @constructor
    */
-  function TranslationDragHandle( modelViewTransform, laser, dx, dy, showDragHandlesProperty ) {
+  function TranslationDragHandle( modelViewTransform, laser, dx, dy, showDragHandlesProperty, laserImageWidth ) {
 
     Node.call( this );
     var translationDragHandle = this;
 
     showDragHandlesProperty.linkAttribute( translationDragHandle, 'visible' );
-
-    var image = new Image( laserImage );
 
     var counterClockwiseDragArrow = new ArrowNode( 0, 0, 0, 0, {
       headHeight: 16,
@@ -48,15 +43,17 @@ define( function( require ) {
     translationDragHandle.addChild( counterClockwiseDragArrow );
 
     // update the location when laser pivot or emission point change
-    Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty ],
+    Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty, showDragHandlesProperty ],
       function( laserPivot, laserEmission ) {
-        var laserAngle = -laser.getAngle();
-        var magnitude = image.getWidth() * 0.35;
-        var viewDeltaX = magnitude * Math.cos( laserAngle );
-        var viewDeltaY = magnitude * Math.sin( laserAngle );
-        var tailX = modelViewTransform.modelToViewX( laserEmission.x ) + viewDeltaX;
-        var tailY = modelViewTransform.modelToViewY( laserEmission.y ) + viewDeltaY;
-        counterClockwiseDragArrow.setTailAndTip( tailX - dx, tailY - dy, tailX + dx, tailY + dy );
+        if ( showDragHandlesProperty.get() ) {
+          var laserAngle = -laser.getAngle();
+          var magnitude = laserImageWidth * 0.35;
+          var viewDeltaX = magnitude * Math.cos( laserAngle );
+          var viewDeltaY = magnitude * Math.sin( laserAngle );
+          var tailX = modelViewTransform.modelToViewX( laserEmission.x ) + viewDeltaX;
+          var tailY = modelViewTransform.modelToViewY( laserEmission.y ) + viewDeltaY;
+          counterClockwiseDragArrow.setTailAndTip( tailX - dx, tailY - dy, tailX + dx, tailY + dy );
+        }
       } );
   }
 

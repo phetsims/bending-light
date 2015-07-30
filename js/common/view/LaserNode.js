@@ -20,10 +20,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
-  // images
-  var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
-  var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
-
   // constants
   var dragRegionColor = new Color( 255, 0, 0, 0 );
   var rotationRegionColor = new Color( 0, 0, 255, 0 );
@@ -37,16 +33,15 @@ define( function( require ) {
    * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
    * @param {function} translationRegion - select from the entire region and front region which should be used for translating the laser
    * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating the laser
-   * @param {string} laserImageName - if name is 'laser' use laser image without knob else use laser with knob
+   * @param {string} laserImage - name of the laser image
    * @param {Bounds2} dragBounds - bounds that define where the laser may be dragged
    * @constructor
    */
   function LaserNode( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
-                      clampDragAngle, translationRegion, rotationRegion, laserImageName, dragBounds ) {
+                      clampDragAngle, translationRegion, rotationRegion, laserImage, dragBounds ) {
 
     Node.call( this, { cursor: 'pointer' } );
     var laserNode = this;
-    var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
 
     // add laser image
     var lightImage = new Image( laserImage, { scale: 0.58 } );

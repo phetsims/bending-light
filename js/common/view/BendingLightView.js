@@ -18,13 +18,17 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
-  var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
+  var LightRayNode = require( 'BENDING_LIGHT/common/view/LightRayNode' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+
+  // images
+  var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
+  var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
 
   /**
    *
@@ -46,7 +50,6 @@ define( function( require ) {
     var bendingLightView = this;
     this.showProtractorProperty = new Property( true );
     this.lightRayLayer = new Node();
-    this.laserView = new LaserView( model, false );
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
     // suggested this layering order:
@@ -100,24 +103,26 @@ define( function( require ) {
       bendingLightView.lightRayLayer.setVisible( !white );
     } );
 
+    var laserImageWidth = laserWithoutKnobImage.width;
+
     // add rotation for the laser that show if/when the laser can be rotated about its pivot
     var showRotationDragHandlesProperty = new Property( false );
     var showTranslationDragHandlesProperty = new Property( false );
 
-    var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.laser, Math.PI / 25,
-      showRotationDragHandlesProperty, clockwiseArrowNotAtMax );
+    var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.laser, Math.PI / 23,
+      showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58 );
     this.addChild( leftRotationDragHandle );
-    var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.laser, -Math.PI / 25,
-      showRotationDragHandlesProperty, ccwArrowNotAtMax );
+    var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.laser, -Math.PI / 23,
+      showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58 );
     this.addChild( rightRotationDragHandle );
 
     // add translation indicators that show if/when the laser can be moved by dragging
     var arrowLength = 76;
     var horizontalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.laser, arrowLength, 0,
-      showTranslationDragHandlesProperty );
+      showTranslationDragHandlesProperty, laserImageWidth );
     this.addChild( horizontalTranslationDragHandle );
     var verticalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.laser, 0, arrowLength,
-      showTranslationDragHandlesProperty );
+      showTranslationDragHandlesProperty, laserImageWidth );
     this.addChild( verticalTranslationDragHandle );
 
     if ( model.allowWebGL ) {
@@ -129,8 +134,9 @@ define( function( require ) {
     }
 
     // add the laser
+    var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
     var laserNode = new LaserNode( this.modelViewTransform, model.laser, showRotationDragHandlesProperty,
-      showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName,
+      showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImage,
       this.layoutBounds );
     this.addChild( laserNode );
 
@@ -150,7 +156,7 @@ define( function( require ) {
         whiteLightRays.push( ray );
       }
       if ( model.laserViewProperty.value === 'ray' && model.laser.colorMode === 'singleColor' ) {
-        node = bendingLightView.laserView.createLightRayNode( bendingLightView.modelViewTransform, ray );
+        node = new LightRayNode( bendingLightView.modelViewTransform, ray );
         bendingLightView.lightRayLayer.addChild( node );
       }
       else {
