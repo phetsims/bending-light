@@ -172,8 +172,10 @@ define( function( require ) {
       var protractorNodeScaleVector = protractorNode.getScaleVector();
       var protractorCenterX = protractorNode.modelViewTransform.modelToViewX( position.x );
       var protractorCenterY = protractorNode.modelViewTransform.modelToViewY( position.y );
-      var point = new Vector2( -( protractorImageWidth * protractorNodeScaleVector.x / 2 ),
-        -( protractorImageHeight * protractorNodeScaleVector.y / 2 ) );
+      var point = new Vector2(
+        -protractorImageWidth * protractorNodeScaleVector.x / 2,
+        -protractorImageHeight * protractorNodeScaleVector.y / 2
+      );
       var newPoint = point.rotate( protractorNode.getRotation() );
       newPoint.x = newPoint.x + protractorCenterX;
       newPoint.y = newPoint.y + protractorCenterY;
