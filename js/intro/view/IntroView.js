@@ -17,7 +17,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
-  var LaserView = require( 'BENDING_LIGHT/common/view/LaserView' );
+  var LaserControlPanel = require( 'BENDING_LIGHT/common/view/LaserControlPanel' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
@@ -39,6 +39,8 @@ define( function( require ) {
   var materialString = require( 'string!BENDING_LIGHT/material' );
   var normalString = require( 'string!BENDING_LIGHT/normal' );
   var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
+  var rayString = require( 'string!BENDING_LIGHT/ray' );
+  var waveString = require( 'string!BENDING_LIGHT/wave' );
 
   // constants
   var INSET = 10;
@@ -166,12 +168,19 @@ define( function( require ) {
     // add laser view panel
     var laserViewXOffset = hasMoreTools ? 13 : 12;
     var laserViewYOffset = hasMoreTools ? 2 * INSET - 4 : 2 * INSET;
-    var laserView = new LaserView( introModel, hasMoreTools, {
-      left: this.layoutBounds.minX + laserViewXOffset,
-      top: this.layoutBounds.top + laserViewYOffset
-    } );
+    var laserControlPanel = new LaserControlPanel( introModel.laserViewProperty, introModel.wavelengthProperty, 'ray',
+      'wave', rayString, waveString, hasMoreTools, {
+        xMargin: 9,
+        yMargin: 6,
+        radioButtonradius: 6,
+        spacing: 11,
+        disableUnselected: false,
+        minWidth: hasMoreTools ? 175 : 67,
+        left: this.layoutBounds.minX + laserViewXOffset,
+        top:  this.layoutBounds.top + laserViewYOffset
+      } );
 
-    this.laserViewLayer.addChild( laserView );
+    this.laserViewLayer.addChild( laserControlPanel );
 
     var sensorPanelHeight = hasMoreTools ? 303 : 203;
 
@@ -239,7 +248,7 @@ define( function( require ) {
           introView.intensityMeterNode.reset();
           introModel.reset();
           introView.reset();
-          laserView.reset();
+          laserControlPanel.reset();
           topMediumControlPanel.reset();
           bottomMediumControlPanel.reset();
 

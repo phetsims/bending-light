@@ -15,7 +15,7 @@ define( function( require ) {
 
   /**
    *
-   * @param {Polygon/Circle/SemiCircle/DivergingLens} shape
+   * @param {Polygon/Circle/SemiCircle} shape
    * @constructor
    */
   function Prism( shape ) {

@@ -15,7 +15,6 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
   var SemiCircle = require( 'BENDING_LIGHT/prisms/model/SemiCircle' );
-  var DivergingLens = require( 'BENDING_LIGHT/prisms/model/DivergingLens' );
   var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
   var Ray = require( 'BENDING_LIGHT/prisms/model/Ray' );
   var Ray2 = require( 'DOT/Ray2' );
@@ -119,27 +118,30 @@ define( function( require ) {
       // characteristic length scale
       var a = CHARACTERISTIC_LENGTH * 10;
 
-      prismsTypes.push( new Prism( new Polygon( 1,//attach at bottom right
-        [ new Vector2( -a / 2, -a / 2 ),
-          new Vector2( a / 2, -a / 2 ),
+      prismsTypes.push( new Prism( new Polygon( 2,// attach at bottom right
+        [
+          new Vector2( -a / 2, a / 2 ),
           new Vector2( a / 2, a / 2 ),
-          new Vector2( -a / 2, a / 2 ) ] ) ) );
+          new Vector2( a / 2, -a / 2 ),
+          new Vector2( -a / 2, -a / 2 )
+        ], 0 ) ) );
 
       // triangle
-      prismsTypes.push( new Prism( new Polygon(
-        1,//attach at bottom right
-        [ new Vector2( -a / 2, -a / (2 * Math.sqrt( 3 )) ),
+      prismsTypes.push( new Prism( new Polygon( 1,// attach at bottom right
+        [
+          new Vector2( -a / 2, -a / (2 * Math.sqrt( 3 )) ),
           new Vector2( a / 2, -a / (2 * Math.sqrt( 3 )) ),
-          new Vector2( 0, a / Math.sqrt( 3 ) ) ]
-      ) ) );
+          new Vector2( 0, a / Math.sqrt( 3 ) )
+        ], 0 ) ) );
 
       // trapezoid
       prismsTypes.push( new Prism( new Polygon( 1,//attach at bottom right
-        [ new Vector2( -a / 2, -a * Math.sqrt( 3 ) / 4 ),
+        [
+          new Vector2( -a / 2, -a * Math.sqrt( 3 ) / 4 ),
           new Vector2( a / 2, -a * Math.sqrt( 3 ) / 4 ),
           new Vector2( a / 4, a * Math.sqrt( 3 ) / 4 ),
-          new Vector2( -a / 4, a * Math.sqrt( 3 ) / 4 ) ]
-      ) ) );
+          new Vector2( -a / 4, a * Math.sqrt( 3 ) / 4 )
+        ], 0 ) ) );
 
       var radius = a / 2;
 
@@ -151,7 +153,7 @@ define( function( require ) {
         [ new Vector2( 0, radius ), new Vector2( 0, -radius ) ], radius ) ) );
 
       // DivergingLens
-      prismsTypes.push( new Prism( new DivergingLens( 2,
+      prismsTypes.push( new Prism( new Polygon( 2,
         [
           new Vector2( -0.6 * radius, radius ),
           new Vector2( 0.6 * radius, radius ),
@@ -159,13 +161,10 @@ define( function( require ) {
           new Vector2( -0.6 * radius, -radius )
         ], radius ) ) );
       return prismsTypes;
-
     },
 
     /**
-     * Adds a prism to the model. doesn't signal a "prism added event", adding graphics must be handled by the client
-     * that added the prism. This gives the client fine-grained control over creation of model elements and associated
-     * nodes, but future TODOs could investigate using standard model creation/notification scheme
+     * Adds a prism to the model.
      * @public
      * @param {Prism} prism
      */
@@ -181,14 +180,6 @@ define( function( require ) {
     removePrism: function( prism ) {
       this.prisms.remove( prism );
       this.updateModel();
-    },
-
-    /**
-     * @public
-     * @returns {ObservableArray<Prism>}
-     */
-    getPrisms: function() {
-      return this.prisms;
     },
 
     /**
@@ -337,8 +328,6 @@ define( function( require ) {
           this.propagateTheRay( reflected, count + 1 );
         }
         this.propagateTheRay( refracted, count + 1 );
-
-        // TODO: add ray color without creating new Color object.
         rayColor = new Color( 0, 0, 0, 0 );
         rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
         rayColor.set( rayVisibleColor.getRed(), rayVisibleColor.getGreen(), rayVisibleColor.getBlue(),

@@ -176,18 +176,24 @@ define( function( require ) {
     var showNormal = { label: new Text( normalString, textOptions ) };
     var showProtractor = { label: new Text( protractorString, textOptions ), icon: createProtractorIcon() };
 
+    // compute the maximum item width
+    var widestItem = _.max( [ showReflections, showNormal, showProtractor ], function( item ) {
+      return item.label.width + ( ( item.icon ) ? item.icon.width : 0 );
+    } );
+    var widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0);
+    var maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
     // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
     var createItem = function( itemSpec ) {
       if ( itemSpec.icon ) {
-        var textWidth = MAX_TEXT_WIDTH - itemSpec.icon.width - 5;
+        var textWidth = maxWidth - itemSpec.icon.width - 10;
         if ( itemSpec.label.width > textWidth ) {
           itemSpec.label.scale( textWidth / itemSpec.label.width );
         }
-        var strutWidth = MAX_TEXT_WIDTH - itemSpec.label.width - itemSpec.icon.width;
+        var strutWidth = maxWidth - itemSpec.label.width - itemSpec.icon.width;
         return new HBox( { children: [ itemSpec.label, new HStrut( strutWidth ), itemSpec.icon ] } );
       }
       else {
-        if ( itemSpec.label.width > MAX_TEXT_WIDTH ) {
+        if ( itemSpec.label.width > maxWidth ) {
           itemSpec.label.scale( MAX_TEXT_WIDTH / itemSpec.label.width );
         }
         return new HBox( { children: [ itemSpec.label ] } );

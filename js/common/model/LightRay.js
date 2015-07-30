@@ -113,7 +113,8 @@ define( function( require ) {
         .moveToPoint( tailPoint1XY )
         .lineToPoint( tailPoint2XY )
         .lineToPoint( tipPoint1XY )
-        .lineToPoint( tipPoint2XY );
+        .lineToPoint( tipPoint2XY )
+        .close();
     }
   }
 
