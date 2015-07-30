@@ -18,7 +18,7 @@ define( function( require ) {
   var IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
-  var LaserControlPanelNode = require( 'BENDING_LIGHT/prisms/view/LaserControlPanelNode' );
+  var LaserControlPanel = require( 'BENDING_LIGHT/common/view/LaserControlPanel' );
   var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
   var EventTimer = require( 'PHET_CORE/EventTimer' );
 
@@ -27,6 +27,8 @@ define( function( require ) {
 
   // string
   var environmentString = require( 'string!BENDING_LIGHT/environment' );
+  var oneColorString = require( 'string!BENDING_LIGHT/oneColor' );
+  var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
 
   /**
    *
@@ -84,14 +86,19 @@ define( function( require ) {
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
 
-    var laserControlPanelNode = new LaserControlPanelNode( prismBreakModel.laser.colorModeProperty,
-      prismBreakModel.wavelengthProperty, {
+    var laserControlPanel = new LaserControlPanel( prismBreakModel.laser.colorModeProperty,
+      prismBreakModel.wavelengthProperty, 'white', 'singleColor', whiteLightString, oneColorString, true, {
+        xMargin: 5,
+        yMargin: 10,
+        radioButtonradius: 7,
+        spacing: 8.4,
+        disableUnselected: true,
         top: environmentMediumControlPanel.bottom + 15,
         right: this.layoutBounds.right - 2 * INSET,
         minWidth: environmentMediumControlPanel.width,
         align: 'center'
       } );
-    this.afterLightLayer2.addChild( laserControlPanelNode );
+    this.afterLightLayer2.addChild( laserControlPanel );
     this.incidentWaveCanvasLayer.setVisible( false );
 
     // Optionally show the normal lines at each intersection
@@ -119,7 +126,7 @@ define( function( require ) {
       listener: function() {
         prismBreakModel.reset();
         prismBreakView.reset();
-        laserControlPanelNode.reset();
+        laserControlPanel.reset();
         environmentMediumControlPanel.reset();
         prismToolboxNode.objectMediumControlPanel.reset();
       },
