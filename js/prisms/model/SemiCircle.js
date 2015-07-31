@@ -144,6 +144,9 @@ define( function( require ) {
         var dy = (intersection[ 0 ].point.y - ray.tail.y) * ray.directionUnitVector.y;
         if ( dx + dy > 0 ) {
           var normalVector = intersection[ 0 ].point.minus( this.center ).normalize();
+
+          // Angle between the normal and ray should not be greater than 90 degrees.
+          // If angle is greater than 90 then reverse the direction of the normal.
           if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
             normalVector.negate();
           }

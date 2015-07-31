@@ -62,6 +62,9 @@ define( function( require ) {
           var dy = (intersectionPoint.point.y - ray.tail.y) * ray.directionUnitVector.y;
           if ( dx + dy > 0 ) {
             var normalVector = intersectionPoint.point.minus( self.center ).normalize();
+
+            // Angle between the normal and ray should not be greater than 90 degrees.
+            // If angle is greater than 90 then reverse the direction of the normal.
             if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
               normalVector = normalVector.negate();
             }
@@ -70,21 +73,6 @@ define( function( require ) {
         }
       } );
       return intersectionList;
-    },
-
-    /**
-     * Create a new Circle rotated by the specified angle
-     * @public
-     * @param {number} angle - angle to be rotated
-     * @param {Vector2} rotationPoint - point around which circle to be rotated
-     * @returns {Circle}
-     */
-    getRotatedInstance: function( angle, rotationPoint ) {
-
-      // we create a new circle with a rotated center point
-      var vectorAboutCentroid = this.getRotationCenter().subtract( rotationPoint );
-      var rotated = vectorAboutCentroid.rotate( angle );
-      return new Circle( rotated.add( rotationPoint ), this.radius );
     },
 
     /**
