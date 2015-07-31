@@ -14,7 +14,6 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   /**
-   *
    * @param {Vector2} tail - ray tail position
    * @param {Vector2} directionUnitVector - ray direction
    * @param {number} power - power of the ray

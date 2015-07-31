@@ -19,7 +19,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   *
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Laser} laser - model of laser
    * @param {number} deltaAngle - deltaAngle in radians

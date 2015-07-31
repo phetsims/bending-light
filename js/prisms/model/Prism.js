@@ -14,7 +14,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   *
    * @param {Polygon/Circle/SemiCircle} shape
    * @constructor
    */

@@ -13,7 +13,6 @@ define( function( require ) {
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
 
   /**
-   *
    * @param {ObservableArray<DataPoint>} seriesPoints
    * @param {string} color - color of the series
    * @param {Object} [options] - options that can be passed on to the underlying node

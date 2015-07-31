@@ -18,7 +18,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   *
    * @constructor
    */
   function MoreToolsModel() {

@@ -28,7 +28,6 @@ define( function( require ) {
   var DEFAULT_SCALE = 0.4;
 
   /**
-   *
    * @param {BendingLightView} bendingLightView - view of the simulation
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view values
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility

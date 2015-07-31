@@ -14,7 +14,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
-   *
    * @param {Vector2} unitNormal - unit normal at the intersection of light ray
    * @param {Vector2} point - point where the light ray intersects
    * @constructor

@@ -17,7 +17,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   /**
-   *
    * @param {number} height - height of normal
    * @param {array.<number>} lineDash
    * @param {Object} [options ] - options that can be passed on to the underlying node

@@ -14,7 +14,6 @@ define( function( require ) {
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   /**
-   *
    * @param {number} wavelength - wavelength (in meters) of the light
    * @constructor
    */

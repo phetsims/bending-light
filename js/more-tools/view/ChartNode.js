@@ -52,7 +52,6 @@ define( function( require ) {
   inherit( Node, SeriesNode );
 
   /**
-   *
    * @param {Bounds2} chartBounds - bounds of the chart node
    * @param {array.<Series>} series - series of data points
    * @constructor

@@ -25,7 +25,6 @@ define( function( require ) {
   var rotationRegionColor = new Color( 0, 0, 255, 0 );
 
   /**
-   *
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Laser} laser - model for the laser
    * @param {Property.<boolean>} showRotationDragHandlesProperty - to show laser node rotate arrows(direction which laser node can rotate)

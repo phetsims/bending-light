@@ -18,7 +18,6 @@ define( function( require ) {
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
 
   /**
-   *
    * @param {number} referencePointIndex - is used as the drag handle corner for rotation
    * @param {array.<Vector2>} points - corner points
    * @param {number} radius - radius of semicircle

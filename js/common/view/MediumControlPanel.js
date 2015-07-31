@@ -49,7 +49,6 @@ define( function( require ) {
   var INSET = 10;
 
   /**
-   *
    * @param {BendingLightView} view - view of the simulation
    * @param {Property.<Medium>} mediumProperty - specifies medium
    * @param {string} name - name of the medium material

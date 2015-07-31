@@ -36,7 +36,6 @@ define( function( require ) {
   var CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
   /**
-   *
    * @constructor
    */
   function PrismBreakModel() {

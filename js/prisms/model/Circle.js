@@ -16,7 +16,6 @@ define( function( require ) {
   var Ray2 = require( 'DOT/Ray2' );
 
   /**
-   *
    * @param {Vector2} center - center of the circle
    * @param {number} radius - radius of the circle
    * @constructor

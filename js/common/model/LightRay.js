@@ -19,7 +19,6 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   /**
-   *
    * @param {number} trapeziumWidth - width of wave at intersection of mediums
    * @param {Vector2} tail - tail position of light ray
    * @param {Vector2} tip - tip position of light ray

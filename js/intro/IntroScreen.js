@@ -20,7 +20,6 @@ define( function( require ) {
   var introTitleString = require( 'string!BENDING_LIGHT/intro' );
 
   /**
-   *
    * @constructor
    */
   function IntroScreen() {

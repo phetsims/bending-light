@@ -101,7 +101,6 @@ define( function( require ) {
   inherit( Node, ProbeNode );
 
   /**
-   *
    * @param {MoreToolsView} moreToolsView - view of the moreTools screen
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor

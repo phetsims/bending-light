@@ -16,7 +16,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**
-   *
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Intersection} intersection - specifies details of intersection point and unit normal
    * @constructor

@@ -17,7 +17,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   *
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinate frames
    * @param {Laser} laser - model of laser
    * @param {number} dx - length of horizontal arrow

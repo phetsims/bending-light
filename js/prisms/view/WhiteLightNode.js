@@ -23,7 +23,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   /**
-   *
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {ObservableArray} whiteLightRays - array of white light rays
    * @param {number} stageWidth - width of the dev area

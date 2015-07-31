@@ -18,7 +18,6 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
 
   /**
-   *
    * @param {Property.<number>} wavelengthProperty - wavelength of light
    * @param {number} distanceFromPivot - distance from laser pivot point
    * @param {number} angle - laser angle

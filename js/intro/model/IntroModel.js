@@ -29,7 +29,6 @@ define( function( require ) {
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   /**
-   *
    * @param {MediumState} bottomMediumState - state of bottom medium
    * @param {boolean} centerOffsetLeft - specifies center alignment
    * @constructor

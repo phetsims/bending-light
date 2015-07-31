@@ -31,7 +31,6 @@ define( function( require ) {
   var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
 
   /**
-   *
    * @param {BendingLightModel} model - main model of the simulations
    * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
    * @param {function} clockwiseArrowNotAtMax - shows whether laser at max angle

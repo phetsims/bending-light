@@ -18,7 +18,6 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   /**
-   *
    * @param {number} referenceIndexOfRefraction - IndexOfRefraction of medium
    * @param {number} wavelength - wavelength in meters
    * @constructor

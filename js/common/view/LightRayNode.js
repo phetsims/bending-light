@@ -20,7 +20,6 @@ define( function( require ) {
   var Ray2 = require( 'DOT/Ray2' );
 
   /**
-   *
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {LightRay} lightRay - model of light ray
    * @constructor

@@ -33,7 +33,6 @@ define( function( require ) {
   var INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX = 0.85;
 
   /**
-   *
    * @param {BendingLightView} bendingLightView - view of the simulation
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter

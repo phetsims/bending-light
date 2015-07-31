@@ -38,7 +38,6 @@ define( function( require ) {
   var VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX = 1;
 
   /**
-   *
    * @param {MoreToolsView} moreToolsView - view of moreTools screen
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor

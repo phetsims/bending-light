@@ -14,7 +14,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   /**
-   *
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {Property.<Medium>} mediumProperty - specifies medium
    * @constructor

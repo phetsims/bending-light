@@ -13,7 +13,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
-   *
    * @param {Vector2} position - position of wave particle
    * @param {number} width - width of wave particle
    * @param {Color} color - color of wave particle

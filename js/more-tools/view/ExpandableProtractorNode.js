@@ -16,7 +16,6 @@ define( function( require ) {
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
 
   /**
-   *
    * @param {MoreToolsView} moreToolsView - main view of more tools screen
    * @param {ModelViewTransform2} modelViewTransform - convert between model and view values
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility

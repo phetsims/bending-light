@@ -13,7 +13,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
-   *
    * @param {number} time - time of simulation
    * @param {number} value - amplitude at particular time
    * @constructor

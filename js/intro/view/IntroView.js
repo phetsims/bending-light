@@ -46,7 +46,6 @@ define( function( require ) {
   var INSET = 10;
 
   /**
-   *
    * @param {IntroModel} introModel - model of intro screen
    * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
    * @param {boolean} hasMoreTools - whether contain more tools

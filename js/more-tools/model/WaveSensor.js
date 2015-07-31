@@ -61,7 +61,6 @@ define( function( require ) {
   } );
 
   /**
-   *
    * @param {function} probe1Value - function for getting data from a probe at the specified point
    * @param {function} probe2Value - function for getting data from a probe at the specified point
    * @constructor

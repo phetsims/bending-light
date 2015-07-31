@@ -34,7 +34,6 @@ define( function( require ) {
   var PLUS_MINUS_SPACING = 4;
 
   /**
-   *
    * @param {Property.<string>} radioButtonProperty - specifies value of the radio button selected
    * @param {Property.<number>} wavelengthProperty - specifies wavelength
    * @param {string} firstButtonValue - value corresponds to the firstButton

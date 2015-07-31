@@ -37,7 +37,6 @@ define( function( require ) {
   var PLUS_MINUS_SPACING = 4;
 
   /**
-   *
    * @param {BendingLightModel} model - model of the simulation
    * @param {boolean} hasMoreTools - whether contain more tools
    * @param {Object} [options] - options that can be passed on to the underlying node

@@ -19,7 +19,6 @@ define( function( require ) {
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
 
   /**
-   *
    * @param {number} referencePointIndex - index of reference point
    * @param {array.<Vector2>} points - array of corner points
    * @param {number} radius - radius is 0 for polygon or radius for diverging lens

@@ -13,7 +13,6 @@ define( function( require ) {
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
 
   /**
-   *
    * @param {ObservableArray<[]>} gridPoints - contains details of each grid line
    * @param {array.<number>} strokeDash
    * @param {Object} [options] - options that can be passed on to the underlying node

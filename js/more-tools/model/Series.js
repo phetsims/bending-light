@@ -14,7 +14,6 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
 
   /**
-   *
    * @param {Property.<[]>} pathProperty - path of series
    * @param {Color} color - color of series
    * @constructor

@@ -17,7 +17,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   *
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
    * @constructor
    */

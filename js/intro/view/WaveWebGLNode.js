@@ -14,7 +14,6 @@ define( function( require ) {
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
 
   /**
-   *
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {ObservableArray<LightRay>} rays - light rays
    * @param {Number} screenWidth - width of the dev area

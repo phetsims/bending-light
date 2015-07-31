@@ -19,7 +19,6 @@ define( function( require ) {
   var prismsTitleString = require( 'string!BENDING_LIGHT/prisms' );
 
   /**
-   *
    * @constructor
    */
   function PrismsScreen() {

@@ -19,7 +19,6 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
 
   /**
-   *
    * @param {Property.<number>} laserTypeProperty
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor

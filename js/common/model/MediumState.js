@@ -15,7 +15,6 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   /**
-   *
    * @param {string} name - name of the medium
    * @param {number} indexForRed - index of refraction of medium
    * @param {boolean} mystery - true if medium state is mystery else other state

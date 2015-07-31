@@ -19,7 +19,6 @@ define( function( require ) {
   var moreToolsTitleString = require( 'string!BENDING_LIGHT/moreTools' );
 
   /**
-   *
    * @constructor
    */
   function MoreToolsScreen() {

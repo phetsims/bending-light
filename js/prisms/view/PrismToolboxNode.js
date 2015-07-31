@@ -43,7 +43,6 @@ define( function( require ) {
   var MAX_TEXT_WIDTH = 115;
 
   /**
-   *
    * @param {PrismsView} prismBreakView - main view of the prism screen
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {PrismBreakModel} prismBreakModel - model of the prism screen

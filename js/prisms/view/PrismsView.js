@@ -31,7 +31,6 @@ define( function( require ) {
   var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
 
   /**
-   *
    * @param {PrismBreakModel} prismBreakModel - model of prisms screen
    * @constructor
    */

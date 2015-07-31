@@ -22,11 +22,9 @@ define( function( require ) {
   var VALUE_DECIMALS = 2;
 
   /**
-   *
    * @constructor
    */
   function MISS() {
-
   }
 
   inherit( Object, MISS, {
