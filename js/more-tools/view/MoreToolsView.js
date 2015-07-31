@@ -24,12 +24,14 @@ define( function( require ) {
 
     var moreToolsView = this;
     this.moreToolsModel = moreToolsModel;
-    this.arrowScale = 1.5E-14; // @public read-only
+    var arrowScale = 1.5E-14; // @public read-only
     IntroView.call( this, moreToolsModel, 0, true, 3 );
 
     // Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
-    this.velocitySensorNode = this.createVelocitySensorTool();
-    this.waveSensorNode = this.createWaveSensorTool();
+    this.velocitySensorNode = new VelocitySensorNode( this, this.modelViewTransform, moreToolsModel.velocitySensor,
+      arrowScale, this.sensorPanel, this.layoutBounds );
+    this.waveSensorNode = new WaveSensorNode( this, this.modelViewTransform, moreToolsModel.waveSensor,
+      this.sensorPanel, this.layoutBounds );
     this.velocitySensorNode.addToSensorPanel();
     this.waveSensorNode.addToSensorPanel();
 
@@ -40,40 +42,20 @@ define( function( require ) {
         moreToolsView.stepButton.visible = isButtonsVisible;
         moreToolsView.speedControl.visible = isButtonsVisible;
       } );
-
   }
 
   return inherit( IntroView, MoreToolsView, {
 
     /**
+     * Update chart node and wave.
      * @protected
      */
-    stepInternal: function() {
-      IntroView.prototype.stepInternal.call( this );
+    updateWaveShape: function() {
+      IntroView.prototype.updateWaveShape.call( this );
       if ( this.waveSensorNode.waveSensor.visibleProperty.get() ) {
         this.waveSensorNode.waveSensor.step();
         this.waveSensorNode.chartNode.step( this.moreToolsModel.time );
       }
-    },
-
-    /**
-     * Create the VelocitySensorNode
-     * @private
-     * @returns {VelocitySensorNode}
-     */
-    createVelocitySensorTool: function() {
-      return new VelocitySensorNode( this, this.modelViewTransform, this.moreToolsModel.velocitySensor,
-        this.arrowScale, this.sensorPanel, this.layoutBounds );
-    },
-
-    /**
-     * Create the WaveSensorNode
-     * @private
-     * @returns {WaveSensorNode}
-     */
-    createWaveSensorTool: function() {
-      return new WaveSensorNode( this, this.modelViewTransform, this.moreToolsModel.waveSensor, this.sensorPanel,
-        this.layoutBounds );
     },
 
     /**

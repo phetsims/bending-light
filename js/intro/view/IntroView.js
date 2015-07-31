@@ -309,7 +309,7 @@ define( function( require ) {
     this.stepButton = new StepButton(
       function() {
         introModel.stepInternal();
-        introView.stepInternal();
+        introView.updateWaveShape();
       },
       introModel.isPlayingProperty, {
         radius: 12,
@@ -325,7 +325,6 @@ define( function( require ) {
       introView.stepButton.visible = (laserType === 'wave');
       introView.speedControl.visible = (laserType === 'wave');
     } );
-
   }
 
   return inherit( BendingLightView, IntroView, {
@@ -336,14 +335,15 @@ define( function( require ) {
      */
     step: function() {
       if ( this.introModel.isPlaying ) {
-        this.stepInternal();
+        this.updateWaveShape();
       }
     },
 
     /**
+     * Update wave shape.
      * @public
      */
-    stepInternal: function() {
+    updateWaveShape: function() {
 
       for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
         this.waveCanvasLayer.children[ k ].step();

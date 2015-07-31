@@ -192,7 +192,7 @@ define( function( require ) {
     },
 
     /**
-     * @private
+     * @private, for internal use only.
      */
     stepInternal: function() {
       if ( this.prismBreakModel.laser.colorModeProperty.value === 'white' && this.prismBreakModel.dirty ) {
