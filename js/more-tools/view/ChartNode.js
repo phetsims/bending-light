@@ -141,7 +141,7 @@ define( function( require ) {
     getDelta: function( verticalGridLineSpacing, time ) {
       var totalNumPeriods = time / verticalGridLineSpacing;
 
-      // for computing the phase so we make the right number of grid lines
+      // for computing the phase so we make the right number of grid lines, just keep the fractional part
       return ( totalNumPeriods % 1 ) * verticalGridLineSpacing;
     },
 

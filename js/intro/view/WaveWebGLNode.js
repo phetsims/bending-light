@@ -160,7 +160,9 @@ define( function( require ) {
         // phase
         var totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
         var phaseDiff = this.modelViewTransform.modelToViewDeltaX(
-          (totalPhaseOffsetInNumberOfWavelengths % 1) * lightRay.wavelength );
+          // Just keep the fractional part
+          (totalPhaseOffsetInNumberOfWavelengths % 1) * lightRay.wavelength
+        );
 
         // light ray color
         red = lightRay.color.r / 255;

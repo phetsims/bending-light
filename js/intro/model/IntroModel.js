@@ -397,6 +397,8 @@ define( function( require ) {
 
         // Compute the total phase along the length of the ray.
         var totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
+
+        // Just keep the fractional part
         var phaseDiff = (totalPhaseOffsetInNumberOfWavelengths % 1) * wavelength;
         var tailX;
         var tailY;
