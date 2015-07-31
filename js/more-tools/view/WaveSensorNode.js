@@ -426,7 +426,7 @@ define( function( require ) {
      */
     reset: function() {
       this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
-      this.chartNode.gridPoints.clear();
+      this.chartNode.gridLines.clear();
       if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }

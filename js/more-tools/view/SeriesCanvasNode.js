@@ -13,15 +13,17 @@ define( function( require ) {
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
 
   /**
-   * @param {ObservableArray<DataPoint>} seriesPoints
+   * @param {Property.<[]>} seriesProperty - contains data points of series
+   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate frames
    * @param {string} color - color of the series
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
-  function SeriesCanvasNode( seriesPoints, color, options ) {
+  function SeriesCanvasNode( seriesProperty, modelViewTransformProperty, color, options ) {
 
     CanvasNode.call( this, options );
-    this.seriesPoints = seriesPoints;
+    this.seriesProperty = seriesProperty;
+    this.modelViewTransformProperty = modelViewTransformProperty;
     this.color = color;
   }
 
@@ -37,15 +39,17 @@ define( function( require ) {
       var moved = false;
 
       context.beginPath();
-      for ( var i = 0; i < this.seriesPoints.length; i++ ) {
-        var dataPoint = this.seriesPoints.get( i );
+      for ( var i = 0; i < this.seriesProperty.get().length; i++ ) {
+        var dataPoint = this.seriesProperty.get()[ i ];
         if ( dataPoint ) {
+          var x = this.modelViewTransformProperty.get().modelToViewX( dataPoint.time );
+          var y = this.modelViewTransformProperty.get().modelToViewY( dataPoint.value );
           if ( !moved ) {
-            context.moveTo( dataPoint[ 0 ], dataPoint[ 1 ] );
+            context.moveTo( x, y );
             moved = true;
           }
           else {
-            context.lineTo( dataPoint[ 0 ], dataPoint[ 1 ] );
+            context.lineTo( x, y );
           }
         }
       }

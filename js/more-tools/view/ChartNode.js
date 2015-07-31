@@ -34,17 +34,12 @@ define( function( require ) {
   function SeriesNode( series, modelViewTransformProperty, chartBounds ) {
 
     Node.call( this );
-    var seriesCanvasNode = new SeriesCanvasNode( series.points, series.color.toCSS(), {
+    var seriesCanvasNode = new SeriesCanvasNode( series.seriesProperty, modelViewTransformProperty, series.color.toCSS(), {
       canvasBounds: chartBounds
     } );
     this.addChild( seriesCanvasNode );
 
-    series.pathProperty.link( function() {
-      series.points.clear();
-      series.pathProperty.get().forEach( function( value ) {
-        series.points.push( [ modelViewTransformProperty.get().modelToViewX( value.time ),
-          modelViewTransformProperty.get().modelToViewY( value.value ) ] );
-      } );
+    series.seriesProperty.link( function() {
       seriesCanvasNode.step();
     } );
   }
@@ -53,33 +48,33 @@ define( function( require ) {
 
   /**
    * @param {Bounds2} chartBounds - bounds of the chart node
-   * @param {array.<Series>} series - series of data points
+   * @param {array.<Series>} seriesArray - series of data points
    * @constructor
    */
-  function ChartNode( chartBounds, series ) {
+  function ChartNode( chartBounds, seriesArray ) {
 
     var chartNode = this;
     Node.call( this );
     this.chartBounds = chartBounds;
-    this.series = series;
+    this.seriesArray = seriesArray;
 
     // @public read-only
     // Amount of time to show on the horizontal axis of the chart
     this.timeWidth = 72E-16;
 
-    this.gridPoints = new ObservableArray();
-    this.gridCanvasNode = new GridCanvasNode( this.gridPoints, [ DASH_ON, DASH_OFF ], {
-      canvasBounds: chartBounds
-    } );
-    this.addChild( this.gridCanvasNode );
-
     // Mapping from model (SI) to chart coordinates
     this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping(
       new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
+    this.gridLines = new ObservableArray();
+    this.gridCanvasNode = new GridCanvasNode( this.gridLines, this.modelViewTransformProperty, [ DASH_ON, DASH_OFF ], {
+      canvasBounds: chartBounds
+    } );
+    this.addChild( this.gridCanvasNode );
+
     // Add nodes for the grid lines and series's
-    series.forEach( function( s ) {
-      chartNode.addChild( new SeriesNode( s, chartNode.modelViewTransformProperty, chartNode.chartBounds ) );
+    seriesArray.forEach( function( series ) {
+      chartNode.addChild( new SeriesNode( series, chartNode.modelViewTransformProperty, chartNode.chartBounds ) );
     } );
   }
 
@@ -106,7 +101,7 @@ define( function( require ) {
         new Bounds2( minTime, -1, minTime + this.timeWidth, 1 ), this.chartBounds ) );
 
       // Clear grid lines points and add them back in the new positions
-      this.gridPoints.clear();
+      this.gridLines.clear();
 
       // Distance between vertical grid lines
       var verticalGridLineSpacing = this.timeWidth / 4;
@@ -123,13 +118,15 @@ define( function( require ) {
         this.modelViewTransformProperty.get().viewToModelDeltaX( DASH_ON + DASH_OFF ), time );
 
       // Horizontal axis
-      this.gridPoints.push( [ minTime, 0, minTime + this.timeWidth, 0,
-        this.modelViewTransformProperty.get().modelToViewDeltaX( horizontalGridLineDelta ),
-        this.modelViewTransformProperty ] );
+      this.gridLines.push( {
+        x1: minTime, y1: 0,
+        x2: minTime + this.timeWidth, y2: 0,
+        lineDashOffset: this.modelViewTransformProperty.get().modelToViewDeltaX( horizontalGridLineDelta )
+      } );
       this.gridCanvasNode.step();
 
       // Remove any points that have gone outside of the time window, otherwise it is a memory leak
-      this.series.forEach( function( series ) {
+      this.seriesArray.forEach( function( series ) {
         series.keepLastSamples( minTime );
       } );
     },
@@ -156,7 +153,11 @@ define( function( require ) {
     addVerticalLine: function( x ) {
 
       // -1 to +1 is far enough since in model coordinates
-      this.gridPoints.push( [ x, -1, x, 1, 0, this.modelViewTransformProperty ] );
+      this.gridLines.push( {
+        x1: x, y1: -1,
+        x2: x, y2: 1,
+        lineDashOffset: 0
+      } );
     }
   } );
 } );

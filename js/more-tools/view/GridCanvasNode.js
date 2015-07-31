@@ -13,15 +13,17 @@ define( function( require ) {
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
 
   /**
-   * @param {ObservableArray<[]>} gridPoints - contains details of each grid line
+   * @param {ObservableArray<[]>} gridLines - contains details of each grid line
+   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate frames
    * @param {array.<number>} strokeDash
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
-  function GridCanvasNode( gridPoints, strokeDash, options ) {
+  function GridCanvasNode( gridLines, modelViewTransformProperty, strokeDash, options ) {
 
     CanvasNode.call( this, options );
-    this.gridPoints = gridPoints;
+    this.gridLines = gridLines;
+    this.modelViewTransformProperty = modelViewTransformProperty;
     this.strokeDash = strokeDash;
   }
 
@@ -35,15 +37,21 @@ define( function( require ) {
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
 
-      for ( var i = 0; i < this.gridPoints.length; i++ ) {
+      for ( var i = 0; i < this.gridLines.length; i++ ) {
         context.beginPath();
-        var grid = this.gridPoints.get( i );
-        context.moveTo( grid[ 5 ].get().modelToViewX( grid[ 0 ] ), grid[ 5 ].get().modelToViewY( grid[ 1 ] ) );
-        context.lineTo( grid[ 5 ].get().modelToViewX( grid[ 2 ] ), grid[ 5 ].get().modelToViewY( grid[ 3 ] ) );
+        var gridLine = this.gridLines.get( i );
+        var modelViewTransform = this.modelViewTransformProperty.get();
+        context.moveTo(
+          modelViewTransform.modelToViewX( gridLine.x1 ),
+          modelViewTransform.modelToViewY( gridLine.y1 ) );
+        context.lineTo(
+          modelViewTransform.modelToViewX( gridLine.x2 ),
+          modelViewTransform.modelToViewY( gridLine.y2 ) );
         context.strokeStyle = 'lightGray';
         context.lineWidth = 2;
         context.setLineDash( this.strokeDash );
-        context.lineDashOffset = grid[ 4 ]; // Have to model the phase to make it look like the grid line is moving
+        // Have to model the phase to make it look like the grid line is moving
+        context.lineDashOffset = gridLine.lineDashOffset;
         context.stroke();
         context.closePath();
       }

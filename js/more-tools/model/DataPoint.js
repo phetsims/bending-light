@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Immutable data point class used in the intensity meter charts.
+ * Immutable data point class used in the wave sensor node charts.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
@@ -28,4 +28,3 @@ define( function( require ) {
 
   return inherit( Object, DataPoint );
 } );
-
