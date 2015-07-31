@@ -11,9 +11,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  var Line = require( 'SCENERY/nodes/Line' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
@@ -22,7 +20,6 @@ define( function( require ) {
    */
   function IntersectionNode( modelViewTransform, intersection ) {
 
-    Node.call( this );
     var centerX = modelViewTransform.modelToViewX( intersection.point.x );
     var centerY = modelViewTransform.modelToViewY( intersection.point.y );
     var normalX = modelViewTransform.modelToViewDeltaX( intersection.unitNormal.x );
@@ -33,13 +30,15 @@ define( function( require ) {
     var length = 100;//in stage coordinates
 
     // Show a dotted line of the normal at the interface between two mediums where the laser struck
-    this.addChild( new Path( new Shape()
-      .moveTo( centerX + unitNormalX * length / 2, centerY + unitNormalY * length / 2 )
-      .lineTo( centerX + unitNormalX * -length / 2, centerY + unitNormalY * -length / 2 ), {
+    var x1 = centerX + unitNormalX * length / 2;
+    var y1 = centerY + unitNormalY * length / 2;
+    var x2 = centerX + unitNormalX * -length / 2;
+    var y2 = centerY + unitNormalY * -length / 2;
+    Line.call( this, x1, y1, x2, y2, {
       stroke: 'black',
       lineDash: [ 10, 5 ]
-    } ) );
+    } );
   }
 
-  return inherit( Node, IntersectionNode );
+  return inherit( Line, IntersectionNode );
 } );

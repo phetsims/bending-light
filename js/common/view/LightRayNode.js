@@ -11,11 +11,8 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  var Line = require( 'SCENERY/nodes/Line' );
   var Color = require( 'SCENERY/util/Color' );
-  var Shape = require( 'KITE/Shape' );
-  var Line = require( 'KITE/segments/Line' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Ray2 = require( 'DOT/Ray2' );
 
@@ -26,12 +23,11 @@ define( function( require ) {
    */
   function LightRayNode( modelViewTransform, lightRay ) {
 
-    Node.call( this, { pickable: false } );
     this.lightRay = lightRay;
     var color = this.lightRay.color;
     this.modelViewTransform = modelViewTransform;
 
-    // update the view coordinates for the start and end of this ray
+    // Update the view coordinates for the start and end of this ray
     this.viewStart = modelViewTransform.modelToViewPosition( this.lightRay.tip );
     this.viewEnd = modelViewTransform.modelToViewPosition( this.lightRay.tail );
 
@@ -47,30 +43,16 @@ define( function( require ) {
       }
     }
 
-    // light ray color
+    // Light ray color
     var rayColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), Math.sqrt( lightRay.powerFraction ) );
 
-    var lightRayPath = new Path( new Shape().moveToPoint( this.viewStart )
-      .lineToPoint( this.viewEnd ), {
+    Line.call( this, this.viewStart, this.viewEnd, {
       lineWidth: modelViewTransform.modelToViewDeltaX( lightRay.getRayWidth() ),
       stroke: rayColor
     } );
-
-    // add the Path
-    this.addChild( lightRayPath );
   }
 
-  return inherit( Node, LightRayNode, {
-
-    /**
-     * Get the line traversed by this light ray in view coordinates, for usage with the Bresenham algorithm in the
-     * WhiteLightNode
-     * @public
-     * @returns {Line}
-     */
-    getLine: function() {
-      return new Line( this.viewStart, this.viewEnd );
-    },
+  return inherit( Line, LightRayNode, {
 
     /**
      * Get the color of the light ray
