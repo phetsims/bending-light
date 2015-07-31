@@ -117,30 +117,28 @@ define( function( require ) {
       // characteristic length scale
       var a = CHARACTERISTIC_LENGTH * 10;
 
-      prismsTypes.push( new Prism( new Polygon( 2,// attach at bottom right
-        [
-          new Vector2( -a / 2, a / 2 ),
-          new Vector2( a / 2, a / 2 ),
-          new Vector2( a / 2, -a / 2 ),
-          new Vector2( -a / 2, -a / 2 )
-        ], 0 ) ) );
+      // attach at bottom right
+      prismsTypes.push( new Prism( new Polygon( 2, [
+        new Vector2( -a / 2, a / 2 ),
+        new Vector2( a / 2, a / 2 ),
+        new Vector2( a / 2, -a / 2 ),
+        new Vector2( -a / 2, -a / 2 )
+      ], 0 ) ) );
 
-      // triangle
-      prismsTypes.push( new Prism( new Polygon( 1,// attach at bottom right
-        [
-          new Vector2( -a / 2, -a / (2 * Math.sqrt( 3 )) ),
-          new Vector2( a / 2, -a / (2 * Math.sqrt( 3 )) ),
-          new Vector2( 0, a / Math.sqrt( 3 ) )
-        ], 0 ) ) );
+      // triangle, attach at bottom right
+      prismsTypes.push( new Prism( new Polygon( 1, [
+        new Vector2( -a / 2, -a / (2 * Math.sqrt( 3 )) ),
+        new Vector2( a / 2, -a / (2 * Math.sqrt( 3 )) ),
+        new Vector2( 0, a / Math.sqrt( 3 ) )
+      ], 0 ) ) );
 
-      // trapezoid
-      prismsTypes.push( new Prism( new Polygon( 1,//attach at bottom right
-        [
-          new Vector2( -a / 2, -a * Math.sqrt( 3 ) / 4 ),
-          new Vector2( a / 2, -a * Math.sqrt( 3 ) / 4 ),
-          new Vector2( a / 4, a * Math.sqrt( 3 ) / 4 ),
-          new Vector2( -a / 4, a * Math.sqrt( 3 ) / 4 )
-        ], 0 ) ) );
+      // trapezoid, attach at bottom right
+      prismsTypes.push( new Prism( new Polygon( 1, [
+        new Vector2( -a / 2, -a * Math.sqrt( 3 ) / 4 ),
+        new Vector2( a / 2, -a * Math.sqrt( 3 ) / 4 ),
+        new Vector2( a / 4, a * Math.sqrt( 3 ) / 4 ),
+        new Vector2( -a / 4, a * Math.sqrt( 3 ) / 4 )
+      ], 0 ) ) );
 
       var radius = a / 2;
 
@@ -148,17 +146,18 @@ define( function( require ) {
       prismsTypes.push( new Prism( new Circle( new Vector2(), radius ) ) );
 
       // SemiCircle
-      prismsTypes.push( new Prism( new SemiCircle( 1,
-        [ new Vector2( 0, radius ), new Vector2( 0, -radius ) ], radius ) ) );
+      prismsTypes.push( new Prism( new SemiCircle( 1, [
+        new Vector2( 0, radius ),
+        new Vector2( 0, -radius )
+      ], radius ) ) );
 
       // DivergingLens
-      prismsTypes.push( new Prism( new Polygon( 2,
-        [
-          new Vector2( -0.6 * radius, radius ),
-          new Vector2( 0.6 * radius, radius ),
-          new Vector2( 0.6 * radius, -radius ),
-          new Vector2( -0.6 * radius, -radius )
-        ], radius ) ) );
+      prismsTypes.push( new Prism( new Polygon( 2, [
+        new Vector2( -0.6 * radius, radius ),
+        new Vector2( 0.6 * radius, radius ),
+        new Vector2( 0.6 * radius, -radius ),
+        new Vector2( -0.6 * radius, -radius )
+      ], radius ) ) );
       return prismsTypes;
     },
 
