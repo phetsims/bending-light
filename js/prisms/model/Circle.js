@@ -59,8 +59,9 @@ define( function( require ) {
         if ( intersectionPoint !== null ) {
 
           // Only consider intersections that are in front of the ray
-          if ( ((intersectionPoint.point.x - ray.tail.x) * ray.directionUnitVector.x +
-                (intersectionPoint.point.y - ray.tail.y) * ray.directionUnitVector.y) > 0 ) {
+          var dx = (intersectionPoint.point.x - ray.tail.x) * ray.directionUnitVector.x;
+          var dy = (intersectionPoint.point.y - ray.tail.y) * ray.directionUnitVector.y;
+          if ( dx + dy > 0 ) {
             var normalVector = intersectionPoint.point.minus( self.center ).normalize();
             if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
               normalVector = normalVector.negate();
