@@ -308,7 +308,7 @@ define( function( require ) {
 
     this.stepButton = new StepButton(
       function() {
-        introModel.stepInternal();
+        introModel.updateSimulationTimeAndWaveShape();
         introView.updateWaveShape();
       },
       introModel.isPlayingProperty, {

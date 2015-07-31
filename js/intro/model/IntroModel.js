@@ -24,6 +24,7 @@ define( function( require ) {
   var Ray2 = require( 'DOT/Ray2' );
   var Color = require( 'SCENERY/util/Color' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
 
   // constants
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
@@ -60,6 +61,17 @@ define( function( require ) {
         }
       }
     } );
+    // Update the top medium index of refraction when top medium change
+    this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [ this.topMediumProperty ],
+      function( topMedium ) {
+        return topMedium.getIndexOfRefraction( introModel.laser.colorProperty.get().wavelength );
+      } );
+
+    // Update the bottom medium index of refraction when bottom medium change
+    this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [ this.bottomMediumProperty ],
+      function( bottomMedium ) {
+        return bottomMedium.getIndexOfRefraction( introModel.laser.colorProperty.get().wavelength );
+      } );
 
     // Note: vectors that are used in step function are created here to reduce Vector2 allocations
     // light ray tail position
@@ -81,12 +93,12 @@ define( function( require ) {
       if ( this.laser.on ) {
         var tail = this.laser.emissionPoint;
 
-        //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
-        //index in top medium
-        var n1 = this.getN1();
+        // Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
+        // index in top medium
+        var n1 = this.indexOfRefractionOfTopMediumProperty.get();
 
         // index of bottom medium
-        var n2 = this.getN2();
+        var n2 = this.indexOfRefractionOfBottomMediumProperty.get();
 
         // angle from the up vertical
         var theta1 = this.laser.getAngle() - Math.PI / 2;
@@ -100,7 +112,7 @@ define( function( require ) {
         // cross section of incident light, used to compute wave widths
         var a = CHARACTERISTIC_LENGTH * 4;
 
-        //This one fixes the input beam to be a fixed width independent of angle
+        // This one fixes the input beam to be a fixed width independent of angle
         var sourceWaveWidth = a / 2;
 
         // according to http://en.wikipedia.org/wiki/Wavelength
@@ -179,24 +191,6 @@ define( function( require ) {
     },
 
     /**
-     * Get the top medium index of refraction
-     * @public
-     * @returns {number}
-     */
-    getN1: function() {
-      return this.topMediumProperty.get().getIndexOfRefraction( this.laser.colorProperty.get().wavelength );
-    },
-
-    /**
-     * Get the bottom medium index of refraction
-     * @public
-     * @returns {number}
-     */
-    getN2: function() {
-      return this.bottomMediumProperty.get().getIndexOfRefraction( this.laser.colorProperty.get().wavelength );
-    },
-
-    /**
      * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
      * If the intensity meter misses the ray, the original ray is added.
      * @private
@@ -240,7 +234,7 @@ define( function( require ) {
           this.laserViewProperty
         );
 
-        //don't let the wave intersect the intensity meter if it is behind the laser emission point
+        // don't let the wave intersect the intensity meter if it is behind the laser emission point
         var isForward = ray.toVector().dot( interrupted.toVector() ) > 0;
         if ( interrupted.getLength() < ray.getLength() && isForward ) {
           this.addRay( interrupted );
@@ -324,14 +318,15 @@ define( function( require ) {
     step: function() {
 
       if ( this.isPlaying ) {
-        this.stepInternal();
+        this.updateSimulationTimeAndWaveShape();
       }
     },
 
     /**
+     * Update simulation time and wave propagation.
      * @public
      */
-    stepInternal: function() {
+    updateSimulationTimeAndWaveShape: function() {
       this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
       var introModel = this;
       this.rays.forEach( function( ray ) {
