@@ -62,14 +62,16 @@ define( function( require ) {
       }
     } );
     // Update the top medium index of refraction when top medium change
-    this.addDerivedProperty( 'indexOfRefractionOfTopMedium', [ 'topMedium' ], function( topMedium ) {
-      return topMedium.getIndexOfRefraction( introModel.laser.colorProperty.get().wavelength );
-    } );
+    this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [ this.topMediumProperty, introModel.laser.colorProperty ],
+      function( topMedium, color ) {
+        return topMedium.getIndexOfRefraction( color.wavelength );
+      } );
 
     // Update the bottom medium index of refraction when bottom medium change
-    this.addDerivedProperty( 'indexOfRefractionOfBottomMedium', [ 'bottomMedium' ], function( bottomMedium ) {
-      return bottomMedium.getIndexOfRefraction( introModel.laser.colorProperty.get().wavelength );
-    } );
+    this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [ this.bottomMediumProperty, introModel.laser.colorProperty ],
+      function( bottomMedium, color ) {
+        return bottomMedium.getIndexOfRefraction( color.wavelength );
+      } );
 
     // Note: vectors that are used in step function are created here to reduce Vector2 allocations
     // light ray tail position
@@ -93,10 +95,10 @@ define( function( require ) {
 
         // Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
         // index in top medium
-        var n1 = this.indexOfRefractionOfTopMedium;
+        var n1 = this.indexOfRefractionOfTopMediumProperty.get();
 
         // index of bottom medium
-        var n2 = this.indexOfRefractionOfBottomMedium;
+        var n2 = this.indexOfRefractionOfBottomMediumProperty.get();
 
         // angle from the up vertical
         var theta1 = this.laser.getAngle() - Math.PI / 2;
