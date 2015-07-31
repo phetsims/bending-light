@@ -1,6 +1,6 @@
-Model for Bending Light 
+Model for Bending Light  
 Sam Reid 
-5/9/2011 
+5/9/2011  
 
 The bending light model uses Snell's Law at each interface for computing reflected/refracted angle: 
 http://en.wikipedia.org/wiki/Snell's_law
