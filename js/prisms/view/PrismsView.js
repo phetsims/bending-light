@@ -161,9 +161,9 @@ define( function( require ) {
     this.beforeLightLayer.addChild( prismToolboxNode );
     this.beforeLightLayer.addChild( this.prismLayer );
 
-    // Call stepInternal at a rate of 10 times per second
+    // Call updateWhiteLightNode at a rate of 10 times per second
     this.timer = new EventTimer( new EventTimer.ConstantEventModel( 30 ), function() {
-      prismBreakView.stepInternal();
+      prismBreakView.updateWhiteLightNode();
     } );
 
     // Move the laser node to front of all other nodes of prism screen.
@@ -194,7 +194,7 @@ define( function( require ) {
     /**
      * @private, for internal use only.
      */
-    stepInternal: function() {
+    updateWhiteLightNode: function() {
       if ( this.prismBreakModel.laser.colorModeProperty.value === 'white' && this.prismBreakModel.dirty ) {
         this.whiteLightNode.step();
         this.prismBreakModel.dirty = false;
