@@ -37,6 +37,8 @@ define( function( require ) {
 
     // Creates a shape
     this.shape = new Shape();
+
+    // radius is 0 for polygon
     if ( this.radius === 0 ) {
       this.shape.moveToPoint( this.points[ 0 ] );
       for ( var i = 1; i < this.points.length; i++ ) {
@@ -45,6 +47,8 @@ define( function( require ) {
       this.shape.close();
     }
     else {
+
+      // radius is nonzero for diverging lens
       this.center = this.points[ 0 ].plus( this.points[ 3 ] ).multiplyScalar( 0.5 );
       var startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
       this.shape.ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, true )
