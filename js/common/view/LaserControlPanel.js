@@ -93,19 +93,18 @@ define( function( require ) {
       this.wavelengthProperty = new Property( wavelengthProperty.value * 1E9 );
 
       // Add WavelengthSlider node
-      var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty,
-        {
-          cursorStroke: 'white',
-          maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
-          thumbWidth: 20,
-          thumbHeight: 20,
-          trackWidth: maxWidth,
-          trackHeight: 20,
-          tweakersVisible: false,
-          valueVisible: false,
-          thumbTouchAreaExpandY: 4,
-          pointerAreasOverTrack: true
-        } );
+      var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty, {
+        cursorStroke: 'white',
+        maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
+        thumbWidth: 20,
+        thumbHeight: 20,
+        trackWidth: maxWidth,
+        trackHeight: 20,
+        tweakersVisible: false,
+        valueVisible: false,
+        thumbTouchAreaExpandY: 4,
+        pointerAreasOverTrack: true
+      } );
 
       var wavelengthValueText = new Text( StringUtils.format( waveLengthPattern, this.wavelengthProperty.get(), units_nmString ) );
       var wavelengthBoxShape = new Rectangle( 0, 0, new Text( units_nmString ).width + 36, 18, 2, 2, {
