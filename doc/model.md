@@ -11,6 +11,7 @@ http://en.wikipedia.org/wiki/Fresnel_equations
 When showing multiple reflections in the Prism Break tab, light rays are terminated after 50 reflections/refractions to
 ensure computability.
 
-To compute the white-light representation, the light ray paths are rasterized according to the Bresenham Line algorithm,
-and individual rays are added up, increasing both the intensity and saturating the wavelength to make it appear whiter.
-White light is actually depicted as gray to make the sim work against a white background.
+To compute the white-light representation, the light ray paths are rasterized according to the Bresenham Line algorithm 
+(which interpolates a line between two points), and individual rays are added up, increasing both the intensity and 
+saturating the wavelength to make it appear whiter. White light is actually depicted as gray to make the sim work against 
+a white background.
