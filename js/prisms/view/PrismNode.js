@@ -33,13 +33,13 @@ define( function( require ) {
   function PrismNode( prismsBreakModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds ) {
 
     Node.call( this, { cursor: 'pointer' } );
-    var prismsNode = this;
+    var prismNode = this;
     var knobHeight = 15;
 
     // It looks like a box on the side of the prism
     var knobNode = new Image( KnobImage );
     if ( prism.shapeProperty.get().getReferencePoint() ) {
-      prismsNode.addChild( knobNode );
+      prismNode.addChild( knobNode );
     }
 
     // Prism rotation with knob
@@ -63,10 +63,10 @@ define( function( require ) {
         previousAngle = angle;
       },
       end: function() {
-        if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
-          if ( prismLayer.isChild( prismsNode ) ) {
+        if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
+          if ( prismLayer.isChild( prismNode ) ) {
             prismsBreakModel.removePrism( prism );
-            prismLayer.removeChild( prismsNode );
+            prismLayer.removeChild( prismNode );
           }
         }
       }
@@ -83,10 +83,10 @@ define( function( require ) {
     var start;
     prismTranslationNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-        start = prismsNode.globalToParentPoint( event.pointer.point );
+        start = prismNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
-        var end = prismsNode.globalToParentPoint( event.pointer.point );
+        var end = prismNode.globalToParentPoint( event.pointer.point );
         var deltaX = end.x - start.x;
         var deltaY = end.y - start.y;
         prism.translate( modelViewTransform.viewToModelDeltaX( deltaX ), modelViewTransform.viewToModelDeltaY( deltaY ) );
@@ -96,10 +96,10 @@ define( function( require ) {
         start = end;
       },
       end: function() {
-        if ( prismToolboxNode.visibleBounds.containsCoordinates( prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
-          if ( prismLayer.isChild( prismsNode ) ) {
+        if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
+          if ( prismLayer.isChild( prismNode ) ) {
             prismsBreakModel.removePrism( prism );
-            prismLayer.removeChild( prismsNode );
+            prismLayer.removeChild( prismNode );
           }
           prismsBreakModel.dirty = true;
         }
