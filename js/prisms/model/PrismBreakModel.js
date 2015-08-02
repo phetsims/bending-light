@@ -77,7 +77,8 @@ define( function( require ) {
       this.showNormalsProperty,
       this.laser.colorModeProperty,
       this.laser.colorProperty,
-      this.laserViewProperty ], function() {
+      this.laserViewProperty
+    ], function() {
       prismsBreakModel.clear();
       prismsBreakModel.updateModel();
       prismsBreakModel.dirty = true;
