@@ -146,7 +146,7 @@ define( function( require ) {
     this.addChild( this.afterLightLayer2 );
 
     model.laserViewProperty.link( function() {
-      model.laser.wave = (model.laserViewProperty.value === 'wave');
+      model.laser.wave = (model.laserView === 'wave');
     } );
 
     model.rays.addItemAddedListener( function( ray ) {
@@ -154,7 +154,7 @@ define( function( require ) {
       if ( model.laser.colorMode === 'white' ) {
         whiteLightRays.push( ray );
       }
-      if ( model.laserViewProperty.value === 'ray' && model.laser.colorMode === 'singleColor' ) {
+      if ( model.laserView === 'ray' && model.laser.colorMode === 'singleColor' ) {
         node = new LightRayNode( bendingLightView.modelViewTransform, ray );
         bendingLightView.lightRayLayer.addChild( node );
       }

@@ -19,7 +19,7 @@ define( function( require ) {
    */
   function Prism( shape ) {
 
-    this.shapeProperty = new Property( shape );
+    Property.addProperty( this, 'shape', shape );
   }
 
   return inherit( Object, Prism, {
@@ -31,7 +31,7 @@ define( function( require ) {
      * @param {number} deltaY - amount of space in y direction the prism to be translated
      */
     translate: function( deltaX, deltaY ) {
-      this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( deltaX, deltaY ) );
+      this.shapeProperty.set( this.shape.getTranslatedInstance( deltaX, deltaY ) );
     },
 
     /**
@@ -41,7 +41,7 @@ define( function( require ) {
      * @returns {Array}
      */
     getIntersections: function( incidentRay ) {
-      return this.shapeProperty.get().getIntersections( incidentRay );
+      return this.shape.getIntersections( incidentRay );
     },
 
     /**
@@ -51,7 +51,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     contains: function( point ) {
-      return this.shapeProperty.get().containsPoint( point );
+      return this.shape.containsPoint( point );
     },
 
     /**
@@ -60,7 +60,7 @@ define( function( require ) {
      * @returns {Prism}
      */
     copy: function() {
-      return new Prism( this.shapeProperty.get() );
+      return new Prism( this.shape );
     },
 
     /**
@@ -69,8 +69,8 @@ define( function( require ) {
      * @param {number} deltaAngle - angle to be rotated
      */
     rotate: function( deltaAngle ) {
-      this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle,
-        this.shapeProperty.get().getRotationCenter() ) );
+      this.shapeProperty.set( this.shape.getRotatedInstance( deltaAngle,
+        this.shape.getRotationCenter() ) );
     }
   } );
 } );

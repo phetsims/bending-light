@@ -43,7 +43,7 @@ define( function( require ) {
      * @param {number} deltaY - amount of space in y direction Protractor to be translated
      */
     translateXY: function( deltaX, deltaY ) {
-      this.newPosition.setXY( this.positionProperty.get().x + deltaX, this.positionProperty.get().y + deltaY );
+      this.newPosition.setXY( this.position.x + deltaX, this.position.y + deltaY );
       this.positionProperty.set( this.newPosition );
       this.positionProperty._notifyObservers();
     }

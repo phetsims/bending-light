@@ -27,6 +27,7 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Util = require( 'DOT/Util' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
 
   // strings
   var speedString = require( 'string!BENDING_LIGHT/speed' );
@@ -38,15 +39,17 @@ define( function( require ) {
   var VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX = 1;
 
   /**
-   * @param {MoreToolsView} moreToolsView - view of moreTools screen
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
    * @param {Rectangle} container - toolbox node bounds
    * @param {Bounds2} dragBounds - bounds that define where the velocity sensor may be dragged
+   * @param {Node} beforeLightLayer2 - layer in which VelocitySensorNode is present when in toolbox
+   * @param {Node} afterLightLayer2 - layer in which VelocitySensorNode is present when in play area
    * @constructor
    */
-  function VelocitySensorNode( moreToolsView, modelViewTransform, velocitySensor, arrowScale, container, dragBounds ) {
+  function VelocitySensorNode( modelViewTransform, velocitySensor, arrowScale, container, dragBounds,
+                               beforeLightLayer2, afterLightLayer2 ) {
 
     var velocitySensorNode = this;
     Node.call( this, { cursor: 'pointer', pickable: true } );
@@ -54,7 +57,8 @@ define( function( require ) {
     // @public read-only
     this.modelViewTransform = modelViewTransform;
     this.velocitySensor = velocitySensor;
-    this.moreToolsView = moreToolsView;
+    this.beforeLightLayer2 = beforeLightLayer2;
+    this.afterLightLayer2 = afterLightLayer2;
 
     var rectangleWidth = 100;
     var rectangleHeight = 70;
@@ -200,8 +204,7 @@ define( function( require ) {
       startDrag: function() {
         if ( container.bounds.containsCoordinates(
             velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
-          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.get(),
-            VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
+          velocitySensorNode.setScaleAnimation( velocitySensor.position, VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
           velocitySensorNode.addToMoreToolsView();
           velocitySensor.enabledProperty.set( true );
         }
@@ -278,13 +281,10 @@ define( function( require ) {
       var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
       var bodyNode = this.bodyNode;
       var VelocitySensorNode = this;
-      new TWEEN.Tween( startPosition )
-        .to( finalPosition, 100 )
-        .easing( TWEEN.Easing.Linear.None )
-        .onUpdate( function() {
-          bodyNode.setScaleMagnitude( startPosition.scale );
-          VelocitySensorNode.velocitySensor.positionProperty.set( new Vector2( startPosition.x, startPosition.y ) );
-        } ).start();
+      TweenUtil.startTween( this, startPosition, finalPosition, function() {
+        bodyNode.setScaleMagnitude( startPosition.scale );
+        VelocitySensorNode.velocitySensor.positionProperty.set( new Vector2( startPosition.x, startPosition.y ) );
+      } );
     },
 
     /**
@@ -293,11 +293,11 @@ define( function( require ) {
      */
     addToMoreToolsView: function() {
 
-      if ( this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
-        this.moreToolsView.beforeLightLayer2.removeChild( this );
+      if ( this.beforeLightLayer2.isChild( this ) ) {
+        this.beforeLightLayer2.removeChild( this );
       }
-      if ( !this.moreToolsView.afterLightLayer2.isChild( this ) ) {
-        this.moreToolsView.afterLightLayer2.addChild( this );
+      if ( !this.afterLightLayer2.isChild( this ) ) {
+        this.afterLightLayer2.addChild( this );
       }
       this.touchArea = this.bodyNode.bounds;
     },
@@ -308,11 +308,11 @@ define( function( require ) {
      */
     addToSensorPanel: function() {
 
-      if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
-        this.moreToolsView.afterLightLayer2.removeChild( this );
+      if ( this.afterLightLayer2.isChild( this ) ) {
+        this.afterLightLayer2.removeChild( this );
       }
-      if ( !this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
-        this.moreToolsView.beforeLightLayer2.addChild( this );
+      if ( !this.beforeLightLayer2.isChild( this ) ) {
+        this.beforeLightLayer2.addChild( this );
       }
       this.touchArea = this.shape.bounds;
     },
@@ -322,7 +322,7 @@ define( function( require ) {
      */
     reset: function() {
       this.setVelocitySensorScale( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
-      if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
+      if ( this.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }
       this.velocitySensor.reset();

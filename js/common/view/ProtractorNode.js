@@ -20,6 +20,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
+  var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
 
   // images
   var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
@@ -28,7 +29,6 @@ define( function( require ) {
   var DEFAULT_SCALE = 0.4;
 
   /**
-   * @param {BendingLightView} bendingLightView - view of the simulation
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view values
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
    * @param {ProtractorModel} protractorModel - model of protractor
@@ -37,23 +37,26 @@ define( function( require ) {
    * @param {number} protractorIconWidth - width of protractor icon to show in toolbox node
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor may be dragged
+   * @param {Node} afterLightLayer - layer in which ProtractorNode is present when in play area
+   * @param {Node} beforeLightLayer2 - layer in which ProtractorNode is present when in toolbox
    * @constructor
    */
-  function ProtractorNode( bendingLightView, modelViewTransform, showProtractorProperty, protractorModel,
-                           translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {
+  function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape,
+                           protractorIconWidth, containerBounds, dragBounds, afterLightLayer, beforeLightLayer2 ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
 
-    this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
     this.protractorModel = protractorModel;
     this.multiScale = protractorIconWidth / protractorImage.width;
     this.showProtractorProperty = showProtractorProperty;
+    this.afterLightLayer = afterLightLayer;
+    this.beforeLightLayer2 = beforeLightLayer2;
 
     // true if the protractor has been made larger
-    this.expandedProperty = new Property( false );
-    this.expandedButtonVisibilityProperty = new Property( false );
+    Property.addProperty( this, 'expanded', false );
+    Property.addProperty( this, 'expandedButtonVisibility', false );
 
     // load and add the image
     this.protractorImageNode = new Image( protractorImage );
@@ -62,39 +65,35 @@ define( function( require ) {
     showProtractorProperty.linkAttribute( this, 'visible' );
     this.addChild( this.protractorImageNode );
 
-    var protractorImageWidth = this.protractorImageNode.getWidth();
-    var protractorImageHeight = this.protractorImageNode.getHeight();
+    // Use nicknames for the protractor image width and height to make the layout code easier to understand
+    var w = this.protractorImageNode.getWidth();
+    var h = this.protractorImageNode.getHeight();
 
     // shape for the outer ring of the protractor
     var outerRimShape = new Shape()
-      .moveTo( protractorImageWidth, protractorImageHeight / 2 )
-      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, true )
-      .lineTo( protractorImageWidth * 0.2, protractorImageHeight / 2 )
-      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, false )
-      .lineTo( protractorImageWidth, protractorImageHeight / 2 )
-      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, false )
-      .lineTo( protractorImageWidth * 0.2, protractorImageHeight / 2 )
-      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2, protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, true );
+      .moveTo( w, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
+      .lineTo( w * 0.2, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, false )
+      .lineTo( w, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, false )
+      .lineTo( w * 0.2, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true );
 
     var fullShape = new Shape()
-      .moveTo( protractorImageWidth, protractorImageHeight / 2 )
-      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2,
-      protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, true )
-      .lineTo( protractorImageWidth * 0.2, protractorImageHeight / 2 )
-      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2,
-      protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, false )
-      .lineTo( protractorImageWidth, protractorImageHeight / 2 )
-      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2,
-      protractorImageWidth / 2, protractorImageHeight / 2, 0, 0, Math.PI, false )
-      .lineTo( protractorImageWidth * 0.2, protractorImageHeight / 2 )
-      .ellipticalArc( protractorImageWidth / 2, protractorImageHeight / 2,
-      protractorImageWidth * 0.3, protractorImageHeight * 0.3, 0, Math.PI, 0, true )
-      .rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
-      protractorImageWidth * 0.6, protractorImageHeight * 0.15 );
-    var innerBarShape = new Shape().rect( protractorImageWidth * 0.2, protractorImageHeight / 2,
-      protractorImageWidth * 0.6, protractorImageHeight * 0.15 );
+      .moveTo( w, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
+      .lineTo( w * 0.2, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, false )
+      .lineTo( w, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, false )
+      .lineTo( w * 0.2, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true )
+      .rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
 
-    // add a mouse listener for dragging when the drag region
+    var innerBarShape = new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
+
+    // Add a mouse listener for dragging when the drag region
     // (entire body in all tabs, just the inner bar on prism break tab) is dragged
     var translatePath = new Path( translateShape( fullShape, innerBarShape, outerRimShape ), {
       pickable: true,
@@ -108,7 +107,7 @@ define( function( require ) {
     translatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
-        protractorNode.expandedButtonVisibilityProperty.value = true;
+        protractorNode.expandedButtonVisibility = true;
       },
       drag: function( event ) {
 
@@ -125,14 +124,14 @@ define( function( require ) {
             var point2D = protractorNode.modelViewTransform.modelToViewPosition(
               protractorModel.positionProperty.initialValue );
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
-            protractorNode.expandedButtonVisibilityProperty.value = false;
-            protractorNode.expandedProperty.value = false;
+            protractorNode.expandedButtonVisibility = false;
+            protractorNode.expanded = false;
             protractorNode.addToSensorPanel();
             protractorModel.enabledProperty.set( false );
           }
         }
         else {
-          protractorNode.expandedButtonVisibilityProperty.value = true;
+          protractorNode.expandedButtonVisibility = true;
         }
       }
     } ) );
@@ -171,10 +170,7 @@ define( function( require ) {
       var protractorNodeScaleVector = protractorNode.getScaleVector();
       var protractorCenterX = protractorNode.modelViewTransform.modelToViewX( position.x );
       var protractorCenterY = protractorNode.modelViewTransform.modelToViewY( position.y );
-      var point = new Vector2(
-        -protractorImageWidth * protractorNodeScaleVector.x / 2,
-        -protractorImageHeight * protractorNodeScaleVector.y / 2
-      );
+      var point = new Vector2( -w * protractorNodeScaleVector.x / 2, -h * protractorNodeScaleVector.y / 2 );
       var newPoint = point.rotate( protractorNode.getRotation() );
       newPoint.x = newPoint.x + protractorCenterX;
       newPoint.y = newPoint.y + protractorCenterY;
@@ -195,7 +191,7 @@ define( function( require ) {
           protractorNode.addToBendingLightView();
           protractorModel.enabledProperty.set( true );
         }
-        protractorNode.expandedButtonVisibilityProperty.value = true;
+        protractorNode.expandedButtonVisibility = true;
       },
       drag: function( event ) {
 
@@ -212,14 +208,14 @@ define( function( require ) {
             var point2D = protractorNode.modelViewTransform.modelToViewPosition(
               protractorModel.positionProperty.initialValue );
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
-            protractorNode.expandedButtonVisibilityProperty.value = false;
-            protractorNode.expandedProperty.value = false;
+            protractorNode.expandedButtonVisibility = false;
+            protractorNode.expanded = false;
             protractorNode.addToSensorPanel();
             protractorModel.enabledProperty.set( false );
           }
         }
         else {
-          protractorNode.expandedButtonVisibilityProperty.value = true;
+          protractorNode.expandedButtonVisibility = true;
         }
       }
     } ) );
@@ -237,7 +233,7 @@ define( function( require ) {
         this.expandedProperty.reset();
         this.expandedButtonVisibilityProperty.reset();
         this.setProtractorScale( this.multiScale );
-        if ( this.bendingLightView.afterLightLayer.isChild( this ) ) {
+        if ( this.afterLightLayer.isChild( this ) ) {
           this.addToSensorPanel();
         }
       },
@@ -264,14 +260,11 @@ define( function( require ) {
         var startPoint = { x: this.centerX, y: this.centerY, scale: this.getScaleVector().x };
         var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
         var target = this;
-        new TWEEN.Tween( startPoint )
-          .to( finalPosition, 100 )
-          .easing( TWEEN.Easing.Linear.None )
-          .onUpdate( function() {
-            target.setScaleMagnitude( startPoint.scale );
-            target.centerX = startPoint.x;
-            target.centerY = startPoint.y;
-          } ).start();
+        TweenUtil.startTween( this, startPoint, finalPosition, function() {
+          target.setScaleMagnitude( startPoint.scale );
+          target.centerX = startPoint.x;
+          target.centerY = startPoint.y;
+        } );
         this.protractorModel.positionProperty.set( this.modelViewTransform.viewToModelPosition( endPoint ) );
       },
 
@@ -281,11 +274,11 @@ define( function( require ) {
        */
       addToBendingLightView: function() {
 
-        if ( this.bendingLightView.beforeLightLayer2.isChild( this ) ) {
-          this.bendingLightView.beforeLightLayer2.removeChild( this );
+        if ( this.beforeLightLayer2.isChild( this ) ) {
+          this.beforeLightLayer2.removeChild( this );
         }
-        if ( !this.bendingLightView.afterLightLayer.isChild( this ) ) {
-          this.bendingLightView.afterLightLayer.addChild( this );
+        if ( !this.afterLightLayer.isChild( this ) ) {
+          this.afterLightLayer.addChild( this );
         }
         this.touchArea = null;
       },
@@ -296,11 +289,11 @@ define( function( require ) {
        */
       addToSensorPanel: function() {
 
-        if ( this.bendingLightView.afterLightLayer.isChild( this ) ) {
-          this.bendingLightView.afterLightLayer.removeChild( this );
+        if ( this.afterLightLayer.isChild( this ) ) {
+          this.afterLightLayer.removeChild( this );
         }
-        if ( !this.bendingLightView.beforeLightLayer2.isChild( this ) ) {
-          this.bendingLightView.beforeLightLayer2.addChild( this );
+        if ( !this.beforeLightLayer2.isChild( this ) ) {
+          this.beforeLightLayer2.addChild( this );
         }
         this.touchArea = this.shape.bounds;
       },

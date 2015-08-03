@@ -102,7 +102,7 @@ define( function( require ) {
 
     // Optionally show the normal lines at each intersection
     prismBreakModel.intersections.addItemAddedListener( function( addedIntersection ) {
-      if ( prismBreakModel.showNormalsProperty.get() ) {
+      if ( prismBreakModel.showNormals ) {
         var node = new IntersectionNode( prismBreakView.modelViewTransform, addedIntersection );
         prismBreakView.addChild( node );
 
@@ -150,14 +150,14 @@ define( function( require ) {
     };
 
     // Add the protractor node
-    var protractorNode = new ProtractorNode( this, this.modelViewTransform, prismBreakModel.showProtractorProperty,
-      prismBreakModel.protractorModel,
-      getProtractorDragRegion, getProtractorRotationRegion, 125, null, this.layoutBounds );
+    var protractorNode = new ProtractorNode( this.modelViewTransform, prismBreakModel.showProtractorProperty,
+      prismBreakModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
+      this.layoutBounds, this.afterLightLayer, this.beforeLightLayer2 );
     this.addChild( protractorNode );
 
     // Add prisms tool box Node
-    var prismToolboxNode = new PrismToolboxNode( this, this.modelViewTransform, prismBreakModel,
-      { left: this.layoutBounds.minX + 12, bottom: this.layoutBounds.bottom - INSET } );
+    var prismToolboxNode = new PrismToolboxNode( this.modelViewTransform, prismBreakModel, this.prismLayer,
+      this.layoutBounds, { left: this.layoutBounds.minX + 12, bottom: this.layoutBounds.bottom - INSET } );
     this.beforeLightLayer.addChild( prismToolboxNode );
     this.beforeLightLayer.addChild( this.prismLayer );
 
@@ -195,7 +195,7 @@ define( function( require ) {
      * @private, for internal use only.
      */
     updateWhiteLightNode: function() {
-      if ( this.prismBreakModel.laser.colorModeProperty.value === 'white' && this.prismBreakModel.dirty ) {
+      if ( this.prismBreakModel.laser.colorMode === 'white' && this.prismBreakModel.dirty ) {
         this.whiteLightNode.step();
         this.prismBreakModel.dirty = false;
       }

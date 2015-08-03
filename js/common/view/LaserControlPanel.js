@@ -90,7 +90,7 @@ define( function( require ) {
 
     var content;
     if ( hasWavelengthSlider ) {
-      this.wavelengthProperty = new Property( wavelengthProperty.value * 1E9 );
+      Property.addProperty( this, 'wavelength', wavelengthProperty.value * 1E9 );
 
       // Add WavelengthSlider node
       var wavelengthSlider = new WavelengthSlider( this.wavelengthProperty, {
@@ -106,7 +106,7 @@ define( function( require ) {
         pointerAreasOverTrack: true
       } );
 
-      var wavelengthValueText = new Text( StringUtils.format( waveLengthPattern, this.wavelengthProperty.get(), units_nmString ) );
+      var wavelengthValueText = new Text( StringUtils.format( waveLengthPattern, this.wavelength, units_nmString ) );
       var wavelengthBoxShape = new Rectangle( 0, 0, new Text( units_nmString ).width + 36, 18, 2, 2, {
         fill: 'white',
         stroke: 'black'
@@ -114,7 +114,7 @@ define( function( require ) {
 
       var plusButton = new ArrowButton( 'right', function propertyPlus() {
         laserControlPanel.wavelengthProperty.set(
-          Math.min( laserControlPanel.wavelengthProperty.get() + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
+          Math.min( laserControlPanel.wavelength + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
@@ -123,7 +123,7 @@ define( function( require ) {
 
       var minusButton = new ArrowButton( 'left', function propertyMinus() {
         laserControlPanel.wavelengthProperty.set(
-          Math.max( laserControlPanel.wavelengthProperty.get() - 1, VisibleColor.MIN_WAVELENGTH ) );
+          Math.max( laserControlPanel.wavelength - 1, VisibleColor.MIN_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );

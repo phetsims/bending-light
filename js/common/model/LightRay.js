@@ -30,11 +30,11 @@ define( function( require ) {
    * @param {number} numWavelengthsPhaseOffset - indicates how many wavelengths have passed before this light ray begins
    * @param {boolean} extend - indicates whether to extend it at tip of the wave
    * @param {boolean} extendBackwards - indicates whether to extend backwards it at tail of the wave
-   * @param {Property.<string>} laserViewProperty - specifies the laser view whether ray or wave mode
+   * @param {string} laserView - specifies the laser view whether ray or wave mode
    * @constructor
    */
   function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth,
-                     numWavelengthsPhaseOffset, extend, extendBackwards, laserViewProperty ) {
+                     numWavelengthsPhaseOffset, extend, extendBackwards, laserView ) {
 
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
@@ -73,7 +73,7 @@ define( function( require ) {
     // time used in wave sensor node
     this.time = 0;
 
-    if ( laserViewProperty.get() === 'wave' ) {
+    if ( laserView === 'wave' ) {
 
       // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
       // angle of tail is Math.PI/2 for transmitted and reflected rays.

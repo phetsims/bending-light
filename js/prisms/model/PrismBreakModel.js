@@ -43,22 +43,22 @@ define( function( require ) {
     this.prisms = new ObservableArray( [] );
 
     // Show multiple beams to help show how lenses work
-    this.manyRaysProperty = new Property( 1 );
+    Property.addProperty( this, 'manyRays', 1 );
 
     // If false, will hide non TIR reflections
-    this.showReflectionsProperty = new Property( false );
-    this.showNormalsProperty = new Property( false );
+    Property.addProperty( this, 'showReflections', false );
+    Property.addProperty( this, 'showNormals', false );
     this.showProtractorProperty = new Property( false );
 
     // List of intersections, which can be shown graphically
     this.intersections = new ObservableArray();
 
     // Environment the laser is in
-    this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
+    Property.addProperty( this, 'environmentMedium', new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
       MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
 
     // Material that comprises the prisms
-    this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
+    Property.addProperty( this, 'prismMedium', new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
       MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
 
     // Draggable and rotatable protractor
@@ -193,7 +193,7 @@ define( function( require ) {
 
       // Determines whether to use white light or single color light
       var mediumIndexOfRefraction;
-      if ( this.laser.colorModeProperty.value === 'white' ) {
+      if ( this.laser.colorMode === 'white' ) {
         var min = VisibleColor.MIN_WAVELENGTH / 1E9;
         var max = VisibleColor.MAX_WAVELENGTH / 1E9;
 
@@ -202,16 +202,16 @@ define( function( require ) {
         var dw = (max - min) / 16;
 
         for ( var wavelength = min; wavelength <= max; wavelength += dw ) {
-          mediumIndexOfRefraction = laserInPrism ? this.prismMediumProperty.get().getIndexOfRefraction( wavelength ) :
-                                    this.environmentMediumProperty.get().getIndexOfRefraction( wavelength );
+          mediumIndexOfRefraction = laserInPrism ? this.prismMedium.getIndexOfRefraction( wavelength ) :
+                                    this.environmentMedium.getIndexOfRefraction( wavelength );
           this.propagateTheRay( new Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction,
             BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0 );
         }
       }
       else {
         mediumIndexOfRefraction = laserInPrism ?
-                                  this.prismMediumProperty.get().getIndexOfRefraction( this.laser.getWavelength() ) :
-                                  this.environmentMediumProperty.get().getIndexOfRefraction( this.laser.getWavelength() );
+                                  this.prismMedium.getIndexOfRefraction( this.laser.getWavelength() ) :
+                                  this.environmentMedium.getIndexOfRefraction( this.laser.getWavelength() );
         this.propagateTheRay( new Ray( tail, directionUnitVector, power, this.laser.getWavelength(),
           mediumIndexOfRefraction, this.laser.getFrequency() ), 0 );
       }
@@ -227,7 +227,7 @@ define( function( require ) {
         var tail = this.laser.emissionPoint;
         var laserInPrism = this.isLaserInPrism();
         var directionUnitVector = this.laser.getDirectionUnitVector();
-        if ( this.manyRaysProperty.get() === 1 ) {
+        if ( this.manyRays === 1 ) {
 
           // This can be used to show the main central ray
           this.propagate( tail, directionUnitVector, 1.0, laserInPrism );
@@ -289,7 +289,7 @@ define( function( require ) {
         var outputInsidePrism = false;
         var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
         this.prisms.forEach( function( prism ) {
-          var intersection = prism.shapeProperty.get().shape.intersection( lightRayAfterIntersectionInRay2Form );
+          var intersection = prism.shape.shape.intersection( lightRayAfterIntersectionInRay2Form );
           if ( intersection.length % 2 === 1 ) {
             outputInsidePrism = true;
           }
@@ -297,8 +297,8 @@ define( function( require ) {
 
         // Index of refraction of the other medium
         var n2 = outputInsidePrism ?
-                 this.prismMediumProperty.get().getIndexOfRefraction( incidentRay.getBaseWavelength() ) :
-                 this.environmentMediumProperty.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
+                 this.prismMedium.getIndexOfRefraction( incidentRay.getBaseWavelength() ) :
+                 this.environmentMedium.getIndexOfRefraction( incidentRay.getBaseWavelength() );
 
         // Precompute for readability
         var point = intersection.point;
@@ -323,7 +323,7 @@ define( function( require ) {
           incidentRay.frequency );
         var refracted = new Ray( (incidentRay.directionUnitVector.times( +1E-12 )).add( point ), vRefract,
           incidentRay.power * transmittedPower, incidentRay.wavelength, n2, incidentRay.frequency );
-        if ( this.showReflectionsProperty.get() || totalInternalReflection ) {
+        if ( this.showReflections || totalInternalReflection ) {
           this.propagateTheRay( reflected, count + 1 );
         }
         this.propagateTheRay( refracted, count + 1 );
@@ -343,7 +343,7 @@ define( function( require ) {
           waveWidth,
           0,
           true,
-          false, this.laserViewProperty ) );
+          false, this.laserView ) );
       }
       else {
         rayColor = new Color( 0, 0, 0, 0 );
@@ -362,7 +362,7 @@ define( function( require ) {
           waveWidth,
           0,
           true,
-          false, this.laserViewProperty ) );
+          false, this.laserView ) );
       }
     },
 

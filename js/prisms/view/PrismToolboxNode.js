@@ -43,13 +43,14 @@ define( function( require ) {
   var MAX_TEXT_WIDTH = 115;
 
   /**
-   * @param {PrismsView} prismBreakView - main view of the prism screen
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {PrismBreakModel} prismBreakModel - model of the prism screen
+   * @param {Node} prismLayer - layer in which prisms are present when in play area
+   * @param {Bounds2} layoutBounds - Bounds of prisms screen.
    * @param {Object} [options ] that can be passed on to the underlying node
    * @constructor
    */
-  function PrismToolboxNode( prismBreakView, modelViewTransform, prismBreakModel, options ) {
+  function PrismToolboxNode( modelViewTransform, prismBreakModel, prismLayer, layoutBounds, options ) {
     var prismToolBoxNode = this;
 
     Node.call( this );
@@ -62,26 +63,26 @@ define( function( require ) {
     var createPrismIcon = function( prism ) {
       var prismIconNode = new Node( { cursor: 'pointer' } );
       var knobHeight = 15;
-      prismIconNode.addChild( new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().shape ), {
+      prismIconNode.addChild( new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
         fill: '#ABA8D6',
         stroke: '#ABA8D6'
       } ) );
 
       // Knob image
       var knobNode = new Image( KnobImage );
-      if ( prism.shapeProperty.get().getReferencePoint() ) {
+      if ( prism.shape.getReferencePoint() ) {
         prismIconNode.addChild( knobNode );
       }
 
-      if ( prism.shapeProperty.get().getReferencePoint() ) {
+      if ( prism.shape.getReferencePoint() ) {
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
-        var angle = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getRotationCenter() ).subtract(
-          modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() ) ).angle();
+        var angle = modelViewTransform.modelToViewPosition( prism.shape.getRotationCenter() ).subtract(
+          modelViewTransform.modelToViewPosition( prism.shape.getReferencePoint() ) ).angle();
         var offsetX = -knobNode.getWidth() - 7;
         var offsetY = -knobNode.getHeight() / 2 - 8;
         knobNode.rotateAround( new Vector2( -offsetX, -offsetY ), angle );
-        var knobPosition = modelViewTransform.modelToViewPosition( prism.shapeProperty.get().getReferencePoint() );
+        var knobPosition = modelViewTransform.modelToViewPosition( prism.shape.getReferencePoint() );
         knobNode.setTranslation( knobPosition.x, knobPosition.y );
         knobNode.translate( offsetX, offsetY );
       }
@@ -106,14 +107,14 @@ define( function( require ) {
             start = prismToolBoxNode.globalToParentPoint( event.pointer.point );
             prismShape = prism.copy();
             prismBreakModel.addPrism( prismShape );
-            prismsNode = new PrismNode( prismBreakModel, prismBreakView.modelViewTransform, prismShape,
-              prismToolBoxNode, prismBreakView.prismLayer, prismBreakView.layoutBounds );
-            prismBreakView.prismLayer.addChild( prismsNode );
+            prismsNode = new PrismNode( prismBreakModel, modelViewTransform, prismShape, prismToolBoxNode, prismLayer,
+              layoutBounds );
+            prismLayer.addChild( prismsNode );
             prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
           },
           drag: function( event ) {
             var end = prismToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
-            end = prismBreakView.layoutBounds.closestPointTo( end );
+            end = layoutBounds.closestPointTo( end );
             prismShape.translate( modelViewTransform.viewToModelDeltaX( end.x - start.x ),
               modelViewTransform.viewToModelDeltaY( end.y - start.y ) );
             start = end;
@@ -122,7 +123,7 @@ define( function( require ) {
             if ( prismToolBoxNode.visibleBounds.containsCoordinates(
                 prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
               prismBreakModel.removePrism( prismShape );
-              prismBreakView.prismLayer.removeChild( prismsNode );
+              prismLayer.removeChild( prismsNode );
               prismBreakModel.dirty = true;
             }
           }

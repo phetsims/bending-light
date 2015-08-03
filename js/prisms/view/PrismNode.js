@@ -38,7 +38,7 @@ define( function( require ) {
 
     // It looks like a box on the side of the prism
     var knobNode = new Image( KnobImage );
-    if ( prism.shapeProperty.get().getReferencePoint() ) {
+    if ( prism.shape.getReferencePoint() ) {
       prismNode.addChild( knobNode );
     }
 
@@ -48,14 +48,14 @@ define( function( require ) {
     knobNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         var start = knobNode.globalToParentPoint( event.pointer.point );
-        prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
+        prismCenterPoint = prism.shape.getRotationCenter();
         var statX = modelViewTransform.viewToModelX( start.x );// model values
         var startY = modelViewTransform.viewToModelY( start.y );// model values
         previousAngle = Math.atan2( (prismCenterPoint.y - startY), ( prismCenterPoint.x - statX ) );
       },
       drag: function( event ) {
         var end = knobNode.globalToParentPoint( event.pointer.point );
-        prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
+        prismCenterPoint = prism.shape.getRotationCenter();
         var endX = modelViewTransform.viewToModelX( end.x );// model values
         var endY = modelViewTransform.viewToModelY( end.y );// model values
         var angle = Math.atan2( (prismCenterPoint.y - endY), ( prismCenterPoint.x - endX ) );
@@ -74,9 +74,9 @@ define( function( require ) {
     knobNode.touchArea = Shape.circle( 0, 10, 40 );
 
     var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( prismDragBounds );
-    var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().shape ), {
-      fill: prismsBreakModel.prismMediumProperty.get().color,
-      stroke: prismsBreakModel.prismMediumProperty.get().color.darkerColor( 0.9 )
+    var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
+      fill: prismsBreakModel.prismMedium.color,
+      stroke: prismsBreakModel.prismMedium.color.darkerColor( 0.9 )
     } );
     this.addChild( prismTranslationNode );
 
@@ -90,7 +90,7 @@ define( function( require ) {
         var deltaX = end.x - start.x;
         var deltaY = end.y - start.y;
         prism.translate( modelViewTransform.viewToModelDeltaX( deltaX ), modelViewTransform.viewToModelDeltaY( deltaY ) );
-        var prismCenter = prism.shapeProperty.get().getRotationCenter();
+        var prismCenter = prism.shape.getRotationCenter();
         var position = prismDragBoundsInModelValues.closestPointTo( prismCenter );
         prism.translate( position.x - prismCenter.x, position.y - prismCenter.y );
         start = end;
@@ -111,11 +111,11 @@ define( function( require ) {
       prismsBreakModel.clear();
       prismsBreakModel.updateModel();
       prismsBreakModel.dirty = true;
-      prismTranslationNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.value.shape ) );
+      prismTranslationNode.setShape( modelViewTransform.modelToViewShape( prism.shape.shape ) );
 
-      var prismReferencePoint = prism.shapeProperty.get().getReferencePoint();
+      var prismReferencePoint = prism.shape.getReferencePoint();
       if ( prismReferencePoint ) {
-        var prismShapeCenter = prism.shapeProperty.get().getRotationCenter();
+        var prismShapeCenter = prism.shape.getRotationCenter();
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
 

@@ -72,18 +72,18 @@ define( function( require ) {
     // looking location. This amount of precision is unnecessary, but these values were just sampled directly.
     this.probe1 = new Probe( -0.00001932, -0.0000052 );
     this.probe2 = new Probe( -0.0000198, -0.0000062 );
-    this.bodyPositionProperty = new Property( new Vector2( -0.0000172, -0.00000605 ) );
+    Property.addProperty( this, 'bodyPosition', new Vector2( -0.0000172, -0.00000605 ) );
 
     // @public
     // in the play area
-    this.visibleProperty = new Property( false );
+    Property.addProperty( this, 'visible', false );
 
     // Function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;
     this.probe2Value = probe2Value;
 
     // Note: Created here to reduce Vector2 allocations
-    this.bodyPosition = new Vector2( 0, 0 );
+    this.newBodyPosition = new Vector2( 0, 0 );
 
   }
 
@@ -116,7 +116,7 @@ define( function( require ) {
       // Read the value from the probe function. May be None if not intersecting a light ray
       var value = probeValue( probe.position );
       if ( value ) {
-        probe.addSample( new DataPoint( value[ 0 ], value[ 1 ] ) );
+        probe.addSample( new DataPoint( value.time, value.magnitude ) );
       }
     },
 
@@ -126,9 +126,9 @@ define( function( require ) {
      * @param {number} deltaY - distance in y direction to be dragged
      */
     translateBodyXY: function( deltaX, deltaY ) {
-      this.bodyPosition.x = this.bodyPositionProperty.get().x + deltaX;
-      this.bodyPosition.y = this.bodyPositionProperty.get().y + deltaY;
-      this.bodyPositionProperty.set( this.bodyPosition );
+      this.newBodyPosition.x = this.bodyPosition.x + deltaX;
+      this.newBodyPosition.y = this.bodyPosition.y + deltaY;
+      this.bodyPositionProperty.set( this.newBodyPosition );
       this.bodyPositionProperty._notifyObservers();
     },
 

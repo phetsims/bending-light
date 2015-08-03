@@ -16,7 +16,6 @@ define( function( require ) {
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
 
   /**
-   * @param {MoreToolsView} moreToolsView - main view of more tools screen
    * @param {ModelViewTransform2} modelViewTransform - convert between model and view values
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
    * @param {ProtractorModel} protractorModel - model of protractor
@@ -26,13 +25,16 @@ define( function( require ) {
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial
    * position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor may be dragged
+   * @param {Node} afterLightLayer - layer in which ProtractorNode is present when in play area
+   * @param {Node} beforeLightLayer2 - layer in which ProtractorNode is present when in toolbox
    * @constructor
    */
-  function ExpandableProtractorNode( moreToolsView, modelViewTransform, showProtractorProperty, protractorModel,
-                                     translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {
+  function ExpandableProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape,
+                                     rotateShape, protractorIconWidth, containerBounds, dragBounds, afterLightLayer,
+                                     beforeLightLayer2 ) {
 
-    ProtractorNode.call( this, moreToolsView, modelViewTransform, showProtractorProperty, protractorModel,
-      translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds );
+    ProtractorNode.call( this, modelViewTransform, showProtractorProperty, protractorModel, translateShape,
+      rotateShape, protractorIconWidth, containerBounds, dragBounds, afterLightLayer, beforeLightLayer2 );
     var expandableProtractorNode = this;
 
     // Add expandable /collapse button

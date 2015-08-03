@@ -24,6 +24,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Vector2 = require( 'DOT/Vector2' );
+  var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
 
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
@@ -33,22 +34,24 @@ define( function( require ) {
   var INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX = 0.85;
 
   /**
-   * @param {BendingLightView} bendingLightView - view of the simulation
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
    * @param {Bounds2} containerBounds - bounds of container for intensity meter
    * @param {Bounds2} dragBounds - bounds that define where the intensity meter may be dragged
+   * @param {Node} beforeLightLayer - layer in which intensity meter is present when in play area
+   * @param {Node} beforeLightLayer2 - layer in which intensity meter is present when in toolbox.
    * @constructor
    */
-  function IntensityMeterNode( bendingLightView, modelViewTransform, intensityMeter, containerBounds, dragBounds ) {
+  function IntensityMeterNode( modelViewTransform, intensityMeter, containerBounds, dragBounds, beforeLightLayer,
+                               beforeLightLayer2 ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
-    this.bendingLightView = bendingLightView;
     this.modelViewTransform = modelViewTransform;
     this.intensityMeter = intensityMeter;
     var intensityMeterDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co- ordinates
-
+    this.beforeLightLayer = beforeLightLayer;
+    this.beforeLightLayer2 = beforeLightLayer2;
     // add sensor node
     var sensorShape = new Shape()
       .ellipticalArc( 50, 50, 50, 50, 0, Math.PI * 0.8, Math.PI * 0.2, false )
@@ -334,12 +337,9 @@ define( function( require ) {
       };
       var endPoint = { x: endPositionX, y: endPositionY, scale: scale };
       var target = this;
-      new TWEEN.Tween( startPoint )
-        .to( endPoint, 100 )
-        .easing( TWEEN.Easing.Linear.None )
-        .onUpdate( function() {
-          target.setIntensityMeterScale( startPoint.x, startPoint.y, startPoint.scale );
-        } ).start();
+      TweenUtil.startTween( this, startPoint, endPoint, function() {
+        target.setIntensityMeterScale( startPoint.x, startPoint.y, startPoint.scale );
+      } );
     },
 
     /**
@@ -348,11 +348,11 @@ define( function( require ) {
      */
     addToBendingLightView: function() {
 
-      if ( this.bendingLightView.beforeLightLayer2.isChild( this ) ) {
-        this.bendingLightView.beforeLightLayer2.removeChild( this );
+      if ( this.beforeLightLayer2.isChild( this ) ) {
+        this.beforeLightLayer2.removeChild( this );
       }
-      if ( !this.bendingLightView.beforeLightLayer.isChild( this ) ) {
-        this.bendingLightView.beforeLightLayer.addChild( this );
+      if ( !this.beforeLightLayer.isChild( this ) ) {
+        this.beforeLightLayer.addChild( this );
       }
       this.touchArea = null;
       this.sensorNode.touchArea = this.sensorNode.localBounds;
@@ -365,12 +365,12 @@ define( function( require ) {
      */
     addToSensorPanel: function() {
 
-      if ( this.bendingLightView.beforeLightLayer.isChild( this ) ) {
-        this.bendingLightView.beforeLightLayer.removeChild( this );
+      if ( this.beforeLightLayer.isChild( this ) ) {
+        this.beforeLightLayer.removeChild( this );
       }
 
-      if ( !this.bendingLightView.beforeLightLayer2.isChild( this ) ) {
-        this.bendingLightView.beforeLightLayer2.addChild( this );
+      if ( !this.beforeLightLayer2.isChild( this ) ) {
+        this.beforeLightLayer2.addChild( this );
       }
       this.touchArea = this.shape.bounds;
       this.sensorNode.touchArea = null;
@@ -420,7 +420,7 @@ define( function( require ) {
       var sensorInitialPosition = this.intensityMeter.sensorPositionProperty.initialValue;
       this.setIntensityMeterScale(
         sensorInitialPosition.x, sensorInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-      if ( this.bendingLightView.beforeLightLayer.isChild( this ) ) {
+      if ( this.beforeLightLayer.isChild( this ) ) {
         this.addToSensorPanel();
       }
     }

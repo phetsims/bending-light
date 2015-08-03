@@ -29,10 +29,10 @@ define( function( require ) {
     IntroView.call( this, moreToolsModel, 0, true, 3 );
 
     // Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
-    this.velocitySensorNode = new VelocitySensorNode( this, this.modelViewTransform, moreToolsModel.velocitySensor,
-      arrowScale, this.sensorPanel, this.layoutBounds );
-    this.waveSensorNode = new WaveSensorNode( this, this.modelViewTransform, moreToolsModel.waveSensor,
-      this.sensorPanel, this.layoutBounds );
+    this.velocitySensorNode = new VelocitySensorNode( this.modelViewTransform, moreToolsModel.velocitySensor,
+      arrowScale, this.sensorPanel, this.layoutBounds, this.beforeLightLayer2, this.afterLightLayer2 );
+    this.waveSensorNode = new WaveSensorNode( this.modelViewTransform, moreToolsModel.waveSensor,
+      this.sensorPanel, this.layoutBounds, this.afterLightLayer2, this.beforeLightLayer2 );
     this.velocitySensorNode.addToSensorPanel();
     this.waveSensorNode.addToSensorPanel();
 
@@ -53,7 +53,7 @@ define( function( require ) {
      */
     updateWaveShape: function() {
       IntroView.prototype.updateWaveShape.call( this );
-      if ( this.waveSensorNode.waveSensor.visibleProperty.get() ) {
+      if ( this.waveSensorNode.waveSensor.visible ) {
         this.waveSensorNode.waveSensor.step();
         this.waveSensorNode.chartNode.step( this.moreToolsModel.time );
       }

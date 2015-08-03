@@ -28,6 +28,7 @@ define( function( require ) {
   var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
 
   // strings
   var timeString = require( 'string!BENDING_LIGHT/time' );
@@ -101,14 +102,15 @@ define( function( require ) {
   inherit( Node, ProbeNode );
 
   /**
-   * @param {MoreToolsView} moreToolsView - view of the moreTools screen
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor
    * @param {Rectangle} container - toolbox node bounds
    * @param {Bounds2} dragBounds - bounds that define where the waves sensor may be dragged
+   * @param {Node} afterLightLayer2 - layer in which VelocitySensorNode is present when in play area
+   * @param {Node} beforeLightLayer2 - layer in which VelocitySensorNode is present when in toolbox
    * @constructor
    */
-  function WaveSensorNode( moreToolsView, modelViewTransform, waveSensor, container, dragBounds ) {
+  function WaveSensorNode( modelViewTransform, waveSensor, container, dragBounds, afterLightLayer2, beforeLightLayer2 ) {
 
     var waveSensorNode = this;
     Node.call( this, { cursor: 'pointer' } );
@@ -119,8 +121,9 @@ define( function( require ) {
 
     this.modelViewTransform = modelViewTransform;
     this.waveSensor = waveSensor;
-    this.moreToolsView = moreToolsView;
     var waveSensorDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co-ordinates
+    this.afterLightLayer2 = afterLightLayer2;
+    this.beforeLightLayer2 = beforeLightLayer2;
 
     // Add body node
     var rectangleWidth = 135;
@@ -188,7 +191,7 @@ define( function( require ) {
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         waveSensorNode.dragBodyXY( end.x - start.x, end.y - start.y );
-        position = waveSensorDragBounds.closestPointTo( waveSensor.bodyPositionProperty.get() );
+        position = waveSensorDragBounds.closestPointTo( waveSensor.bodyPosition );
         waveSensor.bodyPositionProperty.set( position );
         start = end;
       },
@@ -250,7 +253,7 @@ define( function( require ) {
         var probe2Position = waveSensorNode.waveSensor.probe2.position;
         position = waveSensorDragBounds.closestPointTo( probe2Position );
         waveSensorNode.waveSensor.translateAllXY( position.x - probe2Position.x, position.y - probe2Position.y );
-        var bodyPosition = waveSensorNode.waveSensor.bodyPositionProperty.get();
+        var bodyPosition = waveSensorNode.waveSensor.bodyPosition;
         position = waveSensorDragBounds.closestPointTo( bodyPosition );
         waveSensorNode.waveSensor.translateAllXY( position.x - bodyPosition.x, position.y - bodyPosition.y );
         start = end;
@@ -290,8 +293,8 @@ define( function( require ) {
       this.probe2Node.setScaleMagnitude( scale );
 
       this.bodyNode.setTranslation(
-        this.modelViewTransform.modelToViewX( this.waveSensor.bodyPositionProperty.get().x ) - this.bodyNode.width / 2,
-        this.modelViewTransform.modelToViewY( this.waveSensor.bodyPositionProperty.get().y ) - this.bodyNode.height / 2 );
+        this.modelViewTransform.modelToViewX( this.waveSensor.bodyPosition.x ) - this.bodyNode.width / 2,
+        this.modelViewTransform.modelToViewY( this.waveSensor.bodyPosition.y ) - this.bodyNode.height / 2 );
 
       this.probe1Node.setTranslation(
         this.modelViewTransform.modelToViewX( this.waveSensor.probe1.position.x ) - this.probe1Node.getWidth() / 2,
@@ -320,9 +323,9 @@ define( function( require ) {
       this.probe2Node.setScaleMagnitude( scale );
 
       var delta1X = this.waveSensor.probe1.position.x * ( 1 - scale / prevScale ) +
-                    this.waveSensor.bodyPositionProperty.get().x * scale / prevScale;
+                    this.waveSensor.bodyPosition.x * scale / prevScale;
       var delta1Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
-                    this.waveSensor.bodyPositionProperty.get().y * scale / prevScale;
+                    this.waveSensor.bodyPosition.y * scale / prevScale;
       this.waveSensorBodyNewPosition.setXY( delta1X, delta1Y );
       this.waveSensor.bodyPositionProperty.set( this.waveSensorBodyNewPosition );
       this.waveSensor.bodyPositionProperty._notifyObservers();
@@ -354,12 +357,9 @@ define( function( require ) {
       };
       var endPoint = { x: endPositionX, y: endPositionY, scale: scale };
       var target = this;
-      new TWEEN.Tween( startPoint )
-        .to( endPoint, 100 )
-        .easing( TWEEN.Easing.Linear.None )
-        .onUpdate( function() {
-          target.setWaveSensorNodeScale( startPoint.x, startPoint.y, startPoint.scale );
-        } ).start();
+      TweenUtil.startTween( this, startPoint, endPoint, function() {
+        target.setWaveSensorNodeScale( startPoint.x, startPoint.y, startPoint.scale );
+      } );
     },
 
     /**
@@ -368,12 +368,12 @@ define( function( require ) {
      */
     addMoreToolsView: function() {
 
-      if ( this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
-        this.moreToolsView.beforeLightLayer2.removeChild( this );
+      if ( this.beforeLightLayer2.isChild( this ) ) {
+        this.beforeLightLayer2.removeChild( this );
       }
 
-      if ( !this.moreToolsView.afterLightLayer2.isChild( this ) ) {
-        this.moreToolsView.afterLightLayer2.addChild( this );
+      if ( !this.afterLightLayer2.isChild( this ) ) {
+        this.afterLightLayer2.addChild( this );
       }
       this.touchArea = null;
       this.probe1Node.touchArea = this.probe1Node.localBounds;
@@ -387,11 +387,11 @@ define( function( require ) {
      */
     addToSensorPanel: function() {
 
-      if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
-        this.moreToolsView.afterLightLayer2.removeChild( this );
+      if ( this.afterLightLayer2.isChild( this ) ) {
+        this.afterLightLayer2.removeChild( this );
       }
-      if ( !this.moreToolsView.beforeLightLayer2.isChild( this ) ) {
-        this.moreToolsView.beforeLightLayer2.addChild( this );
+      if ( !this.beforeLightLayer2.isChild( this ) ) {
+        this.beforeLightLayer2.addChild( this );
       }
       this.touchArea = this.shape.bounds;
       this.probe1Node.touchArea = null;
@@ -427,7 +427,7 @@ define( function( require ) {
     reset: function() {
       this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
       this.chartNode.gridLines.clear();
-      if ( this.moreToolsView.afterLightLayer2.isChild( this ) ) {
+      if ( this.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }
       this.waveSensor.reset();

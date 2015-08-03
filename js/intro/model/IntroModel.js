@@ -55,7 +55,7 @@ define( function( require ) {
       this.laser.colorProperty
     ], function() {
       introModel.updateModel();
-      if ( introModel.laserViewProperty.value === 'wave' && introModel.laser.onProperty.value ) {
+      if ( introModel.laserView === 'wave' && introModel.laser.on ) {
         if ( !introModel.allowWebGL ) {
           introModel.createInitialParticles();
         }
@@ -126,7 +126,7 @@ define( function( require ) {
         // since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
-          sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserViewProperty );
+          sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserView );
 
         var rayAbsorbed = this.addAndAbsorb( incidentRay );
         if ( !rayAbsorbed ) {
@@ -153,7 +153,7 @@ define( function( require ) {
             sourceWaveWidth,
             incidentRay.getNumberOfWavelengths(),
             true,
-            true, this.laserViewProperty ) );
+            true, this.laserView ) );
 
           // fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
@@ -182,7 +182,7 @@ define( function( require ) {
                 incidentRay.getNumberOfWavelengths(),
                 true,
                 true,
-                this.laserViewProperty );
+                this.laserView );
               this.addAndAbsorb( transmittedRay );
             }
           }
@@ -231,7 +231,7 @@ define( function( require ) {
           ray.numWavelengthsPhaseOffset,
           false,
           ray.extendBackwards,
-          this.laserViewProperty
+          this.laserView
         );
 
         // don't let the wave intersect the intensity meter if it is behind the laser emission point
@@ -273,9 +273,9 @@ define( function( require ) {
      * @returns {Vector2}
      */
     getVelocity: function( position ) {
-      var laserViewProperty = this.laserViewProperty;
+      var laserView = this.laserView;
       for ( var i = 0; i < this.rays.length; i++ ) {
-        if ( this.rays.get( i ).contains( position, laserViewProperty.value === 'wave' ) ) {
+        if ( this.rays.get( i ).contains( position, laserView === 'wave' ) ) {
           return this.rays.get( i ).getVelocityVector();
         }
       }
@@ -286,13 +286,13 @@ define( function( require ) {
      * Determine the wave value of the topmost light ray at the specified position, or None if none exists
      * @public
      * @param {Vector2} position - position where the wave value to be determined
-     * @returns {array.<number>|null} - returns array of time and magnitude if point is on ray otherwise returns null
+     * @returns {Object|null}- returns object of time and magnitude if point is on ray otherwise returns null
      */
     getWaveValue: function( position ) {
       var introModel = this;
       for ( var i = 0; i < this.rays.length; i++ ) {
         var ray = this.rays.get( i );
-        if ( ray.contains( position, introModel.laserViewProperty.value === 'wave' ) ) {
+        if ( ray.contains( position, introModel.laserView === 'wave' ) ) {
 
           // map power to displayed amplitude
           var amplitude = Math.sqrt( ray.powerFraction );
@@ -305,7 +305,7 @@ define( function( require ) {
           var phase = ray.getCosArg( distanceAlongRay );
 
           // wave is a*cos(theta)
-          return [ ray.time, amplitude * Math.cos( phase + Math.PI ) ];
+          return { time: ray.time, magnitude: amplitude * Math.cos( phase + Math.PI ) };
         }
       }
       return null;
@@ -332,7 +332,7 @@ define( function( require ) {
       this.rays.forEach( function( ray ) {
         ray.setTime( introModel.time );
       } );
-      if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
+      if ( this.laser.on && this.laserView === 'wave' ) {
         if ( !this.allowWebGL ) {
           this.propagateParticles();
         }

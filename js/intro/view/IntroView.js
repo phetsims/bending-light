@@ -161,7 +161,7 @@ define( function( require ) {
         introView.incidentWaveCanvasLayer.children[ k ].step();
       }
       introView.incidentWaveCanvasLayer.setVisible(
-        introModel.laser.onProperty.value && introModel.laserViewProperty.value === 'wave' );
+        introModel.laser.on && introModel.laserView === 'wave' );
     } );
 
     // add laser view panel
@@ -201,19 +201,19 @@ define( function( require ) {
 
     // if intro screen regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {
-      this.protractorNode = new ProtractorNode( this, this.modelViewTransform, this.showProtractorProperty,
+      this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.sensorPanel.bounds, this.layoutBounds );
+        this.sensorPanel.bounds, this.layoutBounds, this.afterLightLayer, this.beforeLightLayer2 );
     }
     else {
-      this.protractorNode = new ExpandableProtractorNode( this, this.modelViewTransform, this.showProtractorProperty,
+      this.protractorNode = new ExpandableProtractorNode( this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.sensorPanel.bounds, this.layoutBounds );
+        this.sensorPanel.bounds, this.layoutBounds, this.afterLightLayer, this.beforeLightLayer2 );
     }
     this.protractorNode.addToSensorPanel();
 
-    this.intensityMeterNode = new IntensityMeterNode( this, this.modelViewTransform, introModel.intensityMeter,
-      this.sensorPanel.visibleBounds, this.layoutBounds );
+    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter,
+      this.sensorPanel.visibleBounds, this.layoutBounds, this.beforeLightLayer, this.beforeLightLayer2 );
     this.intensityMeterNode.addToSensorPanel();
 
     var normalText = new Text( normalString );
@@ -259,7 +259,7 @@ define( function( require ) {
     this.afterLightLayer2.addChild( resetAllButton );
 
     introModel.laserViewProperty.link( function() {
-      introModel.laser.waveProperty.value = introModel.laserViewProperty.value === 'wave';
+      introModel.laser.wave = introModel.laserView === 'wave';
     } );
 
     // add sim speed controls
@@ -348,7 +348,7 @@ define( function( require ) {
       for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
         this.waveCanvasLayer.children[ k ].step();
       }
-      if ( this.introModel.laserViewProperty.value === 'wave' ) {
+      if ( this.introModel.laserView === 'wave' ) {
         for ( k = 0; k < this.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
           this.incidentWaveCanvasLayer.children[ k ].step();
         }
