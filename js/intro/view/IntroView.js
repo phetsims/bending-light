@@ -201,19 +201,19 @@ define( function( require ) {
 
     // if intro screen regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {
-      this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty,
+      this.protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.sensorPanel.bounds, this.layoutBounds, this.afterLightLayer, this.beforeLightLayer2 );
+        this.sensorPanel.bounds, this.layoutBounds );
     }
     else {
-      this.protractorNode = new ExpandableProtractorNode( this.modelViewTransform, this.showProtractorProperty,
+      this.protractorNode = new ExpandableProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.sensorPanel.bounds, this.layoutBounds, this.afterLightLayer, this.beforeLightLayer2 );
+        this.sensorPanel.bounds, this.layoutBounds );
     }
     this.protractorNode.addToSensorPanel();
 
-    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter,
-      this.sensorPanel.visibleBounds, this.layoutBounds, this.beforeLightLayer, this.beforeLightLayer2 );
+    this.intensityMeterNode = new IntensityMeterNode( this.beforeLightLayer, this.beforeLightLayer2, this.modelViewTransform, introModel.intensityMeter,
+      this.sensorPanel.visibleBounds, this.layoutBounds );
     this.intensityMeterNode.addToSensorPanel();
 
     var normalText = new Text( normalString );

@@ -150,9 +150,9 @@ define( function( require ) {
     };
 
     // Add the protractor node
-    var protractorNode = new ProtractorNode( this.modelViewTransform, prismBreakModel.showProtractorProperty,
+    var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismBreakModel.showProtractorProperty,
       prismBreakModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
-      this.layoutBounds, this.afterLightLayer, this.beforeLightLayer2 );
+      this.layoutBounds );
     this.addChild( protractorNode );
 
     // Add prisms tool box Node

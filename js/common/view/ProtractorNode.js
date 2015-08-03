@@ -29,6 +29,8 @@ define( function( require ) {
   var DEFAULT_SCALE = 0.4;
 
   /**
+   * @param {Node} afterLightLayer - layer in which ProtractorNode is present when in play area
+   * @param {Node} beforeLightLayer2 - layer in which ProtractorNode is present when in toolbox
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view values
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
    * @param {ProtractorModel} protractorModel - model of protractor
@@ -37,12 +39,10 @@ define( function( require ) {
    * @param {number} protractorIconWidth - width of protractor icon to show in toolbox node
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
    * @param {Bounds2} dragBounds - bounds that define where the protractor may be dragged
-   * @param {Node} afterLightLayer - layer in which ProtractorNode is present when in play area
-   * @param {Node} beforeLightLayer2 - layer in which ProtractorNode is present when in toolbox
    * @constructor
    */
-  function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape,
-                           protractorIconWidth, containerBounds, dragBounds, afterLightLayer, beforeLightLayer2 ) {
+  function ProtractorNode( afterLightLayer, beforeLightLayer2, modelViewTransform, showProtractorProperty, protractorModel,
+                           translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {
 
     var protractorNode = this;
     Node.call( protractorNode );

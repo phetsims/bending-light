@@ -34,16 +34,15 @@ define( function( require ) {
   var INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX = 0.85;
 
   /**
+   * @param {Node} beforeLightLayer - layer in which intensity meter is present when in play area
+   * @param {Node} beforeLightLayer2 - layer in which intensity meter is present when in toolbox
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
    * @param {Bounds2} containerBounds - bounds of container for intensity meter
    * @param {Bounds2} dragBounds - bounds that define where the intensity meter may be dragged
-   * @param {Node} beforeLightLayer - layer in which intensity meter is present when in play area
-   * @param {Node} beforeLightLayer2 - layer in which intensity meter is present when in toolbox.
    * @constructor
    */
-  function IntensityMeterNode( modelViewTransform, intensityMeter, containerBounds, dragBounds, beforeLightLayer,
-                               beforeLightLayer2 ) {
+  function IntensityMeterNode( beforeLightLayer, beforeLightLayer2, modelViewTransform, intensityMeter, containerBounds, dragBounds ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );

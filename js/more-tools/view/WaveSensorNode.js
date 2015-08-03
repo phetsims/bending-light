@@ -102,15 +102,15 @@ define( function( require ) {
   inherit( Node, ProbeNode );
 
   /**
+   * @param {Node} afterLightLayer2 - layer in which VelocitySensorNode is present when in play area
+   * @param {Node} beforeLightLayer2 - layer in which VelocitySensorNode is present when in toolbox
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor
    * @param {Rectangle} container - toolbox node bounds
    * @param {Bounds2} dragBounds - bounds that define where the waves sensor may be dragged
-   * @param {Node} afterLightLayer2 - layer in which VelocitySensorNode is present when in play area
-   * @param {Node} beforeLightLayer2 - layer in which VelocitySensorNode is present when in toolbox
    * @constructor
    */
-  function WaveSensorNode( modelViewTransform, waveSensor, container, dragBounds, afterLightLayer2, beforeLightLayer2 ) {
+  function WaveSensorNode( afterLightLayer2, beforeLightLayer2, modelViewTransform, waveSensor, container, dragBounds ) {
 
     var waveSensorNode = this;
     Node.call( this, { cursor: 'pointer' } );
