@@ -22,32 +22,6 @@ define( function( require ) {
   var VALUE_DECIMALS = 2;
 
   /**
-   * @constructor
-   */
-  function MISS() {
-  }
-
-  inherit( Object, MISS, {
-
-    /**
-     * Get string to display on intensity sensor
-     * @public
-     * @return {string}
-     */
-    getString: function() {
-      return miss;
-    },
-
-    /**
-     * Determines whether ray hit the intensity sensor or not
-     * @return {boolean}
-     */
-    isHit: function() {
-      return false;
-    }
-  } );
-
-  /**
    * A single reading for the intensity meter
    *
    * @param {string} value - the text to be shown on the intensity meter
@@ -90,7 +64,24 @@ define( function( require ) {
     },
     // statics
     {
-      MISS: new MISS()
-    } );
+      MISS: {
 
+        /**
+         * Get string to display on intensity sensor
+         * @public
+         * @return {string}
+         */
+        getString: function() {
+          return miss;
+        },
+
+        /**
+         * Determines whether ray hit the intensity sensor or not
+         * @return {boolean}
+         */
+        isHit: function() {
+          return false;
+        }
+      }
+    } );
 } );
