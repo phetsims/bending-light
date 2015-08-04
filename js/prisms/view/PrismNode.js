@@ -66,6 +66,7 @@ define( function( require ) {
         if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
           if ( prismLayer.isChild( prismNode ) ) {
             prismsBreakModel.removePrism( prism );
+            prism.shapeProperty.unlink( updatePrismShape );
             prismLayer.removeChild( prismNode );
           }
         }
@@ -99,6 +100,7 @@ define( function( require ) {
         if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
           if ( prismLayer.isChild( prismNode ) ) {
             prismsBreakModel.removePrism( prism );
+            prism.shapeProperty.unlink( updatePrismShape );
             prismLayer.removeChild( prismNode );
           }
           prismsBreakModel.dirty = true;
@@ -107,7 +109,7 @@ define( function( require ) {
     } ) );
 
     var knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
-    prism.shapeProperty.link( function() {
+    var updatePrismShape = function() {
       prismsBreakModel.clear();
       prismsBreakModel.updateModel();
       prismsBreakModel.dirty = true;
@@ -132,7 +134,8 @@ define( function( require ) {
         knobNode.setTranslation( prismReferenceXPosition, prismReferenceYPosition );
         knobNode.translate( knobCenterPoint );
       }
-    } );
+    };
+    prism.shapeProperty.link( updatePrismShape );
 
     prismsBreakModel.prismMediumProperty.link( function( prismMedium ) {
       var color = prismMedium.color;
