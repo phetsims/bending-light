@@ -108,15 +108,24 @@ define( function( require ) {
 
       shaderProgram.use();
 
+      // layout of the screen is scales based on whichever is more limiting: width or height and is centered in
+      // non limiting direction. So, find out the scale in the limiting direction.
       var widthOffset;
       var heightOffset;
+      var navigationBarHeight = 40;
       var scale = Math.min( window.innerWidth / this.screenWidth, window.innerHeight / this.screenHeight );
       if ( scale === window.innerWidth / this.screenWidth ) {
+
+        // Here the layout is centered vertically above navigation bar. find out the empty space above the
+        // layout.
         widthOffset = 0;
-        heightOffset = ((window.innerHeight - (this.screenHeight + 40) * scale) / 2) + 40 * scale;
+        heightOffset = ((window.innerHeight - (this.screenHeight + navigationBarHeight) * scale) / 2) +
+                       navigationBarHeight * scale;
       }
       else {
-        var navBarHeight = 40 * scale;
+
+        // Here the layout is centered horizontally. find out the empty space besides the layout.
+        var navBarHeight = navigationBarHeight * scale;
         scale = (window.innerHeight - navBarHeight) / this.screenHeight;
         widthOffset = (window.innerWidth - ( this.screenWidth * scale)) / 2;
         heightOffset = navBarHeight;
