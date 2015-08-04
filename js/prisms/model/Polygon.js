@@ -15,8 +15,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Line = require( 'KITE/segments/Line' );
   var Arc = require( 'KITE/segments/Arc' );
-  var Ray2 = require( 'DOT/Ray2' );
-  var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
+  var PrismIntersection = require( 'BENDING_LIGHT/prisms/model/PrismIntersection' );
 
   /**
    * @param {number} referencePointIndex - index of reference point
@@ -37,6 +36,7 @@ define( function( require ) {
 
     // Creates a shape
     this.shape = new Shape(); // @public
+    this.center = null; //@public
 
     // radius is 0 for polygon
     if ( this.radius === 0 ) {
@@ -179,43 +179,13 @@ define( function( require ) {
      * @returns {Array}
      */
     getIntersections: function( ray ) {
-      var intersections = [];
-      this.getEdges().forEach( function( lineSegment ) {
-
-        // Get the intersection if there is one
-        var intersection = lineSegment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
-        if ( intersection.length !== 0 ) {
-
-          // Choose the normal vector that points the opposite direction of the incoming ray
-          var normal = lineSegment.getEnd().minus( lineSegment.getStart() ).rotate( +Math.PI / 2 ).normalize();
-          var unitNormal = ray.directionUnitVector.dot( normal ) < 0 ? normal : normal.rotate( Math.PI );
-
-          // Add to the list of intersections
-          intersections.push( new Intersection( unitNormal, intersection[ 0 ].point ) );
-        }
-      } );
+      var arc = null;
       if ( this.radius !== 0 ) {
         var startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
-        var arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
-        var intersection = arc.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
-        if ( intersection.length !== 0 ) {
-
-          // Only consider intersections that are in front of the ray
-          var dx = (intersection[ 0 ].point.x - ray.tail.x) * ray.directionUnitVector.x;
-          var dy = (intersection[ 0 ].point.y - ray.tail.y) * ray.directionUnitVector.y;
-          if ( dx + dy > 0 ) {
-            var normalVector = intersection[ 0 ].point.minus( this.center ).normalize();
-
-            // Angle between the normal and ray should not be greater than 90 degrees.
-            // If angle is greater than 90 then reverse the direction of the normal.
-            if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
-              normalVector.negate();
-            }
-            intersections.push( new Intersection( normalVector, intersection[ 0 ].point ) );
-          }
-        }
+        arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
       }
-      return intersections;
+      var prismIntersection = new PrismIntersection( this.getEdges(), arc, this.center, ray );
+      return prismIntersection.intersections;
     },
 
     /**

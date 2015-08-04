@@ -12,8 +12,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
-  var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
-  var Ray2 = require( 'DOT/Ray2' );
+  var PrismIntersection = require( 'BENDING_LIGHT/prisms/model/PrismIntersection' );
 
   /**
    * @param {Vector2} center - center of the circle
@@ -49,30 +48,8 @@ define( function( require ) {
      * @returns {Array}
      */
     getIntersections: function( ray ) {
-      var intersectionArray = this.shape.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
-      var intersectionList = [];
-      var self = this;
-      intersectionArray.forEach( function( intersectionPoint ) {
-
-        // Filter out getLineCircleIntersection nulls, which are returned if there is no intersection
-        if ( intersectionPoint !== null ) {
-
-          // Only consider intersections that are in front of the ray
-          var dx = (intersectionPoint.point.x - ray.tail.x) * ray.directionUnitVector.x;
-          var dy = (intersectionPoint.point.y - ray.tail.y) * ray.directionUnitVector.y;
-          if ( dx + dy > 0 ) {
-            var normalVector = intersectionPoint.point.minus( self.center ).normalize();
-
-            // Angle between the normal and ray should not be greater than 90 degrees.
-            // If angle is greater than 90 then reverse the direction of the normal.
-            if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
-              normalVector = normalVector.negate();
-            }
-            intersectionList.push( new Intersection( normalVector, intersectionPoint.point ) );
-          }
-        }
-      } );
-      return intersectionList;
+      var prismIntersection = new PrismIntersection( [], this.shape, this.center, ray );
+      return prismIntersection.intersections;
     },
 
     /**
