@@ -112,8 +112,6 @@ define( function( require ) {
      * @returns {number}
      */
     getAngle: function() {
-
-      // TODO: why is this backwards by 180 degrees?
       return this.getDirectionUnitVector().angle() + Math.PI;
     },
 
