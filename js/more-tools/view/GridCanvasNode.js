@@ -22,9 +22,9 @@ define( function( require ) {
   function GridCanvasNode( gridLines, modelViewTransformProperty, strokeDash, options ) {
 
     CanvasNode.call( this, options );
-    this.gridLines = gridLines;
-    this.modelViewTransformProperty = modelViewTransformProperty;
-    this.strokeDash = strokeDash;
+    this.gridLines = gridLines; // @private
+    this.modelViewTransformProperty = modelViewTransformProperty; // @private
+    this.strokeDash = strokeDash; // @private
   }
 
   return inherit( CanvasNode, GridCanvasNode, {

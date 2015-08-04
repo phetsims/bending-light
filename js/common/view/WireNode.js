@@ -26,9 +26,9 @@ define( function( require ) {
    */
   function WireNode( probePositionProperty, bodyPositionProperty, probeNode, bodyNode, color ) {
 
-    this.probeNode = probeNode;
-    this.bodyNode = bodyNode;
-    this.color = color;
+    this.probeNode = probeNode; // @public
+    this.bodyNode = bodyNode; // @public
+    this.color = color; // @public
     CanvasNode.call( this, {
       canvasBounds: new Bounds2( -100, 0, 834, 604 )
     } );

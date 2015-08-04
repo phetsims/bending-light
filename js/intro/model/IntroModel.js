@@ -44,7 +44,7 @@ define( function( require ) {
       MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomMediumState,
       MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
-    this.time = 0;
+    this.time = 0; // @public
     Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
@@ -65,20 +65,20 @@ define( function( require ) {
     this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [ this.topMediumProperty, introModel.laser.colorProperty ],
       function( topMedium, color ) {
         return topMedium.getIndexOfRefraction( color.wavelength );
-      } );
+      } ); // @public
 
     // Update the bottom medium index of refraction when bottom medium change
     this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [ this.bottomMediumProperty, introModel.laser.colorProperty ],
       function( bottomMedium, color ) {
         return bottomMedium.getIndexOfRefraction( color.wavelength );
-      } );
+      } ); // @public
 
     // Note: vectors that are used in step function are created here to reduce Vector2 allocations
     // light ray tail position
-    this.tailVector = new Vector2( 0, 0 );
+    this.tailVector = new Vector2( 0, 0 ); // @private, for internal use only
 
     // light ray tip position
-    this.tipVector = new Vector2( 0, 0 );
+    this.tipVector = new Vector2( 0, 0 ); // @private, for internal use only
   }
 
   return inherit( BendingLightModel, IntroModel, {

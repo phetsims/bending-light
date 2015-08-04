@@ -22,9 +22,9 @@ define( function( require ) {
   function SeriesCanvasNode( seriesProperty, modelViewTransformProperty, color, options ) {
 
     CanvasNode.call( this, options );
-    this.seriesProperty = seriesProperty;
-    this.modelViewTransformProperty = modelViewTransformProperty;
-    this.color = color;
+    this.seriesProperty = seriesProperty; // @private
+    this.modelViewTransformProperty = modelViewTransformProperty; // @private
+    this.color = color; // @private
   }
 
   return inherit( CanvasNode, SeriesCanvasNode, {

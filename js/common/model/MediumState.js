@@ -22,10 +22,10 @@ define( function( require ) {
    * @constructor
    */
   function MediumState( name, indexForRed, mystery, custom ) {
-    this.name = name;
-    this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED );
-    this.mystery = mystery;
-    this.custom = custom;
+    this.name = name; // @public
+    this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED ); // @public
+    this.mystery = mystery; // @public
+    this.custom = custom; // @public
   }
 
 

@@ -47,19 +47,19 @@ define( function( require ) {
     var protractorNode = this;
     Node.call( protractorNode );
 
-    this.modelViewTransform = modelViewTransform;
-    this.protractorModel = protractorModel;
-    this.multiScale = protractorIconWidth / protractorImage.width;
-    this.showProtractorProperty = showProtractorProperty;
-    this.afterLightLayer = afterLightLayer;
-    this.beforeLightLayer2 = beforeLightLayer2;
+    this.modelViewTransform = modelViewTransform; // @public
+    this.protractorModel = protractorModel; // @public
+    this.multiScale = protractorIconWidth / protractorImage.width; // @public
+    this.showProtractorProperty = showProtractorProperty; // @public
+    this.afterLightLayer = afterLightLayer; // @private
+    this.beforeLightLayer2 = beforeLightLayer2; // @private
 
     // true if the protractor has been made larger
     Property.addProperty( this, 'expanded', false );
     Property.addProperty( this, 'expandedButtonVisibility', false );
 
     // load and add the image
-    this.protractorImageNode = new Image( protractorImage );
+    this.protractorImageNode = new Image( protractorImage ); // @public
     protractorNode.setScaleMagnitude( this.multiScale );
 
     showProtractorProperty.linkAttribute( this, 'visible' );

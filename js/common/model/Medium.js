@@ -22,9 +22,9 @@ define( function( require ) {
   function Medium( shape, mediumState, color ) {
 
     // immutable shape
-    this.shape = shape;
-    this.mediumState = mediumState;
-    this.color = color; // color is based on the index of refraction at red wavelength
+    this.shape = shape; // @public
+    this.mediumState = mediumState; // @public
+    this.color = color; // @public, color is based on the index of refraction at red wavelength
   }
 
   return inherit( Object, Medium, {

@@ -29,28 +29,28 @@ define( function( require ) {
     this.topLeftQuadrant = topLeftQuadrant;
     var laser = this;
     PropertySet.call( this, {
-      pivot: new Vector2( 0, 0 ), // point to be pivoted about, and at which the laser points
-      on: false, // true if the laser is activated and emitting light
-      wave: false,
-      colorMode: 'singleColor',
+      pivot: new Vector2( 0, 0 ), // @public, point to be pivoted about, and at which the laser points
+      on: false, // @public, true if the laser is activated and emitting light
+      wave: false, // @public
+      colorMode: 'singleColor', // @public
 
       // model the point where light comes out of the laser
       // where the light comes from
-      emissionPoint: Vector2.createPolar( distanceFromPivot, angle )
+      emissionPoint: Vector2.createPolar( distanceFromPivot, angle ) // @public
     } );
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], function( wavelength ) {
       return new LaserColor( wavelength );
-    } );
+    } ); // @public
 
     // reusable vectors to avoid to many vector allocations
     // vector to store new laser emission point
-    this.newEmissionPoint = new Vector2( 0, 0 );
+    this.newEmissionPoint = new Vector2( 0, 0 ); // @private, for internal use only.
 
     // vector for to store new laser pivot point
-    this.newPivotPoint = new Vector2( 0, 0 );
+    this.newPivotPoint = new Vector2( 0, 0 ); // @private, for internal use only.
 
     // laser direction vector
-    this.directionUnitVector = new Vector2( 0, 0 );
+    this.directionUnitVector = new Vector2( 0, 0 ); // @private, for internal use only.
 
     this.waveProperty.link( function() {
 

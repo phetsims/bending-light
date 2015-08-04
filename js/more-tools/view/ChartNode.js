@@ -55,18 +55,18 @@ define( function( require ) {
 
     var chartNode = this;
     Node.call( this );
-    this.chartBounds = chartBounds;
-    this.seriesArray = seriesArray;
+    this.chartBounds = chartBounds; // @public
+    this.seriesArray = seriesArray; // @public
 
     // @public read-only
     // Amount of time to show on the horizontal axis of the chart
-    this.timeWidth = 72E-16;
+    this.timeWidth = 72E-16; // @public
 
     // Mapping from model (SI) to chart coordinates
     Property.addProperty( this, 'modelViewTransform', ModelViewTransform2.createRectangleMapping(
       new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
-    this.gridLines = new ObservableArray();
+    this.gridLines = new ObservableArray(); // @public
     this.gridCanvasNode = new GridCanvasNode( this.gridLines, this.modelViewTransformProperty, [ DASH_ON, DASH_OFF ], {
       canvasBounds: chartBounds
     } );

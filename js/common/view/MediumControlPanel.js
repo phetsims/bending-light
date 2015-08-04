@@ -70,8 +70,8 @@ define( function( require ) {
       stroke: '#696969',
       lineWidth: 1.5
     }, options );
-    this.mediumProperty = mediumProperty; // the medium to observe
-    this.laserWavelength = laserWavelength;
+    this.mediumProperty = mediumProperty; // @private, the medium to observe
+    this.laserWavelength = laserWavelength; // @private
     var initialMediumState = mediumProperty.get().mediumState;
 
     // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
@@ -286,7 +286,6 @@ define( function( require ) {
         indexOfRefractionValueText.text = Util.toFixed(
           mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), decimalPlaces );
       } );
-
 
     mediumProperty.link( function() {
       indexOfRefractionNode.setVisible( !mediumProperty.get().isMystery() );

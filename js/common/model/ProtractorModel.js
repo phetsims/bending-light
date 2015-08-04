@@ -23,15 +23,15 @@ define( function( require ) {
   function ProtractorModel( x, y ) {
 
     PropertySet.call( this, {
-        angle: 0.0,
-        position: new Vector2( x, y ), // position of the center
-        enabled: false
+        angle: 0.0, // @public
+        position: new Vector2( x, y ), // @public, position of the center
+        enabled: false // @public
       }
     );
 
     // reusable vectors to avoid too many vector allocations
     // vector to store new Protractor position
-    this.newPosition = new Vector2( 0, 0 );
+    this.newPosition = new Vector2( 0, 0 ); // @private, for internal use only.
   }
 
   return inherit( PropertySet, ProtractorModel, {

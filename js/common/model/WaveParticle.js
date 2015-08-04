@@ -22,12 +22,12 @@ define( function( require ) {
    * @constructor
    */
   function WaveParticle( position, width, color, particleGradientColor, angle, waveHeight ) {
-    this.position = position;
-    this.width = width;
-    this.color = color;
-    this.angle = angle;
-    this.height = waveHeight;
-    this.particleGradientColor = particleGradientColor;
+    this.position = position; // @public
+    this.width = width; // @public
+    this.color = color; // @public
+    this.angle = angle; // @public
+    this.height = waveHeight; // @public
+    this.particleGradientColor = particleGradientColor; // @public
   }
 
   return inherit( Object, WaveParticle, {

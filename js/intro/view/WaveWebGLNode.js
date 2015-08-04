@@ -21,10 +21,10 @@ define( function( require ) {
    * @constructor
    */
   function WaveWebGLNode( modelViewTransform, rays, screenWidth, screenHeight ) {
-    this.screenWidth = screenWidth;
-    this.screenHeight = screenHeight;
-    this.modelViewTransform = modelViewTransform;
-    this.rays = rays;
+    this.screenWidth = screenWidth; // @private
+    this.screenHeight = screenHeight; // @private
+    this.modelViewTransform = modelViewTransform; // @public
+    this.rays = rays; // @private
     WebGLNode.call( this );
   }
 

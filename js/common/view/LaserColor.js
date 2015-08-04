@@ -18,7 +18,7 @@ define( function( require ) {
    * @constructor
    */
   function LaserColor( wavelength ) {
-    this.wavelength = wavelength;
+    this.wavelength = wavelength; // @public
   }
 
   return inherit( Object, LaserColor, {

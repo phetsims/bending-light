@@ -19,6 +19,7 @@ define( function( require ) {
    */
   function Series( seriesProperty, color ) {
 
+    // @public
     this.seriesProperty = seriesProperty;
 
     // @public read-only

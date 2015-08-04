@@ -55,7 +55,7 @@ define( function( require ) {
   function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals ) {
 
     var introView = this;
-    this.introModel = introModel;
+    this.introModel = introModel; // @public
 
     // specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
     function clampDragAngle( angle ) {
@@ -187,7 +187,7 @@ define( function( require ) {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
       left: this.layoutBounds.minX + 13,
       top: this.layoutBounds.maxY - sensorPanelHeight - 14
-    } );
+    } ); // @public
     this.beforeLightLayer2.addChild( this.sensorPanel );
 
     var protractorIconWidth = hasMoreTools ? 60 : 75;
@@ -197,7 +197,7 @@ define( function( require ) {
     var protractorNodeY = hasMoreTools ? this.sensorPanel.y + 40 : this.sensorPanel.y + 48;
     var protractorModelPositionX = this.modelViewTransform.viewToModelX( protractorNodeX );
     var protractorModelPositionY = this.modelViewTransform.viewToModelY( protractorNodeY );
-    this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY );
+    this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY ); // @public
 
     // if intro screen regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {

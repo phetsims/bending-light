@@ -19,8 +19,8 @@ define( function( require ) {
    * @constructor
    */
   function WaveCanvasNode( waveParticles, modelViewTransform, options ) {
-    this.modelViewTransform = modelViewTransform;
-    this.waveParticles = waveParticles;
+    this.modelViewTransform = modelViewTransform; // @public
+    this.waveParticles = waveParticles; // @private
     CanvasNode.call( this, options );
     this.invalidatePaint();
   }

@@ -40,7 +40,7 @@ define( function( require ) {
    */
   function PrismBreakModel() {
 
-    this.prisms = new ObservableArray( [] );
+    this.prisms = new ObservableArray( [] ); // @public
 
     // Show multiple beams to help show how lenses work
     Property.addProperty( this, 'manyRays', 1 );
@@ -48,10 +48,10 @@ define( function( require ) {
     // If false, will hide non TIR reflections
     Property.addProperty( this, 'showReflections', false );
     Property.addProperty( this, 'showNormals', false );
-    this.showProtractorProperty = new Property( false );
+    this.showProtractorProperty = new Property( false ); // @public
 
     // List of intersections, which can be shown graphically
-    this.intersections = new ObservableArray();
+    this.intersections = new ObservableArray(); // @public
 
     // Environment the laser is in
     Property.addProperty( this, 'environmentMedium', new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
@@ -62,7 +62,7 @@ define( function( require ) {
       MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
 
     // Draggable and rotatable protractor
-    this.protractorModel = new ProtractorModel( 0, 0 );
+    this.protractorModel = new ProtractorModel( 0, 0 ); // @public
 
     var prismsBreakModel = this;
     BendingLightModel.call( this, Math.PI, false, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1 );
@@ -85,7 +85,7 @@ define( function( require ) {
     } );
 
     // coalesce repeat updates so work is not duplicated in white light node.
-    this.dirty = true;
+    this.dirty = true; // @public
   }
 
   return inherit( BendingLightModel, PrismBreakModel, {

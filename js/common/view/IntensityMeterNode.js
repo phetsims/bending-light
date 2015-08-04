@@ -97,11 +97,12 @@ define( function( require ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
-    this.modelViewTransform = modelViewTransform;
+    this.modelViewTransform = modelViewTransform; // @public
     this.intensityMeter = intensityMeter;
     var intensityMeterDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co- ordinates
-    this.beforeLightLayer = beforeLightLayer;
-    this.beforeLightLayer2 = beforeLightLayer2;
+    this.beforeLightLayer = beforeLightLayer; // @private
+    this.beforeLightLayer2 = beforeLightLayer2; // @private
+
     // add sensor node
     var sensorShape = new Shape()
       .ellipticalArc( 50, 50, 50, 50, 0, Math.PI * 0.8, Math.PI * 0.2, false )

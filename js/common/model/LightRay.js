@@ -39,39 +39,39 @@ define( function( require ) {
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
     // Light must be extended backwards for the transmitted wave shape to be correct
-    this.extendBackwards = extendBackwards;
-    this.color = color;
-    this.waveWidth = waveWidth;
-    this.trapeziumWidth = trapeziumWidth;
+    this.extendBackwards = extendBackwards; // @public, read only
+    this.color = color; // @public, read only
+    this.waveWidth = waveWidth; //@public, read only
+    this.trapeziumWidth = trapeziumWidth; // @public, read only
 
     // Directionality is important for propagation
-    this.tip = tip;
-    this.tail = tail;
+    this.tip = tip; // @public, read only
+    this.tail = tail; // @public, read only
 
     // The index of refraction of the medium the light ray inhabits
-    this.indexOfRefraction = indexOfRefraction;
-    this.wavelength = wavelength; // wavelength in meters
+    this.indexOfRefraction = indexOfRefraction; // @public
+    this.wavelength = wavelength; // @public, wavelength in meters
 
     // Amount of power this light has (full strength is 1.0)
-    this.powerFraction = powerFraction;
+    this.powerFraction = powerFraction;// @public
 
     // This number indicates how many wavelengths have passed before this light ray begins.
     // It is zero for the light coming out of the laser.
-    this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset;
+    this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset; // @public
 
     // has to be an integral number of wavelength so that the phases work out correctly,
     // turing this up too high past 1E6 causes things not to render properly
-    this.extend = extend;
+    this.extend = extend; // @public
 
-    // @private, for internal use only.  Clients should use toVector()
+    // @private, for internal use only. Clients should use toVector()
     this.vectorForm = new Vector2( 0, 0 );
     this.unitVector = new Vector2( 0, 0 );
 
     // wave particles
-    this.particles = new ObservableArray();
+    this.particles = new ObservableArray(); // @public
 
     // time used in wave sensor node
-    this.time = 0;
+    this.time = 0; // @public
 
     if ( laserView === 'wave' ) {
 

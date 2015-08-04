@@ -28,20 +28,20 @@ define( function( require ) {
   function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {
 
     PropertySet.call( this, {
-        reading: Reading.MISS, // value to show on the body
-        sensorPosition: new Vector2( sensorX, sensorY ),
-        bodyPosition: new Vector2( bodyX, bodyY ),
-        enabled: false // True if it is in the play area
+        reading: Reading.MISS, // @public, value to show on the body
+        sensorPosition: new Vector2( sensorX, sensorY ), // @public,
+        bodyPosition: new Vector2( bodyX, bodyY ), // @public,
+        enabled: false // @public, True if it is in the play area
       }
     );
 
     // vector to store sensor position
-    this.newSensorPosition = new Vector2();
+    this.newSensorPosition = new Vector2(); // @private, for internal use only.
 
     // vector to store body position
-    this.newBodyPosition = new Vector2();
+    this.newBodyPosition = new Vector2(); // @private, for internal use only.
 
-    // accumulation of readings
+    // @public, accumulation of readings
     this.rayReadings = [];
   }
 

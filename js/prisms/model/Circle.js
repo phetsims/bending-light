@@ -22,10 +22,10 @@ define( function( require ) {
    */
   function Circle( center, radius ) {
 
-    this.center = center;
-    this.radius = radius;
+    this.center = center; // @public, read only.
+    this.radius = radius; // @public, read only.
 
-    // Creates a shape
+    // @public, Creates a shape
     this.shape = new Shape().ellipticalArcPoint( this.center, this.radius, this.radius, 0, 0, Math.PI * 2, false );
   }
 

@@ -119,11 +119,11 @@ define( function( require ) {
     var darkProbeColor = new Color( 88, 89, 91 );
     var lightProbeColor = new Color( 147, 149, 152 );
 
-    this.modelViewTransform = modelViewTransform;
-    this.waveSensor = waveSensor;
+    this.modelViewTransform = modelViewTransform; // @public
+    this.waveSensor = waveSensor; // @public
     var waveSensorDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co-ordinates
-    this.afterLightLayer2 = afterLightLayer2;
-    this.beforeLightLayer2 = beforeLightLayer2;
+    this.afterLightLayer2 = afterLightLayer2; // @private
+    this.beforeLightLayer2 = beforeLightLayer2; // @private
 
     // Add body node
     var rectangleWidth = 135;
@@ -212,9 +212,9 @@ define( function( require ) {
 
     // Create the probes
     this.probe1Node = new ProbeNode( this, waveSensor.probe1, darkProbeImage, modelViewTransform, container,
-      dragBounds );
+      dragBounds ); // @public
     this.probe2Node = new ProbeNode( this, waveSensor.probe2, lightProbeImage, modelViewTransform, container,
-      dragBounds );
+      dragBounds ); // @public
 
     this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
 

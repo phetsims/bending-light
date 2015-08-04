@@ -83,7 +83,7 @@ define( function( require ) {
   function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot, centerOffsetLeft ) {
 
     // list of rays in the model
-    this.rays = new ObservableArray();
+    this.rays = new ObservableArray(); // @public
 
     // dimensions of the model, guaranteed to be shown in entirety on the stage
     this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public read-only
@@ -94,15 +94,15 @@ define( function( require ) {
     var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
 
     // The mobile WebGL implementation will work with basic WebGL support
-    this.allowWebGL = Util.checkWebGLSupport() && !disallowWebGL;
+    this.allowWebGL = Util.checkWebGLSupport() && !disallowWebGL; // @public
 
     PropertySet.call( this, {
-        laserView: 'ray', // Whether the laser is Ray or Wave mode
-        wavelength: BendingLightConstants.WAVELENGTH_RED,
-        isPlaying: true,
-        speed: 'normal',
-        indexOfRefraction: 1,
-        showNormal: true
+        laserView: 'ray', // @public, Whether the laser is Ray or Wave mode
+        wavelength: BendingLightConstants.WAVELENGTH_RED, // @public
+        isPlaying: true, // @public
+        speed: 'normal', // @public
+        indexOfRefraction: 1, // @public
+        showNormal: true // @public
       }
     );
 
@@ -112,8 +112,8 @@ define( function( require ) {
       -this.modelHeight * 0.285,
       -this.modelWidth * (centerOffsetLeft ? 0.282 : 0.421),
       -this.modelHeight * 0.312
-    );
-    this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
+    );// @public
+    this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );// @public
   }
 
   return inherit( PropertySet, BendingLightModel, {

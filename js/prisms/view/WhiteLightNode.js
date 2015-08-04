@@ -35,11 +35,11 @@ define( function( require ) {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
     } );
     this.invalidatePaint();
-    this.modelViewTransform = modelViewTransform;
-    this.whiteLightRays = whiteLightRays;
-    this.stageHeight = stageHeight;
-    this.stageWidth = stageWidth;
-    this.hashMapPointArray = [];
+    this.modelViewTransform = modelViewTransform; // @private
+    this.whiteLightRays = whiteLightRays; // @private
+    this.stageHeight = stageHeight; // @private
+    this.stageWidth = stageWidth; // @private
+    this.hashMapPointArray = []; // @private
   }
 
   return inherit( CanvasNode, WhiteLightNode, {

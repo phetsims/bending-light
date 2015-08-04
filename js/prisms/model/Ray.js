@@ -24,16 +24,16 @@ define( function( require ) {
    */
   function Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, frequency ) {
 
-    this.tail = tail;
+    this.tail = tail; // @public, read only.
 
     // Power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction
-    this.power = power;
+    this.power = power; // @public, read only.
 
     // Wavelength inside the medium (depends on index of refraction)
-    this.wavelength = wavelength;
-    this.mediumIndexOfRefraction = mediumIndexOfRefraction;
-    this.frequency = frequency;
-    this.directionUnitVector = directionUnitVector;
+    this.wavelength = wavelength; // @public, read only.
+    this.mediumIndexOfRefraction = mediumIndexOfRefraction; // @public, read only.
+    this.frequency = frequency; // @public, read only.
+    this.directionUnitVector = directionUnitVector; // @public, read only.
   }
 
   return inherit( Object, Ray, {

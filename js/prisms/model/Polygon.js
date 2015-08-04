@@ -26,17 +26,17 @@ define( function( require ) {
    */
   function Polygon( referencePointIndex, points, radius ) {
 
-    this.points = points;
+    this.points = points; // @private
 
     // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
-    this.referencePointIndex = referencePointIndex;
-    this.radius = radius;
+    this.referencePointIndex = referencePointIndex; // @private
+    this.radius = radius; // @private
 
-    // Centroid of the shape
+    // @private, Centroid of the shape
     this.centroid = this.getCentroid( this.points );
 
     // Creates a shape
-    this.shape = new Shape();
+    this.shape = new Shape(); // @public
 
     // radius is 0 for polygon
     if ( this.radius === 0 ) {

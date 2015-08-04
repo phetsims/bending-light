@@ -54,15 +54,14 @@ define( function( require ) {
     var velocitySensorNode = this;
     Node.call( this, { cursor: 'pointer', pickable: true } );
 
-    // @public read-only
-    this.modelViewTransform = modelViewTransform;
-    this.velocitySensor = velocitySensor;
-    this.beforeLightLayer2 = beforeLightLayer2;
-    this.afterLightLayer2 = afterLightLayer2;
+    this.modelViewTransform = modelViewTransform; // @public
+    this.velocitySensor = velocitySensor; // @private
+    this.beforeLightLayer2 = beforeLightLayer2; // @private
+    this.afterLightLayer2 = afterLightLayer2; // @private
 
     var rectangleWidth = 100;
     var rectangleHeight = 70;
-    this.bodyNode = new Node();
+    this.bodyNode = new Node(); // @private
 
     // Adding outer rectangle
     var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 15, 15, {
@@ -127,8 +126,8 @@ define( function( require ) {
     } );
     this.bodyNode.addChild( triangleShapeNode );
     this.addChild( this.bodyNode );
-    this.bodyWidth = rectangleWidth;
-    this.bodyHeight = rectangleHeight + triangleHeight;
+    this.bodyWidth = rectangleWidth; // @private
+    this.bodyHeight = rectangleHeight + triangleHeight; // @private
 
     // Arrow shape
     var arrowWidth = 6;

@@ -25,18 +25,18 @@ define( function( require ) {
    */
   function SemiCircle( referencePointIndex, points, radius ) {
 
-    this.points = points;
+    this.points = points; // @private
 
     // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
-    this.referencePointIndex = referencePointIndex;
-    this.radius = radius;
+    this.referencePointIndex = referencePointIndex; // @private
+    this.radius = radius; // @private
     this.center = this.points[ 0 ].plus( this.points[ 1 ] ).multiplyScalar( 0.5 );
 
     // Creates a shape
     var startAngle = Math.atan2( this.center.y - this.points[ 1 ].y, this.center.x - this.points[ 1 ].x );
     this.shape = new Shape()
       .ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, false )
-      .close();
+      .close(); // @public
   }
 
   return inherit( Object, SemiCircle, {

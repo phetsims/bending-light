@@ -55,7 +55,7 @@ define( function( require ) {
       lineWidth: 1.5
     }, options );
     var laserControlPanel = this;
-    this.hasWavelengthSlider = hasWavelengthSlider;
+    this.hasWavelengthSlider = hasWavelengthSlider; // @private
 
     var maxWidth = options.minWidth - 35;
     var createButtonTextNode = function( text ) {

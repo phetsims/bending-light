@@ -24,8 +24,8 @@ define( function( require ) {
    */
   function DispersionFunction( referenceIndexOfRefraction, wavelength ) {
 
-    this.referenceIndexOfRefraction = referenceIndexOfRefraction;
-    this.referenceWavelength = wavelength;
+    this.referenceIndexOfRefraction = referenceIndexOfRefraction; // @public
+    this.referenceWavelength = wavelength; // @public
   }
 
   return inherit( Object, DispersionFunction, {

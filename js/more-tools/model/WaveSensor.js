@@ -26,13 +26,13 @@ define( function( require ) {
   function Probe( x, y ) {
 
     PropertySet.call( this, {
-        series: [],
-        position: new Vector2( x, y )
+        series: [], // @public
+        position: new Vector2( x, y ) // @public
       }
     );
 
     // Note: Created here to reduce Vector2 allocations
-    this.probePosition = new Vector2( 0, 0 );
+    this.probePosition = new Vector2( 0, 0 ); // @private, for internal use only.
   }
 
   inherit( PropertySet, Probe, {
