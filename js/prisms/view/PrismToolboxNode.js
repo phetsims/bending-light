@@ -47,7 +47,7 @@ define( function( require ) {
    * @param {PrismBreakModel} prismBreakModel - model of the prism screen
    * @param {Node} prismLayer - layer in which prisms are present when in play area
    * @param {Bounds2} layoutBounds - Bounds of prisms screen.
-   * @param {Object} [options ] that can be passed on to the underlying node
+   * @param {Object} [options] that can be passed on to the underlying node
    * @constructor
    */
   function PrismToolboxNode( modelViewTransform, prismBreakModel, prismLayer, layoutBounds, options ) {
