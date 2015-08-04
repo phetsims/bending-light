@@ -56,7 +56,6 @@ define( function( require ) {
      */
     addSample: function( sample ) {
       this.series.push( sample );
-      this.seriesProperty._notifyObservers();
     }
   } );
 
