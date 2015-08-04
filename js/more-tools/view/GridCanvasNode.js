@@ -1,7 +1,9 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Draw a horizontal or vertical grid line
+ * Draws horizontal or vertical grid lines in the chart node.
+ * These grid lines are drawn using canvas instead of using Path/Shape/Line in which stroke is applied in every
+ * frame which leads to performance issues.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
