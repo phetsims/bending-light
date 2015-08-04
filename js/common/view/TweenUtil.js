@@ -1,7 +1,10 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
+ * Animation is used for the IntensityMeterNode, ProtractorNode, VelocitySensorNode and WaveSensorNode when they go into/
+ * out of the toolbox.  The constants and tween setup are isolated here.
  *
+ * See https://github.com/phetsims/bending-light/issues/108
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid (PhET Interactive Simulations)
