@@ -31,7 +31,6 @@ define( function( require ) {
 
     // Restricted the light ray view coordinates (start and end )within the specific window(rectangle) area to support in firefox browser
     // Note : if the values are to long rays rendering different directions
-    // TODO : need to find out , why firefox behaving differently
     var shape = Shape.rectangle( -100000, -100000, 200000, 200000 );
     if ( !shape.containsPoint( viewStart ) ) {
       var intersection = shape.intersection( new Ray2( viewEnd, viewStart.minus( viewEnd ).normalize() ) );
