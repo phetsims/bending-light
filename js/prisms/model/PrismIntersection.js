@@ -23,7 +23,7 @@ define( function( require ) {
    */
   function PrismIntersection( edges, arc, center, ray ) {
 
-    var intersection1 = this;
+    var prismIntersection = this;
     this.intersections = [];
     if ( edges.length !== 0 ) {
       edges.forEach( function( lineSegment ) {
@@ -37,7 +37,7 @@ define( function( require ) {
           var unitNormal = ray.directionUnitVector.dot( normal ) < 0 ? normal : normal.rotate( Math.PI );
 
           // Add to the list of intersections
-          intersection1.intersections.push( new Intersection( unitNormal, intersection[ 0 ].point ) );
+          prismIntersection.intersections.push( new Intersection( unitNormal, intersection[ 0 ].point ) );
         }
       } );
     }
@@ -56,7 +56,7 @@ define( function( require ) {
           if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
             normalVector.negate();
           }
-          intersection1.intersections.push( new Intersection( normalVector, intersection[ 0 ].point ) );
+          prismIntersection.intersections.push( new Intersection( normalVector, intersection[ 0 ].point ) );
         }
       }
     }
