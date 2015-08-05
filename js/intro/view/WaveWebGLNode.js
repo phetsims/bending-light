@@ -108,23 +108,28 @@ define( function( require ) {
 
       shaderProgram.use();
 
-      // layout of the screen is scales based on whichever is more limiting: width or height and is centered in
-      // non limiting direction. So, find out the scale in the limiting direction.
+
       var widthOffset;
       var heightOffset;
       var navigationBarHeight = 40;
+      // scale the content (based on whichever is more limiting: width or height)
+      //and centers the content in the screen vertically and horizontally
       var scale = Math.min( window.innerWidth / this.screenWidth, window.innerHeight / this.screenHeight );
       if ( scale === window.innerWidth / this.screenWidth ) {
 
-        // Here the layout is centered vertically above navigation bar. find out the empty space above the
-        // layout.
+        // Here the layout(dev-area) is centered vertically above navigation bar.
+        // find out the vertical  space between navigation bar and bottom of the dev area
+        var distanceBetweenNavigationBarTopAndDevArea = (window.innerHeight - (this.screenHeight + navigationBarHeight) * scale) / 2;
+
+        // The height offset   from the bottom left corner of the screen to bottom of dev area
+        //  is sum of navigation bar height  and distanceBetweenNavigationBarTopAndDevArea.
         widthOffset = 0;
-        heightOffset = ((window.innerHeight - (this.screenHeight + navigationBarHeight) * scale) / 2) +
-                       navigationBarHeight * scale;
+        heightOffset = distanceBetweenNavigationBarTopAndDevArea + navigationBarHeight * scale;
       }
       else {
 
-        // Here the layout is centered horizontally. find out the empty space besides the layout.
+        // Here the layout(dev-area) is centered horizontally. As navigation bar is also inserted into window vertical height.
+        // So find out the new scale excluding the navigation bar height and find out the  horizontal space  to the left of dev area
         var navBarHeight = navigationBarHeight * scale;
         scale = (window.innerHeight - navBarHeight) / this.screenHeight;
         widthOffset = (window.innerWidth - ( this.screenWidth * scale)) / 2;
