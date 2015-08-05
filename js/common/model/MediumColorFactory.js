@@ -41,18 +41,24 @@ define( function( require ) {
       var ratio;
       if ( indexForRed < waterIndexForRed ) {
         linearFunction = new LinearFunction( 1.0, waterIndexForRed, 0, 1 );
+
+        // returns the value between 0 to 1.
         ratio = linearFunction( indexForRed );
         return this.colorBlend( AIR_COLOR, WATER_COLOR, ratio );
       }
       else {
         if ( indexForRed < glassIndexForRed ) {
           linearFunction = new LinearFunction( waterIndexForRed, glassIndexForRed, 0, 1 );
+
+          // returns the value between 0 to 1.
           ratio = linearFunction( indexForRed );
           return this.colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
         }
         else {
           if ( indexForRed < diamondIndexForRed ) {
             linearFunction = new LinearFunction( glassIndexForRed, diamondIndexForRed, 0, 1 );
+
+            // returns the value between 0 to 1.
             ratio = linearFunction( indexForRed );
             return this.colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
           }

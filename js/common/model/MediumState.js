@@ -32,6 +32,7 @@ define( function( require ) {
   return inherit( Object, MediumState, {
 
     /**
+     * Determines the index of refraction for the WAVELENGTH_RED
      * @public
      * @returns {number}
      */

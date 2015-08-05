@@ -56,7 +56,7 @@ define( function( require ) {
     // Control boxes next
     // Protractor
     // Laser beam
-    // To implement this, we specify 2 before light layer and 2 after light layers
+    // To implement this, we specify 2 before light layers and 2 after light layers
     this.beforeLightLayer = new Node(); // @public
     this.beforeLightLayer2 = new Node(); // @public
 
@@ -102,12 +102,14 @@ define( function( require ) {
       bendingLightView.lightRayLayer.setVisible( !white );
     } );
 
+    // Used for radius and length of drag handlers
     var laserImageWidth = laserWithoutKnobImage.width;
 
     // add rotation for the laser that show if/when the laser can be rotated about its pivot
     var showRotationDragHandlesProperty = new Property( false );
     var showTranslationDragHandlesProperty = new Property( false );
 
+    // Shows the direction in which laser can be rotated
     var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.laser, Math.PI / 23,
       showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58 );
     this.addChild( leftRotationDragHandle );
@@ -124,6 +126,7 @@ define( function( require ) {
       showTranslationDragHandlesProperty, laserImageWidth );
     this.addChild( verticalTranslationDragHandle );
 
+    // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
     if ( model.allowWebGL ) {
       var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
         model.rays,
@@ -145,10 +148,12 @@ define( function( require ) {
 
     this.addChild( this.afterLightLayer2 );
 
+    // switches between ray and wave
     model.laserViewProperty.link( function() {
       model.laser.wave = (model.laserView === 'wave');
     } );
 
+    // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
     model.rays.addItemAddedListener( function( ray ) {
       var node;
       if ( model.laser.colorMode === 'white' ) {
@@ -173,6 +178,8 @@ define( function( require ) {
         }
       }
     } );
+
+    // As rays are removed from model clear all light ray layers
     model.rays.addItemRemovedListener( function() {
       bendingLightView.lightRayLayer.removeAllChildren();
       bendingLightView.waveCanvasLayer.removeAllChildren();

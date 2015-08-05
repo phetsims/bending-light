@@ -54,26 +54,30 @@ define( function( require ) {
       start: function( event ) {
         start = draggableNode.globalToParentPoint( event.pointer.point );
       },
-
       drag: function( event ) {
         var end = draggableNode.globalToParentPoint( event.pointer.point );
         dragFunction( intensityMeter, intensityMeterNode.modelViewTransform, end.x - start.x, end.y - start.y );
+
+        // check that it doesn't cross the layout bounds
         position = intensityMeterDragBounds.closestPointTo( modelPositionProperty.get() );
         modelPositionProperty.set( position );
         start = end;
       },
-
       end: function() {
 
         // check intersection only with the outer rectangle.
         if ( containerBounds.containsCoordinates(
             draggableNode.getCenterX(), draggableNode.getCenterY() ) ) {
           var sensorNodeInitialPosition = intensityMeter.sensorPositionProperty.initialValue;
+
+          // Place back the intensity meter again into toolbox with the animation.
           intensityMeterNode.setIntensityMeterScaleAnimation(
             sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
           intensityMeterNode.setIntensityMeterScale(
             sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
           intensityMeter.reset();
+
+          // remove intensity meter from play area and add it to the sensor panel
           intensityMeterNode.addToSensorPanel();
           intensityMeter.enabledProperty.set( false );
         }
@@ -257,10 +261,14 @@ define( function( require ) {
         start = intensityMeterNode.globalToParentPoint( event.pointer.point );
         var sensorStartPositionX = modelViewTransform.viewToModelX( start.x );
         var sensorStartPositionY = modelViewTransform.viewToModelY( start.y );
+
+        // Animate intensity meter to full size
         intensityMeterNode.setIntensityMeterScaleAnimation(
           sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
         intensityMeterNode.setIntensityMeterScale(
           sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
+
+        // remove it from sensor panel and add it to play area
         intensityMeterNode.addToBendingLightView();
         intensityMeter.enabledProperty.set( true );
       },
@@ -268,6 +276,7 @@ define( function( require ) {
         var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
         var sensorPosition = intensityMeter.sensorPosition;
         intensityMeterNode.dragAllXY( end.x - start.x, end.y - start.y );
+        // check that it doesn't cross the layout bounds
         position = intensityMeterDragBounds.closestPointTo( sensorPosition );
         intensityMeter.translateAllXY( position.x - sensorPosition.x, position.y - sensorPosition.y );
         position = intensityMeterDragBounds.closestPointTo( intensityMeter.bodyPosition );
@@ -283,11 +292,15 @@ define( function( require ) {
              containerBounds.containsCoordinates(
                intensityMeterNode.sensorNode.getCenterX(), intensityMeterNode.sensorNode.getCenterY() ) ) {
           var sensorNodeInitialPosition = intensityMeter.sensorPositionProperty.initialValue;
+
+          // Place back the intensity meter again into toolbox with the animation.
           intensityMeterNode.setIntensityMeterScaleAnimation(
             sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
           intensityMeterNode.setIntensityMeterScale(
             sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
           intensityMeter.reset();
+
+          // remove it from play area and add it to the sensor panel
           intensityMeterNode.addToSensorPanel();
           intensityMeter.enabledProperty.set( false );
         }
@@ -311,9 +324,12 @@ define( function( require ) {
 
       // previous scale for scaling the distance between the sensorNode and bodyNode
       var prevScale = this.sensorNode.getScaleVector().x;
+
+      // scale all components
       this.bodyNode.setScaleMagnitude( scale );
       this.sensorNode.setScaleMagnitude( scale );
 
+      // position the body node according to the scale
       var sensorPosition = this.intensityMeter.sensorPosition;
       this.intensityMeter.bodyPositionProperty.set(
         new Vector2( sensorPosition.x + (this.intensityMeter.bodyPosition.x - sensorPosition.x ) * scale / prevScale,
