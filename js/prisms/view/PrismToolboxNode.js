@@ -90,7 +90,7 @@ define( function( require ) {
     };
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
-    var prismsNode;
+    var prismNode;
     prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
       prismPath[ i ] = createPrismIcon( prism );
       var start;
@@ -107,9 +107,9 @@ define( function( require ) {
             start = prismToolBoxNode.globalToParentPoint( event.pointer.point );
             prismShape = prism.copy();
             prismBreakModel.addPrism( prismShape );
-            prismsNode = new PrismNode( prismBreakModel, modelViewTransform, prismShape, prismToolBoxNode, prismLayer,
+            prismNode = new PrismNode( prismBreakModel, modelViewTransform, prismShape, prismToolBoxNode, prismLayer,
               layoutBounds );
-            prismLayer.addChild( prismsNode );
+            prismLayer.addChild( prismNode );
             prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
           },
           drag: function( event ) {
@@ -121,9 +121,11 @@ define( function( require ) {
           },
           end: function() {
             if ( prismToolBoxNode.visibleBounds.containsCoordinates(
-                prismsNode.getCenterX(), prismsNode.getCenterY() ) ) {
+                prismNode.getCenterX(), prismNode.getCenterY() ) ) {
               prismBreakModel.removePrism( prismShape );
-              prismLayer.removeChild( prismsNode );
+              prismShape.shapeProperty.unlink( prismNode.updatePrismShape );
+              prismBreakModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
+              prismLayer.removeChild( prismNode );
               prismBreakModel.dirty = true;
             }
           }
