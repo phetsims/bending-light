@@ -13,7 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Color = require( 'SCENERY/util/Color' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Shape = require( 'KITE/Shape' );
   var Ray2 = require( 'DOT/Ray2' );
 
   /**
@@ -32,10 +32,9 @@ define( function( require ) {
     // Restricted the light ray view coordinates (start and end )within the specific window(rectangle) area to support in firefox browser
     // Note : if the values are to long rays rendering different directions
     // TODO : need to find out , why firefox behaving differently
-    var shape = new Rectangle( -100000, -100000, 200000, 200000 );
-    if ( !shape.getShape().containsPoint( viewStart ) ) {
-      var intersection = shape.getShape().intersection(
-        new Ray2( viewEnd, viewStart.minus( viewEnd ).normalize() ) );
+    var shape = Shape.rectangle( -100000, -100000, 200000, 200000 );
+    if ( !shape.containsPoint( viewStart ) ) {
+      var intersection = shape.intersection( new Ray2( viewEnd, viewStart.minus( viewEnd ).normalize() ) );
       if ( intersection.length ) {
         viewStart = intersection[ 0 ].point;
       }
