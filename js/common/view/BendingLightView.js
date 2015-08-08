@@ -111,10 +111,10 @@ define( function( require ) {
 
     // Shows the direction in which laser can be rotated
     var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.laser, Math.PI / 23,
-      showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58 );
+      showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58, model.rotationArrowAngleOffset );
     this.addChild( leftRotationDragHandle );
     var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.laser, -Math.PI / 23,
-      showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58 );
+      showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58, model.rotationArrowAngleOffset );
     this.addChild( rightRotationDragHandle );
 
     // add translation indicators that show if/when the laser can be moved by dragging

@@ -26,9 +26,12 @@ define( function( require ) {
    * @param {function} notAtMax - function that determines whether the laser is already at the max angle (if at the max
    * angle then that drag handle disappears)
    * @param {number} laserImageWidth - width of the laser
+   * @param {number} rotationArrowAngleOffset - for unknown reasons the rotation arrows are off by PI/4 on the intro/more-tools
+   *                 screen, so account for that here.
    * @constructor
    */
-  function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandlesProperty, notAtMax, laserImageWidth ) {
+  function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandlesProperty, notAtMax, laserImageWidth,
+                               rotationArrowAngleOffset ) {
 
     Node.call( this );
     var rotationDragHandle = this;
@@ -61,13 +64,14 @@ define( function( require ) {
       anticlockwise: isArrowDirectionAntiClockWise
     } );
     dragArrow.setShape( counterClockwiseDragArrow );
-    var dragArrowX = modelViewTransform.modelToViewX( laser.pivot.x );
-    var dragArrowY = modelViewTransform.modelToViewY( laser.pivot.y );
 
     // Update the shape when the laser moves
     Property.multilink( [ laser.emissionPointProperty, showDragHandlesProperty ], function() {
       if ( showDragHandlesProperty.get() ) {
-        dragArrow.setRotation( -laser.getAngle() + Math.PI - Math.PI / 4 );
+        var dragArrowX = modelViewTransform.modelToViewX( laser.pivot.x );
+        var dragArrowY = modelViewTransform.modelToViewY( laser.pivot.y );
+
+        dragArrow.setRotation( -laser.getAngle() + Math.PI + rotationArrowAngleOffset );
         dragArrow.setTranslation( dragArrowX, dragArrowY );
       }
     } );

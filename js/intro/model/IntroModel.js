@@ -79,6 +79,9 @@ define( function( require ) {
 
     // light ray tip position
     this.tipVector = new Vector2( 0, 0 ); // @private, for internal use only
+
+    // @public
+    this.rotationArrowAngleOffset = -Math.PI / 4;
   }
 
   return inherit( BendingLightModel, IntroModel, {

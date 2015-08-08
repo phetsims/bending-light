@@ -86,6 +86,9 @@ define( function( require ) {
 
     // coalesce repeat updates so work is not duplicated in white light node.
     this.dirty = true; // @public
+
+    // @public
+    this.rotationArrowAngleOffset = 0;
   }
 
   return inherit( BendingLightModel, PrismBreakModel, {
@@ -104,7 +107,6 @@ define( function( require ) {
       this.protractorModel.reset();
       this.showNormalsProperty.reset();
       this.showProtractorProperty.reset();
-
     },
 
     /**
