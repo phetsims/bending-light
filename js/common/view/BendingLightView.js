@@ -31,7 +31,7 @@ define( function( require ) {
   var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
 
   /**
-   * @param {BendingLightModel} model - main model of the simulations
+   * @param {BendingLightModel} bendingLightModel - main model of the simulations
    * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
    * @param {function} clockwiseArrowNotAtMax - shows whether laser at max angle
    * @param {function} ccwArrowNotAtMax - shows whether laser at min angle
@@ -41,7 +41,7 @@ define( function( require ) {
    * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
    * @constructor
    */
-  function BendingLightView( model, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserTranslationRegion,
+  function BendingLightView( bendingLightModel, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserTranslationRegion,
                              laserRotationRegion, laserImageName, centerOffsetLeft ) {
 
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
@@ -69,7 +69,7 @@ define( function( require ) {
 
     // center the stage in the canvas, specifies how things scale up and down with window size, maps stage to pixels
     // create the transform from model (SI) to view (stage) coordinates
-    var scale = stageHeight / model.modelHeight;
+    var scale = stageHeight / bendingLightModel.modelHeight;
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping( new Vector2( 0, 0 ),
       new Vector2( 388 - centerOffsetLeft, stageHeight / 2 ), scale ); // @public, read only
 
@@ -96,7 +96,7 @@ define( function( require ) {
     this.addChild( this.laserViewLayer );
 
     // switch between light render for white vs nonwhite light
-    model.laser.colorModeProperty.link( function( color ) {
+    bendingLightModel.laser.colorModeProperty.link( function( color ) {
       var white = color === 'white';
       bendingLightView.whiteLightNode.setVisible( white );
       bendingLightView.lightRayLayer.setVisible( !white );
@@ -110,26 +110,26 @@ define( function( require ) {
     var showTranslationDragHandlesProperty = new Property( false );
 
     // Shows the direction in which laser can be rotated
-    var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.laser, Math.PI / 23,
-      showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58, model.rotationArrowAngleOffset );
+    var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, Math.PI / 23,
+      showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
     this.addChild( leftRotationDragHandle );
-    var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, model.laser, -Math.PI / 23,
-      showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58, model.rotationArrowAngleOffset );
+    var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, -Math.PI / 23,
+      showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
     this.addChild( rightRotationDragHandle );
 
     // add translation indicators that show if/when the laser can be moved by dragging
     var arrowLength = 76;
-    var horizontalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.laser, arrowLength, 0,
+    var horizontalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, bendingLightModel.laser, arrowLength, 0,
       showTranslationDragHandlesProperty, laserImageWidth );
     this.addChild( horizontalTranslationDragHandle );
-    var verticalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, model.laser, 0, arrowLength,
+    var verticalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, bendingLightModel.laser, 0, arrowLength,
       showTranslationDragHandlesProperty, laserImageWidth );
     this.addChild( verticalTranslationDragHandle );
 
     // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
-    if ( model.allowWebGL ) {
+    if ( bendingLightModel.allowWebGL ) {
       var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
-        model.rays,
+        bendingLightModel.rays,
         bendingLightView.layoutBounds.width,
         bendingLightView.layoutBounds.height );
       bendingLightView.incidentWaveCanvasLayer.addChild( waveWebGLNode );
@@ -137,7 +137,7 @@ define( function( require ) {
 
     // add the laser
     var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
-    var laserNode = new LaserNode( this.modelViewTransform, model.laser, showRotationDragHandlesProperty,
+    var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImage,
       this.layoutBounds );
     this.addChild( laserNode );
@@ -149,25 +149,25 @@ define( function( require ) {
     this.addChild( this.afterLightLayer2 );
 
     // switches between ray and wave
-    model.laserViewProperty.link( function() {
-      model.laser.wave = (model.laserView === 'wave');
+    bendingLightModel.laserViewProperty.link( function() {
+      bendingLightModel.laser.wave = (bendingLightModel.laserView === 'wave');
     } );
 
     // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
-    model.rays.addItemAddedListener( function( ray ) {
+    bendingLightModel.rays.addItemAddedListener( function( ray ) {
       var node;
-      if ( model.laser.colorMode === 'white' ) {
+      if ( bendingLightModel.laser.colorMode === 'white' ) {
         whiteLightRays.push( ray );
       }
-      if ( model.laserView === 'ray' && model.laser.colorMode === 'singleColor' ) {
+      if ( bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) {
         node = new LightRayNode( bendingLightView.modelViewTransform, ray );
         bendingLightView.lightRayLayer.addChild( node );
       }
       else {
-        if ( !model.allowWebGL ) {
-          for ( var k = 0; k < model.rays.length; k++ ) {
-            var waveShape = model.rays.get( k ).waveShape;
-            var particleCanvasNode = new WaveCanvasNode( model.rays.get( k ).particles,
+        if ( !bendingLightModel.allowWebGL ) {
+          for ( var k = 0; k < bendingLightModel.rays.length; k++ ) {
+            var waveShape = bendingLightModel.rays.get( k ).waveShape;
+            var particleCanvasNode = new WaveCanvasNode( bendingLightModel.rays.get( k ).particles,
               bendingLightView.modelViewTransform, {
                 canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
                 clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
@@ -180,10 +180,10 @@ define( function( require ) {
     } );
 
     // As rays are removed from model clear all light ray layers
-    model.rays.addItemRemovedListener( function() {
+    bendingLightModel.rays.addItemRemovedListener( function() {
       bendingLightView.lightRayLayer.removeAllChildren();
       bendingLightView.waveCanvasLayer.removeAllChildren();
-      if ( !model.allowWebGL ) {
+      if ( !bendingLightModel.allowWebGL ) {
         bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
       }
       whiteLightRays.clear();
