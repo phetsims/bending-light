@@ -34,6 +34,7 @@ define( function( require ) {
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var ExpandableProtractorNode = require( 'BENDING_LIGHT/more-tools/view/ExpandableProtractorNode' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -65,7 +66,13 @@ define( function( require ) {
 
     // indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
     function clockwiseArrowNotAtMax( laserAngle ) {
-      return laserAngle < Math.PI;
+      if ( introModel.laserView === 'ray' ) {
+        return laserAngle < Math.PI;
+      }
+      else {
+        // TODO: This should be different for wave mode
+        return laserAngle < BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
+      }
     }
 
     // indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
