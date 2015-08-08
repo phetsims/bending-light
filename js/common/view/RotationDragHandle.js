@@ -50,22 +50,24 @@ define( function( require ) {
     var arrowHeadHeight = deltaAngle > 0 ? -7 : 7;
     var isArrowDirectionAntiClockWise = deltaAngle > 0;
 
+    var radius = modelViewTransform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + laserImageWidth * 0.85;
+    var startAngle = -laser.getAngle();
+    var endAngle = -laser.getAngle() - deltaAngle;
+    var counterClockwiseDragArrow = new CurvedArrowShape( radius, startAngle, endAngle, {
+      doubleHead: false,
+      headWidth: 13.6,
+      headHeight: arrowHeadHeight,
+      tailWidth: 7.6,
+      anticlockwise: isArrowDirectionAntiClockWise
+    } );
+    dragArrow.setShape( counterClockwiseDragArrow );
+    var dragArrowX = modelViewTransform.modelToViewX( laser.pivot.x );
+    var dragArrowY = modelViewTransform.modelToViewY( laser.pivot.y );
+
     // Update the shape when the laser moves
     Property.multilink( [ laser.emissionPointProperty, showDragHandlesProperty ], function() {
       if ( showDragHandlesProperty.get() ) {
-        var radius = modelViewTransform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + laserImageWidth * 0.85;
-        var startAngle = -laser.getAngle();
-        var endAngle = -laser.getAngle() - deltaAngle;
-        var counterClockwiseDragArrow = new CurvedArrowShape( radius, startAngle, endAngle, {
-          doubleHead: false,
-          headWidth: 13.6,
-          headHeight: arrowHeadHeight,
-          tailWidth: 7.6,
-          anticlockwise: isArrowDirectionAntiClockWise
-        } );
-        dragArrow.setShape( counterClockwiseDragArrow );
-        var dragArrowX = modelViewTransform.modelToViewX( laser.pivot.x );
-        var dragArrowY = modelViewTransform.modelToViewY( laser.pivot.y );
+        dragArrow.setRotation( -laser.getAngle() + Math.PI - Math.PI / 4 );
         dragArrow.setTranslation( dragArrowX, dragArrowY );
       }
     } );
