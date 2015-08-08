@@ -41,7 +41,6 @@ define( function( require ) {
   var MYSTERY_A = new MediumState( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
   var MYSTERY_B = new MediumState( mysteryBString, 1.4, true, false );
 
-
   /**
    * Get the fraction of power reflected from the medium
    * @public
