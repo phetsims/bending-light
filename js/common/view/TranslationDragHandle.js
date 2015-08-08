@@ -40,16 +40,16 @@ define( function( require ) {
     } );
     this.addChild( arrowNode );
 
-    var laserAngle = -laser.getAngle();
-    var magnitude = laserImageWidth * 0.35;
-    var viewDeltaX = magnitude * Math.cos( laserAngle );
-    var viewDeltaY = magnitude * Math.sin( laserAngle );
     arrowNode.setTailAndTip( -dx, -dy, +dx, +dy );
 
     // update the location when laser pivot or emission point change
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty, showDragHandlesProperty ],
       function( laserPivot, laserEmission ) {
         if ( showDragHandlesProperty.get() ) {
+          var laserAngle = -laser.getAngle();
+          var magnitude = laserImageWidth * 0.35;
+          var viewDeltaX = magnitude * Math.cos( laserAngle );
+          var viewDeltaY = magnitude * Math.sin( laserAngle );
           var tailX = modelViewTransform.modelToViewX( laserEmission.x ) + viewDeltaX;
           var tailY = modelViewTransform.modelToViewY( laserEmission.y ) + viewDeltaY;
           arrowNode.setTranslation( tailX, tailY );
