@@ -146,7 +146,7 @@ define( function( require ) {
     }
     var materialComboBox = new ComboBox( items, comboBoxMediumStateProperty, view, {
       labelNode: materialTitle,
-      listPosition: 'below',
+      listPosition: 'above',
       buttonXMargin: 5,
       buttonYMargin: 2,
       buttonCornerRadius: 3,
