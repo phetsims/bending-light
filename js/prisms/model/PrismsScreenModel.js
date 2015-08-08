@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Model for the "prism " screen, in which the user can move the laser and many prisms.
+ * Model for the "prisms" screen, in which the user can move the laser and many prisms.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
@@ -38,7 +38,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function PrismBreakModel() {
+  function PrismsScreenModel() {
 
     this.prisms = new ObservableArray( [] ); // @public
 
@@ -91,7 +91,7 @@ define( function( require ) {
     this.rotationArrowAngleOffset = 0;
   }
 
-  return inherit( BendingLightModel, PrismBreakModel, {
+  return inherit( BendingLightModel, PrismsScreenModel, {
 
     /**
      * @public

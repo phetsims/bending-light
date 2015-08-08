@@ -22,7 +22,7 @@ define( function( require ) {
   var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
 
   /**
-   * @param {PrismBreakModel} prismBreakModel - main model
+   * @param {PrismsScreenModel} prismBreakModel - main model
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {Prism } prism
    * @param {Node} prismToolboxNode

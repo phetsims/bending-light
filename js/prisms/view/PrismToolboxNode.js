@@ -44,7 +44,7 @@ define( function( require ) {
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {PrismBreakModel} prismBreakModel - model of the prism screen
+   * @param {PrismsScreenModel} prismBreakModel - model of the prism screen
    * @param {Node} prismLayer - layer in which prisms are present when in play area
    * @param {Bounds2} layoutBounds - Bounds of prisms screen.
    * @param {Object} [options] that can be passed on to the underlying node

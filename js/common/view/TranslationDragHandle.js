@@ -31,20 +31,20 @@ define( function( require ) {
 
     showDragHandlesProperty.linkAttribute( this, 'visible' );
 
-    var counterClockwiseDragArrow = new ArrowNode( 0, 0, 0, 0, {
+    var arrowNode = new ArrowNode( 0, 0, 0, 0, {
       headHeight: 16,
       headWidth: 16,
       tailWidth: 8,
       fill: '#33FF00',
       doubleHead: true
     } );
-    this.addChild( counterClockwiseDragArrow );
+    this.addChild( arrowNode );
 
     var laserAngle = -laser.getAngle();
     var magnitude = laserImageWidth * 0.35;
     var viewDeltaX = magnitude * Math.cos( laserAngle );
     var viewDeltaY = magnitude * Math.sin( laserAngle );
-    counterClockwiseDragArrow.setTailAndTip( -dx, -dy, +dx, +dy );
+    arrowNode.setTailAndTip( -dx, -dy, +dx, +dy );
 
     // update the location when laser pivot or emission point change
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty, showDragHandlesProperty ],
@@ -52,7 +52,7 @@ define( function( require ) {
         if ( showDragHandlesProperty.get() ) {
           var tailX = modelViewTransform.modelToViewX( laserEmission.x ) + viewDeltaX;
           var tailY = modelViewTransform.modelToViewY( laserEmission.y ) + viewDeltaY;
-          counterClockwiseDragArrow.setTranslation( tailX, tailY );
+          arrowNode.setTranslation( tailX, tailY );
         }
       } );
   }
