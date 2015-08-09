@@ -8,8 +8,17 @@ http://en.wikipedia.org/wiki/Snell's_law
 The reflected/refracted light powers are calculated using the Fresnel Equations for "s-polarized" (perpendicular) light:
 http://en.wikipedia.org/wiki/Fresnel_equations
 
+The wave is propagated according to the wave equation: cos(k * x - omega * t + phase)
+
 When showing multiple reflections in the Prism Break tab, light rays are terminated after 50 reflections/refractions to
 ensure computability.
+
+The Sellmeier equation is used to compute the index of refraction of glass as a function of wavelength:
+http://en.wikipedia.org/wiki/Sellmeier_equation
+
+The index of refraction of air is computed according to:
+http://refractiveindex.info/?group=GASES&material=Air
+r_air(wavelength) = 1 + 5792105E-8 / (238.0185 - Math.pow( wavelength * 1E6, -2 )) + 167917E-8 / (57.362 - Math.pow( wavelength * 1E6, -2 ))
 
 To compute the white-light representation, the light ray paths are rasterized according to the Bresenham Line algorithm 
 (which interpolates a line between two points), and individual rays are added up, increasing both the intensity and 
