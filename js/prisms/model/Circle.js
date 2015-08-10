@@ -25,7 +25,7 @@ define( function( require ) {
     this.radius = radius; // @public, read only.
 
     // @public, Creates a shape
-    this.shape = new Shape().ellipticalArcPoint( this.center, this.radius, this.radius, 0, 0, Math.PI * 2, false );
+    this.shape = Shape.circle( this.center.x, this.center.y, this.radius );
   }
 
   return inherit( Object, Circle, {
