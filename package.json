@@ -2,6 +2,7 @@
   "name": "bending-light",
   "version": "1.0.0-dev.6",
   "license": "GPLv3",
+  "requirejsNamespace": "BENDING_LIGHT",
   "simTitleStringKey": "BENDING_LIGHT/bending-light.name",
   "phetLibs": [
     "bending-light"
