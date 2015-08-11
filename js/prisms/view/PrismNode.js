@@ -76,14 +76,14 @@ define( function( require ) {
     knobNode.touchArea = Shape.circle( 0, 10, 40 );
 
     var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( prismDragBounds );
-    var prismTranslationNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
+    var prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
       fill: prismBreakModel.prismMedium.color,
       stroke: prismBreakModel.prismMedium.color.darkerColor( 0.9 )
     } );
-    this.addChild( prismTranslationNode );
+    this.addChild( prismPathNode );
 
     var start;
-    prismTranslationNode.addInputListener( new SimpleDragHandler( {
+    prismPathNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = prismNode.globalToParentPoint( event.pointer.point );
       },
@@ -115,7 +115,7 @@ define( function( require ) {
       prismBreakModel.clear();
       prismBreakModel.updateModel();
       prismBreakModel.dirty = true;
-      prismTranslationNode.setShape( modelViewTransform.modelToViewShape( prism.shape.shape ) );
+      prismPathNode.setShape( modelViewTransform.modelToViewShape( prism.shape.shape ) );
 
       var prismReferencePoint = prism.shape.getReferencePoint();
       if ( prismReferencePoint ) {
@@ -141,8 +141,8 @@ define( function( require ) {
 
     this.updatePrismColor = function( prismMedium ) {
       var color = prismMedium.color;
-      prismTranslationNode.fill = color;
-      prismTranslationNode.stroke = color.darkerColor( 0.9 );
+      prismPathNode.fill = color;
+      prismPathNode.stroke = color.darkerColor( 0.9 );
     };
     prismBreakModel.prismMediumProperty.link( this.updatePrismColor );
   }
