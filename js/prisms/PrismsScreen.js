@@ -28,8 +28,11 @@ define( function( require ) {
       function() {
         return prismModel;
       },
-      function( model ) { return new PrismsView( model ); },
-      { backgroundColor: 'white' }
+      function( model ) {
+        return new PrismsView( model );
+      }, {
+        backgroundColor: 'white'
+      }
     );
     // update the background when its medium changes
     prismModel.environmentMediumProperty.link( function( environmentMedium ) {
