@@ -40,32 +40,32 @@ define( function( require ) {
    */
   function PrismsScreenModel() {
 
-    this.prisms = new ObservableArray( [] ); // @public
-
-    // Show multiple beams to help show how lenses work
-    Property.addProperty( this, 'manyRays', 1 );
-
-    // If false, will hide non TIR reflections
-    Property.addProperty( this, 'showReflections', false );
-    Property.addProperty( this, 'showNormals', false );
-    this.showProtractorProperty = new Property( false ); // @public
+    this.prisms = new ObservableArray(); // @public
 
     // List of intersections, which can be shown graphically
     this.intersections = new ObservableArray(); // @public
-
-    // Environment the laser is in
-    Property.addProperty( this, 'environmentMedium', new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
-      MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
-
-    // Material that comprises the prisms
-    Property.addProperty( this, 'prismMedium', new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
-      MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
 
     // Draggable and rotatable protractor
     this.protractorModel = new ProtractorModel( 0, 0 ); // @public
 
     var prismBreakModel = this;
     BendingLightModel.call( this, Math.PI, false, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1 );
+
+    // Show multiple beams to help show how lenses work
+    this.addProperty( 'manyRays', 1 );
+
+    // If false, will hide non TIR reflections
+    this.addProperty( 'showReflections', false );
+    this.addProperty( 'showNormals', false );
+    this.addProperty( 'showProtractor', false ); // @public
+
+    // Environment the laser is in
+    this.addProperty( 'environmentMedium', new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
+      MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
+
+    // Material that comprises the prisms
+    this.addProperty( 'prismMedium', new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
+      MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
 
     Property.multilink( [ this.manyRaysProperty,
       this.environmentMediumProperty,
