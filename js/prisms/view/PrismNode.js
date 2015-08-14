@@ -19,7 +19,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   // images
-  var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
+  var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
 
   /**
    * @param {PrismsScreenModel} prismBreakModel - main model
@@ -37,7 +37,7 @@ define( function( require ) {
     var knobHeight = 15;
 
     // It looks like a box on the side of the prism
-    var knobNode = new Image( KnobImage );
+    var knobNode = new Image( knobImage );
     if ( prism.shape.getReferencePoint() ) {
       prismNode.addChild( knobNode );
     }
