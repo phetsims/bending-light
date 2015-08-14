@@ -69,8 +69,7 @@ define( function( require ) {
      * @param {number} deltaAngle - angle to be rotated
      */
     rotate: function( deltaAngle ) {
-      this.shapeProperty.set( this.shape.getRotatedInstance( deltaAngle,
-        this.shape.getRotationCenter() ) );
+      this.shapeProperty.set( this.shape.getRotatedInstance( deltaAngle, this.shape.getRotationCenter() ) );
     }
   } );
 } );

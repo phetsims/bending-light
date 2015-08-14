@@ -115,13 +115,13 @@ define( function( require ) {
           drag: function( event ) {
             var end = prismToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
             end = layoutBounds.closestPointTo( end );
-            prismShape.translate( modelViewTransform.viewToModelDeltaX( end.x - start.x ),
-              modelViewTransform.viewToModelDeltaY( end.y - start.y ) );
+            var dx = modelViewTransform.viewToModelDeltaX( end.x - start.x );
+            var dy = modelViewTransform.viewToModelDeltaY( end.y - start.y );
+            prismShape.translate( dx, dy );
             start = end;
           },
           end: function() {
-            if ( prismToolBoxNode.visibleBounds.containsCoordinates(
-                prismNode.getCenterX(), prismNode.getCenterY() ) ) {
+            if ( prismToolBoxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
               prismBreakModel.removePrism( prismShape );
               prismShape.shapeProperty.unlink( prismNode.updatePrismShape );
               prismBreakModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
