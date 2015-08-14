@@ -43,12 +43,12 @@ define( function( require ) {
     var laserNode = this;
 
     // add laser image
-    var lightImage = new Image( laserImage, { scale: 0.58 } );
-    this.addChild( lightImage );
-    lightImage.rotateAround( lightImage.getCenter(), Math.PI );
+    var laserImageNode = new Image( laserImage, { scale: 0.58 } );
+    this.addChild( laserImageNode );
+    laserImageNode.rotateAround( laserImageNode.getCenter(), Math.PI );
 
-    var lightImageWidth = lightImage.getWidth();
-    var lightImageHeight = lightImage.getHeight();
+    var lightImageWidth = laserImageNode.getWidth();
+    var lightImageHeight = laserImageNode.getHeight();
 
     // drag handlers can choose which of these regions to use for drag events
     var fractionBackToRotateHandle = 34.0 / 177.0;
@@ -137,8 +137,8 @@ define( function( require ) {
     // add light emission on/off button
     var redButton = new BooleanRoundStickyToggleButton( laser.onProperty, {
       radius: 11,
-      centerX: lightImage.centerX,
-      centerY: lightImage.centerY,
+      centerX: laserImageNode.centerX,
+      centerY: laserImageNode.centerY,
       baseColor: 'red',
       touchExpansion: 5
     } );
