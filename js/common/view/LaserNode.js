@@ -76,7 +76,9 @@ define( function( require ) {
         var deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
         laser.translate( deltaX, deltaY );
         var position = laserDragBoundsInModelValues.closestPointTo( laser.emissionPoint );
-        laser.translate( position.x - laser.emissionPoint.x, position.y - laser.emissionPoint.y );
+        if ( position.x !== laser.emissionPoint.x || position.y !== laser.emissionPoint.y ) {
+          laser.translate( position.x - laser.emissionPoint.x, position.y - laser.emissionPoint.y );
+        }
         start = endDrag;
         showTranslationDragHandlesProperty.value = true;
       },
