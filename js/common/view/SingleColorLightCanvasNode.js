@@ -13,6 +13,7 @@ define( function( require ) {
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
+  var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -33,8 +34,7 @@ define( function( require ) {
     this.rays = rays;
     this.invalidatePaint();
 
-    // TODO: factor 
-    this.strokeWidth = this.modelViewTransform.modelToViewDeltaX( 1.5992063492063494E-7 );
+    this.strokeWidth = this.modelViewTransform.modelToViewDeltaX( LightRay.RAY_WIDTH );
   }
 
   return inherit( CanvasNode, SingleColorLightCanvasNode, {

@@ -227,7 +227,7 @@ define( function( require ) {
      */
     getRayWidth: function() {
       // at the default transform, this yields a 4 pixel wide stroke
-      return 1.5992063492063494E-7;
+      return LightRay.RAY_WIDTH;
     },
 
     /**
@@ -275,5 +275,7 @@ define( function( require ) {
       var t = this.time;
       return k * x - w * t + 2 * Math.PI * this.numWavelengthsPhaseOffset;
     }
+  }, {
+    RAY_WIDTH: 1.5992063492063494E-7
   } );
 } );
