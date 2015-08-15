@@ -51,7 +51,6 @@ define( function( require ) {
      */
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
-      context.beginPath();
       var map = {};
       for ( var i = 0; i < this.whiteLightRays.length; i++ ) {
         var child = this.whiteLightRays.get( i );
@@ -105,12 +104,10 @@ define( function( require ) {
         pixelColor.set( samples[ 0 ] * 255, samples[ 1 ] * 255, samples[ 2 ] * 255, alpha );
 
         // Set the color and fill in the pixel
-        context.fillRect( pointX, pointY, 0.7, 0.7 );
         context.fillStyle = pixelColor.toCSS();
-        context.fill();
+        context.fillRect( pointX, pointY, 0.7, 0.7 );
       }
-      context.closePath();
-      this.hashMapPointArray = [];
+      this.hashMapPointArray.length = 0;
     },
 
     /**
