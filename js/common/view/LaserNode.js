@@ -52,8 +52,7 @@ define( function( require ) {
 
     // drag handlers can choose which of these regions to use for drag events
     var fractionBackToRotateHandle = 34.0 / 177.0;
-    var frontRectangle = new Shape.rect( 0, 0,
-      lightImageWidth * (1 - fractionBackToRotateHandle), lightImageHeight );
+    var frontRectangle = new Shape.rect( 0, 0, lightImageWidth * (1 - fractionBackToRotateHandle), lightImageHeight );
 
     var backRectangle = new Shape.rect( lightImageWidth * (1 - fractionBackToRotateHandle), 0,
       lightImageWidth * fractionBackToRotateHandle, lightImageHeight );
@@ -152,6 +151,8 @@ define( function( require ) {
       laserNode.setTranslation( emissionPointX, emissionPointY );
       laserNode.setRotation( -laser.getAngle() );
       laserNode.translate( 0, -lightImageHeight / 2 );
+
+      // So the light always looks like it comes from the top left, despite the laser angle
       redButton.setRotation( laser.getAngle() );
     } );
 
