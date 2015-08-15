@@ -188,6 +188,7 @@ define( function( require ) {
      * @param {number} dt - time
      */
     step: function( dt ) {
+      BendingLightView.prototype.step.call( this );
       this.timer.step( dt );
     },
 

@@ -341,6 +341,7 @@ define( function( require ) {
      * @protected
      */
     step: function() {
+      BendingLightView.prototype.step.call( this );
       if ( this.introModel.isPlaying ) {
         this.updateWaveShape();
       }
