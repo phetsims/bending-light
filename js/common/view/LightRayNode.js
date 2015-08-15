@@ -16,6 +16,8 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Ray2 = require( 'DOT/Ray2' );
 
+  var shape = Shape.rectangle( -100000, -100000, 200000, 200000 );
+
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {LightRay} lightRay - model of light ray
@@ -31,7 +33,6 @@ define( function( require ) {
 
     // Restricted the light ray view coordinates (start and end )within the specific window(rectangle) area to support in firefox browser
     // Note : if the values are to long rays rendering different directions
-    var shape = Shape.rectangle( -100000, -100000, 200000, 200000 );
     if ( !shape.containsPoint( viewStart ) ) {
       var intersection = shape.intersection( new Ray2( viewEnd, viewStart.minus( viewEnd ).normalize() ) );
       if ( intersection.length ) {
