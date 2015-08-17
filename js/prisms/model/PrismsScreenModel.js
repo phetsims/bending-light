@@ -42,11 +42,11 @@ define( function( require ) {
 
     this.prisms = new ObservableArray(); // @public
 
-    // List of intersections, which can be shown graphically
-    this.intersections = new ObservableArray(); // @public
+    // @public - List of intersections, which can be shown graphically
+    this.intersections = new ObservableArray();
 
-    // Draggable and rotatable protractor
-    this.protractorModel = new ProtractorModel( 0, 0 ); // @public
+    // @public - Draggable and rotatable protractor
+    this.protractorModel = new ProtractorModel( 0, 0 );
 
     var prismBreakModel = this;
     BendingLightModel.call( this, Math.PI, false, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1 );
@@ -67,7 +67,8 @@ define( function( require ) {
     this.addProperty( 'prismMedium', new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
       MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
 
-    Property.multilink( [ this.manyRaysProperty,
+    Property.multilink( [
+      this.manyRaysProperty,
       this.environmentMediumProperty,
       this.showReflectionsProperty,
       this.prismMediumProperty,
