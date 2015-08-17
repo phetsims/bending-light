@@ -25,7 +25,6 @@ define( function( require ) {
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // images
   var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );

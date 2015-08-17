@@ -12,7 +12,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Util = require( 'DOT/Util' );
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
 
   /**
