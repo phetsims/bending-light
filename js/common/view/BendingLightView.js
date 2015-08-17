@@ -25,6 +25,8 @@ define( function( require ) {
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
   var LightRayNode = require( 'BENDING_LIGHT/common/view/LightRayNode' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+  var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // images
   var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
@@ -44,6 +46,7 @@ define( function( require ) {
   function BendingLightView( bendingLightModel, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserTranslationRegion,
                              laserRotationRegion, laserImageName, centerOffsetLeft ) {
 
+    this.bendingLightModel = bendingLightModel;
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
@@ -80,10 +83,13 @@ define( function( require ) {
     var whiteLightRays = new ObservableArray();
     this.whiteLightNode = new WhiteLightNode( this.modelViewTransform, whiteLightRays, stageWidth, stageHeight );
 
+    this.singleColorLightCanvasNode = new SingleColorLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
+
     // layering
     this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );
     this.addChild( this.lightRayLayer );
+    this.addChild( this.singleColorLightCanvasNode );
     this.waveCanvasLayer = new Node(); // @public
     this.addChild( this.waveCanvasLayer );
     this.addChild( this.incidentWaveCanvasLayer );
@@ -149,21 +155,17 @@ define( function( require ) {
     this.addChild( this.afterLightLayer2 );
 
     // switches between ray and wave
-    bendingLightModel.laserViewProperty.link( function() {
-      bendingLightModel.laser.wave = (bendingLightModel.laserView === 'wave');
+    bendingLightModel.laserViewProperty.link( function( laserView ) {
+      bendingLightModel.laser.wave = (laserView === 'wave');
+      bendingLightView.singleColorLightCanvasNode.visible = (laserView === 'ray');
     } );
 
     // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
     bendingLightModel.rays.addItemAddedListener( function( ray ) {
-      var node;
       if ( bendingLightModel.laser.colorMode === 'white' ) {
         whiteLightRays.push( ray );
       }
-      if ( bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) {
-        node = new LightRayNode( bendingLightView.modelViewTransform, ray );
-        bendingLightView.lightRayLayer.addChild( node );
-      }
-      else {
+      if ( !(bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) ) {
         if ( !bendingLightModel.allowWebGL ) {
           for ( var k = 0; k < bendingLightModel.rays.length; k++ ) {
             var waveShape = bendingLightModel.rays.get( k ).waveShape;
@@ -188,7 +190,21 @@ define( function( require ) {
       }
       whiteLightRays.clear();
     } );
+
+    this.events.on( 'layoutFinished', function( dx, dy, width, height, scale ) {
+        bendingLightView.singleColorLightCanvasNode.setCanvasBounds( new Bounds2( 0, 0, width / scale, height / scale ) );
+        bendingLightView.singleColorLightCanvasNode.setTranslation( -dx, -dy );
+      }
+    );
   }
 
-  return inherit( ScreenView, BendingLightView );
+  return inherit( ScreenView, BendingLightView, {
+
+    // @protected - intended to be overriden by subclasses
+    step: function() {
+      if ( this.bendingLightModel.laserView === 'ray' ) {
+        this.singleColorLightCanvasNode.step();
+      }
+    }
+  } );
 } );

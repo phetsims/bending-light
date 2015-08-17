@@ -47,27 +47,54 @@ define( function( require ) {
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
 
+      // The overall translation offset of the canvas.  We must subtract this off of ray coordinates to compensate
+      var dx = this.dx;
+      var dy = this.dy;
+
       context.lineWidth = this.strokeWidth;
       for ( var i = 0; i < this.rays.length; i++ ) {
-        context.beginPath();
         var ray = this.rays.get( i );
-        context.strokeStyle = 'rgba(' + ray.color.getRed() + ',' + ray.color.getGreen() + ',' + ray.color.getBlue() + ',' + Math.sqrt( ray.powerFraction ) + ')';
 
-        context.moveTo(
-          this.modelViewTransform.modelToViewX( ray.tail.x ),
-          this.modelViewTransform.modelToViewY( ray.tail.y )
-        );
+        // iPad3 shows a opacity=0 ray as opacity=1 for unknown reasons, so we simply omit those rays 
+        if ( ray.powerFraction > 1E-6 ) {
+          context.beginPath();
 
-        context.lineTo(
-          this.modelViewTransform.modelToViewX( ray.tip.x ),
-          this.modelViewTransform.modelToViewY( ray.tip.y )
-        );
-        context.stroke();
+          context.strokeStyle = 'rgba(' +
+                                ray.color.getRed() + ',' +
+                                ray.color.getGreen() + ',' +
+                                ray.color.getBlue() + ',' +
+                                Math.sqrt( ray.powerFraction ) +
+                                ')';
+
+          context.moveTo(
+            this.modelViewTransform.modelToViewX( ray.tail.x ) - dx,
+            this.modelViewTransform.modelToViewY( ray.tail.y ) - dy
+          );
+
+          context.lineTo(
+            this.modelViewTransform.modelToViewX( ray.tip.x ) - dx,
+            this.modelViewTransform.modelToViewY( ray.tip.y ) - dy
+          );
+          context.stroke();
+        }
       }
+
+      // This debug code shows the bounds 
+      //context.lineWidth = 10;
+      //context.strokeStyle = 'blue';
+      //context.strokeRect(
+      //  0, 0,
+      //  this.canvasBounds.width, this.canvasBounds.height
+      //);
     },
 
     step: function() {
       this.invalidatePaint();
+    },
+    setTranslation: function( dx, dy ) {
+      this.dx = dx;
+      this.dy = dy;
+      CanvasNode.prototype.setTranslation.call( this, dx, dy );
     }
   } );
 } );
