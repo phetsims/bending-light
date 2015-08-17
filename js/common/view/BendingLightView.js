@@ -23,7 +23,6 @@ define( function( require ) {
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
-  var LightRayNode = require( 'BENDING_LIGHT/common/view/LightRayNode' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
