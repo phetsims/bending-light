@@ -32,7 +32,7 @@ define( function( require ) {
    */
   function PrismNode( prismBreakModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds ) {
 
-    Node.call( this, { cursor: 'pointer' } );
+    Node.call( this, { cursor: 'pointer', cssTransform: true } );
     var prismNode = this;
     var knobHeight = 15;
 
@@ -47,6 +47,7 @@ define( function( require ) {
     var prismCenterPoint;
     knobNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
+        prismNode.moveToFront();
         var start = knobNode.globalToParentPoint( event.pointer.point );
         prismCenterPoint = prism.shape.getRotationCenter();
         var statX = modelViewTransform.viewToModelX( start.x );// model values
@@ -85,6 +86,7 @@ define( function( require ) {
     var start;
     prismPathNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
+        prismNode.moveToFront();
         start = prismNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
