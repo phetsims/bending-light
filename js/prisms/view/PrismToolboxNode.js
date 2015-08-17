@@ -207,17 +207,27 @@ define( function( require ) {
       spacing: 2
     };
 
-    var showReflectionsCheckBox = new CheckBox( createItem( showReflections ), prismBreakModel.showReflectionsProperty,
-      checkBoxOptions );
-    var showNormalCheckBox = new CheckBox( createItem( showNormal ), prismBreakModel.showNormalsProperty,
-      checkBoxOptions );
-    var showProtractorCheckBox = new CheckBox( createItem( showProtractor ), prismBreakModel.showProtractorProperty,
-      checkBoxOptions );
+    var showReflectionsCheckBox = new CheckBox(
+      createItem( showReflections ),
+      prismBreakModel.showReflectionsProperty,
+      checkBoxOptions
+    );
+    var showNormalCheckBox = new CheckBox(
+      createItem( showNormal ),
+      prismBreakModel.showNormalsProperty,
+      checkBoxOptions
+    );
+    var showProtractorCheckBox = new CheckBox(
+      createItem( showProtractor ),
+      prismBreakModel.showProtractorProperty,
+      checkBoxOptions
+    );
 
     var maxCheckBoxWidth = _.max( [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ],
         function( item ) {
           return item.width;
-        } ).width + 5;
+        }
+      ).width + 5;
 
     // touch Areas
     showReflectionsCheckBox.touchArea = new Bounds2(
