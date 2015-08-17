@@ -274,7 +274,7 @@ define( function( require ) {
       var rayVisibleColor;
       var waveWidth = CHARACTERISTIC_LENGTH * 5;
 
-      // Termination condition of we have reached too many iterations or if the ray is very weak
+      // Termination condition: we have reached too many iterations or if the ray is very weak
       if ( count > 50 || incidentRay.power < 0.001 ) {
         return;
       }

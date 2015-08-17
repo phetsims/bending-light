@@ -15,7 +15,7 @@ define( function( require ) {
   var Ray2 = require( 'DOT/Ray2' );
 
   /**
-   * @param {array.<Line>} edges - edges of the prism
+   * @param {array.<Line>} edges - edges of the prism, or an empty array for a circle
    * @param {Shape} arc - arc of the prism
    * @param {Vector2} center - center of the arc if prism contains arc otherwise null
    * @param {Ray} ray - light ray intersecting the prism
