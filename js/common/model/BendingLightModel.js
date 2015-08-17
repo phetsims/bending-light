@@ -81,8 +81,8 @@ define( function( require ) {
    */
   function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot, centerOffsetLeft ) {
 
-    // list of rays in the model
-    this.rays = new ObservableArray(); // @public
+    // @public - list of rays in the model
+    this.rays = new ObservableArray();
 
     // dimensions of the model, guaranteed to be shown in entirety on the stage
     this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public read-only
@@ -105,14 +105,16 @@ define( function( require ) {
       }
     );
 
-    // model components
+    // @public - model components
     this.intensityMeter = new IntensityMeter(
       -this.modelWidth * (centerOffsetLeft ? 0.34 : 0.48),
       -this.modelHeight * 0.285,
       -this.modelWidth * (centerOffsetLeft ? 0.282 : 0.421),
       -this.modelHeight * 0.312
-    );// @public
-    this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );// @public
+    );
+
+    // @public - the laser
+    this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }
 
   return inherit( PropertySet, BendingLightModel, {
