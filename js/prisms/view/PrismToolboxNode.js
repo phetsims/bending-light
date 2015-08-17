@@ -232,15 +232,18 @@ define( function( require ) {
     // touch Areas
     showReflectionsCheckBox.touchArea = new Bounds2(
       showReflectionsCheckBox.localBounds.minX - 5, showReflectionsCheckBox.localBounds.minY,
-      showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth, showReflectionsCheckBox.localBounds.maxY );
+      showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth, showReflectionsCheckBox.localBounds.maxY
+    );
 
     showNormalCheckBox.touchArea = new Bounds2(
       showNormalCheckBox.localBounds.minX - 5, showNormalCheckBox.localBounds.minY,
-      showNormalCheckBox.localBounds.minX + maxCheckBoxWidth, showNormalCheckBox.localBounds.maxY );
+      showNormalCheckBox.localBounds.minX + maxCheckBoxWidth, showNormalCheckBox.localBounds.maxY
+    );
 
     showProtractorCheckBox.touchArea = new Bounds2(
       showProtractorCheckBox.localBounds.minX - 5, showProtractorCheckBox.localBounds.minY,
-      showProtractorCheckBox.localBounds.minX + maxCheckBoxWidth, showProtractorCheckBox.localBounds.maxY );
+      showProtractorCheckBox.localBounds.minX + maxCheckBoxWidth, showProtractorCheckBox.localBounds.maxY
+    );
 
     // pad all the rows so the text nodes are left aligned and the icons is right aligned
     var checkBoxes = new VBox( {
