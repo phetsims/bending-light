@@ -40,10 +40,11 @@ define( function( require ) {
    * @param {function} laserRotationRegion - region that defines laser rotation
    * @param {string} laserImageName - name of laser image
    * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
+   * @param {number} verticalOffset - how much to shift the model view transform in stage coordinates
    * @constructor
    */
   function BendingLightView( bendingLightModel, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserTranslationRegion,
-                             laserRotationRegion, laserImageName, centerOffsetLeft ) {
+                             laserRotationRegion, laserImageName, centerOffsetLeft, verticalOffset ) {
 
     this.bendingLightModel = bendingLightModel;
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
@@ -72,8 +73,13 @@ define( function( require ) {
     // center the stage in the canvas, specifies how things scale up and down with window size, maps stage to pixels
     // create the transform from model (SI) to view (stage) coordinates
     var scale = stageHeight / bendingLightModel.modelHeight;
-    this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping( new Vector2( 0, 0 ),
-      new Vector2( 388 - centerOffsetLeft, stageHeight / 2 ), scale ); // @public, read only
+
+    // @public, read only
+    this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+      new Vector2( 0, 0 ),
+      new Vector2( 388 - centerOffsetLeft, stageHeight / 2 + verticalOffset ),
+      scale
+    );
 
     // create and add the graphic for the environment medium
     this.mediumNode = new Node(); // @public

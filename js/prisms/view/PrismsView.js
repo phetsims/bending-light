@@ -65,13 +65,17 @@ define( function( require ) {
       return fullShape;
     }
 
-    BendingLightView.call( this, prismBreakModel,
+    BendingLightView.call( this,
+      prismBreakModel,
       clampDragAngle,
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
       translationRegion,
-      rotationRegionShape, 'laserKnob',
-      90 );
+      rotationRegionShape,
+      'laserKnob',
+      90,
+      -43
+    );
 
     var IndexOfRefractionDecimals = 2;
 

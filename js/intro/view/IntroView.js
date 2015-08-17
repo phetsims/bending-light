@@ -107,8 +107,11 @@ define( function( require ) {
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
       this.getProtractorRotationRegion,
-      rotationRegionShape, 'laser',
-      centerOffsetLeft );
+      rotationRegionShape,
+      'laser',
+      centerOffsetLeft,
+      0
+    );
 
     var stageWidth = this.layoutBounds.width;
     var stageHeight = this.layoutBounds.height;
