@@ -48,8 +48,7 @@ define( function( require ) {
      * @returns {Array}
      */
     getIntersections: function( ray ) {
-      var prismIntersection = new PrismIntersection( [], this.shape, this.center, ray );
-      return prismIntersection.intersections;
+      return PrismIntersection.getIntersections( [], this.shape, this.center, ray );
     },
 
     /**

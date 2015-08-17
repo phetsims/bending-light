@@ -184,8 +184,7 @@ define( function( require ) {
         var startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
         arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
       }
-      var prismIntersection = new PrismIntersection( this.getEdges(), arc, this.center, ray );
-      return prismIntersection.intersections;
+      return PrismIntersection.getIntersections( this.getEdges(), arc, this.center, ray );
     },
 
     /**

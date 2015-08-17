@@ -122,8 +122,7 @@ define( function( require ) {
       var segment = new Line( this.points[ 0 ], this.points[ 1 ] );
       var startAngle = Math.atan2( this.points[ 1 ].y - this.center.y, this.points[ 1 ].x - this.center.x );
       var arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
-      var prismIntersection = new PrismIntersection( [ segment ], arc, this.center, ray );
-      return prismIntersection.intersections;
+      return PrismIntersection.getIntersections( [ segment ], arc, this.center, ray );
     }
   } );
 } );
