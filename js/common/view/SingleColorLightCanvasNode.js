@@ -46,15 +46,11 @@ define( function( require ) {
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
 
-      // The overall translation offset of the canvas.  We must subtract this off of ray coordinates to compensate
-      var dx = this.dx;
-      var dy = this.dy;
-
       context.lineWidth = this.strokeWidth;
       for ( var i = 0; i < this.rays.length; i++ ) {
         var ray = this.rays.get( i );
 
-        // iPad3 shows a opacity=0 ray as opacity=1 for unknown reasons, so we simply omit those rays 
+        // iPad3 shows a opacity=0 ray as opacity=1 for unknown reasons, so we simply omit those rays
         if ( ray.powerFraction > 1E-6 ) {
           context.beginPath();
 
@@ -66,34 +62,29 @@ define( function( require ) {
                                 ')';
 
           context.moveTo(
-            this.modelViewTransform.modelToViewX( ray.tail.x ) - dx,
-            this.modelViewTransform.modelToViewY( ray.tail.y ) - dy
+            this.modelViewTransform.modelToViewX( ray.tail.x ),
+            this.modelViewTransform.modelToViewY( ray.tail.y )
           );
 
           context.lineTo(
-            this.modelViewTransform.modelToViewX( ray.tip.x ) - dx,
-            this.modelViewTransform.modelToViewY( ray.tip.y ) - dy
+            this.modelViewTransform.modelToViewX( ray.tip.x ),
+            this.modelViewTransform.modelToViewY( ray.tip.y )
           );
           context.stroke();
         }
       }
 
-      // This debug code shows the bounds 
-      //context.lineWidth = 10;
-      //context.strokeStyle = 'blue';
-      //context.strokeRect(
-      //  0, 0,
+      // This debug code shows the bounds
+      // context.lineWidth = 10;
+      // context.strokeStyle = 'blue';
+      // context.strokeRect(
+      //  this.canvasBounds.minX, this.canvasBounds.minY,
       //  this.canvasBounds.width, this.canvasBounds.height
-      //);
+      // );
     },
 
     step: function() {
       this.invalidatePaint();
-    },
-    setTranslation: function( dx, dy ) {
-      this.dx = dx;
-      this.dy = dy;
-      CanvasNode.prototype.setTranslation.call( this, dx, dy );
     }
   } );
 } );
