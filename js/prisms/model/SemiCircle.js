@@ -33,9 +33,11 @@ define( function( require ) {
 
     // Creates a shape
     var startAngle = Math.atan2( this.center.y - this.points[ 1 ].y, this.center.x - this.points[ 1 ].x );
-    this.shape = new Shape()
-      .ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, false )
-      .close(); // @public
+
+    // @public - the shape of the semi-circle
+    this.shape = new Shape().
+      ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, false ).
+      close();
   }
 
   return inherit( Object, SemiCircle, {
