@@ -162,8 +162,13 @@ define( function( require ) {
     // switches between ray and wave
     bendingLightModel.laserViewProperty.link( function( laserView ) {
       bendingLightModel.laser.wave = (laserView === 'wave');
-      bendingLightView.singleColorLightCanvasNode.visible = (laserView === 'ray');
     } );
+
+    Property.multilink( [ bendingLightModel.laser.colorModeProperty, bendingLightModel.laserViewProperty ],
+      function( colorMode, laserView ) {
+        bendingLightView.singleColorLightCanvasNode.visible = laserView === 'ray' && colorMode !== 'white';
+      }
+    );
 
     // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
     bendingLightModel.rays.addItemAddedListener( function( ray ) {
@@ -207,7 +212,7 @@ define( function( require ) {
 
     // @protected - intended to be overriden by subclasses
     step: function() {
-      if ( this.bendingLightModel.laserView === 'ray' ) {
+      if ( this.singleColorLightCanvasNode.visible ) {
         this.singleColorLightCanvasNode.step();
       }
     }
