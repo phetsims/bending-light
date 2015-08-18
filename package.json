@@ -16,9 +16,6 @@
   "phet": {
     "requirejsNamespace": "BENDING_LIGHT",
     "simTitleStringKey": "BENDING_LIGHT/bending-light.name",
-    "phetLibs": [
-      "bending-light"
-    ],
     "preload": [
       "../sherpa/lib/Tween-r12.js"
     ]
