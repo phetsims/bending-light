@@ -110,7 +110,9 @@ define( function( require ) {
       rotationRegionShape,
       'laser',
       centerOffsetLeft,
-      0
+      0,
+      // No need to handle occlusions
+      function() {}
     );
 
     var stageWidth = this.layoutBounds.width;

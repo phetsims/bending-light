@@ -74,7 +74,17 @@ define( function( require ) {
       rotationRegionShape,
       'laserKnob',
       90,
-      -43
+      -43,
+      // occlusion handler, if the prism is dropped behind a control panel, bump it to the left.
+      function( node ) {
+
+        var controlPanels = [ laserControlPanel, environmentMediumControlPanel ];
+        controlPanels.forEach( function( controlPanel ) {
+          if ( controlPanel.globalBounds.containsPoint( node.globalBounds.center ) ) {
+            node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
+          }
+        } );
+      }
     );
 
     var IndexOfRefractionDecimals = 2;
@@ -160,8 +170,16 @@ define( function( require ) {
     this.addChild( protractorNode );
 
     // Add prisms tool box Node
-    var prismToolboxNode = new PrismToolboxNode( this.modelViewTransform, prismBreakModel, this.prismLayer,
-      this.layoutBounds, { left: this.layoutBounds.minX + 12, bottom: this.layoutBounds.bottom - INSET } );
+    var prismToolboxNode = new PrismToolboxNode(
+      this.modelViewTransform,
+      prismBreakModel,
+      this.prismLayer,
+      this.layoutBounds,
+      this.occlusionHandler, {
+        left: this.layoutBounds.minX + 12,
+        bottom: this.layoutBounds.bottom - INSET
+      }
+    );
     this.beforeLightLayer.addChild( prismToolboxNode );
     this.beforeLightLayer.addChild( this.prismLayer );
 

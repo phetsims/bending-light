@@ -34,10 +34,11 @@ define( function( require ) {
    * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating the laser
    * @param {string} laserImage - name of the laser image
    * @param {Bounds2} dragBounds - bounds that define where the laser may be dragged
+   * @param {function} occlusionHandler - function that will move the laser out from behind a control panel if dropped there
    * @constructor
    */
   function LaserNode( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
-                      clampDragAngle, translationRegion, rotationRegion, laserImage, dragBounds ) {
+                      clampDragAngle, translationRegion, rotationRegion, laserImage, dragBounds, occlusionHandler ) {
 
     Node.call( this, { cursor: 'pointer' } );
     var laserNode = this;
@@ -83,6 +84,7 @@ define( function( require ) {
       },
       end: function() {
         showTranslationDragHandlesProperty.value = false;
+        occlusionHandler( laserNode );
       }
     } ) );
     translationRegionPath.addInputListener( {
@@ -158,6 +160,17 @@ define( function( require ) {
 
     // touch area
     this.touchArea = this.localBounds;
+
+    /**
+     * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding model
+     * @param {number} x
+     * @param {number} y
+     * @public
+     */
+    this.translateViewXY = function( x, y ) {
+      var delta = modelViewTransform.viewToModelDeltaXY( x, y );
+      laser.translate( delta.x, delta.y );
+    }
   }
 
   return inherit( Node, LaserNode );

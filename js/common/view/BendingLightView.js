@@ -40,12 +40,13 @@ define( function( require ) {
    * @param {string} laserImageName - name of laser image
    * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
    * @param {number} verticalOffset - how much to shift the model view transform in stage coordinates
+   * @param {function} occlusionHandler - function that will move objects out from behind a control panel if dropped there
    * @constructor
    */
   function BendingLightView( bendingLightModel, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserTranslationRegion,
-                             laserRotationRegion, laserImageName, centerOffsetLeft, verticalOffset ) {
+                             laserRotationRegion, laserImageName, centerOffsetLeft, verticalOffset, occlusionHandler ) {
 
-    this.bendingLightModel = bendingLightModel;
+    this.occlusionHandler = occlusionHandler;
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
@@ -149,7 +150,9 @@ define( function( require ) {
     var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
     var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImage,
-      this.layoutBounds );
+      this.layoutBounds,
+      occlusionHandler
+    );
     this.addChild( laserNode );
 
     // add laser node rotation and translation arrows in array, for to move them to front of all other nodes in prism screen

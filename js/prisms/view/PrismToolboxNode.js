@@ -47,10 +47,12 @@ define( function( require ) {
    * @param {PrismsScreenModel} prismBreakModel - model of the prism screen
    * @param {Node} prismLayer - layer in which prisms are present when in play area
    * @param {Bounds2} layoutBounds - Bounds of prisms screen.
+   * @param {function} occlusionHandler - function that takes one node as a parameter and updates it if occluded by a
+   *                                    - control panel
    * @param {Object} [options] that can be passed on to the underlying node
    * @constructor
    */
-  function PrismToolboxNode( modelViewTransform, prismBreakModel, prismLayer, layoutBounds, options ) {
+  function PrismToolboxNode( modelViewTransform, prismBreakModel, prismLayer, layoutBounds, occlusionHandler, options ) {
     var prismToolBoxNode = this;
 
     Node.call( this );
@@ -108,7 +110,7 @@ define( function( require ) {
             prismShape = prism.copy();
             prismBreakModel.addPrism( prismShape );
             prismNode = new PrismNode( prismBreakModel, modelViewTransform, prismShape, prismToolBoxNode, prismLayer,
-              layoutBounds );
+              layoutBounds, occlusionHandler );
             prismLayer.addChild( prismNode );
             prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
           },
@@ -128,6 +130,9 @@ define( function( require ) {
               prismLayer.removeChild( prismNode );
               prismBreakModel.dirty = true;
             }
+            else {
+              occlusionHandler( prismNode );
+            } 
           }
         }
       ) );

@@ -28,9 +28,12 @@ define( function( require ) {
    * @param {Node} prismToolboxNode
    * @param {Node} prismLayer - layer consisting of prisms in play area
    * @param {Bounds2} prismDragBounds - bounds that define where the prism may be dragged
+   * @param {function} occlusionHandler - function that takes a node and updates it if it would be occluded by a control
+   *                                    - panel
    * @constructor
    */
-  function PrismNode( prismBreakModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds ) {
+  function PrismNode( prismBreakModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds,
+                      occlusionHandler ) {
 
     Node.call( this, { cursor: 'pointer', cssTransform: true } );
     var prismNode = this;
@@ -102,6 +105,9 @@ define( function( require ) {
           }
           prismBreakModel.dirty = true;
         }
+        else {
+          occlusionHandler( prismNode );
+        }
       }
     } ) );
 
@@ -140,6 +146,17 @@ define( function( require ) {
       prismPathNode.stroke = color.darkerColor( 0.9 );
     };
     prismBreakModel.prismMediumProperty.link( this.updatePrismColor );
+
+    /**
+     * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding model
+     * @param {number} x
+     * @param {number} y
+     * @public
+     */
+    this.translateViewXY = function( x, y ) {
+      var delta = modelViewTransform.viewToModelDeltaXY( x, y );
+      prism.translate( delta.x, delta.y );
+    }
   }
 
   return inherit( Node, PrismNode );
