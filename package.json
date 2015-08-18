@@ -2,14 +2,6 @@
   "name": "bending-light",
   "version": "1.0.0-dev.7",
   "license": "GPLv3",
-  "requirejsNamespace": "BENDING_LIGHT",
-  "simTitleStringKey": "BENDING_LIGHT/bending-light.name",
-  "phetLibs": [
-    "bending-light"
-  ],
-  "preload": [
-    "../sherpa/lib/Tween-r12.js"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/phetsims/bending-light.git"
@@ -20,5 +12,15 @@
     "grunt-contrib-jshint": "~0.6.4",
     "uglify-js": "~2.4.0",
     "requirejs": "~2.1.8"
+  },
+  "phet": {
+    "requirejsNamespace": "BENDING_LIGHT",
+    "simTitleStringKey": "BENDING_LIGHT/bending-light.name",
+    "phetLibs": [
+      "bending-light"
+    ],
+    "preload": [
+      "../sherpa/lib/Tween-r12.js"
+    ]
   }
 }
