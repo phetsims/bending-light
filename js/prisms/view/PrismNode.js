@@ -63,16 +63,9 @@ define( function( require ) {
         prism.rotate( angle - previousAngle );
         previousAngle = angle;
       },
-      end: function() {
-        if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
-          if ( prismLayer.isChild( prismNode ) ) {
-            prismBreakModel.removePrism( prism );
-            prism.shapeProperty.unlink( prismNode.updatePrismShape );
-            prismBreakModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
-            prismLayer.removeChild( prismNode );
-          }
-        }
-      }
+
+      // A Prism cannot be put back into the toolbox by rotating it.
+      end: function() {}
     } ) );
     knobNode.touchArea = Shape.circle( 0, 10, 40 );
 
