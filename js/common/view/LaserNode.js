@@ -170,7 +170,7 @@ define( function( require ) {
     this.translateViewXY = function( x, y ) {
       var delta = modelViewTransform.viewToModelDeltaXY( x, y );
       laser.translate( delta.x, delta.y );
-    }
+    };
   }
 
   return inherit( Node, LaserNode );

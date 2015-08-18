@@ -156,7 +156,7 @@ define( function( require ) {
     this.translateViewXY = function( x, y ) {
       var delta = modelViewTransform.viewToModelDeltaXY( x, y );
       prism.translate( delta.x, delta.y );
-    }
+    };
   }
 
   return inherit( Node, PrismNode );
