@@ -31,13 +31,13 @@ define( function( require ) {
   var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
 
   /**
-   * @param {PrismsScreenModel} prismsScreenModel - model of prisms screen
+   * @param {PrismsModel} prismsModel - model of prisms screen
    * @constructor
    */
-  function PrismsView( prismsScreenModel ) {
+  function PrismsView( prismsModel ) {
 
     this.prismLayer = new Node();
-    this.prismsScreenModel = prismsScreenModel;
+    this.prismsModel = prismsModel;
     var prismsView = this;
 
     // Specify how the drag angle should be clamped
@@ -66,7 +66,7 @@ define( function( require ) {
     }
 
     BendingLightView.call( this,
-      prismsScreenModel,
+      prismsModel,
       clampDragAngle,
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
@@ -90,8 +90,8 @@ define( function( require ) {
     var IndexOfRefractionDecimals = 2;
 
     // Add control panels for setting the index of refraction for each medium
-    var environmentMediumControlPanel = new MediumControlPanel( this, prismsScreenModel.environmentMediumProperty,
-      environmentString, false, prismsScreenModel.wavelengthProperty, IndexOfRefractionDecimals, {
+    var environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.environmentMediumProperty,
+      environmentString, false, prismsModel.wavelengthProperty, IndexOfRefractionDecimals, {
         xMargin: 7,
         yMargin: 6
       } );
@@ -99,8 +99,8 @@ define( function( require ) {
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
 
-    var laserControlPanel = new LaserControlPanel( prismsScreenModel.laser.colorModeProperty,
-      prismsScreenModel.wavelengthProperty, 'white', 'singleColor', whiteLightString, oneColorString, true, {
+    var laserControlPanel = new LaserControlPanel( prismsModel.laser.colorModeProperty,
+      prismsModel.wavelengthProperty, 'white', 'singleColor', whiteLightString, oneColorString, true, {
         xMargin: 5,
         yMargin: 10,
         radioButtonradius: 7,
@@ -115,12 +115,12 @@ define( function( require ) {
     this.incidentWaveCanvasLayer.setVisible( false );
 
     // Optionally show the normal lines at each intersection
-    prismsScreenModel.intersections.addItemAddedListener( function( addedIntersection ) {
-      if ( prismsScreenModel.showNormals ) {
+    prismsModel.intersections.addItemAddedListener( function( addedIntersection ) {
+      if ( prismsModel.showNormals ) {
         var node = new IntersectionNode( prismsView.modelViewTransform, addedIntersection );
         prismsView.addChild( node );
 
-        prismsScreenModel.intersections.addItemRemovedListener( function( removedIntersection ) {
+        prismsModel.intersections.addItemRemovedListener( function( removedIntersection ) {
           if ( removedIntersection === addedIntersection ) {
             prismsView.removeChild( node );
           }
@@ -128,7 +128,7 @@ define( function( require ) {
       }
     } );
 
-    var laserTypeControlPanel = new LaserTypeControlPanel( prismsScreenModel.manyRaysProperty, {
+    var laserTypeControlPanel = new LaserTypeControlPanel( prismsModel.manyRaysProperty, {
       top: this.layoutBounds.top + INSET,
       left: this.layoutBounds.minX + INSET
     } );
@@ -137,7 +137,7 @@ define( function( require ) {
     // Add the reset all button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        prismsScreenModel.reset();
+        prismsModel.reset();
         prismsView.reset();
         laserControlPanel.reset();
         environmentMediumControlPanel.reset();
@@ -164,15 +164,15 @@ define( function( require ) {
     };
 
     // Add the protractor node
-    var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismsScreenModel.showProtractorProperty,
-      prismsScreenModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
+    var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismsModel.showProtractorProperty,
+      prismsModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
       this.layoutBounds );
     this.addChild( protractorNode );
 
     // Add prisms tool box Node
     var prismToolboxNode = new PrismToolboxNode(
       this.modelViewTransform,
-      prismsScreenModel,
+      prismsModel,
       this.prismLayer,
       this.layoutBounds,
       this.occlusionHandler, {
@@ -189,7 +189,7 @@ define( function( require ) {
     } );
 
     // Move the laser node to front of all other nodes of prism screen.
-    prismsScreenModel.laser.emissionPointProperty.link( function() {
+    prismsModel.laser.emissionPointProperty.link( function() {
       for ( var i = 0; i < prismsView.laserLayerArray.length; i++ ) {
         prismsView.laserLayerArray[ i ].moveToFront();
       }
@@ -218,9 +218,9 @@ define( function( require ) {
      * @private, for internal use only.
      */
     updateWhiteLightNode: function() {
-      if ( this.prismsScreenModel.laser.colorMode === 'white' && this.prismsScreenModel.dirty ) {
+      if ( this.prismsModel.laser.colorMode === 'white' && this.prismsModel.dirty ) {
         this.whiteLightNode.step();
-        this.prismsScreenModel.dirty = false;
+        this.prismsModel.dirty = false;
       }
     }
   } );

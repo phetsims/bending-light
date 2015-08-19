@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var PrismsScreenModel = require( 'BENDING_LIGHT/prisms/model/PrismsScreenModel' );
+  var PrismsModel = require( 'BENDING_LIGHT/prisms/model/PrismsModel' );
   var PrismsView = require( 'BENDING_LIGHT/prisms/view/PrismsView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
@@ -23,7 +23,7 @@ define( function( require ) {
    */
   function PrismsScreen() {
     var screen = this;
-    var prismModel = new PrismsScreenModel();
+    var prismModel = new PrismsModel();
     Screen.call( this, prismsTitleString, new Rectangle( 0, 0, 548, 373, { fill: 'green' } ),
       function() {
         return prismModel;

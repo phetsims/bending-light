@@ -38,7 +38,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function PrismsScreenModel() {
+  function PrismsModel() {
 
     this.prisms = new ObservableArray(); // @public
 
@@ -48,7 +48,7 @@ define( function( require ) {
     // @public - Draggable and rotatable protractor
     this.protractorModel = new ProtractorModel( 0, 0 );
 
-    var prismsScreenModel = this;
+    var prismsModel = this;
     BendingLightModel.call( this, Math.PI, false, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1 );
 
     // Show multiple beams to help show how lenses work
@@ -80,9 +80,9 @@ define( function( require ) {
       this.laser.colorProperty,
       this.laserViewProperty
     ], function() {
-      prismsScreenModel.clear();
-      prismsScreenModel.updateModel();
-      prismsScreenModel.dirty = true;
+      prismsModel.clear();
+      prismsModel.updateModel();
+      prismsModel.dirty = true;
     } );
 
     // coalesce repeat updates so work is not duplicated in white light node.
@@ -92,7 +92,7 @@ define( function( require ) {
     this.rotationArrowAngleOffset = 0;
   }
 
-  return inherit( BendingLightModel, PrismsScreenModel, {
+  return inherit( BendingLightModel, PrismsModel, {
 
     /**
      * @public
