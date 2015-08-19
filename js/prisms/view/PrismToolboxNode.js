@@ -59,7 +59,6 @@ define( function( require ) {
     var content = new HBox( {
       spacing: 8.4
     } );
-    var prismPath = [];
 
     // Create prism icon
     var createPrismIcon = function( prism ) {
@@ -94,11 +93,11 @@ define( function( require ) {
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
     var prismNode;
     prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
-      prismPath[ i ] = createPrismIcon( prism );
+      var prismIcon = createPrismIcon( prism );
       var start;
       var prismShape;
-      var prismIconBounds = prismPath[ i ].bounds;
-      prismPath[ i ].scale( 55 / prismPath[ i ].height );
+      var prismIconBounds = prismIcon.bounds;
+      prismIcon.scale( 55 / prismIcon.height );
       var shape = new Path( Shape.rectangle( prismIconBounds.minX, prismIconBounds.minY, prismIconBounds.getWidth(), prismIconBounds.getHeight() ), {
         pickable: true,
         cursor: 'pointer'
@@ -132,14 +131,14 @@ define( function( require ) {
             }
             else {
               occlusionHandler( prismNode );
-            } 
+            }
           }
         }
       ) );
 
-      prismPath[ i ].touchArea = prismPath[ i ].localBounds;
-      content.addChild( prismPath[ i ] );
-      prismPath[ i ].addChild( shape );
+      prismIcon.touchArea = prismIcon.localBounds;
+      content.addChild( prismIcon );
+      prismIcon.addChild( shape );
     } );
 
     // Allow the user to control the type of material in the prisms
