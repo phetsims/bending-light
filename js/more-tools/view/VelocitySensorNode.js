@@ -210,8 +210,9 @@ define( function( require ) {
       var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
 
       velocitySensorNode.bodyNode.setTranslation(
-        velocitySensorXPosition,
-        velocitySensorYPosition - velocitySensorNode.bodyHeight / 2 * velocitySensorNodeScaleVector.y );
+        velocitySensorXPosition + triangleWidth,
+        velocitySensorYPosition - velocitySensorNode.bodyHeight / 2 * velocitySensorNodeScaleVector.y
+      );
     } );
 
     // Update the text when the value or units changes.
