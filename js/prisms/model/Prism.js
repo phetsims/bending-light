@@ -15,11 +15,15 @@ define( function( require ) {
 
   /**
    * @param {Polygon/Circle/SemiCircle} shape
+   * @param {string} - typeName for keeping track of how many of each kind there are, to remove from toolbox
    * @constructor
    */
-  function Prism( shape ) {
+  function Prism( shape, typeName ) {
 
     Property.addProperty( this, 'shape', shape );
+
+    // @public
+    this.typeName = typeName;
   }
 
   return inherit( Object, Prism, {
@@ -60,7 +64,7 @@ define( function( require ) {
      * @returns {Prism}
      */
     copy: function() {
-      return new Prism( this.shape );
+      return new Prism( this.shape, this.typeName );
     },
 
     /**

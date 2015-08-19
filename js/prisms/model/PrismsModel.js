@@ -127,14 +127,14 @@ define( function( require ) {
         new Vector2( a / 2, a / 2 ),
         new Vector2( a / 2, -a / 2 ),
         new Vector2( -a / 2, -a / 2 )
-      ], 0 ) ) );
+      ], 0 ), 'square' ) );
 
       // triangle, attach at bottom right
       prismsTypes.push( new Prism( new Polygon( 1, [
         new Vector2( -a / 2, -a / (2 * Math.sqrt( 3 )) ),
         new Vector2( a / 2, -a / (2 * Math.sqrt( 3 )) ),
         new Vector2( 0, a / Math.sqrt( 3 ) )
-      ], 0 ) ) );
+      ], 0 ), 'triangle' ) );
 
       // trapezoid, attach at bottom right
       prismsTypes.push( new Prism( new Polygon( 1, [
@@ -142,18 +142,18 @@ define( function( require ) {
         new Vector2( a / 2, -a * Math.sqrt( 3 ) / 4 ),
         new Vector2( a / 4, a * Math.sqrt( 3 ) / 4 ),
         new Vector2( -a / 4, a * Math.sqrt( 3 ) / 4 )
-      ], 0 ) ) );
+      ], 0 ), 'trapezoid' ) );
 
       var radius = a / 2;
 
       // Continuous Circle
-      prismsTypes.push( new Prism( new Circle( new Vector2(), radius ) ) );
+      prismsTypes.push( new Prism( new Circle( new Vector2(), radius ), 'circle' ) );
 
       // SemiCircle
       prismsTypes.push( new Prism( new SemiCircle( 1, [
         new Vector2( 0, radius ),
         new Vector2( 0, -radius )
-      ], radius ) ) );
+      ], radius ), 'semicircle' ) );
 
       // DivergingLens
       prismsTypes.push( new Prism( new Polygon( 2, [
@@ -161,7 +161,7 @@ define( function( require ) {
         new Vector2( 0.6 * radius, radius ),
         new Vector2( 0.6 * radius, -radius ),
         new Vector2( -0.6 * radius, -radius )
-      ], radius ) ) );
+      ], radius ), 'diverging-lens' ) );
       return prismsTypes;
     },
 

@@ -92,8 +92,16 @@ define( function( require ) {
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
     var prismNode;
-    prismsModel.getPrismPrototypes().forEach( function( prism, i ) {
+    prismsModel.getPrismPrototypes().forEach( function( prism ) {
       var prismIcon = createPrismIcon( prism );
+
+      var listener = function() {
+        var count = _.filter( prismsModel.prisms.getArray(), function( p ) {
+          return p.typeName === prism.typeName;
+        } ).length;
+        prismIcon.visible = count < 5;
+      };
+      prismsModel.prisms.addListeners( listener, listener );
       var start;
       var prismShape;
       var prismIconBounds = prismIcon.bounds;
@@ -112,9 +120,6 @@ define( function( require ) {
               layoutBounds, occlusionHandler );
             prismLayer.addChild( prismNode );
             prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
-
-            // If there were already MAX-1 of them in the play area, hide the icon
-            //prismIcon.visible = false;
           },
           drag: function( event ) {
             var end = prismToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
