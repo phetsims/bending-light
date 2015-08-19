@@ -204,7 +204,7 @@ define( function( require ) {
     } );
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height, scale ) {
-        bendingLightView.singleColorLightCanvasNode.setCanvasBounds( new Bounds2( -dx, -dy, width / scale - dx, height / scale - dy ) );
+        bendingLightView.singleColorLightCanvasNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
       }
     );
   }
