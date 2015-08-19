@@ -351,9 +351,8 @@ define( function( require ) {
      * @param {MediumState} mediumState - specifies state of the medium
      */
     setMediumState: function( mediumState ) {
-      this.setMedium( new Medium( this.mediumProperty.get().shape, mediumState,
-        MediumColorFactory.getColor(
-          mediumState.getIndexOfRefractionForRedLight() ) ) );
+      var color = MediumColorFactory.getColor( mediumState.getIndexOfRefractionForRedLight() );
+      this.setMedium( new Medium( this.mediumProperty.get().shape, mediumState, color ) );
     },
 
     /**

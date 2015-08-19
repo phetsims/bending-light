@@ -45,22 +45,7 @@ define( function( require ) {
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomMediumState,
       MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
     this.time = 0; // @public
-    Property.multilink( [
-      this.laserViewProperty,
-      this.laser.onProperty,
-      this.intensityMeter.sensorPositionProperty,
-      this.topMediumProperty,
-      this.bottomMediumProperty,
-      this.laser.emissionPointProperty,
-      this.laser.colorProperty
-    ], function() {
-      introModel.updateModel();
-      if ( introModel.laserView === 'wave' && introModel.laser.on ) {
-        if ( !introModel.allowWebGL ) {
-          introModel.createInitialParticles();
-        }
-      }
-    } );
+
     // Update the top medium index of refraction when top medium change
     this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [ this.topMediumProperty, introModel.laser.colorProperty ],
       function( topMedium, color ) {
@@ -72,6 +57,23 @@ define( function( require ) {
       function( bottomMedium, color ) {
         return bottomMedium.getIndexOfRefraction( color.wavelength );
       } ); // @public
+
+    Property.multilink( [
+      this.laserViewProperty,
+      this.laser.onProperty,
+      this.intensityMeter.sensorPositionProperty,
+      this.laser.emissionPointProperty,
+      this.laser.colorProperty,
+      this.indexOfRefractionOfBottomMediumProperty,
+      this.indexOfRefractionOfTopMediumProperty
+    ], function() {
+      introModel.updateModel();
+      if ( introModel.laserView === 'wave' && introModel.laser.on ) {
+        if ( !introModel.allowWebGL ) {
+          introModel.createInitialParticles();
+        }
+      }
+    } );
 
     // Note: vectors that are used in step function are created here to reduce Vector2 allocations
     // light ray tail position

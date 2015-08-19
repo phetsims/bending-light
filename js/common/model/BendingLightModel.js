@@ -152,7 +152,6 @@ define( function( require ) {
         this.propagateRays();
       },
 
-
       /**
        * @public
        * @override
