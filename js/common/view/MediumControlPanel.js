@@ -68,7 +68,8 @@ define( function( require ) {
       yMargin: 10,
       fill: '#f2fa6a',
       stroke: '#696969',
-      lineWidth: 1.5
+      lineWidth: 1.5,
+      comboBoxListPosition: 'above'
     }, options );
     this.mediumProperty = mediumProperty; // @private, the medium to observe
     this.laserWavelength = laserWavelength; // @private
@@ -146,7 +147,7 @@ define( function( require ) {
     }
     var materialComboBox = new ComboBox( items, comboBoxMediumStateProperty, view, {
       labelNode: materialTitle,
-      listPosition: 'above',
+      listPosition: options.comboBoxListPosition,
       buttonXMargin: 5,
       buttonYMargin: 2,
       buttonCornerRadius: 3,

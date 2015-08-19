@@ -93,7 +93,8 @@ define( function( require ) {
     var environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.environmentMediumProperty,
       environmentString, false, prismsModel.wavelengthProperty, IndexOfRefractionDecimals, {
         xMargin: 7,
-        yMargin: 6
+        yMargin: 6,
+        comboBoxListPosition: 'below'
       } );
     environmentMediumControlPanel.setTranslation(
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
