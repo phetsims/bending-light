@@ -5,6 +5,7 @@
  * points a blue arrow along the direction of the velocity and the arrow length is proportional to the velocity.
  *
  * @author Siddhartha Chinthapally (Actual Concepts)
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
@@ -85,11 +86,10 @@ define( function( require ) {
     this.bodyNode.addChild( innerRectangle );
 
     // Adding velocity meter title text
-    var titleText = new Text( speedString,
-      {
-        fill: 'black',
-        font: new PhetFont( 18 )
-      } );
+    var titleText = new Text( speedString, {
+      fill: 'black',
+      font: new PhetFont( 18 )
+    } );
     if ( titleText.width > rectangleWidth - 15 ) {
       titleText.scale( (rectangleWidth - 15) / titleText.width );
     }
@@ -97,14 +97,13 @@ define( function( require ) {
     this.bodyNode.addChild( titleText );
 
     // Adding inner rectangle
-    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth - 10, rectangleHeight - 38 ),
-      {
-        baseColor: 'white',
-        lightSource: 'rightBottom',
-        cornerRadius: 5,
-        centerX: innerRectangle.centerX,
-        bottom: innerRectangle.bottom - 5
-      } );
+    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth - 10, rectangleHeight - 38 ), {
+      baseColor: 'white',
+      lightSource: 'rightBottom',
+      cornerRadius: 5,
+      centerX: innerRectangle.centerX,
+      bottom: innerRectangle.bottom - 5
+    } );
     this.bodyNode.addChild( innerMostRectangle );
 
     // Adding velocity measure label
@@ -116,10 +115,10 @@ define( function( require ) {
     var triangleHeight = 16;
 
     // Adding triangle shape
-    var triangleShapeNode = new Path( new Shape()
-      .moveTo( innerRectangle.centerX - triangleWidth / 2, innerMostRectangle.y + 1 )
-      .lineTo( innerRectangle.centerX, triangleHeight + innerMostRectangle.y + 1 )
-      .lineTo( innerRectangle.centerX + triangleWidth / 2, innerMostRectangle.y + 1 ), {
+    var triangleShapeNode = new Path( new Shape().
+      moveTo( innerRectangle.centerX - triangleWidth / 2, innerMostRectangle.y + 1 ).
+      lineTo( innerRectangle.centerX, triangleHeight + innerMostRectangle.y + 1 ).
+      lineTo( innerRectangle.centerX + triangleWidth / 2, innerMostRectangle.y + 1 ), {
       fill: '#C88203',
       stroke: '#844702',
       top: outerRectangle.bottom - 1
@@ -149,15 +148,13 @@ define( function( require ) {
         // If the velocity y component is positive then the arrow will face up, so set the bottom of the arrow to the
         // tip of the sensor
         if ( velocity.y >= 0 ) {
-          this.arrowShape.bottom = triangleShapeNode.bottom +
-                                   arrowWidth / 2 * Math.cos( Math.abs( velocity.angle() ) );
+          this.arrowShape.bottom = triangleShapeNode.bottom + arrowWidth / 2 * Math.cos( Math.abs( velocity.angle() ) );
         }
         else {
 
           // if the velocity y component is negative then the arrow will face down, so set the top of the arrow to the
           // tip of the sensor
-          this.arrowShape.top = triangleShapeNode.bottom -
-                                arrowWidth / 2 * Math.cos( Math.abs( velocity.angle() ) );
+          this.arrowShape.top = triangleShapeNode.bottom - arrowWidth / 2 * Math.cos( Math.abs( velocity.angle() ) );
         }
 
         // if the velocity x component is positive then the arrow will direct towards right, so set the left of the
@@ -262,7 +259,8 @@ define( function( require ) {
       var velocitySensorYPosition = this.modelViewTransform.modelToViewY( this.velocitySensor.position.y );
       this.bodyNode.setTranslation(
         velocitySensorXPosition - this.bodyWidth / 2 * velocitySensorNodeScaleVector.x,
-        velocitySensorYPosition - this.bodyHeight * velocitySensorNodeScaleVector.y );
+        velocitySensorYPosition - this.bodyHeight * velocitySensorNodeScaleVector.y
+      );
     },
 
     /**
