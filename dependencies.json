@@ -1,5 +1,5 @@
 {
-  "comment": "# bending-light 1.0.0-dev.9 Wed Aug 19 2015 15:12:07 GMT-0600 (MDT)",
+  "comment": "# bending-light 1.0.0-dev.10 Wed Aug 19 2015 15:49:38 GMT-0600 (MDT)",
   "assert": {
     "sha": "858e65ac477bf1861883ce06eed56d9fdefa5027",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "bending-light": {
-    "sha": "880a6f4c45c7aa9a165e1487eb30bcb2dd10e3e6",
+    "sha": "fa10edb804d2d0682fbe462fb92f1e99d0be21b1",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "d77769d20e2945277447e72f15342adb1f029276",
+    "sha": "57f8b2c96480af4e92a03f0408067966b2a5387f",
     "branch": "master"
   },
   "dot": {
