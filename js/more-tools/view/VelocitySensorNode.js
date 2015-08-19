@@ -93,40 +93,45 @@ define( function( require ) {
     if ( titleText.width > rectangleWidth - 15 ) {
       titleText.scale( (rectangleWidth - 15) / titleText.width );
     }
-    titleText.setTranslation( innerRectangle.centerX - titleText.width / 2, innerRectangle.y + 15 );
+    titleText.centerX = innerRectangle.centerX;
+    titleText.bottom = innerRectangle.bottom;
     this.bodyNode.addChild( titleText );
 
     // Adding inner rectangle
-    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth - 10, rectangleHeight - 38 ), {
+    var whiteTextArea = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth - 10, rectangleHeight - 38 ), {
       baseColor: 'white',
       lightSource: 'rightBottom',
       cornerRadius: 5,
       centerX: innerRectangle.centerX,
-      bottom: innerRectangle.bottom - 5
+      top: innerRectangle.top + 5
     } );
-    this.bodyNode.addChild( innerMostRectangle );
+    this.bodyNode.addChild( whiteTextArea );
 
     // Adding velocity measure label
-    var labelText = new Text( '',
-      { fill: 'black', font: new PhetFont( 12 ), center: innerMostRectangle.center } );
+    var labelText = new Text( '', {
+      fill: 'black',
+      font: new PhetFont( 12 ),
+      center: whiteTextArea.center
+    } );
     this.bodyNode.addChild( labelText );
 
-    var triangleWidth = 30;
-    var triangleHeight = 16;
+    var triangleHeight = 30;
+    var triangleWidth = 16;
 
     // Adding triangle shape
     var triangleShapeNode = new Path( new Shape().
-      moveTo( innerRectangle.centerX - triangleWidth / 2, innerMostRectangle.y + 1 ).
-      lineTo( innerRectangle.centerX, triangleHeight + innerMostRectangle.y + 1 ).
-      lineTo( innerRectangle.centerX + triangleWidth / 2, innerMostRectangle.y + 1 ), {
+      moveTo( 0, -triangleHeight / 2 ).
+      lineTo( -triangleWidth, 0 ).
+      lineTo( 0, triangleHeight / 2 ), {
       fill: '#C88203',
       stroke: '#844702',
-      top: outerRectangle.bottom - 1
+      right: outerRectangle.left,
+      centerY: outerRectangle.centerY
     } );
     this.bodyNode.addChild( triangleShapeNode );
     this.addChild( this.bodyNode );
     this.bodyWidth = rectangleWidth; // @private
-    this.bodyHeight = rectangleHeight + triangleHeight; // @private
+    this.bodyHeight = rectangleHeight + triangleWidth; // @private
 
     // Arrow shape
     var arrowWidth = 6;
@@ -139,8 +144,11 @@ define( function( require ) {
       var positionX = modelViewTransform.modelToViewDeltaX( velocitySensor.value.x ) * arrowScale;
       var positionY = modelViewTransform.modelToViewDeltaY( velocitySensor.value.y ) * arrowScale;
 
-      this.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY,
-        { tailWidth: arrowWidth, headWidth: 2 * arrowWidth, headHeight: 2 * arrowWidth } ) );
+      this.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY, {
+        tailWidth: arrowWidth,
+        headWidth: 2 * arrowWidth,
+        headHeight: 2 * arrowWidth
+      } ) );
 
       // Set the arrowShape path position so that the center of the tail coincides with the tip of the sensor
       if ( this.arrowShape.bounds.isFinite() ) {
@@ -172,7 +180,7 @@ define( function( require ) {
     }.bind( velocitySensorNode ) );
 
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
-    var velocityNodeDragBounds = dragBounds.shiftedY( (rectangleHeight + triangleHeight) / 2 );
+    var velocityNodeDragBounds = dragBounds.shiftedY( (rectangleHeight + triangleWidth) / 2 );
 
     // Drag handler
     this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
@@ -227,8 +235,8 @@ define( function( require ) {
       var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
 
       velocitySensorNode.bodyNode.setTranslation(
-        velocitySensorXPosition - velocitySensorNode.bodyWidth / 2 * velocitySensorNodeScaleVector.x,
-        velocitySensorYPosition - velocitySensorNode.bodyHeight * velocitySensorNodeScaleVector.y );
+        velocitySensorXPosition,
+        velocitySensorYPosition - velocitySensorNode.bodyHeight / 2 * velocitySensorNodeScaleVector.y );
     } );
 
     // Update the text when the value or units changes.
@@ -238,9 +246,10 @@ define( function( require ) {
           labelText.text = '?';
         }
         else {
-          labelText.setText( StringUtils.format( velocityPattern, Util.toFixed( velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT, 2 ), c_units ) );
+          var text = StringUtils.format( velocityPattern, Util.toFixed( velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT, 2 ), c_units );
+          labelText.setText( text );
         }
-        labelText.center = innerMostRectangle.center;
+        labelText.center = whiteTextArea.center;
       } );
     this.setVelocitySensorScale( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
   }
