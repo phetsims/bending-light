@@ -94,7 +94,7 @@ define( function( require ) {
     var innerBarShape = new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
 
     // Add a mouse listener for dragging when the drag region
-    // (entire body in all tabs, just the inner bar on prism break tab) is dragged
+    // (entire body in all tabs, just the inner bar on prism screen) is dragged
     var translatePath = new Path( translateShape( fullShape, innerBarShape, outerRimShape ), {
       pickable: true,
       cursor: 'pointer'
@@ -136,7 +136,7 @@ define( function( require ) {
       }
     } ) );
 
-    // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism break' tab is dragged)
+    // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism' screen is dragged)
     var rotatePath = new Path( rotateShape( fullShape, innerBarShape, outerRimShape ), {
       pickable: true,
       cursor: 'pointer'

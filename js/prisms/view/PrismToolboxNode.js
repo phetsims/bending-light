@@ -44,7 +44,7 @@ define( function( require ) {
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {PrismsScreenModel} prismBreakModel - model of the prism screen
+   * @param {PrismsScreenModel} prismsScreenModel - model of the prism screen
    * @param {Node} prismLayer - layer in which prisms are present when in play area
    * @param {Bounds2} layoutBounds - Bounds of prisms screen.
    * @param {function} occlusionHandler - function that takes one node as a parameter and updates it if occluded by a
@@ -52,7 +52,7 @@ define( function( require ) {
    * @param {Object} [options] that can be passed on to the underlying node
    * @constructor
    */
-  function PrismToolboxNode( modelViewTransform, prismBreakModel, prismLayer, layoutBounds, occlusionHandler, options ) {
+  function PrismToolboxNode( modelViewTransform, prismsScreenModel, prismLayer, layoutBounds, occlusionHandler, options ) {
     var prismToolBoxNode = this;
 
     Node.call( this );
@@ -92,7 +92,7 @@ define( function( require ) {
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
     var prismNode;
-    prismBreakModel.getPrismPrototypes().forEach( function( prism, i ) {
+    prismsScreenModel.getPrismPrototypes().forEach( function( prism, i ) {
       var prismIcon = createPrismIcon( prism );
       var start;
       var prismShape;
@@ -107,11 +107,14 @@ define( function( require ) {
           start: function( event ) {
             start = prismToolBoxNode.globalToParentPoint( event.pointer.point );
             prismShape = prism.copy();
-            prismBreakModel.addPrism( prismShape );
-            prismNode = new PrismNode( prismBreakModel, modelViewTransform, prismShape, prismToolBoxNode, prismLayer,
+            prismsScreenModel.addPrism( prismShape );
+            prismNode = new PrismNode( prismsScreenModel, modelViewTransform, prismShape, prismToolBoxNode, prismLayer,
               layoutBounds, occlusionHandler );
             prismLayer.addChild( prismNode );
             prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
+
+            // If there were already MAX-1 of them in the play area, hide the icon
+            //prismIcon.visible = false;
           },
           drag: function( event ) {
             var end = prismToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
@@ -123,11 +126,11 @@ define( function( require ) {
           },
           end: function() {
             if ( prismToolBoxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
-              prismBreakModel.removePrism( prismShape );
+              prismsScreenModel.removePrism( prismShape );
               prismShape.shapeProperty.unlink( prismNode.updatePrismShape );
-              prismBreakModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
+              prismsScreenModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
               prismLayer.removeChild( prismNode );
-              prismBreakModel.dirty = true;
+              prismsScreenModel.dirty = true;
             }
             else {
               occlusionHandler( prismNode );
@@ -144,10 +147,10 @@ define( function( require ) {
     // Allow the user to control the type of material in the prisms
     var environmentMediumMaterialListParent = new Node();
     var objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
-      prismBreakModel.prismMediumProperty,
+      prismsScreenModel.prismMediumProperty,
       objectsString,
       false,
-      prismBreakModel.wavelengthProperty,
+      prismsScreenModel.wavelengthProperty,
       2, {
         lineWidth: 0,
         xMargin: 0,
@@ -213,17 +216,17 @@ define( function( require ) {
 
     var showReflectionsCheckBox = new CheckBox(
       createItem( showReflections ),
-      prismBreakModel.showReflectionsProperty,
+      prismsScreenModel.showReflectionsProperty,
       checkBoxOptions
     );
     var showNormalCheckBox = new CheckBox(
       createItem( showNormal ),
-      prismBreakModel.showNormalsProperty,
+      prismsScreenModel.showNormalsProperty,
       checkBoxOptions
     );
     var showProtractorCheckBox = new CheckBox(
       createItem( showProtractor ),
-      prismBreakModel.showProtractorProperty,
+      prismsScreenModel.showProtractorProperty,
       checkBoxOptions
     );
 

@@ -31,14 +31,14 @@ define( function( require ) {
   var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
 
   /**
-   * @param {PrismsScreenModel} prismBreakModel - model of prisms screen
+   * @param {PrismsScreenModel} prismsScreenModel - model of prisms screen
    * @constructor
    */
-  function PrismsView( prismBreakModel ) {
+  function PrismsView( prismsScreenModel ) {
 
     this.prismLayer = new Node();
-    this.prismBreakModel = prismBreakModel;
-    var prismBreakView = this;
+    this.prismsScreenModel = prismsScreenModel;
+    var prismsView = this;
 
     // Specify how the drag angle should be clamped
     function clampDragAngle( angle ) {
@@ -66,7 +66,7 @@ define( function( require ) {
     }
 
     BendingLightView.call( this,
-      prismBreakModel,
+      prismsScreenModel,
       clampDragAngle,
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
@@ -90,8 +90,8 @@ define( function( require ) {
     var IndexOfRefractionDecimals = 2;
 
     // Add control panels for setting the index of refraction for each medium
-    var environmentMediumControlPanel = new MediumControlPanel( this, prismBreakModel.environmentMediumProperty,
-      environmentString, false, prismBreakModel.wavelengthProperty, IndexOfRefractionDecimals, {
+    var environmentMediumControlPanel = new MediumControlPanel( this, prismsScreenModel.environmentMediumProperty,
+      environmentString, false, prismsScreenModel.wavelengthProperty, IndexOfRefractionDecimals, {
         xMargin: 7,
         yMargin: 6
       } );
@@ -99,8 +99,8 @@ define( function( require ) {
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
 
-    var laserControlPanel = new LaserControlPanel( prismBreakModel.laser.colorModeProperty,
-      prismBreakModel.wavelengthProperty, 'white', 'singleColor', whiteLightString, oneColorString, true, {
+    var laserControlPanel = new LaserControlPanel( prismsScreenModel.laser.colorModeProperty,
+      prismsScreenModel.wavelengthProperty, 'white', 'singleColor', whiteLightString, oneColorString, true, {
         xMargin: 5,
         yMargin: 10,
         radioButtonradius: 7,
@@ -115,20 +115,20 @@ define( function( require ) {
     this.incidentWaveCanvasLayer.setVisible( false );
 
     // Optionally show the normal lines at each intersection
-    prismBreakModel.intersections.addItemAddedListener( function( addedIntersection ) {
-      if ( prismBreakModel.showNormals ) {
-        var node = new IntersectionNode( prismBreakView.modelViewTransform, addedIntersection );
-        prismBreakView.addChild( node );
+    prismsScreenModel.intersections.addItemAddedListener( function( addedIntersection ) {
+      if ( prismsScreenModel.showNormals ) {
+        var node = new IntersectionNode( prismsView.modelViewTransform, addedIntersection );
+        prismsView.addChild( node );
 
-        prismBreakModel.intersections.addItemRemovedListener( function( removedIntersection ) {
+        prismsScreenModel.intersections.addItemRemovedListener( function( removedIntersection ) {
           if ( removedIntersection === addedIntersection ) {
-            prismBreakView.removeChild( node );
+            prismsView.removeChild( node );
           }
         } );
       }
     } );
 
-    var laserTypeControlPanel = new LaserTypeControlPanel( prismBreakModel.manyRaysProperty, {
+    var laserTypeControlPanel = new LaserTypeControlPanel( prismsScreenModel.manyRaysProperty, {
       top: this.layoutBounds.top + INSET,
       left: this.layoutBounds.minX + INSET
     } );
@@ -137,8 +137,8 @@ define( function( require ) {
     // Add the reset all button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        prismBreakModel.reset();
-        prismBreakView.reset();
+        prismsScreenModel.reset();
+        prismsView.reset();
         laserControlPanel.reset();
         environmentMediumControlPanel.reset();
         prismToolboxNode.objectMediumControlPanel.reset();
@@ -164,15 +164,15 @@ define( function( require ) {
     };
 
     // Add the protractor node
-    var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismBreakModel.showProtractorProperty,
-      prismBreakModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
+    var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismsScreenModel.showProtractorProperty,
+      prismsScreenModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
       this.layoutBounds );
     this.addChild( protractorNode );
 
     // Add prisms tool box Node
     var prismToolboxNode = new PrismToolboxNode(
       this.modelViewTransform,
-      prismBreakModel,
+      prismsScreenModel,
       this.prismLayer,
       this.layoutBounds,
       this.occlusionHandler, {
@@ -185,13 +185,13 @@ define( function( require ) {
 
     // Call updateWhiteLightNode at a rate of 10 times per second
     this.timer = new EventTimer( new EventTimer.ConstantEventModel( 30 ), function() {
-      prismBreakView.updateWhiteLightNode();
+      prismsView.updateWhiteLightNode();
     } );
 
     // Move the laser node to front of all other nodes of prism screen.
-    prismBreakModel.laser.emissionPointProperty.link( function() {
-      for ( var i = 0; i < prismBreakView.laserLayerArray.length; i++ ) {
-        prismBreakView.laserLayerArray[ i ].moveToFront();
+    prismsScreenModel.laser.emissionPointProperty.link( function() {
+      for ( var i = 0; i < prismsView.laserLayerArray.length; i++ ) {
+        prismsView.laserLayerArray[ i ].moveToFront();
       }
     } );
   }
@@ -218,9 +218,9 @@ define( function( require ) {
      * @private, for internal use only.
      */
     updateWhiteLightNode: function() {
-      if ( this.prismBreakModel.laser.colorMode === 'white' && this.prismBreakModel.dirty ) {
+      if ( this.prismsScreenModel.laser.colorMode === 'white' && this.prismsScreenModel.dirty ) {
         this.whiteLightNode.step();
-        this.prismBreakModel.dirty = false;
+        this.prismsScreenModel.dirty = false;
       }
     }
   } );

@@ -48,7 +48,7 @@ define( function( require ) {
     // @public - Draggable and rotatable protractor
     this.protractorModel = new ProtractorModel( 0, 0 );
 
-    var prismBreakModel = this;
+    var prismsScreenModel = this;
     BendingLightModel.call( this, Math.PI, false, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1 );
 
     // Show multiple beams to help show how lenses work
@@ -80,9 +80,9 @@ define( function( require ) {
       this.laser.colorProperty,
       this.laserViewProperty
     ], function() {
-      prismBreakModel.clear();
-      prismBreakModel.updateModel();
-      prismBreakModel.dirty = true;
+      prismsScreenModel.clear();
+      prismsScreenModel.updateModel();
+      prismsScreenModel.dirty = true;
     } );
 
     // coalesce repeat updates so work is not duplicated in white light node.

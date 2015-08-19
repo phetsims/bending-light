@@ -10,7 +10,7 @@ http://en.wikipedia.org/wiki/Fresnel_equations
 
 The wave is propagated according to the wave equation: cos(k * x - omega * t + phase)
 
-When showing multiple reflections in the Prism Break tab, light rays are terminated after 50 reflections/refractions to
+When showing multiple reflections in the Prisms screen, light rays are terminated after 50 reflections/refractions to
 ensure computability.
 
 The Sellmeier equation is used to compute the index of refraction of glass as a function of wavelength:

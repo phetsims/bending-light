@@ -22,7 +22,7 @@ define( function( require ) {
   var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
 
   /**
-   * @param {PrismsScreenModel} prismBreakModel - main model
+   * @param {PrismsScreenModel} prismsScreenModel - main model
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {Prism} prism
    * @param {Node} prismToolboxNode
@@ -32,7 +32,7 @@ define( function( require ) {
    *                                    - panel
    * @constructor
    */
-  function PrismNode( prismBreakModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds,
+  function PrismNode( prismsScreenModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds,
                       occlusionHandler ) {
 
     Node.call( this, { cursor: 'pointer', cssTransform: true } );
@@ -74,8 +74,8 @@ define( function( require ) {
 
     var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( prismDragBounds );
     var prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
-      fill: prismBreakModel.prismMedium.color,
-      stroke: prismBreakModel.prismMedium.color.darkerColor( 0.9 )
+      fill: prismsScreenModel.prismMedium.color,
+      stroke: prismsScreenModel.prismMedium.color.darkerColor( 0.9 )
     } );
     this.addChild( prismPathNode );
 
@@ -98,12 +98,12 @@ define( function( require ) {
       end: function() {
         if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
           if ( prismLayer.isChild( prismNode ) ) {
-            prismBreakModel.removePrism( prism );
+            prismsScreenModel.removePrism( prism );
             prism.shapeProperty.unlink( prismNode.updatePrismShape );
-            prismBreakModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
+            prismsScreenModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
             prismLayer.removeChild( prismNode );
           }
-          prismBreakModel.dirty = true;
+          prismsScreenModel.dirty = true;
         }
         else {
           occlusionHandler( prismNode );
@@ -113,9 +113,9 @@ define( function( require ) {
 
     var knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
     this.updatePrismShape = function() {
-      prismBreakModel.clear();
-      prismBreakModel.updateModel();
-      prismBreakModel.dirty = true;
+      prismsScreenModel.clear();
+      prismsScreenModel.updateModel();
+      prismsScreenModel.dirty = true;
       prismPathNode.setShape( modelViewTransform.modelToViewShape( prism.shape.shape ) );
 
       var prismReferencePoint = prism.shape.getReferencePoint();
@@ -145,7 +145,7 @@ define( function( require ) {
       prismPathNode.fill = color;
       prismPathNode.stroke = color.darkerColor( 0.9 );
     };
-    prismBreakModel.prismMediumProperty.link( this.updatePrismColor );
+    prismsScreenModel.prismMediumProperty.link( this.updatePrismColor );
 
     /**
      * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding model
