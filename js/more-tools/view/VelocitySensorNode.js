@@ -135,49 +135,24 @@ define( function( require ) {
 
     // Arrow shape
     var arrowWidth = 6;
-    this.arrowShape = new Path( new ArrowShape( 0, 0, modelViewTransform.modelToViewDeltaX( velocitySensor.value.x ),
-      modelViewTransform.modelToViewDeltaY( velocitySensor.value.y ) ), { fill: 'blue' } );
+    this.arrowShape = new Path( null, {
+      fill: 'blue',
+      x: -triangleWidth,
+      y: 35
+    } );
     this.bodyNode.addChild( this.arrowShape );
 
     velocitySensor.valueProperty.link( function( velocity ) {
 
-      var positionX = modelViewTransform.modelToViewDeltaX( velocitySensor.value.x ) * arrowScale;
-      var positionY = modelViewTransform.modelToViewDeltaY( velocitySensor.value.y ) * arrowScale;
+      var positionX = modelViewTransform.modelToViewDeltaX( velocity.x ) * arrowScale;
+      var positionY = modelViewTransform.modelToViewDeltaY( velocity.y ) * arrowScale;
 
-      this.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY, {
+      velocitySensorNode.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY, {
         tailWidth: arrowWidth,
         headWidth: 2 * arrowWidth,
         headHeight: 2 * arrowWidth
       } ) );
-
-      // Set the arrowShape path position so that the center of the tail coincides with the tip of the sensor
-      if ( this.arrowShape.bounds.isFinite() ) {
-
-        // If the velocity y component is positive then the arrow will face up, so set the bottom of the arrow to the
-        // tip of the sensor
-        if ( velocity.y >= 0 ) {
-          this.arrowShape.bottom = triangleShapeNode.bottom + arrowWidth / 2 * Math.cos( Math.abs( velocity.angle() ) );
-        }
-        else {
-
-          // if the velocity y component is negative then the arrow will face down, so set the top of the arrow to the
-          // tip of the sensor
-          this.arrowShape.top = triangleShapeNode.bottom - arrowWidth / 2 * Math.cos( Math.abs( velocity.angle() ) );
-        }
-
-        // if the velocity x component is positive then the arrow will direct towards right, so set the left of the
-        // arrow to the tip of the sensor
-        if ( velocity.x > 0 ) {
-          this.arrowShape.left = outerRectangle.centerX - arrowWidth / 2 * Math.sin( Math.abs( velocity.angle() ) );
-        }
-        else if ( velocity.x === 0 ) {
-          this.arrowShape.left = outerRectangle.centerX - arrowWidth;
-        }
-        else {
-          this.arrowShape.right = outerRectangle.centerX + arrowWidth / 2 * Math.sin( Math.abs( velocity.angle() ) );
-        }
-      }
-    }.bind( velocitySensorNode ) );
+    } );
 
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
     var velocityNodeDragBounds = dragBounds.shiftedY( (rectangleHeight + triangleWidth) / 2 );
