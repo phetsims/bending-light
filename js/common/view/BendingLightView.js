@@ -21,7 +21,7 @@ define( function( require ) {
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
-  var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
+
   var ObservableArray = require( 'AXON/ObservableArray' );
   var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
 
@@ -84,28 +84,19 @@ define( function( require ) {
     this.mediumNode = new Node(); // @public
     this.addChild( this.mediumNode );
     this.incidentWaveLayer = new Node(); // @public
-    this.whiteLightNode = new WhiteLightNode( this.modelViewTransform, bendingLightModel.rays, stageWidth, stageHeight );
-
     this.singleColorLightCanvasNode = new SingleColorLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
 
     // layering
     this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );
     this.addChild( this.singleColorLightCanvasNode );
-    this.addLightNodes();
-    this.addChild( this.whiteLightNode );
+    this.addLightNodes(); // Nodes specific to that view
     this.addChild( this.afterLightLayer );
 
     // This layer is to add laser view control panel
     // Note: this layer to make protractor behind laser view panel and laser node on top of laser view panel.
     this.laserViewLayer = new Node(); // @public
     this.addChild( this.laserViewLayer );
-
-    // switch between light render for white vs nonwhite light
-    bendingLightModel.laser.colorModeProperty.link( function( color ) {
-      var white = color === 'white';
-      bendingLightView.whiteLightNode.setVisible( white );
-    } );
 
     // Used for radius and length of drag handlers
     var laserImageWidth = laserWithoutKnobImage.width;

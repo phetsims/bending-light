@@ -22,6 +22,7 @@ define( function( require ) {
   var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
   var EventTimer = require( 'PHET_CORE/EventTimer' );
   var floatRight = require( 'BENDING_LIGHT/common/view/floatRight' );
+  var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
 
   // constants
   var INSET = 10;
@@ -226,6 +227,22 @@ define( function( require ) {
         this.whiteLightNode.step();
         this.prismsModel.dirty = false;
       }
+    },
+
+    addLightNodes: function() {
+      var stageWidth = this.layoutBounds.width;
+      var stageHeight = this.layoutBounds.height;
+      var bendingLightView = this;
+
+      var bendingLightModel = this.bendingLightModel;
+      this.whiteLightNode = new WhiteLightNode( this.modelViewTransform, bendingLightModel.rays, stageWidth, stageHeight );
+      this.addChild( this.whiteLightNode );
+
+      // switch between light render for white vs nonwhite light
+      bendingLightModel.laser.colorModeProperty.link( function( color ) {
+        var white = color === 'white';
+        bendingLightView.whiteLightNode.setVisible( white );
+      } );
     }
   } );
 } );
