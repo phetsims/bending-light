@@ -173,8 +173,7 @@ define( function( require ) {
       for ( var k = 0; k < introView.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
         introView.incidentWaveCanvasLayer.children[ k ].step();
       }
-      introView.incidentWaveCanvasLayer.setVisible(
-        introModel.laser.on && introModel.laserView === 'wave' );
+      introView.incidentWaveCanvasLayer.setVisible( introModel.laser.on && introModel.laserView === 'wave' );
     } );
 
     // add laser view panel
