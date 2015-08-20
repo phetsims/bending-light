@@ -35,7 +35,7 @@ define( function( require ) {
   function PrismNode( prismsModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds,
                       occlusionHandler ) {
 
-    Node.call( this, { cursor: 'pointer', cssTransform: true } );
+    Node.call( this, { cursor: 'pointer' } );
     var prismNode = this;
     var knobHeight = 15;
 

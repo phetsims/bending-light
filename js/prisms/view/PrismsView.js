@@ -37,7 +37,7 @@ define( function( require ) {
    */
   function PrismsView( prismsModel ) {
 
-    this.prismLayer = new Node();
+    this.prismLayer = new Node( { layerSplit: true } );
     this.prismsModel = prismsModel;
     var prismsView = this;
 
