@@ -1,5 +1,5 @@
 {
-  "comment": "# bending-light 1.0.0-dev.12 Wed Aug 19 2015 23:35:53 GMT-0600 (MDT)",
+  "comment": "# bending-light 1.0.0-dev.13 Thu Aug 20 2015 16:23:47 GMT-0600 (MDT)",
   "assert": {
     "sha": "858e65ac477bf1861883ce06eed56d9fdefa5027",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "bending-light": {
-    "sha": "8436e6689132816b47819a3d6e8aa3ef94b7772e",
+    "sha": "888318622786df145114c47103318165aa4c754a",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "57f8b2c96480af4e92a03f0408067966b2a5387f",
+    "sha": "e75d64a312a3b7429ec8a6502aefb4a6d3c36c28",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "99d7e4ed0cfd2f2fbf44d9146756ada82b20244c",
+    "sha": "4d0be309e555c3c2be1355d230e66f3299216fec",
     "branch": "master"
   },
   "kite": {
@@ -41,7 +41,7 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "30873218c8cf09ba82b3f863c9009dc4c737352d",
+    "sha": "3c146e8fdc133a50751851374dd51e6729ac374d",
     "branch": "master"
   },
   "scenery-phet": {
