@@ -112,6 +112,8 @@ define( function( require ) {
     } ) );
 
     var knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
+
+    // @public - also used in PrismToolboxNode
     this.updatePrismShape = function() {
       prismsModel.clear();
       prismsModel.updateModel();
@@ -140,6 +142,7 @@ define( function( require ) {
     };
     prism.shapeProperty.link( this.updatePrismShape );
 
+    // @public - used in PrismToolboxNode 
     this.updatePrismColor = function( prismMedium ) {
       var color = prismMedium.color;
       prismPathNode.fill = color;
