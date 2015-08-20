@@ -114,7 +114,7 @@ define( function( require ) {
         align: 'center'
       } );
     this.afterLightLayer2.addChild( laserControlPanel );
-    this.incidentWaveCanvasLayer.setVisible( false );
+    this.incidentWaveLayer.setVisible( false );
 
     // Optionally show the normal lines at each intersection
     prismsModel.intersections.addItemAddedListener( function( addedIntersection ) {

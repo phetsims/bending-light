@@ -83,7 +83,7 @@ define( function( require ) {
     // create and add the graphic for the environment medium
     this.mediumNode = new Node(); // @public
     this.addChild( this.mediumNode );
-    this.incidentWaveCanvasLayer = new Node(); // @public
+    this.incidentWaveLayer = new Node(); // @public
     this.whiteLightNode = new WhiteLightNode( this.modelViewTransform, bendingLightModel.rays, stageWidth, stageHeight );
 
     this.singleColorLightCanvasNode = new SingleColorLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
@@ -94,7 +94,7 @@ define( function( require ) {
     this.addChild( this.singleColorLightCanvasNode );
     this.waveCanvasLayer = new Node(); // @public
     this.addChild( this.waveCanvasLayer );
-    this.addChild( this.incidentWaveCanvasLayer );
+    this.addChild( this.incidentWaveLayer );
     this.addChild( this.whiteLightNode );
     this.addChild( this.afterLightLayer );
 
@@ -139,7 +139,7 @@ define( function( require ) {
         bendingLightModel.rays,
         bendingLightView.layoutBounds.width,
         bendingLightView.layoutBounds.height );
-      bendingLightView.incidentWaveCanvasLayer.addChild( waveWebGLNode );
+      bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
     }
 
     // add the laser
@@ -179,7 +179,7 @@ define( function( require ) {
                 canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
                 clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
               } );
-            k === 0 ? bendingLightView.incidentWaveCanvasLayer.addChild( particleCanvasNode ) :
+            k === 0 ? bendingLightView.incidentWaveLayer.addChild( particleCanvasNode ) :
             bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
           }
         }
@@ -190,7 +190,7 @@ define( function( require ) {
     bendingLightModel.rays.addItemRemovedListener( function() {
       bendingLightView.waveCanvasLayer.removeAllChildren();
       if ( !bendingLightModel.allowWebGL ) {
-        bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
+        bendingLightView.incidentWaveLayer.removeAllChildren();
       }
     } );  
 

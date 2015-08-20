@@ -170,10 +170,10 @@ define( function( require ) {
       introModel.laser.emissionPointProperty,
       introModel.laser.colorProperty
     ], function() {
-      for ( var k = 0; k < introView.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
-        introView.incidentWaveCanvasLayer.children[ k ].step();
+      for ( var k = 0; k < introView.incidentWaveLayer.getChildrenCount(); k++ ) {
+        introView.incidentWaveLayer.children[ k ].step();
       }
-      introView.incidentWaveCanvasLayer.setVisible( introModel.laser.on && introModel.laserView === 'wave' );
+      introView.incidentWaveLayer.setVisible( introModel.laser.on && introModel.laserView === 'wave' );
     } );
 
     // add laser view panel
@@ -364,8 +364,8 @@ define( function( require ) {
         this.waveCanvasLayer.children[ k ].step();
       }
       if ( this.introModel.laserView === 'wave' ) {
-        for ( k = 0; k < this.incidentWaveCanvasLayer.getChildrenCount(); k++ ) {
-          this.incidentWaveCanvasLayer.children[ k ].step();
+        for ( k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
+          this.incidentWaveLayer.children[ k ].step();
         }
       }
     },
