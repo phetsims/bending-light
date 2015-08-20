@@ -85,8 +85,7 @@ define( function( require ) {
     this.mediumNode = new Node(); // @public
     this.addChild( this.mediumNode );
     this.incidentWaveCanvasLayer = new Node(); // @public
-    var whiteLightRays = new ObservableArray();
-    this.whiteLightNode = new WhiteLightNode( this.modelViewTransform, whiteLightRays, stageWidth, stageHeight );
+    this.whiteLightNode = new WhiteLightNode( this.modelViewTransform, bendingLightModel.rays, stageWidth, stageHeight );
 
     this.singleColorLightCanvasNode = new SingleColorLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
 
@@ -174,9 +173,6 @@ define( function( require ) {
 
     // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
     bendingLightModel.rays.addItemAddedListener( function( ray ) {
-      if ( bendingLightModel.laser.colorMode === 'white' ) {
-        whiteLightRays.push( ray );
-      }
       if ( !(bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) ) {
         if ( !bendingLightModel.allowWebGL ) {
           for ( var k = 0; k < bendingLightModel.rays.length; k++ ) {
@@ -200,8 +196,7 @@ define( function( require ) {
       if ( !bendingLightModel.allowWebGL ) {
         bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
       }
-      whiteLightRays.clear();
-    } );
+    } );  
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         bendingLightView.singleColorLightCanvasNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
