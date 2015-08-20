@@ -386,50 +386,48 @@ define( function( require ) {
      */
     addLightNodes: function() {
       BendingLightView.prototype.addLightNodes.call( this );
-      {
 
-        var bendingLightModel = this.bendingLightModel;
-        var bendingLightView = this;
+      var bendingLightModel = this.bendingLightModel;
+      var bendingLightView = this;
 
-        this.waveCanvasLayer = new Node(); // @public
-        this.addChild( this.waveCanvasLayer );
-        this.addChild( this.incidentWaveLayer );
+      this.waveCanvasLayer = new Node(); // @public
+      this.addChild( this.waveCanvasLayer );
+      this.addChild( this.incidentWaveLayer );
 
-        // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
-        bendingLightModel.rays.addItemAddedListener( function( ray ) {
-          if ( !(bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) ) {
-            if ( !bendingLightModel.allowWebGL ) {
-              for ( var k = 0; k < bendingLightModel.rays.length; k++ ) {
-                var waveShape = bendingLightModel.rays.get( k ).waveShape;
-                var particleCanvasNode = new WaveCanvasNode( bendingLightModel.rays.get( k ).particles,
-                  bendingLightView.modelViewTransform, {
-                    canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
-                    clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
-                  } );
-                k === 0 ? bendingLightView.incidentWaveLayer.addChild( particleCanvasNode ) :
-                bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
-              }
+      // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
+      bendingLightModel.rays.addItemAddedListener( function( ray ) {
+        if ( !(bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) ) {
+          if ( !bendingLightModel.allowWebGL ) {
+            for ( var k = 0; k < bendingLightModel.rays.length; k++ ) {
+              var waveShape = bendingLightModel.rays.get( k ).waveShape;
+              var particleCanvasNode = new WaveCanvasNode( bendingLightModel.rays.get( k ).particles,
+                bendingLightView.modelViewTransform, {
+                  canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
+                  clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
+                } );
+              k === 0 ? bendingLightView.incidentWaveLayer.addChild( particleCanvasNode ) :
+              bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
             }
           }
-        } );
-
-        // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
-        if ( bendingLightModel.allowWebGL ) {
-          var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
-            bendingLightModel.rays,
-            bendingLightView.layoutBounds.width,
-            bendingLightView.layoutBounds.height );
-          bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
         }
+      } );
 
-        // As rays are removed from model clear all light ray layers
-        bendingLightModel.rays.addItemRemovedListener( function() {
-          bendingLightView.waveCanvasLayer.removeAllChildren();
-          if ( !bendingLightModel.allowWebGL ) {
-            bendingLightView.incidentWaveLayer.removeAllChildren();
-          }
-        } );
+      // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
+      if ( bendingLightModel.allowWebGL ) {
+        var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
+          bendingLightModel.rays,
+          bendingLightView.layoutBounds.width,
+          bendingLightView.layoutBounds.height );
+        bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
       }
+
+      // As rays are removed from model clear all light ray layers
+      bendingLightModel.rays.addItemRemovedListener( function() {
+        bendingLightView.waveCanvasLayer.removeAllChildren();
+        if ( !bendingLightModel.allowWebGL ) {
+          bendingLightView.incidentWaveLayer.removeAllChildren();
+        }
+      } );
 
     }
   } );
