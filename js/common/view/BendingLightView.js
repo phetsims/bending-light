@@ -51,7 +51,6 @@ define( function( require ) {
 
     var bendingLightView = this;
     this.showProtractorProperty = new Property( true ); // @public
-    this.lightRayLayer = new Node(); // @public
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
     // suggested this layering order:
@@ -92,7 +91,6 @@ define( function( require ) {
     // layering
     this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );
-    this.addChild( this.lightRayLayer );
     this.addChild( this.singleColorLightCanvasNode );
     this.waveCanvasLayer = new Node(); // @public
     this.addChild( this.waveCanvasLayer );
@@ -109,7 +107,6 @@ define( function( require ) {
     bendingLightModel.laser.colorModeProperty.link( function( color ) {
       var white = color === 'white';
       bendingLightView.whiteLightNode.setVisible( white );
-      bendingLightView.lightRayLayer.setVisible( !white );
     } );
 
     // Used for radius and length of drag handlers
@@ -191,7 +188,6 @@ define( function( require ) {
 
     // As rays are removed from model clear all light ray layers
     bendingLightModel.rays.addItemRemovedListener( function() {
-      bendingLightView.lightRayLayer.removeAllChildren();
       bendingLightView.waveCanvasLayer.removeAllChildren();
       if ( !bendingLightModel.allowWebGL ) {
         bendingLightView.incidentWaveCanvasLayer.removeAllChildren();
