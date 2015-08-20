@@ -35,6 +35,7 @@ define( function( require ) {
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var ExpandableProtractorNode = require( 'BENDING_LIGHT/more-tools/view/ExpandableProtractorNode' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var floatRight = require( 'BENDING_LIGHT/common/view/floatRight' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -337,6 +338,8 @@ define( function( require ) {
       introView.stepButton.visible = (laserType === 'wave');
       introView.speedControl.visible = (laserType === 'wave');
     } );
+
+    floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
   }
 
   return inherit( BendingLightView, IntroView, {

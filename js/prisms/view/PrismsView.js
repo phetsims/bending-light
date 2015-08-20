@@ -21,6 +21,7 @@ define( function( require ) {
   var LaserControlPanel = require( 'BENDING_LIGHT/common/view/LaserControlPanel' );
   var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
   var EventTimer = require( 'PHET_CORE/EventTimer' );
+  var floatRight = require( 'BENDING_LIGHT/common/view/floatRight' );
 
   // constants
   var INSET = 10;
@@ -195,6 +196,8 @@ define( function( require ) {
         prismsView.laserLayerArray[ i ].moveToFront();
       }
     } );
+
+    floatRight( this, [ environmentMediumControlPanel, laserControlPanel, resetAllButton ] );
   }
 
   return inherit( BendingLightView, PrismsView, {
