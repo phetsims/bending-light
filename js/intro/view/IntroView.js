@@ -38,6 +38,7 @@ define( function( require ) {
   var floatRight = require( 'BENDING_LIGHT/common/view/floatRight' );
   var Node = require( 'SCENERY/nodes/Node' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
+  var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );

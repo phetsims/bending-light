@@ -19,9 +19,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
-  var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
-
-  var ObservableArray = require( 'AXON/ObservableArray' );
   var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
 
   // images
