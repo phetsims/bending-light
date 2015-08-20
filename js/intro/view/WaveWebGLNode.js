@@ -16,13 +16,13 @@ define( function( require ) {
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {ObservableArray<LightRay>} rays - light rays
-   * @param {Number} screenWidth - width of the dev area
-   * @param {Number} screenHeight - height of the dev area
+   * @param {Number} layoutWidth - width of the dev area
+   * @param {Number} layoutHeight - height of the dev area
    * @constructor
    */
-  function WaveWebGLNode( modelViewTransform, rays, screenWidth, screenHeight ) {
-    this.screenWidth = screenWidth; // @private
-    this.screenHeight = screenHeight; // @private
+  function WaveWebGLNode( modelViewTransform, rays, layoutWidth, layoutHeight ) {
+    this.layoutWidth = layoutWidth; // @private
+    this.layoutHeight = layoutHeight; // @private
     this.modelViewTransform = modelViewTransform; // @public
     this.rays = rays; // @private
     WebGLNode.call( this );
@@ -68,6 +68,7 @@ define( function( require ) {
         'uniform vec2 uCanvasOffset;', // Canvas Offset
         'uniform float uScale;',
         'uniform vec3 uColor;', // Color of the wave
+        'uniform float uLayoutHeight;',
         'void main( void ) {',
 
         // converting pixel coordinates to view coordinates.
@@ -77,7 +78,7 @@ define( function( require ) {
         // Perpendicular distance from tail to rendering coordinate. This is obtained by Coordinate Transformation to
         // tail point and applying dot product to the unit vector in the direction of ray and rendering coordinate
         // tail coordinate is mapped from view to canvas (layoutBounds.height - uTail.y)
-        'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(x1-uTail.x,y1+uTail.y-504.0));',
+        'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(x1-uTail.x,y1+uTail.y-uLayoutHeight));',
 
         // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
         'float positionDiff = mod( abs( distance - uPhase), uWaveLength);',
@@ -92,7 +93,7 @@ define( function( require ) {
       drawable.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
         attributes: [ 'aPosition' ],
         uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uPowerFraction', 'uTail', 'uAngle', 'uWaveLength',
-          'uPhase', 'uScale', 'uColor', 'uCanvasOffset' ]
+          'uPhase', 'uScale', 'uColor', 'uCanvasOffset', 'uLayoutHeight' ]
       } );
       drawable.vertexBuffer = gl.createBuffer();
     },
@@ -108,33 +109,35 @@ define( function( require ) {
 
       shaderProgram.use();
 
-
       var widthOffset;
       var heightOffset;
       var navigationBarHeight = 40;
       // scale the content (based on whichever is more limiting: width or height)
-      //and centers the content in the screen vertically and horizontally
-      var scale = Math.min( window.innerWidth / this.screenWidth, window.innerHeight / this.screenHeight );
-      if ( scale === window.innerWidth / this.screenWidth ) {
+      // and centers the content in the screen vertically and horizontally
+      var navigationBarScale = Math.min( window.innerWidth / this.layoutWidth, window.innerHeight / this.layoutHeight );
+      var navigationBarHeightInWindowCoordinates = navigationBarHeight * navigationBarScale;
+      var screenHeight = window.innerHeight - navigationBarHeightInWindowCoordinates;
+      var scale = Math.min( window.innerWidth / this.layoutWidth, screenHeight / this.layoutHeight );
+      if ( scale === window.innerWidth / this.layoutWidth ) {
 
         // Here the layout(dev-area) is centered vertically above navigation bar.
         // find out the vertical  space between navigation bar and bottom of the dev area
-        var distanceBetweenNavigationBarTopAndDevArea = (window.innerHeight - (this.screenHeight + navigationBarHeight) * scale) / 2;
+        var distanceBetweenNavigationBarTopAndDevArea = (screenHeight - this.layoutHeight * scale) / 2;
 
-        // The height offset   from the bottom left corner of the screen to bottom of dev area
-        //  is sum of navigation bar height  and distanceBetweenNavigationBarTopAndDevArea.
+        // The height offset from the bottom left corner of the screen to bottom of dev area
+        //  is sum of navigation bar height and distanceBetweenNavigationBarTopAndDevArea.
         widthOffset = 0;
-        heightOffset = distanceBetweenNavigationBarTopAndDevArea + navigationBarHeight * scale;
+        heightOffset = distanceBetweenNavigationBarTopAndDevArea + navigationBarHeightInWindowCoordinates;
       }
       else {
 
         // Here the layout(dev-area) is centered horizontally. As navigation bar is also inserted into window vertical height.
         // So find out the new scale excluding the navigation bar height and find out the  horizontal space  to the left of dev area
-        var navBarHeight = navigationBarHeight * scale;
-        scale = (window.innerHeight - navBarHeight) / this.screenHeight;
-        widthOffset = (window.innerWidth - ( this.screenWidth * scale)) / 2;
-        heightOffset = navBarHeight;
+        widthOffset = (window.innerWidth - ( this.layoutWidth * scale)) / 2;
+        heightOffset = navigationBarHeightInWindowCoordinates;
       }
+
+      var devicePixelRatio = ( window.devicePixelRatio || 1 ); // for retina-like devices
 
       for ( var i = this.rays.length - 1; i >= 0; i-- ) {
         var elements = [];
@@ -195,9 +198,10 @@ define( function( require ) {
         gl.uniform1f( shaderProgram.uniformLocations.uAngle, lightRayAngle );
         gl.uniform1f( shaderProgram.uniformLocations.uWaveLength, wavelength );
         gl.uniform1f( shaderProgram.uniformLocations.uPhase, phaseDiff );
-        gl.uniform1f( shaderProgram.uniformLocations.uScale, scale );
+        gl.uniform1f( shaderProgram.uniformLocations.uScale, scale * devicePixelRatio );
         gl.uniform3f( shaderProgram.uniformLocations.uColor, red, green, blue );
         gl.uniform2f( shaderProgram.uniformLocations.uCanvasOffset, widthOffset, heightOffset );
+        gl.uniform1f( shaderProgram.uniformLocations.uLayoutHeight, this.layoutHeight );
 
         gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
         gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
