@@ -23,6 +23,7 @@ define( function( require ) {
   var EventTimer = require( 'PHET_CORE/EventTimer' );
   var floatRight = require( 'BENDING_LIGHT/common/view/floatRight' );
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
+  var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
 
   // constants
   var INSET = 10;
@@ -243,6 +244,22 @@ define( function( require ) {
         var white = color === 'white';
         bendingLightView.whiteLightNode.setVisible( white );
       } );
+    },
+
+    addLaserHandles: function( showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
+      var bendingLightModel = this.bendingLightModel;
+      BendingLightView.prototype.addLaserHandles.call( this, showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth );
+
+      // add translation indicators that show if/when the laser can be moved by dragging
+      var arrowLength = 76;
+      var horizontalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, bendingLightModel.laser, arrowLength, 0,
+        showTranslationDragHandlesProperty, laserImageWidth );
+      this.addChild( horizontalTranslationDragHandle );
+      var verticalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, bendingLightModel.laser, 0, arrowLength,
+        showTranslationDragHandlesProperty, laserImageWidth );
+      this.addChild( verticalTranslationDragHandle );
+
+      this.laserLayerArray.push( horizontalTranslationDragHandle, verticalTranslationDragHandle );
     }
   } );
 } );

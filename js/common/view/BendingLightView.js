@@ -19,7 +19,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
-  var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
 
   var ObservableArray = require( 'AXON/ObservableArray' );
@@ -105,22 +104,9 @@ define( function( require ) {
     var showRotationDragHandlesProperty = new Property( false );
     var showTranslationDragHandlesProperty = new Property( false );
 
-    // Shows the direction in which laser can be rotated
-    var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, Math.PI / 23,
-      showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
-    this.addChild( leftRotationDragHandle );
-    var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, -Math.PI / 23,
-      showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
-    this.addChild( rightRotationDragHandle );
-
-    // add translation indicators that show if/when the laser can be moved by dragging
-    var arrowLength = 76;
-    var horizontalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, bendingLightModel.laser, arrowLength, 0,
-      showTranslationDragHandlesProperty, laserImageWidth );
-    this.addChild( horizontalTranslationDragHandle );
-    var verticalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, bendingLightModel.laser, 0, arrowLength,
-      showTranslationDragHandlesProperty, laserImageWidth );
-    this.addChild( verticalTranslationDragHandle );
+    // add laser node rotation and translation arrows in array, to move them to front of all other nodes in prism screen
+    this.laserLayerArray = [];
+    this.addLaserHandles( showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth );
 
     // add the laser
     var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
@@ -130,10 +116,7 @@ define( function( require ) {
       occlusionHandler
     );
     this.addChild( laserNode );
-
-    // add laser node rotation and translation arrows in array, for to move them to front of all other nodes in prism screen
-    this.laserLayerArray = [ leftRotationDragHandle, rightRotationDragHandle, horizontalTranslationDragHandle,
-      verticalTranslationDragHandle, laserNode ];
+    this.laserLayerArray.push( laserNode );
 
     this.addChild( this.afterLightLayer2 );
 
@@ -164,6 +147,20 @@ define( function( require ) {
     },
 
     // @protected - overriden for IntroView to add the wave nodes
-    addLightNodes: function() {}
+    addLightNodes: function() {},
+
+    addLaserHandles: function( showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
+      var bendingLightModel = this.bendingLightModel;
+
+      // Shows the direction in which laser can be rotated
+      var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, Math.PI / 23,
+        showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
+      this.addChild( leftRotationDragHandle );
+      var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, -Math.PI / 23,
+        showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
+      this.addChild( rightRotationDragHandle );
+
+      this.laserLayerArray.push( leftRotationDragHandle, rightRotationDragHandle );
+    }
   } );
 } );
