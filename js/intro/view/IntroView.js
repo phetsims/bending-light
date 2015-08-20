@@ -36,6 +36,8 @@ define( function( require ) {
   var ExpandableProtractorNode = require( 'BENDING_LIGHT/more-tools/view/ExpandableProtractorNode' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var floatRight = require( 'BENDING_LIGHT/common/view/floatRight' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -376,6 +378,59 @@ define( function( require ) {
     reset: function() {
       this.protractorModel.reset();
       this.protractorNode.reset();
+    },
+
+    /**
+     * Add light representations which are specific to this view.  In this case it is the wave representation.
+     * @private
+     */
+    addLightNodes: function() {
+      BendingLightView.prototype.addLightNodes.call( this );
+      {
+
+        var bendingLightModel = this.bendingLightModel;
+        var bendingLightView = this;
+
+        this.waveCanvasLayer = new Node(); // @public
+        this.addChild( this.waveCanvasLayer );
+        this.addChild( this.incidentWaveLayer );
+
+        // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
+        bendingLightModel.rays.addItemAddedListener( function( ray ) {
+          if ( !(bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) ) {
+            if ( !bendingLightModel.allowWebGL ) {
+              for ( var k = 0; k < bendingLightModel.rays.length; k++ ) {
+                var waveShape = bendingLightModel.rays.get( k ).waveShape;
+                var particleCanvasNode = new WaveCanvasNode( bendingLightModel.rays.get( k ).particles,
+                  bendingLightView.modelViewTransform, {
+                    canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
+                    clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
+                  } );
+                k === 0 ? bendingLightView.incidentWaveLayer.addChild( particleCanvasNode ) :
+                bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
+              }
+            }
+          }
+        } );
+
+        // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
+        if ( bendingLightModel.allowWebGL ) {
+          var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
+            bendingLightModel.rays,
+            bendingLightView.layoutBounds.width,
+            bendingLightView.layoutBounds.height );
+          bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
+        }
+
+        // As rays are removed from model clear all light ray layers
+        bendingLightModel.rays.addItemRemovedListener( function() {
+          bendingLightView.waveCanvasLayer.removeAllChildren();
+          if ( !bendingLightModel.allowWebGL ) {
+            bendingLightView.incidentWaveLayer.removeAllChildren();
+          }
+        } );
+      }
+
     }
   } );
 } );

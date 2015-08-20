@@ -21,7 +21,6 @@ define( function( require ) {
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
-  var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
@@ -47,6 +46,7 @@ define( function( require ) {
                              laserRotationRegion, laserImageName, centerOffsetLeft, verticalOffset, occlusionHandler ) {
 
     this.occlusionHandler = occlusionHandler;
+    this.bendingLightModel = bendingLightModel;
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
@@ -92,9 +92,7 @@ define( function( require ) {
     this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );
     this.addChild( this.singleColorLightCanvasNode );
-    this.waveCanvasLayer = new Node(); // @public
-    this.addChild( this.waveCanvasLayer );
-    this.addChild( this.incidentWaveLayer );
+    this.addLightNodes();
     this.addChild( this.whiteLightNode );
     this.addChild( this.afterLightLayer );
 
@@ -133,15 +131,6 @@ define( function( require ) {
       showTranslationDragHandlesProperty, laserImageWidth );
     this.addChild( verticalTranslationDragHandle );
 
-    // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
-    if ( bendingLightModel.allowWebGL ) {
-      var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
-        bendingLightModel.rays,
-        bendingLightView.layoutBounds.width,
-        bendingLightView.layoutBounds.height );
-      bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
-    }
-
     // add the laser
     var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
     var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
@@ -168,32 +157,6 @@ define( function( require ) {
       }
     );
 
-    // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
-    bendingLightModel.rays.addItemAddedListener( function( ray ) {
-      if ( !(bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) ) {
-        if ( !bendingLightModel.allowWebGL ) {
-          for ( var k = 0; k < bendingLightModel.rays.length; k++ ) {
-            var waveShape = bendingLightModel.rays.get( k ).waveShape;
-            var particleCanvasNode = new WaveCanvasNode( bendingLightModel.rays.get( k ).particles,
-              bendingLightView.modelViewTransform, {
-                canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
-                clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
-              } );
-            k === 0 ? bendingLightView.incidentWaveLayer.addChild( particleCanvasNode ) :
-            bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
-          }
-        }
-      }
-    } );
-
-    // As rays are removed from model clear all light ray layers
-    bendingLightModel.rays.addItemRemovedListener( function() {
-      bendingLightView.waveCanvasLayer.removeAllChildren();
-      if ( !bendingLightModel.allowWebGL ) {
-        bendingLightView.incidentWaveLayer.removeAllChildren();
-      }
-    } );  
-
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         bendingLightView.singleColorLightCanvasNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
       }
@@ -207,6 +170,9 @@ define( function( require ) {
       if ( this.singleColorLightCanvasNode.visible ) {
         this.singleColorLightCanvasNode.step();
       }
-    }
+    },
+
+    // @protected - overriden for IntroView to add the wave nodes
+    addLightNodes: function() {}
   } );
 } );
