@@ -203,7 +203,7 @@ define( function( require ) {
       whiteLightRays.clear();
     } );
 
-    this.events.on( 'layoutFinished', function( dx, dy, width, height, scale ) {
+    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         bendingLightView.singleColorLightCanvasNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
       }
     );
