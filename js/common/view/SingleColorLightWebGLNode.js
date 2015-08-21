@@ -90,24 +90,55 @@ define( function( require ) {
     updateGeometry: function( drawable ) {
       var gl = drawable.gl;
 
-      var points = [
-        new Vector2( 0, 0 ),
-        new Vector2( 0, 100 ),
-        new Vector2( 100, 0 )
-      ];
+      //context.lineWidth = this.strokeWidth;
+
+      var points = [];
+      var colors = [];
+      for ( var i = 0; i < this.rays.length; i++ ) {
+        var ray = this.rays.get( i );
+
+        // iPad3 shows a opacity=0 ray as opacity=1 for unknown reasons, so we simply omit those rays
+        if ( ray.powerFraction > 1E-6 ) {
+
+          //context.strokeStyle = 'rgba(' +
+          //                      ray.color.getRed() + ',' +
+          //                      ray.color.getGreen() + ',' +
+          //                      ray.color.getBlue() + ',' +
+          //                      Math.sqrt( ray.powerFraction ) +
+          //                      ')';
+
+          points.push(
+            this.modelViewTransform.modelToViewX( ray.tail.x ), this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
+            this.modelViewTransform.modelToViewX( ray.tail.x ) + 10, this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
+            this.modelViewTransform.modelToViewX( ray.tip.x ), this.modelViewTransform.modelToViewY( ray.tip.y ), 0.2
+
+            // TODO: we need another triangle
+            //this.modelViewTransform.modelToViewX( ray.tail.x ), this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
+            //this.modelViewTransform.modelToViewX( ray.tail.x ), this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
+            //this.modelViewTransform.modelToViewX( ray.tail.x ), this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
+          );
+
+          colors.push(
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(),
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(),
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue()
+          );
+        }
+      }
+
+      // This debug code shows the bounds
+      // context.lineWidth = 10;
+      // context.strokeStyle = 'blue';
+      // context.strokeRect(
+      //  this.canvasBounds.minX, this.canvasBounds.minY,
+      //  this.canvasBounds.width, this.canvasBounds.height
+      // );
+
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
-      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( [
-        points[ 0 ].x, points[ 0 ].y, 0.2,
-        points[ 1 ].x, points[ 1 ].y, 0.2,
-        points[ 2 ].x, points[ 2 ].y, 0.2
-      ] ), gl.STATIC_DRAW );
+      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( points ), gl.STATIC_DRAW );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.colorBuffer );
-      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( [
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1
-      ] ), gl.STATIC_DRAW );
+      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( colors ), gl.STATIC_DRAW );
     },
 
     paintWebGLDrawable: function( drawable, matrix ) {
@@ -127,7 +158,7 @@ define( function( require ) {
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.colorBuffer );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 3, gl.FLOAT, false, 0, 0 );
 
-      gl.drawArrays( gl.TRIANGLES, 0, 3 );
+      gl.drawArrays( gl.TRIANGLES, 0, this.rays.length * 3 );
 
       shaderProgram.unuse();
     },
