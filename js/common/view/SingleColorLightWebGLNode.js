@@ -85,9 +85,9 @@ define( function( require ) {
       drawable.vertexBuffer = gl.createBuffer();
       drawable.colorBuffer = gl.createBuffer();
 
-      this.updateGeometry( drawable );
+      this.updateBuffers( drawable );
     },
-    updateGeometry: function( drawable ) {
+    updateBuffers: function( drawable ) {
       var gl = drawable.gl;
 
       //context.lineWidth = this.strokeWidth;
@@ -142,7 +142,7 @@ define( function( require ) {
     },
 
     paintWebGLDrawable: function( drawable, matrix ) {
-      this.updateGeometry( drawable );
+      this.updateBuffers( drawable );
 
       var gl = drawable.gl;
       var shaderProgram = drawable.shaderProgram;
