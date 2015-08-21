@@ -2,7 +2,9 @@
 
 /**
  * View for the Velocity Sensor tool. Measures the velocity at the sensor's tip and shows it in the display box. Also
- * points a blue arrow along the direction of the velocity and the arrow length is proportional to the velocity.
+ * points a blue arrow along the direction of the velocity and the arrow length is proportional to the velocity.  The
+ * origin of the node (0,0) in the node's coordinate frame is at the hot spot, the left side of the triangle, where
+ * the velocity vector arrow appears.
  *
  * @author Siddhartha Chinthapally (Actual Concepts)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -64,8 +66,21 @@ define( function( require ) {
     var rectangleHeight = 70;
     this.bodyNode = new Node(); // @private
 
+    var triangleHeight = 30;
+    var triangleWidth = 16;
+
+    // Adding triangle shape
+    var triangleShapeNode = new Path( new Shape().
+      moveTo( 0, 0 ).
+      lineTo( triangleWidth, -triangleHeight / 2 ).
+      lineTo( triangleWidth, +triangleHeight / 2 ).close(), {
+      fill: '#C88203',
+      stroke: '#844702'
+    } );
+    this.bodyNode.addChild( triangleShapeNode );
+
     // Adding outer rectangle
-    var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 15, 15, {
+    var bodyRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 15, 15, {
       stroke: '#844702',
       fill: new LinearGradient( 0, 0, 0, rectangleHeight )
         .addColorStop( 0, '#F3D092' )
@@ -73,28 +88,24 @@ define( function( require ) {
         .addColorStop( 0.6, '#CF8702' )
         .addColorStop( 0.8, '#DE9103' )
         .addColorStop( 1, '#B07200' ),
-      lineWidth: 1
+      lineWidth: 1,
+      left: triangleShapeNode.right,
+      centerY: triangleShapeNode.centerY
     } );
-    this.bodyNode.addChild( outerRectangle );
-
-    // Second rectangle
-    var innerRectangle = new Rectangle( 0, 0, rectangleWidth - 8, rectangleHeight - 10, 10, 10, {
-      fill: '#C98303',
-      centerX: outerRectangle.centerX,
-      centerY: outerRectangle.centerY
-    } );
-    this.bodyNode.addChild( innerRectangle );
+    this.bodyNode.addChild( bodyRectangle );
 
     // Adding velocity meter title text
     var titleText = new Text( speedString, {
       fill: 'black',
       font: new PhetFont( 18 )
     } );
+
+    // TODO: use scenery maxWidth?
     if ( titleText.width > rectangleWidth - 15 ) {
       titleText.scale( (rectangleWidth - 15) / titleText.width );
     }
-    titleText.centerX = innerRectangle.centerX;
-    titleText.bottom = innerRectangle.bottom;
+    titleText.centerX = bodyRectangle.centerX;
+    titleText.bottom = bodyRectangle.bottom - 5;
     this.bodyNode.addChild( titleText );
 
     // Adding inner rectangle
@@ -102,8 +113,8 @@ define( function( require ) {
       baseColor: 'white',
       lightSource: 'rightBottom',
       cornerRadius: 5,
-      centerX: innerRectangle.centerX,
-      top: innerRectangle.top + 5
+      centerX: bodyRectangle.centerX,
+      top: bodyRectangle.top + 5
     } );
     this.bodyNode.addChild( whiteTextArea );
 
@@ -115,20 +126,6 @@ define( function( require ) {
     } );
     this.bodyNode.addChild( labelText );
 
-    var triangleHeight = 30;
-    var triangleWidth = 16;
-
-    // Adding triangle shape
-    var triangleShapeNode = new Path( new Shape().
-      moveTo( 0, -triangleHeight / 2 ).
-      lineTo( -triangleWidth, 0 ).
-      lineTo( 0, triangleHeight / 2 ), {
-      fill: '#C88203',
-      stroke: '#844702',
-      right: outerRectangle.left,
-      centerY: outerRectangle.centerY
-    } );
-    this.bodyNode.addChild( triangleShapeNode );
     this.addChild( this.bodyNode );
     this.bodyWidth = rectangleWidth; // @private
     this.bodyHeight = rectangleHeight + triangleWidth; // @private
@@ -136,9 +133,7 @@ define( function( require ) {
     // Arrow shape
     var arrowWidth = 6;
     this.arrowShape = new Path( null, {
-      fill: 'blue',
-      x: -triangleWidth,
-      y: 35
+      fill: 'blue'
     } );
     this.bodyNode.addChild( this.arrowShape );
 
@@ -205,14 +200,10 @@ define( function( require ) {
 
     velocitySensor.positionProperty.link( function( position ) {
 
-      var velocitySensorNodeScaleVector = velocitySensorNode.bodyNode.getScaleVector();
       var velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
       var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
 
-      velocitySensorNode.bodyNode.setTranslation(
-        velocitySensorXPosition + triangleWidth,
-        velocitySensorYPosition - velocitySensorNode.bodyHeight / 2 * velocitySensorNodeScaleVector.y
-      );
+      velocitySensorNode.bodyNode.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
     } );
 
     // Update the text when the value or units changes.
