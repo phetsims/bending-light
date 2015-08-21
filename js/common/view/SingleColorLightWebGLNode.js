@@ -90,8 +90,6 @@ define( function( require ) {
     updateBuffers: function( drawable ) {
       var gl = drawable.gl;
 
-      //context.lineWidth = this.strokeWidth;
-
       var points = [];
       var colors = [];
       for ( var i = 0; i < this.rays.length; i++ ) {
