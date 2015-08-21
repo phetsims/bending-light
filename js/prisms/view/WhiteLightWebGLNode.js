@@ -156,6 +156,10 @@ define( function( require ) {
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.colorBuffer );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 4, gl.FLOAT, false, 0, 0 );
 
+      gl.enable( gl.BLEND );
+      gl.blendEquation( gl.FUNC_ADD );
+      gl.blendFunc( gl.SRC_ALPHA, gl.ONE );
+      
       // 2 triangles per ray
       gl.drawArrays( gl.TRIANGLES, 0, this.rays.length * 3 * 2 );
 
