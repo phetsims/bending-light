@@ -100,18 +100,33 @@ define( function( require ) {
         // iPad3 shows a opacity=0 ray as opacity=1 for unknown reasons, so we simply omit those rays
         if ( ray.powerFraction > 1E-6 ) {
 
-          points.push(
-            this.modelViewTransform.modelToViewX( ray.tail.x ), this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
-            this.modelViewTransform.modelToViewX( ray.tail.x ) + 10, this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
-            this.modelViewTransform.modelToViewX( ray.tip.x ), this.modelViewTransform.modelToViewY( ray.tip.y ), 0.2
+          var x1 = this.modelViewTransform.modelToViewX( ray.tail.x );
+          var y1 = this.modelViewTransform.modelToViewY( ray.tail.y );
+          var x2 = this.modelViewTransform.modelToViewX( ray.tip.x );
+          var y2 = this.modelViewTransform.modelToViewY( ray.tip.y );
 
-            // TODO: we need another triangle
-            //this.modelViewTransform.modelToViewX( ray.tail.x ), this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
-            //this.modelViewTransform.modelToViewX( ray.tail.x ), this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
-            //this.modelViewTransform.modelToViewX( ray.tail.x ), this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
+          var distance = Math.sqrt( (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) );
+          var unitVectorX = (x2 - x1) / distance;
+          var unitVectorY = (y2 - y1) / distance;
+
+          var perpendicularVectorX = -unitVectorY * this.strokeWidth / 2;
+          var perpendicularVectorY = unitVectorX * this.strokeWidth / 2;
+
+          points.push(
+            x1 + perpendicularVectorX, y1 + perpendicularVectorY, 0.2,
+            x2 + perpendicularVectorX, y2 + perpendicularVectorY, 0.2,
+            x1 - perpendicularVectorX, y1 - perpendicularVectorY, 0.2,
+
+            x1 - perpendicularVectorX, y1 - perpendicularVectorY, 0.2,
+            x2 + perpendicularVectorX, y2 + perpendicularVectorY, 0.2,
+            x2 - perpendicularVectorX, y2 - perpendicularVectorY, 0.2
           );
 
           colors.push(
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
+
             ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
             ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
             ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction )
@@ -143,7 +158,8 @@ define( function( require ) {
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.colorBuffer );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 4, gl.FLOAT, false, 0, 0 );
 
-      gl.drawArrays( gl.TRIANGLES, 0, this.rays.length * 3 );
+      // 2 triangles per ray
+      gl.drawArrays( gl.TRIANGLES, 0, this.rays.length * 3 * 2 );
 
       shaderProgram.unuse();
     },
