@@ -39,6 +39,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -208,11 +209,7 @@ define( function( require ) {
     var protractorIconWidth = hasMoreTools ? 60 : 75;
 
     // initial tools
-    var protractorNodeX = hasMoreTools ? this.sensorPanel.centerX : this.sensorPanel.centerX;
-    var protractorNodeY = hasMoreTools ? this.sensorPanel.y + 40 : this.sensorPanel.y + 48;
-    var protractorModelPositionX = this.modelViewTransform.viewToModelX( protractorNodeX );
-    var protractorModelPositionY = this.modelViewTransform.viewToModelY( protractorNodeY );
-    this.protractorModel = new ProtractorModel( protractorModelPositionX, protractorModelPositionY ); // @public
+    this.protractorModel = new ProtractorModel( 0, 0 ); // @public
 
     // if intro screen regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {
@@ -344,6 +341,16 @@ define( function( require ) {
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
     FloatingLayout.floatLeft( this, [ laserControlPanel, this.sensorPanel ] );
+
+    this.events.on( 'layoutFinished', function() {
+      if ( !introView.protractorModel.enabled ) {
+        var protractorNodeX = introView.sensorPanel.centerX;
+        var protractorNodeY = hasMoreTools ? introView.sensorPanel.y + 40 : introView.sensorPanel.y + 48;
+        var protractorModelPositionX = introView.modelViewTransform.viewToModelX( protractorNodeX );
+        var protractorModelPositionY = introView.modelViewTransform.viewToModelY( protractorNodeY );
+        introView.protractorModel.position = new Vector2( protractorModelPositionX, protractorModelPositionY );
+      }
+    } )
   }
 
   return inherit( BendingLightView, IntroView, {
