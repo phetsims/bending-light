@@ -20,6 +20,7 @@ define( function( require ) {
   var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
   var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
+  var SingleColorLightWebGLNode = require( 'BENDING_LIGHT/common/view/SingleColorLightWebGLNode' );
 
   // images
   var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
@@ -80,7 +81,10 @@ define( function( require ) {
     this.mediumNode = new Node(); // @public
     this.addChild( this.mediumNode );
     this.incidentWaveLayer = new Node(); // @public
-    this.singleColorLightCanvasNode = new SingleColorLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
+
+    this.singleColorLightCanvasNode = bendingLightModel.allowWebGL ?
+                                      new SingleColorLightWebGLNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays ) :
+                                      new SingleColorLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
 
     // layering
     this.addChild( this.beforeLightLayer2 );
