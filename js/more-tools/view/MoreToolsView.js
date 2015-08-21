@@ -28,11 +28,26 @@ define( function( require ) {
     var arrowScale = 1.5E-14; // @public read-only
     IntroView.call( this, moreToolsModel, 0, true, 3 );
 
-    // Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
-    this.velocitySensorNode = new VelocitySensorNode( this.beforeLightLayer2, this.afterLightLayer2, this.modelViewTransform, moreToolsModel.velocitySensor,
-      arrowScale, this.sensorPanel, this.layoutBounds ); // @public
-    this.waveSensorNode = new WaveSensorNode( this.afterLightLayer2, this.beforeLightLayer2, this.modelViewTransform, moreToolsModel.waveSensor,
-      this.sensorPanel, this.layoutBounds ); // @public
+    // @public - Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
+    this.velocitySensorNode = new VelocitySensorNode(
+      this.beforeLightLayer2,
+      this.afterLightLayer2,
+      this.modelViewTransform,
+      moreToolsModel.velocitySensor,
+      arrowScale,
+      this.sensorPanel,
+      this.layoutBounds
+    );
+
+    // @public
+    this.waveSensorNode = new WaveSensorNode(
+      this.afterLightLayer2,
+      this.beforeLightLayer2,
+      this.modelViewTransform,
+      moreToolsModel.waveSensor,
+      this.sensorPanel,
+      this.layoutBounds );
+    
     this.velocitySensorNode.addToSensorPanel();
     this.waveSensorNode.addToSensorPanel();
 
