@@ -35,7 +35,7 @@ define( function( require ) {
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var ExpandableProtractorNode = require( 'BENDING_LIGHT/more-tools/view/ExpandableProtractorNode' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var floatRight = require( 'BENDING_LIGHT/common/view/floatRight' );
+  var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var Node = require( 'SCENERY/nodes/Node' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
@@ -335,13 +335,13 @@ define( function( require ) {
       } );
     this.afterLightLayer2.addChild( this.stepButton );
     introModel.laserViewProperty.link( function( laserType ) {
-
       introView.playPauseButton.visible = (laserType === 'wave');
       introView.stepButton.visible = (laserType === 'wave');
       introView.speedControl.visible = (laserType === 'wave');
     } );
 
-    floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
+    FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
+    FloatingLayout.floatLeft( this, [ laserControlPanel ] );
   }
 
   return inherit( BendingLightView, IntroView, {
