@@ -74,7 +74,7 @@ define( function( require ) {
       moveTo( 0, 0 ).
       lineTo( triangleWidth, -triangleHeight / 2 ).
       lineTo( triangleWidth, +triangleHeight / 2 ).close(), {
-      fill: '#C88203',
+      fill: '#CF8702',
       stroke: '#844702'
     } );
     this.bodyNode.addChild( triangleShapeNode );
@@ -82,7 +82,7 @@ define( function( require ) {
     // Adding outer rectangle
     var bodyRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 15, 15, {
       stroke: '#844702',
-      fill: new LinearGradient( 0, 0, 0, rectangleHeight )
+      fill: new LinearGradient( 0, 0, rectangleWidth, 0 )
         .addColorStop( 0, '#F3D092' )
         .addColorStop( 0.2, '#DE9103' )
         .addColorStop( 0.6, '#CF8702' )
