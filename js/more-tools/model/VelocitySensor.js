@@ -19,7 +19,9 @@ define( function( require ) {
   function VelocitySensor() {
 
     PropertySet.call( this, {
-      position: new Vector2( -0.000018, -0.0000044 ), // @public, position of the sensor
+
+      // @public, position of the sensor.  Sampled by running the sim with a console.log statement
+      position: new Vector2( -0.00002051402284781722, -0.0000025716197470420186 ),
       value: new Vector2( 0, 0 ), // @public, velocity as measured by the sensor
       enabled: false // @public, True if it is in the play area
     } );
