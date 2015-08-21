@@ -265,14 +265,14 @@ define( function( require ) {
     content.addChild( checkBoxes );
 
     // Add the sensors panel
-    var sensorPanel = new Rectangle( 0, 0, content.width + 25, content.height + 2, 5, 5, {
+    var background = new Rectangle( 0, 0, content.width + 25, content.height + 2, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE'
     } );
-    this.addChild( sensorPanel );
+    this.addChild( background );
     this.addChild( content );
     this.addChild( environmentMediumMaterialListParent );
-    content.centerX = sensorPanel.centerX;
-    content.centerY = sensorPanel.centerY;
+    content.centerX = background.centerX;
+    content.centerY = background.centerY;
     this.mutate( options );
   }
 

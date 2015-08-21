@@ -197,6 +197,7 @@ define( function( require ) {
 
     var sensorPanelHeight = hasMoreTools ? 303 : 203;
 
+    // @protected - the background for the tools panel
     this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
       left: this.layoutBounds.minX + 13,
@@ -237,15 +238,13 @@ define( function( require ) {
     }
     var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, {
       boxWidth: 20,
-      spacing: 5,
-      x: this.sensorPanel.x + 6,
-      y: this.sensorPanel.y + sensorPanelHeight - 40
+      spacing: 5
     } );
-    this.beforeLightLayer2.addChild( normalCheckBox );
 
+    // Cover the icon with the touch area
     normalCheckBox.touchArea = new Bounds2(
       normalCheckBox.localBounds.minX, normalCheckBox.localBounds.minY - 3,
-      normalCheckBox.localBounds.maxX + 25, normalCheckBox.localBounds.maxY + 3
+      normalCheckBox.localBounds.maxX + 10, normalCheckBox.localBounds.maxY + 23
     );
 
     // add normal
@@ -253,7 +252,11 @@ define( function( require ) {
       x: this.sensorPanel.x + this.sensorPanel.width / 2,
       y: this.sensorPanel.y + sensorPanelHeight - 41
     } );
-    this.beforeLightLayer2.addChild( normalIcon );
+
+    this.sensorPanel.addChild( new VBox( {
+      children: [ normalCheckBox, normalIcon ],
+      bottom: this.sensorPanel.height - 5
+    } ) );
 
     // add reset all button
     var resetAllButton = new ResetAllButton( {
@@ -340,7 +343,7 @@ define( function( require ) {
     } );
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
-    FloatingLayout.floatLeft( this, [ laserControlPanel ] );
+    FloatingLayout.floatLeft( this, [ laserControlPanel, this.sensorPanel ] );
   }
 
   return inherit( BendingLightView, IntroView, {
