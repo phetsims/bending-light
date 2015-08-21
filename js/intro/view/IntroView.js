@@ -146,13 +146,12 @@ define( function( require ) {
 
     // add a line that will show the border between the mediums even when both n's are the same... Just a thin line will
     // be fine.
-    this.beforeLightLayer.addChild( new Path( this.modelViewTransform.modelToViewShape(
-      new Shape()
-        .moveTo( -1, 0 )
-        .lineTo( 1, 0 ), {
-        stroke: 'gray',
-        pickable: false
-      } ) ) );
+    this.beforeLightLayer.addChild( new Path( this.modelViewTransform.modelToViewShape( new Shape()
+      .moveTo( -1, 0 )
+      .lineTo( 1, 0 ), {
+      stroke: 'gray',
+      pickable: false
+    } ) ) );
 
     // show the normal line where the laser strikes the interface between mediums
     var normalLineHeight = stageHeight / 2;
