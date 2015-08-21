@@ -197,26 +197,10 @@ define( function( require ) {
         }
         labelText.center = whiteTextArea.center;
       } );
-    this.setVelocitySensorScale( SCALE_INSIDE_TOOLBOX );
+    this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX )
   }
 
   return inherit( Node, VelocitySensorNode, {
-
-    /**
-     * Resize the VelocitySensorNode
-     * @public
-     * @param {number} scale - scale to be applied to velocity node
-     */
-    setVelocitySensorScale: function( scale ) {
-      this.bodyNode.setScaleMagnitude( scale );
-      var velocitySensorNodeScaleVector = this.bodyNode.getScaleVector();
-      var velocitySensorXPosition = this.modelViewTransform.modelToViewX( this.velocitySensor.position.x );
-      var velocitySensorYPosition = this.modelViewTransform.modelToViewY( this.velocitySensor.position.y );
-      this.bodyNode.setTranslation(
-        velocitySensorXPosition - this.bodyWidth / 2 * velocitySensorNodeScaleVector.x,
-        velocitySensorYPosition - this.bodyHeight * velocitySensorNodeScaleVector.y
-      );
-    },
 
     /**
      * Resize the VelocitySensorNode with Animation
@@ -271,7 +255,7 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.setVelocitySensorScale( SCALE_INSIDE_TOOLBOX );
+      this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX )
       if ( this.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }
