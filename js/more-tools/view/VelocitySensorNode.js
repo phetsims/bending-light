@@ -197,7 +197,7 @@ define( function( require ) {
         }
         labelText.center = whiteTextArea.center;
       } );
-    this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX )
+    this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX );
   }
 
   return inherit( Node, VelocitySensorNode, {
@@ -255,7 +255,7 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX )
+      this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX );
       if ( this.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }
