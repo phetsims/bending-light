@@ -89,7 +89,7 @@ define( function( require ) {
         .addColorStop( 0.8, '#DE9103' )
         .addColorStop( 1, '#B07200' ),
       lineWidth: 1,
-      left: triangleShapeNode.right,
+      left: triangleShapeNode.right - 2,
       centerY: triangleShapeNode.centerY
     } );
     this.bodyNode.addChild( bodyRectangle );
@@ -109,12 +109,12 @@ define( function( require ) {
     this.bodyNode.addChild( titleText );
 
     // Adding inner rectangle
-    var whiteTextArea = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth - 10, rectangleHeight - 38 ), {
+    var whiteTextArea = new ShadedRectangle( new Bounds2( 0, 0, rectangleWidth - 30, rectangleHeight - 45 ), {
       baseColor: 'white',
       lightSource: 'rightBottom',
       cornerRadius: 5,
       centerX: bodyRectangle.centerX,
-      top: bodyRectangle.top + 5
+      top: bodyRectangle.top + 10
     } );
     this.bodyNode.addChild( whiteTextArea );
 
@@ -127,8 +127,6 @@ define( function( require ) {
     this.bodyNode.addChild( labelText );
 
     this.addChild( this.bodyNode );
-    this.bodyWidth = rectangleWidth; // @private
-    this.bodyHeight = rectangleHeight + triangleWidth; // @private
 
     // Arrow shape
     var arrowWidth = 6;
