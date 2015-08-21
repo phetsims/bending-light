@@ -47,8 +47,8 @@ define( function( require ) {
       var vertexShaderSource = [
         // Position
         'attribute vec3 aPosition;',
-        'attribute vec3 aColor;',
-        'varying vec3 vColor;',
+        'attribute vec4 aColor;',
+        'varying vec4 vColor;',
         'uniform mat3 uModelViewMatrix;',
         'uniform mat3 uProjectionMatrix;',
 
@@ -69,11 +69,11 @@ define( function( require ) {
       // Simple demo for custom shader
       var fragmentShaderSource = [
         'precision mediump float;',
-        'varying vec3 vColor;',
+        'varying vec4 vColor;',
 
         // Returns the color from the vertex shader
         'void main( void ) {',
-        '  gl_FragColor = vec4( vColor, 1.0 );',
+        '  gl_FragColor = vColor;',
         '}'
       ].join( '\n' );
 
@@ -100,13 +100,6 @@ define( function( require ) {
         // iPad3 shows a opacity=0 ray as opacity=1 for unknown reasons, so we simply omit those rays
         if ( ray.powerFraction > 1E-6 ) {
 
-          //context.strokeStyle = 'rgba(' +
-          //                      ray.color.getRed() + ',' +
-          //                      ray.color.getGreen() + ',' +
-          //                      ray.color.getBlue() + ',' +
-          //                      Math.sqrt( ray.powerFraction ) +
-          //                      ')';
-
           points.push(
             this.modelViewTransform.modelToViewX( ray.tail.x ), this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
             this.modelViewTransform.modelToViewX( ray.tail.x ) + 10, this.modelViewTransform.modelToViewY( ray.tail.y ), 0.2,
@@ -119,20 +112,12 @@ define( function( require ) {
           );
 
           colors.push(
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue()
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction )
           );
         }
       }
-
-      // This debug code shows the bounds
-      // context.lineWidth = 10;
-      // context.strokeStyle = 'blue';
-      // context.strokeRect(
-      //  this.canvasBounds.minX, this.canvasBounds.minY,
-      //  this.canvasBounds.width, this.canvasBounds.height
-      // );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( points ), gl.STATIC_DRAW );
@@ -156,7 +141,7 @@ define( function( require ) {
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.colorBuffer );
-      gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 3, gl.FLOAT, false, 0, 0 );
+      gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 4, gl.FLOAT, false, 0, 0 );
 
       gl.drawArrays( gl.TRIANGLES, 0, this.rays.length * 3 );
 
@@ -169,51 +154,6 @@ define( function( require ) {
 
       drawable.shaderProgram = null;
     },
-    /**
-     * Paints the particles on the canvas node.
-     * @protected
-     * @param {CanvasContextWrapper} wrapper
-     */
-    paintCanvas: function( wrapper ) {
-      var context = wrapper.context;
-
-      context.lineWidth = this.strokeWidth;
-      for ( var i = 0; i < this.rays.length; i++ ) {
-        var ray = this.rays.get( i );
-
-        // iPad3 shows a opacity=0 ray as opacity=1 for unknown reasons, so we simply omit those rays
-        if ( ray.powerFraction > 1E-6 ) {
-          context.beginPath();
-
-          context.strokeStyle = 'rgba(' +
-                                ray.color.getRed() + ',' +
-                                ray.color.getGreen() + ',' +
-                                ray.color.getBlue() + ',' +
-                                Math.sqrt( ray.powerFraction ) +
-                                ')';
-
-          context.moveTo(
-            this.modelViewTransform.modelToViewX( ray.tail.x ),
-            this.modelViewTransform.modelToViewY( ray.tail.y )
-          );
-
-          context.lineTo(
-            this.modelViewTransform.modelToViewX( ray.tip.x ),
-            this.modelViewTransform.modelToViewY( ray.tip.y )
-          );
-          context.stroke();
-        }
-      }
-
-      // This debug code shows the bounds
-      // context.lineWidth = 10;
-      // context.strokeStyle = 'blue';
-      // context.strokeRect(
-      //  this.canvasBounds.minX, this.canvasBounds.minY,
-      //  this.canvasBounds.width, this.canvasBounds.height
-      // );
-    },
-
     step: function() {
       this.invalidatePaint();
     }
