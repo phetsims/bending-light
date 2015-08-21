@@ -24,12 +24,12 @@ define( function( require ) {
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {ObservableArray} whiteLightRays - array of white light rays
    * @param {number} stageWidth - width of the dev area
    * @param {number} stageHeight - height of the dev area
+   * @param {ObservableArray} whiteLightRays - array of white light rays
    * @constructor
    */
-  function WhiteLightCanvasNode( modelViewTransform, whiteLightRays, stageWidth, stageHeight ) {
+  function WhiteLightCanvasNode( modelViewTransform, stageWidth, stageHeight, whiteLightRays ) {
 
     CanvasNode.call( this, {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
