@@ -83,6 +83,12 @@ define( function( require ) {
       } );
 
       drawable.vertexBuffer = gl.createBuffer();
+      drawable.colorBuffer = gl.createBuffer();
+
+      this.updateGeometry( drawable );
+    },
+    updateGeometry: function( drawable ) {
+      var gl = drawable.gl;
 
       var points = [
         new Vector2( 0, 0 ),
@@ -96,8 +102,6 @@ define( function( require ) {
         points[ 2 ].x, points[ 2 ].y, 0.2
       ] ), gl.STATIC_DRAW );
 
-      drawable.colorBuffer = gl.createBuffer();
-
       gl.bindBuffer( gl.ARRAY_BUFFER, drawable.colorBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( [
         1, 0, 0,
@@ -107,6 +111,8 @@ define( function( require ) {
     },
 
     paintWebGLDrawable: function( drawable, matrix ) {
+      this.updateGeometry( drawable );
+
       var gl = drawable.gl;
       var shaderProgram = drawable.shaderProgram;
 
