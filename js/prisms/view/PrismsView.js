@@ -24,6 +24,7 @@ define( function( require ) {
   var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
   var WhiteLightWebGLNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightWebGLNode' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
+  var Bounds2 = require( 'DOT/Bounds2' );
 
   // constants
   var INSET = 10;
@@ -195,6 +196,11 @@ define( function( require ) {
     } );
 
     floatRight( this, [ environmentMediumControlPanel, laserControlPanel, resetAllButton ] );
+
+    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+        prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
+      }
+    );
   }
 
   return inherit( BendingLightView, PrismsView, {
