@@ -86,13 +86,15 @@ define( function( require ) {
         start = prismNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
+
+        // TODO: the prism gets away from the cursor, see #188
         var end = prismNode.globalToParentPoint( event.pointer.point );
-        var deltaX = end.x - start.x;
-        var deltaY = end.y - start.y;
-        prism.translate( modelViewTransform.viewToModelDeltaX( deltaX ), modelViewTransform.viewToModelDeltaY( deltaY ) );
-        var prismCenter = prism.shape.getRotationCenter();
-        var position = prismDragBoundsInModelValues.closestPointTo( prismCenter );
-        prism.translate( position.x - prismCenter.x, position.y - prismCenter.y );
+        var modelDX = modelViewTransform.viewToModelDeltaX( end.x - start.x );
+        var modelDY = modelViewTransform.viewToModelDeltaY( end.y - start.y );
+        var startLocation = prism.shape.getRotationCenter();
+        var destination = new Vector2( startLocation.x + modelDX, startLocation.y + modelDY );
+        var endLocationInBounds = prismDragBoundsInModelValues.closestPointTo( destination );
+        prism.translate( endLocationInBounds.x - startLocation.x, endLocationInBounds.y - startLocation.y );
         start = end;
       },
       end: function() {
