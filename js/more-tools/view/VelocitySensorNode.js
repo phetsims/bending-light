@@ -38,8 +38,8 @@ define( function( require ) {
   var velocityPattern = require( 'string!BENDING_LIGHT/velocityPattern' );
 
   // constants
-  var VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX = 0.7;
-  var VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX = 1;
+  var SCALE_INSIDE_TOOLBOX = 0.7;
+  var SCALE_OUTSIDE_TOOLBOX = 1;
 
   /**
    * @param {Node} beforeLightLayer2 - layer in which VelocitySensorNode is present when in toolbox
@@ -156,47 +156,26 @@ define( function( require ) {
     this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
       dragBounds: modelViewTransform.viewToModelBounds( velocityNodeDragBounds ),
       modelViewTransform: modelViewTransform,
-      endDrag: function() {
-        if ( container.bounds.containsCoordinates(
-            velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
-          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
-            VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
-          velocitySensor.reset();
-          velocitySensorNode.addToSensorPanel();
-          velocitySensor.enabledProperty.set( false );
-        }
-      }
-    } ) );
-    this.shape = new Path( Shape.rectangle( 20, 265, 85, 69 ), {
-      pickable: true,
-      cursor: 'pointer'
-    } );
-    this.addChild( this.shape );
-    this.shape.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
-      dragBounds: modelViewTransform.viewToModelBounds( velocityNodeDragBounds ),
-      modelViewTransform: modelViewTransform,
       startDrag: function() {
-        if ( container.bounds.containsCoordinates(
-            velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
-          velocitySensorNode.setScaleAnimation( velocitySensor.position, VELOCITY_SENSOR_SCALE_OUTSIDE_TOOLBOX );
+        var x = velocitySensorNode.bodyNode.getCenterX();
+        var y = velocitySensorNode.bodyNode.getCenterY();
+        if ( container.bounds.containsCoordinates( x, y ) ) {
+          velocitySensorNode.setScaleAnimation( velocitySensor.position, SCALE_OUTSIDE_TOOLBOX );
           velocitySensorNode.addToMoreToolsView();
           velocitySensor.enabledProperty.set( true );
         }
       },
       endDrag: function() {
-        if ( container.bounds.containsCoordinates(
-            velocitySensorNode.bodyNode.getCenterX(), velocitySensorNode.bodyNode.getCenterY() ) ) {
-          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue,
-            VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
+        var x = velocitySensorNode.bodyNode.getCenterX();
+        var y = velocitySensorNode.bodyNode.getCenterY();
+        if ( container.bounds.containsCoordinates( x, y ) ) {
+          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, SCALE_INSIDE_TOOLBOX );
           velocitySensor.reset();
           velocitySensorNode.addToSensorPanel();
           velocitySensor.enabledProperty.set( false );
         }
       }
     } ) );
-    velocitySensor.enabledProperty.link( function( enable ) {
-      velocitySensorNode.shape.setVisible( !enable );
-    } );
 
     velocitySensor.positionProperty.link( function( position ) {
 
@@ -218,7 +197,7 @@ define( function( require ) {
         }
         labelText.center = whiteTextArea.center;
       } );
-    this.setVelocitySensorScale( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
+    this.setVelocitySensorScale( SCALE_INSIDE_TOOLBOX );
   }
 
   return inherit( Node, VelocitySensorNode, {
@@ -272,7 +251,6 @@ define( function( require ) {
       if ( !this.afterLightLayer2.isChild( this ) ) {
         this.afterLightLayer2.addChild( this );
       }
-      this.touchArea = this.bodyNode.bounds;
     },
 
     /**
@@ -287,14 +265,13 @@ define( function( require ) {
       if ( !this.beforeLightLayer2.isChild( this ) ) {
         this.beforeLightLayer2.addChild( this );
       }
-      this.touchArea = this.shape.bounds;
     },
 
     /**
      * @public
      */
     reset: function() {
-      this.setVelocitySensorScale( VELOCITY_SENSOR_SCALE_INSIDE_TOOLBOX );
+      this.setVelocitySensorScale( SCALE_INSIDE_TOOLBOX );
       if ( this.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();
       }
