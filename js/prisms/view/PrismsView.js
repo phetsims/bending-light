@@ -22,7 +22,7 @@ define( function( require ) {
   var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
   var EventTimer = require( 'PHET_CORE/EventTimer' );
   var floatRight = require( 'BENDING_LIGHT/common/view/floatRight' );
-  var WhiteLightNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightNode' );
+  var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
 
   // constants
@@ -187,9 +187,9 @@ define( function( require ) {
     this.beforeLightLayer.addChild( prismToolboxNode );
     this.beforeLightLayer.addChild( this.prismLayer );
 
-    // Call updateWhiteLightNode at a rate of 10 times per second
+    // Call updateWhiteLightCanvasNode at a rate of 10 times per second
     this.timer = new EventTimer( new EventTimer.ConstantEventModel( 30 ), function() {
-      prismsView.updateWhiteLightNode();
+      prismsView.updateWhiteLightCanvasNode();
     } );
 
     // Move the laser node to front of all other nodes of prism screen.
@@ -223,9 +223,9 @@ define( function( require ) {
     /**
      * @private, for internal use only.
      */
-    updateWhiteLightNode: function() {
+    updateWhiteLightCanvasNode: function() {
       if ( this.prismsModel.laser.colorMode === 'white' && this.prismsModel.dirty ) {
-        this.whiteLightNode.step();
+        this.whiteLightCanvasNode.step();
         this.prismsModel.dirty = false;
       }
     },
@@ -236,13 +236,13 @@ define( function( require ) {
       var bendingLightView = this;
 
       var bendingLightModel = this.bendingLightModel;
-      this.whiteLightNode = new WhiteLightNode( this.modelViewTransform, bendingLightModel.rays, stageWidth, stageHeight );
-      this.addChild( this.whiteLightNode );
+      this.whiteLightCanvasNode = new WhiteLightCanvasNode( this.modelViewTransform, bendingLightModel.rays, stageWidth, stageHeight );
+      this.addChild( this.whiteLightCanvasNode );
 
       // switch between light render for white vs nonwhite light
       bendingLightModel.laser.colorModeProperty.link( function( color ) {
         var white = color === 'white';
-        bendingLightView.whiteLightNode.setVisible( white );
+        bendingLightView.whiteLightCanvasNode.setVisible( white );
       } );
     },
 

@@ -29,7 +29,7 @@ define( function( require ) {
    * @param {number} stageHeight - height of the dev area
    * @constructor
    */
-  function WhiteLightNode( modelViewTransform, whiteLightRays, stageWidth, stageHeight ) {
+  function WhiteLightCanvasNode( modelViewTransform, whiteLightRays, stageWidth, stageHeight ) {
 
     CanvasNode.call( this, {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
@@ -42,7 +42,7 @@ define( function( require ) {
     this.hashMapPointArray = []; // @private
   }
 
-  return inherit( CanvasNode, WhiteLightNode, {
+  return inherit( CanvasNode, WhiteLightCanvasNode, {
 
     /**
      * Paints the particles on the canvas node.
