@@ -112,32 +112,41 @@ define( function( require ) {
         stroke: 'black'
       } );
 
+      // add plus button
       var plusButton = new ArrowButton( 'right', function propertyPlus() {
         laserControlPanel.wavelengthProperty.set(
           Math.min( laserControlPanel.wavelength + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
+
+      // touch area
       plusButton.touchArea = new Bounds2( plusButton.localBounds.minX - 20, plusButton.localBounds.minY - 5,
         plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 8 );
 
+      // add minus button
       var minusButton = new ArrowButton( 'left', function propertyMinus() {
         laserControlPanel.wavelengthProperty.set(
           Math.max( laserControlPanel.wavelength - 1, VisibleColor.MIN_WAVELENGTH ) );
       }, {
         scale: 0.6
       } );
+
+      // disable the minus button at minimum wavelength and plus button at max wavelength
       this.wavelengthProperty.link( function( wavelength ) {
         plusButton.enabled = ( wavelength < BendingLightConstants.LASER_MAX_WAVELENGTH);
         minusButton.enabled = ( wavelength > VisibleColor.MIN_WAVELENGTH );
       } );
 
+      // touch area
       minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
         minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 8 );
 
+      // set the position of the wavelength text box
       wavelengthBoxShape.centerX = wavelengthSlider.centerX;
       wavelengthBoxShape.bottom = wavelengthSlider.top - 5;
 
+      // set the position of the wavelength value in the center of text box
       wavelengthValueText.centerX = wavelengthBoxShape.centerX;
       wavelengthValueText.centerY = wavelengthBoxShape.centerY;
 
@@ -154,18 +163,25 @@ define( function( require ) {
       } );
       if ( options.disableUnselected ) {
         radioButtonProperty.link( function() {
+
+          // set the opacity when not selected
           wavelengthValue.setPickable( radioButtonProperty.value === secondButtonValue );
           wavelengthValue.opacity = radioButtonProperty.value === secondButtonValue ? 1 : 0.4;
         } );
       }
 
+      // add the buttons to VBox
       content = new VBox( {
         spacing: options.spacing,
         children: [ firstRadioButton, secondRadioButton, wavelengthValue ],
         align: 'left'
       } );
       this.wavelengthProperty.link( function( wavelength ) {
+
+        // set the laser wavelength according to the slider wavelength
         wavelengthProperty.set( wavelength / 1E9 );
+
+        // set the value in the slider text box
         wavelengthValueText.setText( StringUtils.format( waveLengthPattern, wavelength, units_nmString ) );
       } );
     }

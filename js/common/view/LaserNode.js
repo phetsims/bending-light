@@ -87,6 +87,8 @@ define( function( require ) {
         occlusionHandler( laserNode );
       }
     } ) );
+
+    // Listeners to enable/disable the translation dragHandles
     translationRegionPath.addInputListener( {
       enter: function() {
         showTranslationDragHandlesProperty.value = showRotationDragHandlesProperty.value ? false : true;
@@ -128,6 +130,8 @@ define( function( require ) {
         showRotationDragHandlesProperty.value = false;
       }
     } ) );
+
+    // Listeners to enable/disable the rotation dragHandles
     rotationRegionPath.addInputListener( {
       enter: function() {
         showRotationDragHandlesProperty.value = true;
