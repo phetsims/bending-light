@@ -201,7 +201,7 @@ define( function( require ) {
         gl.uniform1f( shaderProgram.uniformLocations.uScale, scale * devicePixelRatio );
         gl.uniform3f( shaderProgram.uniformLocations.uColor, red, green, blue );
         gl.uniform2f( shaderProgram.uniformLocations.uCanvasOffset, widthOffset, heightOffset );
-        gl.uniform1f( shaderProgram.uniformLocations.uLayoutHeight, this.layoutHeight );
+        gl.uniform1f( shaderProgram.uniformLocations.uLayoutHeight, screenHeight / scale );
 
         gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
         gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
