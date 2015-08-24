@@ -350,7 +350,7 @@ define( function( require ) {
         var protractorModelPositionY = introView.modelViewTransform.viewToModelY( protractorNodeY );
         introView.protractorModel.position = new Vector2( protractorModelPositionX, protractorModelPositionY );
       }
-    } )
+    } );
   }
 
   return inherit( BendingLightView, IntroView, {

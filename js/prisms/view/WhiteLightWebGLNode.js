@@ -14,7 +14,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
