@@ -287,7 +287,7 @@ define( function( require ) {
       if ( intersection !== null ) {
 
         // List the intersection in the model
-        this.addIntersection( intersection );
+        this.intersections.add( intersection );
         var pointOnOtherSide = (incidentRay.directionUnitVector.times( 1E-12 )).add( intersection.point );
         var outputInsidePrism = false;
         var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
@@ -367,15 +367,6 @@ define( function( require ) {
           true,
           false, this.laserView ) );
       }
-    },
-
-    /**
-     * Signify that another ray/interface collision occurred
-     * @private
-     * @param {Intersection} intersection - intersection of light ray with prism
-     */
-    addIntersection: function( intersection ) {
-      this.intersections.add( intersection );
     },
 
     /**
