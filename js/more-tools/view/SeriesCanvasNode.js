@@ -41,6 +41,8 @@ define( function( require ) {
       context.beginPath();
       for ( var i = 0; i < this.seriesProperty.get().length; i++ ) {
         var dataPoint = this.seriesProperty.get()[ i ];
+
+        // check for the data point and if exist draw series
         if ( dataPoint ) {
           var x = this.modelViewTransformProperty.get().modelToViewX( dataPoint.time );
           var y = this.modelViewTransformProperty.get().modelToViewY( dataPoint.value );

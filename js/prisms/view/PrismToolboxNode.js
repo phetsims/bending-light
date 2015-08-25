@@ -75,6 +75,7 @@ define( function( require ) {
         prismIconNode.addChild( knobNode );
       }
 
+      // adjust knob position
       if ( prism.shape.getReferencePoint() ) {
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
@@ -219,6 +220,7 @@ define( function( require ) {
       spacing: 2
     };
 
+    // add check boxes for reflections, normal and protractor
     var showReflectionsCheckBox = new CheckBox(
       createItem( showReflections ),
       prismsModel.showReflectionsProperty,

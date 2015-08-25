@@ -40,8 +40,11 @@ define( function( require ) {
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT,
       centerOffsetLeft );
 
+    // Top medium
     this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), BendingLightModel.AIR,
       MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
+
+    // Bottom medium
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomMediumState,
       MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
     this.time = 0; // @public
@@ -359,12 +362,14 @@ define( function( require ) {
         var wavelength = lightRay.wavelength;
         var angle = lightRay.getAngle();
         if ( k === 0 ) {
+          // calculating tip and tail for incident ray
           this.tipVector.x = lightRay.tip.x + directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle );
           this.tipVector.y = lightRay.tip.y + directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle );
           this.tailVector.x = lightRay.tail.x;
           this.tailVector.y = lightRay.tail.y;
         }
         else {
+          // calculating tip and tail for reflected and refracted rays
           this.tipVector.x = ( 1 ) * Math.cos( angle );
           this.tipVector.y = ( 1 ) * Math.sin( angle );
           this.tailVector.x = lightRay.tail.x - directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle );
@@ -379,13 +384,13 @@ define( function( require ) {
         var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;
         var waveParticleGap = 0;
 
+        // create the wave particles
         for ( j = 0; j < numberOfParticles; j++ ) {
           lightRay.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ),
             lightRay.waveWidth, particleColor, particleGradientColor, angle, wavelength ) );
           waveParticleGap += gapBetweenSuccessiveParticles;
         }
       }
-
     },
 
     /**
@@ -409,10 +414,12 @@ define( function( require ) {
         var tailY;
         var angle = lightRay.getAngle();
         if ( i === 0 ) {
+          // for incident ray
           tailX = lightRay.tail.x;
           tailY = lightRay.tail.y;
         }
         else {
+          // for reflected and refracted ray
           var distance = lightRay.trapeziumWidth / 2 * Math.cos( angle );
           phaseDiff = (distance + phaseDiff) % wavelength;
           tailX = lightRay.tail.x - (directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle ));

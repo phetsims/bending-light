@@ -120,6 +120,7 @@ define( function( require ) {
       },
       end: function() {
         if ( containerBounds ) {
+          // place back protractor into tool box with animation
           if ( containerBounds.containsCoordinates( protractorNode.getCenterX(), protractorNode.getCenterY() ) ) {
             var point2D = protractorNode.modelViewTransform.modelToViewPosition(
               protractorModel.positionProperty.initialValue );
@@ -163,9 +164,11 @@ define( function( require ) {
       }
     } ) );
 
+    // update the protractor angle
     protractorModel.angleProperty.link( function( angle ) {
       protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
     } );
+    // update the protractor position
     protractorModel.positionProperty.link( function( position ) {
       var protractorNodeScaleVector = protractorNode.getScaleVector();
       var protractorCenterX = protractorNode.modelViewTransform.modelToViewX( position.x );
@@ -181,12 +184,14 @@ define( function( require ) {
       pickable: true,
       cursor: 'pointer'
     } );
-
     this.addChild( this.shape );
+
+    // add input listener to the shape when it is in tool box
     this.shape.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
         if ( containerBounds ) {
+          // animate to full size
           protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
           protractorNode.addToBendingLightView();
           protractorModel.enabledProperty.set( true );
@@ -198,12 +203,14 @@ define( function( require ) {
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
         protractorNode.dragAllXY( end.x - start.x, end.y - start.y );
+        // restrict the protractor node to layout bounds
         var position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
         protractorModel.positionProperty.set( position );
         start = end;
       },
       end: function() {
         if ( containerBounds ) {
+          // place back into tool box
           if ( containerBounds.containsCoordinates( protractorNode.getCenterX(), protractorNode.getCenterY() ) ) {
             var point2D = protractorNode.modelViewTransform.modelToViewPosition(
               protractorModel.positionProperty.initialValue );

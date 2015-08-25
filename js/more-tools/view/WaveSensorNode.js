@@ -236,9 +236,12 @@ define( function( require ) {
     } );
     this.addChild( this.shape );
 
+    // add input listener to the shape when it is in tool box
     this.shape.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
+
+        // animate to full size
         waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelX( start.x ),
           modelViewTransform.viewToModelY( start.y ), waveSensorNodeScaleOutSideContainer );
         waveSensor.visibleProperty.set( true );
@@ -247,6 +250,8 @@ define( function( require ) {
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         waveSensorNode.dragAllXY( end.x - start.x, end.y - start.y );
+
+        // restrict the body and probes to layout bounds
         var probe1Position = waveSensorNode.waveSensor.probe1.position;
         position = waveSensorDragBounds.closestPointTo( probe1Position );
         waveSensorNode.waveSensor.translateAllXY( position.x - probe1Position.x, position.y - probe1Position.y );
@@ -322,6 +327,7 @@ define( function( require ) {
       this.probe1Node.setScaleMagnitude( scale );
       this.probe2Node.setScaleMagnitude( scale );
 
+      // scale the distance between probe1 and body, and adjust the body position
       var delta1X = this.waveSensor.probe1.position.x * ( 1 - scale / prevScale ) +
                     this.waveSensor.bodyPosition.x * scale / prevScale;
       var delta1Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
@@ -330,6 +336,7 @@ define( function( require ) {
       this.waveSensor.bodyPositionProperty.set( this.waveSensorBodyNewPosition );
       this.waveSensor.bodyPositionProperty._notifyObservers();
 
+      // scale the distance between probe1 and probe2, and adjust the probe2 position
       var delta2X = this.waveSensor.probe1.position.x * ( 1 - scale / prevScale ) +
                     this.waveSensor.probe2.position.x * scale / prevScale;
       var delta2Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
@@ -338,6 +345,7 @@ define( function( require ) {
       this.waveSensor.probe2.positionProperty.set( this.probe2NewPosition );
       this.waveSensor.probe2.positionProperty._notifyObservers();
 
+      // translate wave sensor to the end position
       this.waveSensor.translateAllXY( endPositionX - this.waveSensor.probe1.position.x,
         endPositionY - this.waveSensor.probe1.position.y );
     },
@@ -356,6 +364,7 @@ define( function( require ) {
         scale: prevScale
       };
       var endPoint = { x: endPositionX, y: endPositionY, scale: scale };
+      // add tween
       var target = this;
       TweenUtil.startTween( this, startPoint, endPoint, function() {
         target.setWaveSensorNodeScale( startPoint.x, startPoint.y, startPoint.scale );

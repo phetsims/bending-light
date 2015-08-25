@@ -44,11 +44,17 @@ define( function( require ) {
         var point1Y = y + (particleWidth * Math.cos( angle ) / 2);
         var point2X = x - (particleWidth * Math.sin( angle ) / 2);
         var point2Y = y - (particleWidth * Math.cos( angle ) / 2);
+
+        // wave particle height
         var lineWidth = this.modelViewTransform.modelToViewDeltaX( particle.height );
+
+        // apply gradient to wave particle
         var gradient = context.createLinearGradient( x, y, x - lineWidth * Math.cos( angle ), y + lineWidth * Math.sin( angle ) );
         gradient.addColorStop( 0, particle.color );
         gradient.addColorStop( 0.5, particle.particleGradientColor );
         gradient.addColorStop( 1, particle.color );
+
+        // draw wave particle
         context.beginPath();
         context.moveTo( point2X, point2Y );
         context.lineTo( point1X, point1Y );

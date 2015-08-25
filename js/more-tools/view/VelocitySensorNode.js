@@ -157,6 +157,8 @@ define( function( require ) {
       startDrag: function() {
         var x = velocitySensorNode.bodyNode.getCenterX();
         var y = velocitySensorNode.bodyNode.getCenterY();
+
+        // check for the presence of velocity node in tool box. if true then scale it with animation
         if ( container.bounds.containsCoordinates( x, y ) ) {
           velocitySensorNode.setScaleAnimation( velocitySensor.position, SCALE_OUTSIDE_TOOLBOX );
           velocitySensorNode.addToMoreToolsView();
@@ -166,6 +168,8 @@ define( function( require ) {
       endDrag: function() {
         var x = velocitySensorNode.bodyNode.getCenterX();
         var y = velocitySensorNode.bodyNode.getCenterY();
+
+        // place back into tool box
         if ( container.bounds.containsCoordinates( x, y ) ) {
           velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, SCALE_INSIDE_TOOLBOX );
           velocitySensor.reset();
@@ -175,11 +179,10 @@ define( function( require ) {
       }
     } ) );
 
+    // update the velocity node position
     velocitySensor.positionProperty.link( function( position ) {
-
       var velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
       var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
-
       velocitySensorNode.bodyNode.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
     } );
 

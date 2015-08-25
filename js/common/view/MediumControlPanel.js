@@ -145,6 +145,7 @@ define( function( require ) {
       var material = mediumStates[ i ];
       items[ i ] = createItem( material );
     }
+    // add a combo box
     var materialComboBox = new ComboBox( items, comboBoxMediumStateProperty, view, {
       labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
@@ -155,6 +156,7 @@ define( function( require ) {
       itemYMargin: 2
     } );
 
+    // add index of refraction text and value
     var textOptions = { font: new PhetFont( 12 ) };
     var indexOfRefractionLabelWidth = textFieldVisible ? 152 : 208;
     var indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
@@ -198,6 +200,7 @@ define( function( require ) {
     minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
       minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
 
+    // adjust index of refraction value to the center of the readout box
     indexOfRefractionValueText.centerX = indexOfRefractionReadoutBoxShape.centerX;
     indexOfRefractionValueText.centerY = indexOfRefractionReadoutBoxShape.centerY;
 
@@ -227,6 +230,7 @@ define( function( require ) {
     if ( glassTitle.width > labelWidth ) {
       glassTitle.scale( labelWidth / glassTitle.width );
     }
+    // add slider for index of refraction
     var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty, {
       min: INDEX_OF_REFRACTION_MIN,
       max: INDEX_OF_REFRACTION_MAX
@@ -245,6 +249,7 @@ define( function( require ) {
     indexOfRefractionSlider.addMajorTick( BendingLightModel.GLASS.getIndexOfRefractionForRedLight(), glassTitle );
     indexOfRefractionSlider.addMajorTick( 1.6 );
 
+    // add a text to display when mystery is selected
     var unknown = new Text( unknownString, {
       font: new PhetFont( 16 ),
       centerX: indexOfRefractionSlider.centerX,

@@ -33,9 +33,13 @@ define( function( require ) {
       canvasBounds: new Bounds2( -100, 0, 834, 604 )
     } );
     var wireNode = this;
+
+    // update the wire when body position changes
     bodyPositionProperty.link( function() {
       wireNode.invalidatePaint();
     } );
+
+    // update the wire when probe position changes
     probePositionProperty.link( function() {
       wireNode.invalidatePaint();
     } );

@@ -151,6 +151,7 @@ define( function( require ) {
     } );
     this.addChild( redButton );
 
+    // update the laser position
     laser.emissionPointProperty.link( function( newEmissionPoint ) {
       var emissionPointX = modelViewTransform.modelToViewX( newEmissionPoint.x );
       var emissionPointY = modelViewTransform.modelToViewY( newEmissionPoint.y );

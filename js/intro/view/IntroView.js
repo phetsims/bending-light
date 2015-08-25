@@ -224,10 +224,12 @@ define( function( require ) {
     }
     this.protractorNode.addToSensorPanel();
 
+    // add intensity meter
     this.intensityMeterNode = new IntensityMeterNode( this.beforeLightLayer, this.beforeLightLayer2, this.modelViewTransform, introModel.intensityMeter,
       this.sensorPanel.visibleBounds, this.layoutBounds );
     this.intensityMeterNode.addToSensorPanel();
 
+    // add normal check box
     var normalText = new Text( normalString );
     var normalText_Max_Width = 50;
     if ( normalText.width > normalText_Max_Width ) {
@@ -285,6 +287,7 @@ define( function( require ) {
     var speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ?
                                slowMotionRadioBox.width : normalMotionRadioBox.width;
 
+    // touch area
     var radioButtonSpacing = 5;
     var touchAreaHeightExpansion = radioButtonSpacing / 2;
     slowMotionRadioBox.touchArea = new Bounds2(
@@ -294,6 +297,7 @@ define( function( require ) {
       slowMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
     );
 
+    // touch area
     normalMotionRadioBox.touchArea = new Bounds2(
       normalMotionRadioBox.localBounds.minX,
       normalMotionRadioBox.localBounds.minY - touchAreaHeightExpansion,
@@ -311,7 +315,7 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 15
     } ) );
 
-    // add play pause button and step button
+    // add play pause button
     this.playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
       {
         radius: 18, stroke: 'black', fill: '#005566',
@@ -320,6 +324,7 @@ define( function( require ) {
       } );
     this.afterLightLayer2.addChild( this.playPauseButton );
 
+    // add step button
     this.stepButton = new StepButton(
       function() {
         introModel.updateSimulationTimeAndWaveShape();
@@ -333,6 +338,8 @@ define( function( require ) {
         y: this.playPauseButton.centerY
       } );
     this.afterLightLayer2.addChild( this.stepButton );
+
+    // show play pause and step buttons only in wave view
     introModel.laserViewProperty.link( function( laserType ) {
       introView.playPauseButton.visible = (laserType === 'wave');
       introView.stepButton.visible = (laserType === 'wave');

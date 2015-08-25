@@ -146,6 +146,8 @@ define( function( require ) {
         var blue;
         var lightRay = this.rays.get( i );
         var lightRayWaveSubPath = lightRay.waveShape.subpaths[ 0 ];
+
+        // get the x and y coordinates of wave corner points
         var point1X = this.modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 0 ].x );
         var point1Y = this.modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 0 ].y );
         var point2X = this.modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 1 ].x );

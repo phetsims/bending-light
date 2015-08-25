@@ -26,8 +26,8 @@ define( function( require ) {
   function Probe( x, y ) {
 
     PropertySet.call( this, {
-        series: [], // @public
-        position: new Vector2( x, y ) // @public
+        series: [], // @public, array of data points
+        position: new Vector2( x, y ) // @public, position of a probe
       }
     );
 

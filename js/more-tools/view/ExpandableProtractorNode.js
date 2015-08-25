@@ -44,6 +44,7 @@ define( function( require ) {
     this.addChild( expandCollapseButton );
     expandCollapseButton.touchArea = expandCollapseButton.localBounds.dilatedXY( 30, 30 );
 
+    // Add a observer to expand/collapse button
     this.expandedProperty.link( function( expand ) {
       expandableProtractorNode.setExpanded( expand );
     } );

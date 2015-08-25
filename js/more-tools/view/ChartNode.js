@@ -66,6 +66,7 @@ define( function( require ) {
     Property.addProperty( this, 'modelViewTransform', ModelViewTransform2.createRectangleMapping(
       new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
+    // Add grid to the chart
     this.gridLines = new ObservableArray(); // @public
     this.gridCanvasNode = new GridCanvasNode( this.gridLines, this.modelViewTransformProperty, [ DASH_ON, DASH_OFF ], {
       canvasBounds: chartBounds
