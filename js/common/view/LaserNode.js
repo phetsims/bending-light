@@ -19,6 +19,7 @@ define( function( require ) {
   var BooleanRoundStickyToggleButton = require( 'SUN/buttons/BooleanRoundStickyToggleButton' );
   var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   var dragRegionColor = new Color( 255, 0, 0, 0 );
@@ -62,6 +63,9 @@ define( function( require ) {
     var laserNodeDragBounds = dragBounds.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
     var laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
 
+    //  re usable vector  to avoid vector allocation
+    var emissionPointEndLocation = new Vector2();
+
     // add the drag region for translating the laser
     var start;
     var translationRegionPath = new Path( translationRegion( fullRectangle, frontRectangle ), { fill: dragRegionColor } );
@@ -74,11 +78,19 @@ define( function( require ) {
         var endDrag = laserNode.globalToParentPoint( event.pointer.point );
         var deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
         var deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
-        laser.translate( deltaX, deltaY );
-        var position = laserDragBoundsInModelValues.closestPointTo( laser.emissionPoint );
-        if ( position.x !== laser.emissionPoint.x || position.y !== laser.emissionPoint.y ) {
-          laser.translate( position.x - laser.emissionPoint.x, position.y - laser.emissionPoint.y );
-        }
+
+        // location of final emission point with out constraining to bounds
+        emissionPointEndLocation.setXY( laser.emissionPoint.x + deltaX, laser.emissionPoint.y + deltaY );
+
+        // location of final emission point with constraining to bounds
+        var emissionPointEndLocationInBounds = laserDragBoundsInModelValues.closestPointTo( emissionPointEndLocation );
+        laser.translate( emissionPointEndLocationInBounds.x - laser.emissionPoint.x, emissionPointEndLocationInBounds.y - laser.emissionPoint.y );
+
+        // Store the position of caught point after translating. Can be obtained by adding distance between emission
+        // point and drag point (end - emissionPointEndLocation) to emission point (emissionPointEndLocationInBounds)
+        // after translating.
+        endDrag.x = endDrag.x + modelViewTransform.modelToViewDeltaX( emissionPointEndLocationInBounds.x - emissionPointEndLocation.x );
+        endDrag.y = endDrag.y + modelViewTransform.modelToViewDeltaY( emissionPointEndLocationInBounds.y - emissionPointEndLocation.y );
         start = endDrag;
         showTranslationDragHandlesProperty.value = true;
       },

@@ -78,7 +78,8 @@ define( function( require ) {
       stroke: prismsModel.prismMedium.color.darkerColor( 0.9 )
     } );
     this.addChild( prismPathNode );
-
+    // re usable vector for prism center to avoid vector allocation
+    var centerEndLocation = new Vector2();
     var start;
     prismPathNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
@@ -92,9 +93,18 @@ define( function( require ) {
         var modelDX = modelViewTransform.viewToModelDeltaX( end.x - start.x );
         var modelDY = modelViewTransform.viewToModelDeltaY( end.y - start.y );
         var startLocation = prism.shape.getRotationCenter();
-        var destination = new Vector2( startLocation.x + modelDX, startLocation.y + modelDY );
-        var endLocationInBounds = prismDragBoundsInModelValues.closestPointTo( destination );
-        prism.translate( endLocationInBounds.x - startLocation.x, endLocationInBounds.y - startLocation.y );
+        // location of final rotation center with out constraining to bounds
+        centerEndLocation.setXY( startLocation.x + modelDX, startLocation.y + modelDY );
+
+        // location of final rotation center with constraining to bounds
+        var centerEndLocationInBounds = prismDragBoundsInModelValues.closestPointTo( centerEndLocation );
+        prism.translate( centerEndLocationInBounds.x - startLocation.x, centerEndLocationInBounds.y - startLocation.y );
+
+        // Store the position of caught point after translating. Can be obtained by adding distance between rotation
+        // center and drag point (end - centerEndLocation) to rotation center (centerEndLocationInBounds) after
+        // translating.
+        end.x = end.x + modelViewTransform.modelToViewDeltaX( centerEndLocationInBounds.x - centerEndLocation.x );
+        end.y = end.y + modelViewTransform.modelToViewDeltaY( centerEndLocationInBounds.y - centerEndLocation.y );
         start = end;
       },
       end: function() {
