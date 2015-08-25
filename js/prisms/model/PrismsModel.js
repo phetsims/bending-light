@@ -207,8 +207,12 @@ define( function( require ) {
         for ( var wavelength = min; wavelength <= max; wavelength += dw ) {
           mediumIndexOfRefraction = laserInPrism ? this.prismMedium.getIndexOfRefraction( wavelength ) :
                                     this.environmentMedium.getIndexOfRefraction( wavelength );
+
+          // show the intersection for the smallest and largest wavelengths.  Protect against floating point error for 
+          // the latter 
+          var showIntersection = wavelength === min || Math.abs( wavelength - max ) < 1E-10;
           this.propagateTheRay( new Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction,
-            BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0 );
+            BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0, showIntersection );
         }
       }
       else {
@@ -216,7 +220,7 @@ define( function( require ) {
                                   this.prismMedium.getIndexOfRefraction( this.laser.getWavelength() ) :
                                   this.environmentMedium.getIndexOfRefraction( this.laser.getWavelength() );
         this.propagateTheRay( new Ray( tail, directionUnitVector, power, this.laser.getWavelength(),
-          mediumIndexOfRefraction, this.laser.getFrequency() ), 0 );
+          mediumIndexOfRefraction, this.laser.getFrequency() ), 0, true );
       }
     },
 
@@ -268,8 +272,10 @@ define( function( require ) {
      * @private
      * @param {Ray} incidentRay - model of the ray
      * @param {number} count - number of rays
+     * @param {boolean} showIntersection - true if the intersection should be shown.  True for single rays and for extrema o
+     *                                   - of white light wavelengths
      */
-    propagateTheRay: function( incidentRay, count ) {
+    propagateTheRay: function( incidentRay, count, showIntersection ) {
       var rayColor;
       var rayVisibleColor;
       var waveWidth = CHARACTERISTIC_LENGTH * 5;
@@ -287,7 +293,10 @@ define( function( require ) {
       if ( intersection !== null ) {
 
         // List the intersection in the model
-        this.intersections.add( intersection );
+        if ( showIntersection ) {
+          this.intersections.add( intersection );
+        }
+
         var pointOnOtherSide = (incidentRay.directionUnitVector.times( 1E-12 )).add( intersection.point );
         var outputInsidePrism = false;
         var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
@@ -327,9 +336,9 @@ define( function( require ) {
         var refracted = new Ray( (incidentRay.directionUnitVector.times( +1E-12 )).add( point ), vRefract,
           incidentRay.power * transmittedPower, incidentRay.wavelength, n2, incidentRay.frequency );
         if ( this.showReflections || totalInternalReflection ) {
-          this.propagateTheRay( reflected, count + 1 );
+          this.propagateTheRay( reflected, count + 1, showIntersection );
         }
-        this.propagateTheRay( refracted, count + 1 );
+        this.propagateTheRay( refracted, count + 1, showIntersection );
         rayColor = new Color( 0, 0, 0, 0 );
         rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
         rayColor.set( rayVisibleColor.getRed(), rayVisibleColor.getGreen(), rayVisibleColor.getBlue(),
