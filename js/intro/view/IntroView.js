@@ -236,7 +236,7 @@ define( function( require ) {
     this.intensityMeterNode.addToSensorPanel();
 
     // add normal check box
-    var normalText = new Text( normalString, { fontSize: 14 } );
+    var normalText = new Text( normalString, { fontSize: 12 } );
     var normalTextMaxWidth = 50;
     if ( normalText.width > normalTextMaxWidth ) {
       normalText.scale( normalTextMaxWidth / normalText.width );
