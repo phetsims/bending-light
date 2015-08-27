@@ -236,10 +236,10 @@ define( function( require ) {
     this.intensityMeterNode.addToSensorPanel();
 
     // add normal check box
-    var normalText = new Text( normalString );
-    var normalText_Max_Width = 50;
-    if ( normalText.width > normalText_Max_Width ) {
-      normalText.scale( normalText_Max_Width / normalText.width );
+    var normalText = new Text( normalString, { fontSize: 14 } );
+    var normalTextMaxWidth = 50;
+    if ( normalText.width > normalTextMaxWidth ) {
+      normalText.scale( normalTextMaxWidth / normalText.width );
     }
     var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, {
       boxWidth: 20,
@@ -260,7 +260,8 @@ define( function( require ) {
 
     this.toolbox.addChild( new VBox( {
       children: [ normalCheckBox, normalIcon ],
-      bottom: this.toolbox.height - 5
+      bottom: this.toolbox.height - 5,
+      centerX: this.toolbox.width / 2
     } ) );
 
     // add reset all button
