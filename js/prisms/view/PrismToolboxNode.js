@@ -37,7 +37,7 @@ define( function( require ) {
 
   // images
   var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
-  var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
+  var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
 
   // constants
   var MAX_TEXT_WIDTH = 115;
@@ -179,7 +179,7 @@ define( function( require ) {
     // Create an icon for the protractor check box
     var createProtractorIcon = function() {
       var protractorImageNode = new Image( protractorImage );
-      protractorImageNode.scale( 20 / protractorImage.width );
+      protractorImageNode.scale( 20 / protractorImage[ 0 ].width );
       return protractorImageNode;
     };
 

@@ -23,7 +23,7 @@ define( function( require ) {
   var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
 
   // images
-  var protractorImage = require( 'image!BENDING_LIGHT/protractor.png' );
+  var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
 
   // constants
   var DEFAULT_SCALE = 0.4;
@@ -49,7 +49,7 @@ define( function( require ) {
 
     this.modelViewTransform = modelViewTransform; // @public
     this.protractorModel = protractorModel; // @public
-    this.multiScale = protractorIconWidth / protractorImage.width; // @public
+    this.multiScale = protractorIconWidth / protractorImage[ 0 ].width; // @public
     this.showProtractorProperty = showProtractorProperty; // @public
     this.afterLightLayer = afterLightLayer; // @private
     this.beforeLightLayer2 = beforeLightLayer2; // @private
