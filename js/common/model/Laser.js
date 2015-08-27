@@ -99,8 +99,8 @@ define( function( require ) {
      * Rotate about the fixed pivot
      * @param {number} angle - angle to be rotated
      * @public
-     * /
-     setAngle: function( angle ) {
+     */
+    setAngle: function( angle ) {
       var distFromPivot = this.pivot.distance( this.emissionPoint );
       this.newEmissionPoint.x = distFromPivot * Math.cos( angle ) + this.pivot.x;
       this.newEmissionPoint.y = distFromPivot * Math.sin( angle ) + this.pivot.y;
@@ -108,7 +108,7 @@ define( function( require ) {
       this.emissionPointProperty._notifyObservers();
     },
 
-     /**
+    /**
      * Determines the angle of the laser
      * @returns {number}
      * @public
