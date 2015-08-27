@@ -115,7 +115,7 @@ define( function( require ) {
         var end = protractorNode.globalToParentPoint( event.pointer.point );
         protractorNode.dragAllXY( end.x - start.x, end.y - start.y );
         var position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
-        protractorModel.positionProperty.set( position );
+        protractorModel.position = position;
         start = end;
       },
       end: function() {
@@ -128,7 +128,7 @@ define( function( require ) {
             protractorNode.expandedButtonVisibility = false;
             protractorNode.expanded = false;
             protractorNode.addToSensorPanel();
-            protractorModel.enabledProperty.set( false );
+            protractorModel.enabled = false;
           }
         }
         else {
