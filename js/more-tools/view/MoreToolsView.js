@@ -35,7 +35,7 @@ define( function( require ) {
       this.modelViewTransform,
       moreToolsModel.velocitySensor,
       arrowScale,
-      this.sensorPanel,
+      this.toolbox,
       this.layoutBounds
     );
 
@@ -45,7 +45,7 @@ define( function( require ) {
       this.beforeLightLayer2,
       this.modelViewTransform,
       moreToolsModel.waveSensor,
-      this.sensorPanel,
+      this.toolbox,
       this.layoutBounds );
     
     this.velocitySensorNode.addToSensorPanel();

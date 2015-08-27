@@ -199,12 +199,12 @@ define( function( require ) {
     var sensorPanelHeight = hasMoreTools ? 303 : 203;
 
     // @protected - the background for the tools panel
-    this.sensorPanel = new Rectangle( 0, 0, 100, sensorPanelHeight, 5, 5, {
+    this.toolbox = new Rectangle( 0, 0, 100, sensorPanelHeight, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
       left: this.layoutBounds.minX + 13,
       top: this.layoutBounds.maxY - sensorPanelHeight - 14
     } ); // @public
-    this.beforeLightLayer2.addChild( this.sensorPanel );
+    this.beforeLightLayer2.addChild( this.toolbox );
 
     var protractorIconWidth = hasMoreTools ? 60 : 75;
 
@@ -215,12 +215,12 @@ define( function( require ) {
     if ( !hasMoreTools ) {
       this.protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.sensorPanel.bounds, this.layoutBounds );
+        this.toolbox.bounds, this.layoutBounds );
     }
     else {
       this.protractorNode = new ExpandableProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.sensorPanel.bounds, this.layoutBounds );
+        this.toolbox.bounds, this.layoutBounds );
     }
     this.protractorNode.addToSensorPanel();
 
@@ -230,7 +230,7 @@ define( function( require ) {
       this.beforeLightLayer2,
       this.modelViewTransform,
       introModel.intensityMeter,
-      this.sensorPanel.visibleBounds,
+      this.toolbox.visibleBounds,
       this.layoutBounds
     );
     this.intensityMeterNode.addToSensorPanel();
@@ -254,13 +254,13 @@ define( function( require ) {
 
     // add normal
     var normalIcon = new NormalLine( 34, [ 4, 3 ], {
-      x: this.sensorPanel.x + this.sensorPanel.width / 2,
-      y: this.sensorPanel.y + sensorPanelHeight - 41
+      x: this.toolbox.x + this.toolbox.width / 2,
+      y: this.toolbox.y + sensorPanelHeight - 41
     } );
 
-    this.sensorPanel.addChild( new VBox( {
+    this.toolbox.addChild( new VBox( {
       children: [ normalCheckBox, normalIcon ],
-      bottom: this.sensorPanel.height - 5
+      bottom: this.toolbox.height - 5
     } ) );
 
     // add reset all button
@@ -317,7 +317,7 @@ define( function( require ) {
       children: [ normalMotionRadioBox, slowMotionRadioBox ]
     } );
     this.afterLightLayer2.addChild( this.speedControl.mutate( {
-      left: this.sensorPanel.right + 25,
+      left: this.toolbox.right + 25,
       bottom: this.layoutBounds.bottom - 15
     } ) );
 
@@ -353,11 +353,11 @@ define( function( require ) {
     } );
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
-    FloatingLayout.floatLeft( this, [ laserControlPanel, this.sensorPanel ] );
+    FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox ] );
 
     this.events.on( 'layoutFinished', function() {
-      var protractorNodeX = introView.sensorPanel.centerX;
-      var protractorNodeY = introView.sensorPanel.y + 40 + (hasMoreTools ? 0 : 8);
+      var protractorNodeX = introView.toolbox.centerX;
+      var protractorNodeY = introView.toolbox.y + 40 + (hasMoreTools ? 0 : 8);
       if ( !introView.protractorModel.enabled ) {
         introView.protractorModel.position = introView.modelViewTransform.viewToModelXY( protractorNodeX, protractorNodeY );
       }
