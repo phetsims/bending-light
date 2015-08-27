@@ -356,12 +356,16 @@ define( function( require ) {
     FloatingLayout.floatLeft( this, [ laserControlPanel, this.sensorPanel ] );
 
     this.events.on( 'layoutFinished', function() {
+      var protractorNodeX = introView.sensorPanel.centerX;
+      var protractorNodeY = introView.sensorPanel.y + 40 + (hasMoreTools ? 0 : 8);
       if ( !introView.protractorModel.enabled ) {
-        var protractorNodeX = introView.sensorPanel.centerX;
-        var protractorNodeY = hasMoreTools ? introView.sensorPanel.y + 40 : introView.sensorPanel.y + 48;
-        var protractorModelPositionX = introView.modelViewTransform.viewToModelX( protractorNodeX );
-        var protractorModelPositionY = introView.modelViewTransform.viewToModelY( protractorNodeY );
-        introView.protractorModel.position = new Vector2( protractorModelPositionX, protractorModelPositionY );
+        introView.protractorModel.position = introView.modelViewTransform.viewToModelXY( protractorNodeX, protractorNodeY );
+      }
+
+      // Position the intensity meter below where the protractor *would* be (if it too were in the control panel)
+      if ( !introView.bendingLightModel.intensityMeter.enabled ) {
+        introView.bendingLightModel.intensityMeter.bodyPosition = introView.modelViewTransform.viewToModelXY( protractorNodeX + 20 - 2, protractorNodeY + 60 + 5 );
+        introView.bendingLightModel.intensityMeter.sensorPosition = introView.modelViewTransform.viewToModelXY( protractorNodeX - 20 - 4, protractorNodeY + 60 - 5 );
       }
     } );
   }
