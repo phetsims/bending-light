@@ -225,8 +225,14 @@ define( function( require ) {
     this.protractorNode.addToSensorPanel();
 
     // add intensity meter
-    this.intensityMeterNode = new IntensityMeterNode( this.beforeLightLayer, this.beforeLightLayer2, this.modelViewTransform, introModel.intensityMeter,
-      this.sensorPanel.visibleBounds, this.layoutBounds );
+    this.intensityMeterNode = new IntensityMeterNode(
+      this.beforeLightLayer,
+      this.beforeLightLayer2,
+      this.modelViewTransform,
+      introModel.intensityMeter,
+      this.sensorPanel.visibleBounds,
+      this.layoutBounds
+    );
     this.intensityMeterNode.addToSensorPanel();
 
     // add normal check box
