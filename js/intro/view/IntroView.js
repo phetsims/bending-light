@@ -39,7 +39,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
