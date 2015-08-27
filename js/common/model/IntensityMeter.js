@@ -18,7 +18,6 @@ define( function( require ) {
   var Reading = require( 'BENDING_LIGHT/common/model/Reading' );
 
   /**
-   *
    * @param {number} sensorX - sensor x position in model coordinates
    * @param {number} sensorY - sensor y position in model coordinates
    * @param {number} bodyX - body x position in model coordinates
@@ -144,6 +143,8 @@ define( function( require ) {
         this.translateSensorXY( deltaX, deltaY );
       }
     },
+
+    // @public static
     {
       Reading: Reading
     } );

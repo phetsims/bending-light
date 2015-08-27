@@ -52,8 +52,8 @@ define( function( require ) {
 
     /**
      * Determines the index of refraction for the WAVELENGTH_RED
-     * @public
      * @returns {number}
+     * @public
      */
     getIndexOfRefractionForRed: function() {
       return this.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
@@ -61,9 +61,9 @@ define( function( require ) {
 
     /**
      * See class-level documentation for an explanation of this algorithm
-     * @public
      * @param {number} wavelength - wavelength in meters
      * @returns {number}
+     * @public
      */
     getIndexOfRefraction: function( wavelength ) {
 
@@ -84,9 +84,9 @@ define( function( require ) {
 
     /**
      * See http://refractiveindex.info/?group=GASES&material=Air
-     * @private
      * @param {number} wavelength - wavelength in meters
      * @returns {number}
+     * @private
      */
     getAirIndex: function( wavelength ) {
       return 1 + 5792105E-8 / (238.0185 - Math.pow( wavelength * 1E6, -2 )) + 167917E-8 / (57.362 - Math.pow( wavelength * 1E6, -2 ));

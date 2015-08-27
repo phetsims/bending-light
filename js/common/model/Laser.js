@@ -38,9 +38,11 @@ define( function( require ) {
       // where the light comes from
       emissionPoint: Vector2.createPolar( distanceFromPivot, angle ) // @public
     } );
+
+    // @public
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], function( wavelength ) {
       return new LaserColor( wavelength );
-    } ); // @public
+    } );
 
     // reusable vectors to avoid to many vector allocations
     // vector to store new laser emission point
@@ -95,10 +97,10 @@ define( function( require ) {
 
     /**
      * Rotate about the fixed pivot
-     * @public
      * @param {number} angle - angle to be rotated
-     */
-    setAngle: function( angle ) {
+     * @public
+     * /
+     setAngle: function( angle ) {
       var distFromPivot = this.pivot.distance( this.emissionPoint );
       this.newEmissionPoint.x = distFromPivot * Math.cos( angle ) + this.pivot.x;
       this.newEmissionPoint.y = distFromPivot * Math.sin( angle ) + this.pivot.y;
@@ -106,10 +108,10 @@ define( function( require ) {
       this.emissionPointProperty._notifyObservers();
     },
 
-    /**
+     /**
      * Determines the angle of the laser
-     * @public
      * @returns {number}
+     * @public
      */
     getAngle: function() {
       return this.getDirectionUnitVector().angle() + Math.PI;
@@ -117,8 +119,8 @@ define( function( require ) {
 
     /**
      * Determines the distance of laser from pivot point
-     * @public
      * @returns {number}
+     * @public
      */
     getDistanceFromPivot: function() {
       return this.pivot.distance( this.emissionPoint );
@@ -126,8 +128,8 @@ define( function( require ) {
 
     /**
      * Determines the wavelength of the laser
-     * @public
      * @returns {number}
+     * @public
      */
     getWavelength: function() {
       return this.colorProperty.get().wavelength;
@@ -135,8 +137,8 @@ define( function( require ) {
 
     /**
      * Determines the wavelength of the laser
-     * @public
      * @returns {number}
+     * @public
      */
     getFrequency: function() {
       return BendingLightConstants.SPEED_OF_LIGHT / this.getWavelength();
