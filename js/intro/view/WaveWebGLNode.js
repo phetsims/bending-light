@@ -67,13 +67,14 @@ define( function( require ) {
         'uniform float uPhase;', // phase difference of the Ray
         'uniform vec2 uCanvasOffset;', // Canvas Offset
         'uniform float uScale;',
+        'uniform float uDevicePixelRatio;',
         'uniform vec3 uColor;', // Color of the wave
         'uniform float uLayoutHeight;',
         'void main( void ) {',
 
         // converting pixel coordinates to view coordinates.
-        'float x1 = (gl_FragCoord.x-uCanvasOffset.x)/uScale;',
-        'float y1 = (gl_FragCoord.y-uCanvasOffset.y)/uScale;',
+        'float x1 = (gl_FragCoord.x/uDevicePixelRatio-uCanvasOffset.x)/uScale;',
+        'float y1 = (gl_FragCoord.y/uDevicePixelRatio-uCanvasOffset.y)/uScale;',
 
         // Perpendicular distance from tail to rendering coordinate. This is obtained by Coordinate Transformation to
         // tail point and applying dot product to the unit vector in the direction of ray and rendering coordinate
@@ -93,7 +94,7 @@ define( function( require ) {
       drawable.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
         attributes: [ 'aPosition' ],
         uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uPowerFraction', 'uTail', 'uAngle', 'uWaveLength',
-          'uPhase', 'uScale', 'uColor', 'uCanvasOffset', 'uLayoutHeight' ]
+          'uPhase', 'uScale', 'uDevicePixelRatio', 'uColor', 'uCanvasOffset', 'uLayoutHeight' ]
       } );
       drawable.vertexBuffer = gl.createBuffer();
     },
@@ -200,10 +201,11 @@ define( function( require ) {
         gl.uniform1f( shaderProgram.uniformLocations.uAngle, lightRayAngle );
         gl.uniform1f( shaderProgram.uniformLocations.uWaveLength, wavelength );
         gl.uniform1f( shaderProgram.uniformLocations.uPhase, phaseDiff );
-        gl.uniform1f( shaderProgram.uniformLocations.uScale, scale * devicePixelRatio );
+        gl.uniform1f( shaderProgram.uniformLocations.uScale, scale );
+        gl.uniform1f( shaderProgram.uniformLocations.uDevicePixelRatio, devicePixelRatio );
         gl.uniform3f( shaderProgram.uniformLocations.uColor, red, green, blue );
         gl.uniform2f( shaderProgram.uniformLocations.uCanvasOffset, widthOffset, heightOffset );
-        gl.uniform1f( shaderProgram.uniformLocations.uLayoutHeight, screenHeight / scale );
+        gl.uniform1f( shaderProgram.uniformLocations.uLayoutHeight, this.layoutHeight );
 
         gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
         gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
