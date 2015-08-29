@@ -72,7 +72,26 @@ define( function( require ) {
 
         // Returns the color from the vertex shader
         'void main( void ) {',
-        '  gl_FragColor = vColor;',
+        '  float colorScale = 0.017;',
+        '  float r = vColor.r*colorScale;',
+        '  float g = vColor.g*colorScale;',
+        '  float b = vColor.b*colorScale;',
+        '  float max = r;',
+        '  float scale = 2.0;',
+        '  float whiteLimit = 0.2;',
+        '  float maxChannel = 1.0-whiteLimit;',
+        '  if (g > max) {max=g;}',
+        '  if (b > max) {max=b;}',
+        '  float rNew = r/max*scale-whiteLimit;',
+        '  float gNew = g/max*scale-whiteLimit;',
+        '  float bNew = b/max*scale-whiteLimit;',
+        '  if (rNew < 0.0) {rNew = 0.0;}',
+        '  if (gNew < 0.0) {gNew = 0.0;}',
+        '  if (bNew < 0.0) {bNew = 0.0;}',
+        '  if (rNew > maxChannel) {rNew = maxChannel;}',
+        '  if (gNew > maxChannel) {gNew = maxChannel;}',
+        '  if (bNew > maxChannel) {bNew = maxChannel;}',
+        '  gl_FragColor = vec4(rNew*0.3,gNew*0.45,bNew*0.45,sqrt(vColor.a)*0.35);',
         '}'
       ].join( '\n' );
 
@@ -158,7 +177,7 @@ define( function( require ) {
       gl.enable( gl.BLEND );
       gl.blendEquation( gl.FUNC_ADD );
       gl.blendFunc( gl.SRC_ALPHA, gl.ONE );
-      
+
       // 2 triangles per ray
       gl.drawArrays( gl.TRIANGLES, 0, this.rays.length * 3 * 2 );
 
