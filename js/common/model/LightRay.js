@@ -138,6 +138,12 @@ define( function( require ) {
       return BendingLightConstants.SPEED_OF_LIGHT / this.indexOfRefraction;
     },
 
+    createParallelRay: function( distance ) {
+      var perpendicular = Vector2.createPolar( distance, this.getAngle() + Math.PI / 2 );
+      var tail = this.tail.plus( perpendicular );
+      return new Ray2( tail, Vector2.createPolar( 1, this.getAngle() ) );
+    },
+
     /**
      * Check to see if this light ray hits the specified sensor region
      * @public
@@ -145,7 +151,30 @@ define( function( require ) {
      * @returns {Array}
      */
     getIntersections: function( sensorRegion ) {
-      return sensorRegion.intersection( new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) ) );
+      var ray = new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) );
+
+      if ( this.waveShape ) {
+
+        // start at the middle and work towards the edges with parallel ray projections
+        // stop at the first intersection
+        var checkDistances = [ 0 ];
+        for ( var m = 0.1; m <= 0.50001; m = m + 0.1 ) {
+          checkDistances.push( this.waveWidth * m );
+          checkDistances.push( -this.waveWidth * m );
+        }
+
+        for ( var i = 0; i < checkDistances.length; i++ ) {
+          var checkDistance = checkDistances[ i ];
+          var intersections = sensorRegion.intersection( this.createParallelRay( checkDistance ) );
+          if ( intersections.length > 0 ) {
+            return intersections;
+          }
+        }
+        return [];
+      }
+      else {
+        return sensorRegion.intersection( ray );
+      }
     },
 
     /**

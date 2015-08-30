@@ -208,7 +208,7 @@ define( function( require ) {
     addAndAbsorb: function( ray ) {
 
       // find intersection points with the intensity sensor
-      var intersects = ray.getIntersections( this.intensityMeter.getSensorShape() );
+      var intersects = ray.getIntersections( this.intensityMeter.getSensorShape(), false );
 
       // if it intersected, then absorb the ray
       var rayAbsorbed = intersects.length > 0;
@@ -218,19 +218,19 @@ define( function( require ) {
         if ( intersects.length === 1 ) {
 
           // intersect point at sensor shape start position when laser within sensor region
-          var reverseLightRay = new Ray2( ray.tail, Vector2.createPolar( 1, ray.getAngle() ).timesScalar( -1 ) );
-          var intersectPointAtSensorStart = this.intensityMeter.getSensorShape().intersection( reverseLightRay );
-          x = intersectPointAtSensorStart[ 0 ].point.x + intersects[ 0 ].point.x;
-          y = intersectPointAtSensorStart[ 0 ].point.y + intersects[ 0 ].point.y;
+          x = intersects[ 0 ].point.x;
+          y = intersects[ 0 ].point.y;
         }
         if ( intersects.length > 1 ) {
-          x = intersects[ 0 ].point.x + intersects[ 1 ].point.x;
-          y = intersects[ 0 ].point.y + intersects[ 1 ].point.y;
+          x = (intersects[ 0 ].point.x + intersects[ 1 ].point.x) / 2;
+          y = (intersects[ 0 ].point.y + intersects[ 1 ].point.y) / 2;
         }
+
+        var distance = Math.sqrt( x * x + y * y );
         var interrupted = new LightRay(
           ray.trapeziumWidth,
           ray.tail,
-          new Vector2( x / 2, y / 2 ),
+          Vector2.createPolar( distance, ray.getAngle() ),
           ray.indexOfRefraction,
           ray.wavelength,
           ray.powerFraction,
