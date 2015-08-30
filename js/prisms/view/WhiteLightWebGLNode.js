@@ -72,28 +72,36 @@ define( function( require ) {
 
         // Returns the color from the vertex shader
         'void main( void ) {',
-        '  float colorScale = 0.017;',
-        '  float r = vColor.r*colorScale;',
-        '  float g = vColor.g*colorScale;',
-        '  float b = vColor.b*colorScale;',
+        '  float r = vColor.r;',
+        '  float g = vColor.g;',
+        '  float b = vColor.b;',
+
         '  float max = r;',
+        '  if (g > max) {max=g;}',
+        '  if (b > max) {max=b;}',
+
+        '  float intensity = vColor.a * max;',
+
         '  float scale = 2.0;',
         '  float whiteLimit = 0.2;',
         '  float maxChannel = 1.0-whiteLimit;',
-        '  if (g > max) {max=g;}',
-        '  if (b > max) {max=b;}',
+
         '  float rNew = r/max*scale-whiteLimit;',
         '  float gNew = g/max*scale-whiteLimit;',
         '  float bNew = b/max*scale-whiteLimit;',
+
         '  if (rNew < 0.0) {rNew = 0.0;}',
         '  if (gNew < 0.0) {gNew = 0.0;}',
         '  if (bNew < 0.0) {bNew = 0.0;}',
+
         '  if (rNew > maxChannel) {rNew = maxChannel;}',
         '  if (gNew > maxChannel) {gNew = maxChannel;}',
         '  if (bNew > maxChannel) {bNew = maxChannel;}',
-        '  gl_FragColor = vec4(rNew*0.3,gNew*0.45,bNew*0.45,sqrt(vColor.a)*0.35);',
+
+        '  gl_FragColor = vec4(rNew,gNew,bNew,sqrt(intensity));',
         '}'
-      ].join( '\n' );
+      ].
+      join( '\n' );
 
       drawable.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
         attributes: [ 'aPosition', 'aColor' ],
@@ -139,13 +147,13 @@ define( function( require ) {
           );
 
           colors.push(
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), ray.powerFraction,
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), ray.powerFraction,
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), ray.powerFraction,
 
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction )
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), ray.powerFraction,
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), ray.powerFraction,
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), ray.powerFraction
           );
         }
       }
