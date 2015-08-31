@@ -136,7 +136,7 @@ define( function( require ) {
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
           sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserView );
 
-        var rayAbsorbed = this.addAndAbsorb( incidentRay, Math.PI );
+        var rayAbsorbed = this.addAndAbsorb( incidentRay, 'incident' );
         if ( !rayAbsorbed ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
           var hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) ||
@@ -151,7 +151,8 @@ define( function( require ) {
           else {
             reflectedPowerRatio = 1.0;
           }
-          this.addAndAbsorb( new LightRay( trapeziumWidth,
+          var reflectedRay = new LightRay(
+            trapeziumWidth,
             new Vector2( 0, 0 ),
             Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ),
             n1,
@@ -161,7 +162,9 @@ define( function( require ) {
             sourceWaveWidth,
             incidentRay.getNumberOfWavelengths(),
             true,
-            true, this.laserView ), 0 );
+            true, this.laserView
+          );
+          this.addAndAbsorb( reflectedRay, 'reflected' );
 
           // fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
@@ -191,7 +194,7 @@ define( function( require ) {
                 true,
                 true,
                 this.laserView );
-              this.addAndAbsorb( transmittedRay, 0 );
+              this.addAndAbsorb( transmittedRay, 'transmitted' );
             }
           }
         }
@@ -203,12 +206,14 @@ define( function( require ) {
      * If the intensity meter misses the ray, the original ray is added.
      * @private
      * @param {LightRay} ray - model of light ray
+     * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
      * @returns {boolean}
      */
-    addAndAbsorb: function( ray, angleOffset ) {
+    addAndAbsorb: function( ray, rayType ) {
+      var angleOffset = rayType === 'incident' ? Math.PI : 0;
 
       // find intersection points with the intensity sensor
-      var intersects = ray.getIntersections( this.intensityMeter.getSensorShape(), false );
+      var intersects = ray.getIntersections( this.intensityMeter.getSensorShape(), rayType );
 
       // if it intersected, then absorb the ray
       var rayAbsorbed = intersects.length > 0;

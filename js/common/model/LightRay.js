@@ -138,19 +138,21 @@ define( function( require ) {
       return BendingLightConstants.SPEED_OF_LIGHT / this.indexOfRefraction;
     },
 
-    createParallelRay: function( distance ) {
+    createParallelRay: function( distance, rayType ) {
       var perpendicular = Vector2.createPolar( distance, this.getAngle() + Math.PI / 2 );
-      var tail = this.tail.plus( perpendicular );
-      return new Ray2( tail, Vector2.createPolar( 1, this.getAngle() ) );
+      var t = rayType === 'incident' ? this.tip : this.tail;
+      var tail = t.plus( perpendicular );
+      return new Ray2( tail, Vector2.createPolar( 1, this.getAngle() + (rayType === 'incident' ? Math.PI : 0) ) );
     },
 
     /**
      * Check to see if this light ray hits the specified sensor region
      * @public
      * @param {Shape} sensorRegion - sensor region of intensity meter
+     * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
      * @returns {Array}
      */
-    getIntersections: function( sensorRegion ) {
+    getIntersections: function( sensorRegion, rayType ) {
 
       if ( this.waveShape ) {
 
@@ -170,10 +172,11 @@ define( function( require ) {
         var perpendicular = Vector2.createPolar( 1, this.getAngle() + Math.PI / 2 );
         var sign = perpendicular.dot( p.minus( a ) ) < 0 ? -1 : +1;
         distanceToRay = sign * Math.min( distanceToRay, this.waveWidth / 2 );
-        return sensorRegion.intersection( this.createParallelRay( distanceToRay ) );
+        return sensorRegion.intersection( this.createParallelRay( distanceToRay, rayType ) );
       }
       else {
-        var ray = new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) );
+        var direction = Vector2.createPolar( 1, this.getAngle() + (rayType === 'incident' ? Math.PI : 0 ) );
+        var ray = new Ray2( rayType === 'incident' ? this.tip : this.tail, direction );
         return sensorRegion.intersection( ray );
       }
     },
