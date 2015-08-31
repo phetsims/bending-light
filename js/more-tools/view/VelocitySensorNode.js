@@ -140,6 +140,7 @@ define( function( require ) {
       var positionX = modelViewTransform.modelToViewDeltaX( velocity.x ) * arrowScale;
       var positionY = modelViewTransform.modelToViewDeltaY( velocity.y ) * arrowScale;
 
+      // update the arrow shape when the velocity value changes
       velocitySensorNode.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY, {
         tailWidth: arrowWidth,
         headWidth: 2 * arrowWidth,

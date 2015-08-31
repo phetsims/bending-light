@@ -73,6 +73,7 @@ define( function( require ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         probe.translateXY( modelViewTransform.viewToModelDeltaX( end.x - start.x ),
           modelViewTransform.viewToModelDeltaY( end.y - start.y ) );
+        // check that it doesn't cross the layout bounds
         position = probeDragBounds.closestPointTo( probe.position );
         probe.positionProperty.set( position );
         start = end;
@@ -82,6 +83,7 @@ define( function( require ) {
         // Check intersection only with the outer rectangle.
         if ( container.bounds.containsPoint( probeNode.center ) ) {
           var probeInitialPosition = waveSensorNode.waveSensor.probe1.positionProperty.initialValue;
+          // Place back into toolbox with animation.
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
@@ -191,6 +193,7 @@ define( function( require ) {
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         waveSensorNode.dragBodyXY( end.x - start.x, end.y - start.y );
+        // check that it doesn't cross the layout bounds
         position = waveSensorDragBounds.closestPointTo( waveSensor.bodyPosition );
         waveSensor.bodyPositionProperty.set( position );
         start = end;
@@ -201,6 +204,7 @@ define( function( require ) {
         if ( container.bounds.containsCoordinates(
             waveSensorNode.bodyNode.getCenterX(), waveSensorNode.bodyNode.getCenterY() ) ) {
           var probeInitialPosition = waveSensor.probe1.positionProperty.initialValue;
+          // Place back into toolbox with animation.
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
@@ -226,6 +230,8 @@ define( function( require ) {
     this.addChild( this.bodyNode );
     this.addChild( this.probe1Node );
     this.addChild( this.probe2Node );
+
+    // reusable vectors to avoid to many vector allocations
     this.waveSensorBodyNewPosition = new Vector2();
     this.probe2NewPosition = new Vector2();
 
@@ -270,6 +276,7 @@ define( function( require ) {
              container.bounds.containsCoordinates( waveSensorNode.probe1Node.getCenterX(), waveSensorNode.probe1Node.getCenterY() ) ||
              container.bounds.containsCoordinates( waveSensorNode.probe2Node.getCenterX(), waveSensorNode.probe2Node.getCenterY() ) ) {
           var probeInitialPosition = waveSensor.probe1.positionProperty.initialValue;
+          // Place back into toolbox with animation.
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();

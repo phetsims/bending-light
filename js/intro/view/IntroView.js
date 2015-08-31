@@ -311,6 +311,7 @@ define( function( require ) {
       normalMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
     );
 
+    // add radio buttons to the VBox
     this.speedControl = new VBox( {
       align: 'left',
       spacing: radioButtonSpacing,
@@ -424,6 +425,7 @@ define( function( require ) {
       // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
       bendingLightModel.rays.addItemAddedListener( function( ray ) {
         if ( !(bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) ) {
+          // if WebGL is not supported render with canvas
           if ( !bendingLightModel.allowWebGL ) {
             for ( var k = 0; k < bendingLightModel.rays.length; k++ ) {
               var waveShape = bendingLightModel.rays.get( k ).waveShape;

@@ -353,6 +353,7 @@ define( function( require ) {
       };
       var endPoint = { x: endPositionX, y: endPositionY, scale: scale };
       var target = this;
+      // add tween
       TweenUtil.startTween( this, startPoint, endPoint, function() {
         target.setIntensityMeterScale( startPoint.x, startPoint.y, startPoint.scale );
       } );

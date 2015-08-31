@@ -57,6 +57,7 @@ define( function( require ) {
     var laserControlPanel = this;
     this.hasWavelengthSlider = hasWavelengthSlider; // @private
 
+    // Create the radio button text
     var maxWidth = options.minWidth - 35;
     var createButtonTextNode = function( text ) {
       var itemName = new Text( text, { font: new PhetFont( 12 ) } );

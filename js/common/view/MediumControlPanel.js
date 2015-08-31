@@ -170,6 +170,7 @@ define( function( require ) {
       stroke: 'black'
     } );
 
+    // add plus button for index of refraction text
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
       custom = true;
       mediumControlPanel.mediumIndexProperty.set(
@@ -182,9 +183,11 @@ define( function( require ) {
       arrowHeight: 15,
       arrowWidth: 15
     } );
+    // touch area
     plusButton.touchArea = new Bounds2( plusButton.localBounds.minX - 20, plusButton.localBounds.minY - 5,
       plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
 
+    // add minus button for index of refraction text
     var minusButton = new ArrowButton( 'left', function propertyMinus() {
       custom = true;
       mediumControlPanel.mediumIndexProperty.set(
@@ -197,6 +200,7 @@ define( function( require ) {
       arrowHeight: 15,
       arrowWidth: 15
     } );
+    // touch area
     minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
       minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
 
@@ -215,6 +219,7 @@ define( function( require ) {
     indexOfRefractionLabel.right = minusButton.left - INSET;
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
+    // handling long strings
     var sliderWidth = Math.max( materialComboBox.width,
         textFieldVisible ? indexOfRefractionLabel.width + 90 : indexOfRefractionLabel.width ) - 35;
     var labelWidth = sliderWidth * 0.25;
@@ -230,6 +235,7 @@ define( function( require ) {
     if ( glassTitle.width > labelWidth ) {
       glassTitle.scale( labelWidth / glassTitle.width );
     }
+
     // add slider for index of refraction
     var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty, {
       min: INDEX_OF_REFRACTION_MIN,
@@ -315,6 +321,7 @@ define( function( require ) {
       }
     } );
 
+    // disable the plus button when wavelength is at max and minus button at min wavelength
     this.mediumIndexProperty.link( function( indexOfRefraction ) {
       if ( custom ) {
         mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );

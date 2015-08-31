@@ -15,7 +15,7 @@ define( function( require ) {
 
   /**
    * @param {Polygon/Circle/SemiCircle} shape
-   * @param {string} - typeName for keeping track of how many of each kind there are, to remove from toolbox
+   * @param {string} typeName for keeping track of how many of each kind there are, to remove from toolbox
    * @constructor
    */
   function Prism( shape, typeName ) {

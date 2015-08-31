@@ -12,7 +12,22 @@ Each of the above directories is further divided into model and view packages. M
 screens extends BendingLightModel and BendingLightView of the common directory respectively. More Tools screen is the
 extension of Intro screen.
 
-All the rays in sim are represented as a webGL node with a canvas fallback. The detection for webGL/canvas is handled
-by the code.
+Model-view transforms are used in the simulation to map between model and view coordinate frames. The default origin
+for model is at the center of the screen with variable horizontal and vertical offset that can be defined in each
+screen. In model positive x is to the right, positive y is up. In view the default origin is at (0,0) and positive x
+is to the right, positive y is down.
+
+The components laser, tools, light rays, prisms in the simulation are attached to different layers.
+    mediumNode
+    beforeLightLayer2
+    beforeLightLayer
+    singleColorLightNode
+    afterLightLayer
+    laserViewLayer
+    afterLightLayer2
+All these layers are defined and added in the BendingLightView. All the rays in sim are represented as a webGL node
+with a canvas fallback. The detection for webGL/canvas is handled by the code. Canvas fallback for white light is
+bounded to dev bounds to overcome performance issues. Dragging of the tools, laser and prisms is restricted to dev
+bounds.
 
 Properties are named with the suffix 'Property', e.g. positionProperty.

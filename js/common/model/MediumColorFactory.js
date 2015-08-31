@@ -40,6 +40,7 @@ define( function( require ) {
       var linearFunction;
       var ratio;
       if ( indexForRed < waterIndexForRed ) {
+        // Map the values between 1 and waterIndexForRed to (0,1) linearly
         linearFunction = new LinearFunction( 1.0, waterIndexForRed, 0, 1 );
 
         // returns the value between 0 to 1.
@@ -48,6 +49,7 @@ define( function( require ) {
       }
       else {
         if ( indexForRed < glassIndexForRed ) {
+          // Map the values between waterIndexForRed and glassIndexForRed to (0,1) linearly
           linearFunction = new LinearFunction( waterIndexForRed, glassIndexForRed, 0, 1 );
 
           // returns the value between 0 to 1.
@@ -56,6 +58,7 @@ define( function( require ) {
         }
         else {
           if ( indexForRed < diamondIndexForRed ) {
+            // Map the values between glassIndexForRed and diamondIndexForRed to (0,1) linearly
             linearFunction = new LinearFunction( glassIndexForRed, diamondIndexForRed, 0, 1 );
 
             // returns the value between 0 to 1.

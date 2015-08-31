@@ -102,8 +102,10 @@ define( function( require ) {
     this.addChild( translatePath );
 
     var start;
+    var position;
     var protractorDragBoundsInModelCoordinates = protractorNode.modelViewTransform.viewToModelBounds( dragBounds );
 
+    // Add listener to translate protractor
     translatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
@@ -111,10 +113,11 @@ define( function( require ) {
       },
       drag: function( event ) {
 
-        // compute the change in angle based on the new drag event
+        // compute the change in position based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
         protractorNode.dragAllXY( end.x - start.x, end.y - start.y );
-        var position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
+        // Restrict the protractor to layout bounds
+        position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
         protractorModel.position = position;
         start = end;
       },
@@ -124,6 +127,7 @@ define( function( require ) {
           if ( containerBounds.containsCoordinates( protractorNode.getCenterX(), protractorNode.getCenterY() ) ) {
             var point2D = protractorNode.modelViewTransform.modelToViewPosition(
               protractorModel.positionProperty.initialValue );
+            // Place back into tool box with animation
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
             protractorNode.expandedButtonVisibility = false;
             protractorNode.expanded = false;
@@ -204,7 +208,7 @@ define( function( require ) {
         var end = protractorNode.globalToParentPoint( event.pointer.point );
         protractorNode.dragAllXY( end.x - start.x, end.y - start.y );
         // restrict the protractor node to layout bounds
-        var position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
+        position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
         protractorModel.positionProperty.set( position );
         start = end;
       },
@@ -267,6 +271,7 @@ define( function( require ) {
         var startPoint = { x: this.centerX, y: this.centerY, scale: this.getScaleVector().x };
         var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
         var target = this;
+        // add tween
         TweenUtil.startTween( this, startPoint, finalPosition, function() {
           target.setScaleMagnitude( startPoint.scale );
           target.centerX = startPoint.x;

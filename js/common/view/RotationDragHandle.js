@@ -53,6 +53,7 @@ define( function( require ) {
     var arrowHeadHeight = deltaAngle > 0 ? -7 : 7;
     var isArrowDirectionAntiClockWise = deltaAngle > 0;
 
+    // add arrow shape
     var radius = modelViewTransform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + laserImageWidth * 0.85;
     var startAngle = -laser.getAngle();
     var endAngle = -laser.getAngle() - deltaAngle;

@@ -53,9 +53,9 @@ define( function( require ) {
         prismNode.moveToFront();
         var start = knobNode.globalToParentPoint( event.pointer.point );
         prismCenterPoint = prism.shape.getRotationCenter();
-        var statX = modelViewTransform.viewToModelX( start.x );// model values
+        var startX = modelViewTransform.viewToModelX( start.x );// model values
         var startY = modelViewTransform.viewToModelY( start.y );// model values
-        previousAngle = Math.atan2( (prismCenterPoint.y - startY), ( prismCenterPoint.x - statX ) );
+        previousAngle = Math.atan2( (prismCenterPoint.y - startY), ( prismCenterPoint.x - startX ) );
       },
       drag: function( event ) {
         var end = knobNode.globalToParentPoint( event.pointer.point );

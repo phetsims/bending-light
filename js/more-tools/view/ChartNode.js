@@ -19,7 +19,7 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var GridCanvasNode = require( 'BENDING_LIGHT/more-tools/view/GridCanvasNode' );
 
-  //stroke dash parameters
+  // stroke dash parameters
   var DASH_ON = 10;
   var DASH_OFF = 5;
 
