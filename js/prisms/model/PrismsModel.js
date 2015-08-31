@@ -197,20 +197,18 @@ define( function( require ) {
       // Determines whether to use white light or single color light
       var mediumIndexOfRefraction;
       if ( this.laser.colorMode === 'white' ) {
-        var min = VisibleColor.MIN_WAVELENGTH / 1E9;
-        var max = VisibleColor.MAX_WAVELENGTH / 1E9;
-
-        // This number sets the number of (equally spaced wavelength) rays to show in a white beam. More rays looks
+        // This number is the number of (equally spaced wavelength) rays to show in a white beam. More rays looks
         // better but is more computationally intensive.
-        var dw = (max - min) / 16;
+        var wavelengths = BendingLightConstants.WHITE_LIGHT_WAVELENGTHS;
 
-        for ( var wavelength = min; wavelength <= max; wavelength += dw ) {
+        for ( var i = 0; i < wavelengths.length; i++ ) {
+          var wavelength = wavelengths[ i ] / 1E9; // convert to meters
           mediumIndexOfRefraction = laserInPrism ? this.prismMedium.getIndexOfRefraction( wavelength ) :
                                     this.environmentMedium.getIndexOfRefraction( wavelength );
 
-          // show the intersection for the smallest and largest wavelengths.  Protect against floating point error for 
-          // the latter 
-          var showIntersection = wavelength === min || Math.abs( wavelength - max ) < 1E-10;
+          // show the intersection for the smallest and largest wavelengths.  Protect against floating point error for
+          // the latter
+          var showIntersection = ( i === 0 ) || ( i === wavelengths.length - 1 );
           this.propagateTheRay( new Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction,
             BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0, showIntersection );
         }
@@ -350,6 +348,7 @@ define( function( require ) {
           intersection.point,
           n1,
           wavelengthInN1,
+          incidentRay.wavelength * 1E9,
           incidentRay.power,
           rayColor,
           waveWidth,
@@ -369,6 +368,7 @@ define( function( require ) {
           incidentRay.tail.plus( incidentRay.directionUnitVector ),
           n1,
           wavelengthInN1,
+          incidentRay.wavelength * 1E9,
           incidentRay.power,
           rayColor,
           waveWidth,

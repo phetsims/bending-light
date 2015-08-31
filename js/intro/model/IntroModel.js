@@ -134,7 +134,7 @@ define( function( require ) {
         // since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
-          sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserView );
+          this.laser.getWavelength(), sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserView );
 
         var rayAbsorbed = this.addAndAbsorb( incidentRay, 'incident' );
         if ( !rayAbsorbed ) {
@@ -157,6 +157,7 @@ define( function( require ) {
             Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ),
             n1,
             wavelengthInTopMedium,
+            this.laser.getWavelength(),
             reflectedPowerRatio * sourcePower,
             color,
             sourceWaveWidth,
@@ -187,6 +188,7 @@ define( function( require ) {
                 Vector2.createPolar( 1, theta2 - Math.PI / 2 ),
                 n2,
                 transmittedWavelength,
+                this.laser.getWavelength(),
                 transmittedPowerRatio * sourcePower,
                 color,
                 transmittedWaveWidth,
@@ -239,6 +241,7 @@ define( function( require ) {
           Vector2.createPolar( distance, ray.getAngle() + angleOffset ),
           ray.indexOfRefraction,
           ray.wavelength,
+          this.laser.getWavelength(),
           ray.powerFraction,
           this.laser.colorProperty.get().getColor(),
           ray.waveWidth,

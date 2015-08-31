@@ -19,8 +19,10 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -51,108 +53,42 @@ define( function( require ) {
      */
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
-      var map = {};
+
+      // "Screen", basically adds colors together, making them lighter
+      context.globalCompositeOperation = 'lighter';
+
+      context.lineWidth = 3;
+
       for ( var i = 0; i < this.whiteLightRays.length; i++ ) {
-        var child = this.whiteLightRays.get( i );
+        var lightRay = this.whiteLightRays.get( i ); // {LightRay}
+
+        var wavelength = Math.round( lightRay.wavelengthInVacuum ); // convert back to (nm)
 
         // Get the line values to make the next part more readable
-        var x1 = Math.round( this.modelViewTransform.modelToViewX( child.tip.x ) );
-        var y1 = Math.round( this.modelViewTransform.modelToViewY( child.tip.y ) );
-        var x2 = Math.round( this.modelViewTransform.modelToViewX( child.tail.x ) );
-        var y2 = Math.round( this.modelViewTransform.modelToViewY( child.tail.y ) );
+        var x1 = this.modelViewTransform.modelToViewX( lightRay.tip.x );
+        var y1 = this.modelViewTransform.modelToViewY( lightRay.tip.y );
+        var x2 = this.modelViewTransform.modelToViewX( lightRay.tail.x );
+        var y2 = this.modelViewTransform.modelToViewY( lightRay.tail.y );
 
-        // Some lines don't start in the play area, have to check and swap to make sure the line isn't pruned
-        if ( this.isOutOfBounds( x1, y1 ) ) {
-          this.draw( x2, y2, x1, y1, child, map );
-        }
-        else {
-          this.draw( x1, y1, x2, y2, child, map );
-        }
+        // Scale intensity into a custom alpha range
+        var a = Util.clamp( BendingLightConstants.XYZ_INTENSITIES[ wavelength ].magnitude() * lightRay.powerFraction / 100, 0, 0.8 );
+
+        var strokeStyle = VisibleColor.wavelengthToColor( wavelength ).withAlpha( a ).toCSS();
+        context.strokeStyle = strokeStyle;
+        context.beginPath();
+        context.moveTo( x1, y1 );
+        context.lineTo( x2, y2 );
+        context.stroke();
       }
 
-      // Don't let things become completely white, since the background is white
-      var whiteLimit = 0.2;
-      var maxChannel = 1 - whiteLimit;
-
-      // Extra factor to make it white instead of cream/orange
-      var scale = 2;
-
-      for ( i = 0; i < this.hashMapPointArray.length; i++ ) {
-        var samples = map[ this.hashMapPointArray[ i ] ];
-        var pointX = samples[ 4 ];
-        var pointY = samples[ 5 ];
-        var intensity = samples[ 3 ];
-
-        // Move excess samples value into the intensity column
-        var max = samples[ 0 ];
-        if ( samples[ 1 ] > max ) {
-          max = samples[ 1 ];
-        }
-        if ( samples[ 2 ] > max ) {
-          max = samples[ 2 ];
-        }
-
-        // Scale and clamp the samples
-        samples[ 0 ] = Util.clamp( samples[ 0 ] / max * scale - whiteLimit, 0, maxChannel );
-        samples[ 1 ] = Util.clamp( samples[ 1 ] / max * scale - whiteLimit, 0, maxChannel );
-        samples[ 2 ] = Util.clamp( samples[ 2 ] / max * scale - whiteLimit, 0, maxChannel );
-        intensity = intensity * max;
-
-        // Don't let it become fully opaque or it looks too dark against white background
-        var alpha = Util.clamp( Math.sqrt( intensity ), 0, 1 );
-        var pixelColor = samples[ 6 ];
-        pixelColor.set( samples[ 0 ] * 255, samples[ 1 ] * 255, samples[ 2 ] * 255, alpha );
-
-        // Set the color and fill in the pixel
-        context.fillStyle = pixelColor.toCSS();
-        context.fillRect( pointX, pointY, 0.7, 0.7 );
-      }
-      this.hashMapPointArray.length = 0;
-    },
-
-    /**
-     * Computing points outside of the bounds
-     * @private
-     * @param {number} x0 - x position in view co-ordinates
-     * @param {number} y0 - y position in view co-ordinates
-     * @returns {boolean}
-     */
-    isOutOfBounds: function( x0, y0 ) {
-      return x0 < 0 || y0 < 0 || x0 > this.stageWidth || y0 > this.stageHeight;
-    },
-
-    /**
-     * Add the specified point to the HashMap, creating a new entry if necessary, otherwise adding it to existing
-     * values. Take the intensity as the last component of the array
-     * @private
-     * @param {number} x0 - x position in view co-ordinates
-     * @param {number} y0 - y position in view co-ordinates
-     * @param {Color} color - color of the ray
-     * @param {number} intensity - intensity of the ray
-     * @param {Object} map - object containing array of color components, intensities of a point
-     */
-    addToMap: function( x0, y0, color, intensity, map ) {
-
-      // So that rays don't start fully saturated: this makes it so that it is possible to see the decrease in intensity
-      // after a (nontotal) reflection
-      var keyPoint = (17647448 * x0 + 13333 * y0 + 33);
-      if ( !map[ keyPoint ] ) {
-        this.hashMapPointArray.push( keyPoint );
-
-        // Seed with zeros so it can be summed
-        map[ keyPoint ] = [ 0, 0, 0, 0, x0, y0, color ];
-      }
-      var brightnessFactor = 0.017;
-      var current = map[ keyPoint ];
-      var term = [ color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255 ];
-
-      // Don't apply brightness factor to intensities
-      for ( var a = 0; a < 3; a++ ) {
-        current[ a ] = current[ a ] + term[ a ] * brightnessFactor;
-      }
-
-      // Add intensities, then convert to alpha later;
-      current[ 3 ] = current[ 3 ] + intensity;
+      // Try to draw a very transparent black over areas that have already been draw. This should turn a full white into
+      // a gray, while not affecting fully transparent parts of the Canvas at all.
+      context.globalCompositeOperation = 'source-atop';
+      context.fillStyle = 'rgba(0,0,0,0.1)';
+      context.save();
+      context.setTransform( 1, 0, 0, 1, 0, 0 );
+      context.fillRect( 0, 0, wrapper.canvas.width, wrapper.canvas.height );
+      context.restore();
     },
 
     /**
@@ -160,60 +96,6 @@ define( function( require ) {
      */
     step: function() {
       this.invalidatePaint();
-    },
-
-    /**
-     * The specified pixel got hit by white light, so update the map
-     * @private
-     * @param {number} x0 - x position in view co-ordinates
-     * @param {number} y0 - y position in view co-ordinates
-     * @param {Node} child - lightRay
-     * @param {Object} map - object containing array of color components, intensities of a point
-     */
-    setPixel: function( x0, y0, child, map ) {
-      var color = child.color;
-      var intensity = child.powerFraction;
-      this.addToMap( x0, y0, color, intensity, map );
-
-      // Some additional points makes it look a lot better (less sparse) without slowing it down too much
-      this.addToMap( x0 + 0.5, y0, color, intensity, map );
-      this.addToMap( x0, y0 + 0.5, color, intensity, map );
-    },
-
-    /**
-     * See http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
-     * @private
-     * @param {number} x0 - x position in view co-ordinates
-     * @param {number} y0 - y position in view co-ordinates
-     * @param {number} x1 - x position in view co-ordinates
-     * @param {number} y1 - y position in view co-ordinates
-     * @param {Node} child - lightRay
-     * @param {Object} map - object containing array of color components, intensities of a point
-     */
-    draw: function( x0, y0, x1, y1, child, map ) {
-      var dx = Math.abs( x1 - x0 );
-      var dy = Math.abs( y1 - y0 );
-      var sx = x0 < x1 ? 1 : -1;
-      var sy = y0 < y1 ? 1 : -1;
-      var err = dx - dy;
-      while ( true ) {
-        this.setPixel( x0, y0, child, map );
-        if ( x0 === x1 && y0 === y1 ) {
-          break;
-        }
-        if ( this.isOutOfBounds( x0, y0 ) ) {
-          break;
-        }
-        var e2 = 2 * err;
-        if ( e2 > -dy ) {
-          err = err - dy;
-          x0 = x0 + sx;
-        }
-        if ( e2 < dx ) {
-          err = err + dx;
-          y0 = y0 + sy;
-        }
-      }
     }
   } );
 } );

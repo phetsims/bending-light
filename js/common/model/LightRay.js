@@ -24,6 +24,7 @@ define( function( require ) {
    * @param {Vector2} tip - tip position of light ray
    * @param {number} indexOfRefraction - The index of refraction of the medium the light ray inhabits
    * @param {number} wavelength - wavelength in meters
+   * @param {number} wavelengthInVacuum - wavelength in nm (in a vacuum, not in the current medium)
    * @param {number} powerFraction - amount of power this light has (full strength is 1.0)
    * @param {Color} color - color of light ray
    * @param {number} waveWidth - width of the wave
@@ -33,8 +34,8 @@ define( function( require ) {
    * @param {string} laserView - specifies the laser view whether ray or wave mode
    * @constructor
    */
-  function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, powerFraction, color, waveWidth,
-                     numWavelengthsPhaseOffset, extend, extendBackwards, laserView ) {
+  function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, wavelengthInVacuum, powerFraction, color,
+                     waveWidth, numWavelengthsPhaseOffset, extend, extendBackwards, laserView ) {
 
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
@@ -51,6 +52,8 @@ define( function( require ) {
     // The index of refraction of the medium the light ray inhabits
     this.indexOfRefraction = indexOfRefraction; // @public
     this.wavelength = wavelength; // @public, wavelength in meters
+    assert && assert( wavelengthInVacuum >= 300 && wavelengthInVacuum <= 900 );
+    this.wavelengthInVacuum = wavelengthInVacuum; // @public, wavelength in nm
 
     // Amount of power this light has (full strength is 1.0)
     this.powerFraction = powerFraction;// @public
