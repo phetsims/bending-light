@@ -136,7 +136,7 @@ define( function( require ) {
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
           sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserView );
 
-        var rayAbsorbed = this.addAndAbsorb( incidentRay );
+        var rayAbsorbed = this.addAndAbsorb( incidentRay, Math.PI );
         if ( !rayAbsorbed ) {
           var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
           var hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) ||
@@ -161,7 +161,7 @@ define( function( require ) {
             sourceWaveWidth,
             incidentRay.getNumberOfWavelengths(),
             true,
-            true, this.laserView ) );
+            true, this.laserView ), 0 );
 
           // fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
@@ -191,7 +191,7 @@ define( function( require ) {
                 true,
                 true,
                 this.laserView );
-              this.addAndAbsorb( transmittedRay );
+              this.addAndAbsorb( transmittedRay, 0 );
             }
           }
         }
@@ -205,7 +205,7 @@ define( function( require ) {
      * @param {LightRay} ray - model of light ray
      * @returns {boolean}
      */
-    addAndAbsorb: function( ray ) {
+    addAndAbsorb: function( ray, angleOffset ) {
 
       // find intersection points with the intensity sensor
       var intersects = ray.getIntersections( this.intensityMeter.getSensorShape(), false );
@@ -215,13 +215,14 @@ define( function( require ) {
       if ( rayAbsorbed ) {
         var x;
         var y;
+        assert && assert( intersects.length <= 2, 'too many intersections' );
         if ( intersects.length === 1 ) {
 
           // intersect point at sensor shape start position when laser within sensor region
           x = intersects[ 0 ].point.x;
           y = intersects[ 0 ].point.y;
         }
-        if ( intersects.length > 1 ) {
+        if ( intersects.length === 2 ) {
           x = (intersects[ 0 ].point.x + intersects[ 1 ].point.x) / 2;
           y = (intersects[ 0 ].point.y + intersects[ 1 ].point.y) / 2;
         }
@@ -230,7 +231,7 @@ define( function( require ) {
         var interrupted = new LightRay(
           ray.trapeziumWidth,
           ray.tail,
-          Vector2.createPolar( distance, ray.getAngle() ),
+          Vector2.createPolar( distance, ray.getAngle() + angleOffset ),
           ray.indexOfRefraction,
           ray.wavelength,
           ray.powerFraction,

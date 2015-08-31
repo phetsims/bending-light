@@ -151,28 +151,29 @@ define( function( require ) {
      * @returns {Array}
      */
     getIntersections: function( sensorRegion ) {
-      var ray = new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) );
 
       if ( this.waveShape ) {
 
-        // start at the middle and work towards the edges with parallel ray projections
-        // stop at the first intersection
-        var checkDistances = [ 0 ];
-        for ( var m = 0.1; m <= 0.50001; m = m + 0.1 ) {
-          checkDistances.push( this.waveWidth * m );
-          checkDistances.push( -this.waveWidth * m );
-        }
+        // Create a ray that is parallel to the light ray and within the beam width that is closest to the center
+        // of the sensor.  This is the most straightforward way to check for the closest intersection to the sensor region.
+        var p = sensorRegion.getBounds().center;
 
-        for ( var i = 0; i < checkDistances.length; i++ ) {
-          var checkDistance = checkDistances[ i ];
-          var intersections = sensorRegion.intersection( this.createParallelRay( checkDistance ) );
-          if ( intersections.length > 0 ) {
-            return intersections;
-          }
-        }
-        return [];
+        var tip = this.tip;
+        var tail = this.tail;
+
+        // Compute the distance from the sensor to the ray, using https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+        var n = tip.minus( tail ).normalized();
+        var a = tail;
+        var aMinusP = a.minus( p );
+        var distanceToRay = aMinusP.minus( n.timesScalar( aMinusP.dot( n ) ) ).magnitude();
+
+        var perpendicular = Vector2.createPolar( 1, this.getAngle() + Math.PI / 2 );
+        var sign = perpendicular.dot( p.minus( a ) ) < 0 ? -1 : +1;
+        distanceToRay = sign * Math.min( distanceToRay, this.waveWidth / 2 );
+        return sensorRegion.intersection( this.createParallelRay( distanceToRay ) );
       }
       else {
+        var ray = new Ray2( this.tail, Vector2.createPolar( 1, this.getAngle() ) );
         return sensorRegion.intersection( ray );
       }
     },
