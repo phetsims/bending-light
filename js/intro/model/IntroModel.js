@@ -188,7 +188,7 @@ define( function( require ) {
                 Vector2.createPolar( 1, theta2 - Math.PI / 2 ),
                 n2,
                 transmittedWavelength,
-                this.laser.getWavelength(),
+                this.laser.getWavelength() * 1E9,
                 transmittedPowerRatio * sourcePower,
                 color,
                 transmittedWaveWidth,
