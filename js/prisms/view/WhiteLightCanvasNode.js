@@ -81,7 +81,7 @@ define( function( require ) {
         // skip alpha values that are just too light to see, which could also cause number format problems when creating
         // css color
         if ( a > 1E-5 ) {
-          var c = VisibleColor.wavel5engthToColor( wavelength );
+          var c = VisibleColor.wavelengthToColor( wavelength );
 
           var strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
           context.strokeStyle = strokeStyle;
