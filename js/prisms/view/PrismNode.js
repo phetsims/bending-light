@@ -74,7 +74,7 @@ define( function( require ) {
 
     var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( prismDragBounds );
     var prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
-      fill: prismsModel.prismMedium.color,
+      fill: prismsModel.prismMedium.color.withAlpha( 0.2 ),
       stroke: prismsModel.prismMedium.color.darkerColor( 0.9 )
     } );
     this.addChild( prismPathNode );
@@ -154,10 +154,10 @@ define( function( require ) {
     };
     prism.shapeProperty.link( this.updatePrismShape );
 
-    // @public - used in PrismToolboxNode 
+    // @public - used in PrismToolboxNode
     this.updatePrismColor = function( prismMedium ) {
       var color = prismMedium.color;
-      prismPathNode.fill = color;
+      prismPathNode.fill = color.withAlpha( 0.2 );
       prismPathNode.stroke = color.darkerColor( 0.9 );
     };
     prismsModel.prismMediumProperty.link( this.updatePrismColor );

@@ -234,7 +234,7 @@ define( function( require ) {
   var XYZ_INTENSITIES_MAGNITUDE = {};
 
   for ( var wavelength in XYZ ) {
-    var intensity = D65[ wavelength ];  
+    var intensity = D65[ wavelength ];
     var xyz = XYZ[ wavelength ];
 
     XYZ_INTENSITIES[ wavelength ] = new Vector3( xyz.x * intensity, xyz.y * intensity, xyz.z * intensity );
@@ -273,7 +273,7 @@ define( function( require ) {
   // {Array.<Number>} - Our range of visible wavelengths we will display (should have ~16 values so we have 4 bits left
   //                    to store color values in after quantization). The more wavelengths we display, the fewer bits
   //                    will be available.
-  var WHITE_LIGHT_WAVELENGTHS = _.range( 400, 700, 5 ); // excludes maximum value
+  var WHITE_LIGHT_WAVELENGTHS = _.range( 400, 700, 10 ); // excludes maximum value
 
   // var NUM_RAY_SATURATION = _.max( _.reduce( NORMALIZED_XYZ_INTENSITIES, function( memo, item ) {
   //   return memo.plus( item );
