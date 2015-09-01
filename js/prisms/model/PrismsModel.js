@@ -203,7 +203,8 @@ define( function( require ) {
 
         for ( var i = 0; i < wavelengths.length; i++ ) {
           var wavelength = wavelengths[ i ] / 1E9; // convert to meters
-          mediumIndexOfRefraction = laserInPrism ? this.prismMedium.getIndexOfRefraction( wavelength ) :
+          mediumIndexOfRefraction = laserInPrism ?
+                                    this.prismMedium.getIndexOfRefraction( wavelength ) :
                                     this.environmentMedium.getIndexOfRefraction( wavelength );
 
           // show the intersection for the smallest and largest wavelengths.  Protect against floating point error for

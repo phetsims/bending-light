@@ -23,6 +23,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Vector3 = require( 'DOT/Vector3' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -62,7 +63,7 @@ define( function( require ) {
       for ( var i = 0; i < this.whiteLightRays.length; i++ ) {
         var lightRay = this.whiteLightRays.get( i ); // {LightRay}
 
-        var wavelength = lightRay.wavelengthInVacuum; // convert back to (nm)
+        var wavelength = Math.round( lightRay.wavelengthInVacuum ); // convert back to (nm)
 
         // Get the line values to make the next part more readable
         var x1 = this.modelViewTransform.modelToViewX( lightRay.tip.x );
@@ -72,7 +73,7 @@ define( function( require ) {
 
         // Scale intensity into a custom alpha range
         var a = Util.clamp(
-          BendingLightConstants.XYZ_INTENSITIES_MAGNITUDE[ wavelength ] * lightRay.powerFraction / 100,
+          BendingLightConstants.D65[ wavelength ] * lightRay.powerFraction * 0.003,
           0,
           0.8
         );
@@ -80,7 +81,8 @@ define( function( require ) {
         // skip alpha values that are just too light to see, which could also cause number format problems when creating
         // css color
         if ( a > 1E-5 ) {
-          var c = VisibleColor.wavelengthToColor( wavelength );
+          var c = VisibleColor.wavel5engthToColor( wavelength );
+
           var strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
           context.strokeStyle = strokeStyle;
           context.beginPath();
