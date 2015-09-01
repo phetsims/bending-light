@@ -228,21 +228,21 @@ define( function( require ) {
 
   // {Object} - Maps wavelength (nm) to {Vector3} XYZ colorspace values multiplied times the D65 intensity. Combines
   //            the D65 and XYZ responses, so it contains "how bright in XYZ" each wavelength will be for white light.
-  var XYZ_INTENSITIES = ( function() {
-    var result = {};
+  var XYZ_INTENSITIES = {};
 
-    for ( var wavelength in XYZ ) {
-      var intensity = D65[ wavelength ];
-      var xyz = XYZ[ wavelength ];
+  // Cache the magnitudes as well so they don't need to be computed many times during each draw
+  var XYZ_INTENSITIES_MAGNITUDE = {};
+  
+  for ( var wavelength in XYZ ) {
+    var intensity = D65[ wavelength ];
+    var xyz = XYZ[ wavelength ];
 
-      result[ wavelength ] = new Vector3( xyz.x * intensity, xyz.y * intensity, xyz.z * intensity );
-    }
-
-    return result;
-  } )();
+    XYZ_INTENSITIES[ wavelength ] = new Vector3( xyz.x * intensity, xyz.y * intensity, xyz.z * intensity );
+    XYZ_INTENSITIES_MAGNITUDE[ wavelength ] = XYZ_INTENSITIES[ wavelength ].magnitude();
+  }
 
   // {Vector3} - Maximum value for each component of XYZ_INTENSITIES.
-  var MAX_XYZ_INTENSITY = ( function() {
+  var MAX_XYZ_INTENSITY = (function() {
     // max of XYZ * D65 for each channel
     var maxX = 0;
     var maxY = 0;
@@ -255,12 +255,12 @@ define( function( require ) {
       maxZ = Math.max( maxZ, xyz.z );
     }
     return new Vector3( maxX, maxY, maxZ );
-  } )();
+  })();
 
   // {Object} - Maps wavelength (nm) to {Vector3} XYZ colorspace values, with each component separately normalized, so
   //            that each XYZ value is in the range [0,1]. Multiplying any entry componentwise with MAX_XYZ_INTENSITY
   //            will result in the original XYZ_INTENSITIES value.
-  var NORMALIZED_XYZ_INTENSITIES = ( function() {
+  var NORMALIZED_XYZ_INTENSITIES = (function() {
     var result = {};
 
     for ( var wavelength in XYZ_INTENSITIES ) {
@@ -268,7 +268,7 @@ define( function( require ) {
       result[ wavelength ] = new Vector3( xyz.x / MAX_XYZ_INTENSITY.x, xyz.y / MAX_XYZ_INTENSITY.y, xyz.z / MAX_XYZ_INTENSITY.z );
     }
     return result;
-  } )();
+  })();
 
   // {Array.<Number>} - Our range of visible wavelengths we will display (should have ~16 values so we have 4 bits left
   //                    to store color values in after quantization). The more wavelengths we display, the fewer bits
@@ -298,6 +298,7 @@ define( function( require ) {
 
     D65: D65,
     XYZ_INTENSITIES: XYZ_INTENSITIES,
+    XYZ_INTENSITIES_MAGNITUDE: XYZ_INTENSITIES_MAGNITUDE,
     WHITE_LIGHT_WAVELENGTHS: WHITE_LIGHT_WAVELENGTHS,
     NORMALIZED_XYZ_INTENSITIES: NORMALIZED_XYZ_INTENSITIES,
     MAX_XYZ_INTENSITY: MAX_XYZ_INTENSITY,

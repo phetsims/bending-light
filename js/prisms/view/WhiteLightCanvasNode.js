@@ -62,7 +62,7 @@ define( function( require ) {
       for ( var i = 0; i < this.whiteLightRays.length; i++ ) {
         var lightRay = this.whiteLightRays.get( i ); // {LightRay}
 
-        var wavelength = Math.round( lightRay.wavelengthInVacuum ); // convert back to (nm)
+        var wavelength = lightRay.wavelengthInVacuum; // convert back to (nm)
 
         // Get the line values to make the next part more readable
         var x1 = this.modelViewTransform.modelToViewX( lightRay.tip.x );
@@ -71,14 +71,23 @@ define( function( require ) {
         var y2 = this.modelViewTransform.modelToViewY( lightRay.tail.y );
 
         // Scale intensity into a custom alpha range
-        var a = Util.clamp( BendingLightConstants.XYZ_INTENSITIES[ wavelength ].magnitude() * lightRay.powerFraction / 100, 0, 0.8 );
+        var a = Util.clamp(
+          BendingLightConstants.XYZ_INTENSITIES_MAGNITUDE[ wavelength ] * lightRay.powerFraction / 100,
+          0,
+          0.8
+        );
 
-        var strokeStyle = VisibleColor.wavelengthToColor( wavelength ).withAlpha( a ).toCSS();
-        context.strokeStyle = strokeStyle;
-        context.beginPath();
-        context.moveTo( x1, y1 );
-        context.lineTo( x2, y2 );
-        context.stroke();
+        // skip alpha values that are just too light to see, which could also cause number format problems when creating
+        // css color
+        if ( a > 1E-5 ) {
+          var c = VisibleColor.wavelengthToColor( wavelength );
+          var strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
+          context.strokeStyle = strokeStyle;
+          context.beginPath();
+          context.moveTo( x1, y1 );
+          context.lineTo( x2, y2 );
+          context.stroke();
+        }
       }
 
       // Try to draw a very transparent black over areas that have already been draw. This should turn a full white into
