@@ -133,7 +133,7 @@ define( function( require ) {
     topMediumControlPanel.setTranslation(
       stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - topMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() + 4 );
-    this.afterLightLayer2.addChild( topMediumControlPanel );
+    this.afterLightLayer3.addChild( topMediumControlPanel );
 
     // add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
@@ -142,7 +142,7 @@ define( function( require ) {
     bottomMediumControlPanel.setTranslation(
       stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - bottomMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET + 1 );
-    this.afterLightLayer2.addChild( bottomMediumControlPanel );
+    this.afterLightLayer3.addChild( bottomMediumControlPanel );
 
     // add a line that will show the border between the mediums even when both n's are the same... Just a thin line will
     // be fine.

@@ -62,6 +62,7 @@ define( function( require ) {
     // in back of afterLightLayer2
     this.afterLightLayer = new Node(); // @public
     this.afterLightLayer2 = new Node(); // @public
+    this.afterLightLayer3 = new Node(); // @public
 
     var stageWidth = this.layoutBounds.width;
     var stageHeight = this.layoutBounds.height;
@@ -120,6 +121,9 @@ define( function( require ) {
     this.laserLayerArray.push( laserNode );
 
     this.addChild( this.afterLightLayer2 );
+
+    // Layer for the rightmost control panels, so that all sensors will go behind them
+    this.addChild( this.afterLightLayer3 );
 
     // switches between ray and wave
     bendingLightModel.laserViewProperty.link( function( laserView ) {
