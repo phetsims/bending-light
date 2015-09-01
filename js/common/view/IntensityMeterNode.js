@@ -46,8 +46,9 @@ define( function( require ) {
   function DragHandler( intensityMeterNode, intensityMeterDragBounds, containerBounds, draggableNode,
                         modelPositionProperty, dragFunction ) {
     var start;
-    var position;
     var intensityMeter = intensityMeterNode.intensityMeter;
+    var modelViewTransform = intensityMeterNode.modelViewTransform;
+    var centerEndLocation = new Vector2();
 
     SimpleDragHandler.call( this, {
 
@@ -56,12 +57,21 @@ define( function( require ) {
       },
       drag: function( event ) {
         var end = draggableNode.globalToParentPoint( event.pointer.point );
-        dragFunction( intensityMeter, intensityMeterNode.modelViewTransform, end.x - start.x, end.y - start.y );
 
-        // check that it doesn't cross the layout bounds
-        position = intensityMeterDragBounds.closestPointTo( modelPositionProperty.get() );
-        modelPositionProperty.set( position );
-        start = end;
+        var startPositionX = modelViewTransform.modelToViewX( modelPositionProperty.get().x );
+        var startPositionY = modelViewTransform.modelToViewY( modelPositionProperty.get().y );
+        // location of final center point with out constraining to bounds
+        centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
+
+        // location of final center point with constraining to bounds
+        var centerEndLocationInBounds = intensityMeterDragBounds.closestPointTo( centerEndLocation );
+        dragFunction( intensityMeter, modelViewTransform, centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
+
+        // Store the position of drag point after translating. Can be obtained by adding distance between center
+        // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
+        // translating.
+        start.x = end.x + centerEndLocationInBounds.x - centerEndLocation.x;
+        start.y = end.y + centerEndLocationInBounds.y - centerEndLocation.y;
       },
       end: function() {
 
@@ -145,6 +155,7 @@ define( function( require ) {
       centerY: 50
     } );
 
+    // add up all the shapes to make sensor node
     this.sensorNode = new Node( {
       children: [ sensorOuterShape, sensorInnerShape, sensorInnerCircle ],
       cursor: 'pointer'
@@ -160,7 +171,7 @@ define( function( require ) {
     } );
 
     // sensor node drag handler
-    this.sensorNode.addInputListener( new DragHandler( this, intensityMeterDragBounds, containerBounds,
+    this.sensorNode.addInputListener( new DragHandler( this, dragBounds, containerBounds,
       this.sensorNode, intensityMeter.sensorPositionProperty, this.dragSensorXY ) );
 
     // add body node
@@ -203,6 +214,7 @@ define( function( require ) {
     var valueNode = new Text( intensityMeter.reading.getString(),
       { font: new PhetFont( 25 ), fill: 'black' } );
 
+    // add up all the shapes to form a body node
     this.bodyNode = new Node( {
       children: [ outerRectangle, innerRectangle, innerMostRectangle, titleNode, valueNode ],
       cursor: 'pointer'
@@ -226,7 +238,7 @@ define( function( require ) {
     } );
 
     // body drag handler
-    this.bodyNode.addInputListener( new DragHandler( this, intensityMeterDragBounds, containerBounds,
+    this.bodyNode.addInputListener( new DragHandler( this, dragBounds, containerBounds,
       this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY ) );
 
     // scale sensorNode and bodyNode and translating
@@ -248,6 +260,7 @@ define( function( require ) {
     this.addChild( this.sensorNode );
     this.addChild( this.bodyNode );
 
+    // add pickable rectangle shape when in tool box
     this.shape = new Path( Shape.rectangle( 20, 380, 85, 45 ), {
       pickable: true,
       cursor: 'pointer'
