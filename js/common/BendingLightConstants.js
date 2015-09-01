@@ -232,7 +232,7 @@ define( function( require ) {
 
   // Cache the magnitudes as well so they don't need to be computed many times during each draw
   var XYZ_INTENSITIES_MAGNITUDE = {};
-  
+
   for ( var wavelength in XYZ ) {
     var intensity = D65[ wavelength ];
     var xyz = XYZ[ wavelength ];
