@@ -30,9 +30,6 @@ define( function( require ) {
         position: new Vector2( x, y ) // @public, position of a probe
       }
     );
-
-    // Note: Created here to reduce Vector2 allocations
-    this.probePosition = new Vector2( 0, 0 ); // @private, for internal use only.
   }
 
   inherit( PropertySet, Probe, {
@@ -44,10 +41,7 @@ define( function( require ) {
      * @param {number} deltaY - amount of space in y direction probe to be translated
      */
     translateXY: function( deltaX, deltaY ) {
-      this.probePosition.x = this.position.x + deltaX;
-      this.probePosition.y = this.position.y + deltaY;
-      this.positionProperty.set( this.probePosition );
-      this.positionProperty._notifyObservers();
+      this.position = new Vector2( this.position.x + deltaX, this.position.y + deltaY );
     },
 
     /**
@@ -80,10 +74,6 @@ define( function( require ) {
     // Function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;
     this.probe2Value = probe2Value;
-
-    // Note: Created here to reduce Vector2 allocations
-    this.newBodyPosition = new Vector2( 0, 0 );
-
   }
 
   return inherit( Object, WaveSensor, {
@@ -125,10 +115,7 @@ define( function( require ) {
      * @param {number} deltaY - distance in y direction to be dragged
      */
     translateBodyXY: function( deltaX, deltaY ) {
-      this.newBodyPosition.x = this.bodyPosition.x + deltaX;
-      this.newBodyPosition.y = this.bodyPosition.y + deltaY;
-      this.bodyPositionProperty.set( this.newBodyPosition );
-      this.bodyPositionProperty._notifyObservers();
+      this.bodyPosition = new Vector2( this.bodyPosition.x + deltaX, this.bodyPosition.y + deltaY );
     },
 
     /**

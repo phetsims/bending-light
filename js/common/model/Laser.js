@@ -44,13 +44,6 @@ define( function( require ) {
       return new LaserColor( wavelength );
     } );
 
-    // reusable vectors to avoid to many vector allocations
-    // vector to store new laser emission point
-    this.newEmissionPoint = new Vector2( 0, 0 ); // @private, for internal use only.
-
-    // vector for to store new laser pivot point
-    this.newPivotPoint = new Vector2( 0, 0 ); // @private, for internal use only.
-
     // laser direction vector
     this.directionUnitVector = new Vector2( 0, 0 ); // @private, for internal use only.
 
@@ -72,15 +65,8 @@ define( function( require ) {
      * @param {number} deltaY - amount of space in y direction laser to be translated
      */
     translate: function( deltaX, deltaY ) {
-
-      this.newEmissionPoint.x = this.emissionPoint.x + deltaX;
-      this.newEmissionPoint.y = this.emissionPoint.y + deltaY;
-      this.newPivotPoint.x = this.pivot.x + deltaX;
-      this.newPivotPoint.y = this.pivot.y + deltaY;
-      this.emissionPointProperty.set( this.newEmissionPoint );
-      this.pivotProperty.set( this.newPivotPoint );
-      this.emissionPointProperty._notifyObservers();
-      this.pivotProperty._notifyObservers();
+      this.emissionPoint = new Vector2( this.emissionPoint.x + deltaX, this.emissionPoint.y + deltaY );
+      this.pivot = new Vector2( this.pivot.x + deltaX, this.pivot.y + deltaY );
     },
 
     /**
@@ -102,10 +88,10 @@ define( function( require ) {
      */
     setAngle: function( angle ) {
       var distFromPivot = this.pivot.distance( this.emissionPoint );
-      this.newEmissionPoint.x = distFromPivot * Math.cos( angle ) + this.pivot.x;
-      this.newEmissionPoint.y = distFromPivot * Math.sin( angle ) + this.pivot.y;
-      this.emissionPointProperty.set( this.newEmissionPoint );
-      this.emissionPointProperty._notifyObservers();
+      this.emissionPoint = new Vector2(
+        distFromPivot * Math.cos( angle ) + this.pivot.x,
+        distFromPivot * Math.sin( angle ) + this.pivot.y
+      );
     },
 
     /**

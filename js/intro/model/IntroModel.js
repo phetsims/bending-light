@@ -241,7 +241,7 @@ define( function( require ) {
           Vector2.createPolar( distance, ray.getAngle() + angleOffset ),
           ray.indexOfRefraction,
           ray.wavelength,
-          this.laser.getWavelength(),
+          this.laser.getWavelength() * 1E9,
           ray.powerFraction,
           this.laser.colorProperty.get().getColor(),
           ray.waveWidth,

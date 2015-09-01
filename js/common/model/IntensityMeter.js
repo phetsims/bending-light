@@ -34,9 +34,6 @@ define( function( require ) {
       }
     );
 
-    // vector to store sensor position
-    this.newSensorPosition = new Vector2(); // @private, for internal use only.
-
     // vector to store body position
     this.newBodyPosition = new Vector2(); // @private, for internal use only.
 
@@ -53,10 +50,7 @@ define( function( require ) {
        * @param {number} deltaY - distance the sensor translated in the y-direction, in model units
        */
       translateSensorXY: function( deltaX, deltaY ) {
-        this.newSensorPosition.x = this.sensorPosition.x + deltaX;
-        this.newSensorPosition.y = this.sensorPosition.y + deltaY;
-        this.sensorPositionProperty.set( this.newSensorPosition );
-        this.sensorPositionProperty._notifyObservers();
+        this.sensorPosition = this.sensorPosition.plusXY( deltaX, deltaY );
       },
 
       /**
@@ -66,10 +60,7 @@ define( function( require ) {
        * @param {number} deltaY - distance the sensor translated in the y-direction, in model units
        */
       translateBodyXY: function( deltaX, deltaY ) {
-        this.newBodyPosition.x = this.bodyPosition.x + deltaX;
-        this.newBodyPosition.y = this.bodyPosition.y + deltaY;
-        this.bodyPositionProperty.set( this.newBodyPosition );
-        this.bodyPositionProperty._notifyObservers();
+        this.bodyPosition = this.bodyPosition.plusXY( deltaX, deltaY );
       },
 
       /**

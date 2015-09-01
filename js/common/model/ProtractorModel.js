@@ -28,10 +28,6 @@ define( function( require ) {
         enabled: false // @public
       }
     );
-
-    // reusable vectors to avoid too many vector allocations
-    // vector to store new Protractor position
-    this.newPosition = new Vector2( 0, 0 ); // @private, for internal use only.
   }
 
   return inherit( PropertySet, ProtractorModel, {
@@ -43,9 +39,7 @@ define( function( require ) {
      * @param {number} deltaY - amount of space in y direction Protractor to be translated
      */
     translateXY: function( deltaX, deltaY ) {
-      this.newPosition.setXY( this.position.x + deltaX, this.position.y + deltaY );
-      this.positionProperty.set( this.newPosition );
-      this.positionProperty._notifyObservers();
+      this.position = new Vector2( this.position.x + deltaX, this.position.y + deltaY );
     }
   } );
 } );

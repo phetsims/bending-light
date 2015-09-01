@@ -252,10 +252,6 @@ define( function( require ) {
     this.addChild( this.probe1Node );
     this.addChild( this.probe2Node );
 
-    // reusable vectors to avoid to many vector allocations
-    this.waveSensorBodyNewPosition = new Vector2();
-    this.probe2NewPosition = new Vector2();
-
     // add pickable rectangle shape when in tool box
     this.shape = new Path( Shape.rectangle( 20, 335, 85, 45 ), {
       pickable: true,
@@ -360,18 +356,14 @@ define( function( require ) {
                     this.waveSensor.bodyPosition.x * scale / prevScale;
       var delta1Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
                     this.waveSensor.bodyPosition.y * scale / prevScale;
-      this.waveSensorBodyNewPosition.setXY( delta1X, delta1Y );
-      this.waveSensor.bodyPositionProperty.set( this.waveSensorBodyNewPosition );
-      this.waveSensor.bodyPositionProperty._notifyObservers();
+      this.waveSensor.bodyPositionProperty.set( new Vector2( delta1X, delta1Y ) );
 
       // scale the distance between probe1 and probe2, and adjust the probe2 position
       var delta2X = this.waveSensor.probe1.position.x * ( 1 - scale / prevScale ) +
                     this.waveSensor.probe2.position.x * scale / prevScale;
       var delta2Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
                     this.waveSensor.probe2.position.y * scale / prevScale;
-      this.probe2NewPosition.setXY( delta2X, delta2Y );
-      this.waveSensor.probe2.positionProperty.set( this.probe2NewPosition );
-      this.waveSensor.probe2.positionProperty._notifyObservers();
+      this.waveSensor.probe2.positionProperty.set( new Vector2( delta2X, delta2Y ) );
 
       // translate wave sensor to the end position
       this.waveSensor.translateAllXY( endPositionX - this.waveSensor.probe1.position.x,
