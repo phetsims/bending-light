@@ -64,19 +64,28 @@ define( function( require ) {
 
     // Interaction: Translates when dragged, but keep it bounded within the play area
     var start;
-    var position;
+    var centerEndLocation = new Vector2();
     probeNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
-        probe.translateXY( modelViewTransform.viewToModelDeltaX( end.x - start.x ),
-          modelViewTransform.viewToModelDeltaY( end.y - start.y ) );
-        // check that it doesn't cross the layout bounds
-        position = probeDragBounds.closestPointTo( probe.position );
-        probe.positionProperty.set( position );
-        start = end;
+
+        var modelX = modelViewTransform.viewToModelDeltaX( end.x - start.x );
+        var modelY = modelViewTransform.viewToModelDeltaY( end.y - start.y );
+        // location of final center point with out constraining to bounds
+        centerEndLocation.setXY( probe.position.x + modelX, probe.position.y + modelY );
+
+        // location of final center point with constraining to bounds
+        var centerEndLocationInBounds = probeDragBounds.closestPointTo( centerEndLocation );
+        probe.translateXY( centerEndLocationInBounds.x - probe.position.x, centerEndLocationInBounds.y - probe.position.y );
+
+        // Store the position of drag point after translating. Can be obtained by adding distance between center
+        // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
+        // translating.
+        start.x = end.x + modelViewTransform.modelToViewDeltaX( centerEndLocationInBounds.x - centerEndLocation.x );
+        start.y = end.y + modelViewTransform.modelToViewDeltaY( centerEndLocationInBounds.y - centerEndLocation.y );
       },
       end: function() {
 
@@ -159,6 +168,7 @@ define( function( require ) {
         centerY: rectangleHeight * 0.4,
         cornerRadius: 5
       } );
+    // add up all the shapes to form a body node
     this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle ], scale: 0.93 } );
 
     // Add the "time" axis label at the bottom center of the chart
@@ -186,17 +196,28 @@ define( function( require ) {
     // Add interaction, the body is draggable, but keep it constrained to stay in the play area
     var start;
     var position;
+    var centerEndLocation = new Vector2();
     this.bodyNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
-        waveSensorNode.dragBodyXY( end.x - start.x, end.y - start.y );
-        // check that it doesn't cross the layout bounds
-        position = waveSensorDragBounds.closestPointTo( waveSensor.bodyPosition );
-        waveSensor.bodyPositionProperty.set( position );
-        start = end;
+
+        var startPositionX = modelViewTransform.modelToViewX( waveSensor.bodyPosition.x );
+        var startPositionY = modelViewTransform.modelToViewY( waveSensor.bodyPosition.y );
+        // location of final center point with out constraining to bounds
+        centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
+
+        // location of final center point with constraining to bounds
+        var centerEndLocationInBounds = dragBounds.closestPointTo( centerEndLocation );
+        waveSensorNode.dragBodyXY( centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
+
+        // Store the position of drag point after translating. Can be obtained by adding distance between center
+        // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
+        // translating.
+        start.x = end.x + centerEndLocationInBounds.x - centerEndLocation.x;
+        start.y = end.y + centerEndLocationInBounds.y - centerEndLocation.y;
       },
       end: function() {
 
@@ -235,7 +256,7 @@ define( function( require ) {
     this.waveSensorBodyNewPosition = new Vector2();
     this.probe2NewPosition = new Vector2();
 
-
+    // add pickable rectangle shape when in tool box
     this.shape = new Path( Shape.rectangle( 20, 335, 85, 45 ), {
       pickable: true,
       cursor: 'pointer'

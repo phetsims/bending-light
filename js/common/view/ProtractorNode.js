@@ -102,8 +102,7 @@ define( function( require ) {
     this.addChild( translatePath );
 
     var start;
-    var position;
-    var protractorDragBoundsInModelCoordinates = protractorNode.modelViewTransform.viewToModelBounds( dragBounds );
+    var centerEndLocation = new Vector2();
 
     // Add listener to translate protractor
     translatePath.addInputListener( new SimpleDragHandler( {
@@ -115,11 +114,21 @@ define( function( require ) {
 
         // compute the change in position based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
-        protractorNode.dragAllXY( end.x - start.x, end.y - start.y );
-        // Restrict the protractor to layout bounds
-        position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
-        protractorModel.position = position;
-        start = end;
+
+        var startPositionX = modelViewTransform.modelToViewX( protractorModel.position.x );
+        var startPositionY = modelViewTransform.modelToViewY( protractorModel.position.y );
+        // location of final center point with out constraining to bounds
+        centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
+
+        // location of final center point with constraining to bounds
+        var centerEndLocationInBounds = dragBounds.closestPointTo( centerEndLocation );
+        protractorNode.dragAllXY( centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
+
+        // Store the position of drag point after translating. Can be obtained by adding distance between center
+        // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
+        // translating.
+        start.x = end.x + centerEndLocationInBounds.x - centerEndLocation.x;
+        start.y = end.y + centerEndLocationInBounds.y - centerEndLocation.y;
       },
       end: function() {
         if ( containerBounds ) {
@@ -184,6 +193,7 @@ define( function( require ) {
       protractorNode.setTranslation( newPoint );
     } );
 
+    // add pickable rectangle shape when in tool box
     this.shape = new Path( Shape.rectangle( 0, 0, this.getWidth() / this.multiScale, this.getHeight() / this.multiScale ), {
       pickable: true,
       cursor: 'pointer'
@@ -206,11 +216,21 @@ define( function( require ) {
 
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
-        protractorNode.dragAllXY( end.x - start.x, end.y - start.y );
-        // restrict the protractor node to layout bounds
-        position = protractorDragBoundsInModelCoordinates.closestPointTo( protractorModel.position );
-        protractorModel.positionProperty.set( position );
-        start = end;
+
+        var startPositionX = modelViewTransform.modelToViewX( protractorModel.position.x );
+        var startPositionY = modelViewTransform.modelToViewY( protractorModel.position.y );
+        // location of final center point with out constraining to bounds
+        centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
+
+        // location of final center point with constraining to bounds
+        var centerEndLocationInBounds = dragBounds.closestPointTo( centerEndLocation );
+        protractorNode.dragAllXY( centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
+
+        // Store the position of drag point after translating. Can be obtained by adding distance between center
+        // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
+        // translating.
+        start.x = end.x + centerEndLocationInBounds.x - centerEndLocation.x;
+        start.y = end.y + centerEndLocationInBounds.y - centerEndLocation.y;
       },
       end: function() {
         if ( containerBounds ) {
