@@ -54,11 +54,19 @@ define( function( require ) {
      */
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
+      context.lineWidth = 3;
+
+      context.globalCompositeOperation = 'source-over';
+      context.fillStyle = 'rgba(0,0,0,1)';
+      context.save();
+      context.setTransform( 1, 0, 0, 1, 0, 0 );
+      context.fillRect( 0, 0, wrapper.canvas.width, wrapper.canvas.height );
+      context.restore();
 
       // "Screen", basically adds colors together, making them lighter
       context.globalCompositeOperation = 'lighter';
 
-      context.lineWidth = 3;
+      var sum = new Vector3();
 
       for ( var i = 0; i < this.whiteLightRays.length; i++ ) {
         var lightRay = this.whiteLightRays.get( i ); // {LightRay}
@@ -73,17 +81,20 @@ define( function( require ) {
 
         // Scale intensity into a custom alpha range
         var a = Util.clamp(
-          BendingLightConstants.D65[ wavelength ] * lightRay.powerFraction * 0.003,
+          BendingLightConstants.D65[ wavelength ] * Math.sqrt( lightRay.powerFraction ) / 118,
           0,
-          0.8
-        );
+          1
+        ) / 8;
 
         // skip alpha values that are just too light to see, which could also cause number format problems when creating
         // css color
         if ( a > 1E-5 ) {
           var c = VisibleColor.wavelengthToColor( wavelength );
+          // var color = BendingLightConstants.XYZ_INTENSITIES[ wavelength ]
 
-          var strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
+          sum.add( new Vector3( c.r * a, c.g * a, c.b * a ) );
+
+          var strokeStyle = 'rgb(' + Math.round( c.r * a / 0.9829313170995397 ) + ',' + Math.round( c.g * a ) + ',' + Math.round( c.b * a / 0.7144456644926587 ) + ')';
           context.strokeStyle = strokeStyle;
           context.beginPath();
           context.moveTo( x1, y1 );
@@ -92,14 +103,18 @@ define( function( require ) {
         }
       }
 
+      // console.log( sum );
+
+      // debugger;
+
       // Try to draw a very transparent black over areas that have already been draw. This should turn a full white into
       // a gray, while not affecting fully transparent parts of the Canvas at all.
-      context.globalCompositeOperation = 'source-atop';
-      context.fillStyle = 'rgba(0,0,0,0.1)';
-      context.save();
-      context.setTransform( 1, 0, 0, 1, 0, 0 );
-      context.fillRect( 0, 0, wrapper.canvas.width, wrapper.canvas.height );
-      context.restore();
+      // context.globalCompositeOperation = 'source-atop';
+      // context.fillStyle = 'rgba(0,0,0,0.1)';
+      // context.save();
+      // context.setTransform( 1, 0, 0, 1, 0, 0 );
+      // context.fillRect( 0, 0, wrapper.canvas.width, wrapper.canvas.height );
+      // context.restore();
     },
 
     /**

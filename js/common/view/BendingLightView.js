@@ -87,10 +87,10 @@ define( function( require ) {
                                 new SingleColorLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
 
     // layering
+    this.addLightNodes(); // Nodes specific to that view
     this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );
     this.addChild( this.singleColorLightNode );
-    this.addLightNodes(); // Nodes specific to that view
     this.addChild( this.afterLightLayer );
 
     // This layer is to add laser view control panel
