@@ -317,7 +317,7 @@ define( function( require ) {
       spacing: radioButtonSpacing,
       children: [ normalMotionRadioBox, slowMotionRadioBox ]
     } );
-    this.afterLightLayer.addChild( this.speedControl.mutate( {
+    this.beforeLightLayer.addChild( this.speedControl.mutate( {
       left: this.toolbox.right + 25,
       bottom: this.layoutBounds.bottom - 15
     } ) );
@@ -329,7 +329,7 @@ define( function( require ) {
         bottom: this.layoutBounds.bottom - 15,
         left: this.speedControl.right + INSET
       } );
-    this.afterLightLayer.addChild( this.playPauseButton );
+    this.beforeLightLayer.addChild( this.playPauseButton );
 
     // add step button
     this.stepButton = new StepButton(
@@ -344,7 +344,7 @@ define( function( require ) {
         left: this.playPauseButton.right + 15,
         y: this.playPauseButton.centerY
       } );
-    this.afterLightLayer.addChild( this.stepButton );
+    this.beforeLightLayer.addChild( this.stepButton );
 
     // show play pause and step buttons only in wave view
     introModel.laserViewProperty.link( function( laserType ) {
