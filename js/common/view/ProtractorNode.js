@@ -37,12 +37,17 @@ define( function( require ) {
    * @param {function} translateShape - function that returns the part of the protractor that can be used for translating it
    * @param {function} rotateShape - function that returns the part of the protractor that can be used for rotating it
    * @param {number} protractorIconWidth - width of protractor icon to show in toolbox node
-   * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
+   * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position
+   *                                  - when it in container
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the protractor may be dragged
+   * @param {function} getProtractorNodeToolboxPosition - Function that gets the view coordinates where the protractor
+   *                                                    - should appear in the toolbox.  Necessary because the toolbox
+   *                                                    - can move because it floats to the side
    * @constructor
    */
   function ProtractorNode( afterLightLayer, beforeLightLayer2, modelViewTransform, showProtractorProperty, protractorModel,
-                           translateShape, rotateShape, protractorIconWidth, containerBounds, dragBoundsProperty ) {
+                           translateShape, rotateShape, protractorIconWidth, containerBounds, dragBoundsProperty,
+                           getProtractorNodeToolboxPosition ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
@@ -135,7 +140,7 @@ define( function( require ) {
 
           // place back protractor into tool box with animation
           if ( containerBounds.containsCoordinates( protractorNode.getCenterX(), protractorNode.getCenterY() ) ) {
-            var point2D = protractorNode.modelViewTransform.modelToViewPosition( protractorModel.positionProperty.initialValue );
+            var point2D = getProtractorNodeToolboxPosition();
 
             // Place back into tool box with animation
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
@@ -235,10 +240,10 @@ define( function( require ) {
       },
       end: function() {
         if ( containerBounds ) {
+
           // place back into tool box
           if ( containerBounds.containsCoordinates( protractorNode.getCenterX(), protractorNode.getCenterY() ) ) {
-            var point2D = protractorNode.modelViewTransform.modelToViewPosition(
-              protractorModel.positionProperty.initialValue );
+            var point2D = getProtractorNodeToolboxPosition();
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
             protractorNode.expandedButtonVisibility = false;
             protractorNode.expanded = false;

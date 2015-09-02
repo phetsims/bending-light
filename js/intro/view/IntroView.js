@@ -38,6 +38,7 @@ define( function( require ) {
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -60,6 +61,7 @@ define( function( require ) {
 
     var introView = this;
     this.introModel = introModel; // @public
+    this.hasMoreTools = hasMoreTools; // @private
 
     // specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
     function clampDragAngle( angle ) {
@@ -215,7 +217,7 @@ define( function( require ) {
     if ( !hasMoreTools ) {
       this.protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.toolbox.bounds, this.visibleBoundsProperty );
+        this.toolbox.bounds, this.visibleBoundsProperty, this.getProtractorNodeToolboxPosition.bind( this ) );
     }
     else {
       this.protractorNode = new ExpandableProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
@@ -358,14 +360,15 @@ define( function( require ) {
     FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox ] );
 
     this.events.on( 'layoutFinished', function() {
-      var protractorNodeX = introView.toolbox.centerX;
-      var protractorNodeY = introView.toolbox.y + 40 + (hasMoreTools ? 0 : 8);
+
       if ( !introView.protractorModel.enabled ) {
-        introView.protractorModel.position = introView.modelViewTransform.viewToModelXY( protractorNodeX, protractorNodeY );
+        introView.moveProtractorToToolbox();
       }
 
       // Position the intensity meter below where the protractor *would* be (if it too were in the control panel)
       if ( !introView.bendingLightModel.intensityMeter.enabled ) {
+        var protractorNodeX = introView.toolbox.centerX;
+        var protractorNodeY = introView.toolbox.y + 40 + (hasMoreTools ? 0 : 8);
         introView.bendingLightModel.intensityMeter.bodyPosition = introView.modelViewTransform.viewToModelXY( protractorNodeX + 20 - 2, protractorNodeY + 60 + 5 );
         introView.bendingLightModel.intensityMeter.sensorPosition = introView.modelViewTransform.viewToModelXY( protractorNodeX - 20 - 4, protractorNodeY + 60 - 5 );
       }
@@ -378,6 +381,14 @@ define( function( require ) {
   }
 
   return inherit( BendingLightView, IntroView, {
+
+    moveProtractorToToolbox: function() {
+      var position = this.getProtractorNodeToolboxPosition();
+      this.protractorModel.position = this.modelViewTransform.viewToModelXY( position.x, position.y );
+    },
+    getProtractorNodeToolboxPosition: function() {
+      return new Vector2( this.toolbox.centerX, this.toolbox.y + 40 + (this.hasMoreTools ? 0 : 8) );
+    },
 
     /**
      * Called by the animation loop.
