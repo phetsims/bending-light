@@ -25,6 +25,7 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Vector2 = require( 'DOT/Vector2' );
   var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
+  var LightSensorNode = require( 'SCENERY_PHET/LightSensorNode' );
 
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
@@ -117,49 +118,7 @@ define( function( require ) {
     this.beforeLightLayer = beforeLightLayer; // @private
     this.beforeLightLayer2 = beforeLightLayer2; // @private
 
-    // add sensor node
-    var sensorShape = new Shape()
-      .ellipticalArc( 50, 50, 50, 50, 0, Math.PI * 0.8, Math.PI * 0.2, false )
-      .quadraticCurveTo( 84, 87, 82, 100 )
-      .quadraticCurveTo( 81, 115, 80, 130 )
-      .quadraticCurveTo( 80, 151, 65, 151 )
-      .quadraticCurveTo( 50, 151, 35, 151 )
-      .quadraticCurveTo( 20, 151, 20, 130 )
-      .quadraticCurveTo( 19, 115, 18, 100 )
-      .quadraticCurveTo( 16, 87, 11, 82 )
-      .close();
-    var sensorOuterShape = new Path( sensorShape, {
-      stroke: new LinearGradient( 0, 0, 0, 151 )
-        .addColorStop( 0, '#408260' )
-        .addColorStop( 1, '#005D2D' ),
-      fill: new LinearGradient( 0, 0, 0, 151 )
-        .addColorStop( 0, '#7CCAA2' )
-        .addColorStop( 0.3, '#009348' )
-        .addColorStop( 1, '#008B44' ),
-      lineWidth: 2
-    } );
-
-    var sensorInnerShape = new Path( sensorShape, {
-      fill: '#008541',
-      lineWidth: 2,
-      scale: new Vector2( 0.9, 0.93 ),
-      centerX: sensorOuterShape.centerX,
-      y: 5
-    } );
-    var sensorInnerCircle = new Path( new Shape().circle( 50, 50, 35 ), {
-      fill: new RadialGradient( 35, 17.5, 0, 35, 70, 60 )
-        .addColorStop( 0, 'white' )
-        .addColorStop( 0.4, '#E6F5FF' )
-        .addColorStop( 1, '#C2E7FF' ),
-      centerX: sensorInnerShape.centerX,
-      centerY: 50
-    } );
-
-    // add up all the shapes to make sensor node
-    this.sensorNode = new Node( {
-      children: [ sensorOuterShape, sensorInnerShape, sensorInnerCircle ],
-      cursor: 'pointer'
-    } );
+    this.sensorNode = new LightSensorNode();
 
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
