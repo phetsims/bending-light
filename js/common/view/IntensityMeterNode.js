@@ -40,32 +40,57 @@ define( function( require ) {
    * @param {Bounds2} containerBounds - bounds of container for intensity meter
    * @param {Node} draggableNode - node that has to be dragged
    * @param {Property.<Vector2>} modelPositionProperty - position of draggableNode in model coordinates
-   * @param {function} dragFunction - function for translating the draggableNode
+   * @param {function} dragSelfFunction - function for translating the draggableNode
+   * @param {function} dragBothFunction - function for translating both the body and sensor together, used when dragged
+   *                                    - out of the toolbox
    * @constructor
    */
   function DragHandler( intensityMeterNode, dragBoundsProperty, containerBounds, draggableNode,
-                        modelPositionProperty, dragFunction ) {
+                        modelPositionProperty, dragSelfFunction, dragBothFunction ) {
     var start;
     var intensityMeter = intensityMeterNode.intensityMeter;
     var modelViewTransform = intensityMeterNode.modelViewTransform;
     var centerEndLocation = new Vector2();
+    var travelingTogether = false;
 
     var options = {
 
       start: function( event ) {
         start = draggableNode.globalToParentPoint( event.pointer.point );
+
+        if ( !intensityMeter.enabled ) {
+          var sensorStartPositionX = modelViewTransform.viewToModelX( start.x );
+          var sensorStartPositionY = modelViewTransform.viewToModelY( start.y );
+
+          // Animate intensity meter to full size
+          intensityMeterNode.setIntensityMeterScaleAnimation(
+            sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
+          intensityMeterNode.setIntensityMeterScale(
+            sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
+
+          // remove it from sensor panel and add it to play area
+          intensityMeterNode.addToBendingLightView();
+          intensityMeter.enabled = true;
+          travelingTogether = true;
+        }
       },
       drag: function( event ) {
         var end = draggableNode.globalToParentPoint( event.pointer.point );
-
         var startPositionX = modelViewTransform.modelToViewX( modelPositionProperty.get().x );
         var startPositionY = modelViewTransform.modelToViewY( modelPositionProperty.get().y );
+
         // location of final center point with out constraining to bounds
         centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
 
         // location of final center point with constraining to bounds
         var centerEndLocationInBounds = dragBoundsProperty.value.closestPointTo( centerEndLocation );
-        dragFunction( intensityMeter, modelViewTransform, centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
+        if ( travelingTogether ) {
+          dragBothFunction( intensityMeter, modelViewTransform, centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
+        }
+        else {
+          dragSelfFunction( intensityMeter, modelViewTransform, centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
+        }
+
 
         // Store the position of drag point after translating. Can be obtained by adding distance between center
         // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
@@ -93,6 +118,7 @@ define( function( require ) {
           intensityMeterNode.addToSensorPanel();
           intensityMeter.enabledProperty.set( false );
         }
+        travelingTogether = false;
       }
     };
     SimpleDragHandler.call( this, options );
@@ -130,7 +156,7 @@ define( function( require ) {
     this.beforeLightLayer = beforeLightLayer; // @private
     this.beforeLightLayer2 = beforeLightLayer2; // @private
 
-    this.sensorNode = new LightSensorNode();
+    this.sensorNode = new LightSensorNode( { cursor: 'pointer' } );
 
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
@@ -141,7 +167,7 @@ define( function( require ) {
 
     // sensor node drag handler
     var sensorNodeDragHandler = new DragHandler( this, dragBoundsProperty, containerBounds,
-      this.sensorNode, intensityMeter.sensorPositionProperty, this.dragSensorXY );
+      this.sensorNode, intensityMeter.sensorPositionProperty, this.dragSensorXY, this.dragBothXY.bind( this ) );
     this.sensorNode.addInputListener( sensorNodeDragHandler );
 
     // add body node
@@ -209,7 +235,7 @@ define( function( require ) {
 
     // body drag handler
     var bodyDragHandler = new DragHandler( this, dragBoundsProperty, containerBounds,
-      this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY );
+      this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY, this.dragBothXY.bind( this ) );
     this.bodyNode.addInputListener( bodyDragHandler );
 
     // scale sensorNode and bodyNode and translating
@@ -230,46 +256,6 @@ define( function( require ) {
     this.addChild( wireNode );
     this.addChild( this.sensorNode );
     this.addChild( this.bodyNode );
-
-    // add pickable rectangle shape when in tool box
-    this.shape = new Path( Shape.rectangle( 20, 380, 85, 45 ), {
-      pickable: true,
-      cursor: 'pointer'
-    } );
-    this.addChild( this.shape );
-
-    this.shape.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-
-        var start = intensityMeterNode.globalToParentPoint( event.pointer.point );
-        var sensorStartPositionX = modelViewTransform.viewToModelX( start.x );
-        var sensorStartPositionY = modelViewTransform.viewToModelY( start.y );
-
-        // Animate intensity meter to full size
-        intensityMeterNode.setIntensityMeterScaleAnimation(
-          sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
-        intensityMeterNode.setIntensityMeterScale(
-          sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
-
-        // remove it from sensor panel and add it to play area
-        intensityMeterNode.addToBendingLightView();
-        intensityMeter.enabledProperty.set( true );
-
-        sensorNodeDragHandler.start( event );
-        bodyDragHandler.start( event );
-      },
-      drag: function( event ) {
-        sensorNodeDragHandler.drag( event );
-        bodyDragHandler.drag( event );
-      },
-      end: function() {
-        sensorNodeDragHandler.end();
-        bodyDragHandler.end();
-      }
-    } ) );
-    intensityMeter.enabledProperty.link( function( enable ) {
-      intensityMeterNode.shape.setVisible( !enable );
-    } );
   }
 
   return inherit( Node, IntensityMeterNode, {
@@ -350,9 +336,6 @@ define( function( require ) {
       if ( !this.beforeLightLayer2.isChild( this ) ) {
         this.beforeLightLayer2.addChild( this );
       }
-      this.touchArea = this.shape.bounds;
-      this.sensorNode.touchArea = null;
-      this.bodyNode.touchArea = null;
     },
 
     /**
@@ -393,6 +376,19 @@ define( function( require ) {
       intensityMeter.translateBodyXY(
         modelViewTransform.viewToModelDeltaX( deltaX ),
         modelViewTransform.viewToModelDeltaY( deltaY ) );
+    },
+
+    /**
+     * Drag bodyNode
+     * @private
+     * @param {IntensityMeter} intensityMeter - model for the intensity meter
+     * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
+     * @param {number} deltaX - amount of space in x direction the body to be translated
+     * @param {number} deltaY - amount of space in y direction the body to be translated
+     */
+    dragBothXY: function( intensityMeter, modelViewTransform, deltaX, deltaY ) {
+      this.dragSensorXY( intensityMeter, modelViewTransform, deltaX, deltaY );
+      this.dragBodyXY( intensityMeter, modelViewTransform, deltaX, deltaY );
     },
 
     /**
