@@ -261,6 +261,13 @@ define( function( require ) {
     this.addChild( wireNode );
     this.addChild( this.sensorNode );
     this.addChild( this.bodyNode );
+
+    // If the drag bounds changes, make sure the sensor didn't go out of bounds
+    dragBoundsProperty.link( function( dragBounds ) {
+      var modelBounds = modelViewTransform.viewToModelBounds( dragBounds );
+      intensityMeter.bodyPosition = modelBounds.getClosestPoint( intensityMeter.bodyPosition.x, intensityMeter.bodyPosition.y );
+      intensityMeter.sensorPosition = modelBounds.getClosestPoint( intensityMeter.sensorPosition.x, intensityMeter.sensorPosition.y );
+    } );
   }
 
   return inherit( Node, IntensityMeterNode, {
