@@ -422,25 +422,6 @@ define( function( require ) {
       this.addChild( this.waveCanvasLayer );
       this.addChild( this.incidentWaveLayer );
 
-      // As rays are added to the model add corresponding light rays WhiteLight/Ray/Wave
-      bendingLightModel.rays.addItemAddedListener( function( ray ) {
-        if ( !(bendingLightModel.laserView === 'ray' && bendingLightModel.laser.colorMode === 'singleColor' ) ) {
-          // if WebGL is not supported render with canvas
-          if ( !bendingLightModel.allowWebGL ) {
-            for ( var k = 0; k < bendingLightModel.rays.length; k++ ) {
-              var waveShape = bendingLightModel.rays.get( k ).waveShape;
-              var particleCanvasNode = new WaveCanvasNode( bendingLightModel.rays.get( k ).particles,
-                bendingLightView.modelViewTransform, {
-                  canvasBounds: bendingLightView.modelViewTransform.modelToViewShape( waveShape ).bounds,
-                  clipArea: bendingLightView.modelViewTransform.modelToViewShape( waveShape )
-                } );
-              k === 0 ? bendingLightView.incidentWaveLayer.addChild( particleCanvasNode ) :
-              bendingLightView.waveCanvasLayer.addChild( particleCanvasNode );
-            }
-          }
-        }
-      } );
-
       // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
       if ( bendingLightModel.allowWebGL ) {
         var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
@@ -449,15 +430,14 @@ define( function( require ) {
           bendingLightView.layoutBounds.height );
         bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
       }
-
-      // As rays are removed from model clear all light ray layers
-      bendingLightModel.rays.addItemRemovedListener( function() {
-        bendingLightView.waveCanvasLayer.removeAllChildren();
-        if ( !bendingLightModel.allowWebGL ) {
-          bendingLightView.incidentWaveLayer.removeAllChildren();
-        }
-      } );
-
+      else {
+        var waveCanvasNode = new WaveCanvasNode( this, bendingLightView.modelViewTransform, { canvasBounds: new Bounds2( 0, 0, 1000, 1000 ) } );
+        bendingLightView.incidentWaveLayer.addChild( waveCanvasNode );
+        this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+            waveCanvasNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
+          }
+        );
+      }
     }
   } );
 } );

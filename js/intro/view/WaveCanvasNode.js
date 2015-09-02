@@ -18,9 +18,9 @@ define( function( require ) {
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
-  function WaveCanvasNode( waveParticles, modelViewTransform, options ) {
+  function WaveCanvasNode( introView, modelViewTransform, options ) {
+    this.introView = introView;
     this.modelViewTransform = modelViewTransform; // @public
-    this.waveParticles = waveParticles; // @private
     CanvasNode.call( this, options );
     this.invalidatePaint();
   }
@@ -34,35 +34,43 @@ define( function( require ) {
      */
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
-      for ( var i = 0; i < this.waveParticles.length; i++ ) {
-        var particle = this.waveParticles.get( i );
-        var particleWidth = this.modelViewTransform.modelToViewDeltaX( particle.width );
-        var x = this.modelViewTransform.modelToViewX( particle.getX() );
-        var y = this.modelViewTransform.modelToViewY( particle.getY() );
-        var angle = particle.angle;
-        var point1X = x + (particleWidth * Math.sin( angle ) / 2);
-        var point1Y = y + (particleWidth * Math.cos( angle ) / 2);
-        var point2X = x - (particleWidth * Math.sin( angle ) / 2);
-        var point2Y = y - (particleWidth * Math.cos( angle ) / 2);
 
-        // wave particle height
-        var lineWidth = this.modelViewTransform.modelToViewDeltaX( particle.height );
+      var model = this.introView.bendingLightModel;
+      for ( var k = 0; k < model.rays.length; k++ ) {
+        var ray = model.rays.get( k );
 
-        // apply gradient to wave particle
-        var gradient = context.createLinearGradient( x, y, x - lineWidth * Math.cos( angle ), y + lineWidth * Math.sin( angle ) );
-        gradient.addColorStop( 0, particle.color );
-        gradient.addColorStop( 0.5, particle.particleGradientColor );
-        gradient.addColorStop( 1, particle.color );
+        for ( var i = 0; i < ray.particles.length; i++ ) {
+          var particle = ray.particles.get( i );
+          var particleWidth = this.modelViewTransform.modelToViewDeltaX( particle.width );
+          var x = this.modelViewTransform.modelToViewX( particle.getX() );
+          var y = this.modelViewTransform.modelToViewY( particle.getY() );
+          var angle = particle.angle;
+          var point1X = x + (particleWidth * Math.sin( angle ) / 2);
+          var point1Y = y + (particleWidth * Math.cos( angle ) / 2);
+          var point2X = x - (particleWidth * Math.sin( angle ) / 2);
+          var point2Y = y - (particleWidth * Math.cos( angle ) / 2);
 
-        // draw wave particle
-        context.beginPath();
-        context.moveTo( point2X, point2Y );
-        context.lineTo( point1X, point1Y );
-        context.lineTo( point1X - lineWidth * Math.cos( angle ), point1Y + lineWidth * Math.sin( angle ) );
-        context.lineTo( point2X - lineWidth * Math.cos( angle ), point2Y + lineWidth * Math.sin( angle ) );
-        context.closePath();
-        context.fillStyle = gradient;
-        context.fill();
+          if ( this.canvasBounds.containsCoordinates( point1X, point1Y ) || this.canvasBounds.containsCoordinates( point1X, point1Y ) ) {
+            // wave particle height
+            var lineWidth = this.modelViewTransform.modelToViewDeltaX( particle.height );
+
+            // apply gradient to wave particle
+            var gradient = context.createLinearGradient( x, y, x - lineWidth * Math.cos( angle ), y + lineWidth * Math.sin( angle ) );
+            gradient.addColorStop( 0, particle.color );
+            gradient.addColorStop( 0.5, particle.particleGradientColor );
+            gradient.addColorStop( 1, particle.color );
+
+            // draw wave particle
+            context.beginPath();
+            context.moveTo( point2X, point2Y );
+            context.lineTo( point1X, point1Y );
+            context.lineTo( point1X - lineWidth * Math.cos( angle ), point1Y + lineWidth * Math.sin( angle ) );
+            context.lineTo( point2X - lineWidth * Math.cos( angle ), point2Y + lineWidth * Math.sin( angle ) );
+            context.closePath();
+            context.fillStyle = gradient;
+            context.fill();
+          }
+        }
       }
     },
 
