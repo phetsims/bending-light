@@ -127,7 +127,7 @@ define( function( require ) {
         prismNode.handleDrag( event );
       },
       end: function() {
-        prismNode.handleEnd()
+        prismNode.handleEnd();
       }
     } ) );
 
