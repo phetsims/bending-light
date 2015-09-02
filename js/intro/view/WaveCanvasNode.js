@@ -1,7 +1,9 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * A Wave particle layer rendered on canvas
+ * A Wave particle layer rendered on canvas.  On iPad3 using canvas (webgl=false), gradients are too expensive
+ * to render, so we approximate the wave view by rendering the wave crests against a colored background.)
+ * See #154
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
@@ -36,18 +38,28 @@ define( function( require ) {
       var context = wrapper.context;
 
       // Render the incident ray last so that it will overlap the reflected ray completely
-      for ( var k = this.lightRays.length; k >= 0; k-- ) {
+      for ( var k = this.lightRays.length - 1; k >= 0; k-- ) {
         var ray = this.lightRays.get( k );
 
-        // Each ray has its own clipping and rotation, so store the untransformed state before manipulation
-        context.save();
-
-        // Each ray has its own shape, which is used as a clipping region.
-        context.beginPath();
-        ray.waveShapeCommand( context, this.modelViewTransform );
-        context.clip();
-
         if ( ray.particles.length > 0 ) {
+
+          // Each ray has its own clipping and rotation, so store the untransformed state before manipulation
+          context.save();
+
+          // Each ray has its own shape, which is used as a clipping region.
+          context.beginPath();
+          context.moveTo(
+            this.modelViewTransform.modelToViewX( ray.clipRegionCorners[ 0 ].x ),
+            this.modelViewTransform.modelToViewY( ray.clipRegionCorners[ 0 ].y )
+          );
+          for ( var m = 1; m <= 3; m++ ) {
+            context.lineTo(
+              this.modelViewTransform.modelToViewX( ray.clipRegionCorners[ m ].x ),
+              this.modelViewTransform.modelToViewY( ray.clipRegionCorners[ m ].y )
+            );
+          }
+          context.clip();
+          
           var particle = ray.particles.get( 0 );
 
           // Set the origin at the beginning of the particle
@@ -87,6 +99,5 @@ define( function( require ) {
     step: function() {
       this.invalidatePaint();
     }
-
   } );
 } );

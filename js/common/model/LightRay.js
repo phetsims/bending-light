@@ -112,6 +112,8 @@ define( function( require ) {
         tailPoint2XY.x = this.toVector().magnitude() / Math.cos( this.getAngle() );
         tipPoint1XY.x = tailPoint2XY.x;
       }
+
+      // @public
       this.waveShape = new Shape()
         .moveToPoint( tailPoint1XY )
         .lineToPoint( tailPoint2XY )
@@ -119,13 +121,13 @@ define( function( require ) {
         .lineToPoint( tipPoint2XY )
         .close();
 
-      // Set up a region on a context to be used for clipping the light wave
-      this.waveShapeCommand = function( context, modelViewTransform ) {
-        context.moveTo( modelViewTransform.modelToViewX( tailPoint1XY.x ), modelViewTransform.modelToViewY( tailPoint1XY.y ) );
-        context.lineTo( modelViewTransform.modelToViewX( tailPoint2XY.x ), modelViewTransform.modelToViewY( tailPoint2XY.y ) );
-        context.lineTo( modelViewTransform.modelToViewX( tipPoint1XY.x ), modelViewTransform.modelToViewY( tipPoint1XY.y ) );
-        context.lineTo( modelViewTransform.modelToViewX( tipPoint2XY.x ), modelViewTransform.modelToViewY( tipPoint2XY.y ) );
-      };
+      // @public, for drawing the clipping shape
+      this.clipRegionCorners = [
+        new Vector2( tailPoint1XY.x, tailPoint1XY.y ),
+        new Vector2( tailPoint2XY.x, tailPoint2XY.y ),
+        new Vector2( tipPoint1XY.x, tipPoint1XY.y ),
+        new Vector2( tipPoint2XY.x, tipPoint2XY.y ),
+      ];
     }
   }
 
