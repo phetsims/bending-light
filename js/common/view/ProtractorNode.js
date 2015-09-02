@@ -254,6 +254,12 @@ define( function( require ) {
     protractorModel.enabledProperty.link( function( enabled ) {
       protractorNode.shape.setVisible( !enabled && containerBounds !== null );
     } );
+
+    // If the drag bounds changes, make sure the protractor didn't go out of bounds
+    dragBoundsProperty.link( function( dragBounds ) {
+      var modelBounds = modelViewTransform.viewToModelBounds( dragBounds );
+      protractorModel.position = modelBounds.getClosestPoint( protractorModel.position.x, protractorModel.position.y );
+    } );
   }
 
   return inherit( Node, ProtractorNode, {
