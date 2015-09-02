@@ -209,11 +209,13 @@ define( function( require ) {
     // initial tools
     this.protractorModel = new ProtractorModel( 0, 0 ); // @public
 
+    this.visibleBoundsProperty = new Property( this.layoutBounds );
+
     // if intro screen regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {
       this.protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.toolbox.bounds, this.layoutBounds );
+        this.toolbox.bounds, this.visibleBoundsProperty );
     }
     else {
       this.protractorNode = new ExpandableProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
@@ -368,6 +370,11 @@ define( function( require ) {
         introView.bendingLightModel.intensityMeter.sensorPosition = introView.modelViewTransform.viewToModelXY( protractorNodeX - 20 - 4, protractorNodeY + 60 - 5 );
       }
     } );
+
+    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+        introView.visibleBoundsProperty.value = new Bounds2( -dx, -dy, width - dx, height - dy );
+      }
+    );
   }
 
   return inherit( BendingLightView, IntroView, {

@@ -38,11 +38,11 @@ define( function( require ) {
    * @param {function} rotateShape - function that returns the part of the protractor that can be used for rotating it
    * @param {number} protractorIconWidth - width of protractor icon to show in toolbox node
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial position when it in container
-   * @param {Bounds2} dragBounds - bounds that define where the protractor may be dragged
+   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the protractor may be dragged
    * @constructor
    */
   function ProtractorNode( afterLightLayer, beforeLightLayer2, modelViewTransform, showProtractorProperty, protractorModel,
-                           translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {
+                           translateShape, rotateShape, protractorIconWidth, containerBounds, dragBoundsProperty ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
@@ -121,7 +121,7 @@ define( function( require ) {
         centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
 
         // location of final center point with constraining to bounds
-        var centerEndLocationInBounds = dragBounds.closestPointTo( centerEndLocation );
+        var centerEndLocationInBounds = dragBoundsProperty.value.closestPointTo( centerEndLocation );
         protractorNode.dragAllXY( centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
 
         // Store the position of drag point after translating. Can be obtained by adding distance between center
@@ -224,7 +224,7 @@ define( function( require ) {
         centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
 
         // location of final center point with constraining to bounds
-        var centerEndLocationInBounds = dragBounds.closestPointTo( centerEndLocation );
+        var centerEndLocationInBounds = dragBoundsProperty.value.closestPointTo( centerEndLocation );
         protractorNode.dragAllXY( centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
 
         // Store the position of drag point after translating. Can be obtained by adding distance between center
