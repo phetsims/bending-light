@@ -48,11 +48,11 @@ define( function( require ) {
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
    * @param {Rectangle} container - toolbox node bounds
-   * @param {Bounds2} dragBounds - bounds that define where the velocity sensor may be dragged
+   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the protractor may be dragged
    * @constructor
    */
   function VelocitySensorNode( beforeLightLayer2, afterLightLayer2, modelViewTransform, velocitySensor, arrowScale,
-                               container, dragBounds ) {
+                               container, dragBoundsProperty ) {
 
     var velocitySensorNode = this;
     Node.call( this, { cursor: 'pointer', pickable: true } );
@@ -151,15 +151,12 @@ define( function( require ) {
     } );
 
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
-    var velocityNodeDragBounds = dragBounds.shiftedY( (rectangleHeight + triangleWidth) / 2 );
 
     // Drag handler
-    this.addInputListener( new MovableDragHandler( velocitySensor.positionProperty, {
-      dragBounds: modelViewTransform.viewToModelBounds( velocityNodeDragBounds ),
+    var movableDragHandler = new MovableDragHandler( velocitySensor.positionProperty, {
+      dragBounds: modelViewTransform.viewToModelBounds( dragBoundsProperty.value ),
       modelViewTransform: modelViewTransform,
       startDrag: function() {
-        var x = velocitySensorNode.bodyNode.getCenterX();
-        var y = velocitySensorNode.bodyNode.getCenterY();
 
         // check for the presence of velocity node in tool box. if true then scale it with animation
         if ( !velocitySensor.enabled ) {
@@ -180,7 +177,11 @@ define( function( require ) {
           velocitySensor.enabled = false;
         }
       }
-    } ) );
+    } );
+    this.addInputListener( movableDragHandler );
+    dragBoundsProperty.link( function( dragBounds ) {
+      movableDragHandler.setDragBounds( modelViewTransform.viewToModelBounds( dragBounds.shiftedX( -velocitySensorNode.width / 2 ) ) );
+    } );
 
     // update the velocity node position
     velocitySensor.positionProperty.link( function( position ) {

@@ -36,7 +36,7 @@ define( function( require ) {
       moreToolsModel.velocitySensor,
       arrowScale,
       this.toolbox,
-      this.layoutBounds
+      this.visibleBoundsProperty
     );
 
     // @public
