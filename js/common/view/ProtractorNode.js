@@ -243,7 +243,7 @@ define( function( require ) {
             protractorNode.expandedButtonVisibility = false;
             protractorNode.expanded = false;
             protractorNode.addToSensorPanel();
-            protractorModel.enabledProperty.set( false );
+            protractorModel.enabled = false;
           }
         }
         else {
