@@ -53,20 +53,26 @@ define( function( require ) {
           var x = this.modelViewTransform.modelToViewX( particle.getX() );
           var y = this.modelViewTransform.modelToViewY( particle.getY() );
           var angle = particle.angle;
-          var point1X = x + (particleWidth * Math.sin( angle ) / 2);
-          var point1Y = y + (particleWidth * Math.cos( angle ) / 2);
-          var point2X = x - (particleWidth * Math.sin( angle ) / 2);
-          var point2Y = y - (particleWidth * Math.cos( angle ) / 2);
+          var sinAngle = Math.sin( angle );
+          var point1X = x + (particleWidth * sinAngle / 2);
+          var cosAngle = Math.cos( angle );
+          var point1Y = y + (particleWidth * cosAngle / 2);
+          var point2X = x - (particleWidth * sinAngle / 2);
+          var point2Y = y - (particleWidth * cosAngle / 2);
 
           // wave particle height
           var lineWidth = this.modelViewTransform.modelToViewDeltaX( particle.height );
+          var corner1Y = point1Y + lineWidth * sinAngle;
+          var corner2Y = point2Y + lineWidth * sinAngle;
+          var corner1X = point1X - lineWidth * cosAngle;
+          var corner2X = point2X - lineWidth * cosAngle;
           if ( this.canvasBounds.containsCoordinates( point1X, point1Y ) ||
                this.canvasBounds.containsCoordinates( point1X, point1Y ) ||
-               this.canvasBounds.containsCoordinates( point1X - lineWidth * Math.cos( angle ), point1Y + lineWidth * Math.sin( angle ) ) ||
-               this.canvasBounds.containsCoordinates( point2X - lineWidth * Math.cos( angle ), point2Y + lineWidth * Math.sin( angle ) ) ) {
+               this.canvasBounds.containsCoordinates( corner1X, corner1Y ) ||
+               this.canvasBounds.containsCoordinates( corner2X, corner2Y ) ) {
 
             // apply gradient to wave particle
-            var gradient = context.createLinearGradient( x, y, x - lineWidth * Math.cos( angle ), y + lineWidth * Math.sin( angle ) );
+            var gradient = context.createLinearGradient( x, y, x - lineWidth * cosAngle, y + lineWidth * sinAngle );
             gradient.addColorStop( 0, particle.color );
             gradient.addColorStop( 0.5, particle.particleGradientColor );
             gradient.addColorStop( 1, particle.color );
@@ -75,8 +81,8 @@ define( function( require ) {
             context.beginPath();
             context.moveTo( point2X, point2Y );
             context.lineTo( point1X, point1Y );
-            context.lineTo( point1X - lineWidth * Math.cos( angle ), point1Y + lineWidth * Math.sin( angle ) );
-            context.lineTo( point2X - lineWidth * Math.cos( angle ), point2Y + lineWidth * Math.sin( angle ) );
+            context.lineTo( corner1X, corner1Y );
+            context.lineTo( corner2X, corner2Y );
             context.closePath();
             context.fillStyle = gradient;
             context.fill();
