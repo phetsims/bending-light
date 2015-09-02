@@ -382,10 +382,15 @@ define( function( require ) {
 
   return inherit( BendingLightView, IntroView, {
     moveIntensityMeterToToolbox: function() {
-      var protractorNodeX = this.toolbox.centerX;
-      var protractorNodeY = this.toolbox.y + 40 + (this.hasMoreTools ? 0 : 8);
-      this.bendingLightModel.intensityMeter.bodyPosition = this.modelViewTransform.viewToModelXY( protractorNodeX + 20 - 2, protractorNodeY + 60 + 5 );
-      this.bendingLightModel.intensityMeter.sensorPosition = this.modelViewTransform.viewToModelXY( protractorNodeX - 20 - 4, protractorNodeY + 60 - 5 );
+      var protractorPosition = this.getProtractorNodeToolboxPosition();
+      this.bendingLightModel.intensityMeter.bodyPosition = this.modelViewTransform.viewToModelXY(
+        protractorPosition.x + 20 - 2,
+        protractorPosition.y + 60 + 5
+      );
+      this.bendingLightModel.intensityMeter.sensorPosition = this.modelViewTransform.viewToModelXY(
+        protractorPosition.x - 20 - 4,
+        protractorPosition.y + 60 - 5
+      );
     },
     moveProtractorToToolbox: function() {
       var position = this.getProtractorNodeToolboxPosition();

@@ -36,7 +36,8 @@ define( function( require ) {
       moreToolsModel.velocitySensor,
       arrowScale,
       this.toolbox,
-      this.visibleBoundsProperty
+      this.visibleBoundsProperty,
+      this.getVelocitySensorToolboxModelLocation.bind( this )
     );
 
     // @public
@@ -48,7 +49,7 @@ define( function( require ) {
       this.toolbox,
       this.layoutBounds
     );
-    
+
     this.velocitySensorNode.addToSensorPanel();
     this.waveSensorNode.addToSensorPanel();
 
@@ -59,10 +60,26 @@ define( function( require ) {
         moreToolsView.stepButton.visible = isButtonsVisible;
         moreToolsView.speedControl.visible = isButtonsVisible;
       } );
+
+    this.events.on( 'layoutFinished', function() {
+
+      if ( !moreToolsView.velocitySensorNode.velocitySensor.enabled ) {
+        moreToolsView.moveVelocitySensorToToolbox();
+      }
+    } );
   }
 
   return inherit( IntroView, MoreToolsView, {
+    getVelocitySensorToolboxModelLocation: function() {
 
+      // Cannot rely on the width, height of the nodes for layout since they scale up and down,
+      // Se we use magic numbers here instead.  If the initial size of the objects in the toolbox changes, these values
+      // will have to be updated as well.
+      return this.modelViewTransform.viewToModelPosition( this.getProtractorNodeToolboxPosition().plusXY( -45, 65 ) );
+    },
+    moveVelocitySensorToToolbox: function() {
+      this.velocitySensorNode.velocitySensor.position = this.getVelocitySensorToolboxModelLocation();
+    },
     /**
      * Update chart node and wave.
      * @protected

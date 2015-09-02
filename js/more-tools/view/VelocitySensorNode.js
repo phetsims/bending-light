@@ -49,16 +49,18 @@ define( function( require ) {
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
    * @param {Rectangle} container - toolbox node bounds
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the protractor may be dragged
+   * @param {function} getToolboxModelLocation - returns a Vector2 that shows where the items should appear in the movable
+   *                                           - toolbox
    * @constructor
    */
   function VelocitySensorNode( beforeLightLayer2, afterLightLayer2, modelViewTransform, velocitySensor, arrowScale,
-                               container, dragBoundsProperty ) {
+                               container, dragBoundsProperty, getToolboxModelLocation ) {
 
     var velocitySensorNode = this;
     Node.call( this, { cursor: 'pointer', pickable: true } );
 
     this.modelViewTransform = modelViewTransform; // @public
-    this.velocitySensor = velocitySensor; // @private
+    this.velocitySensor = velocitySensor; // @public
     this.beforeLightLayer2 = beforeLightLayer2; // @private
     this.afterLightLayer2 = afterLightLayer2; // @private
 
@@ -171,7 +173,7 @@ define( function( require ) {
 
         // place back into tool box
         if ( container.bounds.containsCoordinates( x, y ) ) {
-          velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, SCALE_INSIDE_TOOLBOX );
+          velocitySensorNode.setScaleAnimation( getToolboxModelLocation(), SCALE_INSIDE_TOOLBOX );
           velocitySensor.reset();
           velocitySensorNode.addToSensorPanel();
           velocitySensor.enabled = false;
