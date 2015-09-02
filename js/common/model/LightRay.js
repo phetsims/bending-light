@@ -118,6 +118,14 @@ define( function( require ) {
         .lineToPoint( tipPoint1XY )
         .lineToPoint( tipPoint2XY )
         .close();
+
+      // Set up a region on a context to be used for clipping the light wave
+      this.waveShapeCommand = function( context, modelViewTransform ) {
+        context.moveTo( modelViewTransform.modelToViewX( tailPoint1XY.x ), modelViewTransform.modelToViewY( tailPoint1XY.y ) );
+        context.lineTo( modelViewTransform.modelToViewX( tailPoint2XY.x ), modelViewTransform.modelToViewY( tailPoint2XY.y ) );
+        context.lineTo( modelViewTransform.modelToViewX( tipPoint1XY.x ), modelViewTransform.modelToViewY( tipPoint1XY.y ) );
+        context.lineTo( modelViewTransform.modelToViewX( tipPoint2XY.x ), modelViewTransform.modelToViewY( tipPoint2XY.y ) );
+      };
     }
   }
 

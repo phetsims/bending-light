@@ -36,8 +36,16 @@ define( function( require ) {
       var context = wrapper.context;
 
       var model = this.introView.bendingLightModel;
+
+      // Render the incident ray last so that it will overlap the reflected ray completely
+      var order = [ 2, 1, 0 ];
       for ( var k = 0; k < model.rays.length; k++ ) {
-        var ray = model.rays.get( k );
+        var ray = model.rays.get( order[ k ] );
+        context.save();
+
+        context.beginPath();
+        ray.waveShapeCommand( context, this.modelViewTransform );
+        context.clip();
 
         for ( var i = 0; i < ray.particles.length; i++ ) {
           var particle = ray.particles.get( i );
@@ -71,6 +79,7 @@ define( function( require ) {
             context.fill();
           }
         }
+        context.restore();
       }
     },
 
