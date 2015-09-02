@@ -53,7 +53,7 @@ define( function( require ) {
    * @constructor
    */
   function PrismToolboxNode( modelViewTransform, prismsModel, prismLayer, layoutBounds, occlusionHandler, options ) {
-    var prismToolBoxNode = this;
+    var prismToolboxNode = this;
 
     Node.call( this );
     var content = new HBox( {
@@ -103,44 +103,30 @@ define( function( require ) {
         prismIcon.visible = count < 5;
       };
       prismsModel.prisms.addListeners( listener, listener );
-      var start;
-      var prismShape;
       var prismIconBounds = prismIcon.bounds;
       prismIcon.scale( 55 / prismIcon.height );
       var shape = new Path( Shape.rectangle( prismIconBounds.minX, prismIconBounds.minY, prismIconBounds.getWidth(), prismIconBounds.getHeight() ), {
         pickable: true,
         cursor: 'pointer'
       } );
+
       shape.addInputListener( new SimpleDragHandler( {
 
           start: function( event ) {
-            start = prismToolBoxNode.globalToParentPoint( event.pointer.point );
-            prismShape = prism.copy();
+            var start = prismToolboxNode.globalToParentPoint( event.pointer.point );
+            var prismShape = prism.copy();
             prismsModel.addPrism( prismShape );
-            prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolBoxNode, prismLayer,
+            prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
               layoutBounds, occlusionHandler );
+            prismNode.dragStart = start;
             prismLayer.addChild( prismNode );
             prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
           },
           drag: function( event ) {
-            var end = prismToolBoxNode.globalToParentPoint( ( event.pointer.point ) );
-            end = layoutBounds.closestPointTo( end );
-            var dx = modelViewTransform.viewToModelDeltaX( end.x - start.x );
-            var dy = modelViewTransform.viewToModelDeltaY( end.y - start.y );
-            prismShape.translate( dx, dy );
-            start = end;
+            prismNode.handleDrag( event );
           },
           end: function() {
-            if ( prismToolBoxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
-              prismsModel.removePrism( prismShape );
-              prismShape.shapeProperty.unlink( prismNode.updatePrismShape );
-              prismsModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
-              prismLayer.removeChild( prismNode );
-              prismsModel.dirty = true;
-            }
-            else {
-              occlusionHandler( prismNode );
-            }
+            prismNode.handleEnd();
           }
         }
       ) );

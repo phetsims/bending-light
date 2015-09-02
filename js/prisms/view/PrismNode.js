@@ -80,46 +80,54 @@ define( function( require ) {
     this.addChild( prismPathNode );
     // re usable vector for prism center to avoid vector allocation
     var centerEndLocation = new Vector2();
-    var start;
+    var selfNode = prismNode;
+    this.dragStart = null;
+    this.handleDrag = function( event ) {
+      // TODO: the prism gets away from the cursor, see #188
+      var end = selfNode.globalToParentPoint( event.pointer.point );
+      var modelDX = modelViewTransform.viewToModelDeltaX( end.x - prismNode.dragStart.x );
+      var modelDY = modelViewTransform.viewToModelDeltaY( end.y - prismNode.dragStart.y );
+      var startLocation = prism.shape.getRotationCenter();
+      // location of final rotation center with out constraining to bounds
+      centerEndLocation.setXY( startLocation.x + modelDX, startLocation.y + modelDY );
+
+      // location of final rotation center with constraining to bounds
+      var centerEndLocationInBounds = prismDragBoundsInModelValues.closestPointTo( centerEndLocation );
+      prism.translate( centerEndLocationInBounds.x - startLocation.x, centerEndLocationInBounds.y - startLocation.y );
+
+      // Store the position of caught point after translating. Can be obtained by adding distance between rotation
+      // center and drag point (end - centerEndLocation) to rotation center (centerEndLocationInBounds) after
+      // translating.
+      end.x = end.x + modelViewTransform.modelToViewDeltaX( centerEndLocationInBounds.x - centerEndLocation.x );
+      end.y = end.y + modelViewTransform.modelToViewDeltaY( centerEndLocationInBounds.y - centerEndLocation.y );
+      prismNode.dragStart = end;
+
+    };
+
+    this.handleEnd = function() {
+      if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
+        if ( prismLayer.isChild( prismNode ) ) {
+          prismsModel.removePrism( prism );
+          prism.shapeProperty.unlink( prismNode.updatePrismShape );
+          prismsModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
+          prismLayer.removeChild( prismNode );
+        }
+        prismsModel.dirty = true;
+      }
+      else {
+        occlusionHandler( prismNode );
+      }
+    };
     prismPathNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
+        prismNode.dragStart = prismNode.globalToParentPoint( event.pointer.point );
         prismNode.moveToFront();
-        start = prismNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
-
-        // TODO: the prism gets away from the cursor, see #188
-        var end = prismNode.globalToParentPoint( event.pointer.point );
-        var modelDX = modelViewTransform.viewToModelDeltaX( end.x - start.x );
-        var modelDY = modelViewTransform.viewToModelDeltaY( end.y - start.y );
-        var startLocation = prism.shape.getRotationCenter();
-        // location of final rotation center with out constraining to bounds
-        centerEndLocation.setXY( startLocation.x + modelDX, startLocation.y + modelDY );
-
-        // location of final rotation center with constraining to bounds
-        var centerEndLocationInBounds = prismDragBoundsInModelValues.closestPointTo( centerEndLocation );
-        prism.translate( centerEndLocationInBounds.x - startLocation.x, centerEndLocationInBounds.y - startLocation.y );
-
-        // Store the position of caught point after translating. Can be obtained by adding distance between rotation
-        // center and drag point (end - centerEndLocation) to rotation center (centerEndLocationInBounds) after
-        // translating.
-        end.x = end.x + modelViewTransform.modelToViewDeltaX( centerEndLocationInBounds.x - centerEndLocation.x );
-        end.y = end.y + modelViewTransform.modelToViewDeltaY( centerEndLocationInBounds.y - centerEndLocation.y );
-        start = end;
+        prismNode.handleDrag( event );
       },
       end: function() {
-        if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
-          if ( prismLayer.isChild( prismNode ) ) {
-            prismsModel.removePrism( prism );
-            prism.shapeProperty.unlink( prismNode.updatePrismShape );
-            prismsModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
-            prismLayer.removeChild( prismNode );
-          }
-          prismsModel.dirty = true;
-        }
-        else {
-          occlusionHandler( prismNode );
-        }
+        prismNode.handleEnd()
       }
     } ) );
 
