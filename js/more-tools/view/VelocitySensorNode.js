@@ -70,13 +70,15 @@ define( function( require ) {
     var triangleWidth = 16;
 
     // Adding triangle shape
-    var triangleShapeNode = new Path( new Shape().
-      moveTo( 0, 0 ).
-      lineTo( triangleWidth, -triangleHeight / 2 ).
-      lineTo( triangleWidth, +triangleHeight / 2 ).close(), {
-      fill: '#CF8702',
-      stroke: '#844702'
-    } );
+    var triangleShapeNode = new Path( new Shape()
+        .moveTo( 0, 0 )
+        .lineTo( triangleWidth, -triangleHeight / 2 )
+        .lineTo( triangleWidth, +triangleHeight / 2 )
+        .close(),
+      {
+        fill: '#CF8702',
+        stroke: '#844702'
+      } );
     this.bodyNode.addChild( triangleShapeNode );
 
     // Adding outer rectangle
@@ -160,10 +162,10 @@ define( function( require ) {
         var y = velocitySensorNode.bodyNode.getCenterY();
 
         // check for the presence of velocity node in tool box. if true then scale it with animation
-        if ( container.bounds.containsCoordinates( x, y ) ) {
+        if ( !velocitySensor.enabled ) {
           velocitySensorNode.setScaleAnimation( velocitySensor.position, SCALE_OUTSIDE_TOOLBOX );
           velocitySensorNode.addToMoreToolsView();
-          velocitySensor.enabledProperty.set( true );
+          velocitySensor.enabled = true;
         }
       },
       endDrag: function() {
@@ -175,7 +177,7 @@ define( function( require ) {
           velocitySensorNode.setScaleAnimation( velocitySensor.positionProperty.initialValue, SCALE_INSIDE_TOOLBOX );
           velocitySensor.reset();
           velocitySensorNode.addToSensorPanel();
-          velocitySensor.enabledProperty.set( false );
+          velocitySensor.enabled = false;
         }
       }
     } ) );
