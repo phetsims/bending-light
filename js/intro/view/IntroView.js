@@ -222,7 +222,7 @@ define( function( require ) {
     else {
       this.protractorNode = new ExpandableProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.toolbox.bounds, this.layoutBounds );
+        this.toolbox.bounds, this.visibleBoundsProperty, this.getProtractorNodeToolboxPosition.bind( this ) );
     }
     this.protractorNode.addToSensorPanel();
 
@@ -233,7 +233,7 @@ define( function( require ) {
       this.modelViewTransform,
       introModel.intensityMeter,
       this.toolbox.visibleBounds,
-      this.layoutBounds
+      this.visibleBoundsProperty
     );
     this.intensityMeterNode.addToSensorPanel();
 

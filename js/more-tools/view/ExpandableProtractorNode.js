@@ -26,14 +26,18 @@ define( function( require ) {
    * @param {number} protractorIconWidth - width of protractor icon to show in toolbox node
    * @param {Bounds2} containerBounds - bounds of container for all tools, needed to snap protractor to initial
    * position when it in container
-   * @param {Bounds2} dragBounds - bounds that define where the protractor may be dragged
+   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the protractor may be dragged
+   * @param {function} getProtractorNodeToolboxPosition - Function that gets the view coordinates where the protractor
+   *                                                    - should appear in the toolbox.  Necessary because the toolbox
+   *                                                    - can move because it floats to the side
    * @constructor
    */
   function ExpandableProtractorNode( afterLightLayer, beforeLightLayer2, modelViewTransform, showProtractorProperty,
-                                     protractorModel, translateShape, rotateShape, protractorIconWidth, containerBounds, dragBounds ) {
+                                     protractorModel, translateShape, rotateShape, protractorIconWidth, containerBounds,
+                                     dragBoundsProperty, getProtractorNodeToolboxPosition ) {
 
     ProtractorNode.call( this, afterLightLayer, beforeLightLayer2, modelViewTransform, showProtractorProperty, protractorModel, translateShape,
-      rotateShape, protractorIconWidth, containerBounds, dragBounds );
+      rotateShape, protractorIconWidth, containerBounds, dragBoundsProperty, getProtractorNodeToolboxPosition );
     var expandableProtractorNode = this;
 
     // Add expandable /collapse button
