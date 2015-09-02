@@ -3,6 +3,7 @@
 /**
  * A Wave particle layer rendered on canvas
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
@@ -13,23 +14,15 @@ define( function( require ) {
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
 
   /**
-   * @param {ObservableArray<WaveParticle>} waveParticles - model of wave particles contains position, color etc
+   * @param {ObservableArray.<LightRay>} lightRays - the light rays from the model
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
-  function WaveCanvasNode( introView, modelViewTransform, options ) {
-    this.introView = introView;
+  function WaveCanvasNode( lightRays, modelViewTransform, options ) {
+    this.lightRays = lightRays;
     this.modelViewTransform = modelViewTransform; // @public
     CanvasNode.call( this, options );
-    this.invalidatePaint();
-
-    this.scratchCanvas = document.createElement( 'canvas' );
-    this.scratchCanvas.width = 100;
-    this.scratchCanvas.hegiht = 100;
-    var context = this.scratchCanvas.getContext( '2d' );
-    context.fillStyle = 'blue';
-    context.fillRect( 0, 0, 100, 30 );
   }
 
   return inherit( CanvasNode, WaveCanvasNode, {
@@ -42,94 +35,48 @@ define( function( require ) {
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
 
-      var model = this.introView.bendingLightModel;
-
       // Render the incident ray last so that it will overlap the reflected ray completely
-      var order = [ 2, 1, 0 ];
-      for ( var k = 0; k < model.rays.length; k++ ) {
-        var ray = model.rays.get( order[ k ] );
+      for ( var k = this.lightRays.length; k >= 0; k-- ) {
+        var ray = this.lightRays.get( k );
+
+        // Each ray has its own clipping and rotation, so store the untransformed state before manipulation
         context.save();
 
+        // Each ray has its own shape, which is used as a clipping region.
         context.beginPath();
         ray.waveShapeCommand( context, this.modelViewTransform );
         context.clip();
 
-        if ( ray.particles.length >= 2 ) {
-          var firstParticle = ray.particles.get( 0 );
-          var lastParticle = ray.particles.get( ray.particles.length - 1 );
-          //context.beginPath();
-          //context.moveTo(
-          //  this.modelViewTransform.modelToViewX( firstParticle.getX() ),
-          //  this.modelViewTransform.modelToViewY( firstParticle.getY() )
-          //);
-          //context.lineTo(
-          //  this.modelViewTransform.modelToViewX( lastParticle.getX() ),
-          //  this.modelViewTransform.modelToViewY( lastParticle.getY() )
-          //);
-          //context.strokeStyle = firstParticle.particleGradientColor;
-          //var width = this.modelViewTransform.modelToViewDeltaX( firstParticle.width );
-          //context.lineWidth = width;
-          //context.stroke();
+        if ( ray.particles.length > 0 ) {
+          var particle = ray.particles.get( 0 );
 
-          //context.save();
+          // Set the origin at the beginning of the particle
           context.translate(
-            this.modelViewTransform.modelToViewX( firstParticle.getX() ),
-            this.modelViewTransform.modelToViewY( firstParticle.getY() )
+            this.modelViewTransform.modelToViewX( particle.getX() ),
+            this.modelViewTransform.modelToViewY( particle.getY() )
           );
-          context.rotate( -firstParticle.angle );
 
-          context.fillStyle = firstParticle.particleGradientColor;
+          // Rotate to align with the beam, note that model space is inverted from view space so the angle is reversed
+          context.rotate( -particle.angle );
+
+          // Distance between wave crests
+          var wavelength = this.modelViewTransform.modelToViewDeltaX( particle.height );
+
+          // Fill the background with the dark color, in the entire clip area
+          context.fillStyle = particle.particleGradientColor;
           context.fillRect( -1000, -1000, 2000, 2000 );
 
-          context.fillStyle = firstParticle.color;
-          for ( var i = 0; i < 50; i++ ) {
-            context.fillRect( 20 * i, -100, 10, 200 );
+          // Set up the color for the wave crests
+          context.fillStyle = particle.color;
+
+          // Render each crest, but we don't need as many wavelengths for the incoming light
+          var maxIndex = (k === 0 ? 50 : 150);
+          for ( var i = -1; i < maxIndex; i++ ) {
+            context.fillRect( wavelength * i, -100, wavelength / 2, 200 );
           }
         }
 
-        //for ( var i = 0; i < ray.particles.length; i++ ) {
-        //  var particle = ray.particles.get( i );
-        //  var particleWidth = this.modelViewTransform.modelToViewDeltaX( particle.width );
-        //  var x = this.modelViewTransform.modelToViewX( particle.getX() );
-        //  var y = this.modelViewTransform.modelToViewY( particle.getY() );
-        //  var angle = particle.angle;
-        //  var sinAngle = Math.sin( angle );
-        //  var point1X = x + (particleWidth * sinAngle / 2);
-        //  var cosAngle = Math.cos( angle );
-        //  var point1Y = y + (particleWidth * cosAngle / 2);
-        //  var point2X = x - (particleWidth * sinAngle / 2);
-        //  var point2Y = y - (particleWidth * cosAngle / 2);
-        //
-        //  // wave particle height
-        //  var lineWidth = this.modelViewTransform.modelToViewDeltaX( particle.height );
-        //  var corner1Y = point1Y + lineWidth * sinAngle;
-        //  var corner2Y = point2Y + lineWidth * sinAngle;
-        //  var corner1X = point1X - lineWidth * cosAngle;
-        //  var corner2X = point2X - lineWidth * cosAngle;
-        //  if ( this.canvasBounds.containsCoordinates( point1X, point1Y ) ||
-        //       this.canvasBounds.containsCoordinates( point1X, point1Y ) ||
-        //       this.canvasBounds.containsCoordinates( corner1X, corner1Y ) ||
-        //       this.canvasBounds.containsCoordinates( corner2X, corner2Y ) ) {
-        //
-        //    // apply gradient to wave particle
-        //    //var gradient = context.createLinearGradient( x, y, x - lineWidth * cosAngle, y + lineWidth * sinAngle );
-        //    //gradient.addColorStop( 0, particle.color );
-        //    //gradient.addColorStop( 0.5, particle.particleGradientColor );
-        //    //gradient.addColorStop( 1, particle.color );
-        //
-        //    // draw wave particle
-        //    context.fillStyle = particle.color;
-        //    context.fillRect( point2X, point2Y, 10, 10 );
-        //    //context.beginPath();
-        //    //context.moveTo( point2X, point2Y );
-        //    //context.lineTo( point1X, point1Y );
-        //    //context.lineTo( corner1X, corner1Y );
-        //    //context.lineTo( corner2X, corner2Y );
-        //    //context.closePath();
-        //    //context.fillStyle = gradient;
-        //    //context.fill();
-        //  }
-        //}
+        // Undo the clipping and transformations above to get ready for the next ray
         context.restore();
       }
     },

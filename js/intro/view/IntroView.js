@@ -431,7 +431,7 @@ define( function( require ) {
         bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
       }
       else {
-        var waveCanvasNode = new WaveCanvasNode( this, bendingLightView.modelViewTransform, { canvasBounds: new Bounds2( 0, 0, 1000, 1000 ) } );
+        var waveCanvasNode = new WaveCanvasNode( this.bendingLightModel.rays, bendingLightView.modelViewTransform, { canvasBounds: new Bounds2( 0, 0, 1000, 1000 ) } );
         bendingLightView.incidentWaveLayer.addChild( waveCanvasNode );
         this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
             waveCanvasNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
