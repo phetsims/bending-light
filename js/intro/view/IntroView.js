@@ -36,7 +36,6 @@ define( function( require ) {
   var ExpandableProtractorNode = require( 'BENDING_LIGHT/more-tools/view/ExpandableProtractorNode' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
 
