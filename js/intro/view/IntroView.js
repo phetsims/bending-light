@@ -232,7 +232,9 @@ define( function( require ) {
       this.beforeLightLayer2,
       this.modelViewTransform,
       introModel.intensityMeter,
-      function() {return introView.toolbox.visibleBounds;},
+      function() {
+        return introView.toolbox.visibleBounds;
+      },
       this.visibleBoundsProperty
     );
     this.intensityMeterNode.addToSensorPanel();

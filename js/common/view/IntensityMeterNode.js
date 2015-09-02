@@ -278,9 +278,10 @@ define( function( require ) {
 
       // position the body node according to the scale
       var sensorPosition = this.intensityMeter.sensorPosition;
-      this.intensityMeter.bodyPositionProperty.set(
-        new Vector2( sensorPosition.x + (this.intensityMeter.bodyPosition.x - sensorPosition.x ) * scale / prevScale,
-          sensorPosition.y + (this.intensityMeter.bodyPosition.y - sensorPosition.y ) * scale / prevScale ) );
+      this.intensityMeter.bodyPosition = new Vector2(
+        sensorPosition.x + (this.intensityMeter.bodyPosition.x - sensorPosition.x ) * scale / prevScale,
+        sensorPosition.y + (this.intensityMeter.bodyPosition.y - sensorPosition.y ) * scale / prevScale
+      );
       this.intensityMeter.translateAllXY( endPositionX - sensorPosition.x, endPositionY - sensorPosition.y );
     },
 
