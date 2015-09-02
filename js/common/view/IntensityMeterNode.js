@@ -50,7 +50,7 @@ define( function( require ) {
     var modelViewTransform = intensityMeterNode.modelViewTransform;
     var centerEndLocation = new Vector2();
 
-    SimpleDragHandler.call( this, {
+    var options = {
 
       start: function( event ) {
         start = draggableNode.globalToParentPoint( event.pointer.point );
@@ -94,7 +94,19 @@ define( function( require ) {
           intensityMeter.enabledProperty.set( false );
         }
       }
-    } );
+    };
+    SimpleDragHandler.call( this, options );
+
+    // adapters so the same drag functions can be used when dragging out of the toolbox
+    this.start = function( event ) {
+      options.start( event );
+    };
+    this.drag = function( event ) {
+      options.drag( event );
+    };
+    this.end = function() {
+      options.end();
+    };
   }
 
   // Inherit from base class.
@@ -128,8 +140,9 @@ define( function( require ) {
     } );
 
     // sensor node drag handler
-    this.sensorNode.addInputListener( new DragHandler( this, dragBoundsProperty, containerBounds,
-      this.sensorNode, intensityMeter.sensorPositionProperty, this.dragSensorXY ) );
+    var sensorNodeDragHandler = new DragHandler( this, dragBoundsProperty, containerBounds,
+      this.sensorNode, intensityMeter.sensorPositionProperty, this.dragSensorXY );
+    this.sensorNode.addInputListener( sensorNodeDragHandler );
 
     // add body node
     var rectangleWidth = 150;
@@ -195,8 +208,9 @@ define( function( require ) {
     } );
 
     // body drag handler
-    this.bodyNode.addInputListener( new DragHandler( this, dragBoundsProperty, containerBounds,
-      this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY ) );
+    var bodyDragHandler = new DragHandler( this, dragBoundsProperty, containerBounds,
+      this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY );
+    this.bodyNode.addInputListener( bodyDragHandler );
 
     // scale sensorNode and bodyNode and translating
     this.bodyNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
@@ -224,11 +238,10 @@ define( function( require ) {
     } );
     this.addChild( this.shape );
 
-    var start;
-    var position;
     this.shape.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-        start = intensityMeterNode.globalToParentPoint( event.pointer.point );
+
+        var start = intensityMeterNode.globalToParentPoint( event.pointer.point );
         var sensorStartPositionX = modelViewTransform.viewToModelX( start.x );
         var sensorStartPositionY = modelViewTransform.viewToModelY( start.y );
 
@@ -241,39 +254,17 @@ define( function( require ) {
         // remove it from sensor panel and add it to play area
         intensityMeterNode.addToBendingLightView();
         intensityMeter.enabledProperty.set( true );
+
+        sensorNodeDragHandler.start( event );
+        bodyDragHandler.start( event );
       },
       drag: function( event ) {
-        var end = intensityMeterNode.globalToParentPoint( event.pointer.point );
-        var sensorPosition = intensityMeter.sensorPosition;
-        intensityMeterNode.dragAllXY( end.x - start.x, end.y - start.y );
-        // check that it doesn't cross the layout bounds
-        position = dragBoundsProperty.value.closestPointTo( sensorPosition );
-        intensityMeter.translateAllXY( position.x - sensorPosition.x, position.y - sensorPosition.y );
-        position = dragBoundsProperty.value.closestPointTo( intensityMeter.bodyPosition );
-        intensityMeter.translateAllXY(
-          position.x - intensityMeter.bodyPosition.x, position.y - intensityMeter.bodyPosition.y );
-        start = end;
+        sensorNodeDragHandler.drag( event );
+        bodyDragHandler.drag( event );
       },
       end: function() {
-
-        // check intersection only with the outer rectangle.
-        if ( containerBounds.containsCoordinates(
-            intensityMeterNode.sensorNode.getCenterX(), intensityMeterNode.sensorNode.getCenterY() ) ||
-             containerBounds.containsCoordinates(
-               intensityMeterNode.sensorNode.getCenterX(), intensityMeterNode.sensorNode.getCenterY() ) ) {
-          var sensorNodeInitialPosition = intensityMeter.sensorPositionProperty.initialValue;
-
-          // Place back the intensity meter again into toolbox with the animation.
-          intensityMeterNode.setIntensityMeterScaleAnimation(
-            sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-          intensityMeterNode.setIntensityMeterScale(
-            sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-          intensityMeter.reset();
-
-          // remove it from play area and add it to the sensor panel
-          intensityMeterNode.addToSensorPanel();
-          intensityMeter.enabledProperty.set( false );
-        }
+        sensorNodeDragHandler.end();
+        bodyDragHandler.end();
       }
     } ) );
     intensityMeter.enabledProperty.link( function( enable ) {
