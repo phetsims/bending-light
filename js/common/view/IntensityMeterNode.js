@@ -37,7 +37,7 @@ define( function( require ) {
    * Drag handler for the body node and sensor node
    * @param {IntensityMeterNode} intensityMeterNode - intensity meter node
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the intensity meter may be dragged
-   * @param {Bounds2} containerBounds - bounds of container for intensity meter
+   * @param {function} getContainerBounds - bounds of container for intensity meter
    * @param {Node} draggableNode - node that has to be dragged
    * @param {Property.<Vector2>} modelPositionProperty - position of draggableNode in model coordinates
    * @param {function} dragSelfFunction - function for translating the draggableNode
@@ -45,7 +45,7 @@ define( function( require ) {
    *                                    - out of the toolbox
    * @constructor
    */
-  function DragHandler( intensityMeterNode, dragBoundsProperty, containerBounds, draggableNode,
+  function DragHandler( intensityMeterNode, dragBoundsProperty, getContainerBounds, draggableNode,
                         modelPositionProperty, dragSelfFunction, dragBothFunction ) {
     var start;
     var intensityMeter = intensityMeterNode.intensityMeter;
@@ -101,8 +101,7 @@ define( function( require ) {
       end: function() {
 
         // check intersection only with the outer rectangle.
-        if ( containerBounds.containsCoordinates(
-            draggableNode.getCenterX(), draggableNode.getCenterY() ) ) {
+        if ( getContainerBounds().containsCoordinates( draggableNode.getCenterX(), draggableNode.getCenterY() ) ) {
           var sensorNodeInitialPosition = intensityMeter.sensorPositionProperty.initialValue;
 
           // Place back the intensity meter again into toolbox with the animation.
@@ -143,11 +142,12 @@ define( function( require ) {
    * @param {Node} beforeLightLayer2 - layer in which intensity meter is present when in toolbox
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
-   * @param {Bounds2} containerBounds - bounds of container for intensity meter
+   * @param {function} getContainerBounds - bounds of container for intensity meter.  The panel floats around so
+   *                                      - this must be a function.
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the intensity meter may be dragged
    * @constructor
    */
-  function IntensityMeterNode( beforeLightLayer, beforeLightLayer2, modelViewTransform, intensityMeter, containerBounds, dragBoundsProperty ) {
+  function IntensityMeterNode( beforeLightLayer, beforeLightLayer2, modelViewTransform, intensityMeter, getContainerBounds, dragBoundsProperty ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
@@ -166,7 +166,7 @@ define( function( require ) {
     } );
 
     // sensor node drag handler
-    var sensorNodeDragHandler = new DragHandler( this, dragBoundsProperty, containerBounds,
+    var sensorNodeDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
       this.sensorNode, intensityMeter.sensorPositionProperty, this.dragSensorXY, this.dragBothXY.bind( this ) );
     this.sensorNode.addInputListener( sensorNodeDragHandler );
 
@@ -234,7 +234,7 @@ define( function( require ) {
     } );
 
     // body drag handler
-    var bodyDragHandler = new DragHandler( this, dragBoundsProperty, containerBounds,
+    var bodyDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
       this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY, this.dragBothXY.bind( this ) );
     this.bodyNode.addInputListener( bodyDragHandler );
 
