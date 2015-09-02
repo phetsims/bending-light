@@ -390,11 +390,8 @@ define( function( require ) {
      */
     updateWaveShape: function() {
 
-      for ( var k = 0; k < this.waveCanvasLayer.getChildrenCount(); k++ ) {
-        this.waveCanvasLayer.children[ k ].step();
-      }
       if ( this.introModel.laserView === 'wave' ) {
-        for ( k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
+        for ( var k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
           this.incidentWaveLayer.children[ k ].step();
         }
       }
@@ -418,8 +415,6 @@ define( function( require ) {
       var bendingLightModel = this.bendingLightModel;
       var bendingLightView = this;
 
-      this.waveCanvasLayer = new Node(); // @public
-      this.addChild( this.waveCanvasLayer );
       this.addChild( this.incidentWaveLayer );
 
       // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
