@@ -59,7 +59,7 @@ define( function( require ) {
             );
           }
           context.clip();
-          
+
           var particle = ray.particles.get( 0 );
 
           // Set the origin at the beginning of the particle
@@ -82,6 +82,7 @@ define( function( require ) {
           context.fillStyle = particle.color;
 
           // Render each crest, but we don't need as many wavelengths for the incoming light
+          // The extreme case is violet light with a shallow angle and a tall screen.
           var maxIndex = (k === 0 ? 50 : 150);
           for ( var i = -1; i < maxIndex; i++ ) {
             context.fillRect( wavelength * i, -100, wavelength / 2, 200 );
