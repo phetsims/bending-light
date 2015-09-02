@@ -114,9 +114,9 @@ define( function( require ) {
 
         // compute the change in position based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
-
         var startPositionX = modelViewTransform.modelToViewX( protractorModel.position.x );
         var startPositionY = modelViewTransform.modelToViewY( protractorModel.position.y );
+
         // location of final center point with out constraining to bounds
         centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
 
@@ -132,10 +132,11 @@ define( function( require ) {
       },
       end: function() {
         if ( containerBounds ) {
+
           // place back protractor into tool box with animation
           if ( containerBounds.containsCoordinates( protractorNode.getCenterX(), protractorNode.getCenterY() ) ) {
-            var point2D = protractorNode.modelViewTransform.modelToViewPosition(
-              protractorModel.positionProperty.initialValue );
+            var point2D = protractorNode.modelViewTransform.modelToViewPosition( protractorModel.positionProperty.initialValue );
+
             // Place back into tool box with animation
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
             protractorNode.expandedButtonVisibility = false;
@@ -216,9 +217,9 @@ define( function( require ) {
 
         // compute the change in angle based on the new drag event
         var end = protractorNode.globalToParentPoint( event.pointer.point );
-
         var startPositionX = modelViewTransform.modelToViewX( protractorModel.position.x );
         var startPositionY = modelViewTransform.modelToViewY( protractorModel.position.y );
+
         // location of final center point with out constraining to bounds
         centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
 
