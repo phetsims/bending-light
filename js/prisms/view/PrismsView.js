@@ -25,6 +25,7 @@ define( function( require ) {
   var WhiteLightWebGLNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightWebGLNode' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Property = require( 'AXON/Property' );
 
   // constants
   var INSET = 10;
@@ -168,10 +169,14 @@ define( function( require ) {
       return innerBar;
     };
 
+    this.visibleBoundsProperty = new Property( this.layoutBounds );
+
     // Add the protractor node
     var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismsModel.showProtractorProperty,
       prismsModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
-      this.layoutBounds );
+      this.visibleBoundsProperty, function() {
+        return new Vector2( 0, 0 )
+      } );
     this.addChild( protractorNode );
 
     // Add prisms tool box Node
@@ -199,6 +204,11 @@ define( function( require ) {
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
+      }
+    );
+
+    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+        prismsView.visibleBoundsProperty.value = new Bounds2( -dx, -dy, width - dx, height - dy );
       }
     );
   }
