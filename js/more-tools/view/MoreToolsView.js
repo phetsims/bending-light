@@ -47,7 +47,7 @@ define( function( require ) {
       this.modelViewTransform,
       moreToolsModel.waveSensor,
       this.toolbox,
-      this.layoutBounds
+      this.visibleBoundsProperty
     );
 
     this.velocitySensorNode.addToSensorPanel();

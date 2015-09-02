@@ -49,18 +49,16 @@ define( function( require ) {
    * @param {string} probeImageName - name of the probe image
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Rectangle} container - toolbox node bounds
-   * @param {Bounds2} dragBounds - bounds that define where the probe may be dragged
+   * @param {Bounds2} dragBoundsProperty - bounds that define where the probe may be dragged
    * @constructor
    */
-  function ProbeNode( waveSensorNode, probe, probeImageName, modelViewTransform, container, dragBounds ) {
+  function ProbeNode( waveSensorNode, probe, probeImageName, modelViewTransform, container, dragBoundsProperty ) {
 
     var probeNode = this;
     Node.call( this, { cursor: 'pointer' } );
 
     // Add the probe
     this.addChild( new Image( probeImageName, { scale: 0.8 } ) );
-
-    var probeDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co-ordinates
 
     // Interaction: Translates when dragged, but keep it bounded within the play area
     var start;
@@ -70,6 +68,9 @@ define( function( require ) {
         start = waveSensorNode.globalToParentPoint( event.pointer.point );
       },
       drag: function( event ) {
+
+        var probeDragBounds = modelViewTransform.viewToModelBounds( dragBoundsProperty.value ); // in model co-ordinates
+
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
 
         var modelX = modelViewTransform.viewToModelDeltaX( end.x - start.x );
@@ -118,10 +119,10 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor
    * @param {Rectangle} container - toolbox node bounds
-   * @param {Bounds2} dragBounds - bounds that define where the waves sensor may be dragged
+   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the protractor may be dragged
    * @constructor
    */
-  function WaveSensorNode( afterLightLayer2, beforeLightLayer2, modelViewTransform, waveSensor, container, dragBounds ) {
+  function WaveSensorNode( afterLightLayer2, beforeLightLayer2, modelViewTransform, waveSensor, container, dragBoundsProperty ) {
 
     var waveSensorNode = this;
     Node.call( this, { cursor: 'pointer' } );
@@ -132,7 +133,6 @@ define( function( require ) {
 
     this.modelViewTransform = modelViewTransform; // @public
     this.waveSensor = waveSensor; // @public
-    var waveSensorDragBounds = modelViewTransform.viewToModelBounds( dragBounds ); // in model co-ordinates
     this.afterLightLayer2 = afterLightLayer2; // @private
     this.beforeLightLayer2 = beforeLightLayer2; // @private
 
@@ -210,7 +210,7 @@ define( function( require ) {
         centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
 
         // location of final center point with constraining to bounds
-        var centerEndLocationInBounds = dragBounds.closestPointTo( centerEndLocation );
+        var centerEndLocationInBounds = dragBoundsProperty.value.closestPointTo( centerEndLocation );
         waveSensorNode.dragBodyXY( centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
 
         // Store the position of drag point after translating. Can be obtained by adding distance between center
@@ -237,9 +237,9 @@ define( function( require ) {
 
     // Create the probes
     this.probe1Node = new ProbeNode( this, waveSensor.probe1, darkProbeImage, modelViewTransform, container,
-      dragBounds ); // @public
+      dragBoundsProperty ); // @public
     this.probe2Node = new ProbeNode( this, waveSensor.probe2, lightProbeImage, modelViewTransform, container,
-      dragBounds ); // @public
+      dragBoundsProperty ); // @public
 
     this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
 
@@ -271,6 +271,8 @@ define( function( require ) {
         waveSensorNode.addMoreToolsView();
       },
       drag: function( event ) {
+
+        var waveSensorDragBounds = modelViewTransform.viewToModelBounds( dragBoundsProperty.value ); // in model co-ordinates
         var end = waveSensorNode.globalToParentPoint( event.pointer.point );
         waveSensorNode.dragAllXY( end.x - start.x, end.y - start.y );
 
