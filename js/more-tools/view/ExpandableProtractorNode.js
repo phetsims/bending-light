@@ -42,8 +42,8 @@ define( function( require ) {
 
     // Add expandable /collapse button
     var expandCollapseButton = new ExpandCollapseButton( this.expandedProperty, {
-      x: expandableProtractorNode.getCenterX() + this.protractorImageNode.getWidth() / 1.6,
-      y: expandableProtractorNode.getCenterY() + this.protractorImageNode.getHeight() / 5
+      x: this.protractorImageNode.getWidth() * 0.7,
+      y: this.protractorImageNode.getHeight() * 0.57
     } );
     this.addChild( expandCollapseButton );
     expandCollapseButton.touchArea = expandCollapseButton.localBounds.dilatedXY( 30, 30 );
