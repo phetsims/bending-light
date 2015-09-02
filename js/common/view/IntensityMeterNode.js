@@ -43,10 +43,12 @@ define( function( require ) {
    * @param {function} dragSelfFunction - function for translating the draggableNode
    * @param {function} dragBothFunction - function for translating both the body and sensor together, used when dragged
    *                                    - out of the toolbox
+   * @param {function} moveIntensityMeterToToolbox - function that puts the intensity meter in the correct place in the
+   *                                               - toolbox (which can move when the screen aspect ratio changes)
    * @constructor
    */
   function DragHandler( intensityMeterNode, dragBoundsProperty, getContainerBounds, draggableNode,
-                        modelPositionProperty, dragSelfFunction, dragBothFunction ) {
+                        modelPositionProperty, dragSelfFunction, dragBothFunction, moveIntensityMeterToToolbox ) {
     var start;
     var intensityMeter = intensityMeterNode.intensityMeter;
     var modelViewTransform = intensityMeterNode.modelViewTransform;
@@ -102,20 +104,17 @@ define( function( require ) {
 
         // check intersection only with the outer rectangle.
         if ( getContainerBounds().containsCoordinates( draggableNode.getCenterX(), draggableNode.getCenterY() ) ) {
-          var sensorNodeInitialPosition = intensityMeter.sensorPositionProperty.initialValue;
 
-          // Place back the intensity meter again into toolbox with the animation.
-          intensityMeterNode.setIntensityMeterScaleAnimation(
-            sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX
-          );
-          intensityMeterNode.setIntensityMeterScale(
-            sensorNodeInitialPosition.x, sensorNodeInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX
-          );
           intensityMeter.reset();
+
+          intensityMeterNode.setIntensityMeterScale(
+            0, 0, INTENSITY_METER_SCALE_INSIDE_TOOLBOX
+          );
+
+          moveIntensityMeterToToolbox();
 
           // remove intensity meter from play area and add it to the sensor panel
           intensityMeterNode.addToSensorPanel();
-          intensityMeter.enabledProperty.set( false );
         }
         travelingTogether = false;
       }
@@ -145,9 +144,12 @@ define( function( require ) {
    * @param {function} getContainerBounds - bounds of container for intensity meter.  The panel floats around so
    *                                      - this must be a function.
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the intensity meter may be dragged
+   * @param {function} moveIntensityMeterToToolbox - function that puts the intensity meter in the correct place in the
+   *                                               - toolbox (which can move when the screen aspect ratio changes)
    * @constructor
    */
-  function IntensityMeterNode( beforeLightLayer, beforeLightLayer2, modelViewTransform, intensityMeter, getContainerBounds, dragBoundsProperty ) {
+  function IntensityMeterNode( beforeLightLayer, beforeLightLayer2, modelViewTransform, intensityMeter, getContainerBounds,
+                               dragBoundsProperty, moveIntensityMeterToToolbox ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
@@ -167,7 +169,9 @@ define( function( require ) {
 
     // sensor node drag handler
     var sensorNodeDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
-      this.sensorNode, intensityMeter.sensorPositionProperty, this.dragSensorXY, this.dragBothXY.bind( this ) );
+      this.sensorNode, intensityMeter.sensorPositionProperty, this.dragSensorXY, this.dragBothXY.bind( this ),
+      moveIntensityMeterToToolbox
+    );
     this.sensorNode.addInputListener( sensorNodeDragHandler );
 
     // add body node
@@ -235,7 +239,8 @@ define( function( require ) {
 
     // body drag handler
     var bodyDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
-      this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY, this.dragBothXY.bind( this ) );
+      this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY, this.dragBothXY.bind( this ),
+      moveIntensityMeterToToolbox );
     this.bodyNode.addInputListener( bodyDragHandler );
 
     // scale sensorNode and bodyNode and translating

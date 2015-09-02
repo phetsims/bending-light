@@ -235,7 +235,8 @@ define( function( require ) {
       function() {
         return introView.toolbox.visibleBounds;
       },
-      this.visibleBoundsProperty
+      this.visibleBoundsProperty,
+      this.moveIntensityMeterToToolbox.bind( this )
     );
     this.intensityMeterNode.addToSensorPanel();
 
@@ -369,10 +370,7 @@ define( function( require ) {
 
       // Position the intensity meter below where the protractor *would* be (if it too were in the control panel)
       if ( !introView.bendingLightModel.intensityMeter.enabled ) {
-        var protractorNodeX = introView.toolbox.centerX;
-        var protractorNodeY = introView.toolbox.y + 40 + (hasMoreTools ? 0 : 8);
-        introView.bendingLightModel.intensityMeter.bodyPosition = introView.modelViewTransform.viewToModelXY( protractorNodeX + 20 - 2, protractorNodeY + 60 + 5 );
-        introView.bendingLightModel.intensityMeter.sensorPosition = introView.modelViewTransform.viewToModelXY( protractorNodeX - 20 - 4, protractorNodeY + 60 - 5 );
+        introView.moveIntensityMeterToToolbox();
       }
     } );
 
@@ -383,7 +381,12 @@ define( function( require ) {
   }
 
   return inherit( BendingLightView, IntroView, {
-
+    moveIntensityMeterToToolbox: function() {
+      var protractorNodeX = this.toolbox.centerX;
+      var protractorNodeY = this.toolbox.y + 40 + (this.hasMoreTools ? 0 : 8);
+      this.bendingLightModel.intensityMeter.bodyPosition = this.modelViewTransform.viewToModelXY( protractorNodeX + 20 - 2, protractorNodeY + 60 + 5 );
+      this.bendingLightModel.intensityMeter.sensorPosition = this.modelViewTransform.viewToModelXY( protractorNodeX - 20 - 4, protractorNodeY + 60 - 5 );
+    },
     moveProtractorToToolbox: function() {
       var position = this.getProtractorNodeToolboxPosition();
       this.protractorModel.position = this.modelViewTransform.viewToModelXY( position.x, position.y );
