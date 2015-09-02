@@ -58,9 +58,12 @@ define( function( require ) {
           var point2X = x - (particleWidth * Math.sin( angle ) / 2);
           var point2Y = y - (particleWidth * Math.cos( angle ) / 2);
 
-          if ( this.canvasBounds.containsCoordinates( point1X, point1Y ) || this.canvasBounds.containsCoordinates( point1X, point1Y ) ) {
-            // wave particle height
-            var lineWidth = this.modelViewTransform.modelToViewDeltaX( particle.height );
+          // wave particle height
+          var lineWidth = this.modelViewTransform.modelToViewDeltaX( particle.height );
+          if ( this.canvasBounds.containsCoordinates( point1X, point1Y ) ||
+               this.canvasBounds.containsCoordinates( point1X, point1Y ) ||
+               this.canvasBounds.containsCoordinates( point1X - lineWidth * Math.cos( angle ), point1Y + lineWidth * Math.sin( angle ) ) ||
+               this.canvasBounds.containsCoordinates( point2X - lineWidth * Math.cos( angle ), point2Y + lineWidth * Math.sin( angle ) ) ) {
 
             // apply gradient to wave particle
             var gradient = context.createLinearGradient( x, y, x - lineWidth * Math.cos( angle ), y + lineWidth * Math.sin( angle ) );
