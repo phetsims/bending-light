@@ -47,7 +47,8 @@ define( function( require ) {
       this.modelViewTransform,
       moreToolsModel.waveSensor,
       this.toolbox,
-      this.visibleBoundsProperty
+      this.visibleBoundsProperty,
+      this.getWaveSensorToolboxPosition.bind( this )
     );
 
     this.velocitySensorNode.addToSensorPanel();
@@ -85,7 +86,10 @@ define( function( require ) {
       this.velocitySensorNode.velocitySensor.position = this.getVelocitySensorToolboxModelLocation();
     },
     moveWaveSensorToToolbox: function() {
-      this.waveSensorNode.waveSensor.bodyPosition = this.getVelocitySensorToolboxModelLocation();
+      this.waveSensorNode.waveSensor.bodyPosition = this.getWaveSensorToolboxPosition();
+    },
+    getWaveSensorToolboxPosition: function() {
+      return this.modelViewTransform.viewToModelPosition( this.modelViewTransform.modelToViewPosition( this.getVelocitySensorToolboxModelLocation() ).plusXY( 0, 100 ) );
     },
     /**
      * Update chart node and wave.
