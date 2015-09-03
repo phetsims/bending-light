@@ -38,8 +38,8 @@ define( function( require ) {
   var lightProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_light.png' );
 
   // constants
-  var waveSensorNodeScaleInSideContainer = 0.33;
-  var waveSensorNodeScaleOutSideContainer = 1;
+  var TOOLBOX_SCALE = 0.33;
+  var PLAY_AREA_SCALE = 1;
 
   /**
    * View for rendering a probe that can be used to sense wave values
@@ -238,7 +238,7 @@ define( function( require ) {
     this.probe2Node = new ProbeNode( this, waveSensor.probe2, lightProbeImage, modelViewTransform, container,
       dragBoundsProperty ); // @public
 
-    this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
+    this.setWaveSensorScale( TOOLBOX_SCALE );
 
     // Rendering order, including wires
     this.addChild( new WireNode( waveSensor.probe1.positionProperty, waveSensor.bodyPositionProperty,
@@ -257,14 +257,14 @@ define( function( require ) {
       this.setWaveSensorNodeScaleAnimation(
         this.modelViewTransform.viewToModelX( start.x ),
         this.modelViewTransform.viewToModelY( start.y ),
-        waveSensorNodeScaleOutSideContainer
+        PLAY_AREA_SCALE
       );
       this.waveSensor.enabled = true;
       this.addMoreToolsView();
     },
     animateToToolbox: function() {
       var position = this.getWaveSensorToolboxPosition();
-      this.setWaveSensorNodeScaleAnimation( position.x, position.y, waveSensorNodeScaleInSideContainer );
+      this.setWaveSensorNodeScaleAnimation( position.x, position.y, TOOLBOX_SCALE );
       this.reset();
       this.waveSensor.enabled = false;
       this.addToSensorPanel();
@@ -414,7 +414,7 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.setWaveSensorScale( waveSensorNodeScaleInSideContainer );
+      this.setWaveSensorScale( TOOLBOX_SCALE );
       this.chartNode.gridLines.clear();
       if ( this.afterLightLayer2.isChild( this ) ) {
         this.addToSensorPanel();

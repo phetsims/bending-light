@@ -86,12 +86,15 @@ define( function( require ) {
       this.velocitySensorNode.velocitySensor.position = this.getVelocitySensorToolboxModelLocation();
     },
     moveWaveSensorToToolbox: function() {
+
+      // TODO: This is buggy
       this.waveSensorNode.waveSensor.bodyPosition = this.getWaveSensorToolboxPosition();
       this.waveSensorNode.reset();
+      this.waveSensorNode.waveSensor.bodyPosition = this.getWaveSensorToolboxPosition();
     },
     getWaveSensorToolboxPosition: function() {
-      var modelPosition = this.modelViewTransform.modelToViewPosition( this.getVelocitySensorToolboxModelLocation() );
-      return this.modelViewTransform.viewToModelPosition( modelPosition.plusXY( 20, 50 ) );
+      var velocitySensorViewPosition = this.modelViewTransform.modelToViewPosition( this.getVelocitySensorToolboxModelLocation() );
+      return this.modelViewTransform.viewToModelPosition( velocitySensorViewPosition.plusXY( 20, 50 ) );
     },
     /**
      * Update chart node and wave.

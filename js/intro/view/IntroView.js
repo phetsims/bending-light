@@ -383,13 +383,16 @@ define( function( require ) {
   return inherit( BendingLightView, IntroView, {
     moveIntensityMeterToToolbox: function() {
       var protractorPosition = this.getProtractorNodeToolboxPosition();
+
+      // The intensity meter appears lower in the toolbox on the more tools screen.
+      var offsetY = this.hasMoreTools ? 120 : 0;
       this.bendingLightModel.intensityMeter.bodyPosition = this.modelViewTransform.viewToModelXY(
         protractorPosition.x + 20 - 2,
-        protractorPosition.y + 60 + 5
+        protractorPosition.y + 60 + 5 + offsetY
       );
       this.bendingLightModel.intensityMeter.sensorPosition = this.modelViewTransform.viewToModelXY(
         protractorPosition.x - 20 - 4,
-        protractorPosition.y + 60 - 5
+        protractorPosition.y + 60 - 5 + offsetY
       );
     },
     moveProtractorToToolbox: function() {
