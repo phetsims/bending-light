@@ -190,8 +190,8 @@ define( function( require ) {
         bottom: this.layoutBounds.bottom - INSET
       }
     );
-    this.beforeLightLayer.addChild( prismToolboxNode );
-    this.beforeLightLayer.addChild( this.prismLayer );
+    this.afterLightLayer.addChild( prismToolboxNode );
+    this.afterLightLayer.addChild( this.prismLayer );
 
     // Move the laser node to front of all other nodes of prism screen.
     prismsModel.laser.emissionPointProperty.link( function() {
@@ -250,7 +250,7 @@ define( function( require ) {
       this.whiteLightNode = new WhiteLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
 
       // Since the light canvas is opaque, it must be placed behind the control panels.
-      this.beforeLightLayer2.addChild( this.whiteLightNode );
+      this.addChild( this.whiteLightNode );
 
       // switch between light render for white vs nonwhite light
       bendingLightModel.laser.colorModeProperty.link( function( color ) {
