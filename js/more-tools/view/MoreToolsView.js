@@ -53,7 +53,7 @@ define( function( require ) {
     this.velocitySensorNode.addToSensorPanel();
     this.waveSensorNode.addToSensorPanel();
 
-    Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.visibleProperty ],
+    Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       function( laserView, isWaveSensorEnabled ) {
         var isButtonsVisible = isWaveSensorEnabled || laserView === 'wave';
         moreToolsView.playPauseButton.visible = isButtonsVisible;
@@ -65,6 +65,10 @@ define( function( require ) {
 
       if ( !moreToolsView.velocitySensorNode.velocitySensor.enabled ) {
         moreToolsView.moveVelocitySensorToToolbox();
+      }
+
+      if ( !moreToolsView.waveSensorNode.enabled ) {
+        moreToolsView.moveWaveSensorToToolbox();
       }
     } );
   }
@@ -79,6 +83,9 @@ define( function( require ) {
     },
     moveVelocitySensorToToolbox: function() {
       this.velocitySensorNode.velocitySensor.position = this.getVelocitySensorToolboxModelLocation();
+    },
+    moveWaveSensorToToolbox: function() {
+      this.waveSensorNode.waveSensor.bodyPosition = this.getVelocitySensorToolboxModelLocation();
     },
     /**
      * Update chart node and wave.

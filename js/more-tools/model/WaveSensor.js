@@ -69,7 +69,7 @@ define( function( require ) {
 
     // @public
     // in the play area
-    Property.addProperty( this, 'visible', false );
+    Property.addProperty( this, 'enabled', false );
 
     // Function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;
@@ -135,7 +135,7 @@ define( function( require ) {
      */
     reset: function() {
       this.bodyPositionProperty.reset();
-      this.visibleProperty.reset();
+      this.enabledProperty.reset();
       this.probe1.reset();
       this.probe2.reset();
     }

@@ -93,11 +93,12 @@ define( function( require ) {
         // Check intersection only with the outer rectangle.
         if ( container.bounds.containsPoint( probeNode.center ) ) {
           var probeInitialPosition = waveSensorNode.waveSensor.probe1.positionProperty.initialValue;
+          
           // Place back into toolbox with animation.
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
-          waveSensorNode.waveSensor.visibleProperty.set( false );
+          waveSensorNode.waveSensor.enabledProperty.set( false );
           waveSensorNode.addToSensorPanel();
         }
       }
@@ -229,7 +230,7 @@ define( function( require ) {
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
-          waveSensor.visibleProperty.set( false );
+          waveSensor.enabledProperty.set( false );
           waveSensorNode.addToSensorPanel();
         }
       }
@@ -267,7 +268,7 @@ define( function( require ) {
         // animate to full size
         waveSensorNode.setWaveSensorNodeScaleAnimation( modelViewTransform.viewToModelX( start.x ),
           modelViewTransform.viewToModelY( start.y ), waveSensorNodeScaleOutSideContainer );
-        waveSensor.visibleProperty.set( true );
+        waveSensor.enabledProperty.set( true );
         waveSensorNode.addMoreToolsView();
       },
       drag: function( event ) {
@@ -299,12 +300,12 @@ define( function( require ) {
           waveSensorNode.setWaveSensorNodeScaleAnimation(
             probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
           waveSensorNode.reset();
-          waveSensor.visibleProperty.set( false );
+          waveSensor.enabledProperty.set( false );
           waveSensorNode.addToSensorPanel();
         }
       }
     } ) );
-    waveSensor.visibleProperty.link( function( visible ) {
+    waveSensor.enabledProperty.link( function( visible ) {
       waveSensorNode.shape.setVisible( !visible );
     } );
   }
