@@ -87,9 +87,11 @@ define( function( require ) {
     },
     moveWaveSensorToToolbox: function() {
       this.waveSensorNode.waveSensor.bodyPosition = this.getWaveSensorToolboxPosition();
+      this.waveSensorNode.reset();
     },
     getWaveSensorToolboxPosition: function() {
-      return this.modelViewTransform.viewToModelPosition( this.modelViewTransform.modelToViewPosition( this.getVelocitySensorToolboxModelLocation() ).plusXY( 0, 100 ) );
+      var modelPosition = this.modelViewTransform.modelToViewPosition( this.getVelocitySensorToolboxModelLocation() );
+      return this.modelViewTransform.viewToModelPosition( modelPosition.plusXY( 20, 50 ) );
     },
     /**
      * Update chart node and wave.
