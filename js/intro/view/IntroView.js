@@ -28,6 +28,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -43,6 +44,7 @@ define( function( require ) {
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
   var normalString = require( 'string!BENDING_LIGHT/normal' );
+  var anglesString = require( 'string!BENDING_LIGHT/angles' );
   var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
   var rayString = require( 'string!BENDING_LIGHT/ray' );
   var waveString = require( 'string!BENDING_LIGHT/wave' );
@@ -246,28 +248,45 @@ define( function( require ) {
     if ( normalText.width > normalTextMaxWidth ) {
       normalText.scale( normalTextMaxWidth / normalText.width );
     }
-    var normalCheckBox = new CheckBox( normalText, introModel.showNormalProperty, {
+
+    var angleText = new Text( anglesString, { fontSize: 12 } );
+    var angleTextMaxWidth = 50;
+    if ( angleText.width > angleTextMaxWidth ) {
+      angleText.scale( angleTextMaxWidth / angleText.width );
+    }
+
+    // add normal
+    var normalIcon = new NormalLine( 24, [ 4, 3 ] );
+    var normalCheckBox = new CheckBox( new HBox( {
+      children: [
+        normalText, normalIcon
+      ], spacing: 12
+    } ), introModel.showNormalProperty, {
       boxWidth: 20,
       spacing: 5
     } );
 
-    // Cover the icon with the touch area
-    normalCheckBox.touchArea = new Bounds2(
-      normalCheckBox.localBounds.minX, normalCheckBox.localBounds.minY - 3,
-      normalCheckBox.localBounds.maxX + 10, normalCheckBox.localBounds.maxY + 23
-    );
-
-    // add normal
-    var normalIcon = new NormalLine( 34, [ 4, 3 ], {
-      x: this.toolbox.x + this.toolbox.width / 2,
-      y: this.toolbox.y + sensorPanelHeight - 41
+    var angleIcon = new Rectangle( 0, 0, 10, 10, { fill: 'red' } );
+    var angleCheckBox = new CheckBox( new HBox( {
+      children: [
+        angleText, angleIcon
+      ], spacing: 12
+    } ), introModel.showAnglesProperty, {
+      boxWidth: 20,
+      spacing: 5
     } );
 
-    this.toolbox.addChild( new VBox( {
-      children: [ normalCheckBox, normalIcon ],
+    var checkBoxPanel = new VBox( {
+      children: [
+        normalCheckBox,
+        angleCheckBox
+      ],
+      spacing: 10,
+      align: 'left',
       bottom: this.toolbox.height - 5,
       centerX: this.toolbox.width / 2
-    } ) );
+    } );
+    this.toolbox.addChild( checkBoxPanel );
 
     // add reset all button
     var resetAllButton = new ResetAllButton( {

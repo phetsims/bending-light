@@ -101,7 +101,8 @@ define( function( require ) {
         isPlaying: true, // @public
         speed: 'normal', // @public
         indexOfRefraction: 1, // @public
-        showNormal: true // @public
+        showNormal: true, // @public
+        showAngles: false // @public
       }
     );
 
