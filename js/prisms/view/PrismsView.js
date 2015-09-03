@@ -22,10 +22,10 @@ define( function( require ) {
   var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
-  var WhiteLightWebGLNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightWebGLNode' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   var INSET = 10;
@@ -175,7 +175,7 @@ define( function( require ) {
     var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismsModel.showProtractorProperty,
       prismsModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
       this.visibleBoundsProperty, function() {
-        return new Vector2( 0, 0 )
+        return new Vector2( 0, 0 );
       } );
     this.addChild( protractorNode );
 

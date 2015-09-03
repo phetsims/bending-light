@@ -26,8 +26,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var ChartNode = require( 'BENDING_LIGHT/more-tools/view/ChartNode' );
   var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
 
   // strings
@@ -196,7 +194,6 @@ define( function( require ) {
 
     // Add interaction, the body is draggable, but keep it constrained to stay in the play area
     var start;
-    var position;
     var centerEndLocation = new Vector2();
     this.bodyNode.addInputListener( new SimpleDragHandler( {
       start: function( event ) {

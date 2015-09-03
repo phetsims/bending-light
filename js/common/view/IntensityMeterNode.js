@@ -20,8 +20,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var Vector2 = require( 'DOT/Vector2' );
   var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
   var LightSensorNode = require( 'SCENERY_PHET/LightSensorNode' );
