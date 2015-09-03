@@ -19,6 +19,7 @@ define( function( require ) {
   var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
   var LaserControlPanel = require( 'BENDING_LIGHT/common/view/LaserControlPanel' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
+  var AngleNode = require( 'BENDING_LIGHT/intro/view/AngleNode' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
@@ -164,6 +165,8 @@ define( function( require ) {
       y: this.modelViewTransform.modelToViewY( 0 ) - normalLineHeight / 2
     } );
     this.afterLightLayer2.addChild( normalLine );
+
+    this.afterLightLayer2.addChild( new AngleNode( this.introModel.showAnglesProperty, this.introModel.rays ) );
 
     introModel.showNormalProperty.linkAttribute( normalLine, 'visible' );
 
