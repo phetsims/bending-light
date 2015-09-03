@@ -248,6 +248,7 @@ define( function( require ) {
 
       var bendingLightModel = this.bendingLightModel;
       this.whiteLightNode = new WhiteLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
+      this.whiteLightNode.setExcludeInvisible( true );
 
       // Since the light canvas is opaque, it must be placed behind the control panels.
       this.addChild( this.whiteLightNode );
