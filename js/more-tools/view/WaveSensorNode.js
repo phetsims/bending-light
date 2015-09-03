@@ -92,14 +92,7 @@ define( function( require ) {
 
         // Check intersection only with the outer rectangle.
         if ( container.bounds.containsPoint( probeNode.center ) ) {
-          var probeInitialPosition = waveSensorNode.waveSensor.probe1.positionProperty.initialValue;
-          
-          // Place back into toolbox with animation.
-          waveSensorNode.setWaveSensorNodeScaleAnimation(
-            probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
-          waveSensorNode.reset();
-          waveSensorNode.waveSensor.enabledProperty.set( false );
-          waveSensorNode.addToSensorPanel();
+          waveSensorNode.animateToToolbox();
         }
       }
     } ) );
@@ -295,13 +288,9 @@ define( function( require ) {
         if ( container.bounds.containsCoordinates( waveSensorNode.bodyNode.getCenterX(), waveSensorNode.bodyNode.getCenterY() ) ||
              container.bounds.containsCoordinates( waveSensorNode.probe1Node.getCenterX(), waveSensorNode.probe1Node.getCenterY() ) ||
              container.bounds.containsCoordinates( waveSensorNode.probe2Node.getCenterX(), waveSensorNode.probe2Node.getCenterY() ) ) {
-          var probeInitialPosition = waveSensor.probe1.positionProperty.initialValue;
+
           // Place back into toolbox with animation.
-          waveSensorNode.setWaveSensorNodeScaleAnimation(
-            probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
-          waveSensorNode.reset();
-          waveSensor.enabledProperty.set( false );
-          waveSensorNode.addToSensorPanel();
+          waveSensorNode.animateToToolbox();
         }
       }
     } ) );
@@ -311,6 +300,14 @@ define( function( require ) {
   }
 
   return inherit( Node, WaveSensorNode, {
+    animateToToolbox: function() {
+      var probeInitialPosition = this.waveSensor.probe1.positionProperty.initialValue;
+      this.setWaveSensorNodeScaleAnimation(
+        probeInitialPosition.x, probeInitialPosition.y, waveSensorNodeScaleInSideContainer );
+      this.reset();
+      this.waveSensor.enabledProperty.set( false );
+      this.addToSensorPanel();
+    },
 
     /**
      * Resize the WaveSensorNode
