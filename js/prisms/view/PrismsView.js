@@ -250,7 +250,9 @@ define( function( require ) {
       this.whiteLightNode = bendingLightModel.allowWebGL ?
                             new WhiteLightWebGLNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays ) :
                             new WhiteLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
-      this.addChild( this.whiteLightNode );
+
+      // Since the light canvas is opaque, it must be placed behind the control panels.
+      this.beforeLightLayer2.addChild( this.whiteLightNode );
 
       // switch between light render for white vs nonwhite light
       bendingLightModel.laser.colorModeProperty.link( function( color ) {
