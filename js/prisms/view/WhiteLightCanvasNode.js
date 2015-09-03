@@ -66,8 +66,6 @@ define( function( require ) {
       // "Screen", basically adds colors together, making them lighter
       context.globalCompositeOperation = 'lighter';
 
-      var sum = new Vector3();
-
       for ( var i = 0; i < this.whiteLightRays.length; i++ ) {
         var lightRay = this.whiteLightRays.get( i ); // {LightRay}
 
@@ -91,8 +89,6 @@ define( function( require ) {
         if ( a > 1E-5 ) {
           var c = VisibleColor.wavelengthToColor( wavelength );
           // var color = BendingLightConstants.XYZ_INTENSITIES[ wavelength ]
-
-          sum.add( new Vector3( c.r * a, c.g * a, c.b * a ) );
 
           var strokeStyle = 'rgb(' + Math.round( c.r * a / 0.9829313170995397 ) + ',' + Math.round( c.g * a ) + ',' + Math.round( c.b * a / 0.7144456644926587 ) + ')';
           context.strokeStyle = strokeStyle;
