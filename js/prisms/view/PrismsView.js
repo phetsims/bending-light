@@ -247,9 +247,7 @@ define( function( require ) {
       var bendingLightView = this;
 
       var bendingLightModel = this.bendingLightModel;
-      this.whiteLightNode = bendingLightModel.allowWebGL ?
-                            new WhiteLightWebGLNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays ) :
-                            new WhiteLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
+      this.whiteLightNode = new WhiteLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
 
       // Since the light canvas is opaque, it must be placed behind the control panels.
       this.beforeLightLayer2.addChild( this.whiteLightNode );
