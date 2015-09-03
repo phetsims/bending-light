@@ -27,9 +27,9 @@ define( function( require ) {
     var angle = Math.PI * 3 / 4 - Math.PI / 2;
 
     // a "V" shape with the right edge perfectly vertical and the left edge at an angle
-    var shape = new Shape().moveTo( 0, 0 )
-      .lineTo( 0, edgeLength )
-      .lineTo( -edgeLength * Math.sin( angle ), -edgeLength * Math.cos( angle ) + edgeLength );
+    var shape = new Shape().moveTo( edgeLength, 0 )
+      .lineTo( 0, 0 )
+      .lineTo( edgeLength * Math.cos( angle ), -edgeLength * Math.sin( angle ) );
     this.addChild( new Path( shape, {
       stroke: 'black',
       lineWidth: 1
@@ -37,7 +37,7 @@ define( function( require ) {
 
     // arc: function( centerX, centerY, radius, startAngle, endAngle, anticlockwise
     var overlapAngle = Math.PI / 12;
-    var arc = new Shape().arc( 0, edgeLength, edgeLength * 0.55, 0 - Math.PI / 2 + overlapAngle, -angle - Math.PI / 2 - overlapAngle, true );
+    var arc = new Shape().arc( 0, 0, edgeLength * 0.55, overlapAngle, -angle - overlapAngle, true );
     this.addChild( new Path( arc, {
       stroke: 'black',
       lineWidth: 1
