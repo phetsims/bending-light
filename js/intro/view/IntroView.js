@@ -40,6 +40,7 @@ define( function( require ) {
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
   var Vector2 = require( 'DOT/Vector2' );
+  var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -266,7 +267,7 @@ define( function( require ) {
       spacing: 5
     } );
 
-    var angleIcon = new Rectangle( 0, 0, 10, 10, { fill: 'red' } );
+    var angleIcon = new AngleIcon();
     var angleCheckBox = new CheckBox( new HBox( {
       children: [
         angleText, angleIcon
