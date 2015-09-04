@@ -191,13 +191,6 @@ define( function( require ) {
     this.afterLightLayer.addChild( prismToolboxNode );
     this.afterLightLayer.addChild( this.prismLayer );
 
-    // Move the laser node to front of all other nodes of prism screen.
-    prismsModel.laser.emissionPointProperty.link( function() {
-      for ( var i = 0; i < prismsView.laserLayerArray.length; i++ ) {
-        prismsView.laserLayerArray[ i ].moveToFront();
-      }
-    } );
-
     FloatingLayout.floatRight( this, [ environmentMediumControlPanel, laserControlPanel, resetAllButton ] );
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
