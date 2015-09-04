@@ -31,10 +31,11 @@ define( function( require ) {
     this.stageHeight = stageHeight; // @private
     this.stageWidth = stageWidth; // @private
 
-    this.rays = rays;
+    this.rays = rays; // @private
     this.invalidatePaint();
 
-    this.strokeWidth = this.modelViewTransform.modelToViewDeltaX( LightRay.RAY_WIDTH );
+    this.strokeWidth = this.modelViewTransform.modelToViewDeltaX( LightRay.RAY_WIDTH ); // @private
+    this.renderedRays = 0;// @private
   }
 
   return inherit( WebGLNode, SingleColorLightWebGLNode, {
@@ -89,6 +90,9 @@ define( function( require ) {
     updateBuffers: function( drawable ) {
       var gl = drawable.gl;
 
+      // Keep track of how many rays are rendered so we know how many triangles to request to be drawn
+      this.renderedRays = 0;
+
       var points = [];
       var colors = [];
       for ( var i = 0; i < this.rays.length; i++ ) {
@@ -128,6 +132,8 @@ define( function( require ) {
             ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
             ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction )
           );
+
+          this.renderedRays++;
         }
       }
 
@@ -156,7 +162,7 @@ define( function( require ) {
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 4, gl.FLOAT, false, 0, 0 );
 
       // 2 triangles per ray
-      gl.drawArrays( gl.TRIANGLES, 0, this.rays.length * 3 * 2 );
+      gl.drawArrays( gl.TRIANGLES, 0, this.renderedRays * 3 * 2 );
 
       shaderProgram.unuse();
     },
