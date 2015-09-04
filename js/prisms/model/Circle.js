@@ -21,8 +21,9 @@ define( function( require ) {
    */
   function Circle( center, radius ) {
 
-    this.center = center; // @public, read only.
-    this.radius = radius; // @public, read only.
+    this.center = center; // @public read-only
+    this.centroid = center; // @public read-only
+    this.radius = radius; // @public read-only
 
     // @public, Creates a shape
     this.shape = Shape.circle( this.center.x, this.center.y, this.radius );

@@ -31,7 +31,7 @@ define( function( require ) {
     this.referencePointIndex = referencePointIndex; // @private
     this.radius = radius; // @private
 
-    // @private, Centroid of the shape
+    // @public read-only, Centroid of the shape
     this.centroid = this.getCentroid( this.points );
 
     // Creates a shape

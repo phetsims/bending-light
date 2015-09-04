@@ -111,7 +111,6 @@ define( function( require ) {
     this.addLaserHandles( showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth );
 
     this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public
-    this.visibleBoundsProperty.debug( 'vbp' );
 
     // add the laser
     var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;

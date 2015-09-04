@@ -81,6 +81,14 @@ define( function( require ) {
     var centerEndLocation = new Vector2();
     var selfNode = prismNode;
     this.dragStart = null;
+
+    // When the window reshapes, make sure no prism is left outside of the play area
+    dragBoundsProperty.link( function( dragBounds ) {
+      var center = prism.shape.centroid;
+      var inBounds = modelViewTransform.viewToModelBounds( dragBounds ).getClosestPoint( center.x, center.y );
+      prism.translate( inBounds.x - center.x, inBounds.y - center.y );
+    } );
+
     this.handleDrag = function( event ) {
       // TODO: the prism gets away from the cursor, see #188
       var end = selfNode.globalToParentPoint( event.pointer.point );
