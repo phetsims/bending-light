@@ -23,7 +23,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var Vector3 = require( 'DOT/Vector3' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
