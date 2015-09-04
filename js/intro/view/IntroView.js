@@ -229,8 +229,6 @@ define( function( require ) {
     // initial tools
     this.protractorModel = new ProtractorModel( 0, 0 ); // @public
 
-    this.visibleBoundsProperty = new Property( this.layoutBounds );
-
     // if intro screen regular protractor node else expandable protractor node.
     if ( !hasMoreTools ) {
       this.protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
@@ -408,11 +406,6 @@ define( function( require ) {
         introView.moveIntensityMeterToToolbox();
       }
     } );
-
-    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
-        introView.visibleBoundsProperty.value = new Bounds2( -dx, -dy, width - dx, height - dy );
-      }
-    );
   }
 
   return inherit( BendingLightView, IntroView, {

@@ -169,8 +169,6 @@ define( function( require ) {
       return innerBar;
     };
 
-    this.visibleBoundsProperty = new Property( this.layoutBounds );
-
     // Add the protractor node
     var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismsModel.showProtractorProperty,
       prismsModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
@@ -204,11 +202,6 @@ define( function( require ) {
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
-      }
-    );
-
-    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
-        prismsView.visibleBoundsProperty.value = new Bounds2( -dx, -dy, width - dx, height - dy );
       }
     );
   }

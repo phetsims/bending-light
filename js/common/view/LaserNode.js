@@ -34,12 +34,12 @@ define( function( require ) {
    * @param {function} translationRegion - select from the entire region and front region which should be used for translating the laser
    * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating the laser
    * @param {string} laserImage - name of the laser image
-   * @param {Bounds2} dragBounds - bounds that define where the laser may be dragged
+   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the laser may be dragged
    * @param {function} occlusionHandler - function that will move the laser out from behind a control panel if dropped there
    * @constructor
    */
   function LaserNode( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
-                      clampDragAngle, translationRegion, rotationRegion, laserImage, dragBounds, occlusionHandler ) {
+                      clampDragAngle, translationRegion, rotationRegion, laserImage, dragBoundsProperty, occlusionHandler ) {
 
     Node.call( this, { cursor: 'pointer' } );
     var laserNode = this;
@@ -60,9 +60,6 @@ define( function( require ) {
       lightImageWidth * fractionBackToRotateHandle, lightImageHeight );
     var fullRectangle = new Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
 
-    var laserNodeDragBounds = dragBounds.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
-    var laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
-
     //  re usable vector  to avoid vector allocation
     var emissionPointEndLocation = new Vector2();
 
@@ -75,6 +72,10 @@ define( function( require ) {
         showTranslationDragHandlesProperty.value = true;
       },
       drag: function( event ) {
+
+        var laserNodeDragBounds = dragBoundsProperty.value.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
+        var laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
+
         var endDrag = laserNode.globalToParentPoint( event.pointer.point );
         var deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
         var deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
@@ -132,6 +133,9 @@ define( function( require ) {
           laserAngleAfterClamp = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
         }
         laser.setAngle( laserAngleAfterClamp );
+
+        var laserNodeDragBounds = dragBoundsProperty.value.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
+        var laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
         if ( !laserDragBoundsInModelValues.containsPoint( laser.emissionPoint ) ) {
           laser.setAngle( laserAnglebeforeRotate );
         }

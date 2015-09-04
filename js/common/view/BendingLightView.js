@@ -110,11 +110,14 @@ define( function( require ) {
     this.laserLayerArray = [];
     this.addLaserHandles( showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth );
 
+    this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public
+    this.visibleBoundsProperty.debug( 'vbp' );
+
     // add the laser
     var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
     var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImage,
-      this.layoutBounds,
+      this.visibleBoundsProperty,
       occlusionHandler
     );
     this.addChild( laserNode );
@@ -138,6 +141,7 @@ define( function( require ) {
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         bendingLightView.singleColorLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
+        bendingLightView.visibleBoundsProperty.value = new Bounds2( -dx, -dy, width - dx, height - dy );
       }
     );
   }
