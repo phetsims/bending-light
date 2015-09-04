@@ -105,13 +105,12 @@ define( function( require ) {
       prismsModel.prisms.addListeners( listener, listener );
       var prismIconBounds = prismIcon.bounds;
       prismIcon.scale( 55 / prismIcon.height );
-      var shape = new Path( Shape.rectangle( prismIconBounds.minX, prismIconBounds.minY, prismIconBounds.getWidth(), prismIconBounds.getHeight() ), {
+      var prismToolboxIconNode = new Path( Shape.rectangle( prismIconBounds.minX, prismIconBounds.minY, prismIconBounds.getWidth(), prismIconBounds.getHeight() ), {
         pickable: true,
         cursor: 'pointer'
       } );
 
-      shape.addInputListener( new SimpleDragHandler( {
-
+      prismToolboxIconNode.addInputListener( new SimpleDragHandler( {
           start: function( event ) {
             var start = prismToolboxNode.globalToParentPoint( event.pointer.point );
             var prismShape = prism.copy();
@@ -133,7 +132,7 @@ define( function( require ) {
 
       prismIcon.touchArea = prismIcon.localBounds;
       content.addChild( prismIcon );
-      prismIcon.addChild( shape );
+      prismIcon.addChild( prismToolboxIconNode );
     } );
 
     // Allow the user to control the type of material in the prisms
