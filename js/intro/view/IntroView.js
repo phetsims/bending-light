@@ -169,6 +169,7 @@ define( function( require ) {
     // Add the angle node
     this.afterLightLayer2.addChild( new AngleNode(
       this.introModel.showAnglesProperty,
+      this.introModel.laser.onProperty,
       this.introModel.showNormalProperty,
       this.introModel.rays,
       this.modelViewTransform,

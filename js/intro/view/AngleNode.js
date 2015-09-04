@@ -17,6 +17,7 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Property = require( 'AXON/Property' );
 
   // constants
   var CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
@@ -34,6 +35,7 @@ define( function( require ) {
    * Main constructor.
    *
    * @param {Property.<boolean>} showAnglesProperty -
+   * @param {Property.<boolean>} laserOnProperty -
    * @param {Property.<boolean>} showNormalProperty -
    * @param {ObservableArray} rays -
    * @param {ModelViewTransform2} modelViewTransform
@@ -41,11 +43,15 @@ define( function( require ) {
    * @public
    * @constructor
    */
-  function AngleNode( showAnglesProperty, showNormalProperty, rays, modelViewTransform, addStepListener ) {
+  function AngleNode( showAnglesProperty, laserOnProperty, showNormalProperty, rays, modelViewTransform, addStepListener ) {
     Node.call( this );
 
-    // Only show the AngleNode when it is selected via a checkbox
-    showAnglesProperty.linkAttribute( this, 'visible' );
+    var angleNode = this;
+
+    // Only show the AngleNode when it is selected via a checkbox and the laser is on
+    Property.multilink( [ showAnglesProperty, laserOnProperty ], function( showAngles, laserOn ) {
+      angleNode.visible = showAngles && laserOn;
+    } );
 
     var createArcPath = function() {
       return new Path( null, { stroke: 'black', lineWidth: 1 } );
@@ -126,53 +132,65 @@ define( function( require ) {
         var incomingAngleFromNormal = incomingRay.getAngle() + Math.PI / 2;
         var refractedAngleFromNormal = refractedRay.getAngle() + Math.PI / 2;
 
-        upperArcPath.shape = incomingAngleFromNormal >= 1E-6 ?
-                             Shape.arc(
-                               getOriginX(),
-                               getOriginY(),
-                               CIRCLE_RADIUS,
-                               Math.PI - incomingRay.getAngle(),
-                               -reflectedRay.getAngle(),
-                               false
-                             ) :
-                             null;
+        var getShape = function( angle, startAngle, endAngle, anticlockwise ) {
+          return angle >= 1E-6 ?
+                 Shape.arc(
+                   getOriginX(),
+                   getOriginY(),
+                   CIRCLE_RADIUS,
+                   startAngle,
+                   endAngle,
+                   anticlockwise
+                 ) :
+                 null;
+        };
+        upperArcPath.shape = getShape(
+          incomingAngleFromNormal,
+          Math.PI - incomingRay.getAngle(),
+          -reflectedRay.getAngle(),
+          false );
 
-        lowerArcPath.shape = refractedAngleFromNormal >= 1E-6 ?
-                             Shape.arc(
-                               getOriginX(),
-                               getOriginY(),
-                               CIRCLE_RADIUS,
-                               Math.PI / 2,
-                               Math.PI / 2 - refractedAngleFromNormal,
-                               true
-                             ) :
-                             null;
-
-        var origin = modelViewTransform.modelToViewXY( 0, 0 );
+        lowerArcPath.shape = getShape( refractedAngleFromNormal,
+          Math.PI / 2,
+          Math.PI / 2 - refractedAngleFromNormal,
+          true
+        );
+        var origin = new Vector2( getOriginX(), getOriginY() );
 
         // send out a ray from the origin past the center of the angle to position the readout
         var incomingRayDegreesFromNormal = Math.round( incomingAngleFromNormal * 180 / Math.PI );
         var refractedRayDegreesFromNormal = Math.round( refractedAngleFromNormal * 180 / Math.PI );
         var incomingReadoutText = incomingRayDegreesFromNormal.toFixed( 0 ) + '\u00B0';
-        var incomingReadoutDirection = Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT, -Math.PI / 2 - incomingAngleFromNormal / 2 );
-        var reflectedReadoutDirection = Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT, -Math.PI / 2 + incomingAngleFromNormal / 2 );
-        var refractedReadoutDirection = Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT, +Math.PI / 2 - refractedAngleFromNormal / 2 );
+
+        var createDirectionVector = function( angle ) {
+          return Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT, angle );
+        };
+        var incomingReadoutDirection = createDirectionVector( -Math.PI / 2 - incomingAngleFromNormal / 2 );
+        var reflectedReadoutDirection = createDirectionVector( -Math.PI / 2 + incomingAngleFromNormal / 2 );
+        var refractedReadoutDirection = createDirectionVector( +Math.PI / 2 - refractedAngleFromNormal / 2 );
 
         incomingReadout.text = incomingReadoutText;
-        incomingReadout.center = origin.plus( incomingReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= 20 ? 0 : -25, 0 );
+
+        // When the angle becomes too small, pop the text out so that it won't be obscured by the ray
+        var angleThresholdToBumpToSide = 20; // degrees
+
+        incomingReadout.center = origin.plus( incomingReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : -25, 0 );
 
         reflectedReadout.text = incomingReadoutText; // It's the same
-        reflectedReadout.center = origin.plus( reflectedReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= 20 ? 0 : +25, 0 );
+        reflectedReadout.center = origin.plus( reflectedReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : +25, 0 );
 
         var refractedReadoutText = refractedRayDegreesFromNormal.toFixed( 0 ) + '\u00B0';
 
         // Total internal reflection, or not a significant refracted ray (light coming horizontally)
-        refractedReadout.visible = refractedRay.powerFraction >= 1E-6;
-        lowerArcPath.visible = refractedRay.powerFraction >= 1E-6;
-        lowerMark.visible = !showNormalProperty.value && refractedRay.powerFraction >= 1E-6;
+        var showLowerAngle = refractedRay.powerFraction >= 1E-6;
+
+        refractedReadout.visible = showLowerAngle;
+        lowerArcPath.visible = showLowerAngle;
+        lowerMark.visible = !showNormalProperty.value && showLowerAngle;
 
         refractedReadout.text = refractedReadoutText;
-        refractedReadout.center = origin.plus( refractedReadoutDirection ).plusXY( refractedRayDegreesFromNormal >= 20 ? 0 : +25, 0 );
+        var bumpBottomReadout = refractedRayDegreesFromNormal >= angleThresholdToBumpToSide;
+        refractedReadout.center = origin.plus( refractedReadoutDirection ).plusXY( bumpBottomReadout ? 0 : +25, 0 );
 
         dirty = false;
       }
