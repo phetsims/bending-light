@@ -258,8 +258,6 @@ define( function( require ) {
       var verticalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, bendingLightModel.laser, 0, arrowLength,
         showTranslationDragHandlesProperty, laserImageWidth );
       this.addChild( verticalTranslationDragHandle );
-
-      this.laserLayerArray.push( horizontalTranslationDragHandle, verticalTranslationDragHandle );
     }
   } );
 } );

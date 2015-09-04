@@ -107,7 +107,6 @@ define( function( require ) {
     var showTranslationDragHandlesProperty = new Property( false );
 
     // add laser node rotation and translation arrows in array, to move them to front of all other nodes in prism screen
-    this.laserLayerArray = [];
     this.addLaserHandles( showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth );
 
     this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public
@@ -120,7 +119,6 @@ define( function( require ) {
       occlusionHandler
     );
     this.addChild( laserNode );
-    this.laserLayerArray.push( laserNode );
 
     this.addChild( this.afterLightLayer2 );
 
@@ -167,8 +165,6 @@ define( function( require ) {
       var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, -Math.PI / 23,
         showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
       this.addChild( rightRotationDragHandle );
-
-      this.laserLayerArray.push( leftRotationDragHandle, rightRotationDragHandle );
     }
   } );
 } );
