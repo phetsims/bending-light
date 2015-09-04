@@ -166,7 +166,18 @@ define( function( require ) {
     } );
     this.afterLightLayer2.addChild( normalLine );
 
-    this.afterLightLayer2.addChild( new AngleNode( this.introModel.showAnglesProperty, this.introModel.rays ) );
+    // Add the angle node
+    this.afterLightLayer2.addChild( new AngleNode(
+      this.introModel.showAnglesProperty,
+      this.introModel.showNormalProperty,
+      this.introModel.rays,
+      this.modelViewTransform,
+
+      // Method to add a step listener
+      function( stepCallback ) {
+        introView.on( 'step', stepCallback );
+      }
+    ) );
 
     introModel.showNormalProperty.linkAttribute( normalLine, 'visible' );
 
@@ -431,6 +442,7 @@ define( function( require ) {
      * @protected
      */
     step: function() {
+      this.trigger0( 'step' );
       BendingLightView.prototype.step.call( this );
       if ( this.introModel.isPlaying ) {
         this.updateWaveShape();
