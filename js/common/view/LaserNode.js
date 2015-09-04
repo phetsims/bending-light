@@ -63,6 +63,13 @@ define( function( require ) {
     //  re usable vector  to avoid vector allocation
     var emissionPointEndLocation = new Vector2();
 
+    // When the window reshapes, make sure the laser remains in the play area
+    dragBoundsProperty.link( function( dragBounds ) {
+      var center = laser.emissionPoint;
+      var eroded = dragBounds.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
+      laser.emissionPoint = modelViewTransform.viewToModelBounds( eroded ).getClosestPoint( center.x, center.y );
+    } );
+
     // add the drag region for translating the laser
     var start;
     var translationRegionPath = new Path( translationRegion( fullRectangle, frontRectangle ), { fill: dragRegionColor } );
