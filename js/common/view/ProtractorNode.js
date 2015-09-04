@@ -113,6 +113,13 @@ define( function( require ) {
     translatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
+        if ( containerBounds && protractorNode.expandedButtonVisibility === false ) {
+
+          // animate to full size
+          protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
+          protractorNode.addToBendingLightView();
+          protractorModel.enabledProperty.set( true );
+        }
         protractorNode.expandedButtonVisibility = true;
       },
       drag: function( event ) {
@@ -199,67 +206,6 @@ define( function( require ) {
       protractorNode.setTranslation( newPoint );
     } );
 
-    // add pickable rectangle shape when in tool box
-    this.shape = new Path( Shape.rectangle( 0, 0, this.getWidth() / this.multiScale, this.getHeight() / this.multiScale ), {
-      pickable: true,
-      cursor: 'pointer'
-    } );
-    this.addChild( this.shape );
-
-    // add input listener to the shape when it is in tool box
-    this.shape.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-        start = protractorNode.globalToParentPoint( event.pointer.point );
-        if ( containerBounds ) {
-          // animate to full size
-          protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
-          protractorNode.addToBendingLightView();
-          protractorModel.enabledProperty.set( true );
-        }
-        protractorNode.expandedButtonVisibility = true;
-      },
-      drag: function( event ) {
-
-        // compute the change in angle based on the new drag event
-        var end = protractorNode.globalToParentPoint( event.pointer.point );
-        var startPositionX = modelViewTransform.modelToViewX( protractorModel.position.x );
-        var startPositionY = modelViewTransform.modelToViewY( protractorModel.position.y );
-
-        // location of final center point with out constraining to bounds
-        centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
-
-        // location of final center point with constraining to bounds
-        var centerEndLocationInBounds = dragBoundsProperty.value.closestPointTo( centerEndLocation );
-        protractorNode.dragAllXY( centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
-
-        // Store the position of drag point after translating. Can be obtained by adding distance between center
-        // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
-        // translating.
-        start.x = end.x + centerEndLocationInBounds.x - centerEndLocation.x;
-        start.y = end.y + centerEndLocationInBounds.y - centerEndLocation.y;
-      },
-      end: function() {
-        if ( containerBounds ) {
-
-          // place back into tool box
-          if ( containerBounds.containsCoordinates( protractorNode.getCenterX(), protractorNode.getCenterY() ) ) {
-            var point2D = getProtractorNodeToolboxPosition();
-            protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
-            protractorNode.expandedButtonVisibility = false;
-            protractorNode.expanded = false;
-            protractorNode.addToSensorPanel();
-            protractorModel.enabled = false;
-          }
-        }
-        else {
-          protractorNode.expandedButtonVisibility = true;
-        }
-      }
-    } ) );
-    protractorModel.enabledProperty.link( function( enabled ) {
-      protractorNode.shape.setVisible( !enabled && containerBounds !== null );
-    } );
-
     // If the drag bounds changes, make sure the protractor didn't go out of bounds
     dragBoundsProperty.link( function( dragBounds ) {
       var modelBounds = modelViewTransform.viewToModelBounds( dragBounds );
@@ -339,7 +285,6 @@ define( function( require ) {
         if ( !this.beforeLightLayer2.isChild( this ) ) {
           this.beforeLightLayer2.addChild( this );
         }
-        this.touchArea = this.shape.bounds;
       },
 
       /**
