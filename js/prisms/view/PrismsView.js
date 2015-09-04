@@ -182,7 +182,7 @@ define( function( require ) {
       this.modelViewTransform,
       prismsModel,
       this.prismLayer,
-      this.layoutBounds,
+      this.visibleBoundsProperty,
       this.occlusionHandler, {
         left: this.layoutBounds.minX + 12,
         bottom: this.layoutBounds.bottom - INSET

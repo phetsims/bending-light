@@ -27,12 +27,12 @@ define( function( require ) {
    * @param {Prism} prism
    * @param {Node} prismToolboxNode
    * @param {Node} prismLayer - layer consisting of prisms in play area
-   * @param {Bounds2} prismDragBounds - bounds that define where the prism may be dragged
+   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the prism may be dragged
    * @param {function} occlusionHandler - function that takes a node and updates it if it would be occluded by a control
    *                                    - panel
    * @constructor
    */
-  function PrismNode( prismsModel, modelViewTransform, prism, prismToolboxNode, prismLayer, prismDragBounds,
+  function PrismNode( prismsModel, modelViewTransform, prism, prismToolboxNode, prismLayer, dragBoundsProperty,
                       occlusionHandler ) {
 
     Node.call( this, { cursor: 'pointer' } );
@@ -72,7 +72,6 @@ define( function( require ) {
     } ) );
     knobNode.touchArea = Shape.circle( 0, 10, 40 );
 
-    var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( prismDragBounds );
     var prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
       fill: prismsModel.prismMedium.color.withAlpha( 0.2 ),
       stroke: prismsModel.prismMedium.color.darkerColor( 0.9 )
@@ -92,6 +91,7 @@ define( function( require ) {
       centerEndLocation.setXY( startLocation.x + modelDX, startLocation.y + modelDY );
 
       // location of final rotation center with constraining to bounds
+      var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( dragBoundsProperty.value );
       var centerEndLocationInBounds = prismDragBoundsInModelValues.closestPointTo( centerEndLocation );
       prism.translate( centerEndLocationInBounds.x - startLocation.x, centerEndLocationInBounds.y - startLocation.y );
 
