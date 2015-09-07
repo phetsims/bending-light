@@ -25,6 +25,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var IntensityMeter = require( 'BENDING_LIGHT/common/model/IntensityMeter' );
 
   // constants
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
@@ -37,8 +38,7 @@ define( function( require ) {
   function IntroModel( bottomMediumState, centerOffsetLeft ) {
 
     var introModel = this;
-    BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT,
-      centerOffsetLeft );
+    BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
 
     // Top medium
     this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), BendingLightModel.AIR,
@@ -61,6 +61,14 @@ define( function( require ) {
         return bottomMedium.getIndexOfRefraction( color.wavelength );
       } ); // @public
 
+    // @public - model components
+    this.intensityMeter = new IntensityMeter(
+      -this.modelWidth * (centerOffsetLeft ? 0.34 : 0.48),
+      -this.modelHeight * 0.285,
+      -this.modelWidth * (centerOffsetLeft ? 0.282 : 0.421),
+      -this.modelHeight * 0.312
+    );
+
     Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
@@ -70,6 +78,9 @@ define( function( require ) {
       this.indexOfRefractionOfBottomMediumProperty,
       this.indexOfRefractionOfTopMediumProperty
     ], function() {
+
+      // clear the accumulator in the intensity meter so it can sum up the newly created rays
+      introModel.intensityMeter.clearRayReadings();
       introModel.updateModel();
       if ( introModel.laserView === 'wave' && introModel.laser.on ) {
         if ( !introModel.allowWebGL ) {
@@ -281,6 +292,7 @@ define( function( require ) {
       BendingLightModel.prototype.reset.call( this );
       this.topMediumProperty.reset();
       this.bottomMediumProperty.reset();
+      this.intensityMeter.reset();
     },
 
     /**

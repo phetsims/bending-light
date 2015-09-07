@@ -14,7 +14,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  var IntensityMeter = require( 'BENDING_LIGHT/common/model/IntensityMeter' );
   var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
@@ -76,10 +75,9 @@ define( function( require ) {
    * @param {number} laserAngle - laser angle in radians
    * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
    * @param {number} laserDistanceFromPivot - distance of laser from pivot point
-   * @param {boolean} centerOffsetLeft - specifies alignment of the center to left
    * @constructor
    */
-  function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot, centerOffsetLeft ) {
+  function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot ) {
 
     // @public - list of rays in the model
     this.rays = new ObservableArray();
@@ -104,14 +102,6 @@ define( function( require ) {
         showNormal: true, // @public
         showAngles: false // @public
       }
-    );
-
-    // @public - model components
-    this.intensityMeter = new IntensityMeter(
-      -this.modelWidth * (centerOffsetLeft ? 0.34 : 0.48),
-      -this.modelHeight * 0.285,
-      -this.modelWidth * (centerOffsetLeft ? 0.282 : 0.421),
-      -this.modelHeight * 0.312
     );
 
     // @public - the laser
@@ -139,9 +129,6 @@ define( function( require ) {
           this.rays.get( i ).particles.clear();
         }
         this.rays.clear();
-
-        // clear the accumulator in the intensity meter so it can sum up the newly created rays
-        this.intensityMeter.clearRayReadings();
       },
 
       /**
@@ -160,7 +147,6 @@ define( function( require ) {
       reset: function() {
         PropertySet.prototype.reset.call( this );
         this.laser.reset();
-        this.intensityMeter.reset();
       }
     },
 
