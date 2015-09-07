@@ -159,9 +159,11 @@ define( function( require ) {
       var bendingLightModel = this.bendingLightModel;
 
       // Shows the direction in which laser can be rotated
+      // for laser left rotation
       var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, Math.PI / 23,
         showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
       this.addChild( leftRotationDragHandle );
+      // for laser right rotation
       var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, -Math.PI / 23,
         showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
       this.addChild( rightRotationDragHandle );

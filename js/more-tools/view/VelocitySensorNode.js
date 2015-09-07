@@ -175,7 +175,7 @@ define( function( require ) {
         if ( container.bounds.containsCoordinates( x, y ) ) {
           velocitySensorNode.setScaleAnimation( getToolboxModelLocation(), SCALE_INSIDE_TOOLBOX );
           velocitySensor.reset();
-          velocitySensorNode.addToSensorPanel();
+          velocitySensorNode.addToToolBox();
           velocitySensor.enabled = false;
         }
       }
@@ -248,7 +248,7 @@ define( function( require ) {
      * Adds VelocitySensorNode to tool box and removes from play area if present
      * @public
      */
-    addToSensorPanel: function() {
+    addToToolBox: function() {
 
       if ( this.afterLightLayer2.isChild( this ) ) {
         this.afterLightLayer2.removeChild( this );
@@ -264,7 +264,7 @@ define( function( require ) {
     reset: function() {
       this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX );
       if ( this.afterLightLayer2.isChild( this ) ) {
-        this.addToSensorPanel();
+        this.addToToolBox();
       }
       this.velocitySensor.reset();
     }

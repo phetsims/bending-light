@@ -264,7 +264,7 @@ define( function( require ) {
       this.setWaveSensorNodeScaleAnimation( position.x, position.y, TOOLBOX_SCALE );
       this.reset();
       this.waveSensor.enabled = false;
-      this.addToSensorPanel();
+      this.addToToolBox();
     },
 
     /**
@@ -372,7 +372,7 @@ define( function( require ) {
      * Adds WaveSensorNode to tool box and removes from play area if present
      * @public
      */
-    addToSensorPanel: function() {
+    addToToolBox: function() {
 
       if ( this.afterLightLayer2.isChild( this ) ) {
         this.afterLightLayer2.removeChild( this );
@@ -414,7 +414,7 @@ define( function( require ) {
       this.setWaveSensorScale( TOOLBOX_SCALE );
       this.chartNode.gridLines.clear();
       if ( this.afterLightLayer2.isChild( this ) ) {
-        this.addToSensorPanel();
+        this.addToToolBox();
       }
       this.waveSensor.reset();
     }

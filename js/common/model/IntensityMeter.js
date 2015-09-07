@@ -34,9 +34,6 @@ define( function( require ) {
       }
     );
 
-    // vector to store body position
-    this.newBodyPosition = new Vector2(); // @private, for internal use only.
-
     // @public, accumulation of readings
     this.rayReadings = [];
   }

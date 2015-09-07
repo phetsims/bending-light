@@ -13,7 +13,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
-   *
    * @param {Shape} shape - shape of the medium
    * @param {MediumState} mediumState - state of the medium
    * @param {Color} color - color of the medium

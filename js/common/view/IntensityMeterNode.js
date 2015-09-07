@@ -112,7 +112,7 @@ define( function( require ) {
           moveIntensityMeterToToolbox();
 
           // remove intensity meter from play area and add it to the sensor panel
-          intensityMeterNode.addToSensorPanel();
+          intensityMeterNode.addToToolBox();
         }
         travelingTogether = false;
       }
@@ -303,6 +303,8 @@ define( function( require ) {
      * @param {number} scale - scale to be applied to intensity meter
      */
     setIntensityMeterScaleAnimation: function( endPositionX, endPositionY, scale ) {
+
+      // get the previous scale to scale from there
       var prevScale = this.sensorNode.getScaleVector().x;
       var startPoint = {
         x: this.intensityMeter.sensorPosition.x,
@@ -338,7 +340,7 @@ define( function( require ) {
      * Adds IntensityMeterNode to tool box and removes from play area
      * @public
      */
-    addToSensorPanel: function() {
+    addToToolBox: function() {
 
       if ( this.beforeLightLayer.isChild( this ) ) {
         this.beforeLightLayer.removeChild( this );
@@ -347,18 +349,6 @@ define( function( require ) {
       if ( !this.beforeLightLayer2.isChild( this ) ) {
         this.beforeLightLayer2.addChild( this );
       }
-    },
-
-    /**
-     * Drag all components, called when dragging from toolbox
-     * @private
-     * @param {number} deltaX - amount of space in x direction to be translated
-     * @param {number} deltaY - amount of space in y direction to be translated
-     */
-    dragAllXY: function( deltaX, deltaY ) {
-      this.intensityMeter.translateAllXY(
-        this.modelViewTransform.viewToModelDeltaX( deltaX ),
-        this.modelViewTransform.viewToModelDeltaY( deltaY ) );
     },
 
     /**
@@ -410,7 +400,7 @@ define( function( require ) {
       this.setIntensityMeterScale(
         sensorInitialPosition.x, sensorInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
       if ( this.beforeLightLayer.isChild( this ) ) {
-        this.addToSensorPanel();
+        this.addToToolBox();
       }
     }
   } );

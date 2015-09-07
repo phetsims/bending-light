@@ -126,7 +126,7 @@ define( function( require ) {
         new Vector2( tailPoint1XY.x, tailPoint1XY.y ),
         new Vector2( tailPoint2XY.x, tailPoint2XY.y ),
         new Vector2( tipPoint1XY.x, tipPoint1XY.y ),
-        new Vector2( tipPoint2XY.x, tipPoint2XY.y ),
+        new Vector2( tipPoint2XY.x, tipPoint2XY.y )
       ];
     }
   }

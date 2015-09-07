@@ -28,7 +28,7 @@ define( function( require ) {
     var arrowScale = 1.5E-14; // @public read-only
     IntroView.call( this, moreToolsModel, 0, true, 3 );
 
-    // @public - Create the Velocity Sensor tool and wave sensor tool to add to the sensor Panel
+    // @public - Create the Velocity Sensor tool and wave sensor tool to add to the tool box
     this.velocitySensorNode = new VelocitySensorNode(
       this.beforeLightLayer2,
       this.afterLightLayer2,
@@ -51,8 +51,8 @@ define( function( require ) {
       this.getWaveSensorToolboxPosition.bind( this )
     );
 
-    this.velocitySensorNode.addToSensorPanel();
-    this.waveSensorNode.addToSensorPanel();
+    this.velocitySensorNode.addToToolBox();
+    this.waveSensorNode.addToToolBox();
 
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       function( laserView, isWaveSensorEnabled ) {

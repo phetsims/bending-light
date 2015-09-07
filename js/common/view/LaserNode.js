@@ -60,7 +60,7 @@ define( function( require ) {
       lightImageWidth * fractionBackToRotateHandle, lightImageHeight );
     var fullRectangle = new Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
 
-    //  re usable vector  to avoid vector allocation
+    // re usable vector to avoid vector allocation
     var emissionPointEndLocation = new Vector2();
 
     // When the window reshapes, make sure the laser remains in the play area

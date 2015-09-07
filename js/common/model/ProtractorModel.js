@@ -15,7 +15,6 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
 
   /**
-   *
    * @param {number} x - protractor x position in model co-ordinates
    * @param {number} y - protractor y position in model co-ordinates
    * @constructor

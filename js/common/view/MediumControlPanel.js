@@ -273,12 +273,15 @@ define( function( require ) {
       } );
     }
 
+    // position the indexOfRefractionNode and indexOfRefractionSlider
     indexOfRefractionNode.top = materialComboBox.bottom + INSET;
     indexOfRefractionNode.left = materialComboBox.left;
     indexOfRefractionSlider.centerX = materialComboBox.centerX;
     indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET / 2;
     unknown.centerX = materialComboBox.centerX;
     unknown.centerY = indexOfRefractionNode.bottom + INSET;
+
+    // add all the nodes to mediumPanelNode
     var mediumPanelNode = new Node( {
       children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
       spacing: 10

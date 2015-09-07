@@ -214,13 +214,13 @@ define( function( require ) {
 
     this.laserViewLayer.addChild( laserControlPanel );
 
-    var sensorPanelHeight = hasMoreTools ? 303 : 203;
+    var toolBoxHeight = hasMoreTools ? 303 : 203;
 
     // @protected - the background for the tools panel
-    this.toolbox = new Rectangle( 0, 0, 100, sensorPanelHeight, 5, 5, {
+    this.toolbox = new Rectangle( 0, 0, 100, toolBoxHeight, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
       left: this.layoutBounds.minX + 13,
-      top: this.layoutBounds.maxY - sensorPanelHeight - 14
+      top: this.layoutBounds.maxY - toolBoxHeight - 14
     } ); // @public
     this.beforeLightLayer2.addChild( this.toolbox );
 
@@ -240,7 +240,7 @@ define( function( require ) {
         this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
         this.toolbox.bounds, this.visibleBoundsProperty, this.getProtractorNodeToolboxPosition.bind( this ) );
     }
-    this.protractorNode.addToSensorPanel();
+    this.protractorNode.addToToolBox();
 
     // add intensity meter
     this.intensityMeterNode = new IntensityMeterNode(
@@ -254,7 +254,7 @@ define( function( require ) {
       this.visibleBoundsProperty,
       this.moveIntensityMeterToToolbox.bind( this )
     );
-    this.intensityMeterNode.addToSensorPanel();
+    this.intensityMeterNode.addToToolBox();
 
     // add normal check box
     var normalText = new Text( normalString, { fontSize: 12 } );
@@ -318,10 +318,6 @@ define( function( require ) {
     } );
 
     this.afterLightLayer2.addChild( resetAllButton );
-
-    introModel.laserViewProperty.link( function() {
-      introModel.laser.wave = introModel.laserView === 'wave';
-    } );
 
     // add sim speed controls
     var slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',

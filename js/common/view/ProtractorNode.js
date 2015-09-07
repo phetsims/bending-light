@@ -153,7 +153,7 @@ define( function( require ) {
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
             protractorNode.expandedButtonVisibility = false;
             protractorNode.expanded = false;
-            protractorNode.addToSensorPanel();
+            protractorNode.addToToolBox();
             protractorModel.enabled = false;
           }
         }
@@ -223,7 +223,7 @@ define( function( require ) {
         this.expandedButtonVisibilityProperty.reset();
         this.setProtractorScale( this.multiScale );
         if ( this.afterLightLayer.isChild( this ) ) {
-          this.addToSensorPanel();
+          this.addToToolBox();
         }
       },
 
@@ -277,7 +277,7 @@ define( function( require ) {
        * Adds ProtractorNode to tool box and removes from play area
        * @public
        */
-      addToSensorPanel: function() {
+      addToToolBox: function() {
 
         if ( this.afterLightLayer.isChild( this ) ) {
           this.afterLightLayer.removeChild( this );
