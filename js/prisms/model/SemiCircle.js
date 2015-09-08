@@ -37,8 +37,8 @@ define( function( require ) {
 
     // @public - the shape of the semi-circle
     this.shape = new Shape().
-      ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, false ).
-      close();
+    ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, false ).
+    close();
   }
 
   return inherit( Object, SemiCircle, {

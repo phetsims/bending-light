@@ -78,10 +78,10 @@ define( function( require ) {
 
         // Scale intensity into a custom alpha range
         var a = Util.clamp(
-          BendingLightConstants.D65[ wavelength ] * Math.sqrt( lightRay.powerFraction ) / 118,
-          0,
-          1
-        ) / 8;
+                BendingLightConstants.D65[ wavelength ] * Math.sqrt( lightRay.powerFraction ) / 118,
+            0,
+            1
+          ) / 8;
 
         // skip alpha values that are just too light to see, which could also cause number format problems when creating
         // css color

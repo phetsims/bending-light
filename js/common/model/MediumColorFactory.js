@@ -60,7 +60,7 @@ define( function( require ) {
         }
         else {
           if ( indexForRed < diamondIndexForRed ) {
-            
+
             // Map the values between glassIndexForRed and diamondIndexForRed to (0,1) linearly
             linearFunction = new LinearFunction( glassIndexForRed, diamondIndexForRed, 0, 1 );
 
