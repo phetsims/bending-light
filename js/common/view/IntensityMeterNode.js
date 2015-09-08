@@ -22,7 +22,7 @@ define( function( require ) {
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Vector2 = require( 'DOT/Vector2' );
   var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
-  var LightSensorNode = require( 'SCENERY_PHET/LightSensorNode' );
+  var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
 
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
@@ -155,7 +155,7 @@ define( function( require ) {
     this.beforeLightLayer = beforeLightLayer; // @private
     this.beforeLightLayer2 = beforeLightLayer2; // @private
 
-    this.sensorNode = new LightSensorNode( { cursor: 'pointer' } );
+    this.sensorNode = new ProbeNode( { cursor: 'pointer' } );
 
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
