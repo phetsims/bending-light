@@ -155,21 +155,21 @@ define( function( require ) {
     this.beforeLightLayer = beforeLightLayer; // @private
     this.beforeLightLayer2 = beforeLightLayer2; // @private
 
-    this.sensorNode = new ProbeNode( { cursor: 'pointer' } );
+    this.probeNode = new ProbeNode( { cursor: 'pointer' } );
 
     // sensor location
     intensityMeter.sensorPositionProperty.link( function( location ) {
       var sensorPositionX = modelViewTransform.modelToViewX( location.x );
       var sensorPositionY = modelViewTransform.modelToViewY( location.y );
-      intensityMeterNode.sensorNode.setTranslation( sensorPositionX, sensorPositionY );
+      intensityMeterNode.probeNode.setTranslation( sensorPositionX, sensorPositionY );
     } );
 
     // sensor node drag handler
     var sensorNodeDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
-      this.sensorNode, intensityMeter.sensorPositionProperty, this.dragSensorXY, this.dragBothXY.bind( this ),
+      this.probeNode, intensityMeter.sensorPositionProperty, this.dragSensorXY, this.dragBothXY.bind( this ),
       moveIntensityMeterToToolbox
     );
-    this.sensorNode.addInputListener( sensorNodeDragHandler );
+    this.probeNode.addInputListener( sensorNodeDragHandler );
 
     // add body node
     var rectangleWidth = 150;
@@ -240,23 +240,23 @@ define( function( require ) {
       moveIntensityMeterToToolbox );
     this.bodyNode.addInputListener( bodyDragHandler );
 
-    // scale sensorNode and bodyNode and translating
+    // scale probeNode and bodyNode and translating
     this.bodyNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-    this.sensorNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-    this.sensorNode.setTranslation(
-      modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ) - (this.sensorNode.getWidth() / 2),
-      modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ) - (this.sensorNode.getHeight() * 0.32) );
+    this.probeNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+    this.probeNode.setTranslation(
+      modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ) - (this.probeNode.getWidth() / 2),
+      modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ) - (this.probeNode.getHeight() * 0.32) );
     this.bodyNode.setTranslation(
       modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ) - this.bodyNode.getWidth() / 2,
       modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ) - this.bodyNode.getHeight() / 2 );
 
     // Connect the sensor to the body with a gray wire
     var wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty,
-      this.sensorNode, this.bodyNode, 'gray' );
+      this.probeNode, this.bodyNode, 'gray' );
 
     // add the components
     this.addChild( wireNode );
-    this.addChild( this.sensorNode );
+    this.addChild( this.probeNode );
     this.addChild( this.bodyNode );
 
     // If the drag bounds changes, make sure the sensor didn't go out of bounds
@@ -278,12 +278,12 @@ define( function( require ) {
      */
     setIntensityMeterScale: function( endPositionX, endPositionY, scale ) {
 
-      // previous scale for scaling the distance between the sensorNode and bodyNode
-      var prevScale = this.sensorNode.getScaleVector().x;
+      // previous scale for scaling the distance between the probeNode and bodyNode
+      var prevScale = this.probeNode.getScaleVector().x;
 
       // scale all components
       this.bodyNode.setScaleMagnitude( scale );
-      this.sensorNode.setScaleMagnitude( scale );
+      this.probeNode.setScaleMagnitude( scale );
 
       // position the body node according to the scale
       var sensorPosition = this.intensityMeter.sensorPosition;
@@ -304,7 +304,7 @@ define( function( require ) {
     setIntensityMeterScaleAnimation: function( endPositionX, endPositionY, scale ) {
 
       // get the previous scale to scale from there
-      var prevScale = this.sensorNode.getScaleVector().x;
+      var prevScale = this.probeNode.getScaleVector().x;
       var startPoint = {
         x: this.intensityMeter.sensorPosition.x,
         y: this.intensityMeter.sensorPosition.y,
@@ -331,7 +331,7 @@ define( function( require ) {
         this.beforeLightLayer.addChild( this );
       }
       this.touchArea = null;
-      this.sensorNode.touchArea = this.sensorNode.localBounds;
+      this.probeNode.touchArea = this.probeNode.localBounds;
       this.bodyNode.touchArea = this.bodyNode.localBounds;
     },
 
@@ -351,7 +351,7 @@ define( function( require ) {
     },
 
     /**
-     * Drag sensorNode
+     * Drag probeNode
      * @private
      * @param {IntensityMeter} intensityMeter - model for the intensity meter
      * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
