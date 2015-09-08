@@ -91,7 +91,6 @@ define( function( require ) {
           dragSelfFunction( intensityMeter, modelViewTransform, centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
         }
 
-
         // Store the position of drag point after translating. Can be obtained by adding distance between center
         // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
         // translating.
