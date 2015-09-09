@@ -19,12 +19,12 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
   var LaserControlPanel = require( 'BENDING_LIGHT/common/view/LaserControlPanel' );
-  var LaserTypeControlPanel = require( 'BENDING_LIGHT/prisms/view/LaserTypeControlPanel' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Property = require( 'AXON/Property' );
 
   // constants
   var INSET = 10;
@@ -32,6 +32,7 @@ define( function( require ) {
   // string
   var environmentString = require( 'string!BENDING_LIGHT/environment' );
   var oneColorString = require( 'string!BENDING_LIGHT/oneColor' );
+  var oneColor5xString = require( 'string!BENDING_LIGHT/oneColor5x' );
   var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
 
   /**
@@ -104,11 +105,22 @@ define( function( require ) {
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
 
-    var laserControlPanel = new LaserControlPanel( prismsModel.laser.colorModeProperty,
-      prismsModel.wavelengthProperty, 'white', 'singleColor', whiteLightString, oneColorString, true, {
+    var radioButtonAdapterProperty = new Property( 'singleColor' );
+    radioButtonAdapterProperty.link( function( radioButtonAdapterValue ) {
+      prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === 'white' ? 'white' :
+                                                  'singleColor';
+      prismsModel.manyRays = radioButtonAdapterValue === 'singleColor5x' ? 5 : 1;
+    } );
+    var laserControlPanel = new LaserControlPanel( radioButtonAdapterProperty,
+      prismsModel.wavelengthProperty, [
+        { value: 'white', label: whiteLightString },
+        { value: 'singleColor', label: oneColorString },
+        { value: 'singleColor5x', label: oneColor5xString }
+      ],
+      true, {
         xMargin: 5,
         yMargin: 10,
-        radioButtonradius: 7,
+        radioButtonRadius: 7,
         spacing: 8.4,
         disableUnselected: true,
         top: environmentMediumControlPanel.bottom + 15,
@@ -132,12 +144,6 @@ define( function( require ) {
         } );
       }
     } );
-
-    var laserTypeControlPanel = new LaserTypeControlPanel( prismsModel.manyRaysProperty, {
-      top: this.layoutBounds.top + INSET,
-      left: this.layoutBounds.minX + INSET
-    } );
-    this.addChild( laserTypeControlPanel );
 
     // Add the reset all button
     var resetAllButton = new ResetAllButton( {

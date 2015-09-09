@@ -36,16 +36,16 @@ define( function( require ) {
   /**
    * @param {Property.<string>} radioButtonProperty - specifies value of the radio button selected
    * @param {Property.<number>} wavelengthProperty - specifies wavelength
-   * @param {string} firstButtonValue - value corresponds to the firstButton
-   * @param {string} secondButtonValue - value corresponds to the secondButton
-   * @param {string} firstButtonString - name of the first radio button
-   * @param {string} secondButtonString - name of the second radio button
+   * @param {Array.<Object>} radioButtonItems - {string,value}
    * @param {boolean} hasWavelengthSlider - specifies whether panel contains wavelength slider or not
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
-  function LaserControlPanel( radioButtonProperty, wavelengthProperty, firstButtonValue, secondButtonValue,
-                              firstButtonString, secondButtonString, hasWavelengthSlider, options ) {
+  function LaserControlPanel( radioButtonProperty, wavelengthProperty, radioButtonItems, hasWavelengthSlider, options ) {
+    var firstButtonValue = radioButtonItems[ 0 ].value;
+    var secondButtonValue = radioButtonItems[ 1 ].value;
+    var firstButtonString = radioButtonItems[ 0 ].label;
+    var secondButtonString = radioButtonItems[ 1 ].label;
     options = _.extend( {
       cornerRadius: 5,
       xMargin: 9,
@@ -68,26 +68,27 @@ define( function( require ) {
     };
 
     // Create the radio buttons
-    var radioButtonOptions = { radius: options.radioButtonradius, font: new PhetFont( 12 ) };
-    var firstRadioButton = new AquaRadioButton( radioButtonProperty, firstButtonValue,
-      createButtonTextNode( firstButtonString ), radioButtonOptions );
-    var secondRadioButton = new AquaRadioButton( radioButtonProperty, secondButtonValue,
-      createButtonTextNode( secondButtonString ), radioButtonOptions );
+    var radioButtonOptions = { radius: options.radioButtonRadius, font: new PhetFont( 12 ) };
+    var radioButtons = [];
+    for ( var i = 0; i < radioButtonItems.length; i++ ) {
+      radioButtons.push( new AquaRadioButton( radioButtonProperty, radioButtonItems[ i ].value,
+        createButtonTextNode( radioButtonItems[ i ].label ), radioButtonOptions ) );
+    }
 
     // Touch areas
     var touchExpansion = 5;
-    var maxRadioButtonWidth = _.max( [ firstRadioButton, secondRadioButton ], function( item ) {
+    var maxRadioButtonWidth = _.max( radioButtons, function( item ) {
       return item.width;
     } ).width;
 
-    // Touch areas
-    firstRadioButton.touchArea = new Bounds2(
-      firstRadioButton.localBounds.minX - touchExpansion, firstRadioButton.localBounds.minY - touchExpansion,
-      firstRadioButton.localBounds.minX + maxRadioButtonWidth, firstRadioButton.localBounds.maxY + touchExpansion );
+    for ( i = 0; i < radioButtons.length; i++ ) {
+      var radioButton = radioButtons[ i ];
 
-    secondRadioButton.touchArea = new Bounds2(
-      secondRadioButton.localBounds.minX - touchExpansion, secondRadioButton.localBounds.minY - touchExpansion,
-      secondRadioButton.localBounds.minX + maxRadioButtonWidth, secondRadioButton.localBounds.maxY + touchExpansion );
+      // Touch areas
+      radioButton.touchArea = new Bounds2(
+        radioButton.localBounds.minX - touchExpansion, radioButton.localBounds.minY - touchExpansion,
+        radioButton.localBounds.minX + maxRadioButtonWidth, radioButton.localBounds.maxY + touchExpansion );
+    }
 
     var content;
     if ( hasWavelengthSlider ) {
@@ -166,15 +167,15 @@ define( function( require ) {
         radioButtonProperty.link( function() {
 
           // set the opacity when not selected
-          wavelengthValue.setPickable( radioButtonProperty.value === secondButtonValue );
-          wavelengthValue.opacity = radioButtonProperty.value === secondButtonValue ? 1 : 0.4;
+          wavelengthValue.setPickable( radioButtonProperty.value !== firstButtonValue );
+          wavelengthValue.opacity = radioButtonProperty.value !== firstButtonValue ? 1 : 0.4;
         } );
       }
 
       // add the buttons to VBox
       content = new VBox( {
         spacing: options.spacing,
-        children: [ firstRadioButton, secondRadioButton, wavelengthValue ],
+        children: radioButtons.concat( wavelengthValue ),
         align: 'left'
       } );
       this.wavelengthProperty.link( function( wavelength ) {
@@ -189,7 +190,7 @@ define( function( require ) {
     else {
       content = new VBox( {
         spacing: 10,
-        children: [ firstRadioButton, secondRadioButton ],
+        children: radioButtons,
         align: 'left'
       } );
     }

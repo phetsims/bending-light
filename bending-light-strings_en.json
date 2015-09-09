@@ -95,6 +95,9 @@
   "oneColor": {
     "value": "One Color"
   },
+  "oneColor5x": {
+    "value": "One Color (5x)"
+  },
   "whiteLight": {
     "value": "White Light"
   },

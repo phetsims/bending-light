@@ -199,17 +199,20 @@ define( function( require ) {
     // add laser view panel
     var laserViewXOffset = hasMoreTools ? 13 : 12;
     var laserViewYOffset = hasMoreTools ? 2 * INSET - 4 : 2 * INSET;
-    var laserControlPanel = new LaserControlPanel( introModel.laserViewProperty, introModel.wavelengthProperty, 'ray',
-      'wave', rayString, waveString, hasMoreTools, {
-        xMargin: 9,
-        yMargin: 6,
-        radioButtonradius: 6,
-        spacing: 11,
-        disableUnselected: false,
-        minWidth: hasMoreTools ? 175 : 67,
-        left: this.layoutBounds.minX + laserViewXOffset,
-        top: this.layoutBounds.top + laserViewYOffset
-      } );
+    var laserControlPanel = new LaserControlPanel( introModel.laserViewProperty, introModel.wavelengthProperty, [ {
+      value: 'ray', label: rayString
+    }, {
+      value: 'wave', label: waveString
+    } ], hasMoreTools, {
+      xMargin: 9,
+      yMargin: 6,
+      radioButtonRadius: 6,
+      spacing: 11,
+      disableUnselected: false,
+      minWidth: hasMoreTools ? 175 : 67,
+      left: this.layoutBounds.minX + laserViewXOffset,
+      top: this.layoutBounds.top + laserViewYOffset
+    } );
 
     this.laserViewLayer.addChild( laserControlPanel );
 
