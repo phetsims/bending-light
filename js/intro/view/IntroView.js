@@ -214,7 +214,7 @@ define( function( require ) {
 
     this.laserViewLayer.addChild( laserControlPanel );
 
-    var toolBoxHeight = hasMoreTools ? 303 : 203;
+    var toolBoxHeight = hasMoreTools ? 303 : 175;
 
     // @protected - the background for the tools panel
     this.toolbox = new Rectangle( 0, 0, 100, toolBoxHeight, 5, 5, {
@@ -290,11 +290,9 @@ define( function( require ) {
       spacing: 5
     } );
 
+    var checkboxPanelChildren = hasMoreTools ? [ normalCheckBox, angleCheckBox ] : [ normalCheckBox ];
     var checkBoxPanel = new VBox( {
-      children: [
-        normalCheckBox,
-        angleCheckBox
-      ],
+      children: checkboxPanelChildren,
       spacing: 10,
       align: 'left',
       bottom: this.toolbox.height - 5,
