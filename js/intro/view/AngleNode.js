@@ -22,6 +22,9 @@ define( function( require ) {
   // constants
   var CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
   var LINE_HEIGHT = 13;
+  var NUM_DIGITS = 1; // number of digits in the text readouts
+  var ROUNDING_FACTOR = 10; // Round to the nearest tenth
+  var BUMP_TO_SIDE_DISTANCE = 38; // How far to move the text to the side if it was in the way of the rays
 
   // When there is total internal reflection, treat it as if it is a powerless ray for simplicity
   var MOCK_ZERO_RAY = {
@@ -158,9 +161,9 @@ define( function( require ) {
         var origin = new Vector2( getOriginX(), getOriginY() );
 
         // send out a ray from the origin past the center of the angle to position the readout
-        var incomingRayDegreesFromNormal = Math.round( incomingAngleFromNormal * 180 / Math.PI );
-        var refractedRayDegreesFromNormal = Math.round( refractedAngleFromNormal * 180 / Math.PI );
-        var incomingReadoutText = incomingRayDegreesFromNormal.toFixed( 0 ) + '\u00B0';
+        var incomingRayDegreesFromNormal = Math.round( incomingAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR ) / ROUNDING_FACTOR;
+        var refractedRayDegreesFromNormal = Math.round( refractedAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR ) / ROUNDING_FACTOR;
+        var incomingReadoutText = incomingRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
         var createDirectionVector = function( angle ) {
           return Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT, angle );
@@ -172,14 +175,14 @@ define( function( require ) {
         incomingReadout.text = incomingReadoutText;
 
         // When the angle becomes too small, pop the text out so that it won't be obscured by the ray
-        var angleThresholdToBumpToSide = 20; // degrees
+        var angleThresholdToBumpToSide = 30; // degrees
 
-        incomingReadout.center = origin.plus( incomingReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : -25, 0 );
+        incomingReadout.center = origin.plus( incomingReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : -BUMP_TO_SIDE_DISTANCE, 0 );
 
         reflectedReadout.text = incomingReadoutText; // It's the same
-        reflectedReadout.center = origin.plus( reflectedReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : +25, 0 );
+        reflectedReadout.center = origin.plus( reflectedReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
 
-        var refractedReadoutText = refractedRayDegreesFromNormal.toFixed( 0 ) + '\u00B0';
+        var refractedReadoutText = refractedRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
         // Total internal reflection, or not a significant refracted ray (light coming horizontally)
         var showLowerAngle = refractedRay.powerFraction >= 1E-6;
@@ -190,7 +193,7 @@ define( function( require ) {
 
         refractedReadout.text = refractedReadoutText;
         var bumpBottomReadout = refractedRayDegreesFromNormal >= angleThresholdToBumpToSide;
-        refractedReadout.center = origin.plus( refractedReadoutDirection ).plusXY( bumpBottomReadout ? 0 : +25, 0 );
+        refractedReadout.center = origin.plus( refractedReadoutDirection ).plusXY( bumpBottomReadout ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
 
         dirty = false;
       }
