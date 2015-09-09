@@ -43,9 +43,6 @@ define( function( require ) {
    */
   function LaserControlPanel( radioButtonProperty, wavelengthProperty, radioButtonItems, hasWavelengthSlider, options ) {
     var firstButtonValue = radioButtonItems[ 0 ].value;
-    var secondButtonValue = radioButtonItems[ 1 ].value;
-    var firstButtonString = radioButtonItems[ 0 ].label;
-    var secondButtonString = radioButtonItems[ 1 ].label;
     options = _.extend( {
       cornerRadius: 5,
       xMargin: 9,
