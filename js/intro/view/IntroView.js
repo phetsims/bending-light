@@ -35,7 +35,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
-  var ExpandableProtractorNode = require( 'BENDING_LIGHT/more-tools/view/ExpandableProtractorNode' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
@@ -229,17 +228,10 @@ define( function( require ) {
     // initial tools
     this.protractorModel = new ProtractorModel( 0, 0 ); // @public
 
-    // if intro screen regular protractor node else expandable protractor node.
-    if ( !hasMoreTools ) {
-      this.protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
-        this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.toolbox.bounds, this.visibleBoundsProperty, this.getProtractorNodeToolboxPosition.bind( this ) );
-    }
-    else {
-      this.protractorNode = new ExpandableProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
-        this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-        this.toolbox.bounds, this.visibleBoundsProperty, this.getProtractorNodeToolboxPosition.bind( this ) );
-    }
+    // create the protractor node
+    this.protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
+      this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
+      this.toolbox.bounds, this.visibleBoundsProperty, this.getProtractorNodeToolboxPosition.bind( this ) )
     this.protractorNode.addToToolBox();
 
     // add intensity meter

@@ -59,10 +59,6 @@ define( function( require ) {
     this.afterLightLayer = afterLightLayer; // @private
     this.beforeLightLayer2 = beforeLightLayer2; // @private
 
-    // true if the protractor has been made larger
-    Property.addProperty( this, 'expanded', false );
-    Property.addProperty( this, 'expandedButtonVisibility', false );
-
     // load and add the image
     this.protractorImageNode = new Image( protractorImage ); // @public
     protractorNode.setScaleMagnitude( this.multiScale );
@@ -113,14 +109,13 @@ define( function( require ) {
     translatePath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = protractorNode.globalToParentPoint( event.pointer.point );
-        if ( containerBounds && protractorNode.expandedButtonVisibility === false ) {
+        if ( containerBounds ) {
 
           // animate to full size
           protractorNode.setProtractorScaleAnimation( start, DEFAULT_SCALE );
           protractorNode.addToBendingLightView();
           protractorModel.enabledProperty.set( true );
         }
-        protractorNode.expandedButtonVisibility = true;
       },
       drag: function( event ) {
 
@@ -151,14 +146,9 @@ define( function( require ) {
 
             // Place back into tool box with animation
             protractorNode.setProtractorScaleAnimation( point2D, protractorNode.multiScale );
-            protractorNode.expandedButtonVisibility = false;
-            protractorNode.expanded = false;
             protractorNode.addToToolBox();
             protractorModel.enabled = false;
           }
-        }
-        else {
-          protractorNode.expandedButtonVisibility = true;
         }
       }
     } ) );
@@ -219,8 +209,6 @@ define( function( require ) {
        * @public
        */
       reset: function() {
-        this.expandedProperty.reset();
-        this.expandedButtonVisibilityProperty.reset();
         this.setProtractorScale( this.multiScale );
         if ( this.afterLightLayer.isChild( this ) ) {
           this.addToToolBox();
