@@ -270,7 +270,7 @@ define( function( require ) {
     }
 
     // add normal
-    var normalIcon = new NormalLine( 24, [ 4, 3 ] );
+    var normalIcon = new NormalLine( 17, [ 4, 3 ] );
     var normalCheckBox = new CheckBox( new HBox( {
       children: [
         normalText, normalIcon
