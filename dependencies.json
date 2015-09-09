@@ -1,5 +1,5 @@
 {
-  "comment": "# bending-light 1.0.0-dev.25 Thu Sep 03 2015 23:04:35 GMT-0600 (MDT)",
+  "comment": "# bending-light 1.0.0-dev.26 Wed Sep 09 2015 00:15:47 GMT-0600 (MDT)",
   "assert": {
     "sha": "858e65ac477bf1861883ce06eed56d9fdefa5027",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "bending-light": {
-    "sha": "c487a57883283d2089c8a7e16b117a71ce24386f",
+    "sha": "84da91cd10ba150e886ed133aa53eecda2bbc421",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "9f3b92ecb54b75e0e2db3eee641e718d2c90c862",
+    "sha": "5f695c0b2562f10a2b965ee1538f946aaf1dee2f",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "27d92033a1970e8e7a4c5f246240d7b07915587f",
+    "sha": "86cd3b99a32d7a7247da6faccb5161b53ecc61b3",
     "branch": "master"
   },
   "kite": {
@@ -41,11 +41,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "b3a8132f67984c6701dba9fe2fa7e2c469c9b9c9",
+    "sha": "7de85ee952d1bc78205b04a921860caafb4a1ec4",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "b05ed3190d0aa67bc8e9b2005a23cf49ed538958",
+    "sha": "965a03e52fcc0eadef321a2cc237a75c9661ff03",
     "branch": "master"
   },
   "sherpa": {
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "9dbeaf881161a7c4f27d252834310075660fd5af",
+    "sha": "04740214b6e2c4a67fb3d7c9e886eb39e57a5e0a",
     "branch": "master"
   }
 }
