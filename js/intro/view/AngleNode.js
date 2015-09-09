@@ -18,6 +18,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
+  var Panel = require( 'SUN/Panel' );
 
   // constants
   var CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
@@ -25,7 +26,7 @@ define( function( require ) {
   var NUM_DIGITS = 1; // number of digits in the text readouts
   var ROUNDING_FACTOR = 10; // Round to the nearest tenth
   var BUMP_TO_SIDE_DISTANCE = 38; // How far to move the text to the side if it was in the way of the rays
-  var TEXT_COLOR = '#999999'; // The gray from the phet-io logo, which works well against black and white
+  var TEXT_COLOR = 'black'; // The gray from the phet-io logo, which works well against black and white
 
   // When there is total internal reflection, treat it as if it is a powerless ray for simplicity
   var MOCK_ZERO_RAY = {
@@ -77,8 +78,34 @@ define( function( require ) {
     this.addChild( lowerArcPath );
 
     var createText = function() {
-      return new Text( '', { fontSize: 12, fill: TEXT_COLOR } );
+      var text = new Text( '', { fontSize: 12, fill: TEXT_COLOR } );
+      var panel = new Panel( text, {
+        fill: 'white',
+        opacity: 0.75,
+        stroke: null,
+        lineWidth: 0, // width of the background border
+        xMargin: 3,
+        yMargin: 3,
+        cornerRadius: 6, // radius of the rounded corners on the background
+        resize: true, // dynamically resize when content bounds change
+        backgroundPickable: false,
+        align: 'center', // {string} horizontal of content in the pane, left|center|right
+        minWidth: 0 // minimum width of the panel
+      } );
+
+      // defines ES5 getter/setter
+      Object.defineProperty( panel, 'text', {
+        get: function() { return 'hello'; },
+        set: function( value ) { text.text = value; },
+
+        // Make it configurable and enumerable so it's easy to override...
+        configurable: true,
+        enumerable: true
+      } );
+
+      return panel;
     };
+
     // Readout for the angle for the incoming light ray
     var incomingReadout = createText();
     this.addChild( incomingReadout );
@@ -167,7 +194,7 @@ define( function( require ) {
         var incomingReadoutText = incomingRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
         var createDirectionVector = function( angle ) {
-          return Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT, angle );
+          return Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT + 5, angle );
         };
         var incomingReadoutDirection = createDirectionVector( -Math.PI / 2 - incomingAngleFromNormal / 2 );
         var reflectedReadoutDirection = createDirectionVector( -Math.PI / 2 + incomingAngleFromNormal / 2 );
