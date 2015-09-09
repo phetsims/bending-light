@@ -54,6 +54,7 @@ define( function( require ) {
     this.velocitySensorNode.addToToolBox();
     this.waveSensorNode.addToToolBox();
 
+    // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       function( laserView, isWaveSensorEnabled ) {
         var isButtonsVisible = isWaveSensorEnabled || laserView === 'wave';

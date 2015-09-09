@@ -195,6 +195,8 @@ define( function( require ) {
     // Update the text when the value or units changes.
     Property.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty ],
       function( velocity ) {
+
+        // add '?' for null velocity
         if ( velocity.magnitude() === 0 ) {
           labelText.text = '?';
         }
