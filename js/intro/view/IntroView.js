@@ -276,7 +276,7 @@ define( function( require ) {
         normalText, normalIcon
       ], spacing: 12
     } ), introModel.showNormalProperty, {
-      boxWidth: 20,
+      boxWidth: 15,
       spacing: 5
     } );
 
@@ -286,7 +286,7 @@ define( function( require ) {
         angleText, angleIcon
       ], spacing: 12
     } ), introModel.showAnglesProperty, {
-      boxWidth: 20,
+      boxWidth: 15,
       spacing: 5
     } );
 
