@@ -25,6 +25,7 @@ define( function( require ) {
   var NUM_DIGITS = 1; // number of digits in the text readouts
   var ROUNDING_FACTOR = 10; // Round to the nearest tenth
   var BUMP_TO_SIDE_DISTANCE = 38; // How far to move the text to the side if it was in the way of the rays
+  var TEXT_COLOR = '#999999'; // The gray from the phet-io logo, which works well against black and white
 
   // When there is total internal reflection, treat it as if it is a powerless ray for simplicity
   var MOCK_ZERO_RAY = {
@@ -76,7 +77,7 @@ define( function( require ) {
     this.addChild( lowerArcPath );
 
     var createText = function() {
-      return new Text( '', { fontSize: 12 } );
+      return new Text( '', { fontSize: 12, fill: TEXT_COLOR } );
     };
     // Readout for the angle for the incoming light ray
     var incomingReadout = createText();
