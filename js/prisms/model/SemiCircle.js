@@ -64,8 +64,12 @@ define( function( require ) {
 
       var newPoints = [];
       for ( var j = 0; j < this.points.length; j++ ) {
+
+        // get new points after rotating
         newPoints.push( this.points[ j ].plusXY( deltaX, deltaY ) );
       }
+
+      // create a new SemiCircle with rotated points
       return new SemiCircle( this.referencePointIndex, newPoints, this.radius );
     },
 
@@ -81,8 +85,12 @@ define( function( require ) {
       for ( var k = 0; k < this.points.length; k++ ) {
         var vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
         var rotated = vectorAboutCentroid.rotate( angle );
+
+        // get new points after rotating
         newPoints.push( rotated.add( rotationPoint ) );
       }
+
+      // create a new SemiCircle with rotated points
       return new SemiCircle( this.referencePointIndex, newPoints, this.radius );
     },
 

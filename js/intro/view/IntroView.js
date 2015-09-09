@@ -251,20 +251,21 @@ define( function( require ) {
     );
     this.intensityMeterNode.addToToolBox();
 
-    // add normal check box
+    // add normal text
     var normalText = new Text( normalString, { fontSize: 12 } );
     var normalTextMaxWidth = 50;
     if ( normalText.width > normalTextMaxWidth ) {
       normalText.scale( normalTextMaxWidth / normalText.width );
     }
 
+    // add angle text
     var angleText = new Text( anglesString, { fontSize: 12 } );
     var angleTextMaxWidth = 50;
     if ( angleText.width > angleTextMaxWidth ) {
       angleText.scale( angleTextMaxWidth / angleText.width );
     }
 
-    // add normal
+    // add normal check box
     var normalIcon = new NormalLine( 17, [ 4, 3 ] );
     var normalCheckBox = new CheckBox( new HBox( {
       children: [
@@ -275,6 +276,7 @@ define( function( require ) {
       spacing: 5
     } );
 
+    // add angle check box
     var angleIcon = new AngleIcon();
     var angleCheckBox = new CheckBox( new HBox( {
       children: [

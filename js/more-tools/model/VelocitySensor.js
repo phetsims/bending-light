@@ -26,6 +26,7 @@ define( function( require ) {
       enabled: false // @public, True if it is in the play area
     } );
 
+    // shows the visibility of arrows
     this.addDerivedProperty( 'isArrowVisible', [ 'value' ], function( value ) {
       return value.magnitude() > 0;
     } );

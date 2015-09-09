@@ -81,8 +81,12 @@ define( function( require ) {
 
       var newPoints = [];
       for ( var j = 0; j < this.points.length; j++ ) {
+
+        // get the new points after translating
         newPoints.push( this.points[ j ].plusXY( deltaX, deltaY ) );
       }
+
+      // create a new polygon with translated points
       return new Polygon( this.referencePointIndex, newPoints, this.radius );
     },
 
@@ -98,8 +102,12 @@ define( function( require ) {
       for ( var k = 0; k < this.points.length; k++ ) {
         var vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
         var rotated = vectorAboutCentroid.rotate( angle );
+
+        // get the new points after rotating
         newPoints.push( rotated.add( rotationPoint ) );
       }
+
+      // create a new polygon with rotated points
       return new Polygon( this.referencePointIndex, newPoints, this.radius );
     },
 

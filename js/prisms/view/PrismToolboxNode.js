@@ -110,11 +110,16 @@ define( function( require ) {
         cursor: 'pointer'
       } );
 
+      // Add drag listener for the prisms icon
       prismToolboxIconNode.addInputListener( new SimpleDragHandler( {
           start: function( event ) {
             var start = prismToolboxNode.globalToParentPoint( event.pointer.point );
             var prismShape = prism.copy();
+
+            // add prism model to the prisms model
             prismsModel.addPrism( prismShape );
+
+            // create a prism node and add to the prisms layer
             prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
               dragBoundsProperty, occlusionHandler );
             prismNode.dragStart = start;
@@ -130,6 +135,7 @@ define( function( require ) {
         }
       ) );
 
+      // touch area
       prismIcon.touchArea = prismIcon.localBounds;
       content.addChild( prismIcon );
       prismIcon.addChild( prismToolboxIconNode );

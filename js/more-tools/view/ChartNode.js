@@ -34,11 +34,14 @@ define( function( require ) {
   function SeriesNode( series, modelViewTransformProperty, chartBounds ) {
 
     Node.call( this );
+
+    // add series canvas
     var seriesCanvasNode = new SeriesCanvasNode( series.seriesProperty, modelViewTransformProperty, series.color.toCSS(), {
       canvasBounds: chartBounds
     } );
     this.addChild( seriesCanvasNode );
 
+    // Update the series canvas for every change in series
     series.seriesProperty.link( function() {
       seriesCanvasNode.step();
     } );

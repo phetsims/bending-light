@@ -356,8 +356,12 @@ define( function( require ) {
      * @public
      */
     updateSimulationTimeAndWaveShape: function() {
+
+      // Update the time
       this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
       var introModel = this;
+
+      // set time for each ray
       this.rays.forEach( function( ray ) {
         ray.setTime( introModel.time );
       } );
@@ -402,6 +406,8 @@ define( function( require ) {
         particleColor = new Color( lightRay.color.getRed(), lightRay.color.getGreen(), lightRay.color.getBlue(),
           Math.sqrt( lightRay.powerFraction ) ).toCSS();
         particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.powerFraction ) ).toCSS();
+
+        // calculate the number of particles that can fit in the distance
         var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;
         var waveParticleGap = 0;
 

@@ -15,7 +15,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   /**
-   *
    * @constructor
    */
   function AngleIcon() {
