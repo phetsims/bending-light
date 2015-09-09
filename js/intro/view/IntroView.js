@@ -231,7 +231,7 @@ define( function( require ) {
     // create the protractor node
     this.protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
       this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-      this.toolbox.bounds, this.visibleBoundsProperty, this.getProtractorNodeToolboxPosition.bind( this ) )
+      this.toolbox.bounds, this.visibleBoundsProperty, this.getProtractorNodeToolboxPosition.bind( this ) );
     this.protractorNode.addToToolBox();
 
     // add intensity meter

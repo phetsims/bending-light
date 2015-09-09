@@ -17,7 +17,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Shape = require( 'KITE/Shape' );
-  var Property = require( 'AXON/Property' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
   var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
