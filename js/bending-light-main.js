@@ -17,7 +17,7 @@ define( function( require ) {
   var SimLauncher = require( 'JOIST/SimLauncher' );
 
   // strings
-  var simTitle = require( 'string!BENDING_LIGHT/bending-light.name' );
+  var simTitle = require( 'string!BENDING_LIGHT/bending-light.title' );
 
   var simOptions = {
     credits: {
