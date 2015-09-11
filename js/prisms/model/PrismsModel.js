@@ -318,8 +318,8 @@ define( function( require ) {
         // Compute the output rays, see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
         var cosTheta1 = n.dotXY( L.x * -1, L.y * -1 );
         var cosTheta2Radicand = 1 - Math.pow( n1 / n2, 2 ) * (1 - Math.pow( cosTheta1, 2 ));
-        var cosTheta2 = Math.sqrt( cosTheta2Radicand );
         var totalInternalReflection = cosTheta2Radicand < 0;
+        var cosTheta2 = Math.sqrt( Math.abs( cosTheta2Radicand ) );
         var vReflect = (n.times( 2 * cosTheta1 )).add( L );
         var vRefract = cosTheta1 > 0 ? (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 - cosTheta2 ) )
           : (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 + cosTheta2 ) );

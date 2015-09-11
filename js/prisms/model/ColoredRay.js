@@ -24,6 +24,7 @@ define( function( require ) {
    */
   function ColoredRay( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, frequency ) {
 
+    assert && assert( !isNaN( directionUnitVector.magnitude() ), 'direction unit vector should have a numeric magnitude' );
     this.tail = tail; // @public, read only.
 
     // Power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction
