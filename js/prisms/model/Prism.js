@@ -11,7 +11,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
+  var PropertySet = require( 'AXON/PropertySet' );
 
   /**
    * @param {Polygon/Circle/SemiCircle} shape
@@ -20,13 +20,16 @@ define( function( require ) {
    */
   function Prism( shape, typeName ) {
 
-    Property.addProperty( this, 'shape', shape );
+    // @public
+    PropertySet.call( this, {
+      shape: shape
+    } );
 
     // @public
     this.typeName = typeName;
   }
 
-  return inherit( Object, Prism, {
+  return inherit( PropertySet, Prism, {
 
     /**
      * Translate prism by the specified amount
