@@ -16,7 +16,7 @@ define( function( require ) {
   var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
   var SemiCircle = require( 'BENDING_LIGHT/prisms/model/SemiCircle' );
   var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
-  var Ray = require( 'BENDING_LIGHT/prisms/model/Ray' );
+  var ColoredRay = require( 'BENDING_LIGHT/prisms/model/ColoredRay' );
   var Ray2 = require( 'DOT/Ray2' );
   var Property = require( 'AXON/Property' );
   var Util = require( 'DOT/Util' );
@@ -210,7 +210,7 @@ define( function( require ) {
           // show the intersection for the smallest and largest wavelengths.  Protect against floating point error for
           // the latter
           var showIntersection = ( i === 0 ) || ( i === wavelengths.length - 1 );
-          this.propagateTheRay( new Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction,
+          this.propagateTheRay( new ColoredRay( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction,
             BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0, showIntersection );
         }
       }
@@ -218,7 +218,7 @@ define( function( require ) {
         mediumIndexOfRefraction = laserInPrism ?
                                   this.prismMedium.getIndexOfRefraction( this.laser.getWavelength() ) :
                                   this.environmentMedium.getIndexOfRefraction( this.laser.getWavelength() );
-        this.propagateTheRay( new Ray( tail, directionUnitVector, power, this.laser.getWavelength(),
+        this.propagateTheRay( new ColoredRay( tail, directionUnitVector, power, this.laser.getWavelength(),
           mediumIndexOfRefraction, this.laser.getFrequency() ), 0, true );
       }
     },
@@ -269,7 +269,7 @@ define( function( require ) {
      * Recursive algorithm to compute the pattern of rays in the system. This is the main computation of this model,
      * rays are cleared beforehand and this algorithm adds them as it goes
      * @private
-     * @param {Ray} incidentRay - model of the ray
+     * @param {ColoredRay} incidentRay - model of the ray
      * @param {number} count - number of rays
      * @param {boolean} showIntersection - true if the intersection should be shown.  True for single rays and for extrema o
      *                                   - of white light wavelengths
@@ -329,10 +329,10 @@ define( function( require ) {
           : Util.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );// clamp(value,min,max)
 
         // Create the new rays and propagate them recursively
-        var reflected = new Ray( ( incidentRay.directionUnitVector.times( -1E-12 )).add( point ), vReflect,
+        var reflected = new ColoredRay( ( incidentRay.directionUnitVector.times( -1E-12 )).add( point ), vReflect,
           incidentRay.power * reflectedPower, incidentRay.wavelength, incidentRay.mediumIndexOfRefraction,
           incidentRay.frequency );
-        var refracted = new Ray( (incidentRay.directionUnitVector.times( +1E-12 )).add( point ), vRefract,
+        var refracted = new ColoredRay( (incidentRay.directionUnitVector.times( +1E-12 )).add( point ), vRefract,
           incidentRay.power * transmittedPower, incidentRay.wavelength, n2, incidentRay.frequency );
         if ( this.showReflections || totalInternalReflection ) {
           this.propagateTheRay( reflected, count + 1, showIntersection );
@@ -382,7 +382,7 @@ define( function( require ) {
     /**
      * Find the nearest intersection between a light ray and the set of prisms in the play area
      * @private
-     * @param {Ray} incidentRay - model of the ray
+     * @param {ColoredRay} incidentRay - model of the ray
      * @param {ObservableArray<Prism>} prisms
      * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
      */

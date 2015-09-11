@@ -62,9 +62,9 @@ define( function( require ) {
         'precision mediump float;',
         'uniform float uPowerFraction;', // light ray power fraction
         'uniform vec2 uTail;', // Tail point
-        'uniform float uAngle;', // Angle of the Ray
-        'uniform float uWaveLength;', // Wavelength of the Ray
-        'uniform float uPhase;', // phase difference of the Ray
+        'uniform float uAngle;', // Angle of the ColoredRay
+        'uniform float uWaveLength;', // Wavelength of the ColoredRay
+        'uniform float uPhase;', // phase difference of the ColoredRay
         'uniform vec2 uCanvasOffset;', // Canvas Offset
         'uniform float uScale;',
         'uniform float uDevicePixelRatio;',

@@ -45,7 +45,7 @@ define( function( require ) {
     /**
      * Finds the intersections between the edges of the circle and the specified ray
      * @public
-     * @param {Ray} ray - model of the ray
+     * @param {ColoredRay} ray - model of the ray
      * @returns {Array}
      */
     getIntersections: function( ray ) {

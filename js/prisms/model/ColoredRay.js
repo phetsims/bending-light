@@ -22,7 +22,7 @@ define( function( require ) {
    * @param {number} frequency - frequency of ray
    * @constructor
    */
-  function Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, frequency ) {
+  function ColoredRay( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, frequency ) {
 
     this.tail = tail; // @public, read only.
 
@@ -36,7 +36,7 @@ define( function( require ) {
     this.directionUnitVector = directionUnitVector; // @public, read only.
   }
 
-  return inherit( Object, Ray, {
+  return inherit( Object, ColoredRay, {
 
     /**
      * Gets the wavelength for this ray if it wasn't inside a medium

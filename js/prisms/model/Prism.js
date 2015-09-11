@@ -41,7 +41,7 @@ define( function( require ) {
     /**
      * Compute the intersections of the specified ray with this polygon's edges
      * @public
-     * @param {Ray} incidentRay - model of the ray
+     * @param {ColoredRay} incidentRay - model of the ray
      * @returns {Array}
      */
     getIntersections: function( incidentRay ) {
