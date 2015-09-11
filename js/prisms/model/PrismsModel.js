@@ -49,23 +49,27 @@ define( function( require ) {
     this.protractorModel = new ProtractorModel( 0, 0 );
 
     var prismsModel = this;
-    BendingLightModel.call( this, Math.PI, false, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1 );
+    BendingLightModel.call( this,
+      Math.PI,
+      false,
+      BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1, {
 
-    // Show multiple beams to help show how lenses work
-    this.addProperty( 'manyRays', 1 );
+        // Show multiple beams to help show how lenses work
+        manyRays: 1,
 
-    // If false, will hide non TIR reflections
-    this.addProperty( 'showReflections', false );
-    this.addProperty( 'showNormals', false );
-    this.addProperty( 'showProtractor', false ); // @public
+        // If false, will hide non TIR reflections
+        showReflections: false,
+        showNormals: false,
+        showProtractor: false, // @public
 
-    // Environment the laser is in
-    this.addProperty( 'environmentMedium', new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
-      MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
+        // Environment the laser is in
+        environmentMedium: new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
+          MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ),
 
-    // Material that comprises the prisms
-    this.addProperty( 'prismMedium', new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
-      MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ) );
+        // Material that comprises the prisms
+        prismMedium: new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
+          MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) )
+      } );
 
     Property.multilink( [
       this.manyRaysProperty,

@@ -75,9 +75,10 @@ define( function( require ) {
    * @param {number} laserAngle - laser angle in radians
    * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
    * @param {number} laserDistanceFromPivot - distance of laser from pivot point
+   * @param {Object} [properties] - additional properties to add to the property set
    * @constructor
    */
-  function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot ) {
+  function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot, properties ) {
 
     // @public - list of rays in the model
     this.rays = new ObservableArray();
@@ -93,16 +94,15 @@ define( function( require ) {
     // The mobile WebGL implementation will work with basic WebGL support
     this.allowWebGL = Util.checkWebGLSupport() && !disallowWebGL; // @public
 
-    PropertySet.call( this, {
-        laserView: 'ray', // @public, Whether the laser is Ray or Wave mode
-        wavelength: BendingLightConstants.WAVELENGTH_RED, // @public
-        isPlaying: true, // @public
-        speed: 'normal', // @public
-        indexOfRefraction: 1, // @public
-        showNormal: true, // @public
-        showAngles: false // @public
-      }
-    );
+    PropertySet.call( this, _.extend( {
+      laserView: 'ray', // @public, Whether the laser is Ray or Wave mode
+      wavelength: BendingLightConstants.WAVELENGTH_RED, // @public
+      isPlaying: true, // @public
+      speed: 'normal', // @public
+      indexOfRefraction: 1, // @public
+      showNormal: true, // @public
+      showAngles: false // @public
+    }, properties ) );
 
     // @public - the laser
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
