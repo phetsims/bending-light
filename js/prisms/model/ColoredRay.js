@@ -14,18 +14,17 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   /**
-   * @param {Vector2} tail - ray tail position
-   * @param {Vector2} directionUnitVector - ray direction
+   * @param {Ray2} ray - tail and direction
    * @param {number} power - power of the ray
    * @param {number} wavelength - wavelength of ray
    * @param {number} mediumIndexOfRefraction - index of refraction of medium
    * @param {number} frequency - frequency of ray
    * @constructor
    */
-  function ColoredRay( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, frequency ) {
+  function ColoredRay( ray, power, wavelength, mediumIndexOfRefraction, frequency ) {
 
-    assert && assert( !isNaN( directionUnitVector.magnitude() ), 'direction unit vector should have a numeric magnitude' );
-    this.tail = tail; // @public, read only.
+    assert && assert( !isNaN( ray.dir.magnitude() ), 'direction unit vector should have a numeric magnitude' );
+    this.tail = ray.pos; // @public, read only.
 
     // Power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction
     this.power = power; // @public, read only.
@@ -34,7 +33,7 @@ define( function( require ) {
     this.wavelength = wavelength; // @public, read only.
     this.mediumIndexOfRefraction = mediumIndexOfRefraction; // @public, read only.
     this.frequency = frequency; // @public, read only.
-    this.directionUnitVector = directionUnitVector; // @public, read only.
+    this.directionUnitVector = ray.dir; // @public, read only.
   }
 
   return inherit( Object, ColoredRay, {

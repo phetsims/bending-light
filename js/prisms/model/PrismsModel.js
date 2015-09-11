@@ -210,7 +210,7 @@ define( function( require ) {
           // show the intersection for the smallest and largest wavelengths.  Protect against floating point error for
           // the latter
           var showIntersection = ( i === 0 ) || ( i === wavelengths.length - 1 );
-          this.propagateTheRay( new ColoredRay( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction,
+          this.propagateTheRay( new ColoredRay( new Ray2( tail, directionUnitVector ), power, wavelength, mediumIndexOfRefraction,
             BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0, showIntersection );
         }
       }
@@ -218,7 +218,7 @@ define( function( require ) {
         mediumIndexOfRefraction = laserInPrism ?
                                   this.prismMedium.getIndexOfRefraction( this.laser.getWavelength() ) :
                                   this.environmentMedium.getIndexOfRefraction( this.laser.getWavelength() );
-        this.propagateTheRay( new ColoredRay( tail, directionUnitVector, power, this.laser.getWavelength(),
+        this.propagateTheRay( new ColoredRay( new Ray2( tail, directionUnitVector ), power, this.laser.getWavelength(),
           mediumIndexOfRefraction, this.laser.getFrequency() ), 0, true );
       }
     },
@@ -329,10 +329,10 @@ define( function( require ) {
           : Util.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );// clamp(value,min,max)
 
         // Create the new rays and propagate them recursively
-        var reflected = new ColoredRay( ( incidentRay.directionUnitVector.times( -1E-12 )).add( point ), vReflect,
+        var reflected = new ColoredRay( new Ray2( incidentRay.directionUnitVector.times( -1E-12 ).add( point ), vReflect ),
           incidentRay.power * reflectedPower, incidentRay.wavelength, incidentRay.mediumIndexOfRefraction,
           incidentRay.frequency );
-        var refracted = new ColoredRay( (incidentRay.directionUnitVector.times( +1E-12 )).add( point ), vRefract,
+        var refracted = new ColoredRay( new Ray2( incidentRay.directionUnitVector.times( +1E-12 ).add( point ), vRefract ),
           incidentRay.power * transmittedPower, incidentRay.wavelength, n2, incidentRay.frequency );
         if ( this.showReflections || totalInternalReflection ) {
           this.propagateTheRay( reflected, count + 1, showIntersection );
