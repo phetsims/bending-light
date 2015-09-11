@@ -16,13 +16,9 @@ define( function( require ) {
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {ObservableArray<LightRay>} rays - light rays
-   * @param {Number} layoutWidth - width of the dev area
-   * @param {Number} layoutHeight - height of the dev area
    * @constructor
    */
-  function WaveWebGLNode( modelViewTransform, rays, layoutWidth, layoutHeight ) {
-    this.layoutWidth = layoutWidth; // @private
-    this.layoutHeight = layoutHeight; // @private
+  function WaveWebGLNode( modelViewTransform, rays ) {
     this.modelViewTransform = modelViewTransform; // @public
     this.rays = rays; // @private
     WebGLNode.call( this );
@@ -44,7 +40,9 @@ define( function( require ) {
         'attribute vec3 aPosition;', // vertex attribute
         'uniform mat3 uModelViewMatrix;',
         'uniform mat3 uProjectionMatrix;',
+        'varying vec2 vPosition;',
         'void main( void ) {',
+        '  vPosition = aPosition.xy;',
 
         // homogeneous model-view transformation
         'vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );',
@@ -65,21 +63,13 @@ define( function( require ) {
         'uniform float uAngle;', // Angle of the ColoredRay
         'uniform float uWaveLength;', // Wavelength of the ColoredRay
         'uniform float uPhase;', // phase difference of the ColoredRay
-        'uniform vec2 uCanvasOffset;', // Canvas Offset
-        'uniform float uScale;',
-        'uniform float uDevicePixelRatio;',
         'uniform vec3 uColor;', // Color of the wave
-        'uniform float uLayoutHeight;',
+        'varying vec2 vPosition;',
         'void main( void ) {',
-
-        // converting pixel coordinates to view coordinates.
-        'float x1 = (gl_FragCoord.x/uDevicePixelRatio-uCanvasOffset.x)/uScale;',
-        'float y1 = (gl_FragCoord.y/uDevicePixelRatio-uCanvasOffset.y)/uScale;',
 
         // Perpendicular distance from tail to rendering coordinate. This is obtained by Coordinate Transformation to
         // tail point and applying dot product to the unit vector in the direction of ray and rendering coordinate
-        // tail coordinate is mapped from view to canvas (layoutBounds.height - uTail.y)
-        'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(x1-uTail.x,y1+uTail.y-uLayoutHeight));',
+        'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(vPosition.x-uTail.x,uTail.y - vPosition.y));',
 
         // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
         'float positionDiff = mod( abs( distance - uPhase), uWaveLength);',
@@ -94,7 +84,7 @@ define( function( require ) {
       drawable.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
         attributes: [ 'aPosition' ],
         uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uPowerFraction', 'uTail', 'uAngle', 'uWaveLength',
-          'uPhase', 'uScale', 'uDevicePixelRatio', 'uColor', 'uCanvasOffset', 'uLayoutHeight' ]
+          'uPhase', 'uColor' ]
       } );
       drawable.vertexBuffer = gl.createBuffer();
     },
@@ -109,36 +99,6 @@ define( function( require ) {
       var shaderProgram = drawable.shaderProgram;
 
       shaderProgram.use();
-
-      var widthOffset;
-      var heightOffset;
-      var navigationBarHeight = 40;
-      // scale the content (based on whichever is more limiting: width or height)
-      // and centers the content in the screen vertically and horizontally
-      var navigationBarScale = Math.min( window.innerWidth / this.layoutWidth, window.innerHeight / this.layoutHeight );
-      var navigationBarHeightInWindowCoordinates = navigationBarHeight * navigationBarScale;
-      var screenHeight = window.innerHeight - navigationBarHeightInWindowCoordinates;
-      var scale = Math.min( window.innerWidth / this.layoutWidth, screenHeight / this.layoutHeight );
-      if ( scale === window.innerWidth / this.layoutWidth ) {
-
-        // Here the layout(dev-area) is centered vertically above navigation bar.
-        // find out the vertical  space between navigation bar and bottom of the dev area
-        var distanceBetweenNavigationBarTopAndDevArea = (screenHeight - this.layoutHeight * scale) / 2;
-
-        // The height offset from the bottom left corner of the screen to bottom of dev area
-        //  is sum of navigation bar height and distanceBetweenNavigationBarTopAndDevArea.
-        widthOffset = 0;
-        heightOffset = distanceBetweenNavigationBarTopAndDevArea + navigationBarHeightInWindowCoordinates;
-      }
-      else {
-
-        // Here the layout(dev-area) is centered horizontally. As navigation bar is also inserted into window vertical height.
-        // So find out the new scale excluding the navigation bar height and find out the  horizontal space  to the left of dev area
-        widthOffset = (window.innerWidth - ( this.layoutWidth * scale)) / 2;
-        heightOffset = navigationBarHeightInWindowCoordinates;
-      }
-
-      var devicePixelRatio = ( window.devicePixelRatio || 1 ); // for retina-like devices
 
       for ( var i = this.rays.length - 1; i >= 0; i-- ) {
         var elements = [];
@@ -201,11 +161,7 @@ define( function( require ) {
         gl.uniform1f( shaderProgram.uniformLocations.uAngle, lightRayAngle );
         gl.uniform1f( shaderProgram.uniformLocations.uWaveLength, wavelength );
         gl.uniform1f( shaderProgram.uniformLocations.uPhase, phaseDiff );
-        gl.uniform1f( shaderProgram.uniformLocations.uScale, scale );
-        gl.uniform1f( shaderProgram.uniformLocations.uDevicePixelRatio, devicePixelRatio );
         gl.uniform3f( shaderProgram.uniformLocations.uColor, red, green, blue );
-        gl.uniform2f( shaderProgram.uniformLocations.uCanvasOffset, widthOffset, heightOffset );
-        gl.uniform1f( shaderProgram.uniformLocations.uLayoutHeight, this.layoutHeight );
 
         gl.bindBuffer( gl.ARRAY_BUFFER, drawable.vertexBuffer );
         gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
