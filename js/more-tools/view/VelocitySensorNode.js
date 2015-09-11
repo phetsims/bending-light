@@ -31,6 +31,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
+  var Color = require( 'SCENERY/util/Color' );
 
   // strings
   var speedString = require( 'string!BENDING_LIGHT/speed' );
@@ -84,14 +85,19 @@ define( function( require ) {
     this.bodyNode.addChild( triangleShapeNode );
 
     // Adding outer rectangle
+    var bodyColor = new Color( '#CF8702' );
     var bodyRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 15, 15, {
       stroke: '#844702',
-      fill: new LinearGradient( 0, 0, rectangleWidth, 0 )
-        .addColorStop( 0, '#F3D092' )
-        .addColorStop( 0.2, '#DE9103' )
-        .addColorStop( 0.6, '#CF8702' )
-        .addColorStop( 0.8, '#DE9103' )
-        .addColorStop( 1, '#B07200' ),
+      fill: new LinearGradient( 0, 0, 0, rectangleHeight )
+
+      // Highlights on top
+        .addColorStop( 0.0, bodyColor.colorUtilsBrightness( +0.4 ) )
+        .addColorStop( 0.1, bodyColor.colorUtilsBrightness( +0.1 ) )
+        .addColorStop( 0.6, bodyColor.colorUtilsBrightness( +0.0 ) )
+
+        // Shadows on bottom
+        .addColorStop( 0.9, bodyColor.colorUtilsBrightness( -0.1 ) )
+        .addColorStop( 1.0, bodyColor.colorUtilsBrightness( -0.3 ) ),
       lineWidth: 1,
       left: triangleShapeNode.right - 2,
       centerY: triangleShapeNode.centerY
