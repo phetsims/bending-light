@@ -470,9 +470,7 @@ define( function( require ) {
       // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
       if ( bendingLightModel.allowWebGL ) {
         var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
-          bendingLightModel.rays,
-          bendingLightView.layoutBounds.width,
-          bendingLightView.layoutBounds.height );
+          bendingLightModel.rays );
         bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
       }
       else {
