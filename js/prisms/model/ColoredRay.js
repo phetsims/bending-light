@@ -24,7 +24,9 @@ define( function( require ) {
   function ColoredRay( ray, power, wavelength, mediumIndexOfRefraction, frequency ) {
 
     assert && assert( !isNaN( ray.dir.magnitude() ), 'direction unit vector should have a numeric magnitude' );
-    this.tail = ray.pos; // @public, read only.
+
+    // @private, read only.
+    this.ray = ray;
 
     // Power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction
     this.power = power; // @public, read only.
@@ -33,11 +35,19 @@ define( function( require ) {
     this.wavelength = wavelength; // @public, read only.
     this.mediumIndexOfRefraction = mediumIndexOfRefraction; // @public, read only.
     this.frequency = frequency; // @public, read only.
-    this.directionUnitVector = ray.dir; // @public, read only.
   }
 
   return inherit( Object, ColoredRay, {
 
+    // @public
+    get tail() {
+      return this.ray.pos;
+    },
+
+    // @public
+    get directionUnitVector() {
+      return this.ray.dir;
+    },
     /**
      * Gets the wavelength for this ray if it wasn't inside a medium
      * @public

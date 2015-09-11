@@ -321,8 +321,13 @@ define( function( require ) {
         var totalInternalReflection = cosTheta2Radicand < 0;
         var cosTheta2 = Math.sqrt( Math.abs( cosTheta2Radicand ) );
         var vReflect = (n.times( 2 * cosTheta1 )).add( L );
-        var vRefract = cosTheta1 > 0 ? (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 - cosTheta2 ) )
-          : (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 + cosTheta2 ) );
+        var vRefract = cosTheta1 > 0 ?
+                       (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
+                       (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 + cosTheta2 ) );
+
+        // TODO: This should already be normalized, see #226
+        vRefract = vRefract.normalized();
+        
         var reflectedPower = totalInternalReflection ? 1
           : Util.clamp( BendingLightModel.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
         var transmittedPower = totalInternalReflection ? 0
