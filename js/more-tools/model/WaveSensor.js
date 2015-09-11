@@ -12,7 +12,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Property = require( 'AXON/Property' );
   var DataPoint = require( 'BENDING_LIGHT/more-tools/model/DataPoint' );
   var PropertySet = require( 'AXON/PropertySet' );
 

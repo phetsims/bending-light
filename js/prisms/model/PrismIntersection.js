@@ -12,7 +12,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
-  var Ray2 = require( 'DOT/Ray2' );
 
   function PrismIntersection() {
     assert && assert( false, 'should not be instantiated' );
