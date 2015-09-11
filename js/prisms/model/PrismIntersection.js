@@ -26,10 +26,10 @@ define( function( require ) {
        * @param {array.<Line>} edges - edges of the prism, or an empty array for a circle
        * @param {Shape} arc - arc of the prism
        * @param {Vector2} center - center of the arc if prism contains arc otherwise null
-       * @param {ColoredRay} ray - light ray intersecting the prism
+       * @param {ColoredRay} coloredRay - light ray intersecting the prism
        * @constructor
        */
-      getIntersections: function( edges, arc, center, ray ) {
+      getIntersections: function( edges, arc, center, coloredRay ) {
         var intersections = [];
         var intersection;
         var unitNormal;
@@ -37,7 +37,7 @@ define( function( require ) {
           edges.forEach( function( lineSegment ) {
 
             // Get the intersection if there is one
-            intersection = lineSegment.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
+            intersection = lineSegment.intersection( coloredRay.ray );
             if ( intersection.length !== 0 ) {
 
               // Choose the normal vector that points the opposite direction of the incoming ray
@@ -45,7 +45,7 @@ define( function( require ) {
 
               // Angle between the normal and ray should not be greater than 90 degrees.
               // If angle is greater than 90 then reverse the direction of the normal.
-              if ( unitNormal.dot( ray.directionUnitVector ) > 0 ) {
+              if ( unitNormal.dot( coloredRay.directionUnitVector ) > 0 ) {
                 unitNormal.negate();
               }
               // Add to the array of intersections
@@ -54,14 +54,14 @@ define( function( require ) {
           } );
         }
         if ( arc !== null ) {
-          intersection = arc.intersection( new Ray2( ray.tail, ray.directionUnitVector ) );
+          intersection = arc.intersection( coloredRay.ray );
           if ( intersection.length !== 0 ) {
 
             unitNormal = intersection[ 0 ].point.minus( center ).normalize();
 
             // Angle between the normal and ray should not be greater than 90 degrees.
             // If angle is greater than 90 then reverse the direction of the normal.
-            if ( unitNormal.dot( ray.directionUnitVector ) > 0 ) {
+            if ( unitNormal.dot( coloredRay.directionUnitVector ) > 0 ) {
               unitNormal.negate();
             }
             // Add to the array of intersections
