@@ -187,12 +187,11 @@ define( function( require ) {
     /**
      * Determines whether white light or single color light
      * @private
-     * @param {Vector2} tail - tail position of light ray
-     * @param {Vector2} directionUnitVector - unit vector of the light ray
+     * @param {Ray2} ray - tail and direction for light
      * @param {number} power - amount of power this light has
      * @param {boolean} laserInPrism - specifies whether laser in prism
      */
-    propagate: function( tail, directionUnitVector, power, laserInPrism ) {
+    propagate: function( ray, power, laserInPrism ) {
 
       // Determines whether to use white light or single color light
       var mediumIndexOfRefraction;
@@ -210,7 +209,7 @@ define( function( require ) {
           // show the intersection for the smallest and largest wavelengths.  Protect against floating point error for
           // the latter
           var showIntersection = ( i === 0 ) || ( i === wavelengths.length - 1 );
-          this.propagateTheRay( new ColoredRay( new Ray2( tail, directionUnitVector ), power, wavelength, mediumIndexOfRefraction,
+          this.propagateTheRay( new ColoredRay( ray, power, wavelength, mediumIndexOfRefraction,
             BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0, showIntersection );
         }
       }
@@ -218,7 +217,7 @@ define( function( require ) {
         mediumIndexOfRefraction = laserInPrism ?
                                   this.prismMedium.getIndexOfRefraction( this.laser.getWavelength() ) :
                                   this.environmentMedium.getIndexOfRefraction( this.laser.getWavelength() );
-        this.propagateTheRay( new ColoredRay( new Ray2( tail, directionUnitVector ), power, this.laser.getWavelength(),
+        this.propagateTheRay( new ColoredRay( ray, power, this.laser.getWavelength(),
           mediumIndexOfRefraction, this.laser.getFrequency() ), 0, true );
       }
     },
@@ -236,14 +235,14 @@ define( function( require ) {
         if ( this.manyRays === 1 ) {
 
           // This can be used to show the main central ray
-          this.propagate( tail, directionUnitVector, 1.0, laserInPrism );
+          this.propagate( new Ray2( tail, directionUnitVector ), 1.0, laserInPrism );
         }
         else {
 
           // Many parallel rays
           for ( var x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
             var offset = directionUnitVector.rotated( Math.PI / 2 ).multiplyScalar( x );
-            this.propagate( offset.add( tail ), directionUnitVector, 1.0, laserInPrism );
+            this.propagate( new Ray2( offset.add( tail ), directionUnitVector ), 1.0, laserInPrism );
           }
         }
       }
@@ -327,7 +326,7 @@ define( function( require ) {
 
         // TODO: This should already be normalized, see #226
         vRefract = vRefract.normalized();
-        
+
         var reflectedPower = totalInternalReflection ? 1
           : Util.clamp( BendingLightModel.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
         var transmittedPower = totalInternalReflection ? 0
