@@ -353,12 +353,11 @@ define( function( require ) {
     } ) );
 
     // add play pause button
-    this.playPauseButton = new PlayPauseButton( introModel.isPlayingProperty,
-      {
-        radius: 18, stroke: 'black', fill: '#005566',
-        bottom: this.layoutBounds.bottom - 15,
-        left: this.speedControl.right + INSET
-      } );
+    this.playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
+      radius: 18, stroke: 'black', fill: '#005566',
+      bottom: this.layoutBounds.bottom - 15,
+      left: this.speedControl.right + INSET
+    } );
     this.beforeLightLayer.addChild( this.playPauseButton );
 
     // add step button
