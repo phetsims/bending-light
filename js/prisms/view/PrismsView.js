@@ -174,14 +174,6 @@ define( function( require ) {
       return innerBar;
     };
 
-    // Add the protractor node
-    var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismsModel.showProtractorProperty,
-      prismsModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
-      this.visibleBoundsProperty, function() {
-        return new Vector2( 0, 0 );
-      } );
-    this.addChild( protractorNode );
-
     // Add prisms tool box Node
     var prismToolboxNode = new PrismToolboxNode(
       this.modelViewTransform,
@@ -194,6 +186,15 @@ define( function( require ) {
       }
     );
     this.afterLightLayer.addChild( prismToolboxNode );
+
+    // Add the protractor node
+    var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismsModel.showProtractorProperty,
+      prismsModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
+      this.visibleBoundsProperty, function() {
+        return new Vector2( 0, 0 );
+      } );
+    this.afterLightLayer.addChild( protractorNode );
+    
     this.afterLightLayer.addChild( this.prismLayer );
 
     FloatingLayout.floatRight( this, [ environmentMediumControlPanel, laserControlPanel, resetAllButton ] );
