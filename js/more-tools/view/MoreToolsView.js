@@ -57,10 +57,7 @@ define( function( require ) {
     // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       function( laserView, isWaveSensorEnabled ) {
-        var isButtonsVisible = isWaveSensorEnabled || laserView === 'wave';
-        moreToolsView.playPauseButton.visible = isButtonsVisible;
-        moreToolsView.stepButton.visible = isButtonsVisible;
-        moreToolsView.speedControl.visible = isButtonsVisible;
+        moreToolsView.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
       } );
 
     this.events.on( 'layoutFinished', function() {

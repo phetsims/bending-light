@@ -20,13 +20,9 @@ define( function( require ) {
   var LaserControlPanel = require( 'BENDING_LIGHT/common/view/LaserControlPanel' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var AngleNode = require( 'BENDING_LIGHT/intro/view/AngleNode' );
-  var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
-  var AquaRadioButton = require( 'SUN/AquaRadioButton' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
   var Property = require( 'AXON/Property' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -41,14 +37,14 @@ define( function( require ) {
   var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
+  var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
-  var normalString = require( 'string!BENDING_LIGHT/normal' );
   var anglesString = require( 'string!BENDING_LIGHT/angles' );
-  var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
   var rayString = require( 'string!BENDING_LIGHT/ray' );
   var waveString = require( 'string!BENDING_LIGHT/wave' );
+  var normalString = require( 'string!BENDING_LIGHT/normal' );
 
   // constants
   var INSET = 10;
@@ -315,72 +311,18 @@ define( function( require ) {
     this.afterLightLayer2.addChild( resetAllButton );
 
     // add sim speed controls
-    var slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
-      new Text( slowMotionString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
-    var normalMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'normal',
-      new Text( normalString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
-
-    var speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ?
-                               slowMotionRadioBox.width : normalMotionRadioBox.width;
-
-    // touch area
-    var radioButtonSpacing = 5;
-    var touchAreaHeightExpansion = radioButtonSpacing / 2;
-    slowMotionRadioBox.touchArea = new Bounds2(
-      slowMotionRadioBox.localBounds.minX,
-      slowMotionRadioBox.localBounds.minY - touchAreaHeightExpansion,
-      slowMotionRadioBox.localBounds.minX + speedControlMaxWidth,
-      slowMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
-    );
-
-    // touch area
-    normalMotionRadioBox.touchArea = new Bounds2(
-      normalMotionRadioBox.localBounds.minX,
-      normalMotionRadioBox.localBounds.minY - touchAreaHeightExpansion,
-      normalMotionRadioBox.localBounds.minX + speedControlMaxWidth,
-      normalMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
-    );
-
-    // add radio buttons to the VBox
-    this.speedControl = new VBox( {
-      align: 'left',
-      spacing: radioButtonSpacing,
-      children: [ normalMotionRadioBox, slowMotionRadioBox ]
-    } );
-    this.beforeLightLayer.addChild( this.speedControl.mutate( {
+    this.timeControlNode = new TimeControlNode( introModel, this.updateWaveShape.bind( this ), {
       left: this.toolbox.right + 25,
       bottom: this.layoutBounds.bottom - 15
-    } ) );
-
-    // add play pause button
-    this.playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
-      radius: 18, stroke: 'black', fill: '#005566',
-      bottom: this.layoutBounds.bottom - 15,
-      left: this.speedControl.right + INSET
     } );
-    this.beforeLightLayer.addChild( this.playPauseButton );
+    this.beforeLightLayer.addChild( this.timeControlNode );
 
-    // add step button
-    this.stepButton = new StepButton(
-      function() {
-        introModel.updateSimulationTimeAndWaveShape();
-        introView.updateWaveShape();
-      },
-      introModel.isPlayingProperty, {
-        radius: 12,
-        stroke: 'black',
-        fill: '#005566',
-        left: this.playPauseButton.right + 15,
-        y: this.playPauseButton.centerY
+    if ( !hasMoreTools ) {
+      // show play pause and step buttons only in wave view
+      introModel.laserViewProperty.link( function( laserType ) {
+        introView.timeControlNode.visible = (laserType === 'wave');
       } );
-    this.beforeLightLayer.addChild( this.stepButton );
-
-    // show play pause and step buttons only in wave view
-    introModel.laserViewProperty.link( function( laserType ) {
-      introView.playPauseButton.visible = (laserType === 'wave');
-      introView.stepButton.visible = (laserType === 'wave');
-      introView.speedControl.visible = (laserType === 'wave');
-    } );
+    }
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
     FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox ] );
