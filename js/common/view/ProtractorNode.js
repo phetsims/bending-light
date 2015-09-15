@@ -16,6 +16,8 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   // images
   var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
@@ -38,7 +40,7 @@ define( function( require ) {
     this.showProtractorProperty = showProtractorProperty; // @public
 
     // load and add the image
-    this.protractorImageNode = new Image( protractorImage ); // @public
+    this.protractorImageNode = new Image( protractorImage, { pickable: false } ); // @public
 
     showProtractorProperty.linkAttribute( this, 'visible' );
     this.addChild( this.protractorImageNode );
@@ -69,48 +71,36 @@ define( function( require ) {
       .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true )
       .rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
 
-    this.innerBarShape = new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
-
-    // Add a mouse listener for dragging when the drag region
-    // (entire body in all tabs, just the inner bar on prism screen) is dragged
-    //var translatePath = new Path( innerBarShape, {
-    //  fill: 'green'
-    //} );
-    //this.addChild( translatePath );
-    //this.touchArea = this.innerBarShape;
-    //this.cursor = 'pointer';
-    //this.mouseArea = this.innerBarShape;
-
-    // This seems to work
-    this.protractorImageNode.mouseArea = this.innerBarShape;
-    this.protractorImageNode.cursor = 'pointer';
+    this.mouseArea = this.fullShape;
+    this.cursor = 'pointer';
 
     // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism' screen is dragged)
-    //var rotatePath = new Path( rotateShape( fullShape, innerBarShape, outerRimShape ), {
-    //  pickable: true,
-    //  cursor: 'pointer'
-    //} );
-    //this.addChild( rotatePath );
+    var rotatePath = new Path( this.outerRimShape, {
+      pickable: true,
+      cursor: 'pointer'
+    } );
+    this.addChild( rotatePath );
 
     // rotate listener
-    //rotatePath.addInputListener( new SimpleDragHandler( {
-    //  start: function( event ) {
-    //    start = protractorNode.globalToParentPoint( event.pointer.point );
-    //  },
-    //  drag: function( event ) {
-    //
-    //    // compute the change in angle based on the new drag event
-    //    var end = protractorNode.globalToParentPoint( event.pointer.point );
-    //    var centerX = protractorNode.getCenterX();
-    //    var centerY = protractorNode.getCenterY();
-    //    var startAngle = Math.atan2( centerY - start.y, centerX - start.x );
-    //    var angle = Math.atan2( centerY - end.y, centerX - end.x );
-    //
-    //    // rotate the protractor model
-    //    protractorModel.angle += angle - startAngle;
-    //    start = end;
-    //  }
-    //} ) );
+    var start;
+    rotatePath.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        start = protractorNode.globalToParentPoint( event.pointer.point );
+      },
+      drag: function( event ) {
+
+        // compute the change in angle based on the new drag event
+        var end = protractorNode.globalToParentPoint( event.pointer.point );
+        var centerX = protractorNode.getCenterX();
+        var centerY = protractorNode.getCenterY();
+        var startAngle = Math.atan2( centerY - start.y, centerX - start.x );
+        var angle = Math.atan2( centerY - end.y, centerX - end.x );
+
+        // rotate the protractor model
+        protractorModel.angle += angle - startAngle;
+        start = end;
+      }
+    } ) );
 
     // update the protractor angle
     protractorModel.angleProperty.link( function( angle ) {
