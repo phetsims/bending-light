@@ -13,15 +13,9 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Shape = require( 'KITE/Shape' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
-  var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
-  var Bounds2 = require( 'DOT/Bounds2' );
 
   // images
   var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );

@@ -223,8 +223,6 @@ define( function( require ) {
     } ); // @public
     this.beforeLightLayer2.addChild( this.toolbox );
 
-    var protractorIconWidth = hasMoreTools ? 60 : 75;
-
     // initial tools
     this.protractorModel = new ProtractorModel( 0, 0 ); // @public
 
@@ -359,10 +357,6 @@ define( function( require ) {
         protractorPosition.x - 20 - 4,
         protractorPosition.y + 60 - 5 + offsetY
       );
-    },
-    moveProtractorToToolbox: function() {
-      var position = this.getProtractorNodeToolboxPosition();
-      //this.protractorModel.position = this.modelViewTransform.viewToModelXY( position.x, position.y );
     },
     getProtractorNodeToolboxPosition: function() {
       return new Vector2( this.toolbox.centerX, this.toolbox.y + 40 + (this.hasMoreTools ? 0 : 8) );
