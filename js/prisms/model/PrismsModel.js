@@ -27,7 +27,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Shape = require( 'KITE/Shape' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var Color = require( 'SCENERY/util/Color' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
@@ -44,9 +43,6 @@ define( function( require ) {
 
     // @public - List of intersections, which can be shown graphically
     this.intersections = new ObservableArray();
-
-    // @public - Draggable and rotatable protractor
-    this.protractorModel = new ProtractorModel( 0, 0 );
 
     var prismsModel = this;
     BendingLightModel.call( this,
@@ -109,7 +105,6 @@ define( function( require ) {
       this.environmentMediumProperty.reset();
       this.prismMediumProperty.reset();
       this.showReflectionsProperty.reset();
-      this.protractorModel.reset();
       this.showNormalsProperty.reset();
       this.showProtractorProperty.reset();
     },

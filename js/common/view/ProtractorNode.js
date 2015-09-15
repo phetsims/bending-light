@@ -18,6 +18,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Property = require( 'AXON/Property' );
 
   // images
   var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
@@ -25,17 +26,15 @@ define( function( require ) {
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view values
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
-   * @param {ProtractorModel} protractorModel - model of protractor
    * @param {boolean} rotateable - can be rotated
    * @constructor
    */
-  function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, rotateable ) {
+  function ProtractorNode( modelViewTransform, showProtractorProperty, rotateable ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
 
     this.modelViewTransform = modelViewTransform; // @public
-    this.protractorModel = protractorModel; // @public
     this.showProtractorProperty = showProtractorProperty; // @public
 
     // load and add the image
@@ -74,6 +73,8 @@ define( function( require ) {
     this.cursor = 'pointer';
 
     if ( rotateable ) {
+      this.protractorAngleProperty = new Property( 0.0 );
+
       // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism' screen is dragged)
       var rotatePath = new Path( this.outerRimShape, {
         pickable: true,
@@ -97,13 +98,13 @@ define( function( require ) {
           var angle = Math.atan2( centerY - end.y, centerX - end.x );
 
           // rotate the protractor model
-          protractorModel.angle += angle - startAngle;
+          protractorNode.protractorAngleProperty.value += angle - startAngle;
           start = end;
         }
       } ) );
 
       // update the protractor angle
-      protractorModel.angleProperty.link( function( angle ) {
+      protractorNode.protractorAngleProperty.link( function( angle ) {
         protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
       } );
     }

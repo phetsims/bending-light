@@ -30,7 +30,6 @@ define( function( require ) {
   var CheckBox = require( 'SUN/CheckBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
-  var ProtractorModel = require( 'BENDING_LIGHT/common/model/ProtractorModel' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
@@ -223,12 +222,8 @@ define( function( require ) {
     } ); // @public
     this.beforeLightLayer2.addChild( this.toolbox );
 
-    // initial tools
-    this.protractorModel = new ProtractorModel( 0, 0 ); // @public
-
     // create the protractor node
-    this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty,
-      this.protractorModel, false );
+    this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, false );
 
     // Tool listener sets the scale
     this.addInputListener( new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2, this.visibleBoundsProperty, true, 0.12, 0.4, function() {
@@ -391,8 +386,6 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.protractorModel.reset();
-      this.protractorNode.reset();
     },
 
     /**
