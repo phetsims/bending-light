@@ -202,6 +202,10 @@ define( function( require ) {
         prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
       }
     );
+
+    this.resetPrismsView = function() {
+      protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
+    };
   }
 
   return inherit( BendingLightView, PrismsView, {
@@ -211,6 +215,7 @@ define( function( require ) {
      */
     reset: function() {
       this.prismLayer.removeAllChildren();
+      this.resetPrismsView();
     },
 
     /**
