@@ -233,10 +233,12 @@ define( function( require ) {
       this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion );
 
     // Tool listener sets the scale
-    this.addInputListener( new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2, this.visibleBoundsProperty, true, 0.12, 0.4 ) );
+    this.addInputListener( new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2, this.visibleBoundsProperty, true, 0.12, 0.4, function() {
 
-    this.protractorNode.centerX = this.toolbox.width / 2;
-    this.protractorNode.centerY = this.toolbox.width / 2;// same amount of padding on top as on side
+      // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
+      // wrong location.
+      return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
+    } ) );
 
     this.toolbox.addChild( this.protractorNode );
 
