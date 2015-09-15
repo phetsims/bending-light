@@ -226,12 +226,13 @@ define( function( require ) {
     this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, false );
 
     // Tool listener sets the scale
-    this.addInputListener( new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2, this.visibleBoundsProperty, true, 0.12, 0.4, function() {
+    this.protractorToolListener = new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2, this.visibleBoundsProperty, true, 0.12, 0.4, function() {
 
       // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
       // wrong location.
       return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
-    } ) );
+    } );
+    this.protractorNode.addInputListener( this.protractorToolListener );
 
     this.toolbox.addChild( this.protractorNode );
 
@@ -386,6 +387,7 @@ define( function( require ) {
      * @public
      */
     reset: function() {
+      this.protractorToolListener.reset();
     },
 
     /**
