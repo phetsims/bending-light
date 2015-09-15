@@ -189,7 +189,7 @@ define( function( require ) {
 
     // Add the protractor node
     var protractorNode = new ProtractorNode( this.modelViewTransform, prismsModel.showProtractorProperty,
-      prismsModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion );
+      prismsModel.protractorModel, true );
     protractorNode.addInputListener( new ToolListener( protractorNode, this.afterLightLayer, this.afterLightLayer, this.visibleBoundsProperty, false, 0.1, 0.21 ) );
     protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
 

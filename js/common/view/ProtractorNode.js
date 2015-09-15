@@ -26,11 +26,10 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view values
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
    * @param {ProtractorModel} protractorModel - model of protractor
-   * @param {function} translateShape - function that returns the part of the protractor that can be used for translating it
-   * @param {function} rotateShape - function that returns the part of the protractor that can be used for rotating it
+   * @param {boolean} rotateable - can be rotated
    * @constructor
    */
-  function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, translateShape, rotateShape ) {
+  function ProtractorNode( modelViewTransform, showProtractorProperty, protractorModel, rotateable ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
@@ -74,38 +73,40 @@ define( function( require ) {
     this.mouseArea = this.fullShape;
     this.cursor = 'pointer';
 
-    // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism' screen is dragged)
-    var rotatePath = new Path( this.outerRimShape, {
-      pickable: true,
-      cursor: 'pointer'
-    } );
-    this.addChild( rotatePath );
+    if ( rotateable ) {
+      // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism' screen is dragged)
+      var rotatePath = new Path( this.outerRimShape, {
+        pickable: true,
+        cursor: 'pointer'
+      } );
+      this.addChild( rotatePath );
 
-    // rotate listener
-    var start;
-    rotatePath.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-        start = protractorNode.globalToParentPoint( event.pointer.point );
-      },
-      drag: function( event ) {
+      // rotate listener
+      var start;
+      rotatePath.addInputListener( new SimpleDragHandler( {
+        start: function( event ) {
+          start = protractorNode.globalToParentPoint( event.pointer.point );
+        },
+        drag: function( event ) {
 
-        // compute the change in angle based on the new drag event
-        var end = protractorNode.globalToParentPoint( event.pointer.point );
-        var centerX = protractorNode.getCenterX();
-        var centerY = protractorNode.getCenterY();
-        var startAngle = Math.atan2( centerY - start.y, centerX - start.x );
-        var angle = Math.atan2( centerY - end.y, centerX - end.x );
+          // compute the change in angle based on the new drag event
+          var end = protractorNode.globalToParentPoint( event.pointer.point );
+          var centerX = protractorNode.getCenterX();
+          var centerY = protractorNode.getCenterY();
+          var startAngle = Math.atan2( centerY - start.y, centerX - start.x );
+          var angle = Math.atan2( centerY - end.y, centerX - end.x );
 
-        // rotate the protractor model
-        protractorModel.angle += angle - startAngle;
-        start = end;
-      }
-    } ) );
+          // rotate the protractor model
+          protractorModel.angle += angle - startAngle;
+          start = end;
+        }
+      } ) );
 
-    // update the protractor angle
-    protractorModel.angleProperty.link( function( angle ) {
-      protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
-    } );
+      // update the protractor angle
+      protractorModel.angleProperty.link( function( angle ) {
+        protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
+      } );
+    }
   }
 
   return inherit( Node, ProtractorNode );

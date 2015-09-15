@@ -228,7 +228,7 @@ define( function( require ) {
 
     // create the protractor node
     this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty,
-      this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion );
+      this.protractorModel, false );
 
     // Tool listener sets the scale
     this.addInputListener( new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2, this.visibleBoundsProperty, true, 0.12, 0.4, function() {
