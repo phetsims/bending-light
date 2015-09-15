@@ -23,7 +23,7 @@ define( function( require ) {
    */
   function ColoredRay( ray, power, wavelength, mediumIndexOfRefraction, frequency ) {
 
-    assert && assert( !isNaN( ray.dir.magnitude() ), 'direction unit vector should have a numeric magnitude' );
+    assert && assert( !isNaN( ray.direction.magnitude() ), 'direction unit vector should have a numeric magnitude' );
 
     // @private, read only.
     this.ray = ray;
@@ -41,12 +41,12 @@ define( function( require ) {
 
     // @public
     get tail() {
-      return this.ray.pos;
+      return this.ray.position;
     },
 
     // @public
     get directionUnitVector() {
-      return this.ray.dir;
+      return this.ray.direction;
     },
     /**
      * Gets the wavelength for this ray if it wasn't inside a medium
