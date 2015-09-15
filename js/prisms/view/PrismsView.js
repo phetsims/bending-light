@@ -25,6 +25,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
+  var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
 
   // constants
   var INSET = 10;
@@ -188,13 +189,13 @@ define( function( require ) {
     this.afterLightLayer.addChild( prismToolboxNode );
 
     // Add the protractor node
-    var protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, prismsModel.showProtractorProperty,
-      prismsModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion, 125, null,
-      this.visibleBoundsProperty, function() {
-        return new Vector2( 0, 0 );
-      } );
+    var protractorNode = new ProtractorNode( this.modelViewTransform, prismsModel.showProtractorProperty,
+      prismsModel.protractorModel, getProtractorDragRegion, getProtractorRotationRegion );
+    protractorNode.addInputListener( new ToolListener( protractorNode, this.afterLightLayer, this.afterLightLayer, this.visibleBoundsProperty, false, 0.1, 0.21 ) );
+    protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
+
     this.afterLightLayer.addChild( protractorNode );
-    
+
     this.afterLightLayer.addChild( this.prismLayer );
 
     FloatingLayout.floatRight( this, [ environmentMediumControlPanel, laserControlPanel, resetAllButton ] );

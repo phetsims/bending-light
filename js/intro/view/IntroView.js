@@ -38,6 +38,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
+  var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -228,10 +229,16 @@ define( function( require ) {
     this.protractorModel = new ProtractorModel( 0, 0 ); // @public
 
     // create the protractor node
-    this.protractorNode = new ProtractorNode( this.afterLightLayer, this.beforeLightLayer2, this.modelViewTransform, this.showProtractorProperty,
-      this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion, protractorIconWidth,
-      this.toolbox.bounds, this.visibleBoundsProperty, this.getProtractorNodeToolboxPosition.bind( this ) );
-    this.protractorNode.addToToolBox();
+    this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty,
+      this.protractorModel, this.getProtractorDragRegion, this.getProtractorRotationRegion );
+
+    // Tool listener sets the scale
+    this.addInputListener( new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2, this.visibleBoundsProperty, true, 0.12, 0.4 ) );
+
+    this.protractorNode.centerX = this.toolbox.width / 2;
+    this.protractorNode.centerY = this.toolbox.width / 2;// same amount of padding on top as on side
+
+    this.toolbox.addChild( this.protractorNode );
 
     // add intensity meter
     this.intensityMeterNode = new IntensityMeterNode(
@@ -329,10 +336,6 @@ define( function( require ) {
 
     this.events.on( 'layoutFinished', function() {
 
-      if ( !introView.protractorModel.enabled ) {
-        introView.moveProtractorToToolbox();
-      }
-
       // Position the intensity meter below where the protractor *would* be (if it too were in the control panel)
       if ( !introView.bendingLightModel.intensityMeter.enabled ) {
         introView.moveIntensityMeterToToolbox();
@@ -357,7 +360,7 @@ define( function( require ) {
     },
     moveProtractorToToolbox: function() {
       var position = this.getProtractorNodeToolboxPosition();
-      this.protractorModel.position = this.modelViewTransform.viewToModelXY( position.x, position.y );
+      //this.protractorModel.position = this.modelViewTransform.viewToModelXY( position.x, position.y );
     },
     getProtractorNodeToolboxPosition: function() {
       return new Vector2( this.toolbox.centerX, this.toolbox.y + 40 + (this.hasMoreTools ? 0 : 8) );
