@@ -57,22 +57,6 @@ define( function( require ) {
 
       start: function( event ) {
         start = draggableNode.globalToParentPoint( event.pointer.point );
-
-        if ( !intensityMeter.enabled ) {
-          var sensorStartPositionX = modelViewTransform.viewToModelX( start.x );
-          var sensorStartPositionY = modelViewTransform.viewToModelY( start.y );
-
-          // Animate intensity meter to full size
-          intensityMeterNode.setIntensityMeterScaleAnimation(
-            sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
-          intensityMeterNode.setIntensityMeterScale(
-            sensorStartPositionX, sensorStartPositionY, INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX );
-
-          // remove it from sensor panel and add it to play area
-          intensityMeterNode.addToBendingLightView();
-          intensityMeter.enabled = true;
-          travelingTogether = true;
-        }
       },
       drag: function( event ) {
         var end = draggableNode.globalToParentPoint( event.pointer.point );
@@ -98,21 +82,6 @@ define( function( require ) {
         start.y = end.y + centerEndLocationInBounds.y - centerEndLocation.y;
       },
       end: function() {
-
-        // check intersection only with the outer rectangle.
-        if ( getContainerBounds().containsCoordinates( draggableNode.getCenterX(), draggableNode.getCenterY() ) ) {
-
-          intensityMeter.reset();
-
-          intensityMeterNode.setIntensityMeterScale(
-            0, 0, INTENSITY_METER_SCALE_INSIDE_TOOLBOX
-          );
-
-          moveIntensityMeterToToolbox();
-
-          // remove intensity meter from play area and add it to the sensor panel
-          intensityMeterNode.addToToolBox();
-        }
         travelingTogether = false;
       }
     };
@@ -158,18 +127,18 @@ define( function( require ) {
     this.probeNode = new ProbeNode( { cursor: 'pointer' } );
 
     // sensor location
-    intensityMeter.sensorPositionProperty.link( function( location ) {
-      var sensorPositionX = modelViewTransform.modelToViewX( location.x );
-      var sensorPositionY = modelViewTransform.modelToViewY( location.y );
-      intensityMeterNode.probeNode.setTranslation( sensorPositionX, sensorPositionY );
-    } );
+    //intensityMeter.sensorPositionProperty.link( function( location ) {
+    //  var sensorPositionX = modelViewTransform.modelToViewX( location.x );
+    //  var sensorPositionY = modelViewTransform.modelToViewY( location.y );
+    //  intensityMeterNode.probeNode.setTranslation( sensorPositionX, sensorPositionY );
+    //} );
 
     // sensor node drag handler
     var sensorNodeDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
       this.probeNode, intensityMeter.sensorPositionProperty, this.dragSensorXY, this.dragBothXY.bind( this ),
       moveIntensityMeterToToolbox
     );
-    this.probeNode.addInputListener( sensorNodeDragHandler );
+    //this.probeNode.addInputListener( sensorNodeDragHandler );
 
     // add body node
     var rectangleWidth = 150;
@@ -227,44 +196,45 @@ define( function( require ) {
     } );
 
     // body location
-    intensityMeter.bodyPositionProperty.link( function( location ) {
-      var bodyPositionX = modelViewTransform.modelToViewX( location.x );
-      var bodyPositionY = modelViewTransform.modelToViewY( location.y );
-      intensityMeterNode.bodyNode.setTranslation( bodyPositionX - intensityMeterNode.bodyNode.getWidth() / 2,
-        bodyPositionY - intensityMeterNode.bodyNode.getHeight() / 2 );
-    } );
+    //intensityMeter.bodyPositionProperty.link( function( location ) {
+    //  var bodyPositionX = modelViewTransform.modelToViewX( location.x );
+    //  var bodyPositionY = modelViewTransform.modelToViewY( location.y );
+    //  intensityMeterNode.bodyNode.setTranslation( bodyPositionX - intensityMeterNode.bodyNode.getWidth() / 2,
+    //    bodyPositionY - intensityMeterNode.bodyNode.getHeight() / 2 );
+    //} );
 
     // body drag handler
     var bodyDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
       this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY, this.dragBothXY.bind( this ),
       moveIntensityMeterToToolbox );
-    this.bodyNode.addInputListener( bodyDragHandler );
+    //this.bodyNode.addInputListener( bodyDragHandler );
 
     // scale probeNode and bodyNode and translating
     this.bodyNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
     this.probeNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-    this.probeNode.setTranslation(
-      modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ) - (this.probeNode.getWidth() / 2),
-      modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ) - (this.probeNode.getHeight() * 0.32) );
-    this.bodyNode.setTranslation(
-      modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ) - this.bodyNode.getWidth() / 2,
-      modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ) - this.bodyNode.getHeight() / 2 );
+    //this.probeNode.setTranslation(
+    //  modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ) - (this.probeNode.getWidth() / 2),
+    //  modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ) - (this.probeNode.getHeight() * 0.32) );
+    //this.bodyNode.setTranslation(
+    //  modelViewTransform.modelToViewX( intensityMeter.bodyPosition.x ) - this.bodyNode.getWidth() / 2,
+    //  modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ) - this.bodyNode.getHeight() / 2 );
 
     // Connect the sensor to the body with a gray wire
     var wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty,
       this.probeNode, this.bodyNode, 'gray' );
 
     // add the components
-    this.addChild( wireNode );
+    // TODO: This is temporarily disabled 
+    //this.addChild( wireNode );
     this.addChild( this.probeNode );
     this.addChild( this.bodyNode );
 
     // If the drag bounds changes, make sure the sensor didn't go out of bounds
-    dragBoundsProperty.link( function( dragBounds ) {
-      var modelBounds = modelViewTransform.viewToModelBounds( dragBounds );
-      intensityMeter.bodyPosition = modelBounds.getClosestPoint( intensityMeter.bodyPosition.x, intensityMeter.bodyPosition.y );
-      intensityMeter.sensorPosition = modelBounds.getClosestPoint( intensityMeter.sensorPosition.x, intensityMeter.sensorPosition.y );
-    } );
+    //dragBoundsProperty.link( function( dragBounds ) {
+    //  var modelBounds = modelViewTransform.viewToModelBounds( dragBounds );
+    //  intensityMeter.bodyPosition = modelBounds.getClosestPoint( intensityMeter.bodyPosition.x, intensityMeter.bodyPosition.y );
+    //  intensityMeter.sensorPosition = modelBounds.getClosestPoint( intensityMeter.sensorPosition.x, intensityMeter.sensorPosition.y );
+    //} );
   }
 
   return inherit( Node, IntensityMeterNode, {
@@ -333,21 +303,6 @@ define( function( require ) {
       this.touchArea = null;
       this.probeNode.touchArea = this.probeNode.localBounds;
       this.bodyNode.touchArea = this.bodyNode.localBounds;
-    },
-
-    /**
-     * Adds IntensityMeterNode to tool box and removes from play area
-     * @public
-     */
-    addToToolBox: function() {
-
-      if ( this.beforeLightLayer.isChild( this ) ) {
-        this.beforeLightLayer.removeChild( this );
-      }
-
-      if ( !this.beforeLightLayer2.isChild( this ) ) {
-        this.beforeLightLayer2.addChild( this );
-      }
     },
 
     /**

@@ -38,6 +38,7 @@ define( function( require ) {
   var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -225,14 +226,73 @@ define( function( require ) {
     // create the protractor node
     this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, false );
 
-    // Tool listener sets the scale
-    this.protractorToolListener = new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2, this.visibleBoundsProperty, true, 0.12, 0.4, function() {
+    // Tool listener sets the scale and positions it within the toolbox
+    this.protractorToolListener = new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2,
+      this.visibleBoundsProperty, true, 0.12, 0.4, function() {
 
-      // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
-      // wrong location.
-      return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
-    } );
+        // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
+        // wrong location.
+        return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
+      } );
     this.protractorNode.addInputListener( this.protractorToolListener );
+
+    this.protractorNode.addInputListener( new CompositeInputListener( [ {}
+    ] ) );
+
+
+    var endDragHandler = compose( handleToolboxDrop, handleDroppedBehindOccludedRegion );
+
+    this.protractorNode.addInputListener( new DragHandler( {
+        drag: function() {
+          constrainWithinBounds();
+        },
+        endDrag: function() {
+          handleToolboxDrop();
+          handleDroppedBehindOccludedRegion();
+        }
+      }
+    ) );
+
+    this.protractorNode.addInputListener( new DragHandler( mixin(
+      [
+        {
+          drag: function() {
+            constrainWithinBounds();
+          },
+          endDrag: function() {
+            handleToolboxDrop();
+            handleDroppedBehindOccludedRegion();
+          }
+        },
+        {
+          drag: function() {
+            constrainWithinBounds();
+          },
+          endDrag: function() {
+            handleToolboxDrop();
+            handleDroppedBehindOccludedRegion();
+          }
+        }
+
+      ]
+    ) ) );
+
+    this.protractorNode.addInputListener( dragHandler.withinBounds( boundsProperty ).withToolbox( t ).withOccludedRegions( [...
+  ]))
+    ;
+    this.protractorToolListener.events.on( 'droppedInThePlayArea', function() {
+      introView.protractorNode.removeInputListener( introView.protractorToolListener );
+
+      introView.protractorNode.addInputListener( new BoundedDragHandler() );
+
+      //  introView.protractorNode.addInputListener( new MovableDragHandler( {
+      //    dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
+      //    //modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
+      //    startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
+      //    endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
+      //    onDrag: function( event ) {} // use this to do something every time drag is called, such as notify that a user has modified the position
+      //  } ) );
+    } );
 
     this.toolbox.addChild( this.protractorNode );
 
@@ -248,7 +308,22 @@ define( function( require ) {
       this.visibleBoundsProperty,
       this.moveIntensityMeterToToolbox.bind( this )
     );
-    this.intensityMeterNode.addToToolBox();
+    this.intensityMeterNodeToolListener = new ToolListener( this.intensityMeterNode, this.toolbox, this.beforeLightLayer2,
+      this.visibleBoundsProperty, true, 0.9, 2, function() {
+        return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width );
+      } );
+
+    //this.intensityMeterProbeNodeToolListener = new ToolListener( this.intensityMeterNode.probeNode, this.toolbox, this.beforeLightLayer2,
+    //  this.visibleBoundsProperty, false, 0.9, 2, function() {
+    //    return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width );
+    //  } );
+    this.intensityMeterNode.addInputListener( this.intensityMeterNodeToolListener );
+    this.intensityMeterNodeToolListener.events.on( 'droppedInThePlayArea', function() {
+      introView.intensityMeterNode.removeInputListener( introView.intensityMeterNodeToolListener );
+
+      introView.intensityMeterNode.probeNode.addInputListener( introView.intensityMeterProbeNodeToolListener );
+    } );
+    this.toolbox.addChild( this.intensityMeterNode );
 
     // add normal text
     var normalText = new Text( normalString, { fontSize: 12 } );
