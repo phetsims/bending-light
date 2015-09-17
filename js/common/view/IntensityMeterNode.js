@@ -15,7 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
+  //var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -29,7 +29,7 @@ define( function( require ) {
 
   // constants
   var INTENSITY_METER_SCALE_INSIDE_TOOLBOX = 0.25;
-  var INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX = 0.85;
+  //var INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX = 0.85;
 
   /**
    * Drag handler for the body node and sensor node
@@ -134,10 +134,10 @@ define( function( require ) {
     //} );
 
     // sensor node drag handler
-    var sensorNodeDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
-      this.probeNode, intensityMeter.sensorPositionProperty, this.dragSensorXY, this.dragBothXY.bind( this ),
-      moveIntensityMeterToToolbox
-    );
+    //var sensorNodeDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
+    //  this.probeNode, intensityMeter.sensorPositionProperty, this.dragSensorXY, this.dragBothXY.bind( this ),
+    //  moveIntensityMeterToToolbox
+    //);
     //this.probeNode.addInputListener( sensorNodeDragHandler );
 
     // add body node
@@ -204,9 +204,9 @@ define( function( require ) {
     //} );
 
     // body drag handler
-    var bodyDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
-      this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY, this.dragBothXY.bind( this ),
-      moveIntensityMeterToToolbox );
+    //var bodyDragHandler = new DragHandler( this, dragBoundsProperty, getContainerBounds,
+    //  this.bodyNode, intensityMeter.bodyPositionProperty, this.dragBodyXY, this.dragBothXY.bind( this ),
+    //  moveIntensityMeterToToolbox );
     //this.bodyNode.addInputListener( bodyDragHandler );
 
     // scale probeNode and bodyNode and translating
@@ -220,8 +220,8 @@ define( function( require ) {
     //  modelViewTransform.modelToViewY( intensityMeter.bodyPosition.y ) - this.bodyNode.getHeight() / 2 );
 
     // Connect the sensor to the body with a gray wire
-    var wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty,
-      this.probeNode, this.bodyNode, 'gray' );
+    //var wireNode = new WireNode( intensityMeter.sensorPositionProperty, intensityMeter.bodyPositionProperty,
+    //  this.probeNode, this.bodyNode, 'gray' );
 
     // add the components
     // TODO: This is temporarily disabled 

@@ -38,7 +38,10 @@ define( function( require ) {
   var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  //var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var ChainInputListener = require( 'SCENERY/input/ChainInputListener' );
+  var DragHandler = require( 'SCENERY/input/DragHandler' );
+  var MoveToFrontHandler = require( 'SCENERY/input/MoveToFrontHandler' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -234,65 +237,25 @@ define( function( require ) {
         // wrong location.
         return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
       } );
-    this.protractorNode.addInputListener( this.protractorToolListener );
 
-    this.protractorNode.addInputListener( new CompositeInputListener( [ {}
+    this.protractorNode.addInputListener( new ChainInputListener( [
+      new DragHandler( this.protractorNode ),
+      new MoveToFrontHandler( this.protractorNode )
     ] ) );
 
-
-    var endDragHandler = compose( handleToolboxDrop, handleDroppedBehindOccludedRegion );
-
-    this.protractorNode.addInputListener( new DragHandler( {
-        drag: function() {
-          constrainWithinBounds();
-        },
-        endDrag: function() {
-          handleToolboxDrop();
-          handleDroppedBehindOccludedRegion();
-        }
-      }
-    ) );
-
-    this.protractorNode.addInputListener( new DragHandler( mixin(
-      [
-        {
-          drag: function() {
-            constrainWithinBounds();
-          },
-          endDrag: function() {
-            handleToolboxDrop();
-            handleDroppedBehindOccludedRegion();
-          }
-        },
-        {
-          drag: function() {
-            constrainWithinBounds();
-          },
-          endDrag: function() {
-            handleToolboxDrop();
-            handleDroppedBehindOccludedRegion();
-          }
-        }
-
-      ]
-    ) ) );
-
-    this.protractorNode.addInputListener( dragHandler.withinBounds( boundsProperty ).withToolbox( t ).withOccludedRegions( [...
-  ]))
-    ;
-    this.protractorToolListener.events.on( 'droppedInThePlayArea', function() {
-      introView.protractorNode.removeInputListener( introView.protractorToolListener );
-
-      introView.protractorNode.addInputListener( new BoundedDragHandler() );
-
-      //  introView.protractorNode.addInputListener( new MovableDragHandler( {
-      //    dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
-      //    //modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
-      //    startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
-      //    endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
-      //    onDrag: function( event ) {} // use this to do something every time drag is called, such as notify that a user has modified the position
-      //  } ) );
-    } );
+    //this.protractorToolListener.events.on( 'droppedInThePlayArea', function() {
+    //  introView.protractorNode.removeInputListener( introView.protractorToolListener );
+    //
+    //  introView.protractorNode.addInputListener( new BoundedDragHandler() );
+    //
+    //  //  introView.protractorNode.addInputListener( new MovableDragHandler( {
+    //  //    dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
+    //  //    //modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
+    //  //    startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
+    //  //    endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
+    //  //    onDrag: function( event ) {} // use this to do something every time drag is called, such as notify that a user has modified the position
+    //  //  } ) );
+    //} );
 
     this.toolbox.addChild( this.protractorNode );
 

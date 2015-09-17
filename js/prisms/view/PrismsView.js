@@ -162,17 +162,17 @@ define( function( require ) {
     this.afterLightLayer2.addChild( resetAllButton );
 
     // Get the function that chooses which region of the protractor can be used for rotation--none in this tab.
-    var getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
-
-      // Empty shape since shouldn't be rotatable in this tab
-      return outerCircle;
-    };
+    //var getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
+    //
+    //  // Empty shape since shouldn't be rotatable in this tab
+    //  return outerCircle;
+    //};
 
     // Get the function that chooses which region of the protractor can be used for translation--both the inner bar and
     // outer circle in this tab
-    var getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
-      return innerBar;
-    };
+    //var getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
+    //  return innerBar;
+    //};
 
     // Add prisms tool box Node
     var prismToolboxNode = new PrismToolboxNode(
