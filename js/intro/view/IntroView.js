@@ -244,9 +244,9 @@ define( function( require ) {
       new DragHandler( this.protractorNode ),
       new MoveToFrontHandler( this.protractorNode ), {
         end: function( event, trail, chainInputListener ) {
-          chainInputListener.nextEnd( event, trail );
           introView.protractorNode.removeInputListener( protractorToolboxListener );
           introView.protractorNode.addInputListener( protractorPlayAreaListener );
+          chainInputListener.nextEnd( event, trail );
         }
       } ] );
 
@@ -254,9 +254,9 @@ define( function( require ) {
       new DragHandler( this.protractorNode ),
       new MoveToFrontHandler( this.protractorNode ), {
         end: function( event, trail, chainInputListener ) {
-          chainInputListener.nextEnd( event, trail );
           introView.protractorNode.removeInputListener( protractorPlayAreaListener );
           introView.protractorNode.addInputListener( protractorToolboxListener );
+          chainInputListener.nextEnd( event, trail );
         }
       } ] );
 
