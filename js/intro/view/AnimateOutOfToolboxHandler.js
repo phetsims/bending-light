@@ -62,10 +62,10 @@ define( function( require ) {
   scenery.AnimateOutOfToolboxHandler = AnimateOutOfToolboxHandler;
 
   return inherit( Object, AnimateOutOfToolboxHandler, {
-    start: function( event, trail, chainInputListener ) {
-      var v = event.currentTarget.globalToParentPoint( event.pointer.point );
+    start: function( event, trail, chainInputListener, point ) {
+      var v = event.currentTarget.globalToParentPoint( point );
       animateScale( this.node, this.scale, v.x, v.y );
-      chainInputListener.nextStart( event, trail );
+      chainInputListener.nextStart( event, trail, point );
     }
   } );
 } );

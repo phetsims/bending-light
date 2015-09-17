@@ -40,8 +40,10 @@ define( function( require ) {
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
   //var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var ChainInputListener = require( 'SCENERY/input/ChainInputListener' );
-  var DragHandler = require( 'SCENERY/input/DragHandler' );
+  //var DragHandler = require( 'SCENERY/input/DragHandler' );
   var MoveToFrontHandler = require( 'SCENERY/input/MoveToFrontHandler' );
+  var RelativeDragHandler = require( 'SCENERY/input/RelativeDragHandler' );
+  var TranslateHandler = require( 'SCENERY/input/TranslateHandler' );
   var AnimateOutOfToolboxHandler = require( 'BENDING_LIGHT/intro/view/AnimateOutOfToolboxHandler' );
 
   // strings
@@ -241,22 +243,24 @@ define( function( require ) {
 
     var protractorToolboxListener = new ChainInputListener( [
       new AnimateOutOfToolboxHandler( this.protractorNode, 0.4 ),
-      new DragHandler( this.protractorNode ),
-      new MoveToFrontHandler( this.protractorNode ), {
-        end: function( event, trail, chainInputListener ) {
+      new MoveToFrontHandler( this.protractorNode ),
+      new RelativeDragHandler( this.protractorNode ),
+      new TranslateHandler( this.protractorNode ), {
+        end: function( event, trail, chainInputListener, point ) {
           introView.protractorNode.removeInputListener( protractorToolboxListener );
           introView.protractorNode.addInputListener( protractorPlayAreaListener );
-          chainInputListener.nextEnd( event, trail );
+          chainInputListener.nextEnd( event, trail, point );
         }
       } ] );
 
     var protractorPlayAreaListener = new ChainInputListener( [
-      new DragHandler( this.protractorNode ),
+      new RelativeDragHandler( this.protractorNode ),
+      new TranslateHandler( this.protractorNode ),
       new MoveToFrontHandler( this.protractorNode ), {
-        end: function( event, trail, chainInputListener ) {
+        end: function( event, trail, chainInputListener, point ) {
           introView.protractorNode.removeInputListener( protractorPlayAreaListener );
           introView.protractorNode.addInputListener( protractorToolboxListener );
-          chainInputListener.nextEnd( event, trail );
+          chainInputListener.nextEnd( event, trail, point );
         }
       } ] );
 
