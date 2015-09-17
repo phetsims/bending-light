@@ -65,12 +65,6 @@ define( function( require ) {
     start: function( event, trail, chainInputListener ) {
       animateScale( this.node, this.scale, 0, 0 );
       chainInputListener.nextStart( event, trail );
-    },
-    drag: function( event, trail, chainInputListener ) {
-      chainInputListener.nextDrag( event, trail );
-    },
-    end: function( event, trail, chainInputListener ) {
-      chainInputListener.nextEnd( event, trail );
     }
   } );
 } );

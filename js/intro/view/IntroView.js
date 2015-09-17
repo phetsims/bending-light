@@ -243,12 +243,6 @@ define( function( require ) {
       new AnimateOutOfToolboxHandler( this.protractorNode, 0.4 ),
       new DragHandler( this.protractorNode ),
       new MoveToFrontHandler( this.protractorNode ), {
-        start: function( event, trail, chainInputListener ) {
-          chainInputListener.nextStart( event, trail );
-        },
-        drag: function( event, trail, chainInputListener ) {
-          chainInputListener.nextDrag( event, trail );
-        },
         end: function( event, trail, chainInputListener ) {
           chainInputListener.nextEnd( event, trail );
           introView.protractorNode.removeInputListener( protractorToolboxListener );
@@ -259,12 +253,6 @@ define( function( require ) {
     var protractorPlayAreaListener = new ChainInputListener( [
       new DragHandler( this.protractorNode ),
       new MoveToFrontHandler( this.protractorNode ), {
-        start: function( event, trail, chainInputListener ) {
-          chainInputListener.nextStart( event, trail );
-        },
-        drag: function( event, trail, chainInputListener ) {
-          chainInputListener.nextDrag( event, trail );
-        },
         end: function( event, trail, chainInputListener ) {
           chainInputListener.nextEnd( event, trail );
           introView.protractorNode.removeInputListener( protractorPlayAreaListener );
