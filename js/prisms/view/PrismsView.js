@@ -25,6 +25,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // constants
   var INSET = 10;
@@ -206,6 +207,18 @@ define( function( require ) {
     this.resetPrismsView = function() {
       protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
     };
+
+    // Add a thin gray line to separate the navigation bar when the background is black
+    var navigationBarSeparator = new Rectangle( 0, 0, 100, 100, { fill: '#999999', pickable: false } );
+    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+        var rectHeight = 2;
+        navigationBarSeparator.setRect( -dx, -dy + height - rectHeight, width, rectHeight );
+      }
+    );
+    prismsModel.laser.colorModeProperty.link( function( color ) {
+      navigationBarSeparator.visible = color === 'white';
+    } );
+    this.addChild( navigationBarSeparator );
   }
 
   return inherit( BendingLightView, PrismsView, {
