@@ -63,7 +63,8 @@ define( function( require ) {
 
   return inherit( Object, AnimateOutOfToolboxHandler, {
     start: function( event, trail, chainInputListener ) {
-      animateScale( this.node, this.scale, 0, 0 );
+      var v = event.currentTarget.globalToParentPoint( event.pointer.point );
+      animateScale( this.node, this.scale, v.x, v.y );
       chainInputListener.nextStart( event, trail );
     }
   } );
