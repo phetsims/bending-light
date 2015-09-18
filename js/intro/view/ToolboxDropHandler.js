@@ -24,9 +24,10 @@ define( function( require ) {
    *
    * @constructor
    */
-  function AnimateOutOfToolboxHandler( node, scale ) {
+  function ToolboxDropHandler( node, scale, toolboxNode ) {
     this.node = node;
     this.scale = scale;
+    this.toolboxNode = toolboxNode;
   }
 
   /**
@@ -59,13 +60,16 @@ define( function( require ) {
       .start();
   };
 
-  scenery.AnimateOutOfToolboxHandler = AnimateOutOfToolboxHandler;
+  scenery.ToolboxDropHandler = ToolboxDropHandler;
 
-  return inherit( Object, AnimateOutOfToolboxHandler, {
-    start: function( event, trail, chainInputListener, point ) {
+  return inherit( Object, ToolboxDropHandler, {
+    end: function( event, trail, chainInputListener, point ) {
       var v = event.currentTarget.globalToParentPoint( point );
-      animateScale( this.node, this.scale, v.x, v.y );
-      chainInputListener.nextStart( event, trail, point );
+      console.log( point, this.toolboxNode.globalBounds );
+      if ( this.toolboxNode.globalBounds.containsPoint( point ) ) {
+        animateScale( this.node, this.scale, v.x, v.y );
+      }
+      chainInputListener.nextEnd( event, trail, point );
     }
   } );
 } );

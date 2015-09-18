@@ -40,11 +40,12 @@ define( function( require ) {
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
   //var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var ChainInputListener = require( 'SCENERY/input/ChainInputListener' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   //var DragHandler = require( 'SCENERY/input/DragHandler' );
   var MoveToFrontHandler = require( 'SCENERY/input/MoveToFrontHandler' );
   var RelativeDragHandler = require( 'SCENERY/input/RelativeDragHandler' );
   var TranslateHandler = require( 'SCENERY/input/TranslateHandler' );
-  var AnimateOutOfToolboxHandler = require( 'BENDING_LIGHT/intro/view/AnimateOutOfToolboxHandler' );
+  var ToolboxDragHandler = require( 'BENDING_LIGHT/intro/view/ToolboxDragHandler' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -55,6 +56,55 @@ define( function( require ) {
 
   // constants
   var INSET = 10;
+
+  /**
+   * Move a node from one parent to another but keeping it in exactly the same position/scale/orientation on the screen.
+   * Require the oldParent explicitly rather than inferring it from the node to support multiparent nodes.
+   * @param node
+   * @param oldParent
+   * @param newParent
+   */
+  var reparent = function( node, oldParent, newParent ) {
+    var g1 = node.getLocalToGlobalMatrix();
+
+    oldParent.removeChild( node );
+    newParent.addChild( node );
+
+    var p2 = newParent.getGlobalToLocalMatrix();
+
+    var m2 = p2.timesMatrix( g1 );
+    node.setMatrix( m2 );
+  };
+
+  /**
+   * When the tool is dragged to/from the toolbox it shrinks/grows with animation.
+   * @param node
+   * @param scale
+   * @param centerX
+   * @param centerY
+   * @returns {*}
+   */
+  var animateScale = function( node, scale, centerX, centerY ) {
+    var parameters = {
+      scale: node.getScaleVector().x,
+      centerX: node.centerX,
+      centerY: node.centerY
+    }; // initial state, modified as the animation proceeds
+    return new TWEEN.Tween( parameters )
+      .easing( TWEEN.Easing.Cubic.InOut )
+      .to( {
+        scale: scale,
+        centerX: centerX,
+        centerY: centerY
+      }, 200 )
+      .onUpdate( function() {
+        node.setScaleMagnitude( parameters.scale );
+        node.center = new Vector2( parameters.centerX, parameters.centerY );
+      } )
+      .onComplete( function() {
+      } )
+      .start();
+  };
 
   /**
    * @param {IntroModel} introModel - model of intro screen
@@ -232,53 +282,41 @@ define( function( require ) {
     // create the protractor node
     this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, false );
 
-    // Tool listener sets the scale and positions it within the toolbox
-    this.protractorToolListener = new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2,
-      this.visibleBoundsProperty, true, 0.12, 0.4, function() {
+    this.protractorNode.setScaleMagnitude( 0.12 ); // toolbox scale
+    this.protractorNode.center = new Vector2( this.toolbox.getSelfBounds().width / 2, this.toolbox.getSelfBounds().width / 2 );
 
-        // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
-        // wrong location.
-        return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
-      } );
+    // TODO: generalize all of the parameters here so it can be used for any toolbox item.
+    var startOffset = null;
+    var protractorInToolbox = true;
 
-    var protractorToolboxListener = new ChainInputListener( [
-      new AnimateOutOfToolboxHandler( this.protractorNode, 0.4 ),
-      new MoveToFrontHandler( this.protractorNode ),
-      new RelativeDragHandler( this.protractorNode ),
-      new TranslateHandler( this.protractorNode ), {
-        end: function( event, trail, chainInputListener, point ) {
-          introView.protractorNode.removeInputListener( protractorToolboxListener );
-          introView.protractorNode.addInputListener( protractorPlayAreaListener );
-          chainInputListener.nextEnd( event, trail, point );
+    var protractorToolboxListener = new SimpleDragHandler( {
+      start: function( event ) {
+        introView.protractorNode.moveToFront();
+        var location = introView.protractorNode.center;
+        startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
+        if ( protractorInToolbox ) {
+          protractorInToolbox = false;
+          reparent( introView.protractorNode, introView.toolbox, introView.beforeLightLayer2 );
+          var p = event.currentTarget.globalToParentPoint( event.pointer.point );
+          animateScale( introView.protractorNode, 0.4, p.x, p.y );
+          startOffset = new Vector2();
         }
-      } ] );
-
-    var protractorPlayAreaListener = new ChainInputListener( [
-      new RelativeDragHandler( this.protractorNode ),
-      new TranslateHandler( this.protractorNode ),
-      new MoveToFrontHandler( this.protractorNode ), {
-        end: function( event, trail, chainInputListener, point ) {
-          introView.protractorNode.removeInputListener( protractorPlayAreaListener );
-          introView.protractorNode.addInputListener( protractorToolboxListener );
-          chainInputListener.nextEnd( event, trail, point );
+      },
+      drag: function( event ) {
+        var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
+        parentPoint = introView.visibleBoundsProperty.value.closestPointTo( parentPoint );
+        introView.protractorNode.center = parentPoint;
+      },
+      end: function( event ) {
+        if ( introView.toolbox.globalBounds.containsPoint( event.pointer.point ) ) {
+          protractorInToolbox = true;
+          reparent( introView.protractorNode, introView.beforeLightLayer2, introView.toolbox );
+          animateScale( introView.protractorNode, 0.12, introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
         }
-      } ] );
+      }
+    } );
 
     this.protractorNode.addInputListener( protractorToolboxListener );
-
-    //this.protractorToolListener.events.on( 'droppedInThePlayArea', function() {
-    //  introView.protractorNode.removeInputListener( introView.protractorToolListener );
-    //
-    //  introView.protractorNode.addInputListener( new BoundedDragHandler() );
-    //
-    //  //  introView.protractorNode.addInputListener( new MovableDragHandler( {
-    //  //    dragBounds: Bounds2.EVERYTHING, // {Bounds2} dragging will be constrained to these bounds, in model coordinate frame
-    //  //    //modelViewTransform: ModelViewTransform2.createIdentity(), // {ModelViewTransform2} defaults to identity
-    //  //    startDrag: function( event ) {},  // use this to do something at the start of dragging, like moving a node to the foreground
-    //  //    endDrag: function( event ) {},  // use this to do something at the end of dragging, like 'snapping'
-    //  //    onDrag: function( event ) {} // use this to do something every time drag is called, such as notify that a user has modified the position
-    //  //  } ) );
-    //} );
 
     this.toolbox.addChild( this.protractorNode );
 
