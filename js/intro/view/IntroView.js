@@ -282,41 +282,16 @@ define( function( require ) {
     // create the protractor node
     this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, false );
 
-    this.protractorNode.setScaleMagnitude( 0.12 ); // toolbox scale
-    this.protractorNode.center = new Vector2( this.toolbox.getSelfBounds().width / 2, this.toolbox.getSelfBounds().width / 2 );
+    // Add the input listener, also initializes the position of the tool
+    var protractorToolListener = new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2,
+      this.visibleBoundsProperty, true, 0.12, 0.4, function() {
 
-    // TODO: generalize all of the parameters here so it can be used for any toolbox item.
-    var startOffset = null;
-    var protractorInToolbox = true;
+        // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
+        // wrong location.
+        return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
+      } );
 
-    var protractorToolboxListener = new SimpleDragHandler( {
-      start: function( event ) {
-        introView.protractorNode.moveToFront();
-        var location = introView.protractorNode.center;
-        startOffset = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( location );
-        if ( protractorInToolbox ) {
-          protractorInToolbox = false;
-          reparent( introView.protractorNode, introView.toolbox, introView.beforeLightLayer2 );
-          var p = event.currentTarget.globalToParentPoint( event.pointer.point );
-          animateScale( introView.protractorNode, 0.4, p.x, p.y );
-          startOffset = new Vector2();
-        }
-      },
-      drag: function( event ) {
-        var parentPoint = event.currentTarget.globalToParentPoint( event.pointer.point ).minus( startOffset );
-        parentPoint = introView.visibleBoundsProperty.value.closestPointTo( parentPoint );
-        introView.protractorNode.center = parentPoint;
-      },
-      end: function( event ) {
-        if ( introView.toolbox.globalBounds.containsPoint( event.pointer.point ) ) {
-          protractorInToolbox = true;
-          reparent( introView.protractorNode, introView.beforeLightLayer2, introView.toolbox );
-          animateScale( introView.protractorNode, 0.12, introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
-        }
-      }
-    } );
-
-    this.protractorNode.addInputListener( protractorToolboxListener );
+    this.protractorNode.addInputListener( protractorToolListener );
 
     this.toolbox.addChild( this.protractorNode );
 
