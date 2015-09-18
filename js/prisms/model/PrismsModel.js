@@ -323,7 +323,7 @@ define( function( require ) {
                        (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
                        (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 + cosTheta2 ) );
 
-        // TODO: This should already be normalized, see #226
+        // Normalize the direction vector, see https://github.com/phetsims/bending-light/issues/226
         vRefract = vRefract.normalized();
 
         var reflectedPower = totalInternalReflection ? 1
