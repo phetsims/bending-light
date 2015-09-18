@@ -290,6 +290,7 @@ define( function( require ) {
         // wrong location.
         return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
       } );
+    protractorToolListener.events.on( 'droppedInToolbox', function( callback ) {callback();} );
 
     this.protractorNode.addInputListener( protractorToolListener );
 
@@ -307,20 +308,29 @@ define( function( require ) {
       this.visibleBoundsProperty,
       this.moveIntensityMeterToToolbox.bind( this )
     );
-    this.intensityMeterNodeToolListener = new ToolListener( this.intensityMeterNode, this.toolbox, this.beforeLightLayer2,
+    var intensityMeterNodeToolListener = new ToolListener( this.intensityMeterNode, this.toolbox, this.beforeLightLayer2,
       this.visibleBoundsProperty, true, 0.9, 2, function() {
         return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width );
       } );
+    intensityMeterNodeToolListener.events.on( 'droppedInToolbox', function( callback ) {
+      callback();
+    } );
 
-    //this.intensityMeterProbeNodeToolListener = new ToolListener( this.intensityMeterNode.probeNode, this.toolbox, this.beforeLightLayer2,
-    //  this.visibleBoundsProperty, false, 0.9, 2, function() {
-    //    return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width );
-    //  } );
-    this.intensityMeterNode.addInputListener( this.intensityMeterNodeToolListener );
-    this.intensityMeterNodeToolListener.events.on( 'droppedInThePlayArea', function() {
-      introView.intensityMeterNode.removeInputListener( introView.intensityMeterNodeToolListener );
+    var probeListener = new ToolListener( introView.intensityMeterNode.probeNode, introView.toolbox, introView.beforeLightlayer2,
+      introView.visibleBoundsProperty, false, introView.intensityMeterNode.probeNode.getScaleVector().x, introView.intensityMeterNode.probeNode.getScaleVector().x, null );
+    probeListener.events.on( 'droppedInToolbox', function( callback ) {
 
-      introView.intensityMeterNode.probeNode.addInputListener( introView.intensityMeterProbeNodeToolListener );
+      // TODO: position the probe and body next to each other
+      introView.intensityMeterNode.resetRelativePositions();
+
+      // then move to the toolbox
+      intensityMeterNodeToolListener.moveToToolbox();
+    } );
+
+    this.intensityMeterNode.addInputListener( intensityMeterNodeToolListener );
+    intensityMeterNodeToolListener.events.on( 'droppedInThePlayArea', function() {
+      introView.intensityMeterNode.removeInputListener( intensityMeterNodeToolListener );
+      introView.intensityMeterNode.probeNode.addInputListener( probeListener );
     } );
     this.toolbox.addChild( this.intensityMeterNode );
 
