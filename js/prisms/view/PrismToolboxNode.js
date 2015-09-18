@@ -32,7 +32,7 @@ define( function( require ) {
   // strings
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
   var reflectionsString = require( 'string!BENDING_LIGHT/reflections' );
-  var normalString = require( 'string!BENDING_LIGHT/normal' );
+  var normalString = require( 'string!BENDING_LIGHT/normalLine' );
   var protractorString = require( 'string!BENDING_LIGHT/protractor' );
 
   // images

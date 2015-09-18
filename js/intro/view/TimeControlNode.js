@@ -21,7 +21,7 @@ define( function( require ) {
 
   // strings
   var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
-  var normalString = require( 'string!BENDING_LIGHT/normal' );
+  var normalString = require( 'string!BENDING_LIGHT/normalSpeed' );
 
   // constants
   var INSET = 10;

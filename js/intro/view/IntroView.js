@@ -51,7 +51,7 @@ define( function( require ) {
   var anglesString = require( 'string!BENDING_LIGHT/angles' );
   var rayString = require( 'string!BENDING_LIGHT/ray' );
   var waveString = require( 'string!BENDING_LIGHT/wave' );
-  var normalString = require( 'string!BENDING_LIGHT/normal' );
+  var normalString = require( 'string!BENDING_LIGHT/normalLine' );
 
   // constants
   var INSET = 10;

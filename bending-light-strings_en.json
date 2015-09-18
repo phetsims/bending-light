@@ -11,7 +11,10 @@
   "slowMotion": {
     "value": "Slow Motion"
   },
-  "normal": {
+  "normalSpeed": {
+    "value": "Normal"
+  },
+  "normalLine": {
     "value": "Normal"
   },
   "angles": {
