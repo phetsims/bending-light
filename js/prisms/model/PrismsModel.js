@@ -120,14 +120,6 @@ define( function( require ) {
       // characteristic length scale
       var a = CHARACTERISTIC_LENGTH * 10;
 
-      // attach at bottom right
-      prismsTypes.push( new Prism( new Polygon( 2, [
-        new Vector2( -a / 2, a / 2 ),
-        new Vector2( a / 2, a / 2 ),
-        new Vector2( a / 2, -a / 2 ),
-        new Vector2( -a / 2, -a / 2 )
-      ], 0 ), 'square' ) );
-
       // triangle, attach at bottom right
       prismsTypes.push( new Prism( new Polygon( 1, [
         new Vector2( -a / 2, -a / (2 * Math.sqrt( 3 )) ),
@@ -142,6 +134,14 @@ define( function( require ) {
         new Vector2( a / 4, a * Math.sqrt( 3 ) / 4 ),
         new Vector2( -a / 4, a * Math.sqrt( 3 ) / 4 )
       ], 0 ), 'trapezoid' ) );
+
+      // attach at bottom right
+      prismsTypes.push( new Prism( new Polygon( 2, [
+        new Vector2( -a / 2, a / 2 ),
+        new Vector2( a / 2, a / 2 ),
+        new Vector2( a / 2, -a / 2 ),
+        new Vector2( -a / 2, -a / 2 )
+      ], 0 ), 'square' ) );
 
       var radius = a / 2;
 
