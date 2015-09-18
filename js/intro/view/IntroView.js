@@ -290,7 +290,17 @@ define( function( require ) {
         // wrong location.
         return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
       } );
+    protractorToolListener.positionInToolbox();
     protractorToolListener.events.on( 'droppedInToolbox', function( callback ) {callback();} );
+    var resetActions = [];
+    this.handleResetActions = function() {
+      for ( var i = 0; i < resetActions.length; i++ ) {
+        resetActions[ i ]();
+      }
+    };
+    resetActions.push( function() {
+      protractorToolListener.reset();
+    } );
 
     this.protractorNode.addInputListener( protractorToolListener );
 
@@ -471,7 +481,7 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.protractorToolListener.reset();
+      this.handleResetActions();
     },
 
     /**
