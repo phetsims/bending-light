@@ -27,10 +27,6 @@ define( function( require ) {
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
 
-  // constants
-  var INTENSITY_METER_SCALE_INSIDE_TOOLBOX = 0.25;
-  //var INTENSITY_METER_SCALE_OUTSIDE_TOOLBOX = 0.85;
-
   /**
    * Drag handler for the body node and sensor node
    * @param {IntensityMeterNode} intensityMeterNode - intensity meter node
@@ -210,8 +206,8 @@ define( function( require ) {
     //this.bodyNode.addInputListener( bodyDragHandler );
 
     // scale probeNode and bodyNode and translating
-    this.bodyNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-    this.probeNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+    //this.bodyNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+    //this.probeNode.setScaleMagnitude( INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
     //this.probeNode.setTranslation(
     //  modelViewTransform.modelToViewX( intensityMeter.sensorPosition.x ) - (this.probeNode.getWidth() / 2),
     //  modelViewTransform.modelToViewY( intensityMeter.sensorPosition.y ) - (this.probeNode.getHeight() * 0.32) );
@@ -350,12 +346,12 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      var sensorInitialPosition = this.intensityMeter.sensorPositionProperty.initialValue;
-      this.setIntensityMeterScale(
-        sensorInitialPosition.x, sensorInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
-      if ( this.beforeLightLayer.isChild( this ) ) {
-        this.addToToolBox();
-      }
+      //var sensorInitialPosition = this.intensityMeter.sensorPositionProperty.initialValue;
+      //this.setIntensityMeterScale(
+      //  sensorInitialPosition.x, sensorInitialPosition.y, INTENSITY_METER_SCALE_INSIDE_TOOLBOX );
+      //if ( this.beforeLightLayer.isChild( this ) ) {
+      //  this.addToToolBox();
+      //}
     }
   } );
 } );

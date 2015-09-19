@@ -39,13 +39,13 @@ define( function( require ) {
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
   //var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
-  var ChainInputListener = require( 'SCENERY/input/ChainInputListener' );
+  //var ChainInputListener = require( 'SCENERY/input/ChainInputListener' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   //var DragHandler = require( 'SCENERY/input/DragHandler' );
-  var MoveToFrontHandler = require( 'SCENERY/input/MoveToFrontHandler' );
-  var RelativeDragHandler = require( 'SCENERY/input/RelativeDragHandler' );
-  var TranslateHandler = require( 'SCENERY/input/TranslateHandler' );
-  var ToolboxDragHandler = require( 'BENDING_LIGHT/intro/view/ToolboxDragHandler' );
+  //var MoveToFrontHandler = require( 'SCENERY/input/MoveToFrontHandler' );
+  //var RelativeDragHandler = require( 'SCENERY/input/RelativeDragHandler' );
+  //var TranslateHandler = require( 'SCENERY/input/TranslateHandler' );
+  //var ToolboxDragHandler = require( 'BENDING_LIGHT/intro/view/ToolboxDragHandler' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -64,7 +64,8 @@ define( function( require ) {
    * @param oldParent
    * @param newParent
    */
-  var reparent = function( node, oldParent, newParent ) {
+  var reparent = function( node, newParent ) {
+    var oldParent = node.getParent();
     var g1 = node.getLocalToGlobalMatrix();
 
     oldParent.removeChild( node );
@@ -84,27 +85,27 @@ define( function( require ) {
    * @param centerY
    * @returns {*}
    */
-  var animateScale = function( node, scale, centerX, centerY ) {
-    var parameters = {
-      scale: node.getScaleVector().x,
-      centerX: node.centerX,
-      centerY: node.centerY
-    }; // initial state, modified as the animation proceeds
-    return new TWEEN.Tween( parameters )
-      .easing( TWEEN.Easing.Cubic.InOut )
-      .to( {
-        scale: scale,
-        centerX: centerX,
-        centerY: centerY
-      }, 200 )
-      .onUpdate( function() {
-        node.setScaleMagnitude( parameters.scale );
-        node.center = new Vector2( parameters.centerX, parameters.centerY );
-      } )
-      .onComplete( function() {
-      } )
-      .start();
-  };
+  //var animateScale = function( node, scale, centerX, centerY ) {
+  //  var parameters = {
+  //    scale: node.getScaleVector().x,
+  //    centerX: node.centerX,
+  //    centerY: node.centerY
+  //  }; // initial state, modified as the animation proceeds
+  //  return new TWEEN.Tween( parameters )
+  //    .easing( TWEEN.Easing.Cubic.InOut )
+  //    .to( {
+  //      scale: scale,
+  //      centerX: centerX,
+  //      centerY: centerY
+  //    }, 200 )
+  //    .onUpdate( function() {
+  //      node.setScaleMagnitude( parameters.scale );
+  //      node.center = new Vector2( parameters.centerX, parameters.centerY );
+  //    } )
+  //    .onComplete( function() {
+  //    } )
+  //    .start();
+  //};
 
   /**
    * @param {IntroModel} introModel - model of intro screen
@@ -292,6 +293,8 @@ define( function( require ) {
       } );
     protractorToolListener.positionInToolbox();
     protractorToolListener.events.on( 'droppedInToolbox', function( callback ) {callback();} );
+    protractorToolListener.events.on( 'draggedOutOfToolbox', function( callback ) {callback();} );
+
     var resetActions = [];
     this.handleResetActions = function() {
       for ( var i = 0; i < resetActions.length; i++ ) {
@@ -318,30 +321,48 @@ define( function( require ) {
       this.visibleBoundsProperty,
       this.moveIntensityMeterToToolbox.bind( this )
     );
-    var intensityMeterNodeToolListener = new ToolListener( this.intensityMeterNode, this.toolbox, this.beforeLightLayer2,
-      this.visibleBoundsProperty, true, 0.9, 2, function() {
-        return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width );
-      } );
-    intensityMeterNodeToolListener.events.on( 'droppedInToolbox', function( callback ) {
-      callback();
-    } );
 
-    var probeListener = new ToolListener( introView.intensityMeterNode.probeNode, introView.toolbox, introView.beforeLightlayer2,
-      introView.visibleBoundsProperty, false, introView.intensityMeterNode.probeNode.getScaleVector().x, introView.intensityMeterNode.probeNode.getScaleVector().x, null );
-    probeListener.events.on( 'droppedInToolbox', function( callback ) {
+    // Listener for the intensity meter node and its components
+    var protractorNodeBottom = this.protractorNode.bottom;
+    var positionBody = function() {
+      introView.intensityMeterNode.bodyNode.center = introView.intensityMeterNode.probeNode.center.plusXY( 180, 0 );
+    };
+    var positionInToolbox = function() {
+      introView.intensityMeterNode.setScaleMagnitude( 0.2 );
+      introView.intensityMeterNode.probeNode.center = new Vector2();
+      positionBody();
+      introView.intensityMeterNode.centerX = introView.toolbox.getSelfBounds().width / 2;
+      introView.intensityMeterNode.top = protractorNodeBottom + 15;
+    };
+    positionInToolbox();
+    var draggingTogether = true;
+    this.intensityMeterNode.probeNode.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+        introView.intensityMeterNode.setScaleMagnitude( 1 );
+        introView.intensityMeterNode.probeNode.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
+        if ( draggingTogether ) {
+          positionBody();
+        }
+        reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
+      },
+      drag: function( event ) {
+        introView.intensityMeterNode.probeNode.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
+        if ( draggingTogether ) {
+          positionBody();
+        }
+      },
+      end: function() {
+        if ( introView.intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
+          reparent( introView.intensityMeterNode, introView.toolbox );
+          positionInToolbox();
+          draggingTogether = true;
+        }
+        else {
+          draggingTogether = false;
+        }
+      }
+    } ) );
 
-      // TODO: position the probe and body next to each other
-      introView.intensityMeterNode.resetRelativePositions();
-
-      // then move to the toolbox
-      intensityMeterNodeToolListener.moveToToolbox();
-    } );
-
-    this.intensityMeterNode.addInputListener( intensityMeterNodeToolListener );
-    intensityMeterNodeToolListener.events.on( 'droppedInThePlayArea', function() {
-      introView.intensityMeterNode.removeInputListener( intensityMeterNodeToolListener );
-      introView.intensityMeterNode.probeNode.addInputListener( probeListener );
-    } );
     this.toolbox.addChild( this.intensityMeterNode );
 
     // add normal text
