@@ -26,7 +26,7 @@ define( function( require ) {
    * @param {Color} color - color of the wire
    * @constructor
    */
-  function WireNode( probePositionProperty, bodyPositionProperty, probeNode, bodyNode, color ) {
+  function WireNode( probeNode, bodyNode, color ) {
 
     this.probeNode = probeNode; // @public
     this.bodyNode = bodyNode; // @public
@@ -38,10 +38,7 @@ define( function( require ) {
     } );
     var wireNode = this;
 
-    var updateWireShape = function() {
-
-      var bodyNodeScaleVector = bodyNode.getScaleVector();
-      var probeNodeScaleVector = probeNode.getScaleVector();
+    this.updateWireShape = function() {
 
       // connect left-center of body to bottom-center of probe.
       var bodyConnectionPointX = bodyNode.x;
@@ -51,24 +48,14 @@ define( function( require ) {
 
       var connectionPointXOffsetFactor = 40;
 
-      var shape = new Shape()
+      wireNode.shape = new Shape()
         .moveTo( bodyConnectionPointX, bodyConnectionPointY )
         .cubicCurveTo(
-          bodyConnectionPointX - connectionPointXOffsetFactor * bodyNodeScaleVector.x, bodyConnectionPointY,
-          probeConnectionPointX, probeConnectionPointY + connectionPointXOffsetFactor * probeNodeScaleVector.x,
+          bodyConnectionPointX - connectionPointXOffsetFactor, bodyConnectionPointY,
+          probeConnectionPointX, probeConnectionPointY + connectionPointXOffsetFactor,
           probeConnectionPointX, probeConnectionPointY
         );
-      wireNode.shape = shape;
     };
-    // update the wire when body position changes
-    bodyPositionProperty.link( function() {
-      updateWireShape();
-    } );
-
-    // update the wire when probe position changes
-    probePositionProperty.link( function() {
-      updateWireShape();
-    } );
   }
 
   return inherit( Path, WireNode );

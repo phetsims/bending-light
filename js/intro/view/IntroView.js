@@ -318,6 +318,7 @@ define( function( require ) {
     var protractorNodeBottom = this.protractorNode.bottom;
     var positionBody = function() {
       introView.intensityMeterNode.bodyNode.center = introView.intensityMeterNode.probeNode.center.plusXY( 180, 0 );
+      introView.intensityMeterNode.updateWireShape();
     };
     var positionInToolbox = function() {
       introView.intensityMeterNode.setScaleMagnitude( 0.2 );
@@ -325,6 +326,7 @@ define( function( require ) {
       positionBody();
       introView.intensityMeterNode.centerX = introView.toolbox.getSelfBounds().width / 2;
       introView.intensityMeterNode.top = protractorNodeBottom + 15;
+      introView.intensityMeterNode.updateWireShape();
     };
     positionInToolbox();
     var draggingTogether = true;
@@ -348,6 +350,7 @@ define( function( require ) {
         else {
           positionProperty.value = p;
         }
+        introView.intensityMeterNode.updateWireShape();
       };
       return new SimpleDragHandler( {
         start: function( event ) {

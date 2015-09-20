@@ -98,14 +98,7 @@ define( function( require ) {
     } );
 
     // Connect the sensor to the body with a gray wire
-    var wireNode = new WireNode(
-      intensityMeter.sensorPositionProperty,
-      intensityMeter.bodyPositionProperty,
-      this.probeNode,
-      this.bodyNode,
-      'gray'
-    );
-    wireNode.boundsMethod = 'none';
+    var wireNode = new WireNode( this.probeNode, this.bodyNode, 'gray' );
 
     // add the components
     this.addChild( wireNode );
@@ -119,6 +112,10 @@ define( function( require ) {
     intensityMeter.bodyPositionProperty.lazyLink( function( bodyPosition ) {
       intensityMeterNode.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
     } );
+
+    this.updateWireShape = function() {
+      wireNode.updateWireShape();
+    };
   }
 
   return inherit( Node, IntensityMeterNode );
