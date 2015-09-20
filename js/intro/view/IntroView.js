@@ -309,6 +309,8 @@ define( function( require ) {
 
     this.toolbox.addChild( this.protractorNode );
 
+    var modelViewTransform = this.modelViewTransform;
+
     // add intensity meter
     this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
 
@@ -319,7 +321,7 @@ define( function( require ) {
     };
     var positionInToolbox = function() {
       introView.intensityMeterNode.setScaleMagnitude( 0.2 );
-      introView.intensityMeterNode.probeNode.center = new Vector2();
+      introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2() );
       positionBody();
       introView.intensityMeterNode.centerX = introView.toolbox.getSelfBounds().width / 2;
       introView.intensityMeterNode.top = protractorNodeBottom + 15;
@@ -330,32 +332,32 @@ define( function( require ) {
     /**
      * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
      * drag together.  When dragged in the play area, each item drags by itself.
-     * @param node
+     * @param positionProperty
      * @returns {*}
      */
-    var createIntensityMeterComponentListener = function( node ) {
+    var createIntensityMeterComponentListener = function( positionProperty ) {
+
+      var updatePosition = function( event ) {
+
+        // Same as code below, but we need to add animation, so they will diverge
+        var p = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
+        if ( draggingTogether ) {
+          introModel.intensityMeter.sensorPosition = p;
+          positionBody();
+        }
+        else {
+          positionProperty.value = p;
+        }
+      };
       return new SimpleDragHandler( {
         start: function( event ) {
           reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
           introView.intensityMeterNode.setScaleMagnitude( 1 );
-
-          // Same as code below, but we need to add animation, so the will diverge
-          if ( draggingTogether ) {
-            introView.intensityMeterNode.probeNode.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
-            positionBody();
-          }
-          else {
-            node.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
-          }
+          introView.intensityMeterNode.setTranslation( 0, 0 );
+          updatePosition( event );
         },
         drag: function( event ) {
-          if ( draggingTogether ) {
-            introView.intensityMeterNode.probeNode.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
-            positionBody();
-          }
-          else {
-            node.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
-          }
+          updatePosition( event );
         },
         end: function() {
           if ( introView.intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ||
@@ -371,8 +373,8 @@ define( function( require ) {
       } );
     };
 
-    this.intensityMeterNode.probeNode.addInputListener( createIntensityMeterComponentListener( this.intensityMeterNode.probeNode ) );
-    this.intensityMeterNode.bodyNode.addInputListener( createIntensityMeterComponentListener( this.intensityMeterNode.bodyNode ) );
+    this.intensityMeterNode.probeNode.addInputListener( createIntensityMeterComponentListener( introModel.intensityMeter.sensorPositionProperty ) );
+    this.intensityMeterNode.bodyNode.addInputListener( createIntensityMeterComponentListener( introModel.intensityMeter.bodyPositionProperty ) );
 
     // If the drag bounds changes, make sure the sensor didn't go out of bounds
     //dragBoundsProperty.link( function( dragBounds ) {
@@ -466,27 +468,27 @@ define( function( require ) {
     this.events.on( 'layoutFinished', function() {
 
       // Position the intensity meter below where the protractor *would* be (if it too were in the control panel)
-      if ( !introView.bendingLightModel.intensityMeter.enabled ) {
-        introView.moveIntensityMeterToToolbox();
-      }
+      //if ( !introView.bendingLightModel.intensityMeter.enabled ) {
+      //  introView.moveIntensityMeterToToolbox();
+      //}
     } );
   }
 
   return inherit( BendingLightView, IntroView, {
-    moveIntensityMeterToToolbox: function() {
-      var protractorPosition = this.getProtractorNodeToolboxPosition();
-
-      // The intensity meter appears lower in the toolbox on the more tools screen.
-      var offsetY = this.hasMoreTools ? 120 : 0;
-      this.bendingLightModel.intensityMeter.bodyPosition = this.modelViewTransform.viewToModelXY(
-        protractorPosition.x + 20 - 2,
-        protractorPosition.y + 60 + 5 + offsetY
-      );
-      this.bendingLightModel.intensityMeter.sensorPosition = this.modelViewTransform.viewToModelXY(
-        protractorPosition.x - 20 - 4,
-        protractorPosition.y + 60 - 5 + offsetY
-      );
-    },
+    //moveIntensityMeterToToolbox: function() {
+    //  var protractorPosition = this.getProtractorNodeToolboxPosition();
+    //
+    //  // The intensity meter appears lower in the toolbox on the more tools screen.
+    //  var offsetY = this.hasMoreTools ? 120 : 0;
+    //  this.bendingLightModel.intensityMeter.bodyPosition = this.modelViewTransform.viewToModelXY(
+    //    protractorPosition.x + 20 - 2,
+    //    protractorPosition.y + 60 + 5 + offsetY
+    //  );
+    //  this.bendingLightModel.intensityMeter.sensorPosition = this.modelViewTransform.viewToModelXY(
+    //    protractorPosition.x - 20 - 4,
+    //    protractorPosition.y + 60 - 5 + offsetY
+    //  );
+    //},
     getProtractorNodeToolboxPosition: function() {
       return new Vector2( this.toolbox.centerX, this.toolbox.y + 40 + (this.hasMoreTools ? 0 : 8) );
     },

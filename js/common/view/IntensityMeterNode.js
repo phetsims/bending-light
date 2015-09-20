@@ -108,10 +108,17 @@ define( function( require ) {
     wireNode.boundsMethod = 'none';
 
     // add the components
-    // TODO: This is temporarily disabled 
     this.addChild( wireNode );
     this.addChild( this.probeNode );
     this.addChild( this.bodyNode );
+
+    intensityMeter.sensorPositionProperty.lazyLink( function( sensorPosition ) {
+      intensityMeterNode.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
+    } );
+
+    intensityMeter.bodyPositionProperty.lazyLink( function( bodyPosition ) {
+      intensityMeterNode.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
+    } );
   }
 
   return inherit( Node, IntensityMeterNode );
