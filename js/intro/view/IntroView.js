@@ -336,32 +336,53 @@ define( function( require ) {
     };
     positionInToolbox();
     var draggingTogether = true;
-    this.intensityMeterNode.probeNode.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-        introView.intensityMeterNode.setScaleMagnitude( 1 );
-        introView.intensityMeterNode.probeNode.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
-        if ( draggingTogether ) {
-          positionBody();
+
+    /**
+     * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
+     * drag together.  When dragged in the play area, each item drags by itself.
+     * @param node
+     * @returns {*}
+     */
+    var createIntensityMeterComponentListener = function( node ) {
+      return new SimpleDragHandler( {
+        start: function( event ) {
+          reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
+          introView.intensityMeterNode.setScaleMagnitude( 1 );
+
+          // Same as code below, but we need to add animation, so the will diverge
+          if ( draggingTogether ) {
+            introView.intensityMeterNode.probeNode.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
+            positionBody();
+          }
+          else {
+            node.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
+          }
+        },
+        drag: function( event ) {
+          if ( draggingTogether ) {
+            introView.intensityMeterNode.probeNode.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
+            positionBody();
+          }
+          else {
+            node.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
+          }
+        },
+        end: function() {
+          if ( introView.intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ||
+               introView.intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
+            reparent( introView.intensityMeterNode, introView.toolbox );
+            positionInToolbox();
+            draggingTogether = true;
+          }
+          else {
+            draggingTogether = false;
+          }
         }
-        reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
-      },
-      drag: function( event ) {
-        introView.intensityMeterNode.probeNode.center = introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
-        if ( draggingTogether ) {
-          positionBody();
-        }
-      },
-      end: function() {
-        if ( introView.intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
-          reparent( introView.intensityMeterNode, introView.toolbox );
-          positionInToolbox();
-          draggingTogether = true;
-        }
-        else {
-          draggingTogether = false;
-        }
-      }
-    } ) );
+      } );
+    };
+
+    this.intensityMeterNode.probeNode.addInputListener( createIntensityMeterComponentListener( this.intensityMeterNode.probeNode ) );
+    this.intensityMeterNode.bodyNode.addInputListener( createIntensityMeterComponentListener( this.intensityMeterNode.bodyNode ) );
 
     this.toolbox.addChild( this.intensityMeterNode );
 
