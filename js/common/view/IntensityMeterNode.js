@@ -15,6 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var WireCanvasNode = require( 'BENDING_LIGHT/common/view/WireCanvasNode' );
+  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -79,8 +80,10 @@ define( function( require ) {
     }
 
     // Add the reading to the body node
-    var valueNode = new Text( intensityMeter.reading.getString(),
-      { font: new PhetFont( 25 ), fill: 'black' } );
+    var valueNode = new Text( intensityMeter.reading.getString(), {
+      font: new PhetFont( 25 ),
+      fill: 'black'
+    } );
 
     // add up all the shapes to form a body node
     this.bodyNode = new Node( {
@@ -99,7 +102,7 @@ define( function( require ) {
     } );
 
     // Connect the sensor to the body with a gray wire
-    var wireNode = new WireCanvasNode(
+    var wireNode = new WireNode(
       intensityMeter.sensorPositionProperty,
       intensityMeter.bodyPositionProperty,
       this.probeNode,
