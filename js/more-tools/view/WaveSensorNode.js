@@ -17,7 +17,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Color = require( 'SCENERY/util/Color' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
+  var WireCanvasNode = require( 'BENDING_LIGHT/common/view/WireCanvasNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Node = require( 'SCENERY/nodes/Node' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
@@ -238,9 +238,9 @@ define( function( require ) {
     this.setWaveSensorScale( TOOLBOX_SCALE );
 
     // Rendering order, including wires
-    this.addChild( new WireNode( waveSensor.probe1.positionProperty, waveSensor.bodyPositionProperty,
+    this.addChild( new WireCanvasNode( waveSensor.probe1.positionProperty, waveSensor.bodyPositionProperty,
       this.probe1Node, this.bodyNode, darkProbeColor.toCSS() ) );
-    this.addChild( new WireNode( waveSensor.probe2.positionProperty, waveSensor.bodyPositionProperty,
+    this.addChild( new WireCanvasNode( waveSensor.probe2.positionProperty, waveSensor.bodyPositionProperty,
       this.probe2Node, this.bodyNode, lightProbeColor.toCSS() ) );
     this.addChild( this.bodyNode );
     this.addChild( this.probe1Node );

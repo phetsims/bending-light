@@ -24,7 +24,7 @@ define( function( require ) {
    * @param {Color} color - color of the wire
    * @constructor
    */
-  function WireNode( probePositionProperty, bodyPositionProperty, probeNode, bodyNode, color ) {
+  function WireCanvasNode( probePositionProperty, bodyPositionProperty, probeNode, bodyNode, color ) {
 
     this.probeNode = probeNode; // @public
     this.bodyNode = bodyNode; // @public
@@ -45,7 +45,7 @@ define( function( require ) {
     } );
   }
 
-  return inherit( CanvasNode, WireNode, {
+  return inherit( CanvasNode, WireCanvasNode, {
 
     /**
      * @protected

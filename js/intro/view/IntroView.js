@@ -384,6 +384,13 @@ define( function( require ) {
     this.intensityMeterNode.probeNode.addInputListener( createIntensityMeterComponentListener( this.intensityMeterNode.probeNode ) );
     this.intensityMeterNode.bodyNode.addInputListener( createIntensityMeterComponentListener( this.intensityMeterNode.bodyNode ) );
 
+    // If the drag bounds changes, make sure the sensor didn't go out of bounds
+    //dragBoundsProperty.link( function( dragBounds ) {
+    //  var modelBounds = modelViewTransform.viewToModelBounds( dragBounds );
+    //  intensityMeter.bodyPosition = modelBounds.getClosestPoint( intensityMeter.bodyPosition.x, intensityMeter.bodyPosition.y );
+    //  intensityMeter.sensorPosition = modelBounds.getClosestPoint( intensityMeter.sensorPosition.x, intensityMeter.sensorPosition.y );
+    //} );
+    
     this.toolbox.addChild( this.intensityMeterNode );
 
     // add normal text
