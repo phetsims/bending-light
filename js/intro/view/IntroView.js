@@ -310,17 +310,7 @@ define( function( require ) {
     this.toolbox.addChild( this.protractorNode );
 
     // add intensity meter
-    this.intensityMeterNode = new IntensityMeterNode(
-      this.beforeLightLayer,
-      this.beforeLightLayer2,
-      this.modelViewTransform,
-      introModel.intensityMeter,
-      function() {
-        return introView.toolbox.visibleBounds;
-      },
-      this.visibleBoundsProperty,
-      this.moveIntensityMeterToToolbox.bind( this )
-    );
+    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
 
     // Listener for the intensity meter node and its components
     var protractorNodeBottom = this.protractorNode.bottom;
@@ -390,7 +380,7 @@ define( function( require ) {
     //  intensityMeter.bodyPosition = modelBounds.getClosestPoint( intensityMeter.bodyPosition.x, intensityMeter.bodyPosition.y );
     //  intensityMeter.sensorPosition = modelBounds.getClosestPoint( intensityMeter.sensorPosition.x, intensityMeter.sensorPosition.y );
     //} );
-    
+
     this.toolbox.addChild( this.intensityMeterNode );
 
     // add normal text

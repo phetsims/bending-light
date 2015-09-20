@@ -26,20 +26,16 @@ define( function( require ) {
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
 
   /**
-   * @param {Node} beforeLightLayer - layer in which intensity meter is present when in play area
-   * @param {Node} beforeLightLayer2 - layer in which intensity meter is present when in toolbox
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
    * @constructor
    */
-  function IntensityMeterNode( beforeLightLayer, beforeLightLayer2, modelViewTransform, intensityMeter ) {
+  function IntensityMeterNode( modelViewTransform, intensityMeter ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
     this.modelViewTransform = modelViewTransform; // @public
     this.intensityMeter = intensityMeter;
-    this.beforeLightLayer = beforeLightLayer; // @private
-    this.beforeLightLayer2 = beforeLightLayer2; // @private
 
     this.probeNode = new ProbeNode( { cursor: 'pointer' } );
 
