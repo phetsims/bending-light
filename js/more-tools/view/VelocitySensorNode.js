@@ -161,7 +161,7 @@ define( function( require ) {
     velocitySensor.positionProperty.link( function( position ) {
       var velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
       var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
-      velocitySensorNode.bodyNode.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
+      velocitySensorNode.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
     } );
 
     // Update the text when the value or units changes.
@@ -179,14 +179,6 @@ define( function( require ) {
         labelText.center = whiteTextArea.center;
       } );
     this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX );
-
-    // @public
-    this.syncModelCoordinates = function() {
-      var position = velocitySensorNode.bodyNode.translation;
-      var velocitySensorXPosition = modelViewTransform.viewToModelX( position.x );
-      var velocitySensorYPosition = modelViewTransform.viewToModelY( position.y );
-      velocitySensorNode.bodyNode.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
-    };
   }
 
   return inherit( Node, VelocitySensorNode, {

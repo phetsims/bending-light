@@ -18,6 +18,27 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
   var Vector2 = require( 'DOT/Vector2' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+
+  /**
+   * Move a node from one parent to another but keeping it in exactly the same position/scale/orientation on the screen.
+   * Require the oldParent explicitly rather than inferring it from the node to support multiparent nodes.
+   * @param node
+   * @param oldParent
+   * @param newParent
+   */
+  var reparent = function( node, newParent ) {
+    var oldParent = node.getParent();
+    var g1 = node.getLocalToGlobalMatrix();
+
+    oldParent.removeChild( node );
+    newParent.addChild( node );
+
+    var p2 = newParent.getGlobalToLocalMatrix();
+
+    var m2 = p2.timesMatrix( g1 );
+    node.setMatrix( m2 );
+  };
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
@@ -38,20 +59,35 @@ define( function( require ) {
       moreToolsModel.velocitySensor,
       arrowScale
     );
-    // Add the input listener, also initializes the position of the tool
-    var velocitySensorToolListener = new ToolListener( this.velocitySensorNode, this.toolbox, this.beforeLightLayer2,
-      this.visibleBoundsProperty, true, 1, 2, function() {
-
-        // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
-        // wrong location.
-        return new Vector2( moreToolsView.toolbox.getSelfBounds().width / 2, moreToolsView.toolbox.getSelfBounds().width / 2 );
+    var velocitySensorNode = this.velocitySensorNode;
+    var modelViewTransform = this.modelViewTransform;
+    var inToolbox = true;
+    var p = moreToolsModel.velocitySensor.positionProperty;
+    var vector2 = new Vector2( 10, 200 );
+    var velocitySensorNodeListener = new MovableDragHandler( p, {
+      modelViewTransform: modelViewTransform,
+      startDrag: function( event ) {
+        if ( inToolbox ) {
+          reparent( velocitySensorNode, moreToolsView.afterLightLayer2 );
+          velocitySensorNode.setScaleMagnitude( 2 );
+          p.value = modelViewTransform.viewToModelPosition( velocitySensorNode.globalToParentPoint( event.pointer.point ) );
+        }
+        inToolbox = false;
+      },
+      onDrag: function() {
+      },
+      endDrag: function() {
+        if ( velocitySensorNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
+          reparent( velocitySensorNode, moreToolsView.toolbox );
+          velocitySensorNode.setScaleMagnitude( 1 );
+          inToolbox = true;
+          velocitySensorNode.translation = vector2;
+        }
       }
-    );
-    this.velocitySensorNode.addInputListener( velocitySensorToolListener );
-    velocitySensorToolListener.positionInToolbox();
-    velocitySensorToolListener.events.on( 'droppedInToolbox', function( callback ) {callback();} );
-    velocitySensorToolListener.events.on( 'draggedOutOfToolbox', function( callback ) {callback();} );
-    velocitySensorToolListener.events.on( 'dragged', function() {moreToolsView.velocitySensorNode.syncModelCoordinates();} );
+    } );
+    velocitySensorNode.translation = vector2;
+    velocitySensorNode.addInputListener( velocitySensorNodeListener );
+
     this.toolbox.addChild( this.velocitySensorNode );
 
     // @public
