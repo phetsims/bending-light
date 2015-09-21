@@ -17,7 +17,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Color = require( 'SCENERY/util/Color' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var WireCanvasNode = require( 'BENDING_LIGHT/common/view/WireCanvasNode' );
+  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Node = require( 'SCENERY/nodes/Node' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
@@ -61,43 +61,6 @@ define( function( require ) {
     // Interaction: Translates when dragged, but keep it bounded within the play area
     var start;
     var centerEndLocation = new Vector2();
-    probeNode.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-        start = waveSensorNode.globalToParentPoint( event.pointer.point );
-
-        if ( !waveSensorNode.waveSensor.enabled ) {
-          waveSensorNode.animateToFullSize( start );
-        }
-      },
-      drag: function( event ) {
-
-        var probeDragBounds = modelViewTransform.viewToModelBounds( dragBoundsProperty.value ); // in model co-ordinates
-
-        var end = waveSensorNode.globalToParentPoint( event.pointer.point );
-
-        var modelX = modelViewTransform.viewToModelDeltaX( end.x - start.x );
-        var modelY = modelViewTransform.viewToModelDeltaY( end.y - start.y );
-        // location of final center point with out constraining to bounds
-        centerEndLocation.setXY( probe.position.x + modelX, probe.position.y + modelY );
-
-        // location of final center point with constraining to bounds
-        var centerEndLocationInBounds = probeDragBounds.closestPointTo( centerEndLocation );
-        probe.translateXY( centerEndLocationInBounds.x - probe.position.x, centerEndLocationInBounds.y - probe.position.y );
-
-        // Store the position of drag point after translating. Can be obtained by adding distance between center
-        // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
-        // translating.
-        start.x = end.x + modelViewTransform.modelToViewDeltaX( centerEndLocationInBounds.x - centerEndLocation.x );
-        start.y = end.y + modelViewTransform.modelToViewDeltaY( centerEndLocationInBounds.y - centerEndLocation.y );
-      },
-      end: function() {
-
-        // Check intersection only with the outer rectangle.
-        if ( container.bounds.containsPoint( probeNode.center ) ) {
-          waveSensorNode.animateToToolbox();
-        }
-      }
-    } ) );
 
     // Probe location
     probe.positionProperty.link( function( position ) {
@@ -192,231 +155,19 @@ define( function( require ) {
         waveSensorBodyPositionY - waveSensorNode.bodyNode.getHeight() / 2 );
     } );
 
-    // Add interaction, the body is draggable, but keep it constrained to stay in the play area
-    var start;
-    var centerEndLocation = new Vector2();
-    this.bodyNode.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-        start = waveSensorNode.globalToParentPoint( event.pointer.point );
-        if ( !waveSensor.enabled ) {
-          waveSensorNode.animateToFullSize( start );
-        }
-      },
-      drag: function( event ) {
-        var end = waveSensorNode.globalToParentPoint( event.pointer.point );
-
-        var startPositionX = modelViewTransform.modelToViewX( waveSensor.bodyPosition.x );
-        var startPositionY = modelViewTransform.modelToViewY( waveSensor.bodyPosition.y );
-        // location of final center point with out constraining to bounds
-        centerEndLocation.setXY( startPositionX + end.x - start.x, startPositionY + end.y - start.y );
-
-        // location of final center point with constraining to bounds
-        var centerEndLocationInBounds = dragBoundsProperty.value.closestPointTo( centerEndLocation );
-        waveSensorNode.dragBodyXY( centerEndLocationInBounds.x - startPositionX, centerEndLocationInBounds.y - startPositionY );
-
-        // Store the position of drag point after translating. Can be obtained by adding distance between center
-        // point and drag point (end - centerEndLocation) to center point (centerEndLocationInBounds) after
-        // translating.
-        start.x = end.x + centerEndLocationInBounds.x - centerEndLocation.x;
-        start.y = end.y + centerEndLocationInBounds.y - centerEndLocation.y;
-      },
-      end: function() {
-
-        // Check intersection only with the outer rectangle.
-        if ( container.bounds.containsPoint( waveSensorNode.bodyNode.center ) ) {
-          waveSensorNode.animateToToolbox();
-        }
-      }
-    } ) );
-
     // Create the probes
     this.probe1Node = new ProbeNode( this, waveSensor.probe1, darkProbeImage, modelViewTransform, container,
       dragBoundsProperty ); // @public
     this.probe2Node = new ProbeNode( this, waveSensor.probe2, lightProbeImage, modelViewTransform, container,
       dragBoundsProperty ); // @public
 
-    this.setWaveSensorScale( TOOLBOX_SCALE );
-
     // Rendering order, including wires
-    this.addChild( new WireCanvasNode( waveSensor.probe1.positionProperty, waveSensor.bodyPositionProperty,
-      this.probe1Node, this.bodyNode, darkProbeColor.toCSS() ) );
-    this.addChild( new WireCanvasNode( waveSensor.probe2.positionProperty, waveSensor.bodyPositionProperty,
-      this.probe2Node, this.bodyNode, lightProbeColor.toCSS() ) );
+    this.addChild( new WireNode( this.probe1Node, this.bodyNode, darkProbeColor.toCSS() ) );
+    this.addChild( new WireNode( this.probe2Node, this.bodyNode, lightProbeColor.toCSS() ) );
     this.addChild( this.bodyNode );
     this.addChild( this.probe1Node );
     this.addChild( this.probe2Node );
   }
 
-  return inherit( Node, WaveSensorNode, {
-    animateToFullSize: function( start ) {
-
-      // animate to full size
-      this.setWaveSensorNodeScaleAnimation(
-        this.modelViewTransform.viewToModelX( start.x ),
-        this.modelViewTransform.viewToModelY( start.y ),
-        PLAY_AREA_SCALE
-      );
-      this.waveSensor.enabled = true;
-      this.addMoreToolsView();
-    },
-    animateToToolbox: function() {
-      var position = this.getWaveSensorToolboxPosition();
-      this.setWaveSensorNodeScaleAnimation( position.x, position.y, TOOLBOX_SCALE );
-      this.reset();
-      this.waveSensor.enabled = false;
-      this.addToToolBox();
-    },
-
-    /**
-     * Resize the WaveSensorNode
-     * @public
-     * @param {number} scale - scale to be applied to wave sensor node
-     */
-    setWaveSensorScale: function( scale ) {
-
-      // Scaling all components and translating
-      this.bodyNode.setScaleMagnitude( scale );
-      this.probe1Node.setScaleMagnitude( scale );
-      this.probe2Node.setScaleMagnitude( scale );
-
-      this.bodyNode.setTranslation(
-        this.modelViewTransform.modelToViewX( this.waveSensor.bodyPosition.x ) - this.bodyNode.width / 2,
-        this.modelViewTransform.modelToViewY( this.waveSensor.bodyPosition.y ) - this.bodyNode.height / 2 );
-
-      this.probe1Node.setTranslation(
-        this.modelViewTransform.modelToViewX( this.waveSensor.probe1.position.x ) - this.probe1Node.getWidth() / 2,
-        this.modelViewTransform.modelToViewY( this.waveSensor.probe1.position.y ) - this.probe1Node.getHeight() / 2 );
-
-      this.probe2Node.setTranslation(
-        this.modelViewTransform.modelToViewX( this.waveSensor.probe2.position.x ) - this.probe2Node.getWidth() / 2,
-        this.modelViewTransform.modelToViewY( this.waveSensor.probe2.position.y ) - this.probe2Node.getHeight() / 2 );
-    },
-
-    /**
-     * Resize the WaveSensorNode
-     * @public
-     * @param {number} endPositionX - x coordinate of end point
-     * @param {number} endPositionY - y coordinate of end point
-     * @param {number} scale - scale to be applied to wavesensor node
-     */
-    setWaveSensorNodeScale: function( endPositionX, endPositionY, scale ) {
-
-      // Previous scale for scaling the distance among probeNodes and bodyNode
-      var prevScale = this.bodyNode.getScaleVector().x;
-
-      // Scaling all components
-      this.bodyNode.setScaleMagnitude( scale );
-      this.probe1Node.setScaleMagnitude( scale );
-      this.probe2Node.setScaleMagnitude( scale );
-
-      // scale the distance between probe1 and body, and adjust the body position
-      var delta1X = this.waveSensor.probe1.position.x * ( 1 - scale / prevScale ) +
-                    this.waveSensor.bodyPosition.x * scale / prevScale;
-      var delta1Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
-                    this.waveSensor.bodyPosition.y * scale / prevScale;
-      this.waveSensor.bodyPositionProperty.set( new Vector2( delta1X, delta1Y ) );
-
-      // scale the distance between probe1 and probe2, and adjust the probe2 position
-      var delta2X = this.waveSensor.probe1.position.x * ( 1 - scale / prevScale ) +
-                    this.waveSensor.probe2.position.x * scale / prevScale;
-      var delta2Y = this.waveSensor.probe1.position.y * ( 1 - scale / prevScale ) +
-                    this.waveSensor.probe2.position.y * scale / prevScale;
-      this.waveSensor.probe2.positionProperty.set( new Vector2( delta2X, delta2Y ) );
-
-      // translate wave sensor to the end position
-      this.waveSensor.translateAllXY( endPositionX - this.waveSensor.probe1.position.x,
-        endPositionY - this.waveSensor.probe1.position.y );
-    },
-
-    /**
-     * Resize the WaveSensorNode with Animation
-     * @private
-     * @param {number} endPositionX - x coordinate of end point at final state of animation
-     * @param {number} endPositionY - y coordinate of end point at final state of animation
-     * @param {number} scale - scale at final state of animation
-     */
-    setWaveSensorNodeScaleAnimation: function( endPositionX, endPositionY, scale ) {
-      var prevScale = this.bodyNode.getScaleVector().x;
-      var startPoint = {
-        x: this.waveSensor.probe1.position.x, y: this.waveSensor.probe1.position.y,
-        scale: prevScale
-      };
-      var endPoint = { x: endPositionX, y: endPositionY, scale: scale };
-      // add tween
-      var target = this;
-      TweenUtil.startTween( this, startPoint, endPoint, function() {
-        target.setWaveSensorNodeScale( startPoint.x, startPoint.y, startPoint.scale );
-      } );
-    },
-
-    /**
-     * Adds WaveSensorNode to play area and removes from tool box
-     * @public
-     */
-    addMoreToolsView: function() {
-
-      if ( this.beforeLightLayer2.isChild( this ) ) {
-        this.beforeLightLayer2.removeChild( this );
-      }
-
-      if ( !this.afterLightLayer2.isChild( this ) ) {
-        this.afterLightLayer2.addChild( this );
-      }
-      this.touchArea = null;
-      this.probe1Node.touchArea = this.probe1Node.localBounds;
-      this.probe2Node.touchArea = this.probe2Node.localBounds;
-      this.bodyNode.touchArea = this.bodyNode.localBounds;
-    },
-
-    /**
-     * Adds WaveSensorNode to tool box and removes from play area if present
-     * @public
-     */
-    addToToolBox: function() {
-
-      if ( this.afterLightLayer2.isChild( this ) ) {
-        this.afterLightLayer2.removeChild( this );
-      }
-      if ( !this.beforeLightLayer2.isChild( this ) ) {
-        this.beforeLightLayer2.addChild( this );
-      }
-      this.probe1Node.touchArea = null;
-      this.probe2Node.touchArea = null;
-      this.bodyNode.touchArea = null;
-    },
-
-    /**
-     * Called when dragged out of the toolbox, drags all parts together (including body and probes)
-     * @private
-     * @param {number} deltaX - distance in x direction to be dragged
-     * @param {number} deltaY - distance in y direction to be dragged
-     */
-    dragAllXY: function( deltaX, deltaY ) {
-      this.waveSensor.translateAllXY( this.modelViewTransform.viewToModelDeltaX( deltaX ),
-        this.modelViewTransform.viewToModelDeltaY( deltaY ) );
-    },
-
-    /**
-     * Drag bodyNode
-     * @private
-     * @param {number} deltaX - distance in x direction to be dragged
-     * @param {number} deltaY - distance in y direction to be dragged
-     */
-    dragBodyXY: function( deltaX, deltaY ) {
-      this.waveSensor.translateBodyXY( this.modelViewTransform.viewToModelDeltaX( deltaX ),
-        this.modelViewTransform.viewToModelDeltaY( deltaY ) );
-    },
-
-    /**
-     * @public
-     */
-    reset: function() {
-      this.setWaveSensorScale( TOOLBOX_SCALE );
-      this.chartNode.gridLines.clear();
-      if ( this.afterLightLayer2.isChild( this ) ) {
-        this.addToToolBox();
-      }
-      this.waveSensor.reset();
-    }
-  } );
+  return inherit( Node, WaveSensorNode );
 } );

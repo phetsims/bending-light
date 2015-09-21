@@ -47,10 +47,6 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
-   * @param {Rectangle} container - toolbox node bounds
-   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the protractor may be dragged
-   * @param {function} getToolboxModelLocation - returns a Vector2 that shows where the items should appear in the movable
-   *                                           - toolbox
    * @constructor
    */
   function VelocitySensorNode( beforeLightLayer2, afterLightLayer2, modelViewTransform, velocitySensor, arrowScale ) {
@@ -181,18 +177,5 @@ define( function( require ) {
     this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX );
   }
 
-  return inherit( Node, VelocitySensorNode, {
-
-
-    /**
-     * @public
-     */
-    reset: function() {
-      this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX );
-      if ( this.afterLightLayer2.isChild( this ) ) {
-        this.addToToolBox();
-      }
-      this.velocitySensor.reset();
-    }
-  } );
+  return inherit( Node, VelocitySensorNode );
 } );

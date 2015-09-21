@@ -99,6 +99,7 @@ define( function( require ) {
       this.toolbox,
       this.visibleBoundsProperty
     );
+    this.toolbox.addChild( this.waveSensorNode );
 
     // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
