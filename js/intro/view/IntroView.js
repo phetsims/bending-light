@@ -38,14 +38,7 @@ define( function( require ) {
   var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
-  //var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
-  //var ChainInputListener = require( 'SCENERY/input/ChainInputListener' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  //var DragHandler = require( 'SCENERY/input/DragHandler' );
-  //var MoveToFrontHandler = require( 'SCENERY/input/MoveToFrontHandler' );
-  //var RelativeDragHandler = require( 'SCENERY/input/RelativeDragHandler' );
-  //var TranslateHandler = require( 'SCENERY/input/TranslateHandler' );
-  //var ToolboxDragHandler = require( 'BENDING_LIGHT/intro/view/ToolboxDragHandler' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -290,7 +283,8 @@ define( function( require ) {
         // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
         // wrong location.
         return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
-      } );
+      }
+    );
     protractorToolListener.positionInToolbox();
     protractorToolListener.events.on( 'droppedInToolbox', function( callback ) {callback();} );
     protractorToolListener.events.on( 'draggedOutOfToolbox', function( callback ) {callback();} );
@@ -360,7 +354,7 @@ define( function( require ) {
           updatePosition( event );
         },
         drag: function( event ) {
-          updatePosition( event );
+          updatePosition( event ); // TODO: Relative drag
         },
         end: function() {
           if ( introView.intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ||
@@ -478,23 +472,6 @@ define( function( require ) {
   }
 
   return inherit( BendingLightView, IntroView, {
-    //moveIntensityMeterToToolbox: function() {
-    //  var protractorPosition = this.getProtractorNodeToolboxPosition();
-    //
-    //  // The intensity meter appears lower in the toolbox on the more tools screen.
-    //  var offsetY = this.hasMoreTools ? 120 : 0;
-    //  this.bendingLightModel.intensityMeter.bodyPosition = this.modelViewTransform.viewToModelXY(
-    //    protractorPosition.x + 20 - 2,
-    //    protractorPosition.y + 60 + 5 + offsetY
-    //  );
-    //  this.bendingLightModel.intensityMeter.sensorPosition = this.modelViewTransform.viewToModelXY(
-    //    protractorPosition.x - 20 - 4,
-    //    protractorPosition.y + 60 - 5 + offsetY
-    //  );
-    //},
-    getProtractorNodeToolboxPosition: function() {
-      return new Vector2( this.toolbox.centerX, this.toolbox.y + 40 + (this.hasMoreTools ? 0 : 8) );
-    },
 
     /**
      * Called by the animation loop.
