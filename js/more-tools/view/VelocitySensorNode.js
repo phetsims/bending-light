@@ -26,7 +26,6 @@ define( function( require ) {
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Util = require( 'DOT/Util' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -54,8 +53,7 @@ define( function( require ) {
    *                                           - toolbox
    * @constructor
    */
-  function VelocitySensorNode( beforeLightLayer2, afterLightLayer2, modelViewTransform, velocitySensor, arrowScale,
-                               container, dragBoundsProperty, getToolboxModelLocation ) {
+  function VelocitySensorNode( beforeLightLayer2, afterLightLayer2, modelViewTransform, velocitySensor, arrowScale ) {
 
     var velocitySensorNode = this;
     Node.call( this, { cursor: 'pointer', pickable: true } );
@@ -74,14 +72,13 @@ define( function( require ) {
 
     // Adding triangle shape
     var triangleShapeNode = new Path( new Shape()
-        .moveTo( 0, 0 )
-        .lineTo( triangleWidth, -triangleHeight / 2 )
-        .lineTo( triangleWidth, +triangleHeight / 2 )
-        .close(),
-      {
-        fill: '#CF8702',
-        stroke: '#844702'
-      } );
+      .moveTo( 0, 0 )
+      .lineTo( triangleWidth, -triangleHeight / 2 )
+      .lineTo( triangleWidth, +triangleHeight / 2 )
+      .close(), {
+      fill: '#CF8702',
+      stroke: '#844702'
+    } );
     this.bodyNode.addChild( triangleShapeNode );
 
     // Adding outer rectangle
@@ -160,37 +157,6 @@ define( function( require ) {
 
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
 
-    // Drag handler
-    var movableDragHandler = new MovableDragHandler( velocitySensor.positionProperty, {
-      dragBounds: modelViewTransform.viewToModelBounds( dragBoundsProperty.value ),
-      modelViewTransform: modelViewTransform,
-      startDrag: function() {
-
-        // check for the presence of velocity node in tool box. if true then scale it with animation
-        if ( !velocitySensor.enabled ) {
-          velocitySensorNode.setScaleAnimation( velocitySensor.position, SCALE_OUTSIDE_TOOLBOX );
-          velocitySensorNode.addToMoreToolsView();
-          velocitySensor.enabled = true;
-        }
-      },
-      endDrag: function() {
-        var x = velocitySensorNode.bodyNode.getCenterX();
-        var y = velocitySensorNode.bodyNode.getCenterY();
-
-        // place back into tool box
-        if ( container.bounds.containsCoordinates( x, y ) ) {
-          velocitySensorNode.setScaleAnimation( getToolboxModelLocation(), SCALE_INSIDE_TOOLBOX );
-          velocitySensor.reset();
-          velocitySensorNode.addToToolBox();
-          velocitySensor.enabled = false;
-        }
-      }
-    } );
-    this.addInputListener( movableDragHandler );
-    dragBoundsProperty.link( function( dragBounds ) {
-      movableDragHandler.setDragBounds( modelViewTransform.viewToModelBounds( dragBounds.shiftedX( -velocitySensorNode.width / 2 ) ) );
-    } );
-
     // update the velocity node position
     velocitySensor.positionProperty.link( function( position ) {
       var velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
@@ -213,58 +179,18 @@ define( function( require ) {
         labelText.center = whiteTextArea.center;
       } );
     this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX );
+
+    // @public
+    this.syncModelCoordinates = function() {
+      var position = velocitySensorNode.bodyNode.translation;
+      var velocitySensorXPosition = modelViewTransform.viewToModelX( position.x );
+      var velocitySensorYPosition = modelViewTransform.viewToModelY( position.y );
+      velocitySensorNode.bodyNode.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
+    };
   }
 
   return inherit( Node, VelocitySensorNode, {
 
-    /**
-     * Resize the VelocitySensorNode with Animation
-     * @public
-     * @param {Vector2} endPoint - position at final state of animation
-     * @param {number} scale - scale at final state of animation
-     */
-    setScaleAnimation: function( endPoint, scale ) {
-      var startPosition = {
-        x: this.velocitySensor.position.x,
-        y: this.velocitySensor.position.y,
-        scale: this.bodyNode.getScaleVector().x
-      };
-      var finalPosition = { x: endPoint.x, y: endPoint.y, scale: scale };
-      var bodyNode = this.bodyNode;
-      var VelocitySensorNode = this;
-      TweenUtil.startTween( this, startPosition, finalPosition, function() {
-        bodyNode.setScaleMagnitude( startPosition.scale );
-        VelocitySensorNode.velocitySensor.positionProperty.set( new Vector2( startPosition.x, startPosition.y ) );
-      } );
-    },
-
-    /**
-     * Adds VelocitySensorNode to play area and removes from tool box
-     * @public
-     */
-    addToMoreToolsView: function() {
-
-      if ( this.beforeLightLayer2.isChild( this ) ) {
-        this.beforeLightLayer2.removeChild( this );
-      }
-      if ( !this.afterLightLayer2.isChild( this ) ) {
-        this.afterLightLayer2.addChild( this );
-      }
-    },
-
-    /**
-     * Adds VelocitySensorNode to tool box and removes from play area if present
-     * @public
-     */
-    addToToolBox: function() {
-
-      if ( this.afterLightLayer2.isChild( this ) ) {
-        this.afterLightLayer2.removeChild( this );
-      }
-      if ( !this.beforeLightLayer2.isChild( this ) ) {
-        this.beforeLightLayer2.addChild( this );
-      }
-    },
 
     /**
      * @public

@@ -16,6 +16,8 @@ define( function( require ) {
   var VelocitySensorNode = require( 'BENDING_LIGHT/more-tools/view/VelocitySensorNode' );
   var WaveSensorNode = require( 'BENDING_LIGHT/more-tools/view/WaveSensorNode' );
   var Property = require( 'AXON/Property' );
+  var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
@@ -34,11 +36,23 @@ define( function( require ) {
       this.afterLightLayer2,
       this.modelViewTransform,
       moreToolsModel.velocitySensor,
-      arrowScale,
-      this.toolbox,
-      this.visibleBoundsProperty,
-      this.getVelocitySensorToolboxModelLocation.bind( this )
+      arrowScale
     );
+    // Add the input listener, also initializes the position of the tool
+    var velocitySensorToolListener = new ToolListener( this.velocitySensorNode, this.toolbox, this.beforeLightLayer2,
+      this.visibleBoundsProperty, true, 1, 2, function() {
+
+        // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
+        // wrong location.
+        return new Vector2( moreToolsView.toolbox.getSelfBounds().width / 2, moreToolsView.toolbox.getSelfBounds().width / 2 );
+      }
+    );
+    this.velocitySensorNode.addInputListener( velocitySensorToolListener );
+    velocitySensorToolListener.positionInToolbox();
+    velocitySensorToolListener.events.on( 'droppedInToolbox', function( callback ) {callback();} );
+    velocitySensorToolListener.events.on( 'draggedOutOfToolbox', function( callback ) {callback();} );
+    velocitySensorToolListener.events.on( 'dragged', function() {moreToolsView.velocitySensorNode.syncModelCoordinates();} );
+    this.toolbox.addChild( this.velocitySensorNode );
 
     // @public
     this.waveSensorNode = new WaveSensorNode(
@@ -47,53 +61,17 @@ define( function( require ) {
       this.modelViewTransform,
       moreToolsModel.waveSensor,
       this.toolbox,
-      this.visibleBoundsProperty,
-      this.getWaveSensorToolboxPosition.bind( this )
+      this.visibleBoundsProperty
     );
-
-    this.velocitySensorNode.addToToolBox();
-    this.waveSensorNode.addToToolBox();
 
     // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       function( laserView, isWaveSensorEnabled ) {
         moreToolsView.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
       } );
-
-    this.events.on( 'layoutFinished', function() {
-
-      if ( !moreToolsView.velocitySensorNode.velocitySensor.enabled ) {
-        moreToolsView.moveVelocitySensorToToolbox();
-      }
-
-      if ( !moreToolsView.waveSensorNode.enabled ) {
-        moreToolsView.moveWaveSensorToToolbox();
-      }
-    } );
   }
 
   return inherit( IntroView, MoreToolsView, {
-    getVelocitySensorToolboxModelLocation: function() {
-
-      // Cannot rely on the width, height of the nodes for layout since they scale up and down,
-      // Se we use magic numbers here instead.  If the initial size of the objects in the toolbox changes, these values
-      // will have to be updated as well.
-      return this.modelViewTransform.viewToModelPosition( this.getProtractorNodeToolboxPosition().plusXY( -45, 65 ) );
-    },
-    moveVelocitySensorToToolbox: function() {
-      this.velocitySensorNode.velocitySensor.position = this.getVelocitySensorToolboxModelLocation();
-    },
-    moveWaveSensorToToolbox: function() {
-
-      // TODO: This is buggy
-      this.waveSensorNode.waveSensor.bodyPosition = this.getWaveSensorToolboxPosition();
-      this.waveSensorNode.reset();
-      this.waveSensorNode.waveSensor.bodyPosition = this.getWaveSensorToolboxPosition();
-    },
-    getWaveSensorToolboxPosition: function() {
-      var velocitySensorViewPosition = this.modelViewTransform.modelToViewPosition( this.getVelocitySensorToolboxModelLocation() );
-      return this.modelViewTransform.viewToModelPosition( velocitySensorViewPosition.plusXY( 20, 50 ) );
-    },
     /**
      * Update chart node and wave.
      * @protected
