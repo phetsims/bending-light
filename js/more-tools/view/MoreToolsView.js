@@ -52,18 +52,21 @@ define( function( require ) {
     IntroView.call( this, moreToolsModel, 0, true, 3 );
 
     // @public - Create the Velocity Sensor tool and wave sensor tool to add to the tool box
+    var toolboxScaleForVelocitySensor = 0.85;
     this.velocitySensorNode = new VelocitySensorNode(
       this.beforeLightLayer2,
       this.afterLightLayer2,
       this.modelViewTransform,
       moreToolsModel.velocitySensor,
-      arrowScale
+      arrowScale, {
+        scale: toolboxScaleForVelocitySensor
+      }
     );
     var velocitySensorNode = this.velocitySensorNode;
     var modelViewTransform = this.modelViewTransform;
     var inToolbox = true;
     var p = moreToolsModel.velocitySensor.positionProperty;
-    var vector2 = new Vector2( 10, 200 );
+    var vector2 = new Vector2( this.toolbox.getSelfBounds().width / 2 - this.velocitySensorNode.width / 2, 200 );
     var velocitySensorNodeListener = new MovableDragHandler( p, {
       modelViewTransform: modelViewTransform,
       startDrag: function( event ) {
@@ -79,7 +82,7 @@ define( function( require ) {
       endDrag: function() {
         if ( velocitySensorNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
           reparent( velocitySensorNode, moreToolsView.toolbox );
-          velocitySensorNode.setScaleMagnitude( 1 );
+          velocitySensorNode.setScaleMagnitude( toolboxScaleForVelocitySensor );
           inToolbox = true;
           velocitySensorNode.translation = vector2;
         }

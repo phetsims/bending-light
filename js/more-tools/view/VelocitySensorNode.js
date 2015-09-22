@@ -49,7 +49,7 @@ define( function( require ) {
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
    * @constructor
    */
-  function VelocitySensorNode( beforeLightLayer2, afterLightLayer2, modelViewTransform, velocitySensor, arrowScale ) {
+  function VelocitySensorNode( beforeLightLayer2, afterLightLayer2, modelViewTransform, velocitySensor, arrowScale, options ) {
 
     var velocitySensorNode = this;
     Node.call( this, { cursor: 'pointer', pickable: true } );
@@ -175,6 +175,8 @@ define( function( require ) {
         labelText.center = whiteTextArea.center;
       } );
     this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX );
+
+    this.mutate( options );
   }
 
   return inherit( Node, VelocitySensorNode );
