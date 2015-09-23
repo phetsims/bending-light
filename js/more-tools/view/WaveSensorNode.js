@@ -64,10 +64,12 @@ define( function( require ) {
 
     // Probe location
     probe.positionProperty.link( function( position ) {
-      var probePositionX = modelViewTransform.modelToViewX( position.x );
-      var probePositionY = modelViewTransform.modelToViewY( position.y );
-      probeNode.setTranslation( probePositionX - probeNode.getWidth() / 2, probePositionY - probeNode.getHeight() / 2 );
+      probeNode.center = modelViewTransform.modelToViewPosition( position );
     } );
+
+    this.syncModelFromView = function() {
+      probe.position = modelViewTransform.viewToModelPosition( probeNode.center );
+    };
   }
 
   inherit( Node, ProbeNode );
@@ -142,18 +144,11 @@ define( function( require ) {
     titleNode.setTranslation( this.bodyNode.getCenterX() - titleNode.getWidth() / 2, this.bodyNode.height * 0.82 );
 
     // Add the chart inside the body, with one series for each of the dark and light probes
-    this.chartNode = new ChartNode( innerMostRectangle.bounds.erode( 3 ),
-      [ new Series( waveSensor.probe1.seriesProperty, darkProbeColor ),
-        new Series( waveSensor.probe2.seriesProperty, lightProbeColor ) ] );
+    this.chartNode = new ChartNode( innerMostRectangle.bounds.erode( 3 ), [
+      new Series( waveSensor.probe1.seriesProperty, darkProbeColor ),
+      new Series( waveSensor.probe2.seriesProperty, lightProbeColor )
+    ] );
     this.bodyNode.addChild( this.chartNode );
-
-    // Synchronize the body position with the model (centered on the model point)
-    waveSensor.bodyPositionProperty.link( function( position ) {
-      var waveSensorBodyPositionX = modelViewTransform.modelToViewX( position.x );
-      var waveSensorBodyPositionY = modelViewTransform.modelToViewY( position.y );
-      waveSensorNode.bodyNode.setTranslation( waveSensorBodyPositionX - waveSensorNode.bodyNode.getWidth() / 2,
-        waveSensorBodyPositionY - waveSensorNode.bodyNode.getHeight() / 2 );
-    } );
 
     // Create the probes
     this.probe1Node = new ProbeNode( this, waveSensor.probe1, darkProbeImage, modelViewTransform, container,
@@ -162,8 +157,31 @@ define( function( require ) {
       dragBoundsProperty ); // @public
 
     // Rendering order, including wires
-    this.addChild( new WireNode( this.probe1Node, this.bodyNode, darkProbeColor.toCSS() ) );
-    this.addChild( new WireNode( this.probe2Node, this.bodyNode, lightProbeColor.toCSS() ) );
+    var wire1Node = new WireNode( this.probe1Node, this.bodyNode, darkProbeColor.toCSS() );
+    this.addChild( wire1Node );
+    var wire2Node = new WireNode( this.probe2Node, this.bodyNode, lightProbeColor.toCSS() );
+    this.addChild( wire2Node );
+
+    // Synchronize the body position with the model (centered on the model point)
+    waveSensor.bodyPositionProperty.link( function( position ) {
+      waveSensorNode.bodyNode.center = modelViewTransform.modelToViewPosition( position );
+      wire1Node.updateWireShape();
+      wire2Node.updateWireShape();
+    } );
+
+    waveSensor.probe1.positionProperty.link( function() {
+      wire1Node.updateWireShape();
+    } );
+    waveSensor.probe2.positionProperty.link( function() {
+      wire2Node.updateWireShape();
+    } );
+
+    this.syncModelFromView = function() {
+      waveSensor.bodyPosition = modelViewTransform.viewToModelPosition( waveSensorNode.bodyNode.center );
+      waveSensorNode.probe1Node.syncModelFromView();
+      waveSensorNode.probe2Node.syncModelFromView();
+    };
+
     this.addChild( this.bodyNode );
     this.addChild( this.probe1Node );
     this.addChild( this.probe2Node );

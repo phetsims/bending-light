@@ -2,7 +2,7 @@
 
 /**
  * View for the "more tools" screen, which adds more tools to the toolbox, and a few more controls for the laser.
- * This extends the IntroView since it shares many of the same features.
+ * This extends the moreToolsView since it shares many of the same features.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
@@ -19,6 +19,7 @@ define( function( require ) {
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
   var Vector2 = require( 'DOT/Vector2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   /**
    * Move a node from one parent to another but keeping it in exactly the same position/scale/orientation on the screen.
@@ -107,6 +108,102 @@ define( function( require ) {
     );
     this.toolbox.addChild( this.waveSensorNode );
 
+    var protractorNodeBottom = 100;
+    var positionBodyAndProbe2 = function() {
+      moreToolsView.waveSensorNode.bodyNode.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 180, 0 );
+      moreToolsView.waveSensorNode.probe2Node.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 60, 0 );
+      moreToolsView.waveSensorNode.syncModelFromView();
+    };
+    var positionInToolbox = function() {
+      moreToolsView.waveSensorNode.setScaleMagnitude( 0.2 );
+      moreToolsModel.waveSensor.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2() );
+      positionBodyAndProbe2();
+      moreToolsView.waveSensorNode.centerX = moreToolsView.toolbox.getSelfBounds().width / 2;
+      moreToolsView.waveSensorNode.top = protractorNodeBottom + 15;
+      moreToolsView.waveSensorNode.syncModelFromView();
+    };
+    positionInToolbox();
+    var draggingTogether = true;
+
+    // When a node is dropped behind a control panel, move it to the side so it won't be lost.
+    var bumpLeft = function( node, positionProperty ) {
+      while ( node.getGlobalBounds().intersectsBounds( moreToolsView.topMediumControlPanel.getGlobalBounds() ) ||
+              node.getGlobalBounds().intersectsBounds( moreToolsView.bottomMediumControlPanel.getGlobalBounds() ) ) {
+        positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
+      }
+    };
+
+    // @protected for subclass usage in MoreToolsView
+    this.bumpLeft = bumpLeft;
+
+    /**
+     * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
+     * drag together.  When dragged in the play area, each item drags by itself.
+     * @param positionProperty
+     * @returns {*}
+     */
+    var createIntensityMeterComponentListener = function( node, positionProperty ) {
+
+      var updatePosition = function( event ) {
+
+        // Same as code below, but we need to add animation, so they will diverge
+        var p = modelViewTransform.viewToModelPosition( moreToolsView.waveSensorNode.probe1Node.globalToParentPoint( event.pointer.point ) );
+        if ( draggingTogether ) {
+          moreToolsModel.waveSensor.probe1.position = p;
+          positionBodyAndProbe2();
+        }
+        else {
+          positionProperty.value = p;
+        }
+      };
+      return new SimpleDragHandler( {
+        start: function( event ) {
+          reparent( moreToolsView.waveSensorNode, moreToolsView.afterLightLayer );
+          moreToolsView.waveSensorNode.setScaleMagnitude( 1 );
+          moreToolsView.waveSensorNode.setTranslation( 0, 0 );
+          updatePosition( event );
+        },
+        drag: function( event ) {
+          updatePosition( event ); // TODO: Relative drag
+        },
+        end: function() {
+          if ( moreToolsView.waveSensorNode.bodyNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ||
+               moreToolsView.waveSensorNode.probe1Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ||
+               moreToolsView.waveSensorNode.probe2Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
+            reparent( moreToolsView.waveSensorNode, moreToolsView.toolbox );
+            positionInToolbox();
+            draggingTogether = true;
+          }
+          else {
+            draggingTogether = false;
+          }
+
+          bumpLeft( moreToolsView.waveSensorNode.probe1Node, moreToolsModel.waveSensor.probe1.positionProperty );
+          bumpLeft( moreToolsView.waveSensorNode.probe2Node, moreToolsModel.waveSensor.probe2.positionProperty );
+          bumpLeft( moreToolsView.waveSensorNode.bodyNode, moreToolsModel.waveSensor.bodyPositionProperty );
+        }
+      } );
+    };
+
+    this.waveSensorNode.probe1Node.addInputListener(
+      createIntensityMeterComponentListener(
+        this.waveSensorNode.probe1Node,
+        moreToolsModel.waveSensor.probe1.positionProperty
+      )
+    );
+    this.waveSensorNode.probe2Node.addInputListener(
+      createIntensityMeterComponentListener(
+        this.waveSensorNode.probe2Node,
+        moreToolsModel.waveSensor.probe2.positionProperty
+      )
+    );
+    this.waveSensorNode.bodyNode.addInputListener(
+      createIntensityMeterComponentListener(
+        this.waveSensorNode.bodyNode,
+        moreToolsModel.waveSensor.bodyPositionProperty
+      )
+    );
+
     // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       function( laserView, isWaveSensorEnabled ) {
@@ -131,7 +228,7 @@ define( function( require ) {
      * @protected
      */
     reset: function() {
-      IntroView.prototype.reset.call( this );
+      moreToolsView.prototype.reset.call( this );
       this.velocitySensorNode.reset();
       this.waveSensorNode.reset();
     }

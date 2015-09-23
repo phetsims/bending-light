@@ -184,6 +184,10 @@ define( function( require ) {
     topMediumControlPanel.setTranslation(
       stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - topMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() + 4 );
+
+    // @protected
+    this.topMediumControlPanel = topMediumControlPanel;
+
     this.afterLightLayer3.addChild( topMediumControlPanel );
 
     // add control panels for setting the index of refraction for each medium
@@ -193,6 +197,9 @@ define( function( require ) {
     bottomMediumControlPanel.setTranslation(
       stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - bottomMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET + 1 );
+
+    // @protected
+    this.bottomMediumControlPanel = bottomMediumControlPanel;
     this.afterLightLayer3.addChild( bottomMediumControlPanel );
 
     // add a line that will show the border between the mediums even when both n's are the same... Just a thin line will
@@ -335,7 +342,7 @@ define( function( require ) {
 
     // @protected for subclass usage in MoreToolsView
     this.bumpLeft = bumpLeft;
-    
+
     /**
      * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
      * drag together.  When dragged in the play area, each item drags by itself.
