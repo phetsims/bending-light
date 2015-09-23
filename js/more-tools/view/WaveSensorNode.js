@@ -35,15 +35,12 @@ define( function( require ) {
   /**
    * View for rendering a probe that can be used to sense wave values
    *
-   * @param {WaveSensorNode} waveSensorNode
    * @param {Probe} probe - probe containing position and recorded data series
    * @param {string} probeImageName - name of the probe image
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {Rectangle} container - toolbox node bounds
-   * @param {Bounds2} dragBoundsProperty - bounds that define where the probe may be dragged
    * @constructor
    */
-  function ProbeNode( waveSensorNode, probe, probeImageName, modelViewTransform, container, dragBoundsProperty ) {
+  function ProbeNode( probe, probeImageName, modelViewTransform ) {
 
     var probeNode = this;
     Node.call( this, { cursor: 'pointer' } );
@@ -140,10 +137,8 @@ define( function( require ) {
     this.bodyNode.addChild( this.chartNode );
 
     // Create the probes
-    this.probe1Node = new ProbeNode( this, waveSensor.probe1, darkProbeImage, modelViewTransform, container,
-      dragBoundsProperty ); // @public
-    this.probe2Node = new ProbeNode( this, waveSensor.probe2, lightProbeImage, modelViewTransform, container,
-      dragBoundsProperty ); // @public
+    this.probe1Node = new ProbeNode( waveSensor.probe1, darkProbeImage, modelViewTransform ); // @public
+    this.probe2Node = new ProbeNode( waveSensor.probe2, lightProbeImage, modelViewTransform ); // @public
 
     // Rendering order, including wires
     var wire1Node = new WireNode( this.probe1Node, this.bodyNode, darkProbeColor.toCSS() );
