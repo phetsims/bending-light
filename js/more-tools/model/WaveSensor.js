@@ -34,16 +34,6 @@ define( function( require ) {
   inherit( PropertySet, Probe, {
 
     /**
-     * Translate the probe in model
-     * @public
-     * @param {number} deltaX - amount of space in x direction probe to be translated
-     * @param {number} deltaY - amount of space in y direction probe to be translated
-     */
-    translateXY: function( deltaX, deltaY ) {
-      this.position = new Vector2( this.position.x + deltaX, this.position.y + deltaY );
-    },
-
-    /**
      * @public
      * @param {Option<DataPoint>} sample
      */
@@ -111,27 +101,6 @@ define( function( require ) {
       if ( value ) {
         probe.addSample( new DataPoint( value.time, value.magnitude ) );
       }
-    },
-
-    /**
-     * Translate the body in model
-     * @param {number} deltaX - distance in x direction to be dragged
-     * @param {number} deltaY - distance in y direction to be dragged
-     */
-    translateBodyXY: function( deltaX, deltaY ) {
-      this.bodyPosition = new Vector2( this.bodyPosition.x + deltaX, this.bodyPosition.y + deltaY );
-    },
-
-    /**
-     * Translate the body and probes by the specified model delta
-     * @public
-     * @param {number} deltaX - distance in x direction to be dragged
-     * @param {number} deltaY - distance in y direction to be dragged
-     */
-    translateAllXY: function( deltaX, deltaY ) {
-      this.probe1.translateXY( deltaX, deltaY );
-      this.probe2.translateXY( deltaX, deltaY );
-      this.translateBodyXY( deltaX, deltaY );
     },
 
     /**
