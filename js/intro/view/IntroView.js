@@ -330,7 +330,7 @@ define( function( require ) {
       introView.intensityMeterNode.syncModelFromView();
     };
     positionIntensityMeterNodeInToolbox();
-    var draggingTogether = true;
+    var intensityMeterDraggingTogether = true;
 
     // When a node is dropped behind a control panel, move it to the side so it won't be lost.
     var bumpLeft = function( node, positionProperty ) {
@@ -355,7 +355,7 @@ define( function( require ) {
 
         // Same as code below, but we need to add animation, so they will diverge
         var p = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
-        if ( draggingTogether ) {
+        if ( intensityMeterDraggingTogether ) {
           introModel.intensityMeter.sensorPosition = p;
           positionBody();
         }
@@ -376,18 +376,21 @@ define( function( require ) {
         end: function() {
           if ( introView.intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ||
                introView.intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
-            reparent( introView.intensityMeterNode, introView.toolbox );
-            positionIntensityMeterNodeInToolbox();
-            draggingTogether = true;
+            introView.resetIntensityMeterNode();
           }
           else {
-            draggingTogether = false;
+            intensityMeterDraggingTogether = false;
           }
 
           bumpLeft( introView.intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
           bumpLeft( introView.intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
         }
       } );
+    };
+    this.resetIntensityMeterNode = function() {
+      reparent( introView.intensityMeterNode, introView.toolbox );
+      positionIntensityMeterNodeInToolbox();
+      intensityMeterDraggingTogether = true;
     };
 
     this.intensityMeterNode.probeNode.addInputListener(
@@ -461,12 +464,12 @@ define( function( require ) {
     // add reset all button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        positionIntensityMeterNodeInToolbox();
         introModel.reset();
         introView.reset();
         laserControlPanel.reset();
         topMediumControlPanel.reset();
         bottomMediumControlPanel.reset();
+        introView.resetIntensityMeterNode();
       },
       bottom: this.layoutBounds.bottom - 14,
       right: this.layoutBounds.right - 2 * INSET,

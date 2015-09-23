@@ -81,10 +81,7 @@ define( function( require ) {
       },
       endDrag: function() {
         if ( velocitySensorNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
-          reparent( velocitySensorNode, moreToolsView.toolbox );
-          velocitySensorNode.setScaleMagnitude( velocitySensorToolboxScale );
-          inToolbox = true;
-          velocitySensorNode.translation = vector2;
+          moreToolsView.resetVelocitySensorNode();
         }
 
         // Move it to the left if completely obscured by a medium control panel
@@ -93,6 +90,14 @@ define( function( require ) {
     } );
     velocitySensorNode.translation = vector2;
     velocitySensorNode.addInputListener( velocitySensorNodeListener );
+
+    // @private
+    this.resetVelocitySensorNode = function() {
+      reparent( velocitySensorNode, moreToolsView.toolbox );
+      velocitySensorNode.setScaleMagnitude( velocitySensorToolboxScale );
+      inToolbox = true;
+      velocitySensorNode.translation = vector2;
+    };
 
     this.toolbox.addChild( this.velocitySensorNode );
 
@@ -170,10 +175,7 @@ define( function( require ) {
           if ( moreToolsView.waveSensorNode.bodyNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ||
                moreToolsView.waveSensorNode.probe1Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ||
                moreToolsView.waveSensorNode.probe2Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
-            reparent( moreToolsView.waveSensorNode, moreToolsView.toolbox );
-            positionInToolbox();
-            draggingTogether = true;
-            moreToolsModel.waveSensor.enabled = false;
+            moreToolsView.resetWaveSensorNode();
           }
           else {
             draggingTogether = false;
@@ -184,6 +186,13 @@ define( function( require ) {
           bumpLeft( moreToolsView.waveSensorNode.bodyNode, moreToolsModel.waveSensor.bodyPositionProperty );
         }
       } );
+    };
+    // @private
+    this.resetWaveSensorNode = function() {
+      reparent( moreToolsView.waveSensorNode, moreToolsView.toolbox );
+      positionInToolbox();
+      draggingTogether = true;
+      moreToolsModel.waveSensor.enabled = false;
     };
 
     this.waveSensorNode.probe1Node.addInputListener(
@@ -230,8 +239,8 @@ define( function( require ) {
      */
     reset: function() {
       IntroView.prototype.reset.call( this );
-      this.velocitySensorNode.reset();
-      this.waveSensorNode.reset();
+      this.resetVelocitySensorNode();
+      this.resetWaveSensorNode();
     }
   } );
 } );
