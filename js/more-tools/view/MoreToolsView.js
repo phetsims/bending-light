@@ -86,6 +86,9 @@ define( function( require ) {
           inToolbox = true;
           velocitySensorNode.translation = vector2;
         }
+
+        // Move it to the left if completely obscured by a medium control panel
+        moreToolsView.bumpLeft( velocitySensorNode, p );
       }
     } );
     velocitySensorNode.translation = vector2;

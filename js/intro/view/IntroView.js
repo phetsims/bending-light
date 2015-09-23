@@ -325,13 +325,17 @@ define( function( require ) {
     positionInToolbox();
     var draggingTogether = true;
 
+    // When a node is dropped behind a control panel, move it to the side so it won't be lost.
     var bumpLeft = function( node, positionProperty ) {
-      // Move it to the left until it is not obscured
       while ( node.getGlobalBounds().intersectsBounds( topMediumControlPanel.getGlobalBounds() ) ||
               node.getGlobalBounds().intersectsBounds( bottomMediumControlPanel.getGlobalBounds() ) ) {
         positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
       }
     };
+
+    // @protected for subclass usage in MoreToolsView
+    this.bumpLeft = bumpLeft;
+    
     /**
      * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
      * drag together.  When dragged in the play area, each item drags by itself.
