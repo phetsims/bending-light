@@ -321,7 +321,7 @@ define( function( require ) {
       introView.intensityMeterNode.bodyNode.center = introView.intensityMeterNode.probeNode.center.plusXY( 180, 0 );
       introView.intensityMeterNode.syncModelFromView();
     };
-    var positionInToolbox = function() {
+    var positionIntensityMeterNodeInToolbox = function() {
       introView.intensityMeterNode.setScaleMagnitude( 0.2 );
       introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2() );
       positionBody();
@@ -329,7 +329,7 @@ define( function( require ) {
       introView.intensityMeterNode.top = protractorNodeBottom + 15;
       introView.intensityMeterNode.syncModelFromView();
     };
-    positionInToolbox();
+    positionIntensityMeterNodeInToolbox();
     var draggingTogether = true;
 
     // When a node is dropped behind a control panel, move it to the side so it won't be lost.
@@ -377,7 +377,7 @@ define( function( require ) {
           if ( introView.intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ||
                introView.intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
             reparent( introView.intensityMeterNode, introView.toolbox );
-            positionInToolbox();
+            positionIntensityMeterNodeInToolbox();
             draggingTogether = true;
           }
           else {
@@ -461,7 +461,7 @@ define( function( require ) {
     // add reset all button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        introView.intensityMeterNode.reset();
+        positionIntensityMeterNodeInToolbox();
         introModel.reset();
         introView.reset();
         laserControlPanel.reset();

@@ -161,6 +161,7 @@ define( function( require ) {
           moreToolsView.waveSensorNode.setScaleMagnitude( 1 );
           moreToolsView.waveSensorNode.setTranslation( 0, 0 );
           updatePosition( event );
+          moreToolsModel.waveSensor.enabled = true;
         },
         drag: function( event ) {
           updatePosition( event ); // TODO: Relative drag
@@ -172,6 +173,7 @@ define( function( require ) {
             reparent( moreToolsView.waveSensorNode, moreToolsView.toolbox );
             positionInToolbox();
             draggingTogether = true;
+            moreToolsModel.waveSensor.enabled = false;
           }
           else {
             draggingTogether = false;
@@ -217,7 +219,7 @@ define( function( require ) {
      */
     updateWaveShape: function() {
       IntroView.prototype.updateWaveShape.call( this );
-      if ( this.waveSensorNode.waveSensor.visible ) {
+      if ( this.waveSensorNode.waveSensor.enabled ) {
         this.waveSensorNode.waveSensor.step();
         this.waveSensorNode.chartNode.step( this.moreToolsModel.time );
       }
