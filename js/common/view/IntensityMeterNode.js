@@ -14,7 +14,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var WireCanvasNode = require( 'BENDING_LIGHT/common/view/WireCanvasNode' );
   var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );

@@ -16,7 +16,6 @@ define( function( require ) {
   var VelocitySensorNode = require( 'BENDING_LIGHT/more-tools/view/VelocitySensorNode' );
   var WaveSensorNode = require( 'BENDING_LIGHT/more-tools/view/WaveSensorNode' );
   var Property = require( 'AXON/Property' );
-  var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
   var Vector2 = require( 'DOT/Vector2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
@@ -228,7 +227,7 @@ define( function( require ) {
      * @protected
      */
     reset: function() {
-      moreToolsView.prototype.reset.call( this );
+      IntroView.prototype.reset.call( this );
       this.velocitySensorNode.reset();
       this.waveSensorNode.reset();
     }

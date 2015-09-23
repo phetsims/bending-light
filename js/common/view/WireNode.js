@@ -11,8 +11,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
-  var Bounds2 = require( 'DOT/Bounds2' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 

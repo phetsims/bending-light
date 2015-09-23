@@ -13,7 +13,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Image = require( 'SCENERY/nodes/Image' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Color = require( 'SCENERY/util/Color' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -23,10 +22,8 @@ define( function( require ) {
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Vector2 = require( 'DOT/Vector2' );
   var ChartNode = require( 'BENDING_LIGHT/more-tools/view/ChartNode' );
   var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
-  var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
 
   // strings
   var timeString = require( 'string!BENDING_LIGHT/time' );
@@ -34,10 +31,6 @@ define( function( require ) {
   // images
   var darkProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_dark.png' );
   var lightProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_light.png' );
-
-  // constants
-  var TOOLBOX_SCALE = 0.33;
-  var PLAY_AREA_SCALE = 1;
 
   /**
    * View for rendering a probe that can be used to sense wave values
@@ -57,10 +50,6 @@ define( function( require ) {
 
     // Add the probe
     this.addChild( new Image( probeImageName, { scale: 0.8 } ) );
-
-    // Interaction: Translates when dragged, but keep it bounded within the play area
-    var start;
-    var centerEndLocation = new Vector2();
 
     // Probe location
     probe.positionProperty.link( function( position ) {

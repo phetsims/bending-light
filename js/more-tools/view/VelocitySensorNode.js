@@ -25,11 +25,9 @@ define( function( require ) {
   var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Vector2 = require( 'DOT/Vector2' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Util = require( 'DOT/Util' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var TweenUtil = require( 'BENDING_LIGHT/common/view/TweenUtil' );
   var Color = require( 'SCENERY/util/Color' );
 
   // strings
@@ -39,7 +37,6 @@ define( function( require ) {
 
   // constants
   var SCALE_INSIDE_TOOLBOX = 0.7;
-  var SCALE_OUTSIDE_TOOLBOX = 1;
 
   /**
    * @param {Node} beforeLightLayer2 - layer in which VelocitySensorNode is present when in toolbox
