@@ -16,6 +16,7 @@ define( function( require ) {
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Intersection} intersection - specifies details of intersection point and unit normal
+   * @param {Property.<string|Color>} strokeProperty - the stroke to use for the intersection node
    * @constructor
    */
   function IntersectionNode( modelViewTransform, intersection, strokeProperty ) {
@@ -39,7 +40,14 @@ define( function( require ) {
       lineDash: [ 10, 5 ]
     } );
 
-    strokeProperty.linkAttribute( this, 'stroke' );
+    var handle = strokeProperty.linkAttribute( this, 'stroke' );
+
+    /**
+     * @public - dispose of the IntersectionNode, getting rid of the attached listeners
+     */
+    this.dispose = function() {
+      strokeProperty.unlink( handle );
+    };
   }
 
   return inherit( Line, IntersectionNode );

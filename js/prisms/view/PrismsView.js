@@ -140,6 +140,7 @@ define( function( require ) {
 
         prismsModel.intersections.addItemRemovedListener( function( removedIntersection ) {
           if ( removedIntersection === addedIntersection ) {
+            node.dispose();
             prismsView.removeChild( node );
           }
         } );
