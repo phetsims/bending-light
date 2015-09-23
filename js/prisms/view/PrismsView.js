@@ -135,7 +135,7 @@ define( function( require ) {
     // Optionally show the normal lines at each intersection
     prismsModel.intersections.addItemAddedListener( function( addedIntersection ) {
       if ( prismsModel.showNormals ) {
-        var node = new IntersectionNode( prismsView.modelViewTransform, addedIntersection );
+        var node = new IntersectionNode( prismsView.modelViewTransform, addedIntersection, prismsModel.intersectionStrokeProperty );
         prismsView.addChild( node );
 
         prismsModel.intersections.addItemRemovedListener( function( removedIntersection ) {

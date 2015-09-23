@@ -64,9 +64,14 @@ define( function( require ) {
 
         // Material that comprises the prisms
         prismMedium: new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
-          MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) )
+          MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ),
+
+        intersectionStroke: 'black'
       } );
 
+    this.laser.colorModeProperty.link( function( colorMode ) {
+      prismsModel.intersectionStroke = colorMode === 'white' ? 'white' : 'black';
+    } );
     Property.multilink( [
       this.manyRaysProperty,
       this.environmentMediumProperty,

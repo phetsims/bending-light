@@ -18,7 +18,7 @@ define( function( require ) {
    * @param {Intersection} intersection - specifies details of intersection point and unit normal
    * @constructor
    */
-  function IntersectionNode( modelViewTransform, intersection ) {
+  function IntersectionNode( modelViewTransform, intersection, strokeProperty ) {
 
     var centerX = modelViewTransform.modelToViewX( intersection.point.x );
     var centerY = modelViewTransform.modelToViewY( intersection.point.y );
@@ -35,9 +35,11 @@ define( function( require ) {
     var x2 = centerX + unitNormalX * -length / 2;
     var y2 = centerY + unitNormalY * -length / 2;
     Line.call( this, x1, y1, x2, y2, {
-      stroke: 'black',
+      stroke: strokeProperty.value,
       lineDash: [ 10, 5 ]
     } );
+
+    strokeProperty.linkAttribute( this, 'stroke' );
   }
 
   return inherit( Line, IntersectionNode );
