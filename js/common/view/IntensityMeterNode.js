@@ -97,24 +97,37 @@ define( function( require ) {
       );
     } );
 
+    intensityMeter.sensorPositionProperty.lazyLink( function( sensorPosition ) {
+      intensityMeterNode.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
+      wireNode.updateWireShape();
+    } );
+
+    intensityMeter.bodyPositionProperty.lazyLink( function( bodyPosition ) {
+      intensityMeterNode.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
+      wireNode.updateWireShape();
+    } );
+
+    this.updateWireShape = function() {
+      wireNode.updateWireShape();
+    };
+
     // Connect the sensor to the body with a gray wire
     var wireNode = new WireNode( this.probeNode, this.bodyNode, 'gray' );
+    wireNode.updateWireShape();
 
     // add the components
     this.addChild( wireNode );
     this.addChild( this.probeNode );
     this.addChild( this.bodyNode );
 
-    intensityMeter.sensorPositionProperty.lazyLink( function( sensorPosition ) {
-      intensityMeterNode.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
-    } );
-
-    intensityMeter.bodyPositionProperty.lazyLink( function( bodyPosition ) {
-      intensityMeterNode.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
-    } );
-
-    this.updateWireShape = function() {
-      wireNode.updateWireShape();
+    /**
+     * @public - when the nodes are positioned by moving the node itself (for view layout), synchonize the model
+     * Without this, when the body node is bumped out of the medium panels, it would have the wrong model location and
+     * hence
+     */
+    this.syncModelFromView = function() {
+      intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.probeNode.translation );
+      intensityMeter.bodyPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.bodyNode.translation );
     };
   }
 

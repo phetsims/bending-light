@@ -312,7 +312,7 @@ define( function( require ) {
     var protractorNodeBottom = this.protractorNode.bottom;
     var positionBody = function() {
       introView.intensityMeterNode.bodyNode.center = introView.intensityMeterNode.probeNode.center.plusXY( 180, 0 );
-      introView.intensityMeterNode.updateWireShape();
+      introView.intensityMeterNode.syncModelFromView();
     };
     var positionInToolbox = function() {
       introView.intensityMeterNode.setScaleMagnitude( 0.2 );
@@ -320,18 +320,25 @@ define( function( require ) {
       positionBody();
       introView.intensityMeterNode.centerX = introView.toolbox.getSelfBounds().width / 2;
       introView.intensityMeterNode.top = protractorNodeBottom + 15;
-      introView.intensityMeterNode.updateWireShape();
+      introView.intensityMeterNode.syncModelFromView();
     };
     positionInToolbox();
     var draggingTogether = true;
 
+    var bumpLeft = function( node, positionProperty ) {
+      // Move it to the left until it is not obscured
+      while ( node.getGlobalBounds().intersectsBounds( topMediumControlPanel.getGlobalBounds() ) ||
+              node.getGlobalBounds().intersectsBounds( bottomMediumControlPanel.getGlobalBounds() ) ) {
+        positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
+      }
+    };
     /**
      * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
      * drag together.  When dragged in the play area, each item drags by itself.
      * @param positionProperty
      * @returns {*}
      */
-    var createIntensityMeterComponentListener = function( positionProperty ) {
+    var createIntensityMeterComponentListener = function( node, positionProperty ) {
 
       var updatePosition = function( event ) {
 
@@ -344,7 +351,6 @@ define( function( require ) {
         else {
           positionProperty.value = p;
         }
-        introView.intensityMeterNode.updateWireShape();
       };
       return new SimpleDragHandler( {
         start: function( event ) {
@@ -366,12 +372,25 @@ define( function( require ) {
           else {
             draggingTogether = false;
           }
+
+          bumpLeft( introView.intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
+          bumpLeft( introView.intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
         }
       } );
     };
 
-    this.intensityMeterNode.probeNode.addInputListener( createIntensityMeterComponentListener( introModel.intensityMeter.sensorPositionProperty ) );
-    this.intensityMeterNode.bodyNode.addInputListener( createIntensityMeterComponentListener( introModel.intensityMeter.bodyPositionProperty ) );
+    this.intensityMeterNode.probeNode.addInputListener(
+      createIntensityMeterComponentListener(
+        this.intensityMeterNode.probeNode,
+        introModel.intensityMeter.sensorPositionProperty
+      )
+    );
+    this.intensityMeterNode.bodyNode.addInputListener(
+      createIntensityMeterComponentListener(
+        this.intensityMeterNode.bodyNode,
+        introModel.intensityMeter.bodyPositionProperty
+      )
+    );
 
     // If the drag bounds changes, make sure the sensor didn't go out of bounds
     //dragBoundsProperty.link( function( dragBounds ) {
