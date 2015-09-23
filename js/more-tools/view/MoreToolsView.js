@@ -66,7 +66,7 @@ define( function( require ) {
     var modelViewTransform = this.modelViewTransform;
     var inToolbox = true;
     var p = moreToolsModel.velocitySensor.positionProperty;
-    var vector2 = new Vector2( this.toolbox.getSelfBounds().width / 2 - this.velocitySensorNode.width / 2, 200 );
+    var velocitySensorToolboxPosition = new Vector2( this.toolbox.getSelfBounds().width / 2 - this.velocitySensorNode.width / 2, 215 );
     var velocitySensorNodeListener = new MovableDragHandler( p, {
       modelViewTransform: modelViewTransform,
       startDrag: function( event ) {
@@ -88,7 +88,7 @@ define( function( require ) {
         moreToolsView.bumpLeft( velocitySensorNode, p );
       }
     } );
-    velocitySensorNode.translation = vector2;
+    velocitySensorNode.translation = velocitySensorToolboxPosition;
     velocitySensorNode.addInputListener( velocitySensorNodeListener );
 
     // @private
@@ -96,7 +96,7 @@ define( function( require ) {
       reparent( velocitySensorNode, moreToolsView.toolbox );
       velocitySensorNode.setScaleMagnitude( velocitySensorToolboxScale );
       inToolbox = true;
-      velocitySensorNode.translation = vector2;
+      velocitySensorNode.translation = velocitySensorToolboxPosition;
     };
 
     this.toolbox.addChild( this.velocitySensorNode );
@@ -112,18 +112,18 @@ define( function( require ) {
     );
     this.toolbox.addChild( this.waveSensorNode );
 
-    var protractorNodeBottom = 100;
+    var previousItemBottomY = 130;
     var positionBodyAndProbe2 = function() {
       moreToolsView.waveSensorNode.bodyNode.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 180, 0 );
       moreToolsView.waveSensorNode.probe2Node.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 60, 0 );
       moreToolsView.waveSensorNode.syncModelFromView();
     };
     var positionInToolbox = function() {
-      moreToolsView.waveSensorNode.setScaleMagnitude( 0.2 );
+      moreToolsView.waveSensorNode.setScaleMagnitude( 0.24 );
       moreToolsModel.waveSensor.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2() );
       positionBodyAndProbe2();
       moreToolsView.waveSensorNode.centerX = moreToolsView.toolbox.getSelfBounds().width / 2;
-      moreToolsView.waveSensorNode.top = protractorNodeBottom + 15;
+      moreToolsView.waveSensorNode.top = previousItemBottomY + 15;
       moreToolsView.waveSensorNode.syncModelFromView();
     };
     positionInToolbox();
