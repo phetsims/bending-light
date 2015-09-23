@@ -64,18 +64,18 @@ define( function( require ) {
     );
     var velocitySensorNode = this.velocitySensorNode;
     var modelViewTransform = this.modelViewTransform;
-    var inToolbox = true;
-    var p = moreToolsModel.velocitySensor.positionProperty;
+    var velocitySensorInToolbox = true;
+    var velocitySensorPositionProperty = moreToolsModel.velocitySensor.positionProperty;
     var velocitySensorToolboxPosition = new Vector2( this.toolbox.getSelfBounds().width / 2 - this.velocitySensorNode.width / 2, 215 );
-    var velocitySensorNodeListener = new MovableDragHandler( p, {
+    var velocitySensorNodeListener = new MovableDragHandler( velocitySensorPositionProperty, {
       modelViewTransform: modelViewTransform,
       startDrag: function( event ) {
-        if ( inToolbox ) {
+        if ( velocitySensorInToolbox ) {
           reparent( velocitySensorNode, moreToolsView.afterLightLayer2 );
           velocitySensorNode.setScaleMagnitude( 2 );
-          p.value = modelViewTransform.viewToModelPosition( velocitySensorNode.globalToParentPoint( event.pointer.point ) );
+          velocitySensorPositionProperty.value = modelViewTransform.viewToModelPosition( velocitySensorNode.globalToParentPoint( event.pointer.point ) );
         }
-        inToolbox = false;
+        velocitySensorInToolbox = false;
       },
       onDrag: function() {
       },
@@ -85,7 +85,7 @@ define( function( require ) {
         }
 
         // Move it to the left if completely obscured by a medium control panel
-        moreToolsView.bumpLeft( velocitySensorNode, p );
+        moreToolsView.bumpLeft( velocitySensorNode, velocitySensorPositionProperty );
       }
     } );
     velocitySensorNode.translation = velocitySensorToolboxPosition;
@@ -95,7 +95,7 @@ define( function( require ) {
     this.resetVelocitySensorNode = function() {
       reparent( velocitySensorNode, moreToolsView.toolbox );
       velocitySensorNode.setScaleMagnitude( velocitySensorToolboxScale );
-      inToolbox = true;
+      velocitySensorInToolbox = true;
       velocitySensorNode.translation = velocitySensorToolboxPosition;
     };
 
