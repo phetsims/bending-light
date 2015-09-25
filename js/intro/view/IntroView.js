@@ -37,7 +37,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
-  var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
+  var ToolListener = require( 'BENDING_LIGHT/common/view/ToolListener' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var reparent = require( 'BENDING_LIGHT/common/view/reparent' );
 

@@ -24,7 +24,7 @@ define( function( require ) {
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
-  var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
+  var ToolListener = require( 'BENDING_LIGHT/common/view/ToolListener' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // constants
