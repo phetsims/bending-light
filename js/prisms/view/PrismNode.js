@@ -17,6 +17,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Shape = require( 'KITE/Shape' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // images
   var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
@@ -73,7 +74,7 @@ define( function( require ) {
     knobNode.touchArea = Shape.circle( 0, 10, 40 );
 
     var prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
-      fill: prismsModel.prismMedium.color.withAlpha( 0.2 ),
+      fill: prismsModel.prismMedium.color.withAlpha( BendingLightConstants.PRISM_NODE_ALPHA ),
       stroke: 'gray'
     } );
     this.addChild( prismPathNode );

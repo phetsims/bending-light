@@ -28,6 +28,8 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   var Shape = require( 'KITE/Shape' );
+  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // strings
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
@@ -64,10 +66,15 @@ define( function( require ) {
     var createPrismIcon = function( prism ) {
       var prismIconNode = new Node( { cursor: 'pointer' } );
       var knobHeight = 15;
-      prismIconNode.addChild( new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
-        fill: '#ABA8D6',
-        stroke: '#ABA8D6'
-      } ) );
+      var path = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
+        stroke: 'gray'
+      } );
+      prismsModel.prismMediumProperty.link( function( prismMedium ) {
+        path.fill = MediumColorFactory.getColor( prismMedium.mediumState.getIndexOfRefractionForRedLight() )
+          .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
+      } );
+
+      prismIconNode.addChild( path );
 
       // Knob image
       var knobNode = new Image( KnobImage );
