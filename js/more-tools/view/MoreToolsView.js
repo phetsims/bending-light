@@ -19,26 +19,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-
-  /**
-   * Move a node from one parent to another but keeping it in exactly the same position/scale/orientation on the screen.
-   * Require the oldParent explicitly rather than inferring it from the node to support multiparent nodes.
-   * @param node
-   * @param oldParent
-   * @param newParent
-   */
-  var reparent = function( node, newParent ) {
-    var oldParent = node.getParent();
-    var g1 = node.getLocalToGlobalMatrix();
-
-    oldParent.removeChild( node );
-    newParent.addChild( node );
-
-    var p2 = newParent.getGlobalToLocalMatrix();
-
-    var m2 = p2.timesMatrix( g1 );
-    node.setMatrix( m2 );
-  };
+  var reparent = require( 'BENDING_LIGHT/common/view/reparent' );
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen

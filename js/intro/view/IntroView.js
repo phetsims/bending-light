@@ -39,6 +39,7 @@ define( function( require ) {
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
   var ToolListener = require( 'SCENERY_PHET/input/ToolListener' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var reparent = require( 'BENDING_LIGHT/common/view/reparent' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -49,26 +50,6 @@ define( function( require ) {
 
   // constants
   var INSET = 10;
-
-  /**
-   * Move a node from one parent to another but keeping it in exactly the same position/scale/orientation on the screen.
-   * Require the oldParent explicitly rather than inferring it from the node to support multiparent nodes.
-   * @param node
-   * @param oldParent
-   * @param newParent
-   */
-  var reparent = function( node, newParent ) {
-    var oldParent = node.getParent();
-    var g1 = node.getLocalToGlobalMatrix();
-
-    oldParent.removeChild( node );
-    newParent.addChild( node );
-
-    var p2 = newParent.getGlobalToLocalMatrix();
-
-    var m2 = p2.timesMatrix( g1 );
-    node.setMatrix( m2 );
-  };
 
   /**
    * When the tool is dragged to/from the toolbox it shrinks/grows with animation.
@@ -273,11 +254,11 @@ define( function( require ) {
     var toolBoxHeight = hasMoreTools ? 303 : 175;
 
     // @protected - the background for the tools panel
-    this.toolbox = new Rectangle( 0, 0, 100, toolBoxHeight, 5, 5, {
+    this.toolbox = new Rectangle( 0, 0, 120, toolBoxHeight, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
       left: this.layoutBounds.minX + 13,
       top: this.layoutBounds.maxY - toolBoxHeight - 14
-    } ); // @public
+    } );
     this.beforeLightLayer2.addChild( this.toolbox );
 
     // create the protractor node
