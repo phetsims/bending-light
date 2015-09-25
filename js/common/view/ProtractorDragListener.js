@@ -191,7 +191,7 @@ define( function( require ) {
       //    }else if (childBounds.)
       //  }
       //};
-    this.resetToolListener = function() {
+    this.resetProtractorDragListener = function() {
       if ( !inToolboxProperty.value ) {
         inToolboxProperty.value = true;
         reparent( node, playAreaNode, toolboxNode );
@@ -212,7 +212,7 @@ define( function( require ) {
      * @public, Overrideable
      */
     reset: function() {
-      this.resetToolListener();
+      this.resetProtractorDragListener();
     }
   } );
 } );

@@ -265,7 +265,7 @@ define( function( require ) {
     this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, false );
 
     // Add the input listener, also initializes the position of the tool
-    var protractorToolListener = new ProtractorDragListener( this.protractorNode, this.toolbox, this.beforeLightLayer2,
+    var protractorDragListener = new ProtractorDragListener( this.protractorNode, this.toolbox, this.beforeLightLayer2,
       this.visibleBoundsProperty, true, 0.12, 0.4, function() {
 
         // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
@@ -273,9 +273,9 @@ define( function( require ) {
         return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
       }
     );
-    protractorToolListener.positionInToolbox();
-    protractorToolListener.events.on( 'droppedInToolbox', function( callback ) {callback();} );
-    protractorToolListener.events.on( 'draggedOutOfToolbox', function( callback ) {callback();} );
+    protractorDragListener.positionInToolbox();
+    protractorDragListener.events.on( 'droppedInToolbox', function( callback ) {callback();} );
+    protractorDragListener.events.on( 'draggedOutOfToolbox', function( callback ) {callback();} );
 
     var resetActions = [];
     this.handleResetActions = function() {
@@ -284,10 +284,10 @@ define( function( require ) {
       }
     };
     resetActions.push( function() {
-      protractorToolListener.reset();
+      protractorDragListener.reset();
     } );
 
-    this.protractorNode.addInputListener( protractorToolListener );
+    this.protractorNode.addInputListener( protractorDragListener );
 
     this.toolbox.addChild( this.protractorNode );
 
