@@ -155,6 +155,7 @@ define( function( require ) {
         laserControlPanel.reset();
         environmentMediumControlPanel.reset();
         prismToolboxNode.objectMediumControlPanel.reset();
+        radioButtonAdapterProperty.reset();
       },
       bottom: this.layoutBounds.bottom - 14,
       right: this.layoutBounds.right - 2 * INSET,
