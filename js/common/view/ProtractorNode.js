@@ -27,9 +27,10 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view values
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
    * @param {boolean} rotateable - can be rotated
+   * @param {Object} [options]
    * @constructor
    */
-  function ProtractorNode( modelViewTransform, showProtractorProperty, rotateable ) {
+  function ProtractorNode( modelViewTransform, showProtractorProperty, rotateable, options ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
@@ -108,6 +109,7 @@ define( function( require ) {
         protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
       } );
     }
+    this.mutate( options );
   }
 
   return inherit( Node, ProtractorNode );

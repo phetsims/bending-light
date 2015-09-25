@@ -191,7 +191,9 @@ define( function( require ) {
     this.afterLightLayer.addChild( prismToolboxNode );
 
     // Add the protractor node
-    var protractorNode = new ProtractorNode( this.modelViewTransform, prismsModel.showProtractorProperty, true );
+    var protractorNode = new ProtractorNode( this.modelViewTransform, prismsModel.showProtractorProperty, true, {
+      scale: 0.23
+    } );
     protractorNode.addInputListener( new ToolListener( protractorNode, this.afterLightLayer, this.afterLightLayer, this.visibleBoundsProperty, false, 0.1, 0.21 ) );
     protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
 
