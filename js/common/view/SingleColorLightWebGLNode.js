@@ -145,9 +145,11 @@ define( function( require ) {
     },
 
     paintWebGLDrawable: function( drawable, matrix ) {
+
       this.updateBuffers( drawable );
 
       var gl = drawable.gl;
+      gl.clear( gl.COLOR_BUFFER_BIT );
       var shaderProgram = drawable.shaderProgram;
 
       shaderProgram.use();
