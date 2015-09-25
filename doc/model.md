@@ -13,6 +13,8 @@ The wave is propagated according to the wave equation: cos(k * x - omega * t + p
 When showing multiple reflections in the Prisms screen, light rays are terminated after 50 reflections/refractions to
 ensure computability.
 
+There is no attenuation in the simulation, either at surfaces or in vacuum. At each surface, the `power_in = power_out`
+
 The Sellmeier equation is used to compute the index of refraction of glass as a function of wavelength:
 http://en.wikipedia.org/wiki/Sellmeier_equation
 
