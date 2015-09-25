@@ -449,8 +449,8 @@ define( function( require ) {
 
     // add sim speed controls
     this.timeControlNode = new TimeControlNode( introModel, this.updateWaveShape.bind( this ), {
-      left: this.toolbox.right + 25,
-      bottom: this.layoutBounds.bottom - 15
+      left: checkBoxPanel.right + 75,
+      bottom: this.layoutBounds.maxY - 10
     } );
     this.beforeLightLayer.addChild( this.timeControlNode );
 
