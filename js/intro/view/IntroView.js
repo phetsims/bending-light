@@ -37,7 +37,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
-  var ToolListener = require( 'BENDING_LIGHT/common/view/ToolListener' );
+  var ProtractorDragListener = require( 'BENDING_LIGHT/common/view/ProtractorDragListener' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var reparent = require( 'BENDING_LIGHT/common/view/reparent' );
 
@@ -265,7 +265,7 @@ define( function( require ) {
     this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, false );
 
     // Add the input listener, also initializes the position of the tool
-    var protractorToolListener = new ToolListener( this.protractorNode, this.toolbox, this.beforeLightLayer2,
+    var protractorToolListener = new ProtractorDragListener( this.protractorNode, this.toolbox, this.beforeLightLayer2,
       this.visibleBoundsProperty, true, 0.12, 0.4, function() {
 
         // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the

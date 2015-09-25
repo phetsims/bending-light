@@ -73,13 +73,13 @@ define( function( require ) {
    *
    * @constructor
    */
-  function ToolListener( node, toolboxNode, playAreaNode, playAreaBoundsProperty, inToolbox, toolboxScale, playAreaScale,
-                         //
-                         // Function that determines where the object should animate to in the toolbox, when dropped back 
-                         // in the toolbox.  This must be a function since sometimes the place things go back to in the 
-                         // toolbox is different than where they came from, for instance in the Fractions sims stacks of 
-                         // cards
-                         getToolboxPosition ) {
+  function ProtractorDragListener( node, toolboxNode, playAreaNode, playAreaBoundsProperty, inToolbox, toolboxScale, playAreaScale,
+                                   //
+                                   // Function that determines where the object should animate to in the toolbox, when dropped back 
+                                   // in the toolbox.  This must be a function since sometimes the place things go back to in the 
+                                   // toolbox is different than where they came from, for instance in the Fractions sims stacks of 
+                                   // cards
+                                   getToolboxPosition ) {
     var events = new Events();
 
     // @public
@@ -204,10 +204,10 @@ define( function( require ) {
     };
   }
 
-  return inherit( SimpleDragHandler, ToolListener, {
+  return inherit( SimpleDragHandler, ProtractorDragListener, {
 
     /**
-     * The ToolListener knows how to put tools back in the toolbox, so it has a reset method that can be used
+     * The ProtractorDragListener knows how to put tools back in the toolbox, so it has a reset method that can be used
      * to reset tools.
      * @public, Overrideable
      */

@@ -24,7 +24,7 @@ define( function( require ) {
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
-  var ToolListener = require( 'BENDING_LIGHT/common/view/ToolListener' );
+  var ProtractorDragListener = require( 'BENDING_LIGHT/common/view/ProtractorDragListener' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // constants
@@ -194,7 +194,7 @@ define( function( require ) {
     var protractorNode = new ProtractorNode( this.modelViewTransform, prismsModel.showProtractorProperty, true, {
       scale: 0.23
     } );
-    protractorNode.addInputListener( new ToolListener( protractorNode, this.afterLightLayer, this.afterLightLayer, this.visibleBoundsProperty, false, 0.1, 0.21 ) );
+    protractorNode.addInputListener( new ProtractorDragListener( protractorNode, this.afterLightLayer, this.afterLightLayer, this.visibleBoundsProperty, false, 0.1, 0.21 ) );
     protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
 
     this.afterLightLayer.addChild( protractorNode );
