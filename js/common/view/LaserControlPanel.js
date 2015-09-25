@@ -57,11 +57,7 @@ define( function( require ) {
     // Create the radio button text
     var maxWidth = options.minWidth - 35;
     var createButtonTextNode = function( text ) {
-      var itemName = new Text( text, { font: new PhetFont( 12 ) } );
-      if ( itemName.width > maxWidth ) {
-        itemName.scale( maxWidth / itemName.width );
-      }
-      return itemName;
+      return new Text( text, { font: new PhetFont( 12 ) } );
     };
 
     // Create the radio buttons
