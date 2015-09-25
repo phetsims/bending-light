@@ -14,22 +14,44 @@ define( function( require ) {
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
-  // constants
-  var AIR_COLOR = new Color( 255, 255, 255 );
-  var WATER_COLOR = new Color( 198, 226, 246 );
-  var GLASS_COLOR = new Color( 171, 169, 212 );
-  var DIAMOND_COLOR = new Color( 78, 79, 164 );
+  /**
+   * Blend colors a and b with the specified amount of "b" to use between 0 and 1
+   * @public
+   * @param {Color} a
+   * @param {Color} b
+   * @param {number} ratio
+   * @returns {Color}
+   */
+  var colorBlend = function( a, b, ratio ) {
+    var reduction = (1 - ratio);
+    return new Color(
+      clamp( a.getRed() * reduction + b.getRed() * ratio ),
+      clamp( a.getGreen() * reduction + b.getGreen() * ratio ),
+      clamp( a.getBlue() * reduction + b.getBlue() * ratio ),
+      clamp( a.getAlpha() * reduction + b.getAlpha() * ratio )
+    );
+  };
 
+  /**
+   * Make sure light doesn't go outside of the 0..255 bounds
+   * @public
+   * @param {number} value
+   * @returns {number}
+   */
+  var clamp = function( value ) {
+    if ( value < 0 ) {
+      return 0;
+    }
+    else if ( value > 255 ) {
+      return 255;
+    }
+    else {
+      return value;
+    }
+  };
+  var createProfile = function( AIR_COLOR, WATER_COLOR, GLASS_COLOR, DIAMOND_COLOR ) {
 
-  return {
-
-    /**
-     * Maps index of refraction to color using linear functions
-     * @public
-     * @param {number} indexForRed
-     * @returns {Color}
-     */
-    getColor: function( indexForRed ) {
+    return function( indexForRed ) {
 
       // precompute to improve readability below
       var waterIndexForRed = BendingLightModel.WATER.getIndexOfRefractionForRedLight();
@@ -46,7 +68,7 @@ define( function( require ) {
 
         // returns the value between 0 to 1.
         ratio = linearFunction( indexForRed );
-        return this.colorBlend( AIR_COLOR, WATER_COLOR, ratio );
+        return colorBlend( AIR_COLOR, WATER_COLOR, ratio );
       }
       else {
         if ( indexForRed < glassIndexForRed ) {
@@ -56,7 +78,7 @@ define( function( require ) {
 
           // returns the value between 0 to 1.
           ratio = linearFunction( indexForRed );
-          return this.colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
+          return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
         }
         else {
           if ( indexForRed < diamondIndexForRed ) {
@@ -66,49 +88,40 @@ define( function( require ) {
 
             // returns the value between 0 to 1.
             ratio = linearFunction( indexForRed );
-            return this.colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
+            return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
           }
           else {
             return DIAMOND_COLOR;
           }
         }
       }
-    },
+    };
+  };
+
+  // distance between adjacent colors for shades of gray against the black background
+  var step = 90;
+  
+  return {
 
     /**
-     * Blend colors a and b with the specified amount of "b" to use between 0 and 1
+     * Maps index of refraction to color using linear functions
      * @public
-     * @param {Color} a
-     * @param {Color} b
-     * @param {number} ratio
+     * @param {number} indexForRed
      * @returns {Color}
      */
-    colorBlend: function( a, b, ratio ) {
-      var reduction = (1 - ratio);
-      return new Color(
-        this.clamp( a.getRed() * reduction + b.getRed() * ratio ),
-        this.clamp( a.getGreen() * reduction + b.getGreen() * ratio ),
-        this.clamp( a.getBlue() * reduction + b.getBlue() * ratio ),
-        this.clamp( a.getAlpha() * reduction + b.getAlpha() * ratio )
-      );
-    },
-
-    /**
-     * Make sure light doesn't go outside of the 0..255 bounds
-     * @public
-     * @param {number} value
-     * @returns {number}
-     */
-    clamp: function( value ) {
-      if ( value < 0 ) {
-        return 0;
-      }
-      else if ( value > 255 ) {
-        return 255;
-      }
-      else {
-        return value;
-      }
+    getColorAgainstWhite: createProfile(
+      new Color( 255, 255, 255 ),
+      new Color( 198, 226, 246 ),
+      new Color( 171, 169, 212 ),
+      new Color( 78, 79, 164 )
+    ),
+    getColorAgainstBlack: createProfile( new Color( 0, 0, 0 ),
+      new Color( step * 1, step * 1, step * 1 ),
+      new Color( step * 2, step * 2, step * 2 ),
+      new Color( step * 3, step * 3, step * 3 )
+    ),
+    getColor: function( indexForRed ) {
+      return this.getColorAgainstWhite( indexForRed );
     }
   };
 } );

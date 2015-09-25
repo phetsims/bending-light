@@ -74,7 +74,7 @@ define( function( require ) {
 
     var prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
       fill: prismsModel.prismMedium.color.withAlpha( 0.2 ),
-      stroke: prismsModel.prismMedium.color.darkerColor( 0.9 )
+      stroke: 'gray'
     } );
     this.addChild( prismPathNode );
     // re usable vector for prism center to avoid vector allocation
@@ -174,7 +174,7 @@ define( function( require ) {
     this.updatePrismColor = function( prismMedium ) {
       var color = prismMedium.color;
       prismPathNode.fill = color.withAlpha( 0.2 );
-      prismPathNode.stroke = color.darkerColor( 0.9 );
+      prismPathNode.stroke = 'gray';
     };
     prismsModel.prismMediumProperty.link( this.updatePrismColor );
 
