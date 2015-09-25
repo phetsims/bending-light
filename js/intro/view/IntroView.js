@@ -454,9 +454,9 @@ define( function( require ) {
     var checkboxPanelChildren = hasMoreTools ? [ normalCheckBox, angleCheckBox ] : [ normalCheckBox ];
     var checkBoxPanel = new VBox( {
       children: checkboxPanelChildren,
-      spacing: 10,
+      spacing: 6,
       align: 'left',
-      bottom: this.toolbox.height - 5,
+      bottom: this.toolbox.height - 12,
       centerX: this.toolbox.width / 2
     } );
     this.toolbox.addChild( checkBoxPanel );
