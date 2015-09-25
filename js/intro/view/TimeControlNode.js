@@ -15,6 +15,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var VBox = require( 'SCENERY/nodes/VBox' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -60,23 +61,25 @@ define( function( require ) {
     );
 
     // add radio buttons to the VBox
-    this.speedControl = new VBox( {
+    var speedControl = new VBox( {
       align: 'left',
       spacing: radioButtonSpacing,
       children: [ normalMotionRadioBox, slowMotionRadioBox ]
     } );
-    this.addChild( this.speedControl );
+    this.addChild( speedControl );
 
     // add play pause button
-    this.playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
-      radius: 18, stroke: 'black', fill: '#005566',
-      bottom: this.speedControl.bottom,
-      left: this.speedControl.right + INSET
+    var playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
+      radius: 18,
+      stroke: 'black',
+      fill: '#005566',
+      bottom: speedControl.bottom,
+      left: speedControl.right + INSET
     } );
-    this.addChild( this.playPauseButton );
+    this.addChild( playPauseButton );
 
     // add step button
-    this.stepButton = new StepButton(
+    var stepButton = new StepButton(
       function() {
         introModel.updateSimulationTimeAndWaveShape();
         updateWaveShape();
@@ -85,10 +88,10 @@ define( function( require ) {
         radius: 12,
         stroke: 'black',
         fill: '#005566',
-        left: this.playPauseButton.right + 15,
-        y: this.playPauseButton.centerY
+        left: playPauseButton.right + 15,
+        y: playPauseButton.centerY
       } );
-    this.addChild( this.stepButton );
+    this.addChild( stepButton );
 
     this.mutate( options );
   }
