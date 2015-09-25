@@ -65,8 +65,11 @@ define( function( require ) {
      * @param {number} deltaY - amount of space in y direction laser to be translated
      */
     translate: function( deltaX, deltaY ) {
-      this.emissionPoint = new Vector2( this.emissionPoint.x + deltaX, this.emissionPoint.y + deltaY );
-      this.pivot = new Vector2( this.pivot.x + deltaX, this.pivot.y + deltaY );
+
+      // Caution -- For reasons unknown to @samreid, if the order of the following instructions is switched, the 
+      // laser will rotate while being dragged, see #221
+      this.pivot = this.pivot.plusXY( deltaX, deltaY );
+      this.emissionPoint = this.emissionPoint.plusXY( deltaX, deltaY );
     },
 
     /**
