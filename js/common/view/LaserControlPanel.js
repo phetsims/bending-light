@@ -68,8 +68,13 @@ define( function( require ) {
     var radioButtonOptions = { radius: options.radioButtonRadius, font: new PhetFont( 12 ) };
     var radioButtons = [];
     for ( var i = 0; i < radioButtonItems.length; i++ ) {
-      radioButtons.push( new AquaRadioButton( radioButtonProperty, radioButtonItems[ i ].value,
-        createButtonTextNode( radioButtonItems[ i ].label ), radioButtonOptions ) );
+      var aquaRadioButton = new AquaRadioButton(
+        radioButtonProperty,
+        radioButtonItems[ i ].value,
+        createButtonTextNode( radioButtonItems[ i ].label ),
+        radioButtonOptions
+      );
+      radioButtons.push( aquaRadioButton );
     }
 
     // Touch areas
