@@ -24,15 +24,11 @@ define( function( require ) {
   var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
   var normalString = require( 'string!BENDING_LIGHT/normalSpeed' );
 
-  // constants
-  var INSET = 10;
-
   /**
    *
    * @constructor
    */
   function TimeControlNode( introModel, updateWaveShape, options ) {
-    Node.call( this );
 
     var slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
       new Text( slowMotionString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
@@ -66,17 +62,13 @@ define( function( require ) {
       spacing: radioButtonSpacing,
       children: [ normalMotionRadioBox, slowMotionRadioBox ]
     } );
-    this.addChild( speedControl );
 
     // add play pause button
     var playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
       radius: 18,
       stroke: 'black',
       fill: '#005566',
-      bottom: speedControl.bottom,
-      left: speedControl.right + INSET
     } );
-    this.addChild( playPauseButton );
 
     // add step button
     var stepButton = new StepButton(
@@ -87,14 +79,12 @@ define( function( require ) {
       introModel.isPlayingProperty, {
         radius: 12,
         stroke: 'black',
-        fill: '#005566',
-        left: playPauseButton.right + 15,
-        y: playPauseButton.centerY
+        fill: '#005566'
       } );
-    this.addChild( stepButton );
 
+    HBox.call( this, { spacing: 10, children: [ speedControl, playPauseButton, stepButton ] } );
     this.mutate( options );
   }
 
-  return inherit( Node, TimeControlNode );
+  return inherit( HBox, TimeControlNode );
 } );
