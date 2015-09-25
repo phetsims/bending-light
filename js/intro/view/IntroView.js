@@ -251,13 +251,47 @@ define( function( require ) {
 
     this.laserViewLayer.addChild( laserControlPanel );
 
-    var toolBoxHeight = hasMoreTools ? 303 : 175;
+    var toolBoxHeight = hasMoreTools ? 255 : 143;
+
+    // text for checkboxes
+    var normalText = new Text( normalString, { fontSize: 12 } );
+    var angleText = new Text( anglesString, { fontSize: 12 } );
+
+    // add normal check box
+    var normalIcon = new NormalLine( 17, [ 4, 3 ] );
+    var normalCheckBox = new CheckBox( new HBox( {
+      children: [
+        normalText, normalIcon
+      ], spacing: 12
+    } ), introModel.showNormalProperty, {
+      boxWidth: 15,
+      spacing: 5
+    } );
+
+    // add angle check box
+    var angleIcon = new AngleIcon();
+    var angleCheckBox = new CheckBox( new HBox( {
+      children: [
+        angleText, angleIcon
+      ], spacing: 12
+    } ), introModel.showAnglesProperty, {
+      boxWidth: 15,
+      spacing: 5
+    } );
+
+    var checkboxPanelChildren = hasMoreTools ? [ normalCheckBox, angleCheckBox ] : [ normalCheckBox ];
+    var checkBoxPanel = new VBox( {
+      children: checkboxPanelChildren,
+      spacing: 6,
+      align: 'left',
+      bottom: this.layoutBounds.maxY - 10
+    } );
+    this.beforeLightLayer2.addChild( checkBoxPanel );
 
     // @protected - the background for the tools panel
-    this.toolbox = new Rectangle( 0, 0, 120, toolBoxHeight, 5, 5, {
+    this.toolbox = new Rectangle( 0, 0, 100, toolBoxHeight, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
-      left: this.layoutBounds.minX + 13,
-      top: this.layoutBounds.maxY - toolBoxHeight - 14
+      bottom: checkBoxPanel.top - 15
     } );
     this.beforeLightLayer2.addChild( this.toolbox );
 
@@ -396,52 +430,6 @@ define( function( require ) {
 
     this.toolbox.addChild( this.intensityMeterNode );
 
-    // add normal text
-    var normalText = new Text( normalString, { fontSize: 12 } );
-    var normalTextMaxWidth = 50;
-    if ( normalText.width > normalTextMaxWidth ) {
-      normalText.scale( normalTextMaxWidth / normalText.width );
-    }
-
-    // add angle text
-    var angleText = new Text( anglesString, { fontSize: 12 } );
-    var angleTextMaxWidth = 50;
-    if ( angleText.width > angleTextMaxWidth ) {
-      angleText.scale( angleTextMaxWidth / angleText.width );
-    }
-
-    // add normal check box
-    var normalIcon = new NormalLine( 17, [ 4, 3 ] );
-    var normalCheckBox = new CheckBox( new HBox( {
-      children: [
-        normalText, normalIcon
-      ], spacing: 12
-    } ), introModel.showNormalProperty, {
-      boxWidth: 15,
-      spacing: 5
-    } );
-
-    // add angle check box
-    var angleIcon = new AngleIcon();
-    var angleCheckBox = new CheckBox( new HBox( {
-      children: [
-        angleText, angleIcon
-      ], spacing: 12
-    } ), introModel.showAnglesProperty, {
-      boxWidth: 15,
-      spacing: 5
-    } );
-
-    var checkboxPanelChildren = hasMoreTools ? [ normalCheckBox, angleCheckBox ] : [ normalCheckBox ];
-    var checkBoxPanel = new VBox( {
-      children: checkboxPanelChildren,
-      spacing: 6,
-      align: 'left',
-      bottom: this.toolbox.height - 12,
-      centerX: this.toolbox.width / 2
-    } );
-    this.toolbox.addChild( checkBoxPanel );
-
     // add reset all button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
@@ -474,7 +462,7 @@ define( function( require ) {
     }
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
-    FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox ] );
+    FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox, checkBoxPanel ] );
 
     this.events.on( 'layoutFinished', function() {
 

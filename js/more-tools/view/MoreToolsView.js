@@ -93,7 +93,7 @@ define( function( require ) {
     );
     this.toolbox.addChild( this.waveSensorNode );
 
-    var previousItemBottomY = 130;
+    var previousItemBottomY = 135;
     var positionBodyAndProbe2 = function() {
       moreToolsView.waveSensorNode.bodyNode.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 180, 0 );
       moreToolsView.waveSensorNode.probe2Node.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 60, 0 );
