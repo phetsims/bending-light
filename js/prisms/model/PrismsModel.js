@@ -372,7 +372,8 @@ define( function( require ) {
           rayVisibleColor.getAlpha() );
 
         // No intersection, so the light ray should just keep going
-        this.addRay( new LightRay( CHARACTERISTIC_LENGTH / 2,
+        this.addRay( new LightRay(
+          CHARACTERISTIC_LENGTH / 2,
           incidentRay.tail,
           incidentRay.tail.plus( incidentRay.directionUnitVector ),
           n1,
@@ -383,7 +384,9 @@ define( function( require ) {
           waveWidth,
           0,
           true,
-          false, this.laserView ) );
+          false,
+          this.laserView
+        ) );
       }
     },
 
