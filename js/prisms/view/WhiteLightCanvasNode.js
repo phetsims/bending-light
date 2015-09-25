@@ -98,8 +98,6 @@ define( function( require ) {
         }
       }
 
-      // console.log( sum );
-
       // Try to draw a very transparent black over areas that have already been draw. This should turn a full white into
       // a gray, while not affecting fully transparent parts of the Canvas at all.
       // context.globalCompositeOperation = 'source-atop';
