@@ -123,14 +123,15 @@ define( function( require ) {
             x2 - perpendicularVectorX, y2 - perpendicularVectorY, 0.2
           );
 
+          var sqrtPower = Math.sqrt( ray.powerFraction );
           colors.push(
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), sqrtPower,
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), sqrtPower,
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), sqrtPower,
 
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction ),
-            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), Math.sqrt( ray.powerFraction )
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), sqrtPower,
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), sqrtPower,
+            ray.color.getRed(), ray.color.getGreen(), ray.color.getBlue(), sqrtPower
           );
 
           this.renderedRays++;
