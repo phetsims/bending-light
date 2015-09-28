@@ -50,7 +50,6 @@ define( function( require ) {
       var a = environmentMediumProperty.value.mediumState.getIndexOfRefractionForRedLight();
       whiteLightCanvasNode.colorCSS = MediumColorFactory.getColor( a ).toCSS();
       whiteLightCanvasNode.invalidatePaint();
-      console.log( 'hello' );
     };
     MediumColorFactory.lightTypeProperty.link( update );
     environmentMediumProperty.link( update );
