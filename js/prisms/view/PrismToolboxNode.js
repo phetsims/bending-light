@@ -29,6 +29,7 @@ define( function( require ) {
   var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
 
   // strings
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
@@ -37,7 +38,7 @@ define( function( require ) {
   var protractorString = require( 'string!BENDING_LIGHT/protractor' );
 
   // images
-  var KnobImage = require( 'image!BENDING_LIGHT/knob.png' );
+  var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
   var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
 
   // constants
@@ -68,14 +69,19 @@ define( function( require ) {
       var path = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
         stroke: 'gray'
       } );
-      prismsModel.prismMediumProperty.link( function( prismMedium ) {
-        path.fill = prismMedium.color.withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
-      } );
+
+      var updatePrismColor = function() {
+        path.fill = MediumColorFactory.getColor( prismsModel.prismMediumProperty.value.mediumState.getIndexOfRefractionForRedLight() )
+          .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
+      };
+
+      MediumColorFactory.lightTypeProperty.link( updatePrismColor );
+      prismsModel.prismMediumProperty.link( updatePrismColor );
 
       prismIconNode.addChild( path );
 
       // Knob image
-      var knobNode = new Image( KnobImage );
+      var knobNode = new Image( knobImage );
       if ( prism.shape.getReferencePoint() ) {
         prismIconNode.addChild( knobNode );
       }

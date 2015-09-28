@@ -13,6 +13,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var LinearFunction = require( 'DOT/LinearFunction' );
+  var Property = require( 'AXON/Property' );
 
   /**
    * Blend colors a and b with the specified amount of "b" to use between 0 and 1
@@ -121,8 +122,12 @@ define( function( require ) {
       new Color( step * 2, step * 2, step * 2 ),
       new Color( step * 3, step * 3, step * 3 )
     ),
+
+    lightTypeProperty: new Property( 'singleColor' ), // could also be 'white'
     getColor: function( indexForRed ) {
-      return this.getColorAgainstWhite( indexForRed );
+      return this.lightTypeProperty.value === 'singleColor' ?
+             this.getColorAgainstWhite( indexForRed ) :
+             this.getColorAgainstBlack( indexForRed );
     }
   };
 } );

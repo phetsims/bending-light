@@ -18,9 +18,13 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
 
   // images
   var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
+
+  // state
+  var inited = false;
 
   /**
    * @param {PrismsModel} prismsModel - main model
@@ -36,6 +40,12 @@ define( function( require ) {
   function PrismNode( prismsModel, modelViewTransform, prism, prismToolboxNode, prismLayer, dragBoundsProperty,
                       occlusionHandler ) {
 
+    if ( !inited ) {
+      prismsModel.laser.colorModeProperty.link( function( colorMode ) {
+        MediumColorFactory.lightTypeProperty.value = colorMode;
+      } );
+      inited = true;
+    }
     Node.call( this, { cursor: 'pointer' } );
     var prismNode = this;
     var knobHeight = 15;
@@ -171,9 +181,12 @@ define( function( require ) {
     prism.shapeProperty.link( this.updatePrismShape );
 
     // @public - used in PrismToolboxNode
-    this.updatePrismColor = function( prismMedium ) {
-      prismPathNode.fill = prismMedium.color.withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
+    this.updatePrismColor = function() {
+      prismPathNode.fill = MediumColorFactory.getColor( prismsModel.prismMediumProperty.value.mediumState.getIndexOfRefractionForRedLight() )
+        .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
     };
+
+    MediumColorFactory.lightTypeProperty.link( this.updatePrismColor );
     prismsModel.prismMediumProperty.link( this.updatePrismColor );
 
     /**
