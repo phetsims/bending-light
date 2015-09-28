@@ -100,7 +100,7 @@ define( function( require ) {
 
   // distance between adjacent colors for shades of gray against the black background
   var step = 90;
-  
+
   return {
 
     /**
@@ -115,7 +115,8 @@ define( function( require ) {
       new Color( 171, 169, 212 ),
       new Color( 78, 79, 164 )
     ),
-    getColorAgainstBlack: createProfile( new Color( 0, 0, 0 ),
+    getColorAgainstBlack: createProfile(
+      new Color( step * 0, step * 0, step * 0 ),
       new Color( step * 1, step * 1, step * 1 ),
       new Color( step * 2, step * 2, step * 2 ),
       new Color( step * 3, step * 3, step * 3 )
