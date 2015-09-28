@@ -28,7 +28,6 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   var Shape = require( 'KITE/Shape' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   // strings
@@ -70,8 +69,7 @@ define( function( require ) {
         stroke: 'gray'
       } );
       prismsModel.prismMediumProperty.link( function( prismMedium ) {
-        path.fill = MediumColorFactory.getColor( prismMedium.mediumState.getIndexOfRefractionForRedLight() )
-          .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
+        path.fill = prismMedium.color.withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
       } );
 
       prismIconNode.addChild( path );
