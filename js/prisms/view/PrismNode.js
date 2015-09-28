@@ -23,9 +23,6 @@ define( function( require ) {
   // images
   var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
 
-  // state
-  var inited = false;
-
   /**
    * @param {PrismsModel} prismsModel - main model
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -40,12 +37,6 @@ define( function( require ) {
   function PrismNode( prismsModel, modelViewTransform, prism, prismToolboxNode, prismLayer, dragBoundsProperty,
                       occlusionHandler ) {
 
-    if ( !inited ) {
-      prismsModel.laser.colorModeProperty.link( function( colorMode ) {
-        MediumColorFactory.lightTypeProperty.value = colorMode;
-      } );
-      inited = true;
-    }
     Node.call( this, { cursor: 'pointer' } );
     var prismNode = this;
     var knobHeight = 15;

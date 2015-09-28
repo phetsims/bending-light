@@ -100,7 +100,7 @@ define( function( require ) {
   };
 
   // distance between adjacent colors for shades of gray against the black background
-  var step = 90;
+  var step = 55;
 
   return {
 

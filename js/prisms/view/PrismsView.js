@@ -26,6 +26,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ProtractorDragListener = require( 'BENDING_LIGHT/common/view/ProtractorDragListener' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
 
   // constants
   var INSET = 10;
@@ -223,6 +224,10 @@ define( function( require ) {
       navigationBarSeparator.visible = color === 'white';
     } );
     this.addChild( navigationBarSeparator );
+
+    prismsModel.laser.colorModeProperty.link( function( colorMode ) {
+      MediumColorFactory.lightTypeProperty.value = colorMode;
+    } );
   }
 
   return inherit( BendingLightView, PrismsView, {
@@ -260,7 +265,13 @@ define( function( require ) {
       var bendingLightView = this;
 
       var bendingLightModel = this.bendingLightModel;
-      this.whiteLightNode = new WhiteLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
+      this.whiteLightNode = new WhiteLightCanvasNode(
+        this.modelViewTransform,
+        stageWidth,
+        stageHeight,
+        bendingLightModel.rays,
+        this.prismsModel.environmentMediumProperty
+      );
       this.whiteLightNode.setExcludeInvisible( true );
 
       // Since the light canvas is opaque, it must be placed behind the control panels.

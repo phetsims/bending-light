@@ -23,15 +23,17 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {number} stageWidth - width of the dev area
    * @param {number} stageHeight - height of the dev area
    * @param {ObservableArray} whiteLightRays - array of white light rays
+   * @param {Property.<Medium>} environmentMediumProperty
    * @constructor
    */
-  function WhiteLightCanvasNode( modelViewTransform, stageWidth, stageHeight, whiteLightRays ) {
+  function WhiteLightCanvasNode( modelViewTransform, stageWidth, stageHeight, whiteLightRays, environmentMediumProperty ) {
 
     CanvasNode.call( this, {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
@@ -42,6 +44,16 @@ define( function( require ) {
     this.stageHeight = stageHeight; // @private
     this.stageWidth = stageWidth; // @private
     this.hashMapPointArray = []; // @private
+    this.environmentMediumProperty = environmentMediumProperty;
+    var whiteLightCanvasNode = this;
+    var update = function() {
+      var a = environmentMediumProperty.value.mediumState.getIndexOfRefractionForRedLight();
+      whiteLightCanvasNode.colorCSS = MediumColorFactory.getColor( a ).toCSS();
+      whiteLightCanvasNode.invalidatePaint();
+      console.log( 'hello' );
+    };
+    MediumColorFactory.lightTypeProperty.link( update );
+    environmentMediumProperty.link( update );
   }
 
   return inherit( CanvasNode, WhiteLightCanvasNode, {
@@ -54,9 +66,8 @@ define( function( require ) {
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
       context.lineWidth = 3;
-
       context.globalCompositeOperation = 'source-over';
-      context.fillStyle = 'rgba(0,0,0,1)';
+      context.fillStyle = this.colorCSS;
       context.save();
       context.setTransform( 1, 0, 0, 1, 0, 0 );
       context.fillRect( 0, 0, wrapper.canvas.width, wrapper.canvas.height );
