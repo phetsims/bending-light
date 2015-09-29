@@ -41,9 +41,6 @@ define( function( require ) {
     this.invalidatePaint();
     this.modelViewTransform = modelViewTransform; // @private
     this.whiteLightRays = whiteLightRays; // @private
-    this.stageHeight = stageHeight; // @private
-    this.stageWidth = stageWidth; // @private
-    this.hashMapPointArray = []; // @private
     this.environmentMediumProperty = environmentMediumProperty;
     var whiteLightCanvasNode = this;
     var update = function() {
