@@ -18,7 +18,7 @@ define( function( require ) {
   var IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
-  var LaserControlPanel = require( 'BENDING_LIGHT/common/view/LaserControlPanel' );
+  var LaserControlPanel = require( 'BENDING_LIGHT/intro/view/LaserControlPanel' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );

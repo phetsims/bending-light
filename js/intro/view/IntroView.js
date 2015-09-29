@@ -17,7 +17,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
-  var LaserControlPanel = require( 'BENDING_LIGHT/common/view/LaserControlPanel' );
+  var LaserControlPanel = require( 'BENDING_LIGHT/intro/view/LaserControlPanel' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var AngleNode = require( 'BENDING_LIGHT/intro/view/AngleNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
