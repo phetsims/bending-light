@@ -17,7 +17,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
-  var LaserControlPanel = require( 'BENDING_LIGHT/intro/view/LaserControlPanel' );
   var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   var AngleNode = require( 'BENDING_LIGHT/intro/view/AngleNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -40,12 +39,11 @@ define( function( require ) {
   var ProtractorDragListener = require( 'BENDING_LIGHT/common/view/ProtractorDragListener' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var reparent = require( 'BENDING_LIGHT/common/view/reparent' );
+  var Panel = require( 'SUN/Panel' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
   var anglesString = require( 'string!BENDING_LIGHT/angles' );
-  var rayString = require( 'string!BENDING_LIGHT/ray' );
-  var waveString = require( 'string!BENDING_LIGHT/wave' );
   var normalString = require( 'string!BENDING_LIGHT/normalLine' );
 
   // constants
@@ -88,7 +86,7 @@ define( function( require ) {
    * @param {number} IndexOfRefractionDecimals - decimalPlaces to show for index of refraction
    * @constructor
    */
-  function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals ) {
+  function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals, createLaserControlPanel ) {
 
     var introView = this;
     this.introModel = introModel; // @public
@@ -234,21 +232,17 @@ define( function( require ) {
     // add laser view panel
     var laserViewXOffset = hasMoreTools ? 13 : 12;
     var laserViewYOffset = hasMoreTools ? 2 * INSET - 4 : 2 * INSET;
-    var laserControlPanel = new LaserControlPanel( introModel.laserViewProperty, introModel.wavelengthProperty, [ {
-      value: 'ray', label: rayString
-    }, {
-      value: 'wave', label: waveString
-    } ], hasMoreTools, {
+
+    var laserControlPanel = new Panel( createLaserControlPanel( introModel ), {
+      cornerRadius: 5,
       xMargin: 9,
       yMargin: 6,
-      radioButtonRadius: 6,
-      spacing: 11,
-      disableUnselected: false,
-      minWidth: hasMoreTools ? 175 : 67,
+      fill: '#EEEEEE',
+      stroke: '#696969',
+      lineWidth: 1.5,
       left: this.layoutBounds.minX + laserViewXOffset,
       top: this.layoutBounds.top + laserViewYOffset
     } );
-
     this.laserViewLayer.addChild( laserControlPanel );
 
     var toolBoxHeight = hasMoreTools ? 255 : 143;

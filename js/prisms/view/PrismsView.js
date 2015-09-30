@@ -18,7 +18,6 @@ define( function( require ) {
   var IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
-  var LaserControlPanel = require( 'BENDING_LIGHT/intro/view/LaserControlPanel' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
@@ -27,15 +26,17 @@ define( function( require ) {
   var ProtractorDragListener = require( 'BENDING_LIGHT/common/view/ProtractorDragListener' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
+  var Panel = require( 'SUN/Panel' );
+  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
 
   // constants
   var INSET = 10;
 
   // string
   var environmentString = require( 'string!BENDING_LIGHT/environment' );
-  var oneColorString = require( 'string!BENDING_LIGHT/oneColor' );
-  var oneColor5xString = require( 'string!BENDING_LIGHT/oneColor5x' );
-  var whiteLightString = require( 'string!BENDING_LIGHT/whiteLight' );
 
   /**
    * @param {PrismsModel} prismsModel - model of prisms screen
@@ -107,29 +108,41 @@ define( function( require ) {
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
 
+    var sliderEnabledProperty = new Property();
+
     var radioButtonAdapterProperty = new Property( 'singleColor' );
     radioButtonAdapterProperty.link( function( radioButtonAdapterValue ) {
       prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === 'white' ? 'white' :
                                                   'singleColor';
       prismsModel.manyRays = radioButtonAdapterValue === 'singleColor5x' ? 5 : 1;
+      sliderEnabledProperty.value = radioButtonAdapterValue !== 'white';
     } );
-    var laserControlPanel = new LaserControlPanel( radioButtonAdapterProperty,
-      prismsModel.wavelengthProperty, [
-        { value: 'white', label: whiteLightString },
-        { value: 'singleColor', label: oneColorString },
-        { value: 'singleColor5x', label: oneColor5xString }
-      ],
-      true, {
-        xMargin: 5,
-        yMargin: 10,
-        radioButtonRadius: 7,
-        spacing: 8.4,
-        disableUnselected: true,
-        top: environmentMediumControlPanel.bottom + 15,
-        right: this.layoutBounds.right - 2 * INSET,
-        minWidth: environmentMediumControlPanel.width,
-        align: 'center'
-      } );
+
+    var laserControlPanel = new Panel( new VBox( {
+      children: [
+        new RadioButtonGroup( radioButtonAdapterProperty, [ {
+          value: 'singleColor',
+          node: new Text( 'singleColor' )
+        }, {
+          value: 'singleColor5x',
+          node: new Text( 'singleColor5x' )
+        }, {
+          value: 'white',
+          node: new Text( 'white' )
+        } ], {
+          orientation: 'horizontal'
+        } ),
+        new WavelengthControl( prismsModel.wavelengthProperty, sliderEnabledProperty ) ]
+    } ), {
+      cornerRadius: 5,
+      xMargin: 9,
+      yMargin: 6,
+      fill: '#EEEEEE',
+      stroke: '#696969',
+      lineWidth: 1.5,
+      top: environmentMediumControlPanel.bottom + 15,
+      right: this.layoutBounds.right - 2 * INSET
+    } );
     this.afterLightLayer2.addChild( laserControlPanel );
     this.incidentWaveLayer.setVisible( false );
 

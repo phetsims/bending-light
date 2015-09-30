@@ -15,6 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeRadioButtonGroup' );
 
   // strings
   var introTitleString = require( 'string!BENDING_LIGHT/intro' );
@@ -25,7 +26,11 @@ define( function( require ) {
   function IntroScreen() {
     Screen.call( this, introTitleString, new Rectangle( 0, 0, 548, 373, { fill: 'red' } ),
       function() { return new IntroModel( BendingLightModel.WATER, true ); },
-      function( model ) { return new IntroView( model, 102, false, 2 ); },
+      function( model ) {
+        return new IntroView( model, 102, false, 2, function( introModel ) {
+          return new LaserTypeRadioButtonGroup( introModel.laserViewProperty );
+        } );
+      },
       { backgroundColor: 'white' }
     );
   }

@@ -20,6 +20,9 @@ define( function( require ) {
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var reparent = require( 'BENDING_LIGHT/common/view/reparent' );
+  var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeRadioButtonGroup' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
@@ -30,7 +33,16 @@ define( function( require ) {
     var moreToolsView = this;
     this.moreToolsModel = moreToolsModel; // @public
     var arrowScale = 1.5E-14; // @public read-only
-    IntroView.call( this, moreToolsModel, 0, true, 3 );
+    IntroView.call( this, moreToolsModel, 0, true, 3, function( model ) {
+      return new VBox( {
+        spacing: 10,
+        align: 'left',
+        children: [
+          new LaserTypeRadioButtonGroup( model.laserViewProperty ),
+          new WavelengthControl( model.wavelengthProperty, new Property( true ) )
+        ]
+      } );
+    } );
 
     // @public - Create the Velocity Sensor tool and wave sensor tool to add to the tool box
     var velocitySensorToolboxScale = 0.85;

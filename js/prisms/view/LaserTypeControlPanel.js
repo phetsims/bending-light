@@ -23,7 +23,7 @@ define( function( require ) {
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
-  function LaserTypeControlPanel( laserTypeProperty, options ) {
+  function LaserTypeRadioButtonGroup( laserTypeProperty, options ) {
 
     options = _.extend( {
       xMargin: 5,
@@ -118,5 +118,5 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  return inherit( Node, LaserTypeControlPanel );
+  return inherit( Node, LaserTypeRadioButtonGroup );
 } );
