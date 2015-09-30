@@ -39,7 +39,7 @@ define( function( require ) {
         align: 'left',
         children: [
           new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
-          new WavelengthControl( model.wavelengthProperty, new Property( true ) )
+          new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
         ]
       } );
     } );

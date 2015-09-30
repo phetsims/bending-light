@@ -33,7 +33,7 @@ define( function( require ) {
    *
    * @constructor
    */
-  function WavelengthControl( wavelengthProperty, enabledProperty ) {
+  function WavelengthControl( wavelengthProperty, enabledProperty, trackWidth ) {
     var wavelengthPropertyNM = new Property( wavelengthProperty.value * 1E9 );
 
     // Add WavelengthSlider node
@@ -42,7 +42,7 @@ define( function( require ) {
       maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
       thumbWidth: 20,
       thumbHeight: 20,
-      trackWidth: 100,
+      trackWidth: trackWidth,
       trackHeight: 20,
       tweakersVisible: false,
       valueVisible: false,

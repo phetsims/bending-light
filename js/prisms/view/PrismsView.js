@@ -121,7 +121,7 @@ define( function( require ) {
       spacing: 10,
       children: [
         new LaserTypeRadioButtonGroup( radioButtonAdapterProperty ),
-        new WavelengthControl( prismsModel.wavelengthProperty, sliderEnabledProperty ) ]
+        new WavelengthControl( prismsModel.wavelengthProperty, sliderEnabledProperty, 200 ) ]
     } ), {
       cornerRadius: 5,
       xMargin: 9,
