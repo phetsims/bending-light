@@ -20,7 +20,7 @@ define( function( require ) {
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var reparent = require( 'BENDING_LIGHT/common/view/reparent' );
-  var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeRadioButtonGroup' );
+  var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
 
@@ -38,7 +38,7 @@ define( function( require ) {
         spacing: 10,
         align: 'left',
         children: [
-          new LaserTypeRadioButtonGroup( model.laserViewProperty ),
+          new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
           new WavelengthControl( model.wavelengthProperty, new Property( true ) )
         ]
       } );

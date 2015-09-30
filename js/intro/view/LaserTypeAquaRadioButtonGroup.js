@@ -23,7 +23,7 @@ define( function( require ) {
    *
    * @constructor
    */
-  function LaserTypeRadioButtonGroup( laserTypeProperty ) {
+  function LaserTypeAquaRadioButtonGroup( laserTypeProperty ) {
 
     var radioButtonOptions = { radius: 6, font: new PhetFont( 12 ) };
     var createButtonTextNode = function( text ) {
@@ -48,5 +48,5 @@ define( function( require ) {
     } );
   }
 
-  return inherit( VBox, LaserTypeRadioButtonGroup );
+  return inherit( VBox, LaserTypeAquaRadioButtonGroup );
 } );

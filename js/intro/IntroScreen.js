@@ -15,7 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeRadioButtonGroup' );
+  var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
 
   // strings
   var introTitleString = require( 'string!BENDING_LIGHT/intro' );
@@ -28,7 +28,7 @@ define( function( require ) {
       function() { return new IntroModel( BendingLightModel.WATER, true ); },
       function( model ) {
         return new IntroView( model, 102, false, 2, function( introModel ) {
-          return new LaserTypeRadioButtonGroup( introModel.laserViewProperty );
+          return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
         } );
       },
       { backgroundColor: 'white' }
