@@ -44,6 +44,7 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
+   * @param {Object} [options]
    * @constructor
    */
   function VelocitySensorNode( beforeLightLayer2, afterLightLayer2, modelViewTransform, velocitySensor, arrowScale, options ) {
@@ -131,7 +132,8 @@ define( function( require ) {
     // Arrow shape
     var arrowWidth = 6;
     this.arrowShape = new Path( null, {
-      fill: 'blue'
+      fill: 'blue',
+      opacity: 0.6
     } );
     this.bodyNode.addChild( this.arrowShape );
 
