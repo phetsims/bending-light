@@ -43,6 +43,7 @@ define( function( require ) {
     };
 
     var dy = 6.25;
+    var padding = 2;// vertical padding above the laser in the white light radio button
     RadioButtonGroup.call( this, radioButtonAdapterProperty, [ {
       value: 'singleColor',
       node: new Node( {
@@ -67,7 +68,7 @@ define( function( require ) {
       value: 'white',
       node: new Node( {
         children: [
-          new Rectangle( 70, 0, 40, laserImageNode.height, { fill: 'gray' } ),
+          new Rectangle( 60, -padding, 50, laserImageNode.height + padding * 2, { fill: '#261f21' } ),
           new Line( 0, 0, lineWidth, 0, {
             stroke: 'white',
             lineWidth: 2,
