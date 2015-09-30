@@ -84,7 +84,8 @@ define( function( require ) {
       } )
     } ], {
       orientation: 'horizontal',
-      baseColor: 'white'
+      baseColor: 'white',
+      selectedStroke: 'red'
     } );
 
     this.mutate( options );
