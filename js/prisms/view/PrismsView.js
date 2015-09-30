@@ -117,11 +117,16 @@ define( function( require ) {
       sliderEnabledProperty.value = radioButtonAdapterValue !== 'white';
     } );
 
+    var laserTypeRadioButtonGroup = new LaserTypeRadioButtonGroup( radioButtonAdapterProperty, {
+      top: environmentMediumControlPanel.bottom + 15,
+      right: this.layoutBounds.right - 2 * INSET
+    } );
+    this.afterLightLayer2.addChild( laserTypeRadioButtonGroup );
+
     var laserControlPanel = new Panel( new VBox( {
       spacing: 10,
       children: [
-        new LaserTypeRadioButtonGroup( radioButtonAdapterProperty ),
-        new WavelengthControl( prismsModel.wavelengthProperty, sliderEnabledProperty, 200 ) ]
+        new WavelengthControl( prismsModel.wavelengthProperty, sliderEnabledProperty, 146 ) ]
     } ), {
       cornerRadius: 5,
       xMargin: 9,
@@ -129,9 +134,10 @@ define( function( require ) {
       fill: '#EEEEEE',
       stroke: '#696969',
       lineWidth: 1.5,
-      top: environmentMediumControlPanel.bottom + 15,
+      top: laserTypeRadioButtonGroup.bottom + 15,
       right: this.layoutBounds.right - 2 * INSET
     } );
+
     this.afterLightLayer2.addChild( laserControlPanel );
     this.incidentWaveLayer.setVisible( false );
 
@@ -204,7 +210,7 @@ define( function( require ) {
 
     this.afterLightLayer.addChild( this.prismLayer );
 
-    FloatingLayout.floatRight( this, [ environmentMediumControlPanel, laserControlPanel, resetAllButton ] );
+    FloatingLayout.floatRight( this, [ environmentMediumControlPanel, laserControlPanel, resetAllButton, laserTypeRadioButtonGroup ] );
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );

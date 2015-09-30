@@ -24,7 +24,7 @@ define( function( require ) {
    *
    * @constructor
    */
-  function LaserTypeRadioButtonGroup( radioButtonAdapterProperty ) {
+  function LaserTypeRadioButtonGroup( radioButtonAdapterProperty, options ) {
 
 
     var laserImageNode = new Image( laserImage, {
@@ -44,9 +44,11 @@ define( function( require ) {
 
     var dy = 6.25;
     var padding = 2;// vertical padding above the laser in the white light radio button
+    var overallScale = 0.875;
     RadioButtonGroup.call( this, radioButtonAdapterProperty, [ {
       value: 'singleColor',
       node: new Node( {
+        scale: overallScale,
         children: [
           redLineAt( 0 ),
           laserImageNode
@@ -55,6 +57,7 @@ define( function( require ) {
     }, {
       value: 'singleColor5x',
       node: new Node( {
+        scale: overallScale,
         children: [
           redLineAt( 0 ),
           redLineAt( -dy ),
@@ -67,6 +70,7 @@ define( function( require ) {
     }, {
       value: 'white',
       node: new Node( {
+        scale: overallScale,
         children: [
           new Rectangle( 60, -padding, 50, laserImageNode.height + padding * 2, { fill: '#261f21' } ),
           new Line( 0, 0, lineWidth, 0, {
@@ -82,6 +86,8 @@ define( function( require ) {
       orientation: 'horizontal',
       baseColor: 'white'
     } );
+
+    this.mutate( options );
   }
 
   return inherit( RadioButtonGroup, LaserTypeRadioButtonGroup );
