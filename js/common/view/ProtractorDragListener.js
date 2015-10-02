@@ -1,4 +1,4 @@
-//  Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * A tool is any node that can be dragged from a toolbox, carousel, panel, etc.

@@ -1,4 +1,4 @@
-//  Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * Utility for dealing with toolbox nodes.  Moves a node from one parent to another while keeping it in the same
