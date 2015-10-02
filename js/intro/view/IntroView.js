@@ -50,36 +50,6 @@ define( function( require ) {
   var INSET = 10;
 
   /**
-   * When the tool is dragged to/from the toolbox it shrinks/grows with animation.
-   * @param node
-   * @param scale
-   * @param centerX
-   * @param centerY
-   * @returns {*}
-   */
-  //var animateScale = function( node, scale, centerX, centerY ) {
-  //  var parameters = {
-  //    scale: node.getScaleVector().x,
-  //    centerX: node.centerX,
-  //    centerY: node.centerY
-  //  }; // initial state, modified as the animation proceeds
-  //  return new TWEEN.Tween( parameters )
-  //    .easing( TWEEN.Easing.Cubic.InOut )
-  //    .to( {
-  //      scale: scale,
-  //      centerX: centerX,
-  //      centerY: centerY
-  //    }, 200 )
-  //    .onUpdate( function() {
-  //      node.setScaleMagnitude( parameters.scale );
-  //      node.center = new Vector2( parameters.centerX, parameters.centerY );
-  //    } )
-  //    .onComplete( function() {
-  //    } )
-  //    .start();
-  //};
-
-  /**
    * @param {IntroModel} introModel - model of intro screen
    * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
    * @param {boolean} hasMoreTools - whether contain more tools

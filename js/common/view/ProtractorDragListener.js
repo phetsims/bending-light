@@ -19,55 +19,7 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Vector2 = require( 'DOT/Vector2' );
   var Events = require( 'AXON/Events' );
-
-  /**
-   * Move a node from one parent to another but keeping it in exactly the same position/scale/orientation on the screen.
-   * Require the oldParent explicitly rather than inferring it from the node to support multiparent nodes.
-   * @param node
-   * @param oldParent
-   * @param newParent
-   */
-  var reparent = function( node, oldParent, newParent ) {
-    var g1 = node.getLocalToGlobalMatrix();
-
-    oldParent.removeChild( node );
-    newParent.addChild( node );
-
-    var p2 = newParent.getGlobalToLocalMatrix();
-
-    var m2 = p2.timesMatrix( g1 );
-    node.setMatrix( m2 );
-  };
-
-  /**
-   * When the tool is dragged to/from the toolbox it shrinks/grows with animation.
-   * @param node
-   * @param scale
-   * @param centerX
-   * @param centerY
-   * @returns {*}
-   */
-  var animateScale = function( node, scale, centerX, centerY ) {
-    var parameters = {
-      scale: node.getScaleVector().x,
-      centerX: node.centerX,
-      centerY: node.centerY
-    }; // initial state, modified as the animation proceeds
-    return new TWEEN.Tween( parameters )
-      .easing( TWEEN.Easing.Cubic.InOut )
-      .to( {
-        scale: scale,
-        centerX: centerX,
-        centerY: centerY
-      }, 200 )
-      .onUpdate( function() {
-        node.setScaleMagnitude( parameters.scale );
-        node.center = new Vector2( parameters.centerX, parameters.centerY );
-      } )
-      .onComplete( function() {
-      } )
-      .start();
-  };
+  var ToolListenerUtils = require( 'BENDING_LIGHT/common/view/ToolListenerUtils' );
 
   /**
    *
@@ -96,11 +48,11 @@ define( function( require ) {
     var startOffset = null;
 
     var moveToToolbox = function() {
-      reparent( node, playAreaNode, toolboxNode );
+      ToolListenerUtils.reparent( node, playAreaNode, toolboxNode );
       inToolboxProperty.value = true;
       if ( getToolboxPosition ) {
         var toolboxPosition = getToolboxPosition();
-        animateScale( node, toolboxScale, toolboxPosition.x, toolboxPosition.y );
+        ToolListenerUtils.animateScale( node, toolboxScale, toolboxPosition.x, toolboxPosition.y );
       }
     };
 
@@ -126,12 +78,12 @@ define( function( require ) {
         if ( wasInToolbox && !inToolboxProperty.value ) {
 
           events.trigger( 'draggedOutOfToolbox', function() {
-            reparent( node, toolboxNode, playAreaNode );
+            ToolListenerUtils.reparent( node, toolboxNode, playAreaNode );
 
             var parentPoint = node.globalToParentPoint( event.pointer.point ).minus( startOffset );
             parentPoint = playAreaBoundsProperty.value.closestPointTo( parentPoint );
 
-            animateScale( node, playAreaScale, parentPoint.x, parentPoint.y );
+            ToolListenerUtils.animateScale( node, playAreaScale, parentPoint.x, parentPoint.y );
           } );
         }
       },
@@ -194,7 +146,7 @@ define( function( require ) {
     this.resetProtractorDragListener = function() {
       if ( !inToolboxProperty.value ) {
         inToolboxProperty.value = true;
-        reparent( node, playAreaNode, toolboxNode );
+        ToolListenerUtils.reparent( node, playAreaNode, toolboxNode );
 
         node.setScaleMagnitude( toolboxScale );
         if ( getToolboxPosition ) {
