@@ -85,7 +85,7 @@ define( function( require ) {
     }
 
     // rotation if the user clicks anywhere on the object
-    function rotationRegionShape( full, back ) {
+    function rotationRegionShape( full ) {
 
       // in this screen, clicking anywhere on the laser (i.e. on its 'full' bounds) translates it, so always return the
       // 'full' region
@@ -93,7 +93,7 @@ define( function( require ) {
     }
 
     // get the function that chooses which region of the protractor can be used for rotation--none in this tab.
-    this.getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
+    this.getProtractorRotationRegion = function() {
 
       // empty shape since shouldn't be rotatable in this tab
       return new Shape.rect( 0, 0, 0, 0 );
@@ -101,7 +101,7 @@ define( function( require ) {
 
     // get the function that chooses which region of the protractor can be used for translation--both the inner bar and
     // outer circle in this screen
-    this.getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
+    this.getProtractorDragRegion = function( fullShape ) {
       return fullShape;
     };
 

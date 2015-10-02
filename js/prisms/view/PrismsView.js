@@ -66,7 +66,7 @@ define( function( require ) {
       return back;
     }
 
-    function translationRegion( fullShape, backShape ) {
+    function translationRegion( fullShape ) {
 
       // Empty shape since shouldn't be rotatable in this tab
       return fullShape;
@@ -252,7 +252,7 @@ define( function( require ) {
      * @protected
      * @param {number} dt - time
      */
-    step: function( dt ) {
+    step: function() {
       BendingLightView.prototype.step.call( this );
       this.updateWhiteLightNode();
     },

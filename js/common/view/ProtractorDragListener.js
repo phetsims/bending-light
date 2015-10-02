@@ -100,7 +100,7 @@ define( function( require ) {
 
         //self.events.trigger0( 'endedCallbacksForDragged' );
       },
-      end: function( event ) {
+      end: function() {
 
         // Drop into the toolbox.  But when there is no toolbox (when playAreaNode===toolboxNode) then do nothing.
         if ( toolboxNode !== playAreaNode && node.getGlobalBounds().intersectsBounds( toolboxNode.getGlobalBounds() ) ) {

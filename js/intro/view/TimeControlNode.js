@@ -66,7 +66,7 @@ define( function( require ) {
     var playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
       radius: 18,
       stroke: 'black',
-      fill: '#005566',
+      fill: '#005566'
     } );
 
     // add step button
