@@ -326,7 +326,8 @@ define( function( require ) {
     /**
      * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
      * drag together.  When dragged in the play area, each item drags by itself.
-     * @param positionProperty
+     * @param {Node} node
+     * @param {Property.<Vector2>} positionProperty
      * @returns {*}
      */
     var createIntensityMeterComponentListener = function( node, positionProperty ) {
