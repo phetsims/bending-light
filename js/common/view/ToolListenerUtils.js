@@ -27,8 +27,10 @@ define( function( require ) {
      * @param oldParent
      * @param newParent
      */
-    reparent: function( node, oldParent, newParent ) {
+    reparent: function( node, newParent ) {
       var g1 = node.getLocalToGlobalMatrix();
+
+      var oldParent = node.getParent();
 
       oldParent.removeChild( node );
       newParent.addChild( node );

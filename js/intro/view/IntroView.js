@@ -38,8 +38,8 @@ define( function( require ) {
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
   var ProtractorDragListener = require( 'BENDING_LIGHT/common/view/ProtractorDragListener' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var reparent = require( 'BENDING_LIGHT/common/view/reparent' );
   var Panel = require( 'SUN/Panel' );
+  var ToolListenerUtils = require( 'BENDING_LIGHT/common/view/ToolListenerUtils' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -54,6 +54,7 @@ define( function( require ) {
    * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
    * @param {boolean} hasMoreTools - whether contain more tools
    * @param {number} IndexOfRefractionDecimals - decimalPlaces to show for index of refraction
+   * @param {function} createLaserControlPanel
    * @constructor
    */
   function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals, createLaserControlPanel ) {
@@ -344,7 +345,7 @@ define( function( require ) {
       };
       return new SimpleDragHandler( {
         start: function( event ) {
-          reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
+          ToolListenerUtils.reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
           introView.intensityMeterNode.setScaleMagnitude( 1 );
           introView.intensityMeterNode.setTranslation( 0, 0 );
           updatePosition( event );
@@ -367,7 +368,7 @@ define( function( require ) {
       } );
     };
     this.resetIntensityMeterNode = function() {
-      reparent( introView.intensityMeterNode, introView.toolbox );
+      ToolListenerUtils.reparent( introView.intensityMeterNode, introView.toolbox );
       positionIntensityMeterNodeInToolbox();
       intensityMeterDraggingTogether = true;
     };
