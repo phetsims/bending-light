@@ -347,9 +347,33 @@ define( function( require ) {
       return new SimpleDragHandler( {
         start: function( event ) {
           ToolListenerUtils.reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
-          introView.intensityMeterNode.setScaleMagnitude( 1 );
-          introView.intensityMeterNode.setTranslation( 0, 0 );
-          updatePosition( event );
+          introView.intensityMeterNode.syncModelFromView();
+
+          if ( intensityMeterDraggingTogether ) {
+            var initialTarget = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
+            var distanceToTarget = initialTarget.distance( introModel.intensityMeter.sensorPosition );
+            var parameters = {
+              distance: distanceToTarget,
+              scale: introView.intensityMeterNode.getScaleVector().x
+            };
+            new TWEEN.Tween( parameters )
+              .easing( TWEEN.Easing.Cubic.InOut )
+              .to( {
+                distance: 0,
+                scale: 1
+              }, 2000 )
+              .onUpdate( function() {
+
+                introView.intensityMeterNode.setScaleMagnitude( this.scale );
+
+                var target = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
+                var deltaVector = target.minus( introModel.intensityMeter.sensorPosition );
+                var shortenedDeltaVector = deltaVector.withMagnitude( this.distance );
+                introModel.intensityMeter.sensorPosition = target.minus( shortenedDeltaVector );
+                positionBody();
+              } )
+              .start();
+          }
         },
         drag: function( event ) {
           updatePosition( event ); // TODO: Relative drag
