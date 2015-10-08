@@ -136,6 +136,7 @@ define( function( require ) {
     /**
      * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
      * drag together.  When dragged in the play area, each item drags by itself.
+     * @param node
      * @param positionProperty
      * @returns {*}
      */
