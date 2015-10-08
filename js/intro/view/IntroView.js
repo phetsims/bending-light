@@ -61,7 +61,6 @@ define( function( require ) {
 
     var introView = this;
     this.introModel = introModel; // @public
-    this.hasMoreTools = hasMoreTools; // @private
 
     // specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
     function clampDragAngle( angle ) {
