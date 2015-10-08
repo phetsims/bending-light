@@ -85,7 +85,8 @@ define( function( require ) {
     } ], {
       orientation: 'horizontal',
       baseColor: 'white',
-      selectedStroke: 'red'
+      selectedStroke: '#3291b8',
+      selectedLineWidth: 2.5
     } );
 
     this.mutate( options );
