@@ -37,8 +37,8 @@ define( function( require ) {
   var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Panel = require( 'SUN/Panel' );
+  var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -259,35 +259,28 @@ define( function( require ) {
       protractorNodeIcon.visible = !protractorInPlayArea;
     } );
 
-    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
-    // for the node in the play area
-    protractorNodeIcon.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-
-        // Show the protractor in the play area and hide the icon
-        protractorInPlayAreaProperty.value = true;
-
-        // Center the protractor on the pointer
-        protractorLocationProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
-
-        // Forward the start event to the drag handler
-        protractorNodeListener.forwardStartEvent( event );
-      },
-      drag: function( event ) {
-
-        // Forward the drag event to the drag handler
-        protractorNodeListener.forwardDragEvent( event );
-      },
-      end: function( event ) {
-
-        // Forward the end event to the drag handler
-        protractorNodeListener.forwardEndEvent( event );
-      }
-    } ) );
-
     var protractorNode = new ProtractorNode( this.showProtractorProperty, false, {
       scale: 0.4
     } );
+    var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
+    var protractorLocationProperty = new Property( protractorLocation );
+    var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
+      endDrag: function() {
+        if ( protractorNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
+          protractorInPlayAreaProperty.value = false;
+        }
+      }
+    } );
+
+    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
+    // for the node in the play area
+    protractorNodeIcon.addInputListener( new ToolIconListener( [ protractorNodeListener ], function( event ) {
+      // Show the protractor in the play area and hide the icon
+      protractorInPlayAreaProperty.value = true;
+
+      // Center the protractor on the pointer
+      protractorLocationProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
+    } ) );
 
     protractorInPlayAreaProperty.linkAttribute( protractorNode, 'visible' );
 
@@ -299,18 +292,10 @@ define( function( require ) {
       }
     };
 
-    var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
-    var protractorLocationProperty = new Property( protractorLocation );
     protractorLocationProperty.link( function( protractorLocation ) {
       protractorNode.center = protractorLocation;
     } );
-    var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
-      endDrag: function() {
-        if ( protractorNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
-          protractorInPlayAreaProperty.value = false;
-        }
-      }
-    } );
+
     protractorNode.addInputListener( protractorNodeListener );
 
     var modelViewTransform = this.modelViewTransform;
@@ -319,37 +304,6 @@ define( function( require ) {
     var intensityMeterNodeIcon = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter.copy(), {
       scale: 0.2
     } );
-
-    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
-    // for the node in the play area
-    intensityMeterNodeIcon.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-
-        // Show the probe in the play area and hide the icon
-        introModel.intensityMeter.enabled = true;
-
-        // Center the probe on the pointer
-        introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
-        intensityMeterNode.resetRelativeLocations();
-        intensityMeterNode.syncModelFromView();
-
-        // Forward the start event to the drag handler
-        bodyListener.forwardStartEvent( event );
-        probeListener.forwardStartEvent( event );
-      },
-      drag: function( event ) {
-
-        // Forward the drag event to the drag handler
-        bodyListener.forwardDragEvent( event );
-        probeListener.forwardDragEvent( event );
-      },
-      end: function( event ) {
-
-        // Forward the end event to the drag handler
-        bodyListener.forwardEndEvent( event );
-        probeListener.forwardEndEvent( event );
-      }
-    } ) );
 
     var intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
     introModel.intensityMeter.enabledProperty.link( function( enabled ) {
@@ -378,6 +332,18 @@ define( function( require ) {
       }
     } );
     intensityMeterNode.bodyNode.addInputListener( bodyListener );
+
+    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
+    // for the node in the play area
+    intensityMeterNodeIcon.addInputListener( new ToolIconListener( [ bodyListener, probeListener ], function( event ) {
+      // Show the probe in the play area and hide the icon
+      introModel.intensityMeter.enabled = true;
+
+      // Center the probe on the pointer
+      introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
+      intensityMeterNode.resetRelativeLocations();
+      intensityMeterNode.syncModelFromView();
+    } ) );
 
     // @protected for subclass usage in MoreToolsView
     this.bumpLeft = bumpLeft;

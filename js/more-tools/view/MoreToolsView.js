@@ -22,6 +22,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
   var Rectangle = require( 'DOT/Rectangle' );
+  var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' )
 
   var arrowScale = 1.5E-14; // @public read-only
 
@@ -75,39 +76,6 @@ define( function( require ) {
         moreToolsView.waveSensorNode.visible = enabled;
       } );
 
-      // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
-      // for the node in the play area
-      waveSensorIcon.addInputListener( new SimpleDragHandler( {
-        start: function( event ) {
-
-          // Show the probe in the play area and hide the icon
-          moreToolsView.moreToolsModel.waveSensor.enabled = true;
-
-          // Center the probe on the pointer
-          moreToolsView.moreToolsModel.waveSensor.probe1.position = modelViewTransform.viewToModelPosition( moreToolsView.waveSensorNode.probe1Node.globalToParentPoint( event.pointer.point ) );
-          moreToolsView.waveSensorNode.resetRelativePositions();
-          moreToolsView.waveSensorNode.syncModelFromView();
-
-          // Forward the start event to the drag handler
-          bodyListener.forwardStartEvent( event );
-          probe1Listener.forwardStartEvent( event );
-          probe2Listener.forwardStartEvent( event );
-        },
-        drag: function( event ) {
-
-          // Forward the drag event to the drag handler
-          bodyListener.forwardDragEvent( event );
-          probe1Listener.forwardDragEvent( event );
-          probe2Listener.forwardDragEvent( event );
-        },
-        end: function( event ) {
-
-          // Forward the end event to the drag handler
-          bodyListener.forwardEndEvent( event );
-          probe1Listener.forwardEndEvent( event );
-          probe2Listener.forwardEndEvent( event );
-        }
-      } ) );
       var probe1Listener = new MovableDragHandler( this.moreToolsModel.waveSensor.probe1.positionProperty, {
         modelViewTransform: this.modelViewTransform,
         endDrag: function() {
@@ -144,6 +112,17 @@ define( function( require ) {
       } );
       waveSensorNode.bodyNode.addInputListener( bodyListener );
 
+      waveSensorIcon.addInputListener( new ToolIconListener( [ bodyListener, probe1Listener, probe2Listener ], function( event ) {
+
+        // Show the probe in the play area and hide the icon
+        moreToolsView.moreToolsModel.waveSensor.enabled = true;
+
+        // Center the probe on the pointer
+        moreToolsView.moreToolsModel.waveSensor.probe1.position = modelViewTransform.viewToModelPosition( moreToolsView.waveSensorNode.probe1Node.globalToParentPoint( event.pointer.point ) );
+        moreToolsView.waveSensorNode.resetRelativePositions();
+        moreToolsView.waveSensorNode.syncModelFromView();
+      } ) );
+
       this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
 
         // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node 
@@ -173,32 +152,6 @@ define( function( require ) {
         velocitySensorNode.visible = enabled;
       } );
 
-      // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
-      // for the node in the play area
-      velocitySensorIconNode.addInputListener( new SimpleDragHandler( {
-        start: function( event ) {
-
-          // Show the protractor in the play area and hide the icon
-          moreToolsView.moreToolsModel.velocitySensor.enabledProperty.value = true;
-
-          // Center the protractor on the pointer
-          moreToolsView.moreToolsModel.velocitySensor.position = moreToolsView.modelViewTransform.viewToModelPosition( velocitySensorNode.globalToParentPoint( event.pointer.point ) );
-
-          // Forward the start event to the drag handler
-          velocitySensorListener.forwardStartEvent( event );
-        },
-        drag: function( event ) {
-
-          // Forward the drag event to the drag handler
-          velocitySensorListener.forwardDragEvent( event );
-        },
-        end: function( event ) {
-
-          // Forward the end event to the drag handler
-          velocitySensorListener.forwardEndEvent( event );
-        }
-      } ) );
-
       var velocitySensorListener = new MovableDragHandler( this.moreToolsModel.velocitySensor.positionProperty, {
         modelViewTransform: this.modelViewTransform,
         endDrag: function() {
@@ -210,6 +163,17 @@ define( function( require ) {
         }
       } );
       velocitySensorNode.addInputListener( velocitySensorListener );
+
+      // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
+      // for the node in the play area
+      velocitySensorIconNode.addInputListener( new ToolIconListener( [ velocitySensorListener ], function( event ) {
+
+        // Show the protractor in the play area and hide the icon
+        moreToolsView.moreToolsModel.velocitySensor.enabledProperty.value = true;
+
+        // Center the protractor on the pointer
+        moreToolsView.moreToolsModel.velocitySensor.position = moreToolsView.modelViewTransform.viewToModelPosition( velocitySensorNode.globalToParentPoint( event.pointer.point ) );
+      } ) );
 
       this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
 

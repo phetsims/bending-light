@@ -146,7 +146,6 @@ define( function( require ) {
 
     waveSensor.probe1.positionProperty.link( function( position ) {
       waveSensorNode.probe1Node.center = modelViewTransform.modelToViewPosition( position );
-      console.log( waveSensorNode.probe1Node.center );
       wire1Node.updateWireShape();
     } );
     waveSensor.probe2.positionProperty.link( function() {
