@@ -59,49 +59,55 @@ define( function( require ) {
       var modelViewTransform = this.modelViewTransform;
       var moreToolsView = this;
 
+      var waveSensor = this.moreToolsModel.waveSensor;
       var waveSensorIcon = new WaveSensorNode(
         this.modelViewTransform,
-        this.moreToolsModel.waveSensor.copy(), {
+        waveSensor.copy(), {
           scale: 0.25
         }
       );
       // @public
       this.waveSensorNode = new WaveSensorNode(
         this.modelViewTransform,
-        this.moreToolsModel.waveSensor
+        waveSensor
       );
       var waveSensorNode = this.waveSensorNode;
-      this.moreToolsModel.waveSensor.enabledProperty.link( function( enabled ) {
+      waveSensor.enabledProperty.link( function( enabled ) {
         waveSensorIcon.visible = !enabled;
         moreToolsView.waveSensorNode.visible = enabled;
       } );
 
       var dropInToolbox = this.dropInToolbox;
-      var probe1Listener = new MovableDragHandler( this.moreToolsModel.waveSensor.probe1.positionProperty, {
-        modelViewTransform: this.modelViewTransform,
-        endDrag: function() {
-          moreToolsView.bumpLeft( waveSensorNode.probe1Node, moreToolsView.moreToolsModel.waveSensor.probe1.positionProperty );
-          dropInToolbox( waveSensorNode.probe1Node, moreToolsView.moreToolsModel.waveSensor.enabledProperty );
-        }
-      } );
+
+      var createMovableDragHandler = function( node, positionProperty, enabledProperty ) {
+        return new MovableDragHandler( positionProperty, {
+          modelViewTransform: modelViewTransform,
+          endDrag: function() {
+            moreToolsView.bumpLeft( node, positionProperty );
+            dropInToolbox( node, enabledProperty );
+          }
+        } );
+      };
+
+      var probe1Listener = createMovableDragHandler(
+        waveSensorNode.probe1Node,
+        waveSensor.probe1.positionProperty,
+        moreToolsView.moreToolsModel.waveSensor.enabledProperty
+      );
       waveSensorNode.probe1Node.addInputListener( probe1Listener );
 
-      var probe2Listener = new MovableDragHandler( this.moreToolsModel.waveSensor.probe2.positionProperty, {
-        modelViewTransform: this.modelViewTransform,
-        endDrag: function() {
-          moreToolsView.bumpLeft( waveSensorNode.probe2Node, moreToolsView.moreToolsModel.waveSensor.probe2.positionProperty );
-          dropInToolbox( waveSensorNode.probe2Node, moreToolsView.moreToolsModel.waveSensor.enabledProperty );
-        }
-      } );
+      var probe2Listener = createMovableDragHandler(
+        waveSensorNode.probe2Node,
+        waveSensor.probe2.positionProperty,
+        moreToolsView.moreToolsModel.waveSensor.enabledProperty
+      );
       waveSensorNode.probe2Node.addInputListener( probe2Listener );
 
-      var bodyListener = new MovableDragHandler( this.moreToolsModel.waveSensor.bodyPositionProperty, {
-        modelViewTransform: this.modelViewTransform,
-        endDrag: function() {
-          moreToolsView.bumpLeft( waveSensorNode.bodyNode, moreToolsView.moreToolsModel.waveSensor.bodyPositionProperty );
-          dropInToolbox( waveSensorNode.bodyNode, moreToolsView.moreToolsModel.waveSensor.enabledProperty );
-        }
-      } );
+      var bodyListener = createMovableDragHandler(
+        waveSensorNode.bodyNode,
+        moreToolsView.moreToolsModel.waveSensor.bodyPositionProperty,
+        moreToolsView.moreToolsModel.waveSensor.enabledProperty
+      );
       waveSensorNode.bodyNode.addInputListener( bodyListener );
 
       waveSensorIcon.addInputListener( new ToolIconListener( [ bodyListener, probe1Listener, probe2Listener ], function( event ) {
