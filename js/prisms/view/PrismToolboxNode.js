@@ -1,8 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * Prism toolbox which contains draggable prisms as well as the control panel
- * for their index of refraction.
+ * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.
  *
  * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid
@@ -199,6 +198,7 @@ define( function( require ) {
     } );
     var widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0);
     var maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
+    
     // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
     var createItem = function( itemSpec ) {
       if ( itemSpec.icon ) {
