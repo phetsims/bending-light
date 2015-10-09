@@ -61,7 +61,7 @@ define( function( require ) {
       var waveSensorIcon = new WaveSensorNode(
         this.modelViewTransform,
         this.moreToolsModel.waveSensor.copy(), {
-          scale: 0.3
+          scale: 0.25
         }
       );
       // @public
