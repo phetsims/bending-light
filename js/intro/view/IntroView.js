@@ -264,11 +264,17 @@ define( function( require ) {
     } );
     var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
     var protractorLocationProperty = new Property( protractorLocation );
+
+    // When a node is released, check if it is over the toolbox.  If so, drop it in.
+    var dropInToolbox = function( node, enabledProperty ) {
+      if ( node.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
+        enabledProperty.value = false;
+      }
+    };
+    this.dropInToolbox = dropInToolbox;
     var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
       endDrag: function() {
-        if ( protractorNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
-          protractorInPlayAreaProperty.value = false;
-        }
+        dropInToolbox( protractorNode, protractorInPlayAreaProperty );
       }
     } );
 
@@ -314,10 +320,7 @@ define( function( require ) {
       modelViewTransform: modelViewTransform,
       endDrag: function() {
         bumpLeft( intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
-
-        if ( intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
-          introModel.intensityMeter.enabled = false;
-        }
+        dropInToolbox( intensityMeterNode.probeNode, introModel.intensityMeter.enabledProperty );
       }
     } );
     intensityMeterNode.probeNode.addInputListener( probeListener );
@@ -325,10 +328,7 @@ define( function( require ) {
       modelViewTransform: modelViewTransform,
       endDrag: function() {
         bumpLeft( intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
-
-        if ( intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
-          introModel.intensityMeter.enabled = false;
-        }
+        dropInToolbox( intensityMeterNode.bodyNode, introModel.intensityMeter.enabledProperty );
       }
     } );
     intensityMeterNode.bodyNode.addInputListener( bodyListener );

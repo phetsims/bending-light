@@ -76,14 +76,12 @@ define( function( require ) {
         moreToolsView.waveSensorNode.visible = enabled;
       } );
 
+      var dropInToolbox = this.dropInToolbox;
       var probe1Listener = new MovableDragHandler( this.moreToolsModel.waveSensor.probe1.positionProperty, {
         modelViewTransform: this.modelViewTransform,
         endDrag: function() {
           moreToolsView.bumpLeft( waveSensorNode.probe1Node, moreToolsView.moreToolsModel.waveSensor.probe1.positionProperty );
-
-          if ( waveSensorNode.probe1Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
-            moreToolsView.moreToolsModel.waveSensor.enabled = false;
-          }
+          dropInToolbox( waveSensorNode.probe1Node, moreToolsView.moreToolsModel.waveSensor.enabledProperty );
         }
       } );
       waveSensorNode.probe1Node.addInputListener( probe1Listener );
@@ -92,10 +90,7 @@ define( function( require ) {
         modelViewTransform: this.modelViewTransform,
         endDrag: function() {
           moreToolsView.bumpLeft( waveSensorNode.probe2Node, moreToolsView.moreToolsModel.waveSensor.probe2.positionProperty );
-
-          if ( waveSensorNode.probe2Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
-            moreToolsView.moreToolsModel.waveSensor.enabled = false;
-          }
+          dropInToolbox( waveSensorNode.probe2Node, moreToolsView.moreToolsModel.waveSensor.enabledProperty );
         }
       } );
       waveSensorNode.probe2Node.addInputListener( probe2Listener );
@@ -104,10 +99,7 @@ define( function( require ) {
         modelViewTransform: this.modelViewTransform,
         endDrag: function() {
           moreToolsView.bumpLeft( waveSensorNode.bodyNode, moreToolsView.moreToolsModel.waveSensor.bodyPositionProperty );
-
-          if ( waveSensorNode.bodyNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
-            moreToolsView.moreToolsModel.waveSensor.enabled = false;
-          }
+          dropInToolbox( waveSensorNode.bodyNode, moreToolsView.moreToolsModel.waveSensor.enabledProperty );
         }
       } );
       waveSensorNode.bodyNode.addInputListener( bodyListener );
@@ -156,10 +148,7 @@ define( function( require ) {
         modelViewTransform: this.modelViewTransform,
         endDrag: function() {
           moreToolsView.bumpLeft( velocitySensorNode, moreToolsView.moreToolsModel.velocitySensor.positionProperty );
-
-          if ( velocitySensorNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
-            moreToolsView.moreToolsModel.velocitySensor.enabled = false;
-          }
+          moreToolsView.dropInToolbox( velocitySensorNode, moreToolsView.moreToolsModel.velocitySensor.enabledProperty );
         }
       } );
       velocitySensorNode.addInputListener( velocitySensorListener );
