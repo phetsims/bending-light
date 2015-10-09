@@ -39,7 +39,6 @@ define( function( require ) {
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Panel = require( 'SUN/Panel' );
-  var ToolListenerUtils = require( 'BENDING_LIGHT/common/view/ToolListenerUtils' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
