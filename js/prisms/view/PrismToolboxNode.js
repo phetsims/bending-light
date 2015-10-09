@@ -63,42 +63,9 @@ define( function( require ) {
 
     // Create prism icon
     var createPrismIcon = function( prism ) {
-      var prismIconNode = new Node( { cursor: 'pointer' } );
-      var knobHeight = 15;
-      var path = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
-        stroke: 'gray'
-      } );
-
-      var updatePrismColor = function() {
-        path.fill = MediumColorFactory.getColor( prismsModel.prismMediumProperty.value.mediumState.getIndexOfRefractionForRedLight() )
-          .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
-      };
-
-      MediumColorFactory.lightTypeProperty.link( updatePrismColor );
-      prismsModel.prismMediumProperty.link( updatePrismColor );
-
-      prismIconNode.addChild( path );
-
-      // Knob image
-      var knobNode = new Image( knobImage );
-      if ( prism.shape.getReferencePoint() ) {
-        prismIconNode.addChild( knobNode );
-      }
-
-      // adjust knob position
-      if ( prism.shape.getReferencePoint() ) {
-        knobNode.resetTransform();
-        knobNode.setScaleMagnitude( knobHeight / knobNode.height );
-        var angle = modelViewTransform.modelToViewPosition( prism.shape.getRotationCenter() ).subtract(
-          modelViewTransform.modelToViewPosition( prism.shape.getReferencePoint() ) ).angle();
-        var offsetX = -knobNode.getWidth() - 7;
-        var offsetY = -knobNode.getHeight() / 2 - 8;
-        knobNode.rotateAround( new Vector2( -offsetX, -offsetY ), angle );
-        var knobPosition = modelViewTransform.modelToViewPosition( prism.shape.getReferencePoint() );
-        knobNode.setTranslation( knobPosition.x, knobPosition.y );
-        knobNode.translate( offsetX, offsetY );
-      }
-      return prismIconNode;
+      var prismShape = prism.copy();
+      return new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
+        dragBoundsProperty, occlusionHandler );
     };
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
@@ -198,7 +165,7 @@ define( function( require ) {
     } );
     var widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0);
     var maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
-    
+
     // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
     var createItem = function( itemSpec ) {
       if ( itemSpec.icon ) {
