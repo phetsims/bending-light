@@ -27,7 +27,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
   var CheckBox = require( 'SUN/CheckBox' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Rectangle2 = require( 'DOT/Rectangle' );// eslint-disable-line require-statement-match
   var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
@@ -36,10 +36,11 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
   var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
-  var ProtractorDragListener = require( 'BENDING_LIGHT/common/view/ProtractorDragListener' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Panel = require( 'SUN/Panel' );
   var ToolListenerUtils = require( 'BENDING_LIGHT/common/view/ToolListenerUtils' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
 
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
@@ -215,8 +216,6 @@ define( function( require ) {
     } );
     this.laserViewLayer.addChild( laserControlPanel );
 
-    var toolBoxHeight = hasMoreTools ? 255 : 143;
-
     // text for checkboxes
     var normalText = new Text( normalString, { fontSize: 12 } );
     var angleText = new Text( anglesString, { fontSize: 12 } );
@@ -252,64 +251,46 @@ define( function( require ) {
     } );
     this.beforeLightLayer2.addChild( checkBoxPanel );
 
-    // @protected - the background for the tools panel
-    this.toolbox = new Rectangle( 0, 0, 100, toolBoxHeight, 5, 5, {
-      stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
-      bottom: checkBoxPanel.top - 15
-    } );
-    this.beforeLightLayer2.addChild( this.toolbox );
-
     // create the protractor node
-    this.protractorNode = new ProtractorNode( this.modelViewTransform, this.showProtractorProperty, false );
-
-    // Add the input listener, also initializes the position of the tool
-    var protractorDragListener = new ProtractorDragListener( this.protractorNode, this.toolbox, this.beforeLightLayer2,
-      this.visibleBoundsProperty, true, 0.12, 0.4, function() {
-
-        // Don't include the size/shape/location of children in the bounds of the toolbox or nodes will fall back to the
-        // wrong location.
-        return new Vector2( introView.toolbox.getSelfBounds().width / 2, introView.toolbox.getSelfBounds().width / 2 );
-      }
-    );
-    protractorDragListener.positionInToolbox();
-    protractorDragListener.events.on( 'droppedInToolbox', function( callback ) {callback();} );
-    protractorDragListener.events.on( 'draggedOutOfToolbox', function( callback ) {callback();} );
-
-    var resetActions = [];
-    this.handleResetActions = function() {
-      for ( var i = 0; i < resetActions.length; i++ ) {
-        resetActions[ i ]();
-      }
-    };
-    resetActions.push( function() {
-      protractorDragListener.reset();
+    var protractorNodeIcon = new ProtractorNode( this.showProtractorProperty, false, {
+      scale: 0.12
+    } );
+    var protractorInPlayAreaProperty = new Property( false );
+    protractorInPlayAreaProperty.link( function( protractorInPlayArea ) {
+      protractorNodeIcon.visible = !protractorInPlayArea;
     } );
 
-    this.protractorNode.addInputListener( protractorDragListener );
+    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
+    // for the node in the play area
+    protractorNodeIcon.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
 
-    this.toolbox.addChild( this.protractorNode );
+        // Show the protractor in the play area and hide the icon
+        protractorInPlayAreaProperty.value = true;
 
-    var modelViewTransform = this.modelViewTransform;
+        // Center the protractor on the pointer
+        protractorLocationProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
 
-    // add intensity meter
-    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
+        // Forward the start event to the drag handler
+        protractorNodeListener.forwardStartEvent( event );
+      },
+      drag: function( event ) {
 
-    // Listener for the intensity meter node and its components
-    var protractorNodeBottom = this.protractorNode.bottom;
-    var positionBody = function() {
-      introView.intensityMeterNode.bodyNode.center = introView.intensityMeterNode.probeNode.center.plusXY( 180, 0 );
-      introView.intensityMeterNode.syncModelFromView();
-    };
-    var positionIntensityMeterNodeInToolbox = function() {
-      introView.intensityMeterNode.setScaleMagnitude( 0.2 );
-      introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2() );
-      positionBody();
-      introView.intensityMeterNode.centerX = introView.toolbox.getSelfBounds().width / 2;
-      introView.intensityMeterNode.top = protractorNodeBottom + 15;
-      introView.intensityMeterNode.syncModelFromView();
-    };
-    positionIntensityMeterNodeInToolbox();
-    var intensityMeterDraggingTogether = true;
+        // Forward the drag event to the drag handler
+        protractorNodeListener.forwardDragEvent( event );
+      },
+      end: function( event ) {
+
+        // Forward the end event to the drag handler
+        protractorNodeListener.forwardEndEvent( event );
+      }
+    } ) );
+
+    var protractorNode = new ProtractorNode( this.showProtractorProperty, false, {
+      scale: 0.4
+    } );
+
+    protractorInPlayAreaProperty.linkAttribute( protractorNode, 'visible' );
 
     // When a node is dropped behind a control panel, move it to the side so it won't be lost.
     var bumpLeft = function( node, positionProperty ) {
@@ -319,96 +300,124 @@ define( function( require ) {
       }
     };
 
+    var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
+    var protractorLocationProperty = new Property( protractorLocation );
+    protractorLocationProperty.link( function( protractorLocation ) {
+      protractorNode.center = protractorLocation;
+    } );
+    var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
+      endDrag: function() {
+        if ( protractorNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
+          protractorInPlayAreaProperty.value = false;
+        }
+      }
+    } );
+    protractorNode.addInputListener( protractorNodeListener );
+
+    var modelViewTransform = this.modelViewTransform;
+
+    // add intensity meter
+    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
+
+    // Listener for the intensity meter node and its components
+    var positionBody = function() {
+      introView.intensityMeterNode.bodyNode.center = introView.intensityMeterNode.probeNode.center.plusXY( 180, 0 );
+      introView.intensityMeterNode.syncModelFromView();
+    };
+    var positionIntensityMeterNodeInToolbox = function() {
+      introView.intensityMeterNode.setScaleMagnitude( 0.2 );
+      //introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2() );
+      positionBody();
+      //introView.intensityMeterNode.centerX = introView.toolbox.getSelfBounds().width / 2;
+      //introView.intensityMeterNode.top = protractorNodeBottom + 15;
+      //introView.intensityMeterNode.syncModelFromView();
+    };
+    positionIntensityMeterNodeInToolbox();
+    //var intensityMeterDraggingTogether = true;
+
     // @protected for subclass usage in MoreToolsView
     this.bumpLeft = bumpLeft;
 
-    /**
-     * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
-     * drag together.  When dragged in the play area, each item drags by itself.
-     * @param {Node} node
-     * @param {Property.<Vector2>} positionProperty
-     * @returns {*}
-     */
-    var createIntensityMeterComponentListener = function( node, positionProperty ) {
-
-      var updatePosition = function( event ) {
-
-        // Same as code below, but we need to add animation, so they will diverge
-        var p = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
-        if ( intensityMeterDraggingTogether ) {
-          introModel.intensityMeter.sensorPosition = p;
-          positionBody();
-        }
-        else {
-          positionProperty.value = p;
-        }
-      };
-      return new SimpleDragHandler( {
-        start: function( event ) {
-          ToolListenerUtils.reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
-          introView.intensityMeterNode.syncModelFromView();
-
-          if ( intensityMeterDraggingTogether ) {
-            var initialTarget = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
-            var distanceToTarget = initialTarget.distance( introModel.intensityMeter.sensorPosition );
-            var parameters = {
-              distance: distanceToTarget,
-              scale: introView.intensityMeterNode.getScaleVector().x
-            };
-            new TWEEN.Tween( parameters )
-              .easing( TWEEN.Easing.Cubic.InOut )
-              .to( {
-                distance: 0,
-                scale: 1
-              }, 2000 )
-              .onUpdate( function() {
-
-                introView.intensityMeterNode.setScaleMagnitude( this.scale );
-
-                var target = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
-                var deltaVector = target.minus( introModel.intensityMeter.sensorPosition );
-                var shortenedDeltaVector = deltaVector.withMagnitude( this.distance );
-                introModel.intensityMeter.sensorPosition = target.minus( shortenedDeltaVector );
-                positionBody();
-              } )
-              .start();
-          }
-        },
-        drag: function( event ) {
-          updatePosition( event ); // TODO: Relative drag
-        },
-        end: function() {
-          if ( introView.intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ||
-               introView.intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
-            introView.resetIntensityMeterNode();
-          }
-          else {
-            intensityMeterDraggingTogether = false;
-          }
-
-          bumpLeft( introView.intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
-          bumpLeft( introView.intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
-        }
-      } );
-    };
+    //var createIntensityMeterComponentListener = function( node, positionProperty ) {
+    //
+    //  var updatePosition = function( event ) {
+    //
+    //    // Same as code below, but we need to add animation, so they will diverge
+    //    var p = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
+    //    if ( intensityMeterDraggingTogether ) {
+    //      introModel.intensityMeter.sensorPosition = p;
+    //      positionBody();
+    //    }
+    //    else {
+    //      positionProperty.value = p;
+    //    }
+    //  };
+    //  return new SimpleDragHandler( {
+    //    start: function( event ) {
+    //      ToolListenerUtils.reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
+    //      introView.intensityMeterNode.syncModelFromView();
+    //
+    //      if ( intensityMeterDraggingTogether ) {
+    //        var initialTarget = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
+    //        var distanceToTarget = initialTarget.distance( introModel.intensityMeter.sensorPosition );
+    //        var parameters = {
+    //          distance: distanceToTarget,
+    //          scale: introView.intensityMeterNode.getScaleVector().x
+    //        };
+    //        new TWEEN.Tween( parameters )
+    //          .easing( TWEEN.Easing.Cubic.InOut )
+    //          .to( {
+    //            distance: 0,
+    //            scale: 1
+    //          }, 2000 )
+    //          .onUpdate( function() {
+    //
+    //            introView.intensityMeterNode.setScaleMagnitude( this.scale );
+    //
+    //            var target = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
+    //            var deltaVector = target.minus( introModel.intensityMeter.sensorPosition );
+    //            var shortenedDeltaVector = deltaVector.withMagnitude( this.distance );
+    //            introModel.intensityMeter.sensorPosition = target.minus( shortenedDeltaVector );
+    //            positionBody();
+    //          } )
+    //          .start();
+    //      }
+    //    },
+    //    drag: function( event ) {
+    //      updatePosition( event ); // TODO: Relative drag
+    //    },
+    //    end: function() {
+    //      if ( introView.intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ||
+    //           introView.intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
+    //        introView.resetIntensityMeterNode();
+    //      }
+    //      else {
+    //        intensityMeterDraggingTogether = false;
+    //      }
+    //
+    //      bumpLeft( introView.intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
+    //      bumpLeft( introView.intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
+    //    }
+    //  } );
+    //};
     this.resetIntensityMeterNode = function() {
       ToolListenerUtils.reparent( introView.intensityMeterNode, introView.toolbox );
       positionIntensityMeterNodeInToolbox();
-      intensityMeterDraggingTogether = true;
+      //intensityMeterDraggingTogether = true;
     };
 
-    this.intensityMeterNode.probeNode.addInputListener(
-      createIntensityMeterComponentListener(
-        this.intensityMeterNode.probeNode,
-        introModel.intensityMeter.sensorPositionProperty
-      )
-    );
-    this.intensityMeterNode.bodyNode.addInputListener(
-      createIntensityMeterComponentListener(
-        this.intensityMeterNode.bodyNode,
-        introModel.intensityMeter.bodyPositionProperty
-      )
-    );
+    //this.intensityMeterNode.probeNode.addInputListener(
+    //  createIntensityMeterComponentListener(
+    //    this.intensityMeterNode.probeNode,
+    //    introModel.intensityMeter.sensorPositionProperty
+    //  )
+    //);
+    //this.intensityMeterNode.bodyNode.addInputListener(
+    //  createIntensityMeterComponentListener(
+    //    this.intensityMeterNode.bodyNode,
+    //    introModel.intensityMeter.bodyPositionProperty
+    //  )
+    //);
 
     // If the drag bounds changes, make sure the sensor didn't go out of bounds
     //dragBoundsProperty.link( function( dragBounds ) {
@@ -417,7 +426,27 @@ define( function( require ) {
     //  intensityMeter.sensorPosition = modelBounds.getClosestPoint( intensityMeter.sensorPosition.x, intensityMeter.sensorPosition.y );
     //} );
 
-    this.toolbox.addChild( this.intensityMeterNode );
+    // @protected - the background for the tools panel
+    //this.toolbox = new Rectangle( 0, 0, 100, toolBoxHeight, 5, 5, {
+    //  stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
+    //  bottom: checkBoxPanel.top - 15
+    //} );
+
+    this.toolbox = new Panel( new VBox( {
+      spacing: 10,
+      children: [
+        protractorNodeIcon,
+        this.intensityMeterNode
+      ]
+    } ), {
+      xMargin: 10,
+      yMargin: 10,
+      stroke: '#696969',
+      lineWidth: 1.5, fill: '#EEEEEE',
+      bottom: checkBoxPanel.top - 15
+    } );
+    this.beforeLightLayer2.addChild( this.toolbox );
+    this.beforeLightLayer2.addChild( protractorNode );
 
     // add reset all button
     var resetAllButton = new ResetAllButton( {
@@ -453,12 +482,8 @@ define( function( require ) {
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
     FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox, checkBoxPanel ] );
 
-    this.events.on( 'layoutFinished', function() {
-
-      // Position the intensity meter below where the protractor *would* be (if it too were in the control panel)
-      //if ( !introView.bendingLightModel.intensityMeter.enabled ) {
-      //  introView.moveIntensityMeterToToolbox();
-      //}
+    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+      protractorNodeListener.setDragBounds( new Rectangle2( -dx, -dy, width, height ) );
     } );
   }
 
@@ -487,13 +512,6 @@ define( function( require ) {
           this.incidentWaveLayer.children[ k ].step();
         }
       }
-    },
-
-    /**
-     * @public
-     */
-    reset: function() {
-      this.handleResetActions();
     },
 
     /**

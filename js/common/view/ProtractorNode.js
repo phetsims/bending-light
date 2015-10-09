@@ -24,18 +24,16 @@ define( function( require ) {
   var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - converts between model and view values
    * @param {Property.<boolean>} showProtractorProperty - controls the protractor visibility
    * @param {boolean} rotateable - can be rotated
    * @param {Object} [options]
    * @constructor
    */
-  function ProtractorNode( modelViewTransform, showProtractorProperty, rotateable, options ) {
+  function ProtractorNode( showProtractorProperty, rotateable, options ) {
 
     var protractorNode = this;
     Node.call( protractorNode );
 
-    this.modelViewTransform = modelViewTransform; // @public
     this.showProtractorProperty = showProtractorProperty; // @public
 
     // load and add the image
