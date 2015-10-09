@@ -26,9 +26,11 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var Panel = require( 'SUN/Panel' );
+  var Vector2 = require( 'DOT/Vector2' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
   var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/prisms/view/LaserTypeRadioButtonGroup' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
 
   // constants
   var INSET = 10;
@@ -203,6 +205,15 @@ define( function( require ) {
       scale: 0.23
     } );
     protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
+    var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
+    var protractorLocationProperty = new Property( protractorLocation );
+
+    var protractorNodeListener = new MovableDragHandler( protractorLocationProperty );
+    protractorNode.addInputListener( protractorNodeListener );
+
+    protractorLocationProperty.link( function( protractorLocation ) {
+      protractorNode.center = protractorLocation;
+    } );
 
     this.afterLightLayer.addChild( protractorNode );
 
@@ -212,6 +223,7 @@ define( function( require ) {
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
+      protractorNodeListener.setDragBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
       }
     );
 
