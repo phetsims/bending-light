@@ -29,7 +29,7 @@ define( function( require ) {
       function( model ) {
         return new IntroView( model, 102, false, 2, function( introModel ) {
           return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
-        } );
+        }, [] );
       },
       { backgroundColor: 'white' }
     );

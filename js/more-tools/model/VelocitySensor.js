@@ -33,6 +33,13 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, VelocitySensor, {
+    copy: function() {
+      var velocitySensor = new VelocitySensor();
+      velocitySensor.position = this.position.copy();
+      velocitySensor.value = this.value.copy();
+      velocitySensor.enabled = this.enabled;
+      return velocitySensor;
+    },
 
     /**
      * Translate the velocity sensor in model

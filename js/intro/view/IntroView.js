@@ -55,6 +55,7 @@ define( function( require ) {
    * @param {boolean} hasMoreTools - whether contain more tools
    * @param {number} IndexOfRefractionDecimals - decimalPlaces to show for index of refraction
    * @param {function} createLaserControlPanel
+   * @param {Node[]} additionalToolIcons
    * @constructor
    */
   function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals, createLaserControlPanel ) {
@@ -382,12 +383,15 @@ define( function( require ) {
     // @protected for subclass usage in MoreToolsView
     this.bumpLeft = bumpLeft;
 
+    var toolboxNodes = [
+      protractorNodeIcon,
+      intensityMeterNodeIcon
+    ];
+
+    toolboxNodes = toolboxNodes.concat( this.getAdditionalToolIcons() );
     this.toolbox = new Panel( new VBox( {
       spacing: 10,
-      children: [
-        protractorNodeIcon,
-        intensityMeterNodeIcon
-      ]
+      children: toolboxNodes
     } ), {
       xMargin: 10,
       yMargin: 10,
@@ -407,7 +411,6 @@ define( function( require ) {
         laserControlPanel.reset();
         topMediumControlPanel.reset();
         bottomMediumControlPanel.reset();
-        //introView.resetIntensityMeterNode();
       },
       bottom: this.layoutBounds.bottom - 14,
       right: this.layoutBounds.right - 2 * INSET,
@@ -424,7 +427,7 @@ define( function( require ) {
     this.beforeLightLayer.addChild( this.timeControlNode );
 
     if ( !hasMoreTools ) {
-      
+
       // show play pause and step buttons only in wave view
       introModel.laserViewProperty.link( function( laserType ) {
         introView.timeControlNode.visible = (laserType === 'wave');
@@ -446,6 +449,10 @@ define( function( require ) {
 
   return inherit( BendingLightView, IntroView, {
 
+    // Allow subclasses to provide more tools
+    getAdditionalToolIcons: function() {
+      return [];
+    },
     /**
      * Called by the animation loop.
      * @protected

@@ -23,6 +23,9 @@ define( function( require ) {
   var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
+  var Rectangle = require( 'DOT/Rectangle' );
+
+  var arrowScale = 1.5E-14; // @public read-only
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
@@ -30,9 +33,10 @@ define( function( require ) {
    */
   function MoreToolsView( moreToolsModel ) {
 
+    this.moreToolsModel = moreToolsModel;
     var moreToolsView = this;
     this.moreToolsModel = moreToolsModel; // @public
-    var arrowScale = 1.5E-14; // @public read-only
+
     IntroView.call( this, moreToolsModel, 0, true, 3, function( model ) {
       return new VBox( {
         spacing: 10,
@@ -44,56 +48,6 @@ define( function( require ) {
       } );
     } );
 
-    // @public - Create the Velocity Sensor tool and wave sensor tool to add to the tool box
-    var velocitySensorToolboxScale = 0.85;
-    this.velocitySensorNode = new VelocitySensorNode(
-      this.beforeLightLayer2,
-      this.afterLightLayer2,
-      this.modelViewTransform,
-      moreToolsModel.velocitySensor,
-      arrowScale, {
-        scale: velocitySensorToolboxScale
-      }
-    );
-    var velocitySensorNode = this.velocitySensorNode;
-    var modelViewTransform = this.modelViewTransform;
-    var velocitySensorInToolbox = true;
-    var velocitySensorPositionProperty = moreToolsModel.velocitySensor.positionProperty;
-    var velocitySensorToolboxPosition = new Vector2( this.toolbox.getSelfBounds().width / 2 - this.velocitySensorNode.width / 2, 215 );
-    var velocitySensorNodeListener = new MovableDragHandler( velocitySensorPositionProperty, {
-      modelViewTransform: modelViewTransform,
-      startDrag: function( event ) {
-        if ( velocitySensorInToolbox ) {
-          reparent( velocitySensorNode, moreToolsView.afterLightLayer2 );
-          velocitySensorNode.setScaleMagnitude( 2 );
-          velocitySensorPositionProperty.value = modelViewTransform.viewToModelPosition( velocitySensorNode.globalToParentPoint( event.pointer.point ) );
-        }
-        velocitySensorInToolbox = false;
-      },
-      onDrag: function() {
-      },
-      endDrag: function() {
-        if ( velocitySensorNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
-          moreToolsView.resetVelocitySensorNode();
-        }
-
-        // Move it to the left if completely obscured by a medium control panel
-        moreToolsView.bumpLeft( velocitySensorNode, velocitySensorPositionProperty );
-      }
-    } );
-    velocitySensorNode.translation = velocitySensorToolboxPosition;
-    velocitySensorNode.addInputListener( velocitySensorNodeListener );
-
-    // @private
-    this.resetVelocitySensorNode = function() {
-      reparent( velocitySensorNode, moreToolsView.toolbox );
-      velocitySensorNode.setScaleMagnitude( velocitySensorToolboxScale );
-      velocitySensorInToolbox = true;
-      velocitySensorNode.translation = velocitySensorToolboxPosition;
-    };
-
-    this.toolbox.addChild( this.velocitySensorNode );
-
     // @public
     this.waveSensorNode = new WaveSensorNode(
       this.afterLightLayer2,
@@ -103,35 +57,35 @@ define( function( require ) {
       this.toolbox,
       this.visibleBoundsProperty
     );
-    this.toolbox.addChild( this.waveSensorNode );
+    //this.toolbox.addChild( this.waveSensorNode );
 
-    var previousItemBottomY = 135;
-    var positionBodyAndProbe2 = function() {
-      moreToolsView.waveSensorNode.bodyNode.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 180, 0 );
-      moreToolsView.waveSensorNode.probe2Node.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 60, 0 );
-      moreToolsView.waveSensorNode.syncModelFromView();
-    };
-    var positionInToolbox = function() {
-      moreToolsView.waveSensorNode.setScaleMagnitude( 0.24 );
-      moreToolsModel.waveSensor.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2() );
-      positionBodyAndProbe2();
-      moreToolsView.waveSensorNode.centerX = moreToolsView.toolbox.getSelfBounds().width / 2;
-      moreToolsView.waveSensorNode.top = previousItemBottomY + 15;
-      moreToolsView.waveSensorNode.syncModelFromView();
-    };
-    positionInToolbox();
-    var draggingTogether = true;
-
-    // When a node is dropped behind a control panel, move it to the side so it won't be lost.
-    var bumpLeft = function( node, positionProperty ) {
-      while ( node.getGlobalBounds().intersectsBounds( moreToolsView.topMediumControlPanel.getGlobalBounds() ) ||
-              node.getGlobalBounds().intersectsBounds( moreToolsView.bottomMediumControlPanel.getGlobalBounds() ) ) {
-        positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
-      }
-    };
-
-    // @protected for subclass usage in MoreToolsView
-    this.bumpLeft = bumpLeft;
+    //var previousItemBottomY = 135;
+    //var positionBodyAndProbe2 = function() {
+    //  moreToolsView.waveSensorNode.bodyNode.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 180, 0 );
+    //  moreToolsView.waveSensorNode.probe2Node.center = moreToolsView.waveSensorNode.probe1Node.center.plusXY( 60, 0 );
+    //  moreToolsView.waveSensorNode.syncModelFromView();
+    //};
+    //var positionInToolbox = function() {
+    //  moreToolsView.waveSensorNode.setScaleMagnitude( 0.24 );
+    //  moreToolsModel.waveSensor.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2() );
+    //  positionBodyAndProbe2();
+    //  moreToolsView.waveSensorNode.centerX = moreToolsView.toolbox.getSelfBounds().width / 2;
+    //  moreToolsView.waveSensorNode.top = previousItemBottomY + 15;
+    //  moreToolsView.waveSensorNode.syncModelFromView();
+    //};
+    //positionInToolbox();
+    //var draggingTogether = true;
+    //
+    //// When a node is dropped behind a control panel, move it to the side so it won't be lost.
+    //var bumpLeft = function( node, positionProperty ) {
+    //  while ( node.getGlobalBounds().intersectsBounds( moreToolsView.topMediumControlPanel.getGlobalBounds() ) ||
+    //          node.getGlobalBounds().intersectsBounds( moreToolsView.bottomMediumControlPanel.getGlobalBounds() ) ) {
+    //    positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
+    //  }
+    //};
+    //
+    //// @protected for subclass usage in MoreToolsView
+    //this.bumpLeft = bumpLeft;
 
     /**
      * Create an input listener for the intensity meter probe or body.  When dragging from the toolbox, both items
@@ -140,82 +94,150 @@ define( function( require ) {
      * @param positionProperty
      * @returns {*}
      */
-    var createIntensityMeterComponentListener = function( node, positionProperty ) {
+      //var createIntensityMeterComponentListener = function( node, positionProperty ) {
+      //
+      //  var updatePosition = function( event ) {
+      //
+      //    // Same as code below, but we need to add animation, so they will diverge
+      //    var p = modelViewTransform.viewToModelPosition( moreToolsView.waveSensorNode.probe1Node.globalToParentPoint( event.pointer.point ) );
+      //    if ( draggingTogether ) {
+      //      moreToolsModel.waveSensor.probe1.position = p;
+      //      positionBodyAndProbe2();
+      //    }
+      //    else {
+      //      positionProperty.value = p;
+      //    }
+      //  };
+      //  return new SimpleDragHandler( {
+      //    start: function( event ) {
+      //      reparent( moreToolsView.waveSensorNode, moreToolsView.afterLightLayer );
+      //      moreToolsView.waveSensorNode.setScaleMagnitude( 1 );
+      //      moreToolsView.waveSensorNode.setTranslation( 0, 0 );
+      //      updatePosition( event );
+      //      moreToolsModel.waveSensor.enabled = true;
+      //    },
+      //    drag: function( event ) {
+      //      updatePosition( event ); // TODO: Relative drag
+      //    },
+      //    end: function() {
+      //      if ( moreToolsView.waveSensorNode.bodyNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ||
+      //           moreToolsView.waveSensorNode.probe1Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ||
+      //           moreToolsView.waveSensorNode.probe2Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
+      //        moreToolsView.resetWaveSensorNode();
+      //      }
+      //      else {
+      //        draggingTogether = false;
+      //      }
+      //
+      //      bumpLeft( moreToolsView.waveSensorNode.probe1Node, moreToolsModel.waveSensor.probe1.positionProperty );
+      //      bumpLeft( moreToolsView.waveSensorNode.probe2Node, moreToolsModel.waveSensor.probe2.positionProperty );
+      //      bumpLeft( moreToolsView.waveSensorNode.bodyNode, moreToolsModel.waveSensor.bodyPositionProperty );
+      //    }
+      //  } );
+      //};
+      // @private
+      //this.resetWaveSensorNode = function() {
+      //  reparent( moreToolsView.waveSensorNode, moreToolsView.toolbox );
+      //  positionInToolbox();
+      //  draggingTogether = true;
+      //  moreToolsModel.waveSensor.enabled = false;
+      //};
+      //
+      //this.waveSensorNode.probe1Node.addInputListener(
+      //  createIntensityMeterComponentListener(
+      //    this.waveSensorNode.probe1Node,
+      //    moreToolsModel.waveSensor.probe1.positionProperty
+      //  )
+      //);
+      //this.waveSensorNode.probe2Node.addInputListener(
+      //  createIntensityMeterComponentListener(
+      //    this.waveSensorNode.probe2Node,
+      //    moreToolsModel.waveSensor.probe2.positionProperty
+      //  )
+      //);
+      //this.waveSensorNode.bodyNode.addInputListener(
+      //  createIntensityMeterComponentListener(
+      //    this.waveSensorNode.bodyNode,
+      //    moreToolsModel.waveSensor.bodyPositionProperty
+      //  )
+      //);
 
-      var updatePosition = function( event ) {
-
-        // Same as code below, but we need to add animation, so they will diverge
-        var p = modelViewTransform.viewToModelPosition( moreToolsView.waveSensorNode.probe1Node.globalToParentPoint( event.pointer.point ) );
-        if ( draggingTogether ) {
-          moreToolsModel.waveSensor.probe1.position = p;
-          positionBodyAndProbe2();
-        }
-        else {
-          positionProperty.value = p;
-        }
-      };
-      return new SimpleDragHandler( {
-        start: function( event ) {
-          reparent( moreToolsView.waveSensorNode, moreToolsView.afterLightLayer );
-          moreToolsView.waveSensorNode.setScaleMagnitude( 1 );
-          moreToolsView.waveSensorNode.setTranslation( 0, 0 );
-          updatePosition( event );
-          moreToolsModel.waveSensor.enabled = true;
-        },
-        drag: function( event ) {
-          updatePosition( event ); // TODO: Relative drag
-        },
-        end: function() {
-          if ( moreToolsView.waveSensorNode.bodyNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ||
-               moreToolsView.waveSensorNode.probe1Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ||
-               moreToolsView.waveSensorNode.probe2Node.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
-            moreToolsView.resetWaveSensorNode();
-          }
-          else {
-            draggingTogether = false;
-          }
-
-          bumpLeft( moreToolsView.waveSensorNode.probe1Node, moreToolsModel.waveSensor.probe1.positionProperty );
-          bumpLeft( moreToolsView.waveSensorNode.probe2Node, moreToolsModel.waveSensor.probe2.positionProperty );
-          bumpLeft( moreToolsView.waveSensorNode.bodyNode, moreToolsModel.waveSensor.bodyPositionProperty );
-        }
-      } );
-    };
-    // @private
-    this.resetWaveSensorNode = function() {
-      reparent( moreToolsView.waveSensorNode, moreToolsView.toolbox );
-      positionInToolbox();
-      draggingTogether = true;
-      moreToolsModel.waveSensor.enabled = false;
-    };
-
-    this.waveSensorNode.probe1Node.addInputListener(
-      createIntensityMeterComponentListener(
-        this.waveSensorNode.probe1Node,
-        moreToolsModel.waveSensor.probe1.positionProperty
-      )
-    );
-    this.waveSensorNode.probe2Node.addInputListener(
-      createIntensityMeterComponentListener(
-        this.waveSensorNode.probe2Node,
-        moreToolsModel.waveSensor.probe2.positionProperty
-      )
-    );
-    this.waveSensorNode.bodyNode.addInputListener(
-      createIntensityMeterComponentListener(
-        this.waveSensorNode.bodyNode,
-        moreToolsModel.waveSensor.bodyPositionProperty
-      )
-    );
-
-    // updates the visibility of speed controls
+      // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       function( laserView, isWaveSensorEnabled ) {
         moreToolsView.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
       } );
+
+
   }
 
   return inherit( IntroView, MoreToolsView, {
+
+    getAdditionalToolIcons: function() {
+      var moreToolsView = this;
+      var velocitySensorToolboxScale = 0.85;
+      var velocitySensorIconNode = new VelocitySensorNode( this.modelViewTransform, this.moreToolsModel.velocitySensor.copy(), arrowScale, {
+          scale: velocitySensorToolboxScale
+        }
+      );
+
+      var velocitySensorNode = new VelocitySensorNode( this.modelViewTransform, this.moreToolsModel.velocitySensor, arrowScale, {
+          scale: 2
+        }
+      );
+      moreToolsView.moreToolsModel.velocitySensor.enabledProperty.link( function( enabled ) {
+        velocitySensorIconNode.visible = !enabled;
+        velocitySensorNode.visible = enabled;
+      } );
+
+      // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
+      // for the node in the play area
+      velocitySensorIconNode.addInputListener( new SimpleDragHandler( {
+        start: function( event ) {
+
+          // Show the protractor in the play area and hide the icon
+          moreToolsView.moreToolsModel.velocitySensor.enabledProperty.value = true;
+
+          // Center the protractor on the pointer
+          moreToolsView.moreToolsModel.velocitySensor.position = moreToolsView.modelViewTransform.viewToModelPosition( velocitySensorNode.globalToParentPoint( event.pointer.point ) );
+
+          // Forward the start event to the drag handler
+          velocitySensorListener.forwardStartEvent( event );
+        },
+        drag: function( event ) {
+
+          // Forward the drag event to the drag handler
+          velocitySensorListener.forwardDragEvent( event );
+        },
+        end: function( event ) {
+
+          // Forward the end event to the drag handler
+          velocitySensorListener.forwardEndEvent( event );
+        }
+      } ) );
+
+      var velocitySensorListener = new MovableDragHandler( this.moreToolsModel.velocitySensor.positionProperty, {
+        modelViewTransform: this.modelViewTransform,
+        endDrag: function() {
+          moreToolsView.bumpLeft( velocitySensorNode, moreToolsView.moreToolsModel.velocitySensor.positionProperty );
+
+          if ( velocitySensorNode.getGlobalBounds().intersectsBounds( moreToolsView.toolbox.getGlobalBounds() ) ) {
+            moreToolsView.moreToolsModel.velocitySensor.enabled = false;
+          }
+        }
+      } );
+      velocitySensorNode.addInputListener( velocitySensorListener );
+
+      this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+
+        // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node 
+        // will remain in bounds
+        velocitySensorListener.setDragBounds( moreToolsView.modelViewTransform.viewToModelBounds( new Rectangle( -dx - velocitySensorNode.bounds.width / 2, -dy, width, height ) ) );
+      } );
+
+      this.afterLightLayer2.addChild( velocitySensorNode );
+      return [ velocitySensorIconNode ];
+    },
     /**
      * Update chart node and wave.
      * @protected

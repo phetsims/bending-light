@@ -39,23 +39,22 @@ define( function( require ) {
   var SCALE_INSIDE_TOOLBOX = 0.7;
 
   /**
-   * @param {Node} beforeLightLayer2 - layer in which VelocitySensorNode is present when in toolbox
-   * @param {Node} afterLightLayer2 - layer in which VelocitySensorNode is present when in play area
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
    * @param {Object} [options]
    * @constructor
    */
-  function VelocitySensorNode( beforeLightLayer2, afterLightLayer2, modelViewTransform, velocitySensor, arrowScale, options ) {
+  function VelocitySensorNode( modelViewTransform, velocitySensor, arrowScale, options ) {
 
     var velocitySensorNode = this;
-    Node.call( this, { cursor: 'pointer', pickable: true } );
+    Node.call( this, {
+      cursor: 'pointer',
+      pickable: true
+    } );
 
     this.modelViewTransform = modelViewTransform; // @public
     this.velocitySensor = velocitySensor; // @public
-    this.beforeLightLayer2 = beforeLightLayer2; // @private
-    this.afterLightLayer2 = afterLightLayer2; // @private
 
     var rectangleWidth = 100;
     var rectangleHeight = 70;
