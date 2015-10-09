@@ -144,6 +144,15 @@ define( function( require ) {
       } );
       waveSensorNode.bodyNode.addInputListener( bodyListener );
 
+      this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+
+        // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node 
+        // will remain in bounds
+        probe1Listener.setDragBounds( moreToolsView.modelViewTransform.viewToModelBounds( new Rectangle( -dx, -dy, width, height ) ) );
+        probe2Listener.setDragBounds( moreToolsView.modelViewTransform.viewToModelBounds( new Rectangle( -dx, -dy, width, height ) ) );
+        bodyListener.setDragBounds( moreToolsView.modelViewTransform.viewToModelBounds( new Rectangle( -dx, -dy, width, height ) ) );
+      } );
+
       this.afterLightLayer2.addChild( this.waveSensorNode );
       return waveSensorIcon;
     },
