@@ -61,19 +61,12 @@ define( function( require ) {
   inherit( Node, ProbeNode );
 
   /**
-   * @param {Node} afterLightLayer2 - layer in which VelocitySensorNode is present when in play area
-   * @param {Node} beforeLightLayer2 - layer in which VelocitySensorNode is present when in toolbox
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor
-   * @param {Rectangle} container - toolbox node bounds
-   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the protractor may be dragged
-   * @param {function} getWaveSensorToolboxPosition - gets the position the wave sensor should appear at in the toolbox
+   * @param {Object} [options]
    * @constructor
    */
-  function WaveSensorNode( afterLightLayer2, beforeLightLayer2, modelViewTransform, waveSensor, container, dragBoundsProperty,
-                           getWaveSensorToolboxPosition ) {
-
-    this.getWaveSensorToolboxPosition = getWaveSensorToolboxPosition;
+  function WaveSensorNode( modelViewTransform, waveSensor, options ) {
 
     var waveSensorNode = this;
     Node.call( this, { cursor: 'pointer' } );
@@ -84,8 +77,6 @@ define( function( require ) {
 
     this.modelViewTransform = modelViewTransform; // @public
     this.waveSensor = waveSensor; // @public
-    this.afterLightLayer2 = afterLightLayer2; // @private
-    this.beforeLightLayer2 = beforeLightLayer2; // @private
 
     // Add body node
     var rectangleWidth = 135;
@@ -153,7 +144,9 @@ define( function( require ) {
       wire2Node.updateWireShape();
     } );
 
-    waveSensor.probe1.positionProperty.link( function() {
+    waveSensor.probe1.positionProperty.link( function( position ) {
+      waveSensorNode.probe1Node.center = modelViewTransform.modelToViewPosition( position );
+      console.log( waveSensorNode.probe1Node.center );
       wire1Node.updateWireShape();
     } );
     waveSensor.probe2.positionProperty.link( function() {
@@ -169,7 +162,17 @@ define( function( require ) {
     this.addChild( this.bodyNode );
     this.addChild( this.probe1Node );
     this.addChild( this.probe2Node );
+
+    this.resetRelativePositions();
+
+    this.mutate( options );
   }
 
-  return inherit( Node, WaveSensorNode );
+  return inherit( Node, WaveSensorNode, {
+    resetRelativePositions: function() {
+      this.bodyNode.center = this.probe1Node.center.plusXY( 180, 0 );
+      this.probe2Node.center = this.probe1Node.center.plusXY( 60, 0 );
+      this.syncModelFromView();
+    }
+  } );
 } );

@@ -73,6 +73,14 @@ define( function( require ) {
 
   return inherit( PropertySet, WaveSensor, {
 
+    // Create a copy for use in toolbox icons, etc.
+    copy: function() {
+      var waveSensor = new WaveSensor( 0, 0 );
+      waveSensor.bodyPosition = this.bodyPosition;
+      waveSensor.probe1.position = this.probe1.position;
+      waveSensor.probe2.position = this.probe2.position;
+      return waveSensor;
+    },
     /**
      * @public
      */
