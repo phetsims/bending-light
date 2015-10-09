@@ -40,6 +40,11 @@ define( function( require ) {
 
   return inherit( PropertySet, IntensityMeter, {
 
+      // Copy the model for reuse in the toolbox node.
+      copy: function() {
+        return new IntensityMeter( this.sensorPosition.x, this.sensorPosition.y, this.bodyPosition.x, this.bodyPosition.y );
+      },
+
       /**
        * Translate sensor in model
        * @public

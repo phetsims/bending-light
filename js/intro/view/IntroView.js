@@ -316,126 +316,77 @@ define( function( require ) {
     var modelViewTransform = this.modelViewTransform;
 
     // add intensity meter
-    this.intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
+    var intensityMeterNodeIcon = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter.copy(), {
+      scale: 0.2
+    } );
 
-    // Listener for the intensity meter node and its components
-    var positionBody = function() {
-      introView.intensityMeterNode.bodyNode.center = introView.intensityMeterNode.probeNode.center.plusXY( 180, 0 );
-      introView.intensityMeterNode.syncModelFromView();
-    };
-    var positionIntensityMeterNodeInToolbox = function() {
-      introView.intensityMeterNode.setScaleMagnitude( 0.2 );
-      //introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( new Vector2() );
-      positionBody();
-      //introView.intensityMeterNode.centerX = introView.toolbox.getSelfBounds().width / 2;
-      //introView.intensityMeterNode.top = protractorNodeBottom + 15;
-      //introView.intensityMeterNode.syncModelFromView();
-    };
-    positionIntensityMeterNodeInToolbox();
-    //var intensityMeterDraggingTogether = true;
+    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
+    // for the node in the play area
+    intensityMeterNodeIcon.addInputListener( new SimpleDragHandler( {
+      start: function( event ) {
+
+        // Show the probe in the play area and hide the icon
+        introModel.intensityMeter.enabled = true;
+
+        // Center the probe on the pointer
+        introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
+        intensityMeterNode.resetRelativeLocations();
+        intensityMeterNode.syncModelFromView();
+
+        // Forward the start event to the drag handler
+        bodyListener.forwardStartEvent( event );
+        probeListener.forwardStartEvent( event );
+      },
+      drag: function( event ) {
+
+        // Forward the drag event to the drag handler
+        bodyListener.forwardDragEvent( event );
+        probeListener.forwardDragEvent( event );
+      },
+      end: function( event ) {
+
+        // Forward the end event to the drag handler
+        bodyListener.forwardEndEvent( event );
+        probeListener.forwardEndEvent( event );
+      }
+    } ) );
+
+    var intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
+    introModel.intensityMeter.enabledProperty.link( function( enabled ) {
+      intensityMeterNode.visible = enabled;
+      intensityMeterNodeIcon.visible = !enabled;
+    } );
+    var probeListener = new MovableDragHandler( introModel.intensityMeter.sensorPositionProperty, {
+      modelViewTransform: modelViewTransform,
+      endDrag: function() {
+        bumpLeft( intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
+
+        if ( intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
+          introModel.intensityMeter.enabled = false;
+        }
+      }
+    } );
+    intensityMeterNode.probeNode.addInputListener( probeListener );
+    var bodyListener = new MovableDragHandler( introModel.intensityMeter.bodyPositionProperty, {
+      modelViewTransform: modelViewTransform,
+      endDrag: function() {
+        bumpLeft( intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
+
+        if ( intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
+          introModel.intensityMeter.enabled = false;
+        }
+      }
+    } );
+    intensityMeterNode.bodyNode.addInputListener( bodyListener );
 
     // @protected for subclass usage in MoreToolsView
     this.bumpLeft = bumpLeft;
-
-    //var createIntensityMeterComponentListener = function( node, positionProperty ) {
-    //
-    //  var updatePosition = function( event ) {
-    //
-    //    // Same as code below, but we need to add animation, so they will diverge
-    //    var p = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
-    //    if ( intensityMeterDraggingTogether ) {
-    //      introModel.intensityMeter.sensorPosition = p;
-    //      positionBody();
-    //    }
-    //    else {
-    //      positionProperty.value = p;
-    //    }
-    //  };
-    //  return new SimpleDragHandler( {
-    //    start: function( event ) {
-    //      ToolListenerUtils.reparent( introView.intensityMeterNode, introView.beforeLightLayer2 );
-    //      introView.intensityMeterNode.syncModelFromView();
-    //
-    //      if ( intensityMeterDraggingTogether ) {
-    //        var initialTarget = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
-    //        var distanceToTarget = initialTarget.distance( introModel.intensityMeter.sensorPosition );
-    //        var parameters = {
-    //          distance: distanceToTarget,
-    //          scale: introView.intensityMeterNode.getScaleVector().x
-    //        };
-    //        new TWEEN.Tween( parameters )
-    //          .easing( TWEEN.Easing.Cubic.InOut )
-    //          .to( {
-    //            distance: 0,
-    //            scale: 1
-    //          }, 2000 )
-    //          .onUpdate( function() {
-    //
-    //            introView.intensityMeterNode.setScaleMagnitude( this.scale );
-    //
-    //            var target = modelViewTransform.viewToModelPosition( introView.intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
-    //            var deltaVector = target.minus( introModel.intensityMeter.sensorPosition );
-    //            var shortenedDeltaVector = deltaVector.withMagnitude( this.distance );
-    //            introModel.intensityMeter.sensorPosition = target.minus( shortenedDeltaVector );
-    //            positionBody();
-    //          } )
-    //          .start();
-    //      }
-    //    },
-    //    drag: function( event ) {
-    //      updatePosition( event ); // TODO: Relative drag
-    //    },
-    //    end: function() {
-    //      if ( introView.intensityMeterNode.bodyNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ||
-    //           introView.intensityMeterNode.probeNode.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
-    //        introView.resetIntensityMeterNode();
-    //      }
-    //      else {
-    //        intensityMeterDraggingTogether = false;
-    //      }
-    //
-    //      bumpLeft( introView.intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
-    //      bumpLeft( introView.intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
-    //    }
-    //  } );
-    //};
-    this.resetIntensityMeterNode = function() {
-      ToolListenerUtils.reparent( introView.intensityMeterNode, introView.toolbox );
-      positionIntensityMeterNodeInToolbox();
-      //intensityMeterDraggingTogether = true;
-    };
-
-    //this.intensityMeterNode.probeNode.addInputListener(
-    //  createIntensityMeterComponentListener(
-    //    this.intensityMeterNode.probeNode,
-    //    introModel.intensityMeter.sensorPositionProperty
-    //  )
-    //);
-    //this.intensityMeterNode.bodyNode.addInputListener(
-    //  createIntensityMeterComponentListener(
-    //    this.intensityMeterNode.bodyNode,
-    //    introModel.intensityMeter.bodyPositionProperty
-    //  )
-    //);
-
-    // If the drag bounds changes, make sure the sensor didn't go out of bounds
-    //dragBoundsProperty.link( function( dragBounds ) {
-    //  var modelBounds = modelViewTransform.viewToModelBounds( dragBounds );
-    //  intensityMeter.bodyPosition = modelBounds.getClosestPoint( intensityMeter.bodyPosition.x, intensityMeter.bodyPosition.y );
-    //  intensityMeter.sensorPosition = modelBounds.getClosestPoint( intensityMeter.sensorPosition.x, intensityMeter.sensorPosition.y );
-    //} );
-
-    // @protected - the background for the tools panel
-    //this.toolbox = new Rectangle( 0, 0, 100, toolBoxHeight, 5, 5, {
-    //  stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE',
-    //  bottom: checkBoxPanel.top - 15
-    //} );
 
     this.toolbox = new Panel( new VBox( {
       spacing: 10,
       children: [
         protractorNodeIcon,
-        this.intensityMeterNode
+        intensityMeterNodeIcon
       ]
     } ), {
       xMargin: 10,
@@ -446,6 +397,7 @@ define( function( require ) {
     } );
     this.beforeLightLayer2.addChild( this.toolbox );
     this.beforeLightLayer2.addChild( protractorNode );
+    this.beforeLightLayer2.addChild( intensityMeterNode );
 
     // add reset all button
     var resetAllButton = new ResetAllButton( {
@@ -455,7 +407,7 @@ define( function( require ) {
         laserControlPanel.reset();
         topMediumControlPanel.reset();
         bottomMediumControlPanel.reset();
-        introView.resetIntensityMeterNode();
+        //introView.resetIntensityMeterNode();
       },
       bottom: this.layoutBounds.bottom - 14,
       right: this.layoutBounds.right - 2 * INSET,
@@ -472,6 +424,7 @@ define( function( require ) {
     this.beforeLightLayer.addChild( this.timeControlNode );
 
     if ( !hasMoreTools ) {
+      
       // show play pause and step buttons only in wave view
       introModel.laserViewProperty.link( function( laserType ) {
         introView.timeControlNode.visible = (laserType === 'wave');
@@ -483,6 +436,11 @@ define( function( require ) {
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
       protractorNodeListener.setDragBounds( new Rectangle2( -dx, -dy, width, height ) );
+      probeListener.setDragBounds( modelViewTransform.viewToModelBounds( new Rectangle2( -dx, -dy, width, height ) ) );
+
+      // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node 
+      // will remain in bounds
+      bodyListener.setDragBounds( modelViewTransform.viewToModelBounds( new Rectangle2( -dx - intensityMeterNode.bodyNode.bounds.width / 2, -dy - intensityMeterNode.bodyNode.bounds.height / 2, width, height ) ) );
     } );
   }
 

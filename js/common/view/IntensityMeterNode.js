@@ -27,9 +27,10 @@ define( function( require ) {
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
+   * @param {Object} [options]
    * @constructor
    */
-  function IntensityMeterNode( modelViewTransform, intensityMeter ) {
+  function IntensityMeterNode( modelViewTransform, intensityMeter, options ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
@@ -96,26 +97,21 @@ define( function( require ) {
       );
     } );
 
-    intensityMeter.sensorPositionProperty.lazyLink( function( sensorPosition ) {
-      intensityMeterNode.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
-      wireNode.updateWireShape();
-    } );
-
-    intensityMeter.bodyPositionProperty.lazyLink( function( bodyPosition ) {
-      intensityMeterNode.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
-      wireNode.updateWireShape();
-    } );
-
-    this.updateWireShape = function() {
-      wireNode.updateWireShape();
-    };
-
     // Connect the sensor to the body with a gray wire
-    var wireNode = new WireNode( this.probeNode, this.bodyNode, 'gray' );
-    wireNode.updateWireShape();
+    this.wireNode = new WireNode( this.probeNode, this.bodyNode, 'gray' );
+
+    intensityMeter.sensorPositionProperty.link( function( sensorPosition ) {
+      intensityMeterNode.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
+      intensityMeterNode.updateWireShape();
+    } );
+
+    intensityMeter.bodyPositionProperty.link( function( bodyPosition ) {
+      intensityMeterNode.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
+      intensityMeterNode.updateWireShape();
+    } );
 
     // add the components
-    this.addChild( wireNode );
+    this.addChild( this.wireNode );
     this.addChild( this.probeNode );
     this.addChild( this.bodyNode );
 
@@ -128,7 +124,20 @@ define( function( require ) {
       intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.probeNode.translation );
       intensityMeter.bodyPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.bodyNode.translation );
     };
+
+    this.mutate( options );
+
+    this.resetRelativeLocations();
+    this.syncModelFromView();
   }
 
-  return inherit( Node, IntensityMeterNode );
+  return inherit( Node, IntensityMeterNode, {
+    resetRelativeLocations: function() {
+      this.bodyNode.center = this.probeNode.center.plusXY( 180, 0 );
+      this.wireNode.updateWireShape();
+    },
+    updateWireShape: function() {
+      this.wireNode.updateWireShape();
+    }
+  } );
 } );
