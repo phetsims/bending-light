@@ -118,10 +118,7 @@ define( function( require ) {
       sliderEnabledProperty.value = radioButtonAdapterValue !== 'white';
     } );
 
-    var laserTypeRadioButtonGroup = new LaserTypeRadioButtonGroup( radioButtonAdapterProperty, {
-      top: environmentMediumControlPanel.bottom + 15,
-      right: this.layoutBounds.right - 2 * INSET
-    } );
+    var laserTypeRadioButtonGroup = new LaserTypeRadioButtonGroup( radioButtonAdapterProperty );
     this.afterLightLayer2.addChild( laserTypeRadioButtonGroup );
 
     var laserControlPanel = new Panel( new VBox( {
@@ -134,9 +131,7 @@ define( function( require ) {
       yMargin: 6,
       fill: '#EEEEEE',
       stroke: '#696969',
-      lineWidth: 1.5,
-      top: laserTypeRadioButtonGroup.bottom + 15,
-      right: this.layoutBounds.right - 2 * INSET
+      lineWidth: 1.5
     } );
 
     this.afterLightLayer2.addChild( laserControlPanel );
@@ -166,25 +161,10 @@ define( function( require ) {
         prismToolboxNode.objectMediumControlPanel.reset();
         radioButtonAdapterProperty.reset();
       },
-      bottom: this.layoutBounds.bottom - 14,
-      right: this.layoutBounds.right - 2 * INSET,
       radius: 19
     } );
 
     this.afterLightLayer2.addChild( resetAllButton );
-
-    // Get the function that chooses which region of the protractor can be used for rotation--none in this tab.
-    //var getProtractorRotationRegion = function( fullShape, innerBar, outerCircle ) {
-    //
-    //  // Empty shape since shouldn't be rotatable in this tab
-    //  return outerCircle;
-    //};
-
-    // Get the function that chooses which region of the protractor can be used for translation--both the inner bar and
-    // outer circle in this tab
-    //var getProtractorDragRegion = function( fullShape, innerBar, outerCircle ) {
-    //  return innerBar;
-    //};
 
     // Add prisms tool box Node
     var prismToolboxNode = new PrismToolboxNode(
@@ -193,8 +173,7 @@ define( function( require ) {
       this.prismLayer,
       this.visibleBoundsProperty,
       this.occlusionHandler, {
-        left: this.layoutBounds.minX + 12,
-        bottom: this.layoutBounds.bottom - INSET
+        left: this.layoutBounds.minX + 12
       }
     );
     this.afterLightLayer.addChild( prismToolboxNode );
@@ -219,6 +198,13 @@ define( function( require ) {
     this.afterLightLayer.addChild( this.prismLayer );
 
     FloatingLayout.floatRight( this, [ environmentMediumControlPanel, laserControlPanel, resetAllButton, laserTypeRadioButtonGroup ] );
+    FloatingLayout.floatBottom( this, [ prismToolboxNode, resetAllButton ] );
+    FloatingLayout.floatTop( this, [ environmentMediumControlPanel ] );
+
+    this.events.on( 'layoutFinished', function() {
+      laserTypeRadioButtonGroup.top = environmentMediumControlPanel.bottom + 15;
+      laserControlPanel.top = laserTypeRadioButtonGroup.bottom + 15;
+    } );
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );

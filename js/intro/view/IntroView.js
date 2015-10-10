@@ -336,7 +336,7 @@ define( function( require ) {
     // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
     // for the node in the play area
     intensityMeterNodeIcon.addInputListener( new ToolIconListener( [ bodyListener, probeListener ], function( event ) {
-      
+
       // Show the probe in the play area and hide the icon
       introModel.intensityMeter.enabled = true;
 
@@ -402,6 +402,13 @@ define( function( require ) {
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
     FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox, checkBoxPanel ] );
+
+    FloatingLayout.floatTop( this, [ laserControlPanel ] );
+    FloatingLayout.floatBottom( this, [ checkBoxPanel, resetAllButton, this.timeControlNode ] );
+
+    this.events.on( 'layoutFinished', function() {
+      introView.toolbox.bottom = checkBoxPanel.top - 10;
+    } );
 
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
       protractorNodeListener.setDragBounds( new Rectangle2( -dx, -dy, width, height ) );

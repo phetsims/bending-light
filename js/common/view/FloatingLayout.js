@@ -33,6 +33,27 @@ define( function() {
           node.left = left;
         } );
       } );
+    },
+
+    floatTop: function( screenView, nodes ) {
+      screenView.events.on( 'layoutFinished', function( dx, dy ) {
+
+        // Let the panels move to the left, but not too far
+        var top = Math.max( -dy + padding, -screenView.layoutBounds.width * floatFraction );
+        nodes.forEach( function( node ) {
+          node.top = top;
+        } );
+      } );
+    },
+    floatBottom: function( screenView, nodes ) {
+      screenView.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+
+        // Let the panels move to the left, but not too far
+        var bottom = Math.min( height - dy - padding, screenView.layoutBounds.width * (1 + floatFraction) );
+        nodes.forEach( function( node ) {
+          node.bottom = bottom;
+        } );
+      } );
     }
   };
 } );
