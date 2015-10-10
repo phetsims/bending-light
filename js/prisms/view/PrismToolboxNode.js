@@ -65,7 +65,7 @@ define( function( require ) {
     var createPrismIcon = function( prism ) {
       var prismShape = prism.copy();
       return new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
-        dragBoundsProperty, occlusionHandler );
+        dragBoundsProperty, occlusionHandler, false );
     };
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
@@ -98,16 +98,43 @@ define( function( require ) {
 
             // create a prism node and add to the prisms layer
             prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
-              dragBoundsProperty, occlusionHandler );
-            prismNode.dragStart = start;
+              dragBoundsProperty, occlusionHandler, start );
             prismLayer.addChild( prismNode );
             prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
+
+            // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
+            // Presumably because they were in similar coordinate frames?
+            // See Scenery #131 create drag listener
+            // See Scenery #218 multitouch
+            // There is a precedent for this hack in SimpleDragHandler.js
+            var c = event.currentTarget;
+            event.currentTarget = prismNode;
+            prismNode.movableDragHandler.forwardStartEvent( event );
+            event.currentTarget = c;
           },
           drag: function( event ) {
-            prismNode.handleDrag( event );
+
+            // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
+            // Presumably because they were in similar coordinate frames?
+            // See Scenery #131 create drag listener
+            // See Scenery #218 multitouch
+            // There is a precedent for this hack in SimpleDragHandler.js
+            var c = event.currentTarget;
+            event.currentTarget = prismNode;
+            prismNode.movableDragHandler.forwardDragEvent( event );
+            event.currentTarget = c; // oh noes
           },
-          end: function() {
-            prismNode.handleEnd();
+        end: function( event ) {
+
+          // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
+          // Presumably because they were in similar coordinate frames?
+          // See Scenery #131 create drag listener
+          // See Scenery #218 multitouch
+          // There is a precedent for this hack in SimpleDragHandler.js
+          var c = event.currentTarget;
+          event.currentTarget = prismNode;
+          prismNode.movableDragHandler.forwardEndEvent( event );
+          event.currentTarget = c;
           }
         }
       ) );

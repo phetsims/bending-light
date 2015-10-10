@@ -19,6 +19,8 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var Property = require( 'AXON/Property' );
 
   // images
   var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
@@ -35,7 +37,7 @@ define( function( require ) {
    * @constructor
    */
   function PrismNode( prismsModel, modelViewTransform, prism, prismToolboxNode, prismLayer, dragBoundsProperty,
-                      occlusionHandler ) {
+                      occlusionHandler, start ) {
 
     Node.call( this, { cursor: 'pointer' } );
     var prismNode = this;
@@ -78,10 +80,10 @@ define( function( require ) {
       stroke: 'gray'
     } );
     this.addChild( prismPathNode );
-    // re usable vector for prism center to avoid vector allocation
-    var centerEndLocation = new Vector2();
-    var selfNode = prismNode;
-    this.dragStart = null;
+    //// re usable vector for prism center to avoid vector allocation
+    //var centerEndLocation = new Vector2();
+    //var selfNode = prismNode;
+    //this.dragStart = null;
 
     // When the window reshapes, make sure no prism is left outside of the play area
     dragBoundsProperty.link( function( dragBounds ) {
@@ -90,55 +92,60 @@ define( function( require ) {
       prism.translate( inBounds.x - center.x, inBounds.y - center.y );
     } );
 
-    this.handleDrag = function( event ) {
-      // TODO: the prism gets away from the cursor, see #188
-      var end = selfNode.globalToParentPoint( event.pointer.point );
-      var modelDX = modelViewTransform.viewToModelDeltaX( end.x - prismNode.dragStart.x );
-      var modelDY = modelViewTransform.viewToModelDeltaY( end.y - prismNode.dragStart.y );
-      var startLocation = prism.shape.getRotationCenter();
-      // location of final rotation center with out constraining to bounds
-      centerEndLocation.setXY( startLocation.x + modelDX, startLocation.y + modelDY );
+    var c = prism.shape.getRotationCenter();
+    var positionProperty = new Property( new Vector2( c.x, c.y ) );
+    positionProperty.lazyLink( function( newValue, oldValue ) {
+      var dx = newValue.x - oldValue.x;
+      var dy = newValue.y - oldValue.y;
 
-      // location of final rotation center with constraining to bounds
-      var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( dragBoundsProperty.value );
-      var centerEndLocationInBounds = prismDragBoundsInModelValues.closestPointTo( centerEndLocation );
-      prism.translate( centerEndLocationInBounds.x - startLocation.x, centerEndLocationInBounds.y - startLocation.y );
+      prism.translate( dx, dy );
+      console.log( dx );
+    } );
+    this.movableDragHandler = new MovableDragHandler( positionProperty, {
+      modelViewTransform: modelViewTransform
+    } );
+    dragBoundsProperty.link( function( dragBounds ) {
+      prismNode.movableDragHandler.setDragBounds( modelViewTransform.viewToModelBounds( dragBounds ) );
+    } );
 
-      // Store the position of caught point after translating. Can be obtained by adding distance between rotation
-      // center and drag point (end - centerEndLocation) to rotation center (centerEndLocationInBounds) after
-      // translating.
-      end.x = end.x + modelViewTransform.modelToViewDeltaX( centerEndLocationInBounds.x - centerEndLocation.x );
-      end.y = end.y + modelViewTransform.modelToViewDeltaY( centerEndLocationInBounds.y - centerEndLocation.y );
-      prismNode.dragStart = end;
+    //this.handleDrag = function( event ) {
+    //  // TODO: the prism gets away from the cursor, see #188
+    //  var end = selfNode.globalToParentPoint( event.pointer.point );
+    //  var modelDX = modelViewTransform.viewToModelDeltaX( end.x - prismNode.dragStart.x );
+    //  var modelDY = modelViewTransform.viewToModelDeltaY( end.y - prismNode.dragStart.y );
+    //  var startLocation = prism.shape.getRotationCenter();
+    //  // location of final rotation center with out constraining to bounds
+    //  centerEndLocation.setXY( startLocation.x + modelDX, startLocation.y + modelDY );
+    //
+    //  // location of final rotation center with constraining to bounds
+    //  var prismDragBoundsInModelValues = modelViewTransform.viewToModelBounds( dragBoundsProperty.value );
+    //  var centerEndLocationInBounds = prismDragBoundsInModelValues.closestPointTo( centerEndLocation );
+    //  prism.translate( centerEndLocationInBounds.x - startLocation.x, centerEndLocationInBounds.y - startLocation.y );
+    //
+    //  // Store the position of caught point after translating. Can be obtained by adding distance between rotation
+    //  // center and drag point (end - centerEndLocation) to rotation center (centerEndLocationInBounds) after
+    //  // translating.
+    //  end.x = end.x + modelViewTransform.modelToViewDeltaX( centerEndLocationInBounds.x - centerEndLocation.x );
+    //  end.y = end.y + modelViewTransform.modelToViewDeltaY( centerEndLocationInBounds.y - centerEndLocation.y );
+    //  prismNode.dragStart = end;
+    //
+    //};
 
-    };
-
-    this.handleEnd = function() {
-      if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
-        if ( prismLayer.isChild( prismNode ) ) {
-          prismsModel.removePrism( prism );
-          prism.shapeProperty.unlink( prismNode.updatePrismShape );
-          prismsModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
-          prismLayer.removeChild( prismNode );
-        }
-        prismsModel.dirty = true;
-      }
-      else {
-        occlusionHandler( prismNode );
-      }
-    };
-    prismPathNode.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-        prismNode.dragStart = prismNode.globalToParentPoint( event.pointer.point );
-        prismNode.moveToFront();
-      },
-      drag: function( event ) {
-        prismNode.handleDrag( event );
-      },
-      end: function() {
-        prismNode.handleEnd();
-      }
-    } ) );
+    //this.handleEnd = function() {
+    //  if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
+    //    if ( prismLayer.isChild( prismNode ) ) {
+    //      prismsModel.removePrism( prism );
+    //      prism.shapeProperty.unlink( prismNode.updatePrismShape );
+    //      prismsModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
+    //      prismLayer.removeChild( prismNode );
+    //    }
+    //    prismsModel.dirty = true;
+    //  }
+    //  else {
+    //    occlusionHandler( prismNode );
+    //  }
+    //};
+    prismPathNode.addInputListener( this.movableDragHandler );
 
     var knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
 
