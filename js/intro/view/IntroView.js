@@ -336,6 +336,7 @@ define( function( require ) {
     // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
     // for the node in the play area
     intensityMeterNodeIcon.addInputListener( new ToolIconListener( [ bodyListener, probeListener ], function( event ) {
+      
       // Show the probe in the play area and hide the icon
       introModel.intensityMeter.enabled = true;
 
