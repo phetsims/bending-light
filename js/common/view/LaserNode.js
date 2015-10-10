@@ -20,6 +20,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Bounds2 = require( 'DOT/Bounds2' );
 
   // constants
   var dragRegionColor = new Color( 255, 0, 0, 0 );
@@ -187,7 +188,8 @@ define( function( require ) {
     } );
 
     // touch area
-    this.touchArea = this.localBounds;
+    var b = this.localBounds.dilatedY( 5 );
+    this.touchArea = new Bounds2( b.minX, b.minY, b.maxX + 12, b.maxY );
 
     /**
      * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding model
