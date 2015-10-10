@@ -24,11 +24,8 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Image = require( 'SCENERY/nodes/Image' );
-  var Vector2 = require( 'DOT/Vector2' );
   var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
   var Shape = require( 'KITE/Shape' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
 
   // strings
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
@@ -37,7 +34,6 @@ define( function( require ) {
   var protractorString = require( 'string!BENDING_LIGHT/protractor' );
 
   // images
-  var knobImage = require( 'image!BENDING_LIGHT/knob.png' );
   var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
 
   // constants
@@ -65,7 +61,7 @@ define( function( require ) {
     var createPrismIcon = function( prism ) {
       var prismShape = prism.copy();
       return new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
-        dragBoundsProperty, occlusionHandler, false );
+        dragBoundsProperty, occlusionHandler );
     };
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
@@ -98,7 +94,7 @@ define( function( require ) {
 
             // create a prism node and add to the prisms layer
             prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
-              dragBoundsProperty, occlusionHandler, start );
+              dragBoundsProperty, occlusionHandler );
             prismLayer.addChild( prismNode );
             prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
 

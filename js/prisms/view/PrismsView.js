@@ -162,7 +162,6 @@ define( function( require ) {
       listener: function() {
         prismsModel.reset();
         prismsView.reset();
-        laserControlPanel.reset();
         environmentMediumControlPanel.reset();
         prismToolboxNode.objectMediumControlPanel.reset();
         radioButtonAdapterProperty.reset();

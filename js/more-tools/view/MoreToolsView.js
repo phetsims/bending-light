@@ -17,12 +17,11 @@ define( function( require ) {
   var WaveSensorNode = require( 'BENDING_LIGHT/more-tools/view/WaveSensorNode' );
   var Property = require( 'AXON/Property' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
   var Rectangle = require( 'DOT/Rectangle' );
-  var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' )
+  var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
 
   var arrowScale = 1.5E-14; // @public read-only
 
