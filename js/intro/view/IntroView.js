@@ -373,8 +373,6 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton( {
       listener: function() {
         introModel.reset();
-        introView.reset();
-        laserControlPanel.reset();
         topMediumControlPanel.reset();
         bottomMediumControlPanel.reset();
       },
