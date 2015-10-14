@@ -14,15 +14,15 @@ define( function( require ) {
 
   /**
    * @param {Shape} shape - shape of the medium
-   * @param {MediumState} mediumState - state of the medium
+   * @param {Substance} substance - state of the medium
    * @param {Color} color - color of the medium
    * @constructor
    */
-  function Medium( shape, mediumState, color ) {
+  function Medium( shape, substance, color ) {
 
     // immutable shape
     this.shape = shape; // @public
-    this.mediumState = mediumState; // @public
+    this.substance = substance; // @public
     this.color = color; // @public, color is based on the index of refraction at red wavelength
   }
 
@@ -35,7 +35,7 @@ define( function( require ) {
      * @returns {number}
      */
     getIndexOfRefraction: function( wavelength ) {
-      return this.mediumState.dispersionFunction.getIndexOfRefraction( wavelength );
+      return this.substance.dispersionFunction.getIndexOfRefraction( wavelength );
     },
 
     /**
@@ -44,7 +44,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     isMystery: function() {
-      return this.mediumState.mystery;
+      return this.substance.mystery;
     }
   } );
 } );

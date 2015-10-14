@@ -44,7 +44,7 @@ define( function( require ) {
     this.environmentMediumProperty = environmentMediumProperty;
     var whiteLightCanvasNode = this;
     var update = function() {
-      var a = environmentMediumProperty.value.mediumState.getIndexOfRefractionForRedLight();
+      var a = environmentMediumProperty.value.substance.getIndexOfRefractionForRedLight();
       whiteLightCanvasNode.colorCSS = MediumColorFactory.getColor( a ).toCSS();
       whiteLightCanvasNode.invalidatePaint();
     };

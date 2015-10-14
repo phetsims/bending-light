@@ -14,7 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Util = require( 'SCENERY/util/Util' );
@@ -33,12 +33,12 @@ define( function( require ) {
   var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
   // mediums that can be selected
-  var AIR = new MediumState( airString, 1.000293, false, false );
-  var WATER = new MediumState( waterString, 1.333, false, false );
-  var GLASS = new MediumState( glassString, 1.5, false, false );
-  var DIAMOND = new MediumState( diamondString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false );
-  var MYSTERY_A = new MediumState( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
-  var MYSTERY_B = new MediumState( mysteryBString, 1.4, true, false );
+  var AIR = new Substance( airString, 1.000293, false, false );
+  var WATER = new Substance( waterString, 1.333, false, false );
+  var GLASS = new Substance( glassString, 1.5, false, false );
+  var DIAMOND = new Substance( diamondString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false );
+  var MYSTERY_A = new Substance( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
+  var MYSTERY_B = new Substance( mysteryBString, 1.4, true, false );
 
   /**
    * Get the fraction of power reflected from the medium

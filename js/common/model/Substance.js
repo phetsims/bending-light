@@ -21,7 +21,7 @@ define( function( require ) {
    * @param {boolean} custom - true if medium state is custom else other state
    * @constructor
    */
-  function MediumState( name, indexForRed, mystery, custom ) {
+  function Substance( name, indexForRed, mystery, custom ) {
     this.name = name; // @public
     this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED ); // @public
     this.mystery = mystery; // @public
@@ -29,7 +29,7 @@ define( function( require ) {
   }
 
 
-  return inherit( Object, MediumState, {
+  return inherit( Object, Substance, {
 
     /**
      * Determines the index of refraction for the WAVELENGTH_RED

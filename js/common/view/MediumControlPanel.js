@@ -25,7 +25,7 @@ define( function( require ) {
   var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
   var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
-  var MediumState = require( 'BENDING_LIGHT/common/model/MediumState' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
   var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -73,14 +73,14 @@ define( function( require ) {
     }, options );
     this.mediumProperty = mediumProperty; // @private, the medium to observe
     this.laserWavelength = laserWavelength; // @private
-    var initialMediumState = mediumProperty.get().mediumState;
+    var initialSubstance = mediumProperty.get().substance;
 
     // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
     // if we kept the same index of refraction, the user could use that to easily look up the mystery values.
-    var lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
+    var lastNonMysteryIndexAtRed = initialSubstance.getIndexOfRefractionForRedLight();
 
     // dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
-    var customState = new MediumState( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
+    var customState = new Substance( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
     var custom = true;
 
     // add material combo box
@@ -106,21 +106,21 @@ define( function( require ) {
       } ), item );
     };
     // states to choose from (and indicate) in the combo box
-    var mediumStates = [
+    var substances = [
       BendingLightModel.AIR,
       BendingLightModel.WATER,
       BendingLightModel.GLASS,
       BendingLightModel.MYSTERY_A,
       BendingLightModel.MYSTERY_B,
       customState ];
-    var comboBoxMediumStateProperty = new Property( initialMediumState );
+    var comboBoxSubstanceProperty = new Property( initialSubstance );
 
     // update combo box
     var updateComboBox = function() {
       var selected = -1;
-      for ( var i = 0; i < mediumStates.length; i++ ) {
-        var mediumState = mediumStates[ i ];
-        if ( mediumState.dispersionFunction.getIndexOfRefraction( laserWavelength.get() ) ===
+      for ( var i = 0; i < substances.length; i++ ) {
+        var substance = substances[ i ];
+        if ( substance.dispersionFunction.getIndexOfRefraction( laserWavelength.get() ) ===
              mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) ) {
           selected = i;
         }
@@ -128,25 +128,25 @@ define( function( require ) {
 
       // only set to a different substance if "custom" wasn't specified.
       // otherwise pressing "air" then "custom" will make the combobox jump back to "air"
-      if ( selected !== -1 && !mediumProperty.get().mediumState.custom ) {
-        comboBoxMediumStateProperty.set( mediumStates[ selected ] );
+      if ( selected !== -1 && !mediumProperty.get().substance.custom ) {
+        comboBoxSubstanceProperty.set( substances[ selected ] );
         custom = false;
       }
       else {
         // no match to a named medium, so it must be a custom medium
-        comboBoxMediumStateProperty.set( customState );
+        comboBoxSubstanceProperty.set( customState );
         custom = true;
       }
     };
 
     // items
     var items = [];
-    for ( var i = 0; i < mediumStates.length; i++ ) {
-      var material = mediumStates[ i ];
+    for ( var i = 0; i < substances.length; i++ ) {
+      var material = substances[ i ];
       items[ i ] = createItem( material );
     }
     // add a combo box
-    var materialComboBox = new ComboBox( items, comboBoxMediumStateProperty, view, {
+    var materialComboBox = new ComboBox( items, comboBoxSubstanceProperty, view, {
       labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
       buttonXMargin: 5,
@@ -297,7 +297,7 @@ define( function( require ) {
     this.addChild( mediumPanel );
     Property.multilink( [ mediumProperty, this.laserWavelength ],
       function() {
-        custom = mediumProperty.get().mediumState.custom;
+        custom = mediumProperty.get().substance.custom;
         indexOfRefractionValueText.text = Util.toFixed(
           mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), decimalPlaces );
       } );
@@ -312,15 +312,15 @@ define( function( require ) {
       }
       updateComboBox();
     } );
-    comboBoxMediumStateProperty.link( function( selected ) {
+    comboBoxSubstanceProperty.link( function( selected ) {
       if ( !selected.custom ) {
-        mediumControlPanel.setMediumState( selected );
+        mediumControlPanel.setSubstance( selected );
       }
       else {
 
         // if it was custom, then use the the index of refraction but keep the name as "custom"
-        mediumControlPanel.setMediumState(
-          new MediumState( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
+        mediumControlPanel.setSubstance(
+          new Substance( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
       }
     } );
 
@@ -355,7 +355,7 @@ define( function( require ) {
       // current wavelength of the laser (since index of refraction is a function of wavelength)
       var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );
       this.setMedium( new Medium( this.mediumProperty.get().shape,
-        new MediumState( customString, indexOfRefraction, false, true ),
+        new Substance( customString, indexOfRefraction, false, true ),
         MediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
       ) );
     },
@@ -363,11 +363,11 @@ define( function( require ) {
     /**
      * Update the medium state from the combo box
      * @public
-     * @param {MediumState} mediumState - specifies state of the medium
+     * @param {Substance} substance - specifies state of the medium
      */
-    setMediumState: function( mediumState ) {
-      var color = MediumColorFactory.getColor( mediumState.getIndexOfRefractionForRedLight() );
-      this.setMedium( new Medium( this.mediumProperty.get().shape, mediumState, color ) );
+    setSubstance: function( substance ) {
+      var color = MediumColorFactory.getColor( substance.getIndexOfRefractionForRedLight() );
+      this.setMedium( new Medium( this.mediumProperty.get().shape, substance, color ) );
     },
 
     /**

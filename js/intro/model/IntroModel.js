@@ -31,11 +31,11 @@ define( function( require ) {
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   /**
-   * @param {MediumState} bottomMediumState - state of bottom medium
+   * @param {Substance} bottomSubstance - state of bottom medium
    * @param {boolean} centerOffsetLeft - specifies center alignment
    * @constructor
    */
-  function IntroModel( bottomMediumState, centerOffsetLeft ) {
+  function IntroModel( bottomSubstance, centerOffsetLeft ) {
 
     var introModel = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
@@ -45,8 +45,8 @@ define( function( require ) {
       MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
 
     // Bottom medium
-    this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomMediumState,
-      MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
+    this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomSubstance,
+      MediumColorFactory.getColor( bottomSubstance.getIndexOfRefractionForRedLight() ) ) );
     this.time = 0; // @public
 
     // Update the top medium index of refraction when top medium change

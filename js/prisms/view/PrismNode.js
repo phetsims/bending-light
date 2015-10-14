@@ -156,7 +156,7 @@ define( function( require ) {
 
     // @public - used in PrismToolboxNode
     this.updatePrismColor = function() {
-      prismPathNode.fill = MediumColorFactory.getColor( prismsModel.prismMediumProperty.value.mediumState.getIndexOfRefractionForRedLight() )
+      prismPathNode.fill = MediumColorFactory.getColor( prismsModel.prismMediumProperty.value.substance.getIndexOfRefractionForRedLight() )
         .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
     };
 
