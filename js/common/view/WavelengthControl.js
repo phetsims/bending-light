@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- *
+ * Control that shows a spectrum and lets the user choose the color for monochromatic light.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

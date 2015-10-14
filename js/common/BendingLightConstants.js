@@ -4,6 +4,8 @@
  * This class is a collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
