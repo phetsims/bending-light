@@ -80,7 +80,12 @@ define( function( require ) {
     var lastNonMysteryIndexAtRed = initialSubstance.getIndexOfRefractionForRedLight();
 
     // dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
-    var customState = new Substance( customString, BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2, false, true );
+    var customState = new Substance(
+      customString,
+      BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2,
+      false,
+      true
+    );
     var custom = true;
 
     // add material combo box
@@ -164,7 +169,8 @@ define( function( require ) {
       indexOfRefractionLabel.scale( indexOfRefractionLabelWidth / indexOfRefractionLabel.width );
     }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
-    var indexOfRefractionValueText = new Text( Util.toFixed( this.mediumIndexProperty.get(), decimalPlaces ), textOptions );
+    var readoutString = Util.toFixed( this.mediumIndexProperty.get(), decimalPlaces );
+    var indexOfRefractionValueText = new Text( readoutString, textOptions );
     var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 45, 20, 2, 2, {
       fill: 'white',
       stroke: 'black'
@@ -264,7 +270,13 @@ define( function( require ) {
     var indexOfRefractionNode;
     if ( textFieldVisible ) {
       indexOfRefractionNode = new Node( {
-        children: [ indexOfRefractionLabel, minusButton, indexOfRefractionReadoutBoxShape, indexOfRefractionValueText, plusButton ]
+        children: [
+          indexOfRefractionLabel,
+          minusButton,
+          indexOfRefractionReadoutBoxShape,
+          indexOfRefractionValueText,
+          plusButton
+        ]
       } );
     }
     else {

@@ -26,12 +26,12 @@ define( function( require ) {
    * @param {function} notAtMax - function that determines whether the laser is already at the max angle (if at the max
    * angle then that drag handle disappears)
    * @param {number} laserImageWidth - width of the laser
-   * @param {number} rotationArrowAngleOffset - for unknown reasons the rotation arrows are off by PI/4 on the intro/more-tools
-   *                 screen, so account for that here.
+   * @param {number} rotationArrowAngleOffset - for unknown reasons the rotation arrows are off by PI/4 on the
+   *                                            intro/more-tools screen, so account for that here.
    * @constructor
    */
-  function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandlesProperty, notAtMax, laserImageWidth,
-                               rotationArrowAngleOffset ) {
+  function RotationDragHandle( modelViewTransform, laser, deltaAngle, showDragHandlesProperty, notAtMax,
+                               laserImageWidth, rotationArrowAngleOffset ) {
 
     Node.call( this );
     var rotationDragHandle = this;

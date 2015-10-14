@@ -111,7 +111,7 @@ define( function( require ) {
         var boundsDY = emissionPointEndLocationInBounds.y - emissionPointEndLocation.y;
         endDrag.x = endDrag.x + modelViewTransform.modelToViewDeltaX( boundsDx );
         endDrag.y = endDrag.y + modelViewTransform.modelToViewDeltaY( boundsDY );
-        
+
         start = endDrag;
         showTranslationDragHandlesProperty.value = true;
       },
