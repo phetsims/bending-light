@@ -56,6 +56,7 @@ define( function( require ) {
     reset: function() {
       IntroModel.prototype.reset.call( this );
       this.velocitySensor.reset();
+      this.waveSensor.reset();
     }
   } );
 } );
