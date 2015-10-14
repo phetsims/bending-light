@@ -29,18 +29,22 @@ define( function( require ) {
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Laser} laser - model for the laser
-   * @param {Property.<boolean>} showRotationDragHandlesProperty - to show laser node rotate arrows(direction which laser node can rotate)
-   * @param {Property.<boolean>} showTranslationDragHandlesProperty - to show laser node drag arrows(direction which laser node can drag)
+   * @param {Property.<boolean>} showRotationDragHandlesProperty - to show laser node rotate arrows
+   * @param {Property.<boolean>} showTranslationDragHandlesProperty - to show laser node drag arrows
    * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
-   * @param {function} translationRegion - select from the entire region and front region which should be used for translating the laser
-   * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating the laser
+   * @param {function} translationRegion - select from the entire region and front region which should be used for
+   *                                       translating the laser
+   * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating
+   *                                       the laser
    * @param {string} laserImage - name of the laser image
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the laser may be dragged
-   * @param {function} occlusionHandler - function that will move the laser out from behind a control panel if dropped there
+   * @param {function} occlusionHandler - function that will move the laser out from behind a control panel if dropped
+   *                                      there
    * @constructor
    */
   function LaserNode( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
-                      clampDragAngle, translationRegion, rotationRegion, laserImage, dragBoundsProperty, occlusionHandler ) {
+                      clampDragAngle, translationRegion, rotationRegion, laserImage, dragBoundsProperty,
+                      occlusionHandler ) {
 
     Node.call( this, { cursor: 'pointer' } );
     var laserNode = this;
@@ -55,11 +59,11 @@ define( function( require ) {
 
     // drag handlers can choose which of these regions to use for drag events
     var fractionBackToRotateHandle = 34.0 / 177.0;
-    var frontRectangle = new Shape.rect( 0, 0, lightImageWidth * (1 - fractionBackToRotateHandle), lightImageHeight );
+    var frontRectangle = Shape.rect( 0, 0, lightImageWidth * (1 - fractionBackToRotateHandle), lightImageHeight );
 
-    var backRectangle = new Shape.rect( lightImageWidth * (1 - fractionBackToRotateHandle), 0,
+    var backRectangle = Shape.rect( lightImageWidth * (1 - fractionBackToRotateHandle), 0,
       lightImageWidth * fractionBackToRotateHandle, lightImageHeight );
-    var fullRectangle = new Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
+    var fullRectangle = Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
 
     // re usable vector to avoid vector allocation
     var emissionPointEndLocation = new Vector2();
@@ -73,7 +77,9 @@ define( function( require ) {
 
     // add the drag region for translating the laser
     var start;
-    var translationRegionPath = new Path( translationRegion( fullRectangle, frontRectangle ), { fill: dragRegionColor } );
+    var translationRegionPath = new Path( translationRegion( fullRectangle, frontRectangle ), {
+      fill: dragRegionColor
+    } );
     translationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         start = laserNode.globalToParentPoint( event.pointer.point );
@@ -93,13 +99,19 @@ define( function( require ) {
 
         // location of final emission point with constraining to bounds
         var emissionPointEndLocationInBounds = laserDragBoundsInModelValues.closestPointTo( emissionPointEndLocation );
-        laser.translate( emissionPointEndLocationInBounds.x - laser.emissionPoint.x, emissionPointEndLocationInBounds.y - laser.emissionPoint.y );
+
+        var translateX = emissionPointEndLocationInBounds.x - laser.emissionPoint.x;
+        var translateY = emissionPointEndLocationInBounds.y - laser.emissionPoint.y;
+        laser.translate( translateX, translateY );
 
         // Store the position of caught point after translating. Can be obtained by adding distance between emission
         // point and drag point (end - emissionPointEndLocation) to emission point (emissionPointEndLocationInBounds)
         // after translating.
-        endDrag.x = endDrag.x + modelViewTransform.modelToViewDeltaX( emissionPointEndLocationInBounds.x - emissionPointEndLocation.x );
-        endDrag.y = endDrag.y + modelViewTransform.modelToViewDeltaY( emissionPointEndLocationInBounds.y - emissionPointEndLocation.y );
+        var boundsDx = emissionPointEndLocationInBounds.x - emissionPointEndLocation.x;
+        var boundsDY = emissionPointEndLocationInBounds.y - emissionPointEndLocation.y;
+        endDrag.x = endDrag.x + modelViewTransform.modelToViewDeltaX( boundsDx );
+        endDrag.y = endDrag.y + modelViewTransform.modelToViewDeltaY( boundsDY );
+        
         start = endDrag;
         showTranslationDragHandlesProperty.value = true;
       },
@@ -137,7 +149,8 @@ define( function( require ) {
         var laserAngleAfterClamp = clampDragAngle( angle );
 
         // prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
-        if ( laser.wave && laserAngleAfterClamp > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && laser.topLeftQuadrant ) {
+        var pastMaxAngle = laserAngleAfterClamp > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
+        if ( laser.wave && pastMaxAngle && laser.topLeftQuadrant ) {
           laserAngleAfterClamp = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
         }
         laser.setAngle( laserAngleAfterClamp );
@@ -192,7 +205,8 @@ define( function( require ) {
     this.touchArea = new Bounds2( b.minX, b.minY, b.maxX + 12, b.maxY );
 
     /**
-     * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding model
+     * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
+     * model
      * @param {number} x
      * @param {number} y
      * @public

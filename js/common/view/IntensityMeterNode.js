@@ -121,8 +121,11 @@ define( function( require ) {
      * hence
      */
     this.syncModelFromView = function() {
-      intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.probeNode.translation );
-      intensityMeter.bodyPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.bodyNode.translation );
+      var sensorPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.probeNode.translation );
+      var bodyPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.bodyNode.translation );
+
+      intensityMeter.sensorPosition = sensorPosition;
+      intensityMeter.bodyPosition = bodyPosition;
     };
 
     this.mutate( options );

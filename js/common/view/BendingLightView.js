@@ -35,11 +35,12 @@ define( function( require ) {
    * @param {string} laserImageName - name of laser image
    * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
    * @param {number} verticalOffset - how much to shift the model view transform in stage coordinates
-   * @param {function} occlusionHandler - function that will move objects out from behind a control panel if dropped there
+   * @param {function} occlusionHandler - function that moves objects out from behind a control panel if dropped there
    * @constructor
    */
-  function BendingLightView( bendingLightModel, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserTranslationRegion,
-                             laserRotationRegion, laserImageName, centerOffsetLeft, verticalOffset, occlusionHandler ) {
+  function BendingLightView( bendingLightModel, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax,
+                             laserTranslationRegion, laserRotationRegion, laserImageName, centerOffsetLeft,
+                             verticalOffset, occlusionHandler ) {
 
     this.occlusionHandler = occlusionHandler;
     this.bendingLightModel = bendingLightModel;
@@ -82,7 +83,12 @@ define( function( require ) {
     this.addChild( this.mediumNode );
     this.incidentWaveLayer = new Node(); // @public
 
-    this.singleColorLightNode = new SingleColorLightCanvasNode( this.modelViewTransform, stageWidth, stageHeight, bendingLightModel.rays );
+    this.singleColorLightNode = new SingleColorLightCanvasNode(
+      this.modelViewTransform,
+      stageWidth,
+      stageHeight,
+      bendingLightModel.rays
+    );
 
     // layering
     this.addChild( this.beforeLightLayer2 );
@@ -104,7 +110,13 @@ define( function( require ) {
     var showTranslationDragHandlesProperty = new Property( false );
 
     // add laser node rotation and translation arrows in array, to move them to front of all other nodes in prism screen
-    this.addLaserHandles( showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth );
+    this.addLaserHandles(
+      showRotationDragHandlesProperty,
+      showTranslationDragHandlesProperty,
+      clockwiseArrowNotAtMax,
+      ccwArrowNotAtMax,
+      laserImageWidth
+    );
 
     this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public
 
@@ -156,17 +168,22 @@ define( function( require ) {
     // @protected - overriden for IntroView to add the wave nodes
     addLightNodes: function() {},
 
-    addLaserHandles: function( showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
+    addLaserHandles: function( showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
+                               clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
       var bendingLightModel = this.bendingLightModel;
 
       // Shows the direction in which laser can be rotated
       // for laser left rotation
-      var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, Math.PI / 23,
-        showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
+      var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
+        Math.PI / 23, showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58,
+        bendingLightModel.rotationArrowAngleOffset );
       this.addChild( leftRotationDragHandle );
+
       // for laser right rotation
-      var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser, -Math.PI / 23,
-        showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58, bendingLightModel.rotationArrowAngleOffset );
+      var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
+        -Math.PI / 23,
+        showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58,
+        bendingLightModel.rotationArrowAngleOffset );
       this.addChild( rightRotationDragHandle );
     }
   } );

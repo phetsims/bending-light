@@ -89,7 +89,9 @@ define( function( require ) {
      * @private
      */
     getAirIndex: function( wavelength ) {
-      return 1 + 5792105E-8 / (238.0185 - Math.pow( wavelength * 1E6, -2 )) + 167917E-8 / (57.362 - Math.pow( wavelength * 1E6, -2 ));
+      return 1 +
+             5792105E-8 / (238.0185 - Math.pow( wavelength * 1E6, -2 )) +
+             167917E-8 / (57.362 - Math.pow( wavelength * 1E6, -2 ));
     }
   } );
 } );

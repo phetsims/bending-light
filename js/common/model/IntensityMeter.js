@@ -42,7 +42,12 @@ define( function( require ) {
 
       // Copy the model for reuse in the toolbox node.
       copy: function() {
-        return new IntensityMeter( this.sensorPosition.x, this.sensorPosition.y, this.bodyPosition.x, this.bodyPosition.y );
+        return new IntensityMeter(
+          this.sensorPosition.x,
+          this.sensorPosition.y,
+          this.bodyPosition.x,
+          this.bodyPosition.y
+        );
       },
 
       /**

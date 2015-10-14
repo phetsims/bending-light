@@ -25,7 +25,8 @@ define( function( require ) {
       softwareDevelopment: 'Sam Reid',
       team: 'Trish Loeblein, Ariel Paul, Kathy Perkins',
       qualityAssurance: 'Steele Dalton, Elise Morgan, Oliver Orejola, Arnab Purkayastha, Bryan Yoelin',
-      thanks: 'Thanks to Actual Concepts for working with the PhET development team\nto convert this simulation to HTML5.'
+      thanks: 'Thanks to Actual Concepts for working with the PhET development team\n' +
+              'to convert this simulation to HTML5.'
     }
   };
 

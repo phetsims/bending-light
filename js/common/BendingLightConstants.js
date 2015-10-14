@@ -265,7 +265,11 @@ define( function( require ) {
 
     for ( var wavelength in XYZ_INTENSITIES ) {
       var xyz = XYZ_INTENSITIES[ wavelength ];
-      result[ wavelength ] = new Vector3( xyz.x / MAX_XYZ_INTENSITY.x, xyz.y / MAX_XYZ_INTENSITY.y, xyz.z / MAX_XYZ_INTENSITY.z );
+      result[ wavelength ] = new Vector3(
+        xyz.x / MAX_XYZ_INTENSITY.x,
+        xyz.y / MAX_XYZ_INTENSITY.y,
+        xyz.z / MAX_XYZ_INTENSITY.z
+      );
     }
     return result;
   })();

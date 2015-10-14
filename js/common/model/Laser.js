@@ -66,7 +66,7 @@ define( function( require ) {
      */
     translate: function( deltaX, deltaY ) {
 
-      // Caution -- For reasons unknown to @samreid, if the order of the following instructions is switched, the 
+      // Caution -- For reasons unknown to @samreid, if the order of the following instructions is switched, the
       // laser will rotate while being dragged, see #221
       this.pivot = this.pivot.plusXY( deltaX, deltaY );
       this.emissionPoint = this.emissionPoint.plusXY( deltaX, deltaY );

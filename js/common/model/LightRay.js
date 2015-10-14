@@ -170,13 +170,15 @@ define( function( require ) {
       if ( this.waveShape ) {
 
         // Create a ray that is parallel to the light ray and within the beam width that is closest to the center
-        // of the sensor.  This is the most straightforward way to check for the closest intersection to the sensor region.
+        // of the sensor.  This is the most straightforward way to check for the closest intersection to the sensor
+        // region.
         var p = sensorRegion.getBounds().center;
 
         var tip = this.tip;
         var tail = this.tail;
 
-        // Compute the distance from the sensor to the ray, using https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+        // Compute the distance from the sensor to the ray, using
+        // https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
         var n = tip.minus( tail ).normalized();
         var a = tail;
         var aMinusP = a.minus( p );

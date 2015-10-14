@@ -16,6 +16,24 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
+   * Make sure light doesn't go outside of the 0..255 bounds
+   * @public
+   * @param {number} value
+   * @returns {number}
+   */
+  var clamp = function( value ) {
+    if ( value < 0 ) {
+      return 0;
+    }
+    else if ( value > 255 ) {
+      return 255;
+    }
+    else {
+      return value;
+    }
+  };
+
+  /**
    * Blend colors a and b with the specified amount of "b" to use between 0 and 1
    * @public
    * @param {Color} a
@@ -33,23 +51,6 @@ define( function( require ) {
     );
   };
 
-  /**
-   * Make sure light doesn't go outside of the 0..255 bounds
-   * @public
-   * @param {number} value
-   * @returns {number}
-   */
-  var clamp = function( value ) {
-    if ( value < 0 ) {
-      return 0;
-    }
-    else if ( value > 255 ) {
-      return 255;
-    }
-    else {
-      return value;
-    }
-  };
   var createProfile = function( AIR_COLOR, WATER_COLOR, GLASS_COLOR, DIAMOND_COLOR ) {
 
     return function( indexForRed ) {

@@ -87,7 +87,7 @@ define( function( require ) {
     this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public read-only
     this.modelHeight = this.modelWidth * 0.7; // @public read-only
 
-    // if WebGL support then particles creation and propagation not need else we should create particles and propagate 
+    // if WebGL support then particles creation and propagation not need else we should create particles and propagate
     // to render them on canvas. Check to see if WebGL was prevented by a query parameter
     var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
 

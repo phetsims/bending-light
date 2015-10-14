@@ -96,7 +96,7 @@ define( function( require ) {
     this.getProtractorRotationRegion = function() {
 
       // empty shape since shouldn't be rotatable in this tab
-      return new Shape.rect( 0, 0, 0, 0 );
+      return Shape.rect( 0, 0, 0, 0 );
     };
 
     // get the function that chooses which region of the protractor can be used for translation--both the inner bar and
