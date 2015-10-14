@@ -13,6 +13,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
 
+  /**
+   * @constructor
+   */
   function PrismIntersection() {
     assert && assert( false, 'should not be instantiated' );
   }

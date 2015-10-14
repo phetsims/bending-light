@@ -49,7 +49,8 @@ define( function( require ) {
    * @param {Object} [options] that can be passed on to the underlying node
    * @constructor
    */
-  function PrismToolboxNode( modelViewTransform, prismsModel, prismLayer, dragBoundsProperty, occlusionHandler, options ) {
+  function PrismToolboxNode( modelViewTransform, prismsModel, prismLayer, dragBoundsProperty, occlusionHandler,
+                             options ) {
     var prismToolboxNode = this;
 
     Node.call( this );
@@ -78,7 +79,12 @@ define( function( require ) {
       prismsModel.prisms.addListeners( listener, listener );
       var prismIconBounds = prismIcon.bounds;
       prismIcon.scale( 55 / prismIcon.height );
-      var prismToolboxIconNode = new Path( Shape.rectangle( prismIconBounds.minX, prismIconBounds.minY, prismIconBounds.getWidth(), prismIconBounds.getHeight() ), {
+      var prismToolboxIconNode = new Path( Shape.rectangle(
+        prismIconBounds.minX,
+        prismIconBounds.minY,
+        prismIconBounds.getWidth(),
+        prismIconBounds.getHeight()
+      ), {
         pickable: true,
         cursor: 'pointer'
       } );
@@ -96,7 +102,10 @@ define( function( require ) {
             prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
               dragBoundsProperty, occlusionHandler );
             prismLayer.addChild( prismNode );
-            prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
+            prismShape.translate(
+              modelViewTransform.viewToModelX( start.x ),
+              modelViewTransform.viewToModelY( start.y )
+            );
 
             // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
             // Presumably because they were in similar coordinate frames?

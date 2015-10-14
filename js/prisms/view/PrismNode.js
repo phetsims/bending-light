@@ -96,7 +96,7 @@ define( function( require ) {
         var oldPosition = this.get();
 
         // Keep it in bounds
-        // Couldn't get this figured out with MovableDragHandler, our case is a bit too out of the box since there is 
+        // Couldn't get this figured out with MovableDragHandler, our case is a bit too out of the box since there is
         // really no Property representing the position of the Prism
         newPosition = modelViewTransform.viewToModelBounds( dragBoundsProperty.value ).closestPointTo( newPosition );
         var dx = newPosition.x - oldPosition.x;
@@ -156,7 +156,8 @@ define( function( require ) {
 
     // @public - used in PrismToolboxNode
     this.updatePrismColor = function() {
-      prismPathNode.fill = MediumColorFactory.getColor( prismsModel.prismMediumProperty.value.substance.getIndexOfRefractionForRedLight() )
+      var indexOfRefraction = prismsModel.prismMediumProperty.value.substance.getIndexOfRefractionForRedLight();
+      prismPathNode.fill = MediumColorFactory.getColor( indexOfRefraction )
         .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
     };
 
@@ -164,7 +165,8 @@ define( function( require ) {
     prismsModel.prismMediumProperty.link( this.updatePrismColor );
 
     /**
-     * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding model
+     * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
+     * model
      * @param {number} x
      * @param {number} y
      * @public

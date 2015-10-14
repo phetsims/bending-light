@@ -48,7 +48,8 @@ define( function( require ) {
    * @public
    * @constructor
    */
-  function AngleNode( showAnglesProperty, laserOnProperty, showNormalProperty, rays, modelViewTransform, addStepListener ) {
+  function AngleNode( showAnglesProperty, laserOnProperty, showNormalProperty, rays, modelViewTransform,
+                      addStepListener ) {
     Node.call( this );
 
     var angleNode = this;
@@ -132,9 +133,12 @@ define( function( require ) {
     var lowerMark = createLine( CIRCLE_RADIUS );
     var upperMark = createLine( -CIRCLE_RADIUS );
 
+    // Only redraw when necessary to improve performance.
+    var dirty = true;
+
     showNormalProperty.link( function( showNormal ) {
 
-      // Only show the top marker when the normal is not shown, since they would interfere if both shown together 
+      // Only show the top marker when the normal is not shown, since they would interfere if both shown together
       upperMark.visible = !showNormal;
 
       // Update the lower mark as well, Only visible when the bottom readout is visible *and* normals are not shown.
@@ -144,8 +148,6 @@ define( function( require ) {
     this.addChild( lowerMark );
     this.addChild( upperMark );
 
-    // Only redraw when necessary to improve performance.
-    var dirty = true;
     var markDirty = function() {
       dirty = true;
     };
@@ -158,7 +160,9 @@ define( function( require ) {
         // Get the rays from the model.  They must be specified in the following order.
         var incomingRay = rays.get( 0 );
         var reflectedRay = rays.get( 1 );
-        var refractedRay = rays.length > 2 ? rays.get( 2 ) : MOCK_ZERO_RAY; // when there is total internal reflection, this ray does not appear
+
+        // when there is total internal reflection, this ray does not appear
+        var refractedRay = rays.length > 2 ? rays.get( 2 ) : MOCK_ZERO_RAY;
 
         var incomingAngleFromNormal = incomingRay.getAngle() + Math.PI / 2;
         var refractedAngleFromNormal = refractedRay.getAngle() + Math.PI / 2;
@@ -189,8 +193,12 @@ define( function( require ) {
         var origin = new Vector2( getOriginX(), getOriginY() );
 
         // send out a ray from the origin past the center of the angle to position the readout
-        var incomingRayDegreesFromNormal = Math.round( incomingAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR ) / ROUNDING_FACTOR;
-        var refractedRayDegreesFromNormal = Math.round( refractedAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR ) / ROUNDING_FACTOR;
+        var incomingRayDegreesFromNormal = Math.round(
+            incomingAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR
+          ) / ROUNDING_FACTOR;
+        var refractedRayDegreesFromNormal = Math.round(
+            refractedAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR
+          ) / ROUNDING_FACTOR;
         var incomingReadoutText = incomingRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
         var createDirectionVector = function( angle ) {
@@ -205,10 +213,12 @@ define( function( require ) {
         // When the angle becomes too small, pop the text out so that it won't be obscured by the ray
         var angleThresholdToBumpToSide = 30; // degrees
 
-        incomingReadout.center = origin.plus( incomingReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : -BUMP_TO_SIDE_DISTANCE, 0 );
+        incomingReadout.center = origin.plus( incomingReadoutDirection )
+          .plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : -BUMP_TO_SIDE_DISTANCE, 0 );
 
         reflectedReadout.text = incomingReadoutText; // It's the same
-        reflectedReadout.center = origin.plus( reflectedReadoutDirection ).plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
+        reflectedReadout.center = origin.plus( reflectedReadoutDirection )
+          .plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
 
         var refractedReadoutText = refractedRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
@@ -221,7 +231,8 @@ define( function( require ) {
 
         refractedReadout.text = refractedReadoutText;
         var bumpBottomReadout = refractedRayDegreesFromNormal >= angleThresholdToBumpToSide;
-        refractedReadout.center = origin.plus( refractedReadoutDirection ).plusXY( bumpBottomReadout ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
+        refractedReadout.center = origin.plus( refractedReadoutDirection )
+          .plusXY( bumpBottomReadout ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
 
         dirty = false;
       }

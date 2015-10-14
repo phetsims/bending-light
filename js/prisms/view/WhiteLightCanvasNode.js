@@ -33,7 +33,8 @@ define( function( require ) {
    * @param {Property.<Medium>} environmentMediumProperty
    * @constructor
    */
-  function WhiteLightCanvasNode( modelViewTransform, stageWidth, stageHeight, whiteLightRays, environmentMediumProperty ) {
+  function WhiteLightCanvasNode( modelViewTransform, stageWidth, stageHeight, whiteLightRays,
+                                 environmentMediumProperty ) {
 
     CanvasNode.call( this, {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
@@ -96,7 +97,11 @@ define( function( require ) {
           var c = VisibleColor.wavelengthToColor( wavelength );
           // var color = BendingLightConstants.XYZ_INTENSITIES[ wavelength ]
 
-          var strokeStyle = 'rgb(' + Math.round( c.r * a / 0.9829313170995397 ) + ',' + Math.round( c.g * a ) + ',' + Math.round( c.b * a / 0.7144456644926587 ) + ')';
+          var strokeStyle = 'rgb(' +
+                            Math.round( c.r * a / 0.9829313170995397 ) + ',' +
+                            Math.round( c.g * a ) + ',' +
+                            Math.round( c.b * a / 0.7144456644926587 ) +
+                            ')';
           context.strokeStyle = strokeStyle;
           context.beginPath();
           context.moveTo( x1, y1 );

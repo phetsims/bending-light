@@ -27,7 +27,8 @@ define( function( require ) {
    * Node for drawing the series of points.
    *
    * @param {Series} series - series of data points
-   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate frames
+   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate
+   *                                                                      frames
    * @param {Bounds2} chartBounds - bounds of the chart node
    * @constructor
    */
@@ -36,9 +37,13 @@ define( function( require ) {
     Node.call( this );
 
     // add series canvas
-    var seriesCanvasNode = new SeriesCanvasNode( series.seriesProperty, modelViewTransformProperty, series.color.toCSS(), {
-      canvasBounds: chartBounds
-    } );
+    var seriesCanvasNode = new SeriesCanvasNode(
+      series.seriesProperty,
+      modelViewTransformProperty,
+      series.color.toCSS(), {
+        canvasBounds: chartBounds
+      }
+    );
     this.addChild( seriesCanvasNode );
 
     // Update the series canvas for every change in series

@@ -167,7 +167,8 @@ define( function( require ) {
           labelText.text = '?';
         }
         else {
-          var text = StringUtils.format( velocityPattern, Util.toFixed( velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT, 2 ), c_units );
+          var stringNumber = Util.toFixed( velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT, 2 );
+          var text = StringUtils.format( velocityPattern, stringNumber, c_units );
           labelText.setText( text );
         }
         labelText.center = whiteTextArea.center;

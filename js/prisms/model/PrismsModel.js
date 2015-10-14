@@ -274,8 +274,8 @@ define( function( require ) {
      * @private
      * @param {ColoredRay} incidentRay - model of the ray
      * @param {number} count - number of rays
-     * @param {boolean} showIntersection - true if the intersection should be shown.  True for single rays and for extrema o
-     *                                   - of white light wavelengths
+     * @param {boolean} showIntersection - true if the intersection should be shown.  True for single rays and for
+     *                                     extrema of white light wavelengths
      */
     propagateTheRay: function( incidentRay, count, showIntersection ) {
       var rayColor;
@@ -325,8 +325,14 @@ define( function( require ) {
         var cosTheta2 = Math.sqrt( Math.abs( cosTheta2Radicand ) );
         var vReflect = (n.times( 2 * cosTheta1 )).add( L );
         var vRefract = cosTheta1 > 0 ?
-                       (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
-                       (L.times( n1 / n2 )).addXY( n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ), n.y * ( n1 / n2 * cosTheta1 + cosTheta2 ) );
+                       (L.times( n1 / n2 )).addXY(
+                         n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ),
+                         n.y * ( n1 / n2 * cosTheta1 - cosTheta2 )
+                       ) :
+                       (L.times( n1 / n2 )).addXY(
+                         n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ),
+                         n.y * ( n1 / n2 * cosTheta1 + cosTheta2 )
+                       );
 
         // Normalize the direction vector, see https://github.com/phetsims/bending-light/issues/226
         vRefract = vRefract.normalized();
@@ -334,14 +340,25 @@ define( function( require ) {
         var reflectedPower = totalInternalReflection ? 1
           : Util.clamp( BendingLightModel.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
         var transmittedPower = totalInternalReflection ? 0
-          : Util.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );// clamp(value,min,max)
+          : Util.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
 
         // Create the new rays and propagate them recursively
-        var reflected = new ColoredRay( new Ray2( incidentRay.directionUnitVector.times( -1E-12 ).add( point ), vReflect ),
-          incidentRay.power * reflectedPower, incidentRay.wavelength, incidentRay.mediumIndexOfRefraction,
-          incidentRay.frequency );
-        var refracted = new ColoredRay( new Ray2( incidentRay.directionUnitVector.times( +1E-12 ).add( point ), vRefract ),
-          incidentRay.power * transmittedPower, incidentRay.wavelength, n2, incidentRay.frequency );
+        var reflectedRay = new Ray2( incidentRay.directionUnitVector.times( -1E-12 ).add( point ), vReflect );
+        var reflected = new ColoredRay(
+          reflectedRay,
+          incidentRay.power * reflectedPower,
+          incidentRay.wavelength,
+          incidentRay.mediumIndexOfRefraction,
+          incidentRay.frequency
+        );
+        var refractedRay = new Ray2( incidentRay.directionUnitVector.times( +1E-12 ).add( point ), vRefract );
+        var refracted = new ColoredRay(
+          refractedRay,
+          incidentRay.power * transmittedPower,
+          incidentRay.wavelength,
+          n2,
+          incidentRay.frequency
+        );
         if ( this.showReflections || totalInternalReflection ) {
           this.propagateTheRay( reflected, count + 1, showIntersection );
         }

@@ -50,13 +50,19 @@ define( function( require ) {
     this.time = 0; // @public
 
     // Update the top medium index of refraction when top medium change
-    this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [ this.topMediumProperty, introModel.laser.colorProperty ],
+    this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [
+        this.topMediumProperty,
+        introModel.laser.colorProperty
+      ],
       function( topMedium, color ) {
         return topMedium.getIndexOfRefraction( color.wavelength );
       } ); // @public
 
     // Update the bottom medium index of refraction when bottom medium change
-    this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [ this.bottomMediumProperty, introModel.laser.colorProperty ],
+    this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [
+        this.bottomMediumProperty,
+        introModel.laser.colorProperty
+      ],
       function( bottomMedium, color ) {
         return bottomMedium.getIndexOfRefraction( color.wavelength );
       } ); // @public
@@ -185,7 +191,12 @@ define( function( require ) {
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
             var transmittedWavelength = incidentRay.wavelength / n2 * n1;
             if ( !( isNaN( theta2 ) || !isFinite( theta2 )) ) {
-              var transmittedPowerRatio = BendingLightModel.getTransmittedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
+              var transmittedPowerRatio = BendingLightModel.getTransmittedPower(
+                n1,
+                n2,
+                Math.cos( theta1 ),
+                Math.cos( theta2 )
+              );
 
               // make the beam width depend on the input beam width, so that the same beam width is transmitted as was
               // intercepted

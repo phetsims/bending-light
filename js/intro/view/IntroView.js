@@ -62,13 +62,21 @@ define( function( require ) {
     var introView = this;
     this.introModel = introModel; // @public
 
-    // specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
+    /**
+     * Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
+     * @param {number} angle
+     * @returns {*}
+     */
     function clampDragAngle( angle ) {
       while ( angle < 0 ) { angle += Math.PI * 2; }
       return Util.clamp( angle, Math.PI / 2, Math.PI );
     }
 
-    // indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
+    /**
+     * Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
+     * @param {number} laserAngle
+     * @returns {boolean}
+     */
     function clockwiseArrowNotAtMax( laserAngle ) {
       if ( introModel.laserView === 'ray' ) {
         return laserAngle < Math.PI;
@@ -79,12 +87,20 @@ define( function( require ) {
       }
     }
 
-    // indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
+    /**
+     * indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
+     * @param {number} laserAngle
+     * @returns {boolean}
+     */
     function ccwArrowNotAtMax( laserAngle ) {
       return laserAngle > Math.PI / 2;
     }
 
-    // rotation if the user clicks anywhere on the object
+    /**
+     * rotation if the user clicks anywhere on the object
+     * @param {Shape} full
+     * @returns {*}
+     */
     function rotationRegionShape( full ) {
 
       // in this screen, clicking anywhere on the laser (i.e. on its 'full' bounds) translates it, so always return the
@@ -289,6 +305,8 @@ define( function( require ) {
 
     introView.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
 
+    var modelViewTransform = this.modelViewTransform;
+
     // When a node is dropped behind a control panel, move it to the side so it won't be lost.
     var bumpLeft = function( node, positionProperty ) {
       while ( node.getGlobalBounds().intersectsBounds( topMediumControlPanel.getGlobalBounds() ) ||
@@ -302,8 +320,6 @@ define( function( require ) {
     } );
 
     protractorNode.addInputListener( protractorNodeListener );
-
-    var modelViewTransform = this.modelViewTransform;
 
     // add intensity meter
     var intensityMeterNodeIcon = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter.copy(), {
@@ -340,7 +356,8 @@ define( function( require ) {
       introModel.intensityMeter.enabled = true;
 
       // Center the probe on the pointer
-      introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point ) );
+      var sensorViewPosition = intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
+      introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( sensorViewPosition );
       intensityMeterNode.resetRelativeLocations();
       intensityMeterNode.syncModelFromView();
     } ) );
@@ -409,9 +426,16 @@ define( function( require ) {
       protractorNodeListener.setDragBounds( new Rectangle2( -dx, -dy, width, height ) );
       probeListener.setDragBounds( modelViewTransform.viewToModelBounds( new Rectangle2( -dx, -dy, width, height ) ) );
 
-      // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node 
+      // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node
       // will remain in bounds
-      bodyListener.setDragBounds( modelViewTransform.viewToModelBounds( new Rectangle2( -dx - intensityMeterNode.bodyNode.bounds.width / 2, -dy - intensityMeterNode.bodyNode.bounds.height / 2, width, height ) ) );
+      var viewDragBounds = new Rectangle2(
+        -dx - intensityMeterNode.bodyNode.bounds.width / 2,
+        -dy - intensityMeterNode.bodyNode.bounds.height / 2,
+        width,
+        height
+      );
+      var dragBounds = modelViewTransform.viewToModelBounds( viewDragBounds );
+      bodyListener.setDragBounds( dragBounds );
     } );
   }
 
@@ -472,7 +496,9 @@ define( function( require ) {
         bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
       }
       else {
-        var waveCanvasNode = new WaveCanvasNode( this.bendingLightModel.rays, bendingLightView.modelViewTransform, { canvasBounds: new Bounds2( 0, 0, 1000, 1000 ) } );
+        var waveCanvasNode = new WaveCanvasNode( this.bendingLightModel.rays, bendingLightView.modelViewTransform, {
+          canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
+        } );
         bendingLightView.incidentWaveLayer.addChild( waveCanvasNode );
         this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
             waveCanvasNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );

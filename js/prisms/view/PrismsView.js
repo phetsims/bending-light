@@ -48,25 +48,46 @@ define( function( require ) {
     this.prismsModel = prismsModel;
     var prismsView = this;
 
-    // Specify how the drag angle should be clamped
+    /**
+     * Specify how the drag angle should be clamped
+     * @param {number} angle
+     * @returns {*}
+     */
     function clampDragAngle( angle ) {
       return angle;
     }
 
-    // In prisms tab laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
+    /**
+     * In prisms tab laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
+     * @returns {boolean}
+     */
     function clockwiseArrowNotAtMax() {
       return true;
     }
 
+    /**
+     * Determine if the counterclockwise arrow can be shown.
+     * @returns {boolean}
+     */
     function ccwArrowNotAtMax() {
       return true;
     }
 
-    // Rotation if the user clicks top on the object
+    /**
+     * Rotation if the user clicks top on the object
+     * @param {Shape} full
+     * @param {Shape} back
+     * @returns {*}
+     */
     function rotationRegionShape( full, back ) {
       return back;
     }
 
+    /**
+     * Region for translating the protractor
+     * @param {Shape} fullShape
+     * @returns {*}
+     */
     function translationRegion( fullShape ) {
 
       // Empty shape since shouldn't be rotatable in this tab
@@ -86,7 +107,10 @@ define( function( require ) {
       // occlusion handler, if the prism is dropped behind a control panel, bump it to the left.
       function( node ) {
 
-        var controlPanels = [ laserControlPanel, environmentMediumControlPanel ];
+        var controlPanels = [
+          laserControlPanel, // eslint-disable-line no-use-before-define
+          environmentMediumControlPanel // eslint-disable-line no-use-before-define
+        ];
         controlPanels.forEach( function( controlPanel ) {
           if ( controlPanel.globalBounds.containsPoint( node.globalBounds.center ) ) {
             node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
@@ -150,7 +174,11 @@ define( function( require ) {
     // Optionally show the normal lines at each intersection
     prismsModel.intersections.addItemAddedListener( function( addedIntersection ) {
       if ( prismsModel.showNormals ) {
-        var node = new IntersectionNode( prismsView.modelViewTransform, addedIntersection, prismsModel.intersectionStrokeProperty );
+        var node = new IntersectionNode(
+          prismsView.modelViewTransform,
+          addedIntersection,
+          prismsModel.intersectionStrokeProperty
+        );
         prismsView.addChild( node );
 
         prismsModel.intersections.addItemRemovedListener( function( removedIntersection ) {
@@ -161,6 +189,17 @@ define( function( require ) {
         } );
       }
     } );
+
+    // Add prisms tool box Node
+    var prismToolboxNode = new PrismToolboxNode(
+      this.modelViewTransform,
+      prismsModel,
+      this.prismLayer,
+      this.visibleBoundsProperty,
+      this.occlusionHandler, {
+        left: this.layoutBounds.minX + 12
+      }
+    );
 
     // Add the reset all button
     var resetAllButton = new ResetAllButton( {
@@ -176,16 +215,7 @@ define( function( require ) {
 
     this.afterLightLayer2.addChild( resetAllButton );
 
-    // Add prisms tool box Node
-    var prismToolboxNode = new PrismToolboxNode(
-      this.modelViewTransform,
-      prismsModel,
-      this.prismLayer,
-      this.visibleBoundsProperty,
-      this.occlusionHandler, {
-        left: this.layoutBounds.minX + 12
-      }
-    );
+
     this.afterLightLayer.addChild( prismToolboxNode );
 
     // Add the protractor node
@@ -207,7 +237,12 @@ define( function( require ) {
 
     this.afterLightLayer.addChild( this.prismLayer );
 
-    FloatingLayout.floatRight( this, [ environmentMediumControlPanel, laserControlPanel, resetAllButton, laserTypeRadioButtonGroup ] );
+    FloatingLayout.floatRight( this, [
+      environmentMediumControlPanel,
+      laserControlPanel,
+      resetAllButton,
+      laserTypeRadioButtonGroup
+    ] );
     FloatingLayout.floatBottom( this, [ prismToolboxNode, resetAllButton ] );
     FloatingLayout.floatTop( this, [ environmentMediumControlPanel ] );
 
@@ -298,17 +333,39 @@ define( function( require ) {
       } );
     },
 
-    addLaserHandles: function( showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
+    addLaserHandles: function( showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
+                               clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
       var bendingLightModel = this.bendingLightModel;
-      BendingLightView.prototype.addLaserHandles.call( this, showRotationDragHandlesProperty, showTranslationDragHandlesProperty, clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth );
+      BendingLightView.prototype.addLaserHandles.call(
+        this,
+        showRotationDragHandlesProperty,
+        showTranslationDragHandlesProperty,
+        clockwiseArrowNotAtMax,
+        ccwArrowNotAtMax,
+        laserImageWidth
+      );
 
       // add translation indicators that show if/when the laser can be moved by dragging
       var arrowLength = 76;
-      var horizontalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, bendingLightModel.laser, arrowLength, 0,
-        showTranslationDragHandlesProperty, laserImageWidth );
+
+      var horizontalTranslationDragHandle = new TranslationDragHandle(
+        this.modelViewTransform,
+        bendingLightModel.laser,
+        arrowLength,
+        0,
+        showTranslationDragHandlesProperty,
+        laserImageWidth
+      );
       this.addChild( horizontalTranslationDragHandle );
-      var verticalTranslationDragHandle = new TranslationDragHandle( this.modelViewTransform, bendingLightModel.laser, 0, arrowLength,
-        showTranslationDragHandlesProperty, laserImageWidth );
+
+      var verticalTranslationDragHandle = new TranslationDragHandle(
+        this.modelViewTransform,
+        bendingLightModel.laser,
+        0,
+        arrowLength,
+        showTranslationDragHandlesProperty,
+        laserImageWidth
+      );
       this.addChild( verticalTranslationDragHandle );
     }
   } );

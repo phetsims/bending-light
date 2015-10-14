@@ -14,7 +14,8 @@ define( function( require ) {
 
   /**
    * @param {Property.<[]>} seriesProperty - contains data points of series
-   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate frames
+   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate
+   *                                                                      frames
    * @param {string} color - color of the series
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
