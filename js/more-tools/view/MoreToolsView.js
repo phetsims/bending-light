@@ -202,8 +202,6 @@ define( function( require ) {
      */
     reset: function() {
       IntroView.prototype.reset.call( this );
-      this.resetVelocitySensorNode();
-      this.resetWaveSensorNode();
     }
   } );
 } );

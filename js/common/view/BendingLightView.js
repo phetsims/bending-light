@@ -46,7 +46,7 @@ define( function( require ) {
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
-    this.showProtractorProperty = new Property( true ); // @public
+    this.showProtractorProperty = new Property( false ); // @public
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
     // suggested this layering order:
@@ -141,6 +141,10 @@ define( function( require ) {
   }
 
   return inherit( ScreenView, BendingLightView, {
+
+    reset: function() {
+      this.showProtractorProperty.reset();
+    },
 
     // @protected - intended to be overriden by subclasses
     step: function() {

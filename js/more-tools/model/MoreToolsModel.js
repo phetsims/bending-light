@@ -52,5 +52,10 @@ define( function( require ) {
     } );
   }
 
-  return inherit( IntroModel, MoreToolsModel );
+  return inherit( IntroModel, MoreToolsModel, {
+    reset: function() {
+      IntroModel.prototype.reset.call( this );
+      this.velocitySensor.reset();
+    }
+  } );
 } );

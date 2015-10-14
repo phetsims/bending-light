@@ -254,9 +254,8 @@ define( function( require ) {
     var protractorNodeIcon = new ProtractorNode( this.showProtractorProperty, false, {
       scale: 0.12
     } );
-    var protractorInPlayAreaProperty = new Property( false );
-    protractorInPlayAreaProperty.link( function( protractorInPlayArea ) {
-      protractorNodeIcon.visible = !protractorInPlayArea;
+    this.showProtractorProperty.link( function( showProtractor ) {
+      protractorNodeIcon.visible = !showProtractor;
     } );
 
     var protractorNode = new ProtractorNode( this.showProtractorProperty, false, {
@@ -274,7 +273,7 @@ define( function( require ) {
     this.dropInToolbox = dropInToolbox;
     var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
       endDrag: function() {
-        dropInToolbox( protractorNode, protractorInPlayAreaProperty );
+        dropInToolbox( protractorNode, introView.showProtractorProperty );
       }
     } );
 
@@ -282,13 +281,13 @@ define( function( require ) {
     // for the node in the play area
     protractorNodeIcon.addInputListener( new ToolIconListener( [ protractorNodeListener ], function( event ) {
       // Show the protractor in the play area and hide the icon
-      protractorInPlayAreaProperty.value = true;
+      introView.showProtractorProperty.value = true;
 
       // Center the protractor on the pointer
       protractorLocationProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
     } ) );
 
-    protractorInPlayAreaProperty.linkAttribute( protractorNode, 'visible' );
+    introView.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
 
     // When a node is dropped behind a control panel, move it to the side so it won't be lost.
     var bumpLeft = function( node, positionProperty ) {
@@ -372,9 +371,7 @@ define( function( require ) {
     // add reset all button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        introModel.reset();
-        topMediumControlPanel.reset();
-        bottomMediumControlPanel.reset();
+        introView.reset();
       },
       bottom: this.layoutBounds.bottom - 14,
       right: this.layoutBounds.right - 2 * INSET,
@@ -419,6 +416,13 @@ define( function( require ) {
   }
 
   return inherit( BendingLightView, IntroView, {
+
+    reset: function() {
+      BendingLightView.prototype.reset.call( this );
+      this.introModel.reset();
+      this.topMediumControlPanel.reset();
+      this.bottomMediumControlPanel.reset();
+    },
 
     // Allow subclasses to provide more tools
     getAdditionalToolIcons: function() {
