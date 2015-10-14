@@ -22,7 +22,6 @@ define( function( require ) {
    * @constructor
    */
   function PrismsScreen() {
-    var screen = this;
     var prismModel = new PrismsModel();
     Screen.call( this, prismsTitleString, new Rectangle( 0, 0, 548, 373, { fill: 'green' } ),
       function() {
@@ -30,14 +29,8 @@ define( function( require ) {
       },
       function( model ) {
         return new PrismsView( model );
-      }, {
-        backgroundColor: 'white'
       }
     );
-    // update the background when its medium changes
-    prismModel.environmentMediumProperty.link( function( environmentMedium ) {
-      screen.backgroundColor = environmentMedium.color;
-    } );
   }
 
   return inherit( Screen, PrismsScreen );

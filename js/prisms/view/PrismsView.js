@@ -95,6 +95,16 @@ define( function( require ) {
       }
     );
 
+    // Node for the environment that spans the screen (only for monochromatic light, the white light background
+    // is rendered as opaque in the white light node for blending purposes)
+    var environmentMediumNode = new Rectangle( 0, 0, 0, 0 );
+    prismsModel.environmentMediumProperty.link( function( environmentMedium ) {
+      environmentMediumNode.fill = environmentMedium.color;
+    } );
+
+    // Put it behind everything else
+    this.insertChild( 0, environmentMediumNode );
+
     var IndexOfRefractionDecimals = 2;
 
     // Add control panels for setting the index of refraction for each medium
@@ -209,6 +219,7 @@ define( function( require ) {
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
       protractorNodeListener.setDragBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
+      environmentMediumNode.setRect( -dx, -dy, width, height );
       }
     );
 
@@ -216,7 +227,7 @@ define( function( require ) {
       protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
     };
 
-    // Add a thin gray line to separate the navigation bar when the background is black
+    // Add a thin gray line to separate the navigation bar when the environmentMediumNode is black
     var navigationBarSeparator = new Rectangle( 0, 0, 100, 100, { fill: '#999999', pickable: false } );
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         var rectHeight = 2;
