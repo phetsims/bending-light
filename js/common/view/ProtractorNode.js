@@ -36,8 +36,8 @@ define( function( require ) {
 
     this.showProtractorProperty = showProtractorProperty; // @public
 
-    // load and add the image
-    this.protractorImageNode = new Image( protractorImage, { pickable: false } ); // @public
+    // @public - the image node
+    this.protractorImageNode = new Image( protractorImage, { pickable: false } );
 
     showProtractorProperty.linkAttribute( this, 'visible' );
     this.addChild( this.protractorImageNode );
@@ -46,7 +46,7 @@ define( function( require ) {
     var w = this.protractorImageNode.getWidth();
     var h = this.protractorImageNode.getHeight();
 
-    // shape for the outer ring of the protractor
+    // shape for the outer ring of the protractor, must match the image.
     this.outerRimShape = new Shape()
       .moveTo( w, h / 2 )
       .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )

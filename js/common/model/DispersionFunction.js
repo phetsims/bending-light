@@ -23,13 +23,11 @@ define( function( require ) {
    * @constructor
    */
   function DispersionFunction( referenceIndexOfRefraction, wavelength ) {
-
     this.referenceIndexOfRefraction = referenceIndexOfRefraction; // @public
     this.referenceWavelength = wavelength; // @public
   }
 
   return inherit( Object, DispersionFunction, {
-
 
     /**
      * See http://en.wikipedia.org/wiki/Sellmeier_equation

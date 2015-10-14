@@ -28,7 +28,6 @@ define( function( require ) {
   var mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
 
   // constants
-  // default values
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
   var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
@@ -124,7 +123,6 @@ define( function( require ) {
        * @public
        */
       clearModel: function() {
-
         for ( var i = 0; i < this.rays.length; i++ ) {
           this.rays.get( i ).particles.clear();
         }

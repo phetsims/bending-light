@@ -27,8 +27,6 @@ define( function( require ) {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
     } );
     this.modelViewTransform = modelViewTransform; // @private
-    this.stageHeight = stageHeight; // @private
-    this.stageWidth = stageWidth; // @private
 
     this.rays = rays;
     this.invalidatePaint();

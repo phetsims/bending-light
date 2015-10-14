@@ -51,26 +51,6 @@ define( function( require ) {
       },
 
       /**
-       * Translate sensor in model
-       * @public
-       * @param {number} deltaX - distance the sensor translated in the x-direction, in model units
-       * @param {number} deltaY - distance the sensor translated in the y-direction, in model units
-       */
-      translateSensorXY: function( deltaX, deltaY ) {
-        this.sensorPosition = this.sensorPosition.plusXY( deltaX, deltaY );
-      },
-
-      /**
-       * Translate body in model
-       * @public
-       * @param {number} deltaX - distance the sensor translated in the x-direction, in model units
-       * @param {number} deltaY - distance the sensor translated in the y-direction, in model units
-       */
-      translateBodyXY: function( deltaX, deltaY ) {
-        this.bodyPosition = this.bodyPosition.plusXY( deltaX, deltaY );
-      },
-
-      /**
        * @public
        * @returns {Shape}
        */
@@ -128,17 +108,6 @@ define( function( require ) {
           } );
           this.readingProperty.set( new Reading( total ) );
         }
-      },
-
-      /**
-       * Translate the intensity meter in model
-       * @public
-       * @param {number} deltaX - distance the sensor translated in the x-direction, in model units
-       * @param {number} deltaY - distance the sensor translated in the y-direction, in model units
-       */
-      translateAllXY: function( deltaX, deltaY ) {
-        this.translateBodyXY( deltaX, deltaY );
-        this.translateSensorXY( deltaX, deltaY );
       }
     },
 

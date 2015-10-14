@@ -183,7 +183,8 @@ define( function( require ) {
       var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
         -Math.PI / 23,
         showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58,
-        bendingLightModel.rotationArrowAngleOffset );
+        bendingLightModel.rotationArrowAngleOffset
+      );
       this.addChild( rightRotationDragHandle );
     }
   } );

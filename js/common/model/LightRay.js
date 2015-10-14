@@ -271,15 +271,6 @@ define( function( require ) {
 
     /**
      * @public
-     * @returns {number}
-     */
-    getRayWidth: function() {
-      // at the default transform, this yields a 4 pixel wide stroke
-      return LightRay.RAY_WIDTH;
-    },
-
-    /**
-     * @public
      * @returns {Vector2}
      */
     getVelocityVector: function() {
