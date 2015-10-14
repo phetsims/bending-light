@@ -69,6 +69,7 @@ define( function( require ) {
       .rect( w * 0.2, h / 2, w * 0.6, h * 0.15 );
 
     this.mouseArea = this.fullShape;
+    this.touchArea = this.fullShape;
     this.cursor = 'pointer';
 
     if ( rotateable ) {
