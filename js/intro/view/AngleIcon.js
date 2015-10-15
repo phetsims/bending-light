@@ -34,7 +34,6 @@ define( function( require ) {
       lineWidth: 1
     } ) );
 
-    // arc: function( centerX, centerY, radius, startAngle, endAngle, anticlockwise
     var overlapAngle = Math.PI / 12;
     var arc = new Shape().arc( 0, 0, edgeLength * 0.55, overlapAngle, -angle - overlapAngle, true );
     this.addChild( new Path( arc, {

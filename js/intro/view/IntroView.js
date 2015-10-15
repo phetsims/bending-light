@@ -54,7 +54,6 @@ define( function( require ) {
    * @param {boolean} hasMoreTools - whether contain more tools
    * @param {number} IndexOfRefractionDecimals - decimalPlaces to show for index of refraction
    * @param {function} createLaserControlPanel
-   * @param {Node[]} additionalToolIcons
    * @constructor
    */
   function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals, createLaserControlPanel ) {

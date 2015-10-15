@@ -398,6 +398,7 @@ define( function( require ) {
         var wavelength = lightRay.wavelength;
         var angle = lightRay.getAngle();
         if ( k === 0 ) {
+
           // calculating tip and tail for incident ray
           this.tipVector.x = lightRay.tip.x + directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle );
           this.tipVector.y = lightRay.tip.y + directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle );
@@ -405,6 +406,7 @@ define( function( require ) {
           this.tailVector.y = lightRay.tail.y;
         }
         else {
+
           // calculating tip and tail for reflected and refracted rays
           this.tipVector.x = ( 1 ) * Math.cos( angle );
           this.tipVector.y = ( 1 ) * Math.sin( angle );
@@ -452,11 +454,13 @@ define( function( require ) {
         var tailY;
         var angle = lightRay.getAngle();
         if ( i === 0 ) {
+
           // for incident ray
           tailX = lightRay.tail.x;
           tailY = lightRay.tail.y;
         }
         else {
+
           // for reflected and refracted ray
           var distance = lightRay.trapeziumWidth / 2 * Math.cos( angle );
           phaseDiff = (distance + phaseDiff) % wavelength;

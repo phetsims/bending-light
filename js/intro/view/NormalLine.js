@@ -25,16 +25,12 @@ define( function( require ) {
   function NormalLine( height, lineDash, options ) {
     Node.call( this );
 
-    // normal Line
-    var shape = new Shape()
-      .moveTo( 0, 0 ) //x1,y1
-      .lineTo( 0, height ); //x2,y2
-
-    this.addChild( new Path( shape, { stroke: 'black', lineDash: lineDash } ) );
+    this.addChild( new Path( Shape.lineSegment( 0, 0, 0, height ), {
+      stroke: 'black',
+      lineDash: lineDash
+    } ) );
     this.mutate( options );
-
   }
 
   return inherit( Node, NormalLine );
 } );
-

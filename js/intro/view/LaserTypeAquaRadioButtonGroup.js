@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- * In the intro screen, choose between "Ray" and "Wave" representations.
+ * In the intro screen, these radio buttons choose between "Ray" and "Wave" representations.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
