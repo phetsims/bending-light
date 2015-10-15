@@ -24,7 +24,10 @@ define( function( require ) {
    */
   function PrismsScreen() {
     var prismModel = new PrismsModel();
-    Screen.call( this, prismsTitleString, new Rectangle( 0, 0, 548, 373, { fill: 'green' } ),
+    Screen.call( this, prismsTitleString,
+      new Rectangle( 0, 0, 548, 373, {
+        fill: 'green'
+      } ),
       function() {
         return prismModel;
       },

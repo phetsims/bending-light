@@ -26,7 +26,6 @@ define( function( require ) {
    */
   function LaserTypeRadioButtonGroup( radioButtonAdapterProperty, options ) {
 
-
     var laserImageNode = new Image( laserImage, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )

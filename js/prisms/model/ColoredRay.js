@@ -48,10 +48,11 @@ define( function( require ) {
     get directionUnitVector() {
       return this.ray.direction;
     },
+
     /**
      * Gets the wavelength for this ray if it wasn't inside a medium
      * @public
-     * @` {number}
+     * @return {number}
      */
     getBaseWavelength: function() {
       return BendingLightConstants.SPEED_OF_LIGHT / this.frequency;

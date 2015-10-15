@@ -35,7 +35,7 @@ define( function( require ) {
   // constants
   var INSET = 10;
 
-  // string
+  // strings
   var environmentString = require( 'string!BENDING_LIGHT/environment' );
 
   /**
@@ -234,7 +234,6 @@ define( function( require ) {
     } );
 
     this.afterLightLayer.addChild( protractorNode );
-
     this.afterLightLayer.addChild( this.prismLayer );
 
     FloatingLayout.floatRight( this, [
@@ -291,7 +290,6 @@ define( function( require ) {
 
     /**
      * @protected
-     * @param {number} dt - time
      */
     step: function() {
       BendingLightView.prototype.step.call( this );

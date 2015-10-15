@@ -42,9 +42,7 @@ define( function( require ) {
 
     var handle = strokeProperty.linkAttribute( this, 'stroke' );
 
-    /**
-     * @public - dispose of the IntersectionNode, getting rid of the attached listeners
-     */
+    // @public - dispose of the IntersectionNode, getting rid of the attached listeners
     this.dispose = function() {
       strokeProperty.unlink( handle );
     };

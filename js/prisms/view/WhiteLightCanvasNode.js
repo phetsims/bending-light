@@ -85,11 +85,8 @@ define( function( require ) {
         var y2 = this.modelViewTransform.modelToViewY( lightRay.tail.y );
 
         // Scale intensity into a custom alpha range
-        var a = Util.clamp(
-                BendingLightConstants.D65[ wavelength ] * Math.sqrt( lightRay.powerFraction ) / 118,
-            0,
-            1
-          ) / 8;
+        var a = Util.clamp( BendingLightConstants.D65[ wavelength ] * Math.sqrt( lightRay.powerFraction ) / 118, 0, 1 )
+                / 8;
 
         // skip alpha values that are just too light to see, which could also cause number format problems when creating
         // css color
@@ -109,15 +106,6 @@ define( function( require ) {
           context.stroke();
         }
       }
-
-      // Try to draw a very transparent black over areas that have already been draw. This should turn a full white into
-      // a gray, while not affecting fully transparent parts of the Canvas at all.
-      // context.globalCompositeOperation = 'source-atop';
-      // context.fillStyle = 'rgba(0,0,0,0.1)';
-      // context.save();
-      // context.setTransform( 1, 0, 0, 1, 0, 0 );
-      // context.fillRect( 0, 0, wrapper.canvas.width, wrapper.canvas.height );
-      // context.restore();
     },
 
     /**
