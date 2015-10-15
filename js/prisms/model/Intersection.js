@@ -4,8 +4,8 @@
  * Models the intersection between a light ray and an interface, needed so we can optionally depict normals at each
  * intersection.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

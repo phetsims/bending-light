@@ -4,8 +4,8 @@
  * Graphic that depicts how the laser may be moved (in one direction).
  * It is only shown when the cursor is over the laser and is non-interactive.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

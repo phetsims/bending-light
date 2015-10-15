@@ -4,8 +4,8 @@
  * The normal line is a graphic that indicates the point of intersection of the light ray and
  * the perpendicular angle at the interface.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

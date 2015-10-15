@@ -3,8 +3,8 @@
 /**
  * Shape that comprises a prism. Immutable here but composed with a Property.<Polygon> in Prism for mutability.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

@@ -3,8 +3,8 @@
 /**
  * RequireJS configuration file for the sim.
  *
- * @author Chandrashekar Bemagoni (Actual Concepts)
  * @author Sam Reid (PhET Interactive Simulations)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 require.config( {
 

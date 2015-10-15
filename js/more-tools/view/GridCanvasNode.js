@@ -5,6 +5,7 @@
  * These grid lines are drawn using canvas instead of using Path/Shape/Line in which stroke is applied in every
  * frame which leads to performance issues.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {

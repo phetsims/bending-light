@@ -3,8 +3,8 @@
 /**
  * Series of data points to be shown in the wave sensor chart.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

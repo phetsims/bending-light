@@ -2,10 +2,10 @@
 
 /**
  * Model for the "intro" Screen, which has an upper and lower medium, interfacing at the middle of the screen,
- * and the laser at the top left shining toward the interface.
+ * and the laser at the top left shining toward the interface.  This is a subclass of BendingLightView.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

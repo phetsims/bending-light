@@ -3,8 +3,8 @@
 /**
  * Wrapper around a shape with convenience methods for computing intersections, etc.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

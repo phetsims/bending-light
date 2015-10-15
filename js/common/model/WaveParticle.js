@@ -4,6 +4,7 @@
  * WaveParticle is to simulate the wave transformation in Canvas mode.
  * WaveParticle has position, width, angle and etc..
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {

@@ -3,6 +3,7 @@
 /**
  * Node for drawing the series of points.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {

@@ -3,8 +3,8 @@
 /**
  * Node that shows the chart in the "more tools" screen intensity sensor.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

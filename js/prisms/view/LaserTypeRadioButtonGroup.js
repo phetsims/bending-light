@@ -1,7 +1,7 @@
 // Copyright 2002-2015, University of Colorado Boulder
 
 /**
- *
+ * Radio button group for choosing between 1x monochromatic, 5x monochromatic or 1x white light.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

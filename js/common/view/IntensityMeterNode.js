@@ -3,8 +3,8 @@
 /**
  * View for the intensity meter, including its movable sensor and readout region (called the body).
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

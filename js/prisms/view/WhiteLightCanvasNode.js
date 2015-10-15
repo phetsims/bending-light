@@ -10,8 +10,8 @@
  * value (which is the sum of the ray intensities). The intensity is converted to a transparency value according to
  * alpha = sqrt(intensity/3), which is also clamped to be between 0 and 255.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

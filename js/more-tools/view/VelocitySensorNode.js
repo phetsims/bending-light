@@ -6,8 +6,8 @@
  * origin of the node (0,0) in the node's coordinate frame is at the hot spot, the left side of the triangle, where
  * the velocity vector arrow appears.
  *
- * @author Siddhartha Chinthapally (Actual Concepts)
  * @author Sam Reid (PhET Interactive Simulations)
+ * @author Siddhartha Chinthapally (Actual Concepts)
  */
 define( function( require ) {
   'use strict';

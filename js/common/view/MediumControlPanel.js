@@ -4,8 +4,8 @@
  * Controls for changing and viewing the medium type, including its current index of refraction
  * (depends on the laser wavelength through the dispersion function).
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

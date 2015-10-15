@@ -3,10 +3,9 @@
 /**
  * View for the wave sensor, which shows 2 sensor probes and a chart area (the body)
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
-
 define( function( require ) {
   'use strict';
 

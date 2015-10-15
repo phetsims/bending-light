@@ -6,8 +6,8 @@
  * G(lambda) where 0<=beta<=infinity is a characteristic of the material. The material is characterized by a reference
  * wavelength, so that when light is the specified wavelength, the index of refraction takes the reference value.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

@@ -4,8 +4,8 @@
  * Main model for bending light application. Rays are recomputed whenever laser parameters changed. Each ray oscillates
  * in time, as shown in the wave view. There are model representations for several tools as well as their visibility.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

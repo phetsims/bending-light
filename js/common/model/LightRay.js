@@ -3,8 +3,8 @@
 /**
  * A LightRay models one straight segment of a beam (completely within a single medium), with a specific wavelength.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

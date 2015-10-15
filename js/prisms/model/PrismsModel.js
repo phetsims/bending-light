@@ -3,8 +3,8 @@
 /**
  * Model for the "prisms" screen, in which the user can move the laser and many prisms.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

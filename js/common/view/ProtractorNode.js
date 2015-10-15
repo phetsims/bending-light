@@ -5,8 +5,8 @@
  * In this sim it is used for measuring the angle of the incident,
  * reflected and refracted light.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

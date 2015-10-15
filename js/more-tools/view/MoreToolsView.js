@@ -4,8 +4,8 @@
  * View for the "more tools" screen, which adds more tools to the toolbox, and a few more controls for the laser.
  * This extends the moreToolsView since it shares many of the same features.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

@@ -3,8 +3,8 @@
 /**
  * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

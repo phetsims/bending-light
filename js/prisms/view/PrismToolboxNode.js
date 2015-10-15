@@ -3,8 +3,8 @@
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

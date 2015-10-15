@@ -3,8 +3,8 @@
 /**
  * View that connects a sensor (the probe) to its body (where the readout appears)
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

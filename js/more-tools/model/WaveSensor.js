@@ -4,6 +4,7 @@
  * Sensor for wave values, reads the wave amplitude as a function of time and location. Two probes can be used to
  * compare values.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {

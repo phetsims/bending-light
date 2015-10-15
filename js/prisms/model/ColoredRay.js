@@ -3,8 +3,8 @@
 /**
  * A single immutable ray, used in the ray propagation algorithm.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

@@ -4,8 +4,8 @@
  * Model for the intensity meter, including the position of the sensor, body, the reading values, etc.
  * When multiple rays hit the sensor, they are summed up.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

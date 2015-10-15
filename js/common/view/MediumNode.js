@@ -2,8 +2,8 @@
 /**
  * Graphic that draws a medium such as air, water, glass, etc.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

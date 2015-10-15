@@ -3,8 +3,8 @@
 /**
  * A Medium is a substance through which LightRay instances propagate.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

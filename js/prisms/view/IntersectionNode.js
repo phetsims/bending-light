@@ -3,8 +3,8 @@
 /**
  * Node that depicts a the normal vector at a light-ray / medium interface intersection.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

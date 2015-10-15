@@ -3,7 +3,7 @@
 /**
  * This CanvasNode renders the light rays for the non-white rays.  It is used only when WebGL is not available.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

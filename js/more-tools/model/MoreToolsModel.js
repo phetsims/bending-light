@@ -3,8 +3,8 @@
 /**
  * Model for the "more tools" screen, which adds a wave sensor and a velocity sensor.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

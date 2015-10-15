@@ -3,6 +3,7 @@
 /**
  * VelocitySensor that has a position and measures velocity
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
 define( function( require ) {

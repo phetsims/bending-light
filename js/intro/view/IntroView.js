@@ -3,8 +3,8 @@
 /**
  * View for intro screen
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Siddhartha Chinthapally (Actual Concepts)
- * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
