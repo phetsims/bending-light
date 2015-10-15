@@ -71,6 +71,5 @@ define( function( require ) {
     step: function() {
       this.invalidatePaint();
     }
-
   } );
 } );

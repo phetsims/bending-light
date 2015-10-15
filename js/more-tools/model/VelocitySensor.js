@@ -34,6 +34,8 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, VelocitySensor, {
+
+    // Make a copy for use in the toolbox icon
     copy: function() {
       var velocitySensor = new VelocitySensor();
       velocitySensor.position = this.position.copy();

@@ -74,7 +74,7 @@ define( function( require ) {
 
   return inherit( PropertySet, WaveSensor, {
 
-    // Create a copy for use in toolbox icons, etc.
+    // @public - create a copy for use in toolbox icons, etc.
     copy: function() {
       var waveSensor = new WaveSensor( 0, 0 );
       waveSensor.bodyPosition = this.bodyPosition;
@@ -82,17 +82,13 @@ define( function( require ) {
       waveSensor.probe2.position = this.probe2.position;
       return waveSensor;
     },
-    /**
-     * @public
-     */
+
+    // @public
     step: function() {
       this.simulationTimeChanged();
     },
 
-    /**
-     * Read samples from the probes when the simulation time changes
-     * @private
-     */
+    // @private - Read samples from the probes when the simulation time changes 
     simulationTimeChanged: function() {
       this.updateProbeSample( this.probe1, this.probe1Value );
       this.updateProbeSample( this.probe2, this.probe2Value );

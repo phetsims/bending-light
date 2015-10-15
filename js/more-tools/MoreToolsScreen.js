@@ -23,10 +23,19 @@ define( function( require ) {
    * @constructor
    */
   function MoreToolsScreen() {
-    Screen.call( this, moreToolsTitleString, new Rectangle( 0, 0, 548, 373, { fill: 'blue' } ),
-      function() { return new MoreToolsModel(); },
-      function( model ) { return new MoreToolsView( model ); },
-      { backgroundColor: 'white' }
+    Screen.call( this,
+      moreToolsTitleString,
+      new Rectangle( 0, 0, 548, 373, {
+        fill: 'blue'
+      } ),
+      function() {
+        return new MoreToolsModel();
+      },
+      function( model ) {
+        return new MoreToolsView( model );
+      }, {
+        backgroundColor: 'white'
+      }
     );
 
   }

@@ -23,6 +23,7 @@ define( function( require ) {
   var Rectangle = require( 'DOT/Rectangle' );
   var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
 
+  // constants
   var arrowScale = 1.5E-14; // @public read-only
 
   /**
@@ -31,9 +32,9 @@ define( function( require ) {
    */
   function MoreToolsView( moreToolsModel ) {
 
+    // @public
     this.moreToolsModel = moreToolsModel;
     var moreToolsView = this;
-    this.moreToolsModel = moreToolsModel; // @public
 
     IntroView.call( this, moreToolsModel, 0, true, 3, function( model ) {
       return new VBox( {
