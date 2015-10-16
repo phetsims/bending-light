@@ -207,7 +207,9 @@ define( function( require ) {
               var transmittedRay = new LightRay(
                 trapeziumWidth,
                 new Vector2( 0, 0 ),
-                Vector2.createPolar( 1, theta2 - Math.PI / 2 ),
+
+                // Note: if the ray is too long in this step, then webgl will have rendering artifacts, see #147
+                Vector2.createPolar( 0.001, theta2 - Math.PI / 2 ),
                 n2,
                 transmittedWavelength,
                 this.laser.getWavelength() * 1E9,
