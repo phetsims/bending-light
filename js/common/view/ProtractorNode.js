@@ -49,7 +49,7 @@ define( function( require ) {
     /**
      * Creates the outer rim shape of the protractor, used for the outer rim shape as well as the full shape with
      * the interior middle bar.
-     * @returns {*}
+     * @returns {Shape}
      */
     var createOuterRimShape = function() {
       return new Shape()
