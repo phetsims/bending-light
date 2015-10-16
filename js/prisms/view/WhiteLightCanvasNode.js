@@ -76,6 +76,7 @@ define( function( require ) {
       for ( var i = 0; i < this.whiteLightRays.length; i++ ) {
         var lightRay = this.whiteLightRays.get( i ); // {LightRay}
 
+        // Math.round OK here since the wavelength > 0
         var wavelength = Math.round( lightRay.wavelengthInVacuum ); // convert back to (nm)
 
         // Get the line values to make the next part more readable
@@ -94,6 +95,7 @@ define( function( require ) {
           var c = VisibleColor.wavelengthToColor( wavelength );
           // var color = BendingLightConstants.XYZ_INTENSITIES[ wavelength ]
 
+          // Math.round OK here since values are all >= 0
           var strokeStyle = 'rgb(' +
                             Math.round( c.r * a / 0.9829313170995397 ) + ',' +
                             Math.round( c.g * a ) + ',' +

@@ -19,6 +19,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
   var Panel = require( 'SUN/Panel' );
+  var Util = require( 'DOT/Util' );
 
   // constants
   var CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
@@ -193,10 +194,10 @@ define( function( require ) {
         var origin = new Vector2( getOriginX(), getOriginY() );
 
         // send out a ray from the origin past the center of the angle to position the readout
-        var incomingRayDegreesFromNormal = Math.round(
+        var incomingRayDegreesFromNormal = Util.roundSymmetric(
             incomingAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR
           ) / ROUNDING_FACTOR;
-        var refractedRayDegreesFromNormal = Math.round(
+        var refractedRayDegreesFromNormal = Util.roundSymmetric(
             refractedAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR
           ) / ROUNDING_FACTOR;
         var incomingReadoutText = incomingRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
