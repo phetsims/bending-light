@@ -70,6 +70,10 @@ define( function( require ) {
       context.fillRect( 0, 0, wrapper.canvas.width, wrapper.canvas.height );
       context.restore();
 
+      // Have to save the previous globalCompositeOperation so it doesn't leak to the SingleColorLightCanvasNode on iOS
+      // see #267
+      context.save();
+      
       // "Screen", basically adds colors together, making them lighter
       context.globalCompositeOperation = 'lighter';
 
@@ -108,6 +112,7 @@ define( function( require ) {
           context.stroke();
         }
       }
+      context.restore();
     },
 
     /**
