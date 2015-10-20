@@ -44,7 +44,13 @@ define( function( require ) {
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
 
+      context.save();
       context.lineWidth = this.strokeWidth;
+
+      // Sometimes dashes from other canvases leak over here, so we must clear the dash
+      // until this leak is fixed. See #258
+      context.setLineDash( [] );
+
       for ( var i = 0; i < this.rays.length; i++ ) {
         var ray = this.rays.get( i );
 
@@ -71,6 +77,7 @@ define( function( require ) {
           context.stroke();
         }
       }
+      context.restore();
 
       // This debug code shows the bounds
       // context.lineWidth = 10;
