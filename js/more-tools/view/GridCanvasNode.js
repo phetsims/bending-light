@@ -40,6 +40,7 @@ define( function( require ) {
     paintCanvas: function( wrapper ) {
       var context = wrapper.context;
 
+      context.save();
       for ( var i = 0; i < this.gridLines.length; i++ ) {
         context.beginPath();
         var gridLine = this.gridLines.get( i );
@@ -58,6 +59,7 @@ define( function( require ) {
         context.stroke();
         context.closePath();
       }
+      context.restore();
     },
 
     /**
