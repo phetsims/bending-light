@@ -14,6 +14,9 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
 
+  // constants
+  var lineDash = [];
+
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {number} stageWidth - width of the dev area
@@ -49,7 +52,7 @@ define( function( require ) {
 
       // Sometimes dashes from other canvases leak over here, so we must clear the dash
       // until this leak is fixed. See #258
-      context.setLineDash( [] );
+      context.setLineDash( lineDash );
 
       for ( var i = 0; i < this.rays.length; i++ ) {
         var ray = this.rays.get( i );
