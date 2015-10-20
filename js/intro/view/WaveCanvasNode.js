@@ -87,10 +87,10 @@ define( function( require ) {
           for ( var i = -1; i < maxIndex; i++ ) {
             context.fillRect( wavelength * i, -100, wavelength / 2, 200 );
           }
-        }
 
-        // Undo the clipping and transformations above to get ready for the next ray
-        context.restore();
+          // Undo the clipping and transformations above to get ready for the next ray
+          context.restore();
+        }
       }
     },
 
