@@ -34,10 +34,9 @@ define( function( require ) {
     /**
      * Paints the series points on the canvas node.
      * @protected
-     * @param {CanvasContextWrapper} wrapper
+     * @param {CanvasRenderingContext2D} context
      */
-    paintCanvas: function( wrapper ) {
-      var context = wrapper.context;
+    paintCanvas: function( context ) {
       var moved = false;
 
       context.beginPath();

@@ -58,16 +58,15 @@ define( function( require ) {
     /**
      * Paints the particles on the canvas node.
      * @protected
-     * @param {CanvasContextWrapper} wrapper
+     * @param {CanvasRenderingContext2D} context
      */
-    paintCanvas: function( wrapper ) {
-      var context = wrapper.context;
+    paintCanvas: function( context ) {
       context.lineWidth = 3;
       context.globalCompositeOperation = 'source-over';
       context.fillStyle = this.colorCSS;
       context.save();
       context.setTransform( 1, 0, 0, 1, 0, 0 );
-      context.fillRect( 0, 0, wrapper.canvas.width, wrapper.canvas.height );
+      context.fillRect( 0, 0, context.canvas.width, context.canvas.height );
       context.restore();
 
       // Have to save the previous globalCompositeOperation so it doesn't leak to the SingleColorLightCanvasNode on iOS

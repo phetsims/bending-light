@@ -42,10 +42,9 @@ define( function( require ) {
     /**
      * Paints the particles on the canvas node.
      * @protected
-     * @param {CanvasContextWrapper} wrapper
+     * @param {CanvasRenderingContext2D} context
      */
-    paintCanvas: function( wrapper ) {
-      var context = wrapper.context;
+    paintCanvas: function( context ) {
 
       context.save();
       context.lineWidth = this.strokeWidth;

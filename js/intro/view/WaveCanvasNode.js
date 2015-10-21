@@ -32,10 +32,9 @@ define( function( require ) {
     /**
      * Paints the particles on the canvas node.
      * @protected
-     * @param {CanvasContextWrapper} wrapper
+     * @param {CanvasRenderingContext2D} context
      */
-    paintCanvas: function( wrapper ) {
-      var context = wrapper.context;
+    paintCanvas: function( context ) {
 
       // Render the incident ray last so that it will overlap the reflected ray completely
       for ( var k = this.lightRays.length - 1; k >= 0; k-- ) {
