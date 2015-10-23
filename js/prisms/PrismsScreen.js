@@ -14,20 +14,20 @@ define( function( require ) {
   var PrismsView = require( 'BENDING_LIGHT/prisms/view/PrismsView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Image = require( 'SCENERY/nodes/Image' );
 
   // strings
   var prismsTitleString = require( 'string!BENDING_LIGHT/prisms' );
+
+  // images
+  var iconImage = require( 'mipmap!BENDING_LIGHT/Prisms_Screen_White.png' );
 
   /**
    * @constructor
    */
   function PrismsScreen() {
     var prismModel = new PrismsModel();
-    Screen.call( this, prismsTitleString,
-      new Rectangle( 0, 0, 548, 373, {
-        fill: 'green'
-      } ),
+    Screen.call( this, prismsTitleString, new Image( iconImage ),
       function() {
         return prismModel;
       },

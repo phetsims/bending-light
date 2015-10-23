@@ -16,16 +16,20 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
 
   // strings
   var introTitleString = require( 'string!BENDING_LIGHT/intro' );
 
+  // images
+  var icon = require( 'mipmap!BENDING_LIGHT/Intro_Screen.png' );
+
   /**
    * @constructor
    */
   function IntroScreen() {
-    Screen.call( this, introTitleString, new Rectangle( 0, 0, 548, 373, { fill: 'red' } ),
+    Screen.call( this, introTitleString, new Image( icon ),
       function() { return new IntroModel( BendingLightModel.WATER, true ); },
       function( model ) {
         return new IntroView( model, 102, false, 2, function( introModel ) {

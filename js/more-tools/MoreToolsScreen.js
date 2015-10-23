@@ -14,10 +14,13 @@ define( function( require ) {
   var MoreToolsView = require( 'BENDING_LIGHT/more-tools/view/MoreToolsView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Image = require( 'SCENERY/nodes/Image' );
 
   // strings
   var moreToolsTitleString = require( 'string!BENDING_LIGHT/moreTools' );
+
+  // images
+  var iconImage = require( 'mipmap!BENDING_LIGHT/More_Tools_Screen.png' );
 
   /**
    * @constructor
@@ -25,9 +28,7 @@ define( function( require ) {
   function MoreToolsScreen() {
     Screen.call( this,
       moreToolsTitleString,
-      new Rectangle( 0, 0, 548, 373, {
-        fill: 'blue'
-      } ),
+      new Image( iconImage ),
       function() {
         return new MoreToolsModel();
       },
