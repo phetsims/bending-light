@@ -392,7 +392,7 @@ define( function( require ) {
         this.addRay( new LightRay(
           CHARACTERISTIC_LENGTH / 2,
           incidentRay.tail,
-          incidentRay.tail.plus( incidentRay.directionUnitVector ),
+          incidentRay.tail.plus( incidentRay.directionUnitVector.times( 2E-4 ) ),
           n1,
           wavelengthInN1,
           incidentRay.wavelength * 1E9,
