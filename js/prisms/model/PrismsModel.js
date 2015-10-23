@@ -392,6 +392,8 @@ define( function( require ) {
         this.addRay( new LightRay(
           CHARACTERISTIC_LENGTH / 2,
           incidentRay.tail,
+
+          // If the light ray gets too long, it will cause rendering artifacts like #219
           incidentRay.tail.plus( incidentRay.directionUnitVector.times( 2E-4 ) ),
           n1,
           wavelengthInN1,
