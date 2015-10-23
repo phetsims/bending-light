@@ -311,6 +311,6 @@ define( function( require ) {
     // NUM_RAY_SATURATION: NUM_RAY_SATURATION,
     XYZ_TO_RGB_MATRIX: XYZ_TO_RGB_MATRIX,
 
-    PRISM_NODE_ALPHA: 0.3
+    PRISM_NODE_ALPHA: 0.5
   };
 } );
