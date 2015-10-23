@@ -269,6 +269,8 @@ define( function( require ) {
     var protractorNodeIcon = new ProtractorNode( this.showProtractorProperty, false, {
       scale: 0.12
     } );
+    protractorNodeIcon.mouseArea = Shape.bounds( protractorNodeIcon.localBounds );
+    protractorNodeIcon.touchArea = Shape.bounds( protractorNodeIcon.localBounds );
     this.showProtractorProperty.link( function( showProtractor ) {
       protractorNodeIcon.visible = !showProtractor;
     } );
@@ -322,8 +324,11 @@ define( function( require ) {
 
     // add intensity meter
     var intensityMeterNodeIcon = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter.copy(), {
-      scale: 0.2
+      scale: 0.2,
+      cursor: 'pointer'
     } );
+    intensityMeterNodeIcon.mouseArea = Shape.bounds( intensityMeterNodeIcon.localBounds );
+    intensityMeterNodeIcon.touchArea = Shape.bounds( intensityMeterNodeIcon.localBounds );
 
     var intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
     introModel.intensityMeter.enabledProperty.link( function( enabled ) {

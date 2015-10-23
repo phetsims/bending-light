@@ -22,6 +22,7 @@ define( function( require ) {
   var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
   var Rectangle = require( 'DOT/Rectangle' );
   var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
+  var Shape = require( 'KITE/Shape' );
 
   // constants
   var arrowScale = 1.5E-14; // @public read-only
@@ -66,6 +67,9 @@ define( function( require ) {
           scale: 0.25
         }
       );
+      waveSensorIcon.mouseArea = Shape.bounds( waveSensorIcon.localBounds );
+      waveSensorIcon.touchArea = Shape.bounds( waveSensorIcon.localBounds );
+
       // @public
       this.waveSensorNode = new WaveSensorNode(
         this.modelViewTransform,
@@ -150,6 +154,8 @@ define( function( require ) {
           scale: velocitySensorToolboxScale
         }
       );
+      velocitySensorIconNode.mouseArea = Shape.bounds( velocitySensorIconNode.localBounds );
+      velocitySensorIconNode.touchArea = Shape.bounds( velocitySensorIconNode.localBounds );
 
       var velocitySensorNode = new VelocitySensorNode(
         this.modelViewTransform,
