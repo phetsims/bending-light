@@ -14,11 +14,10 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Line = require( 'SCENERY/nodes/Line' );
-  var Shape = require( 'KITE/Shape' );
   var Image = require( 'SCENERY/nodes/Image' );
 
   // images
-  var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
+  var laserImage = require( 'image!BENDING_LIGHT/laser-front.png' );
 
   /**
    *
@@ -27,8 +26,7 @@ define( function( require ) {
   function LaserTypeRadioButtonGroup( radioButtonAdapterProperty, options ) {
 
     var laserImageNode = new Image( laserImage, {
-      scale: 0.6,
-      clipArea: Shape.rectangle( 100, 0, 44, 100 )
+      scale: 0.6
     } );
 
     var lineWidth = 37;
@@ -71,7 +69,7 @@ define( function( require ) {
       node: new Node( {
         scale: overallScale,
         children: [
-          new Rectangle( 60, -padding, 50, laserImageNode.height + padding * 2, { fill: '#261f21' } ),
+          new Rectangle( 0, -padding, 50, laserImageNode.height + padding * 2, { fill: '#261f21' } ),
           new Line( 0, 0, lineWidth, 0, {
             stroke: 'white',
             lineWidth: 2,
@@ -82,6 +80,7 @@ define( function( require ) {
         ]
       } )
     } ], {
+      spacing: 6,
       orientation: 'horizontal',
       baseColor: 'white',
       selectedStroke: '#3291b8',
