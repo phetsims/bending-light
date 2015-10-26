@@ -21,6 +21,7 @@ define( function( require ) {
 
   // images
   var iconImage = require( 'mipmap!BENDING_LIGHT/Prisms_Screen_White.png' );
+  var navbarIconImage = require( 'mipmap!BENDING_LIGHT/Prisms_Screen_White_NavBar.png' );
 
   /**
    * @constructor
@@ -33,7 +34,8 @@ define( function( require ) {
       },
       function( model ) {
         return new PrismsView( model );
-      }
+      },
+      { navigationBarIcon: new Image( navbarIconImage ) }
     );
   }
 
