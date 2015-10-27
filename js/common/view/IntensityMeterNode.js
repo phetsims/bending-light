@@ -86,7 +86,8 @@ define( function( require ) {
       children: [ outerRectangle, innerRectangle, innerMostRectangle, titleNode, valueNode ],
       cursor: 'pointer'
     } );
-    titleNode.setTranslation( (this.bodyNode.getWidth() - titleNode.getWidth()) / 2, this.bodyNode.getHeight() * 0.23 );
+    titleNode.y = this.bodyNode.getHeight() * 0.23;
+    titleNode.centerX = outerRectangle.centerX;
 
     // displayed value
     intensityMeter.readingProperty.link( function() {
