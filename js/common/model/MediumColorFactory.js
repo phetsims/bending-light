@@ -14,6 +14,7 @@ define( function( require ) {
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Property = require( 'AXON/Property' );
+  var Util = require( 'DOT/Util' );
 
   /**
    * Make sure light doesn't go outside of the 0..255 bounds
@@ -22,15 +23,7 @@ define( function( require ) {
    * @returns {number}
    */
   var clamp = function( value ) {
-    if ( value < 0 ) {
-      return 0;
-    }
-    else if ( value > 255 ) {
-      return 255;
-    }
-    else {
-      return value;
-    }
+    return Util.clamp( value, 0, 255 );
   };
 
   /**
