@@ -86,11 +86,8 @@ define( function( require ) {
     this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public read-only
     this.modelHeight = this.modelWidth * 0.7; // @public read-only
 
-    // if WebGL support then particles creation and propagation not need else we should create particles and propagate
-    // to render them on canvas. Check to see if WebGL was prevented by a query parameter
+    // Check to see if WebGL was prevented by a query parameter
     var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
-
-    // The mobile WebGL implementation will work with basic WebGL support
     this.allowWebGL = Util.checkWebGLSupport() && !disallowWebGL; // @public
 
     PropertySet.call( this, _.extend( {
