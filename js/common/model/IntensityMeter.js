@@ -40,79 +40,74 @@ define( function( require ) {
 
   return inherit( PropertySet, IntensityMeter, {
 
-      // Copy the model for reuse in the toolbox node.
-      copy: function() {
-        return new IntensityMeter(
-          this.sensorPosition.x,
-          this.sensorPosition.y,
-          this.bodyPosition.x,
-          this.bodyPosition.y
-        );
-      },
-
-      /**
-       * @public
-       * @returns {Shape}
-       */
-      getSensorShape: function() {
-
-        // fine tuned to match the given image
-        var radius = 1.215E-6;
-        return new Shape().arcPoint( this.sensorPosition, radius, 0, Math.PI * 2, false );
-      },
-
-      /**
-       * Should be called before a model update so that values from last computation don't leak over into the next
-       * summation.
-       * @public
-       */
-      clearRayReadings: function() {
-        this.rayReadings = [];
-        this.readingProperty.set( Reading.MISS );
-      },
-
-      /**
-       * Add a new reading to the accumulator and update the readout
-       * @public
-       * @param {Reading/ MISS} r - intensity of the wave
-       */
-      addRayReading: function( r ) {
-        this.rayReadings.push( r );
-        this.updateReading();
-      },
-
-      /**
-       * Update the body text based on the accumulated Reading values
-       * @private
-       */
-      updateReading: function() {
-
-        // enumerate the hits
-        var hits = [];
-        this.rayReadings.forEach( function( rayReading ) {
-          if ( rayReading.isHit() ) {
-            hits.push( rayReading );
-          }
-        } );
-
-        // if not hits, say "MISS"
-        if ( hits.length === 0 ) {
-          this.readingProperty.set( Reading.MISS );
-        }
-        else {
-
-          // otherwise, sum the intensities
-          var total = 0.0;
-          hits.forEach( function( hit ) {
-            total += hit.value;
-          } );
-          this.readingProperty.set( new Reading( total ) );
-        }
-      }
+    // Copy the model for reuse in the toolbox node.
+    copy: function() {
+      return new IntensityMeter(
+        this.sensorPosition.x,
+        this.sensorPosition.y,
+        this.bodyPosition.x,
+        this.bodyPosition.y
+      );
     },
 
-    // @public static
-    {
-      Reading: Reading
-    } );
+    /**
+     * @public
+     * @returns {Shape}
+     */
+    getSensorShape: function() {
+
+      // fine tuned to match the given image
+      var radius = 1.215E-6;
+      return new Shape().arcPoint( this.sensorPosition, radius, 0, Math.PI * 2, false );
+    },
+
+    /**
+     * Should be called before a model update so that values from last computation don't leak over into the next
+     * summation.
+     * @public
+     */
+    clearRayReadings: function() {
+      this.rayReadings = [];
+      this.readingProperty.set( Reading.MISS );
+    },
+
+    /**
+     * Add a new reading to the accumulator and update the readout
+     * @public
+     * @param {Reading/ MISS} r - intensity of the wave
+     */
+    addRayReading: function( r ) {
+      this.rayReadings.push( r );
+      this.updateReading();
+    },
+
+    /**
+     * Update the body text based on the accumulated Reading values
+     * @private
+     */
+    updateReading: function() {
+
+      // enumerate the hits
+      var hits = [];
+      this.rayReadings.forEach( function( rayReading ) {
+        if ( rayReading.isHit() ) {
+          hits.push( rayReading );
+        }
+      } );
+
+      // if not hits, say "MISS"
+      if ( hits.length === 0 ) {
+        this.readingProperty.set( Reading.MISS );
+      }
+      else {
+
+        // otherwise, sum the intensities
+        var total = 0.0;
+        hits.forEach( function( hit ) {
+          total += hit.value;
+        } );
+        this.readingProperty.set( new Reading( total ) );
+      }
+    }
+  } );
 } );
