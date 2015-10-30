@@ -50,7 +50,7 @@ define( function( require ) {
       pointerAreasOverTrack: true
     } );
 
-    var formattedString = StringUtils.format( waveLengthPattern, wavelengthPropertyNM.value, units_nmString );
+    var formattedString = StringUtils.format( waveLengthPattern, wavelengthPropertyNM.value );
     var wavelengthValueText = new Text( formattedString );
     var wavelengthBoxShape = new Rectangle( 0, 0, new Text( units_nmString ).width + 36, 18, 2, 2, {
       fill: 'white',

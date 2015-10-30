@@ -15,7 +15,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
-  var miss = require( 'string!BENDING_LIGHT/miss' );
+  var missString = require( 'string!BENDING_LIGHT/miss' );
   var valuePercentString = require( 'string!BENDING_LIGHT/pattern_0value_percent' );
 
   // constants
@@ -72,7 +72,7 @@ define( function( require ) {
          * @return {string}
          */
         getString: function() {
-          return miss;
+          return missString;
         },
 
         /**

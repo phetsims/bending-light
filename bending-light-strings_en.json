@@ -116,14 +116,14 @@
   "speed": {
     "value": "Speed"
   },
-  "c_units": {
-    "value": "c"
-  },
   "waveLengthPattern": {
-    "value": "{0} {1}"
+    "value": "{0} nm"
+  },
+  "unknownVelocity": {
+    "value": "?"
   },
   "velocityPattern": {
-    "value": "{0} {1}"
+    "value": "{0} c"
   },
   "pattern_0value_percent": {
     "value": "{0}%"

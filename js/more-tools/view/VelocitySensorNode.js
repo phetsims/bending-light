@@ -32,8 +32,8 @@ define( function( require ) {
 
   // strings
   var speedString = require( 'string!BENDING_LIGHT/speed' );
-  var c_units = require( 'string!BENDING_LIGHT/c_units' );
   var velocityPattern = require( 'string!BENDING_LIGHT/velocityPattern' );
+  var unknownVelocityString = require( 'string!BENDING_LIGHT/unknownVelocity' );
 
   // constants
   var SCALE_INSIDE_TOOLBOX = 0.7;
@@ -164,11 +164,11 @@ define( function( require ) {
 
         // add '?' for null velocity
         if ( velocity.magnitude() === 0 ) {
-          labelText.text = '?';
+          labelText.text = unknownVelocityString;
         }
         else {
           var stringNumber = Util.toFixed( velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT, 2 );
-          var text = StringUtils.format( velocityPattern, stringNumber, c_units );
+          var text = StringUtils.format( velocityPattern, stringNumber );
           labelText.setText( text );
         }
         labelText.center = whiteTextArea.center;
