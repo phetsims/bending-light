@@ -21,6 +21,7 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Vector2 = require( 'DOT/Vector2' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Property = require( 'AXON/Property' );
 
   // constants
   var dragRegionColor = new Color( 255, 0, 0, 0 );
@@ -45,6 +46,13 @@ define( function( require ) {
   function LaserNode( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
                       clampDragAngle, translationRegion, rotationRegion, laserImage, dragBoundsProperty,
                       occlusionHandler ) {
+
+    // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
+    // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker
+    var overCountProperty = new Property( 0 );
+    overCountProperty.link( function( overCount ) {
+      showRotationDragHandlesProperty.value = overCount > 0;
+    } );
 
     Node.call( this, { cursor: 'pointer' } );
     var laserNode = this;
@@ -138,7 +146,7 @@ define( function( require ) {
     rotationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function() {
         showTranslationDragHandlesProperty.value = false;
-        showRotationDragHandlesProperty.value = true;
+        overCountProperty.value = overCountProperty.value + 1;
       },
       drag: function( event ) {
         var coordinateFrame = laserNode.parents[ 0 ];
@@ -164,17 +172,17 @@ define( function( require ) {
         showRotationDragHandlesProperty.value = true;
       },
       end: function() {
-        showRotationDragHandlesProperty.value = false;
+        overCountProperty.value = overCountProperty.value - 1;
       }
     } ) );
 
     // Listeners to enable/disable the rotation dragHandles
     rotationRegionPath.addInputListener( {
       enter: function() {
-        showRotationDragHandlesProperty.value = true;
+        overCountProperty.value = overCountProperty.value + 1;
       },
       exit: function() {
-        showRotationDragHandlesProperty.value = false;
+        overCountProperty.value = overCountProperty.value - 1;
       }
     } );
 
