@@ -103,21 +103,23 @@ define( function( require ) {
     minusButton.right = wavelengthBoxShape.left - PLUS_MINUS_SPACING;
     minusButton.centerY = wavelengthBoxShape.centerY;
 
-    var wavelengthNode = new Node( {
-      children: [ minusButton, wavelengthBoxShape, wavelengthValueText, plusButton, wavelengthSlider ]
+    var wavelengthControl = this;
+    Node.call( this, {
+      children: [
+        minusButton,
+        wavelengthBoxShape,
+        wavelengthValueText,
+        plusButton,
+        wavelengthSlider
+      ]
     } );
     enabledProperty.link( function( enabled ) {
 
       // set the opacity when not selected
-      wavelengthNode.setPickable( enabled );
-      wavelengthNode.opacity = enabled ? 1 : 0.4;
+      wavelengthControl.setPickable( enabled );
+      wavelengthControl.opacity = enabled ? 1 : 0.4;
     } );
 
-    // add the buttons to VBox
-    VBox.call( this, {
-      children: [ wavelengthNode ],// TODO: Extend Node
-      align: 'left'
-    } );
     wavelengthPropertyNM.link( function( wavelength ) {
 
       // set the laser wavelength according to the slider wavelength
@@ -126,8 +128,7 @@ define( function( require ) {
       // set the value in the slider text box
       wavelengthValueText.setText( StringUtils.format( waveLengthPattern, wavelength, units_nmString ) );
     } );
-
   }
 
-  return inherit( VBox, WavelengthControl );
+  return inherit( Node, WavelengthControl );
 } );
