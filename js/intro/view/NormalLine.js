@@ -19,7 +19,7 @@ define( function( require ) {
   /**
    * @param {number} height - height of normal
    * @param {array.<number>} lineDash
-   * @param {Object} [options ] - options that can be passed on to the underlying node
+   * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
   function NormalLine( height, lineDash, options ) {

@@ -14,7 +14,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
 
   /**
-   * @param {Polygon/Circle/SemiCircle} shape
+   * @param {Polygon|Circle|SemiCircle} shape
    * @param {string} typeName for keeping track of how many of each kind there are, to remove from toolbox
    * @constructor
    */
