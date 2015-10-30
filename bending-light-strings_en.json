@@ -116,7 +116,7 @@
   "speed": {
     "value": "Speed"
   },
-  "waveLengthPattern": {
+  "wavelengthPattern": {
     "value": "{0} nm"
   },
   "unknownVelocity": {
