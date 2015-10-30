@@ -81,7 +81,6 @@ define( function( require ) {
         return laserAngle < Math.PI;
       }
       else {
-        // TODO: This should be different for wave mode
         return laserAngle < BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
       }
     }
