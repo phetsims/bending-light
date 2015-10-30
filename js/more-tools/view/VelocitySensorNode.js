@@ -97,15 +97,12 @@ define( function( require ) {
     // Adding velocity meter title text
     var titleText = new Text( speedString, {
       fill: 'black',
-      font: new PhetFont( 18 )
+      font: new PhetFont( 18 ),
+      maxWidth: rectangleWidth - 15,
+      centerX: bodyRectangle.centerX,
+      bottom: bodyRectangle.bottom - 5
     } );
 
-    // TODO: use scenery maxWidth?
-    if ( titleText.width > rectangleWidth - 15 ) {
-      titleText.scale( (rectangleWidth - 15) / titleText.width );
-    }
-    titleText.centerX = bodyRectangle.centerX;
-    titleText.bottom = bodyRectangle.bottom - 5;
     this.bodyNode.addChild( titleText );
 
     // Adding inner rectangle
