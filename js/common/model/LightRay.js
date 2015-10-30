@@ -40,41 +40,41 @@ define( function( require ) {
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
     // Light must be extended backwards for the transmitted wave shape to be correct
-    this.extendBackwards = extendBackwards; // @public, read only
-    this.color = color; // @public, read only
-    this.waveWidth = waveWidth; //@public, read only
-    this.trapeziumWidth = trapeziumWidth; // @public, read only
+    this.extendBackwards = extendBackwards; // @public (read-only)
+    this.color = color; // @public (read-only)
+    this.waveWidth = waveWidth; //@public (read-only)
+    this.trapeziumWidth = trapeziumWidth; // @public (read-only)
 
     // Directionality is important for propagation
-    this.tip = tip; // @public, read only
-    this.tail = tail; // @public, read only
+    this.tip = tip; // @public (read-only)
+    this.tail = tail; // @public (read-only)
 
     // The index of refraction of the medium the light ray inhabits
-    this.indexOfRefraction = indexOfRefraction; // @public
-    this.wavelength = wavelength; // @public, wavelength in meters
+    this.indexOfRefraction = indexOfRefraction; // @public (read-only)
+    this.wavelength = wavelength; // @public (read-only), wavelength in meters
     assert && assert( wavelengthInVacuum >= 300 && wavelengthInVacuum <= 900 );
-    this.wavelengthInVacuum = wavelengthInVacuum; // @public, wavelength in nm
+    this.wavelengthInVacuum = wavelengthInVacuum; // @public (read-only), wavelength in nm
 
     // Amount of power this light has (full strength is 1.0)
-    this.powerFraction = powerFraction;// @public
+    this.powerFraction = powerFraction; // @public (read-only)
 
     // This number indicates how many wavelengths have passed before this light ray begins.
     // It is zero for the light coming out of the laser.
-    this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset; // @public
+    this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset; // @public (read-only)
 
     // has to be an integral number of wavelength so that the phases work out correctly,
     // turing this up too high past 1E6 causes things not to render properly
-    this.extend = extend; // @public
+    this.extend = extend; // @public (read-only)
 
     // @private, for internal use only. Clients should use toVector()
     this.vectorForm = new Vector2( 0, 0 );
     this.unitVector = new Vector2( 0, 0 );
 
     // wave particles
-    this.particles = new ObservableArray(); // @public
+    this.particles = new ObservableArray(); // @public (read-only)
 
     // time used in wave sensor node
-    this.time = 0; // @public
+    this.time = 0; // @public (read-only)
 
     if ( laserView === 'wave' ) {
 
@@ -113,7 +113,7 @@ define( function( require ) {
         tipPoint1XY.x = tailPoint2XY.x;
       }
 
-      // @public
+      // @public (read-only)
       this.waveShape = new Shape()
         .moveToPoint( tailPoint1XY )
         .lineToPoint( tailPoint2XY )
@@ -121,7 +121,7 @@ define( function( require ) {
         .lineToPoint( tipPoint2XY )
         .close();
 
-      // @public, for drawing the clipping shape
+      // @public (read-only), for drawing the clipping shape
       this.clipRegionCorners = [
         new Vector2( tailPoint1XY.x, tailPoint1XY.y ),
         new Vector2( tailPoint2XY.x, tailPoint2XY.y ),

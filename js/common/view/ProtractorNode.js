@@ -34,9 +34,9 @@ define( function( require ) {
     var protractorNode = this;
     Node.call( protractorNode );
 
-    this.showProtractorProperty = showProtractorProperty; // @public
+    this.showProtractorProperty = showProtractorProperty; // @public (read-only)
 
-    // @public - the image node
+    // @public (read-only)- the image node
     this.protractorImageNode = new Image( protractorImage, { pickable: false } );
 
     showProtractorProperty.linkAttribute( this, 'visible' );

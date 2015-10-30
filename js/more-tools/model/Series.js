@@ -19,10 +19,10 @@ define( function( require ) {
    */
   function Series( seriesProperty, color ) {
 
-    // @public
+    // @public (read-only)
     this.seriesProperty = seriesProperty;
 
-    // @public read-only
+    // @public (read-only)
     this.color = color;
   }
 

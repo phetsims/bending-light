@@ -29,12 +29,12 @@ define( function( require ) {
     this.ray = ray;
 
     // Power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction
-    this.power = power; // @public, read only.
+    this.power = power; // @public (read-only)
 
     // Wavelength inside the medium (depends on index of refraction)
-    this.wavelength = wavelength; // @public, read only.
-    this.mediumIndexOfRefraction = mediumIndexOfRefraction; // @public, read only.
-    this.frequency = frequency; // @public, read only.
+    this.wavelength = wavelength; // @public (read-only)
+    this.mediumIndexOfRefraction = mediumIndexOfRefraction; // @public (read-only)
+    this.frequency = frequency; // @public (read-only)
   }
 
   return inherit( Object, ColoredRay, {

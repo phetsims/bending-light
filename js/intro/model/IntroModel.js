@@ -56,7 +56,7 @@ define( function( require ) {
       ],
       function( topMedium, color ) {
         return topMedium.getIndexOfRefraction( color.wavelength );
-      } ); // @public
+      } ); // @public (read-only)
 
     // Update the bottom medium index of refraction when bottom medium change
     this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [
@@ -65,9 +65,9 @@ define( function( require ) {
       ],
       function( bottomMedium, color ) {
         return bottomMedium.getIndexOfRefraction( color.wavelength );
-      } ); // @public
+      } ); // @public (read-only)
 
-    // @public - model components
+    // @public (read-only)-model components
     this.intensityMeter = new IntensityMeter(
       -this.modelWidth * (centerOffsetLeft ? 0.34 : 0.48),
       -this.modelHeight * 0.285,

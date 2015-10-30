@@ -59,7 +59,7 @@ define( function( require ) {
   function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals, createLaserControlPanel ) {
 
     var introView = this;
-    this.introModel = introModel; // @public
+    this.introModel = introModel; // @public (read-only)
 
     /**
      * Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant

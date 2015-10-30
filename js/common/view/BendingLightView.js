@@ -47,7 +47,7 @@ define( function( require ) {
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
     var bendingLightView = this;
-    this.showProtractorProperty = new Property( false ); // @public
+    this.showProtractorProperty = new Property( false ); // @public (read-only)
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
     // suggested this layering order:
@@ -56,13 +56,13 @@ define( function( require ) {
     // Protractor
     // Laser beam
     // To implement this, we specify 2 before light layers and 2 after light layers
-    this.beforeLightLayer = new Node(); // @public
-    this.beforeLightLayer2 = new Node(); // @public
+    this.beforeLightLayer = new Node(); // @public (read-only)
+    this.beforeLightLayer2 = new Node(); // @public (read-only)
 
     // in back of afterLightLayer2
-    this.afterLightLayer = new Node(); // @public
-    this.afterLightLayer2 = new Node(); // @public
-    this.afterLightLayer3 = new Node(); // @public
+    this.afterLightLayer = new Node(); // @public (read-only)
+    this.afterLightLayer2 = new Node(); // @public (read-only)
+    this.afterLightLayer3 = new Node(); // @public (read-only)
 
     var stageWidth = this.layoutBounds.width;
     var stageHeight = this.layoutBounds.height;
@@ -71,7 +71,7 @@ define( function( require ) {
     // create the transform from model (SI) to view (stage) coordinates
     var scale = stageHeight / bendingLightModel.modelHeight;
 
-    // @public, read only
+    // @public (read-only)
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       new Vector2( 0, 0 ),
       new Vector2( 388 - centerOffsetLeft, stageHeight / 2 + verticalOffset ),
@@ -79,9 +79,9 @@ define( function( require ) {
     );
 
     // create and add the graphic for the environment medium
-    this.mediumNode = new Node(); // @public
+    this.mediumNode = new Node(); // @public (read-only)
     this.addChild( this.mediumNode );
-    this.incidentWaveLayer = new Node(); // @public
+    this.incidentWaveLayer = new Node(); // @public (read-only)
 
     this.singleColorLightNode = new SingleColorLightCanvasNode(
       this.modelViewTransform,
@@ -99,7 +99,7 @@ define( function( require ) {
 
     // This layer is to add laser view control panel
     // Note: this layer to make protractor behind laser view panel and laser node on top of laser view panel.
-    this.laserViewLayer = new Node(); // @public
+    this.laserViewLayer = new Node(); // @public (read-only)
     this.addChild( this.laserViewLayer );
 
     // Used for radius and length of drag handlers
@@ -118,7 +118,7 @@ define( function( require ) {
       laserImageWidth
     );
 
-    this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public
+    this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public (read-only)
 
     // add the laser
     var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;

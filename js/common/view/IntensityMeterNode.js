@@ -34,7 +34,7 @@ define( function( require ) {
 
     var intensityMeterNode = this;
     Node.call( intensityMeterNode );
-    this.modelViewTransform = modelViewTransform; // @public
+    this.modelViewTransform = modelViewTransform; // @public (read-only)
     this.intensityMeter = intensityMeter;
 
     this.probeNode = new ProbeNode( { cursor: 'pointer' } );

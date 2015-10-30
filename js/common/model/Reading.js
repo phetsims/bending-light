@@ -29,7 +29,7 @@ define( function( require ) {
    */
   function Reading( value ) {
 
-    // @public read-only
+    // @public (read-only)
     this.value = value;
   }
 

@@ -53,8 +53,8 @@ define( function( require ) {
       pickable: true
     } );
 
-    this.modelViewTransform = modelViewTransform; // @public
-    this.velocitySensor = velocitySensor; // @public
+    this.modelViewTransform = modelViewTransform; // @public (read-only)
+    this.velocitySensor = velocitySensor; // @public (read-only)
 
     var rectangleWidth = 100;
     var rectangleHeight = 70;

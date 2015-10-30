@@ -74,8 +74,8 @@ define( function( require ) {
     var darkProbeColor = new Color( 88, 89, 91 );
     var lightProbeColor = new Color( 147, 149, 152 );
 
-    this.modelViewTransform = modelViewTransform; // @public
-    this.waveSensor = waveSensor; // @public
+    this.modelViewTransform = modelViewTransform; // @public (read-only)
+    this.waveSensor = waveSensor; // @public (read-only)
 
     // Add body node
     var rectangleWidth = 135;
@@ -127,8 +127,8 @@ define( function( require ) {
     this.bodyNode.addChild( this.chartNode );
 
     // Create the probes
-    this.probe1Node = new ProbeNode( waveSensor.probe1, darkProbeImage, modelViewTransform ); // @public
-    this.probe2Node = new ProbeNode( waveSensor.probe2, lightProbeImage, modelViewTransform ); // @public
+    this.probe1Node = new ProbeNode( waveSensor.probe1, darkProbeImage, modelViewTransform ); // @public (read-only)
+    this.probe2Node = new ProbeNode( waveSensor.probe2, lightProbeImage, modelViewTransform ); // @public (read-only)
 
     // Rendering order, including wires
     var wire1Node = new WireNode( this.probe1Node, this.bodyNode, darkProbeColor.toCSS() );

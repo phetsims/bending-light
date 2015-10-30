@@ -24,9 +24,9 @@ define( function( require ) {
    */
   function WireNode( probeNode, bodyNode, color ) {
 
-    this.probeNode = probeNode; // @public
-    this.bodyNode = bodyNode; // @public
-    this.color = color; // @public
+    this.probeNode = probeNode; // @public (read-only)
+    this.bodyNode = bodyNode; // @public (read-only)
+    this.color = color; // @public (read-only)
 
     Path.call( this, null, {
       lineWidth: 5 * bodyNode.getScaleVector().x,

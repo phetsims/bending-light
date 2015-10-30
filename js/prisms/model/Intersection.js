@@ -21,10 +21,10 @@ define( function( require ) {
   function Intersection( unitNormal, point ) {
 
     // Unit normal at the meeting between two interfaces where the light ray has struck
-    this.unitNormal = unitNormal; // @public
+    this.unitNormal = unitNormal; // @public (read-only)
 
     // The point where the light ray struck
-    this.point = point; // @public
+    this.point = point; // @public (read-only)
   }
 
   return inherit( Object, Intersection );

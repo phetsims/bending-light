@@ -39,9 +39,9 @@ define( function( require ) {
    */
   function PrismsModel() {
 
-    this.prisms = new ObservableArray(); // @public
+    this.prisms = new ObservableArray(); // @public (read-only)
 
-    // @public - List of intersections, which can be shown graphically
+    // @public (read-only) - List of intersections, which can be shown graphically
     this.intersections = new ObservableArray();
 
     var prismsModel = this;

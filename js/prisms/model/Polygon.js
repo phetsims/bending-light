@@ -31,12 +31,12 @@ define( function( require ) {
     this.referencePointIndex = referencePointIndex; // @private
     this.radius = radius; // @private
 
-    // @public read-only, Centroid of the shape
+    // @public (read-only), Centroid of the shape
     this.centroid = this.getCentroid( this.points );
 
     // Creates a shape
-    this.shape = new Shape(); // @public
-    this.center = null; //@public
+    this.shape = new Shape(); // @public (read-only)
+    this.center = null; // @public (read-only)
 
     // radius is 0 for polygon
     if ( this.radius === 0 ) {

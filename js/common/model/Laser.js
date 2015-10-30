@@ -39,7 +39,7 @@ define( function( require ) {
       emissionPoint: Vector2.createPolar( distanceFromPivot, angle ) // @public
     } );
 
-    // @public
+    // @public (read-only)
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], function( wavelength ) {
       return new LaserColor( wavelength );
     } );

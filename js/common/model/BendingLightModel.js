@@ -79,16 +79,16 @@ define( function( require ) {
    */
   function BendingLightModel( laserAngle, topLeftQuadrant, laserDistanceFromPivot, properties ) {
 
-    // @public - list of rays in the model
+    // @public (read-only)- list of rays in the model
     this.rays = new ObservableArray();
 
     // dimensions of the model, guaranteed to be shown in entirety on the stage
-    this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public read-only
-    this.modelHeight = this.modelWidth * 0.7; // @public read-only
+    this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public (read-only)
+    this.modelHeight = this.modelWidth * 0.7; // @public (read-only)
 
     // Check to see if WebGL was prevented by a query parameter
     var disallowWebGL = phet.chipper.getQueryParameter( 'webgl' ) === 'false';
-    this.allowWebGL = Util.checkWebGLSupport() && !disallowWebGL; // @public
+    this.allowWebGL = Util.checkWebGLSupport() && !disallowWebGL; // @public (read-only)
 
     PropertySet.call( this, _.extend( {
       laserView: 'ray', // @public, Whether the laser is Ray or Wave mode
@@ -100,7 +100,7 @@ define( function( require ) {
       showAngles: false // @public
     }, properties ) );
 
-    // @public - the laser
+    // @public (read-only)- the laser
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }
 
@@ -145,7 +145,7 @@ define( function( require ) {
       }
     },
 
-    // @public statics
+    // @public (read-only) statics
     {
       DEFAULT_LASER_DISTANCE_FROM_PIVOT: DEFAULT_LASER_DISTANCE_FROM_PIVOT,
       DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT: DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT,

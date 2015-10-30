@@ -34,7 +34,7 @@ define( function( require ) {
       }
     );
 
-    // @public, accumulation of readings
+    // @public (read-only), accumulation of readings
     this.rayReadings = [];
   }
 

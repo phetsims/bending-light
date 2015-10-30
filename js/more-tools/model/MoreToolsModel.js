@@ -28,13 +28,12 @@ define( function( require ) {
     // bend
     IntroModel.call( this, BendingLightModel.GLASS, false );
 
-    // @public
-    this.velocitySensor = new VelocitySensor();
+    this.velocitySensor = new VelocitySensor(); // @public (read-only)
     var waveValueGetter = function( position ) {
       return moreToolsModel.getWaveValue( position );
     };
 
-    // @public
+    // @public (read-only)
     this.waveSensor = new WaveSensor( waveValueGetter, waveValueGetter );
 
     // Update the velocity sensor value when anything relevant in the model changes

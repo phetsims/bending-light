@@ -23,7 +23,7 @@ define( function( require ) {
    */
   function WaveCanvasNode( lightRays, modelViewTransform, options ) {
     this.lightRays = lightRays;
-    this.modelViewTransform = modelViewTransform; // @public
+    this.modelViewTransform = modelViewTransform; // @public (read-only)
     CanvasNode.call( this, options );
   }
 

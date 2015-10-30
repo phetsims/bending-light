@@ -20,7 +20,7 @@ define( function( require ) {
    * @constructor
    */
   function WaveWebGLNode( modelViewTransform, rays ) {
-    this.modelViewTransform = modelViewTransform; // @public
+    this.modelViewTransform = modelViewTransform; // @public (read-only)
     this.rays = rays; // @private
     WebGLNode.call( this );
   }

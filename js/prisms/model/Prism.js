@@ -25,7 +25,7 @@ define( function( require ) {
       shape: shape
     } );
 
-    // @public
+    // @public (read-only)
     this.typeName = typeName;
   }
 

@@ -25,7 +25,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   // constants
-  var arrowScale = 1.5E-14; // @public read-only
+  var arrowScale = 1.5E-14;
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
@@ -33,8 +33,7 @@ define( function( require ) {
    */
   function MoreToolsView( moreToolsModel ) {
 
-    // @public
-    this.moreToolsModel = moreToolsModel;
+    this.moreToolsModel = moreToolsModel; // @public (read-only)
     var moreToolsView = this;
 
     IntroView.call( this, moreToolsModel, 0, true, 3, function( model ) {
@@ -70,7 +69,7 @@ define( function( require ) {
       waveSensorIcon.mouseArea = Shape.bounds( waveSensorIcon.localBounds );
       waveSensorIcon.touchArea = Shape.bounds( waveSensorIcon.localBounds );
 
-      // @public
+      // @public (read-only)
       this.waveSensorNode = new WaveSensorNode(
         this.modelViewTransform,
         waveSensor
