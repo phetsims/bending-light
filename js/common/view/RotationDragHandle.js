@@ -44,13 +44,8 @@ define( function( require ) {
       ],
       function( emissionPoint, pivot, showDragHandles ) {
         return notAtMax( laser.getAngle() ) && showDragHandles;
-      } );
-    showDragHandlesProperty.debug( 'hello' );
-    showDragHandlesProperty.link( function( v ) {
-      if ( !v ) {
-        debugger;
       }
-    } );
+    );
 
     // Show the drag handle if the "show drag handles" is true and if the laser isn't already at the max angle.
     notAtMaximumProperty.linkAttribute( rotationDragHandle, 'visible' );

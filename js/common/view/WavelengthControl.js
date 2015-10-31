@@ -15,7 +15,6 @@ define( function( require ) {
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var Property = require( 'AXON/Property' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
