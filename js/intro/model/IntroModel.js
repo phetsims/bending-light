@@ -79,6 +79,7 @@ define( function( require ) {
       this.laserViewProperty,
       this.laser.onProperty,
       this.intensityMeter.sensorPositionProperty,
+      this.intensityMeter.enabledProperty,
       this.laser.emissionPointProperty,
       this.laser.colorProperty,
       this.indexOfRefractionOfBottomMediumProperty,
@@ -239,7 +240,8 @@ define( function( require ) {
       var angleOffset = rayType === 'incident' ? Math.PI : 0;
 
       // find intersection points with the intensity sensor
-      var intersects = ray.getIntersections( this.intensityMeter.getSensorShape(), rayType );
+      var intersects = this.intensityMeter.enabled ?
+                       ray.getIntersections( this.intensityMeter.getSensorShape(), rayType ) : [];
 
       // if it intersected, then absorb the ray
       var rayAbsorbed = intersects.length > 0;
