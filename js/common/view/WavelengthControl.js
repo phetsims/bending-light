@@ -35,6 +35,9 @@ define( function( require ) {
   function WavelengthControl( wavelengthProperty, enabledProperty, trackWidth ) {
     var wavelengthPropertyNM = new Property( wavelengthProperty.value * 1E9 );
 
+    wavelengthProperty.link( function( wavelength ) {
+      wavelengthPropertyNM.value = wavelength * 1E9;
+    } );
     // Add WavelengthSlider node
     var wavelengthSlider = new WavelengthSlider( wavelengthPropertyNM, {
       cursorStroke: 'white',
