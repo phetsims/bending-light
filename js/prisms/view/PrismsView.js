@@ -220,7 +220,7 @@ define( function( require ) {
 
     // Add the protractor node
     var protractorNode = new ProtractorNode( prismsModel.showProtractorProperty, true, {
-      scale: 0.23
+      scale: 0.46
     } );
     protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
     var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
