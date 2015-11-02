@@ -18,7 +18,6 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
 
   // images
@@ -156,12 +155,12 @@ define( function( require ) {
 
     // @public - used in PrismToolboxNode
     this.updatePrismColor = function() {
-      var indexOfRefraction = prismsModel.prismMediumProperty.value.substance.getIndexOfRefractionForRedLight();
-      prismPathNode.fill = MediumColorFactory.getColor( indexOfRefraction )
+      var indexOfRefraction = prismsModel.prismMediumProperty.value.substance.indexOfRefractionForRedLight;
+      prismPathNode.fill = prismsModel.mediumColorFactory.getColor( indexOfRefraction )
         .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
     };
 
-    MediumColorFactory.lightTypeProperty.link( this.updatePrismColor );
+    prismsModel.mediumColorFactory.lightTypeProperty.link( this.updatePrismColor );
     prismsModel.prismMediumProperty.link( this.updatePrismColor );
 
     /**

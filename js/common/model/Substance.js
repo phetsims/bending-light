@@ -14,6 +14,17 @@ define( function( require ) {
   var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
+  // strings
+  var airString = require( 'string!BENDING_LIGHT/air' );
+  var waterString = require( 'string!BENDING_LIGHT/water' );
+  var glassString = require( 'string!BENDING_LIGHT/glass' );
+  var diamondString = require( 'string!BENDING_LIGHT/diamond' );
+  var mysteryAString = require( 'string!BENDING_LIGHT/mysteryA' );
+  var mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
+
+  // constants
+  var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
+
   /**
    * @param {string} name - name of the medium
    * @param {number} indexForRed - index of refraction of medium
@@ -26,18 +37,16 @@ define( function( require ) {
     this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED ); // @public (read-only)
     this.mystery = mystery; // @public (read-only)
     this.custom = custom; // @public (read-only)
+    this.indexOfRefractionForRedLight = this.dispersionFunction.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
   }
 
-
-  return inherit( Object, Substance, {
-
-    /**
-     * Determines the index of refraction for the WAVELENGTH_RED
-     * @public
-     * @returns {number}
-     */
-    getIndexOfRefractionForRedLight: function() {
-      return this.dispersionFunction.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
-    }
+  return inherit( Object, Substance, {}, {
+    AIR: new Substance( airString, 1.000293, false, false ),
+    WATER: new Substance( waterString, 1.333, false, false ),
+    GLASS: new Substance( glassString, 1.5, false, false ),
+    DIAMOND: new Substance( diamondString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false ),
+    MYSTERY_A: new Substance( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false ),
+    MYSTERY_B: new Substance( mysteryBString, 1.4, true, false ),
+    DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT: DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT
   } );
 } );

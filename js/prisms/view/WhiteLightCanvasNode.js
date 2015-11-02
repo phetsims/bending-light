@@ -23,7 +23,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Util = require( 'DOT/Util' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -31,10 +30,11 @@ define( function( require ) {
    * @param {number} stageHeight - height of the dev area
    * @param {ObservableArray} whiteLightRays - array of white light rays
    * @param {Property.<Medium>} environmentMediumProperty
+   * @param {MediumColorFactory} mediumColorFactory - for creating colors from index of refraction
    * @constructor
    */
   function WhiteLightCanvasNode( modelViewTransform, stageWidth, stageHeight, whiteLightRays,
-                                 environmentMediumProperty ) {
+                                 environmentMediumProperty, mediumColorFactory ) {
 
     CanvasNode.call( this, {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
@@ -45,11 +45,11 @@ define( function( require ) {
     this.environmentMediumProperty = environmentMediumProperty;
     var whiteLightCanvasNode = this;
     var update = function() {
-      var a = environmentMediumProperty.value.substance.getIndexOfRefractionForRedLight();
-      whiteLightCanvasNode.colorCSS = MediumColorFactory.getColor( a ).toCSS();
+      var a = environmentMediumProperty.value.substance.indexOfRefractionForRedLight;
+      whiteLightCanvasNode.colorCSS = mediumColorFactory.getColor( a ).toCSS();
       whiteLightCanvasNode.invalidatePaint();
     };
-    MediumColorFactory.lightTypeProperty.link( update );
+    mediumColorFactory.lightTypeProperty.link( update );
     environmentMediumProperty.link( update );
   }
 
@@ -72,7 +72,7 @@ define( function( require ) {
       // Have to save the previous globalCompositeOperation so it doesn't leak to the SingleColorLightCanvasNode on iOS
       // see #267
       context.save();
-      
+
       // "Screen", basically adds colors together, making them lighter
       context.globalCompositeOperation = 'lighter';
 

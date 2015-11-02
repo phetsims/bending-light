@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
-  var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var WaveSensor = require( 'BENDING_LIGHT/more-tools/model/WaveSensor' );
   var VelocitySensor = require( 'BENDING_LIGHT/more-tools/model/VelocitySensor' );
   var Property = require( 'AXON/Property' );
@@ -26,7 +26,7 @@ define( function( require ) {
 
     // On this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent
     // bend
-    IntroModel.call( this, BendingLightModel.GLASS, false );
+    IntroModel.call( this, Substance.GLASS, false );
 
     this.velocitySensor = new VelocitySensor(); // @public (read-only)
     var waveValueGetter = function( position ) {

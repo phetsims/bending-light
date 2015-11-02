@@ -23,12 +23,13 @@ define( function( require ) {
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
   var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
   var Prism = require( 'BENDING_LIGHT/prisms/model/Prism' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var Vector2 = require( 'DOT/Vector2' );
   var Shape = require( 'KITE/Shape' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var Color = require( 'SCENERY/util/Color' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
 
   // constants
   var WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
@@ -44,6 +45,7 @@ define( function( require ) {
     // @public (read-only) - List of intersections, which can be shown graphically
     this.intersections = new ObservableArray();
 
+    this.mediumColorFactory = new MediumColorFactory();
     var prismsModel = this;
     BendingLightModel.call( this,
       Math.PI,
@@ -59,12 +61,12 @@ define( function( require ) {
         showProtractor: false, // @public
 
         // Environment the laser is in
-        environmentMedium: new Medium( Shape.rect( -1, 0, 2, 1 ), BendingLightModel.AIR,
-          MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ),
+        environmentMedium: new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR,
+          this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ),
 
         // Material that comprises the prisms
-        prismMedium: new Medium( Shape.rect( -1, -1, 2, 1 ), BendingLightModel.GLASS,
-          MediumColorFactory.getColor( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) ),
+        prismMedium: new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS,
+          this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ),
 
         intersectionStroke: 'black'
       } );

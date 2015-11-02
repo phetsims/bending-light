@@ -153,6 +153,7 @@ define( function( require ) {
     // Allow the user to control the type of material in the prisms
     var environmentMediumMaterialListParent = new Node();
     var objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
+      prismsModel.mediumColorFactory,
       prismsModel.prismMediumProperty,
       objectsString,
       false,

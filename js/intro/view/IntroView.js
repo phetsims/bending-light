@@ -141,8 +141,10 @@ define( function( require ) {
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
 
     // add control panels for setting the index of refraction for each medium
-    var topMediumControlPanel = new MediumControlPanel( this, introModel.topMediumProperty, materialString, true,
-      introModel.wavelengthProperty, IndexOfRefractionDecimals, { yMargin: 7 } );
+    var topMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
+      introModel.topMediumProperty, materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
+        yMargin: 7
+      } );
     var topMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
     topMediumControlPanel.setTranslation(
       stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - topMediumControlPanelXOffset,
@@ -155,8 +157,10 @@ define( function( require ) {
 
     // add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
-    var bottomMediumControlPanel = new MediumControlPanel( this, introModel.bottomMediumProperty, materialString, true,
-      introModel.wavelengthProperty, IndexOfRefractionDecimals, { yMargin: 7 } );
+    var bottomMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
+      introModel.bottomMediumProperty, materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
+        yMargin: 7
+      } );
     bottomMediumControlPanel.setTranslation(
       stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - bottomMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET + 1 );

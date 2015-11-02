@@ -22,14 +22,12 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
   var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
   var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
   var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var HStrut = require( 'SCENERY/nodes/HStrut' );
 
@@ -49,6 +47,7 @@ define( function( require ) {
 
   /**
    * @param {BendingLightView} view - view of the simulation
+   * @param {MediumColorFactory} mediumColorFactory - for turning index of refraction into color
    * @param {Property.<Medium>} mediumProperty - specifies medium
    * @param {string} name - name of the medium material
    * @param {boolean} textFieldVisible - whether to display index of refraction value
@@ -57,10 +56,12 @@ define( function( require ) {
    * @param {Object} [options] - options that can be passed on to the underlying node
    * @constructor
    */
-  function MediumControlPanel( view, mediumProperty, name, textFieldVisible, laserWavelength, decimalPlaces, options ) {
+  function MediumControlPanel( view, mediumColorFactory, mediumProperty, name, textFieldVisible, laserWavelength,
+                               decimalPlaces, options ) {
 
     Node.call( this );
     var mediumControlPanel = this;
+    this.mediumColorFactory = mediumColorFactory;
 
     options = _.extend( {
       xMargin: 10,
@@ -76,12 +77,12 @@ define( function( require ) {
 
     // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
     // if we kept the same index of refraction, the user could use that to easily look up the mystery values.
-    var lastNonMysteryIndexAtRed = initialSubstance.getIndexOfRefractionForRedLight();
+    var lastNonMysteryIndexAtRed = initialSubstance.indexOfRefractionForRedLight;
 
     // dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
     var customState = new Substance(
       customString,
-      BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2,
+      Substance.MYSTERY_B.indexOfRefractionForRedLight + 1.2,
       false,
       true
     );
@@ -111,11 +112,11 @@ define( function( require ) {
     };
     // states to choose from (and indicate) in the combo box
     var substances = [
-      BendingLightModel.AIR,
-      BendingLightModel.WATER,
-      BendingLightModel.GLASS,
-      BendingLightModel.MYSTERY_A,
-      BendingLightModel.MYSTERY_B,
+      Substance.AIR,
+      Substance.WATER,
+      Substance.GLASS,
+      Substance.MYSTERY_A,
+      Substance.MYSTERY_B,
       customState ];
     var comboBoxSubstanceProperty = new Property( initialSubstance );
 
@@ -255,9 +256,9 @@ define( function( require ) {
         custom = true;
       }
     } );
-    indexOfRefractionSlider.addMajorTick( BendingLightModel.AIR.getIndexOfRefractionForRedLight(), airTitle );
-    indexOfRefractionSlider.addMajorTick( BendingLightModel.WATER.getIndexOfRefractionForRedLight(), waterTitle );
-    indexOfRefractionSlider.addMajorTick( BendingLightModel.GLASS.getIndexOfRefractionForRedLight(), glassTitle );
+    indexOfRefractionSlider.addMajorTick( Substance.AIR.indexOfRefractionForRedLight, airTitle );
+    indexOfRefractionSlider.addMajorTick( Substance.WATER.indexOfRefractionForRedLight, waterTitle );
+    indexOfRefractionSlider.addMajorTick( Substance.GLASS.indexOfRefractionForRedLight, glassTitle );
     indexOfRefractionSlider.addMajorTick( 1.6 );
 
     // add a text to display when mystery is selected
@@ -362,12 +363,14 @@ define( function( require ) {
      */
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
 
+      var mediumControlPanel = this;
+
       // have to pass the value through the dispersion function to account for the
       // current wavelength of the laser (since index of refraction is a function of wavelength)
       var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );
       this.setMedium( new Medium( this.mediumProperty.get().shape,
         new Substance( customString, indexOfRefraction, false, true ),
-        MediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
+        mediumControlPanel.mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
       ) );
     },
 
@@ -377,7 +380,7 @@ define( function( require ) {
      * @param {Substance} substance - specifies state of the medium
      */
     setSubstance: function( substance ) {
-      var color = MediumColorFactory.getColor( substance.getIndexOfRefractionForRedLight() );
+      var color = this.mediumColorFactory.getColor( substance.indexOfRefractionForRedLight );
       this.setMedium( new Medium( this.mediumProperty.get().shape, substance, color ) );
     },
 

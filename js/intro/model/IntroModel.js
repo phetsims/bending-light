@@ -13,9 +13,9 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
   var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
@@ -41,12 +41,12 @@ define( function( require ) {
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
 
     // Top medium
-    this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), BendingLightModel.AIR,
-      MediumColorFactory.getColor( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ) ) );
+    this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), Substance.AIR,
+      this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ) );
 
     // Bottom medium
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomSubstance,
-      MediumColorFactory.getColor( bottomSubstance.getIndexOfRefractionForRedLight() ) ) );
+      this.mediumColorFactory.getColor( bottomSubstance.indexOfRefractionForRedLight ) ) );
     this.time = 0; // @public
 
     // Update the top medium index of refraction when top medium change

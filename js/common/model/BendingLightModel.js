@@ -14,30 +14,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Util = require( 'SCENERY/util/Util' );
-
-  // strings
-  var airString = require( 'string!BENDING_LIGHT/air' );
-  var waterString = require( 'string!BENDING_LIGHT/water' );
-  var glassString = require( 'string!BENDING_LIGHT/glass' );
-  var diamondString = require( 'string!BENDING_LIGHT/diamond' );
-  var mysteryAString = require( 'string!BENDING_LIGHT/mysteryA' );
-  var mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
+  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
 
   // constants
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
-  var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
-
-  // mediums that can be selected
-  var AIR = new Substance( airString, 1.000293, false, false );
-  var WATER = new Substance( waterString, 1.333, false, false );
-  var GLASS = new Substance( glassString, 1.5, false, false );
-  var DIAMOND = new Substance( diamondString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false );
-  var MYSTERY_A = new Substance( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
-  var MYSTERY_B = new Substance( mysteryBString, 1.4, true, false );
 
   /**
    * Get the fraction of power reflected from the medium
@@ -81,6 +64,8 @@ define( function( require ) {
 
     // @public (read-only)- list of rays in the model
     this.rays = new ObservableArray();
+
+    this.mediumColorFactory = new MediumColorFactory();
 
     // dimensions of the model, guaranteed to be shown in entirety on the stage
     this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public (read-only)
@@ -148,13 +133,6 @@ define( function( require ) {
     // @public (read-only) statics
     {
       DEFAULT_LASER_DISTANCE_FROM_PIVOT: DEFAULT_LASER_DISTANCE_FROM_PIVOT,
-      DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT: DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT,
-      AIR: AIR,
-      WATER: WATER,
-      GLASS: GLASS,
-      DIAMOND: DIAMOND,
-      MYSTERY_A: MYSTERY_A,
-      MYSTERY_B: MYSTERY_B,
       getReflectedPower: getReflectedPower,
       getTransmittedPower: getTransmittedPower
     } );

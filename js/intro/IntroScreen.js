@@ -11,7 +11,7 @@ define( function( require ) {
 
   // modules
   var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
-  var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
@@ -29,7 +29,7 @@ define( function( require ) {
    */
   function IntroScreen() {
     Screen.call( this, introTitleString, new Image( icon ),
-      function() { return new IntroModel( BendingLightModel.WATER, true ); },
+      function() { return new IntroModel( Substance.WATER, true ); },
       function( model ) {
         return new IntroView( model, 102, false, 2, function( introModel ) {
           return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );

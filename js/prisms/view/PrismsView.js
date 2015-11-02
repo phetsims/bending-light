@@ -24,7 +24,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   var Panel = require( 'SUN/Panel' );
   var Vector2 = require( 'DOT/Vector2' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -132,8 +131,9 @@ define( function( require ) {
     var IndexOfRefractionDecimals = 2;
 
     // Add control panels for setting the index of refraction for each medium
-    var environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.environmentMediumProperty,
-      environmentString, false, prismsModel.wavelengthProperty, IndexOfRefractionDecimals, {
+    var environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.mediumColorFactory, prismsModel.environmentMediumProperty,
+      environmentString, false, prismsModel.wavelengthProperty,
+      IndexOfRefractionDecimals, {
         xMargin: 7,
         yMargin: 6,
         comboBoxListPosition: 'below'
@@ -274,7 +274,7 @@ define( function( require ) {
     this.addChild( navigationBarSeparator );
 
     prismsModel.laser.colorModeProperty.link( function( colorMode ) {
-      MediumColorFactory.lightTypeProperty.value = colorMode;
+      prismsModel.mediumColorFactory.lightTypeProperty.value = colorMode;
     } );
   }
 
@@ -317,7 +317,8 @@ define( function( require ) {
         stageWidth,
         stageHeight,
         bendingLightModel.rays,
-        this.prismsModel.environmentMediumProperty
+        this.prismsModel.environmentMediumProperty,
+        this.prismsModel.mediumColorFactory
       );
       this.whiteLightNode.setExcludeInvisible( true );
 

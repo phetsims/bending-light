@@ -11,10 +11,15 @@ define( function( require ) {
 
   // modules
   var Color = require( 'SCENERY/util/Color' );
-  var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Property = require( 'AXON/Property' );
   var Util = require( 'DOT/Util' );
+  var inherit = require( 'PHET_CORE/inherit' );
+
+  function MediumColorFactory() {
+    this.lightTypeProperty = new Property( 'singleColor' ); // could also be 'white'
+  }
 
   /**
    * Make sure light doesn't go outside of the 0..255 bounds
@@ -49,9 +54,9 @@ define( function( require ) {
     return function( indexForRed ) {
 
       // precompute to improve readability below
-      var waterIndexForRed = BendingLightModel.WATER.getIndexOfRefractionForRedLight();
-      var glassIndexForRed = BendingLightModel.GLASS.getIndexOfRefractionForRedLight();
-      var diamondIndexForRed = BendingLightModel.DIAMOND.getIndexOfRefractionForRedLight();
+      var waterIndexForRed = Substance.WATER.indexOfRefractionForRedLight;
+      var glassIndexForRed = Substance.GLASS.indexOfRefractionForRedLight;
+      var diamondIndexForRed = Substance.DIAMOND.indexOfRefractionForRedLight;
 
       // find out what region the index of refraction lies in, and linearly interpolate between adjacent medium colors
       var linearFunction;
@@ -96,7 +101,7 @@ define( function( require ) {
   // distance between adjacent colors for shades of gray against the black background
   var step = 55;
 
-  return {
+  return inherit( Object, MediumColorFactory, {
 
     /**
      * Maps index of refraction to color using linear functions
@@ -117,11 +122,10 @@ define( function( require ) {
       new Color( step * 3, step * 3, step * 3 )
     ),
 
-    lightTypeProperty: new Property( 'singleColor' ), // could also be 'white'
     getColor: function( indexForRed ) {
       return this.lightTypeProperty.value === 'singleColor' ?
              this.getColorAgainstWhite( indexForRed ) :
              this.getColorAgainstBlack( indexForRed );
     }
-  };
+  } );
 } );
