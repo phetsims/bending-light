@@ -226,7 +226,17 @@ define( function( require ) {
     var protractorLocationProperty = new Property( protractorLocation );
 
     var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
-      targetNode: protractorNode
+      targetNode: protractorNode,
+      endDrag: function() {
+
+        // If the protractor is hidden behind any of the controls in the top right, move it to the left
+        var bounds = environmentMediumControlPanel.globalBounds
+          .union( laserTypeRadioButtonGroup.globalBounds )
+          .union( laserControlPanel.globalBounds );
+        while ( bounds.intersectsBounds( protractorNode.globalBounds ) ) {
+          protractorLocationProperty.value = protractorLocationProperty.value.plusXY( -10, 0 );
+        }
+      }
     } );
     protractorNode.barPath.addInputListener( protractorNodeListener );
 
