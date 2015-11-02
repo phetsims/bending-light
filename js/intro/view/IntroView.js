@@ -270,7 +270,7 @@ define( function( require ) {
 
     // create the protractor node
     var protractorNodeIcon = new ProtractorNode( this.showProtractorProperty, false, {
-      scale: 0.12
+      scale: 0.24
     } );
     protractorNodeIcon.mouseArea = Shape.bounds( protractorNodeIcon.localBounds );
     protractorNodeIcon.touchArea = Shape.bounds( protractorNodeIcon.localBounds );
@@ -279,7 +279,7 @@ define( function( require ) {
     } );
 
     var protractorNode = new ProtractorNode( this.showProtractorProperty, false, {
-      scale: 0.4
+      scale: 0.8
     } );
     var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
     var protractorLocationProperty = new Property( protractorLocation );
