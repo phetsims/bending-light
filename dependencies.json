@@ -1,15 +1,15 @@
 {
-  "comment": "# bending-light 1.0.0-dev.35 Wed Oct 28 2015 15:02:35 GMT-0600 (MDT)",
+  "comment": "# bending-light 1.0.0-dev.36 Mon Nov 02 2015 09:30:58 GMT-0700 (MST)",
   "assert": {
     "sha": "11bc6a6d0344ba1a8b95982bad3552bffbdfdfd6",
     "branch": "master"
   },
   "axon": {
-    "sha": "ea354263c16df560d237ece773548353fe04c27e",
+    "sha": "202abb277f47a2fee77ebb980cdea7fc8f5a98ae",
     "branch": "master"
   },
   "bending-light": {
-    "sha": "a468d7989519122161c75336badf2fd5b5fe9782",
+    "sha": "1b4af00b233d8b6674b1bd2b54281fb555fe12d5",
     "branch": "master"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "1e453bb7d5ae0072bde0a83a8ccfb6db16286168",
+    "sha": "d13a1ddafca51d415f46413db0f8a91954233255",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "8d87df6c0eda1f9490afc5ffa83c120cb286df87",
+    "sha": "29bd700b4dc2dcb5006302eba597311b686e34d3",
     "branch": "master"
   },
   "kite": {
@@ -33,19 +33,19 @@
     "branch": "master"
   },
   "phet-core": {
-    "sha": "6eab326e14a6dad382ac87ebc891696e03490c1a",
+    "sha": "12bc1541f5937691efba4733f5617ede340fc7d0",
     "branch": "master"
   },
   "phetcommon": {
-    "sha": "0e4754feb35bc853b9a1f685e0270f5d53b9b7f8",
+    "sha": "8f0f79d2510256ba8074da4a8f407d32f7ca16b0",
     "branch": "master"
   },
   "scenery": {
-    "sha": "1606cafc06e57bd05ef432db0b5190f6d3f12586",
+    "sha": "6ec044ac316ecb074235c6190cef1a4bf5008b13",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "33f3162822238368ddac713bf7d4c6c7bcddee86",
+    "sha": "0539f7b5ae4c297988206ef6728814c8c00303c2",
     "branch": "master"
   },
   "sherpa": {
@@ -57,7 +57,7 @@
     "branch": "master"
   },
   "tandem": {
-    "sha": "c54f108248c06ef22c3091a36e60cdf27d3e0919",
+    "sha": "210ece84c1dfdce1aedb77e451cd0ddc376db313",
     "branch": "master"
   }
 }
