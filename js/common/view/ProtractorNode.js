@@ -108,6 +108,8 @@ define( function( require ) {
       protractorNode.protractorAngleProperty.link( function( angle ) {
         protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
       } );
+      this.barPath = new Path( new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 ) );
+      this.addChild( this.barPath );
     }
     this.mutate( options );
   }

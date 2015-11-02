@@ -215,7 +215,6 @@ define( function( require ) {
 
     this.afterLightLayer2.addChild( resetAllButton );
 
-
     this.afterLightLayer.addChild( prismToolboxNode );
 
     // Add the protractor node
@@ -226,8 +225,10 @@ define( function( require ) {
     var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
     var protractorLocationProperty = new Property( protractorLocation );
 
-    var protractorNodeListener = new MovableDragHandler( protractorLocationProperty );
-    protractorNode.addInputListener( protractorNodeListener );
+    var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
+      targetNode: protractorNode
+    } );
+    protractorNode.barPath.addInputListener( protractorNodeListener );
 
     protractorLocationProperty.link( function( protractorLocation ) {
       protractorNode.center = protractorLocation;
