@@ -128,12 +128,12 @@ define( function( require ) {
     // Put it behind everything else
     this.insertChild( 0, environmentMediumNode );
 
-    var IndexOfRefractionDecimals = 2;
+    var indexOfRefractionDecimals = 2;
 
     // Add control panels for setting the index of refraction for each medium
     var environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.mediumColorFactory, prismsModel.environmentMediumProperty,
       environmentString, false, prismsModel.wavelengthProperty,
-      IndexOfRefractionDecimals, {
+      indexOfRefractionDecimals, {
         xMargin: 7,
         yMargin: 6,
         comboBoxListPosition: 'below'
