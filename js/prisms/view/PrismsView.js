@@ -120,13 +120,17 @@ define( function( require ) {
 
     // Node for the environment that spans the screen (only for monochromatic light, the white light background
     // is rendered as opaque in the white light node for blending purposes)
-    var environmentMediumNode = new Rectangle( 0, 0, 0, 0 );
+    var environmentMediumNodeForMonochromaticLight = new Rectangle( 0, 0, 0, 0 );
     prismsModel.environmentMediumProperty.link( function( environmentMedium ) {
-      environmentMediumNode.fill = environmentMedium.color;
+
+      // This medium node only shows the color for monochromatic light
+      var indexOfRefractionForRed = environmentMedium.substance.dispersionFunction.getIndexOfRefractionForRed();
+      var color = prismsModel.mediumColorFactory.getColorAgainstWhite( indexOfRefractionForRed );
+      environmentMediumNodeForMonochromaticLight.fill = color;
     } );
 
     // Put it behind everything else
-    this.insertChild( 0, environmentMediumNode );
+    this.insertChild( 0, environmentMediumNodeForMonochromaticLight );
 
     var indexOfRefractionDecimals = 2;
 
@@ -264,7 +268,7 @@ define( function( require ) {
     this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
         prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
       protractorNodeListener.setDragBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
-      environmentMediumNode.setRect( -dx, -dy, width, height );
+      environmentMediumNodeForMonochromaticLight.setRect( -dx, -dy, width, height );
       }
     );
 
