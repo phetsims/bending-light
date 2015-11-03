@@ -420,7 +420,10 @@ define( function( require ) {
     }
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
-    FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox, checkBoxPanel ] );
+    FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox ] );
+
+    // Indent the checkboxes a bit so it looks more natural
+    FloatingLayout.floatLeft( this, [ checkBoxPanel ], 10 );
 
     FloatingLayout.floatTop( this, [ laserControlPanel ] );
     FloatingLayout.floatBottom( this, [ checkBoxPanel, resetAllButton, this.timeControlNode ] );

@@ -13,7 +13,8 @@ define( function() {
   var floatFraction = 0.3;
 
   // Distance of each object from the edge of the screen
-  var padding = 10;
+  var topBottomPadding = 15;
+  var leftRightPadding = 10;
 
   return {
 
@@ -27,7 +28,7 @@ define( function() {
       screenView.events.on( 'layoutFinished', function( dx, dy, width ) {
 
         // Let the panels move to the right, but not too far
-        var right = Math.min( width - dx - padding, screenView.layoutBounds.width * (1 + floatFraction) );
+        var right = Math.min( width - dx - leftRightPadding, screenView.layoutBounds.width * (1 + floatFraction) );
         nodes.forEach( function( node ) {
           node.right = right;
         } );
@@ -40,13 +41,14 @@ define( function() {
      * @param {ScreenView} screenView
      * @param {Node[]} nodes
      */
-    floatLeft: function( screenView, nodes ) {
+    floatLeft: function( screenView, nodes, delta ) {
+      var delta = delta || 0;
       screenView.events.on( 'layoutFinished', function( dx ) {
 
         // Let the panels move to the left, but not too far
-        var left = Math.max( -dx + padding, -screenView.layoutBounds.width * floatFraction );
+        var left = Math.max( -dx + leftRightPadding, -screenView.layoutBounds.width * floatFraction );
         nodes.forEach( function( node ) {
-          node.left = left;
+          node.left = left + delta;
         } );
       } );
     },
@@ -61,7 +63,7 @@ define( function() {
       screenView.events.on( 'layoutFinished', function( dx, dy ) {
 
         // Let the panels move to the top, but not too far
-        var top = Math.max( -dy + padding, -screenView.layoutBounds.width * floatFraction );
+        var top = Math.max( -dy + topBottomPadding, -screenView.layoutBounds.width * floatFraction );
         nodes.forEach( function( node ) {
           node.top = top;
         } );
@@ -78,7 +80,7 @@ define( function() {
       screenView.events.on( 'layoutFinished', function( dx, dy, width, height ) {
 
         // Let the panels move to the bottom, but not too far
-        var bottom = Math.min( height - dy - padding, screenView.layoutBounds.width * (1 + floatFraction) );
+        var bottom = Math.min( height - dy - topBottomPadding, screenView.layoutBounds.width * (1 + floatFraction) );
         nodes.forEach( function( node ) {
           node.bottom = bottom;
         } );
