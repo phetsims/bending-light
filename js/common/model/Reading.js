@@ -16,7 +16,7 @@ define( function( require ) {
 
   // strings
   var missString = require( 'string!BENDING_LIGHT/miss' );
-  var valuePercentString = require( 'string!BENDING_LIGHT/pattern_0value_percent' );
+  var pattern0ValuePercentString = require( 'string!BENDING_LIGHT/pattern_0value_percent' );
 
   // constants
   var VALUE_DECIMALS = 2;
@@ -50,7 +50,7 @@ define( function( require ) {
        * @returns {string}
        */
       format: function( value ) {
-        return StringUtils.format( valuePercentString, Util.toFixed( value, VALUE_DECIMALS ) );
+        return StringUtils.format( pattern0ValuePercentString, Util.toFixed( value, VALUE_DECIMALS ) );
       },
 
       /**

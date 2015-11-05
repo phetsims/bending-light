@@ -43,7 +43,7 @@ define( function( require ) {
   // strings
   var materialString = require( 'string!BENDING_LIGHT/material' );
   var anglesString = require( 'string!BENDING_LIGHT/angles' );
-  var normalString = require( 'string!BENDING_LIGHT/normalLine' );
+  var normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
 
   // constants
   var INSET = 10;
@@ -234,7 +234,7 @@ define( function( require ) {
     this.laserViewLayer.addChild( laserControlPanel );
 
     // text for checkboxes
-    var normalText = new Text( normalString, { fontSize: 12 } );
+    var normalText = new Text( normalLineString, { fontSize: 12 } );
     var angleText = new Text( anglesString, { fontSize: 12 } );
 
     // add normal check box

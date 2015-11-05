@@ -19,7 +19,7 @@ define( function( require ) {
   var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
 
   // strings
-  var introTitleString = require( 'string!BENDING_LIGHT/intro' );
+  var introString = require( 'string!BENDING_LIGHT/intro' );
 
   // images
   var icon = require( 'mipmap!BENDING_LIGHT/Intro_Screen.png' );
@@ -28,7 +28,7 @@ define( function( require ) {
    * @constructor
    */
   function IntroScreen() {
-    Screen.call( this, introTitleString, new Image( icon ),
+    Screen.call( this, introString, new Image( icon ),
       function() { return new IntroModel( Substance.WATER, true ); },
       function( model ) {
         return new IntroView( model, 102, false, 2, function( introModel ) {

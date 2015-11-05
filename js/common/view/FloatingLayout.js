@@ -42,7 +42,7 @@ define( function() {
      * @param {Node[]} nodes
      */
     floatLeft: function( screenView, nodes, delta ) {
-      var delta = delta || 0;
+      delta = delta || 0;
       screenView.events.on( 'layoutFinished', function( dx ) {
 
         // Let the panels move to the left, but not too far

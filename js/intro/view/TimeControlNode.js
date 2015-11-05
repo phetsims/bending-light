@@ -21,7 +21,7 @@ define( function( require ) {
 
   // strings
   var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
-  var normalString = require( 'string!BENDING_LIGHT/normalSpeed' );
+  var normalSpeedString = require( 'string!BENDING_LIGHT/normalSpeed' );
 
   /**
    *
@@ -32,7 +32,7 @@ define( function( require ) {
     var slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
       new Text( slowMotionString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
     var normalMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'normal',
-      new Text( normalString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
+      new Text( normalSpeedString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
 
     var speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ?
                                slowMotionRadioBox.width : normalMotionRadioBox.width;

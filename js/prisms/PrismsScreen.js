@@ -17,7 +17,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
 
   // strings
-  var prismsTitleString = require( 'string!BENDING_LIGHT/prisms' );
+  var prismsString = require( 'string!BENDING_LIGHT/prisms' );
 
   // images
   var iconImage = require( 'mipmap!BENDING_LIGHT/Prisms_Screen_White.png' );
@@ -28,7 +28,7 @@ define( function( require ) {
    */
   function PrismsScreen() {
     var prismModel = new PrismsModel();
-    Screen.call( this, prismsTitleString, new Image( iconImage ),
+    Screen.call( this, prismsString, new Image( iconImage ),
       function() {
         return prismModel;
       },

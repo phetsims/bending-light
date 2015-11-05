@@ -30,7 +30,7 @@ define( function( require ) {
   // strings
   var objectsString = require( 'string!BENDING_LIGHT/objects' );
   var reflectionsString = require( 'string!BENDING_LIGHT/reflections' );
-  var normalString = require( 'string!BENDING_LIGHT/normalLine' );
+  var normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
   var protractorString = require( 'string!BENDING_LIGHT/protractor' );
 
   // images
@@ -189,7 +189,7 @@ define( function( require ) {
     // itemSpec describes the pieces that make up an item in the control panel,
     // conforms to the contract: { label: {Node}, icon: {Node} (optional) }
     var showReflections = { label: new Text( reflectionsString, textOptions ) };
-    var showNormal = { label: new Text( normalString, textOptions ) };
+    var showNormal = { label: new Text( normalLineString, textOptions ) };
     var showProtractor = { label: new Text( protractorString, textOptions ), icon: createProtractorIcon() };
 
     // compute the maximum item width

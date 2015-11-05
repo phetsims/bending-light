@@ -17,7 +17,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
 
   // strings
-  var moreToolsTitleString = require( 'string!BENDING_LIGHT/moreTools' );
+  var moreToolsString = require( 'string!BENDING_LIGHT/moreTools' );
 
   // images
   var iconImage = require( 'mipmap!BENDING_LIGHT/More_Tools_Screen.png' );
@@ -27,7 +27,7 @@ define( function( require ) {
    */
   function MoreToolsScreen() {
     Screen.call( this,
-      moreToolsTitleString,
+      moreToolsString,
       new Image( iconImage ),
       function() {
         return new MoreToolsModel();
