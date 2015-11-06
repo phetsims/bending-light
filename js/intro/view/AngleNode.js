@@ -190,7 +190,8 @@ define( function( require ) {
           showReflectedAngle ? -reflectedRay.getAngle() : -Math.PI / 2,
           false );
 
-        lowerArcPath.shape = getShape( refractedAngleFromNormal,
+        lowerArcPath.shape = getShape(
+          refractedAngleFromNormal,
           Math.PI / 2,
           Math.PI / 2 - refractedAngleFromNormal,
           true
