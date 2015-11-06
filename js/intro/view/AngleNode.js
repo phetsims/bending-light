@@ -180,10 +180,14 @@ define( function( require ) {
                  ) :
                  null;
         };
+
+        // When the indices of refraction are equal, there is no reflected ray
+        var showReflectedAngle = reflectedRay.powerFraction >= 1E-6;
+
         upperArcPath.shape = getShape(
           incomingAngleFromNormal,
           Math.PI - incomingRay.getAngle(),
-          -reflectedRay.getAngle(),
+          showReflectedAngle ? -reflectedRay.getAngle() : -Math.PI / 2,
           false );
 
         lowerArcPath.shape = getShape( refractedAngleFromNormal,
@@ -220,6 +224,8 @@ define( function( require ) {
         reflectedReadout.text = incomingReadoutText; // It's the same
         reflectedReadout.center = origin.plus( reflectedReadoutDirection )
           .plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
+
+        reflectedReadout.visible = showReflectedAngle;
 
         var refractedReadoutText = refractedRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
