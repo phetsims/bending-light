@@ -59,7 +59,10 @@ define( function( require ) {
     var speedControl = new VBox( {
       align: 'left',
       spacing: radioButtonSpacing,
-      children: [ normalMotionRadioBox, slowMotionRadioBox ]
+      children: [
+        normalMotionRadioBox,
+        slowMotionRadioBox
+      ]
     } );
 
     // add play pause button
@@ -67,6 +70,12 @@ define( function( require ) {
       radius: 18,
       stroke: 'black',
       fill: '#005566'
+    } );
+
+    // Make the Play/Pause button bigger when it is showing the pause button, see #298
+    var pauseSizeIncreaseFactor = 1.28;
+    introModel.isPlayingProperty.lazyLink( function( isPlaying ) {
+      playPauseButton.scale( isPlaying ? ( 1 / pauseSizeIncreaseFactor ) : pauseSizeIncreaseFactor );
     } );
 
     // add step button
@@ -81,7 +90,15 @@ define( function( require ) {
         fill: '#005566'
       } );
 
-    HBox.call( this, { spacing: 10, children: [ speedControl, playPauseButton, stepButton ] } );
+    HBox.call( this, {
+      spacing: 15,
+      children: [
+        speedControl,
+        playPauseButton,
+        stepButton
+      ],
+      resize: false // don't relayout when the play/pause button changes size
+    } );
     this.mutate( options );
   }
 
