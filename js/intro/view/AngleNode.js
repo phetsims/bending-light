@@ -181,8 +181,11 @@ define( function( require ) {
                  null;
         };
 
+        // Only show the incident angle when the ray is coming in at a shallow angle, see #288
+        var isIncomingRayHorizontal = Math.abs( incomingRay.getAngle() ) < 1E-6;
+
         // When the indices of refraction are equal, there is no reflected ray
-        var showReflectedAngle = reflectedRay.powerFraction >= 1E-6;
+        var showReflectedAngle = reflectedRay.powerFraction >= 1E-6 && !isIncomingRayHorizontal;
 
         upperArcPath.shape = getShape(
           incomingAngleFromNormal,
@@ -231,7 +234,7 @@ define( function( require ) {
         var refractedReadoutText = refractedRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
         // Total internal reflection, or not a significant refracted ray (light coming horizontally)
-        var showLowerAngle = refractedRay.powerFraction >= 1E-6;
+        var showLowerAngle = refractedRay.powerFraction >= 1E-6 && !isIncomingRayHorizontal;
 
         refractedReadout.visible = showLowerAngle;
         lowerArcPath.visible = showLowerAngle;
