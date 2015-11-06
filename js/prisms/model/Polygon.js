@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * Shape that comprises a prism. Immutable here but composed with a Property.<Polygon> in Prism for mutability.

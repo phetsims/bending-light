@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.

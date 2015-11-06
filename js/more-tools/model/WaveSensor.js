@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * Sensor for wave values, reads the wave amplitude as a function of time and location. Two probes can be used to

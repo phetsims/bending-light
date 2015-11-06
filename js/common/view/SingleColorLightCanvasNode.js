@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * This CanvasNode renders the light rays for the non-white rays.  It is used only when WebGL is not available.
