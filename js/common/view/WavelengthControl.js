@@ -20,6 +20,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var Util = require( 'DOT/Util' );
 
   // strings
   var unitsNmString = require( 'string!BENDING_LIGHT/units_nm' );
@@ -52,7 +53,7 @@ define( function( require ) {
       pointerAreasOverTrack: true
     } );
 
-    var formattedString = StringUtils.format( wavelengthPatternString, wavelengthPropertyNM.value );
+    var formattedString = StringUtils.format( wavelengthPatternString, Util.roundSymmetric( wavelengthPropertyNM.value ) );
     var wavelengthValueText = new Text( formattedString );
     var wavelengthBoxShape = new Rectangle( 0, 0, new Text( unitsNmString ).width + 36, 18, 2, 2, {
       fill: 'white',
@@ -128,7 +129,7 @@ define( function( require ) {
       wavelengthProperty.set( wavelength / 1E9 );
 
       // set the value in the slider text box
-      wavelengthValueText.setText( StringUtils.format( wavelengthPatternString, wavelength, unitsNmString ) );
+      wavelengthValueText.setText( StringUtils.format( wavelengthPatternString, Util.roundSymmetric( wavelength ), unitsNmString ) );
     } );
   }
 
