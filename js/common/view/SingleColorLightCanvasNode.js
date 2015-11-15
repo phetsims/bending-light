@@ -1,7 +1,7 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * This CanvasNode renders the light rays for the non-white rays.  It is used only when WebGL is not available.
+ * This CanvasNode renders the light rays for the non-white rays.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -52,6 +52,7 @@ define( function( require ) {
       // Sometimes dashes from other canvases leak over here, so we must clear the dash
       // until this leak is fixed. See #258
       context.setLineDash( lineDash );
+      context.lineCap = 'round';
 
       for ( var i = 0; i < this.rays.length; i++ ) {
         var ray = this.rays.get( i );
