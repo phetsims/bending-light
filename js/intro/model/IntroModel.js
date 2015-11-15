@@ -152,7 +152,7 @@ define( function( require ) {
         // since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
-          this.laser.getWavelength() * 1E9, sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserView );
+          this.laser.getWavelength() * 1E9, sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserView, 'incident' );
 
         var rayAbsorbed = this.addAndAbsorb( incidentRay, 'incident' );
         if ( !rayAbsorbed ) {
@@ -169,21 +169,29 @@ define( function( require ) {
           else {
             reflectedPowerRatio = 1.0;
           }
-          var reflectedRay = new LightRay(
-            trapeziumWidth,
-            new Vector2( 0, 0 ),
-            Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ),
-            n1,
-            wavelengthInTopMedium,
-            this.laser.getWavelength() * 1E9,
-            reflectedPowerRatio * sourcePower,
-            color,
-            sourceWaveWidth,
-            incidentRay.getNumberOfWavelengths(),
-            true,
-            true, this.laserView
-          );
-          this.addAndAbsorb( reflectedRay, 'reflected' );
+
+          // make sure it has enough power to show up on the intensity meter, after rounding
+          var hasReflectedRay = reflectedPowerRatio >= 0.005;
+          if ( hasReflectedRay ) {
+            var reflectedRay = new LightRay(
+              trapeziumWidth,
+              new Vector2( 0, 0 ),
+              Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ),
+              n1,
+              wavelengthInTopMedium,
+              this.laser.getWavelength() * 1E9,
+              reflectedPowerRatio * sourcePower,
+              color,
+              sourceWaveWidth,
+              incidentRay.getNumberOfWavelengths(),
+              true,
+              true, this.laserView, 'reflected'
+            );
+            this.addAndAbsorb( reflectedRay, 'reflected' );
+          }
+          else {
+            reflectedPowerRatio = 0;
+          }
 
           // fire a transmitted ray if there wasn't total internal reflection
           if ( hasTransmittedRay ) {
@@ -198,6 +206,9 @@ define( function( require ) {
                 Math.cos( theta1 ),
                 Math.cos( theta2 )
               );
+              if ( !hasReflectedRay ) {
+                transmittedPowerRatio = 1;
+              }
 
               // make the beam width depend on the input beam width, so that the same beam width is transmitted as was
               // intercepted
@@ -220,7 +231,7 @@ define( function( require ) {
                 incidentRay.getNumberOfWavelengths(),
                 true,
                 true,
-                this.laserView );
+                this.laserView, 'transmitted' );
               this.addAndAbsorb( transmittedRay, 'transmitted' );
             }
           }
@@ -274,7 +285,8 @@ define( function( require ) {
           ray.numWavelengthsPhaseOffset,
           false,
           ray.extendBackwards,
-          this.laserView
+          this.laserView,
+          rayType
         );
 
         // don't let the wave intersect the intensity meter if it is behind the laser emission point

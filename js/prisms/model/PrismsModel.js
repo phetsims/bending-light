@@ -382,7 +382,10 @@ define( function( require ) {
           waveWidth,
           0,
           true,
-          false, this.laserView ) );
+          false,
+          this.laserView,
+          'prism'
+        ) );
       }
       else {
         rayColor = new Color( 0, 0, 0, 0 );
@@ -406,7 +409,8 @@ define( function( require ) {
           0,
           true,
           false,
-          this.laserView
+          this.laserView,
+          'prism'
         ) );
       }
     },

@@ -30,6 +30,7 @@ define( function( require ) {
   var TEXT_COLOR = 'black'; // The gray from the phet-io logo, which works well against black and white
 
   // When there is total internal reflection, treat it as if it is a powerless ray for simplicity
+  // Also used if there is no reflected ray
   var MOCK_ZERO_RAY = {
     getAngle: function() {
       return 0;
@@ -154,16 +155,37 @@ define( function( require ) {
     };
     rays.addListeners( markDirty, markDirty );
 
+    /**
+     * Select the ray of the given type 'incident' | 'reflected' | 'incident', or null if there isn't one of that type
+     * @param type
+     * @returns {*}
+     */
+    var getRay = function( type ) {
+      var selected = null;
+      for ( var i = 0; i < rays.length; i++ ) {
+        var ray = rays.get( i );
+        if ( ray.rayType === type ) {
+          assert && assert( selected === null, 'multiple rays of the same type' );
+          selected = ray;
+        }
+      }
+      if ( selected === null ) {
+        return MOCK_ZERO_RAY;
+      }
+      return selected;
+    };
+
     // Update the shape each frame
     addStepListener( function() {
-      if ( rays.length >= 2 && dirty ) {
+      if ( dirty ) {
 
         // Get the rays from the model.  They must be specified in the following order.
-        var incomingRay = rays.get( 0 );
-        var reflectedRay = rays.get( 1 );
-
-        // when there is total internal reflection, this ray does not appear
-        var refractedRay = rays.length > 2 ? rays.get( 2 ) : MOCK_ZERO_RAY;
+        var incomingRay = getRay( 'incident' );
+        var reflectedRay = getRay( 'reflected' );
+        var refractedRay = getRay( 'transmitted' );
+        if ( incomingRay === null && reflectedRay === null && refractedRay === null ) {
+          return;
+        }
 
         var incomingAngleFromNormal = incomingRay.getAngle() + Math.PI / 2;
         var refractedAngleFromNormal = refractedRay.getAngle() + Math.PI / 2;

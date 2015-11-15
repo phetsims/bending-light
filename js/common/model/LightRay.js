@@ -32,10 +32,11 @@ define( function( require ) {
    * @param {boolean} extend - indicates whether to extend it at tip of the wave
    * @param {boolean} extendBackwards - indicates whether to extend backwards it at tail of the wave
    * @param {string} laserView - specifies the laser view whether ray or wave mode
+   * @param {string} rayType - for the intro model, 'incident' | 'reflected' | 'transmitted' | 'prism'
    * @constructor
    */
   function LightRay( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, wavelengthInVacuum, powerFraction, color,
-                     waveWidth, numWavelengthsPhaseOffset, extend, extendBackwards, laserView ) {
+                     waveWidth, numWavelengthsPhaseOffset, extend, extendBackwards, laserView, rayType ) {
 
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
@@ -75,6 +76,9 @@ define( function( require ) {
 
     // time used in wave sensor node
     this.time = 0; // @public (read-only)
+
+    // @public (read-only) Keep track of the type of light ray for use in AngleNode
+    this.rayType = rayType;
 
     if ( laserView === 'wave' ) {
 
