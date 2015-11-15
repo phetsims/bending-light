@@ -40,7 +40,7 @@ define( function( require ) {
   var indexOfRefractionString = require( 'string!BENDING_LIGHT/indexOfRefraction' );
 
   // constants
-  var INDEX_OF_REFRACTION_MIN = 1.0;
+  var INDEX_OF_REFRACTION_MIN = Substance.AIR.indexForRed;
   var INDEX_OF_REFRACTION_MAX = 1.6;
   var PLUS_MINUS_SPACING = 4;
   var INSET = 10;

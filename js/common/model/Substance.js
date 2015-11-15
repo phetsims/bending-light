@@ -38,6 +38,7 @@ define( function( require ) {
     this.mystery = mystery; // @public (read-only)
     this.custom = custom; // @public (read-only)
     this.indexOfRefractionForRedLight = this.dispersionFunction.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
+    this.indexForRed = indexForRed; // @public (read-only)
   }
 
   return inherit( Object, Substance, {}, {
