@@ -44,6 +44,9 @@ define( function( require ) {
       return new LaserColor( wavelength );
     } );
 
+    // @public (read-only)
+    this.wavelengthProperty = wavelengthProperty;
+
     // laser direction vector
     this.directionUnitVector = new Vector2( 0, 0 ); // @private, for internal use only.
 

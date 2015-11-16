@@ -44,7 +44,8 @@ define( function( require ) {
       this.intensityMeter.sensorPositionProperty,
       this.topMediumProperty,
       this.bottomMediumProperty,
-      this.laser.emissionPointProperty
+      this.laser.emissionPointProperty,
+      this.laser.wavelengthProperty
     ], function() {
       moreToolsModel.velocitySensor.valueProperty.set(
         moreToolsModel.getVelocity( moreToolsModel.velocitySensor.position ) );
