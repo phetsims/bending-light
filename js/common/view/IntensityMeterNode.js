@@ -37,11 +37,11 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform; // @public (read-only)
     this.intensityMeter = intensityMeter;
 
-    this.probeNode = new ProbeNode( { cursor: 'pointer' } );
+    this.probeNode = new ProbeNode( { cursor: 'pointer', scale: 0.6 } );
 
     // add body node
     var rectangleWidth = 150;
-    var rectangleHeight = 105;
+    var rectangleHeight = 95;
 
     // adding outer rectangle
     var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 5, 5, {
@@ -62,15 +62,18 @@ define( function( require ) {
     } );
 
     // adding inner rectangle
-    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth * 0.8, rectangleHeight * 0.5 ), {
+    var valueBackground = new ShadedRectangle( new Bounds2( 0, 0, rectangleWidth * 0.8, rectangleHeight * 0.4 ), {
       baseColor: 'white',
       lightSource: 'rightBottom',
       centerX: innerRectangle.centerX,
-      centerY: rectangleHeight * 0.6
+      top: 10
     } );
 
     // Add a "Intensity" title to the body node
-    var titleNode = new Text( intensityString, { font: new PhetFont( 20 ), fill: 'white' } );
+    var titleNode = new Text( intensityString, {
+      font: new PhetFont( 28 ),
+      fill: 'white'
+    } );
     if ( titleNode.width > rectangleWidth - 15 ) {
       titleNode.scale( (rectangleWidth - 15) / titleNode.width );
     }
@@ -83,19 +86,21 @@ define( function( require ) {
 
     // add up all the shapes to form a body node
     this.bodyNode = new Node( {
-      children: [ outerRectangle, innerRectangle, innerMostRectangle, titleNode, valueNode ],
-      cursor: 'pointer'
+      children: [ outerRectangle, innerRectangle, valueBackground, titleNode, valueNode ],
+      cursor: 'pointer',
+      scale: 0.6
     } );
-    titleNode.y = this.bodyNode.getHeight() * 0.23;
+    titleNode.bottom = innerRectangle.bottom - 3;
     titleNode.centerX = outerRectangle.centerX;
 
     // displayed value
     intensityMeter.readingProperty.link( function() {
       valueNode.setText( intensityMeter.reading.getString() );
-      valueNode.setTranslation(
-        innerMostRectangle.centerX - valueNode.width / 2,
-        innerMostRectangle.centerY + valueNode.height / 2
-      );
+      valueNode.center = valueBackground.center;
+      //valueNode.setTranslation(
+      //  valueBackground.centerX - valueNode.width / 2,
+      //  valueBackground.centerY + valueNode.height / 2
+      //);
     } );
 
     // Connect the sensor to the body with a gray wire
@@ -137,7 +142,7 @@ define( function( require ) {
 
   return inherit( Node, IntensityMeterNode, {
     resetRelativeLocations: function() {
-      this.bodyNode.center = this.probeNode.center.plusXY( 180, 0 );
+      this.bodyNode.center = this.probeNode.center.plusXY( 180 * 0.6, 0 );
       this.wireNode.updateWireShape();
     },
     updateWireShape: function() {

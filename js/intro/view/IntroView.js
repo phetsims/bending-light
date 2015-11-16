@@ -327,7 +327,7 @@ define( function( require ) {
 
     // add intensity meter
     var intensityMeterNodeIcon = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter.copy(), {
-      scale: 0.2,
+      scale: 1 / 3,
       cursor: 'pointer'
     } );
     intensityMeterNodeIcon.mouseArea = Shape.bounds( intensityMeterNodeIcon.localBounds );
