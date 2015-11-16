@@ -170,6 +170,11 @@ define( function( require ) {
             reflectedPowerRatio = 1.0;
           }
 
+          // If nothing is transmitted, do not create a 0 power transmitted ray, see #296
+          if ( reflectedPowerRatio === 1.0 ) {
+            hasTransmittedRay = false;
+          }
+
           // make sure it has enough power to show up on the intensity meter, after rounding
           var hasReflectedRay = reflectedPowerRatio >= 0.005;
           if ( hasReflectedRay ) {
