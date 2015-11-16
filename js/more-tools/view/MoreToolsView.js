@@ -145,7 +145,7 @@ define( function( require ) {
     },
     getVelocitySensorIcon: function() {
       var moreToolsView = this;
-      var velocitySensorToolboxScale = 0.85;
+      var velocitySensorToolboxScale = 1.4;
       var velocitySensorIconNode = new VelocitySensorNode(
         this.modelViewTransform,
         this.moreToolsModel.velocitySensor.copy(),

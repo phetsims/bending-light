@@ -35,9 +35,6 @@ define( function( require ) {
   var velocityPatternString = require( 'string!BENDING_LIGHT/velocityPattern' );
   var unknownVelocityString = require( 'string!BENDING_LIGHT/unknownVelocity' );
 
-  // constants
-  var SCALE_INSIDE_TOOLBOX = 0.7;
-
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
@@ -171,7 +168,9 @@ define( function( require ) {
         }
         labelText.center = whiteTextArea.center;
       } );
-    this.bodyNode.setScaleMagnitude( SCALE_INSIDE_TOOLBOX );
+
+    // Overall scaling, vestigial
+    this.bodyNode.setScaleMagnitude( 0.7 );
 
     this.mutate( options );
   }
