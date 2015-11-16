@@ -56,12 +56,12 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform; // @public (read-only)
     this.velocitySensor = velocitySensor; // @public (read-only)
 
-    var rectangleWidth = 100;
-    var rectangleHeight = 70;
+    var rectangleWidth = 54;
+    var rectangleHeight = 37;
     this.bodyNode = new Node(); // @private
 
-    var triangleHeight = 30;
-    var triangleWidth = 16;
+    var triangleHeight = 15;
+    var triangleWidth = 8;
 
     // Adding triangle shape
     var triangleShapeNode = new Path( new Shape()
@@ -76,7 +76,8 @@ define( function( require ) {
 
     // Adding outer rectangle
     var bodyColor = new Color( '#CF8702' );
-    var bodyRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 15, 15, {
+    var arc = 7.5;
+    var bodyRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, arc, arc, {
       stroke: '#844702',
       fill: new LinearGradient( 0, 0, 0, rectangleHeight )
 
@@ -97,8 +98,8 @@ define( function( require ) {
     // Adding velocity meter title text
     var titleText = new Text( speedString, {
       fill: 'black',
-      font: new PhetFont( 18 ),
-      maxWidth: rectangleWidth - 15,
+      font: new PhetFont( 10 ),
+      maxWidth: rectangleWidth - 7.5,
       centerX: bodyRectangle.centerX,
       bottom: bodyRectangle.bottom - 5
     } );
@@ -106,19 +107,19 @@ define( function( require ) {
     this.bodyNode.addChild( titleText );
 
     // Adding inner rectangle
-    var whiteTextArea = new ShadedRectangle( new Bounds2( 0, 0, rectangleWidth - 30, rectangleHeight - 45 ), {
+    var whiteTextArea = new ShadedRectangle( new Bounds2( 0, 0, rectangleWidth - 15, rectangleHeight - 22.5 ), {
       baseColor: 'white',
       lightSource: 'rightBottom',
-      cornerRadius: 5,
+      cornerRadius: 3,
       centerX: bodyRectangle.centerX,
-      top: bodyRectangle.top + 10
+      top: bodyRectangle.top + 3
     } );
     this.bodyNode.addChild( whiteTextArea );
 
     // Adding velocity measure label
     var labelText = new Text( '', {
       fill: 'black',
-      font: new PhetFont( 12 ),
+      font: new PhetFont( 10 ),
       center: whiteTextArea.center
     } );
     this.bodyNode.addChild( labelText );
