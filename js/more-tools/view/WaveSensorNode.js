@@ -11,7 +11,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Color = require( 'SCENERY/util/Color' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -23,41 +22,51 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var ChartNode = require( 'BENDING_LIGHT/more-tools/view/ChartNode' );
   var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
+  var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
 
   // strings
   var timeString = require( 'string!BENDING_LIGHT/time' );
-
-  // images
-  var darkProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_dark.png' );
-  var lightProbeImage = require( 'image!BENDING_LIGHT/wave_detector_probe_light.png' );
 
   /**
    * View for rendering a probe that can be used to sense wave values
    *
    * @param {Probe} probe - probe containing position and recorded data series
-   * @param {string} probeImageName - name of the probe image
+   * @param {string} color
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @constructor
    */
-  function ProbeNode( probe, probeImageName, modelViewTransform ) {
+  function ProbeNodeWrapper( probe, color, modelViewTransform ) {
 
     var probeNode = this;
     Node.call( this, { cursor: 'pointer' } );
 
     // Add the probe
-    this.addChild( new Image( probeImageName, { scale: 0.8 } ) );
+    this.addChild( new ProbeNode( {
+      radius: 43,
+      innerRadius: 32,
+      handleWidth: 40,
+      handleHeight: 30,
+      handleCornerRadius: 9,
+
+      color: color, // {Color|string} darkish green
+
+      // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
+      // or null for an empty region
+      sensorTypeFunction: ProbeNode.crosshairs(),
+      scale: 0.5
+    } ) );
 
     // Probe location
     probe.positionProperty.link( function( position ) {
-      probeNode.center = modelViewTransform.modelToViewPosition( position );
+      probeNode.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
     this.syncModelFromView = function() {
-      probe.position = modelViewTransform.viewToModelPosition( probeNode.center );
+      probe.position = modelViewTransform.viewToModelPosition( probeNode.translation );
     };
   }
 
-  inherit( Node, ProbeNode );
+  inherit( Node, ProbeNodeWrapper );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
@@ -129,8 +138,8 @@ define( function( require ) {
     this.bodyNode.addChild( this.chartNode );
 
     // Create the probes
-    this.probe1Node = new ProbeNode( waveSensor.probe1, darkProbeImage, modelViewTransform ); // @public (read-only)
-    this.probe2Node = new ProbeNode( waveSensor.probe2, lightProbeImage, modelViewTransform ); // @public (read-only)
+    this.probe1Node = new ProbeNodeWrapper( waveSensor.probe1, '#5c5d5f', modelViewTransform ); // @public (read-only)
+    this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform ); // @public (read-only)
 
     // Rendering order, including wires
     var wire1Node = new WireNode( this.probe1Node, this.bodyNode, darkProbeColor.toCSS() );
@@ -146,7 +155,6 @@ define( function( require ) {
     } );
 
     waveSensor.probe1.positionProperty.link( function( position ) {
-      waveSensorNode.probe1Node.center = modelViewTransform.modelToViewPosition( position );
       wire1Node.updateWireShape();
     } );
     waveSensor.probe2.positionProperty.link( function() {
