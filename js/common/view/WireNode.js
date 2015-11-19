@@ -29,7 +29,7 @@ define( function( require ) {
     this.color = color; // @public (read-only)
 
     Path.call( this, null, {
-      lineWidth: 5 * bodyNode.getScaleVector().x,
+      lineWidth: 3,
       stroke: color
     } );
     var wireNode = this;

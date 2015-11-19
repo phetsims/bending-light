@@ -16,7 +16,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ComboBox = require( 'SUN/ComboBox' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
   var Panel = require( 'SUN/Panel' );
   var Text = require( 'SCENERY/nodes/Text' );
   var HSlider = require( 'SUN/HSlider' );
@@ -29,7 +28,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var HStrut = require( 'SCENERY/nodes/HStrut' );
 
   // strings
   var airString = require( 'string!BENDING_LIGHT/air' );
@@ -95,7 +93,6 @@ define( function( require ) {
       materialTitle.scale( materialTitleWidth / materialTitle.width );
     }
 
-    var maxWidth = (textFieldVisible ? 178 : 128) - materialTitle.width;
     var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
     var createItem = function( item ) {
@@ -104,11 +101,8 @@ define( function( require ) {
       if ( itemName.width > comboBoxTextWidth ) {
         itemName.scale( comboBoxTextWidth / itemName.width );
       }
-      var strutWidth = maxWidth - itemName.width;
 
-      return ComboBox.createItem( new HBox( {
-        children: [ itemName, new HStrut( strutWidth ) ]
-      } ), item );
+      return ComboBox.createItem( itemName, item );
     };
     // states to choose from (and indicate) in the combo box
     var substances = [
@@ -117,7 +111,8 @@ define( function( require ) {
       Substance.GLASS,
       Substance.MYSTERY_A,
       Substance.MYSTERY_B,
-      customState ];
+      customState
+    ];
     var comboBoxSubstanceProperty = new Property( initialSubstance );
 
     // update combo box
@@ -226,8 +221,7 @@ define( function( require ) {
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
     // handling long strings
-    var sliderWidth = Math.max( materialComboBox.width,
-        textFieldVisible ? indexOfRefractionLabel.width + 90 : indexOfRefractionLabel.width ) - 35;
+    var sliderWidth = Math.max( materialComboBox.width, plusButton.right - indexOfRefractionLabel.left ) - 10;
     var labelWidth = sliderWidth * 0.25;
     var airTitle = new Text( airString );
     if ( airTitle.width > labelWidth ) {
@@ -288,7 +282,7 @@ define( function( require ) {
     // position the indexOfRefractionNode and indexOfRefractionSlider
     indexOfRefractionNode.top = materialComboBox.bottom + INSET;
     indexOfRefractionNode.left = materialComboBox.left;
-    indexOfRefractionSlider.centerX = materialComboBox.centerX;
+    indexOfRefractionSlider.left = materialComboBox.left;
     indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET / 2;
     unknown.centerX = materialComboBox.centerX;
     unknown.centerY = indexOfRefractionNode.bottom + INSET;

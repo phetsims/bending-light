@@ -71,7 +71,7 @@ define( function( require ) {
 
     // Add a "Intensity" title to the body node
     var titleNode = new Text( intensityString, {
-      font: new PhetFont( 28 ),
+      font: new PhetFont( 24 ),
       fill: 'white'
     } );
     if ( titleNode.width > rectangleWidth - 15 ) {

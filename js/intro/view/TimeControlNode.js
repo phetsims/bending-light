@@ -81,7 +81,7 @@ define( function( require ) {
     // add step button
     var stepButton = new StepButton(
       function() {
-        introModel.updateSimulationTimeAndWaveShape();
+        introModel.updateSimulationTimeAndWaveShape( 'normal' );
         updateWaveShape();
       },
       introModel.isPlayingProperty, {

@@ -379,7 +379,7 @@ define( function( require ) {
     step: function() {
 
       if ( this.isPlaying ) {
-        this.updateSimulationTimeAndWaveShape();
+        this.updateSimulationTimeAndWaveShape( this.speed );
       }
     },
 
@@ -387,10 +387,10 @@ define( function( require ) {
      * Update simulation time and wave propagation.
      * @public
      */
-    updateSimulationTimeAndWaveShape: function() {
+    updateSimulationTimeAndWaveShape: function( speed ) {
 
       // Update the time
-      this.time = this.time + (this.speed === 'normal' ? 1E-16 : 0.5E-16);
+      this.time = this.time + (speed === 'normal' ? 1E-16 : 0.5E-16);
       var introModel = this;
 
       // set time for each ray

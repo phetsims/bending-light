@@ -113,7 +113,7 @@ define( function( require ) {
     this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle ], scale: 0.93 } );
 
     // Add the "time" axis label at the bottom center of the chart
-    var titleNode = new Text( timeString, { font: new PhetFont( 18 ), fill: 'white' } );
+    var titleNode = new Text( timeString, { font: new PhetFont( 16 ), fill: 'white' } );
     if ( titleNode.width > rectangleWidth - 15 ) {
       titleNode.scale( (rectangleWidth - 15) / titleNode.width );
     }
