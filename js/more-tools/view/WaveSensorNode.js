@@ -108,7 +108,8 @@ define( function( require ) {
       centerY: rectangleHeight * 0.4,
       cornerRadius: 5
     } );
-    // add up all the shapes to form a body node
+
+    // Combine all the shapes to form the body node
     this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle ], scale: 0.93 } );
 
     // Add the "time" axis label at the bottom center of the chart
@@ -117,7 +118,8 @@ define( function( require ) {
       titleNode.scale( (rectangleWidth - 15) / titleNode.width );
     }
     this.bodyNode.addChild( titleNode );
-    titleNode.setTranslation( this.bodyNode.getCenterX() - titleNode.getWidth() / 2, this.bodyNode.height * 0.82 );
+    titleNode.centerX = outerRectangle.centerX;
+    titleNode.y = this.bodyNode.height * 0.82;
 
     // Add the chart inside the body, with one series for each of the dark and light probes
     this.chartNode = new ChartNode( innerMostRectangle.bounds.erode( 3 ), [
