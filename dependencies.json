@@ -1,23 +1,23 @@
 {
-  "comment": "# bending-light 1.0.0-dev.41 Sat Nov 14 2015 22:26:33 GMT-0700 (MST)",
+  "comment": "# bending-light 1.0.0-dev.42 Wed Nov 18 2015 17:20:33 GMT-0700 (MST)",
   "assert": {
     "sha": "3921bc3784dc67e9cbfa31cdec52b582fcfc68e7",
     "branch": "master"
   },
   "axon": {
-    "sha": "db2ea882625dc0dc51aecb04169a0dd16e081610",
+    "sha": "fffc6c30fe12ce50630ddf3946ed486ca3288133",
     "branch": "master"
   },
   "bending-light": {
-    "sha": "abf656f3f80ceb3f9117ef8dd242a18d78e36642",
+    "sha": "850fb5ce95219f9598a3512a6e5aaf86deb0890c",
     "branch": "master"
   },
   "brand": {
-    "sha": "3b236d6fc040318086b7d360782871f1dcf45a87",
+    "sha": "c9282935819904d033c0e22d9d36e3590019f38b",
     "branch": "master"
   },
   "chipper": {
-    "sha": "c0243b2976c93968b26b76a7f190892288851440",
+    "sha": "a4994516ff859787b03658a4934bfe6b07348582",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "2a5b44c4a42e334b6ebb73a3cc7144e6e9e297d8",
+    "sha": "446cc8e80b0f61b76ec89c84fadb1f2db8324874",
     "branch": "master"
   },
   "kite": {
@@ -37,15 +37,15 @@
     "branch": "master"
   },
   "phetcommon": {
-    "sha": "23ea091a8e03a81cdfade3ca69cc98b9d470dbc7",
+    "sha": "d9d2e688fc28dcaac114fdeb3d0d22cadfb6237e",
     "branch": "master"
   },
   "scenery": {
-    "sha": "c0c08ec5a6e97f467025d60a97274ffec57e2098",
+    "sha": "a4a93afb0d7ef127d53a445515ec100342db348f",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "875162d1e7cd5cb1fa1ff0fb75a6f429c5b42776",
+    "sha": "5a6969fe599ce9c4c3e4ea34b658c55c26e4294c",
     "branch": "master"
   },
   "sherpa": {
@@ -53,11 +53,11 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "86cb945e4c11a3239c0791d39fc5ddde0ac7a781",
+    "sha": "7b4a98d631d2a37a5245c3859f03fae0b65877ec",
     "branch": "master"
   },
   "tandem": {
-    "sha": "e5842f8945177118fdfc298f4a7d009a9d148ea0",
+    "sha": "e98bd8c3370af1d1b7b207ad054bd408de5ad190",
     "branch": "master"
   }
 }
