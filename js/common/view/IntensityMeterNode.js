@@ -104,7 +104,7 @@ define( function( require ) {
     } );
 
     // Connect the sensor to the body with a gray wire
-    this.wireNode = new WireNode( this.probeNode, this.bodyNode, 'gray' );
+    this.wireNode = new WireNode( this.probeNode, this.bodyNode, 'gray', 0.78 );
 
     intensityMeter.sensorPositionProperty.link( function( sensorPosition ) {
       intensityMeterNode.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
@@ -142,7 +142,7 @@ define( function( require ) {
 
   return inherit( Node, IntensityMeterNode, {
     resetRelativeLocations: function() {
-      this.bodyNode.center = this.probeNode.center.plusXY( 180 * 0.6, 0 );
+      this.bodyNode.center = this.probeNode.center.plusXY( 90, 10 );
       this.wireNode.updateWireShape();
     },
     updateWireShape: function() {

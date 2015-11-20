@@ -53,7 +53,7 @@ define( function( require ) {
       // The circular part of the ProbeNode is called the sensor, where it receives light or has crosshairs, etc.
       // or null for an empty region
       sensorTypeFunction: ProbeNode.crosshairs(),
-      scale: 0.5
+      scale: 0.35
     } ) );
 
     // Probe location
@@ -128,7 +128,8 @@ define( function( require ) {
     }
     this.bodyNode.addChild( titleNode );
     titleNode.centerX = outerRectangle.centerX;
-    titleNode.y = this.bodyNode.height * 0.82;
+    var fractionalVerticalDistanceToTitle = 0.82;
+    titleNode.y = this.bodyNode.height * fractionalVerticalDistanceToTitle;
 
     // Add the chart inside the body, with one series for each of the dark and light probes
     this.chartNode = new ChartNode( innerMostRectangle.bounds.erode( 3 ), [
@@ -142,9 +143,9 @@ define( function( require ) {
     this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform ); // @public (read-only)
 
     // Rendering order, including wires
-    var wire1Node = new WireNode( this.probe1Node, this.bodyNode, darkProbeColor.toCSS() );
+    var wire1Node = new WireNode( this.probe1Node, this.bodyNode, darkProbeColor.toCSS(), fractionalVerticalDistanceToTitle );
     this.addChild( wire1Node );
-    var wire2Node = new WireNode( this.probe2Node, this.bodyNode, lightProbeColor.toCSS() );
+    var wire2Node = new WireNode( this.probe2Node, this.bodyNode, lightProbeColor.toCSS(), fractionalVerticalDistanceToTitle );
     this.addChild( wire2Node );
 
     // Synchronize the body position with the model (centered on the model point)
@@ -180,6 +181,9 @@ define( function( require ) {
     resetRelativePositions: function() {
       this.bodyNode.center = this.probe1Node.center.plusXY( 180, 0 );
       this.probe2Node.center = this.probe1Node.center.plusXY( 60, 0 );
+
+      this.bodyNode.center = this.probe1Node.center.plusXY( +110, -12 );
+      this.probe2Node.center = this.probe1Node.center.plusXY( +25, -37 );
       this.syncModelFromView();
     }
   } );

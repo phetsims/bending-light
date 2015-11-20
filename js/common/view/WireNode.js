@@ -20,9 +20,10 @@ define( function( require ) {
    * @param {Node} probeNode - node from where the wire connected
    * @param {Node} bodyNode - node to where the wire connected
    * @param {Color} color - color of the wire
+   * @param {number} verticalWireAttachmentPoint - how far (0-1) down the left edge of the body node to attach the wire
    * @constructor
    */
-  function WireNode( probeNode, bodyNode, color ) {
+  function WireNode( probeNode, bodyNode, color, verticalWireAttachmentPoint ) {
 
     this.probeNode = probeNode; // @public (read-only)
     this.bodyNode = bodyNode; // @public (read-only)
@@ -38,11 +39,11 @@ define( function( require ) {
 
       // connect left-center of body to bottom-center of probe.
       var bodyConnectionPointX = bodyNode.x;
-      var bodyConnectionPointY = bodyNode.centerY;
+      var bodyConnectionPointY = bodyNode.y + bodyNode.height * verticalWireAttachmentPoint;
       var probeConnectionPointX = probeNode.centerX;
       var probeConnectionPointY = probeNode.bottom;
 
-      var connectionPointXOffsetFactor = 40;
+      var connectionPointXOffsetFactor = 25;
 
       wireNode.shape = new Shape()
         .moveTo( bodyConnectionPointX, bodyConnectionPointY )

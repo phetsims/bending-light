@@ -63,7 +63,7 @@ define( function( require ) {
       var waveSensorIcon = new WaveSensorNode(
         this.modelViewTransform,
         waveSensor.copy(), {
-          scale: 0.25
+          scale: 0.4
         }
       );
       waveSensorIcon.mouseArea = Shape.bounds( waveSensorIcon.localBounds );
