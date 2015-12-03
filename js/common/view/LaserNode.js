@@ -143,6 +143,10 @@ define( function( require ) {
     // Add the drag region for rotating the laser
     var rotationRegionPath = new Path( rotationRegion( fullRectangle, backRectangle ), { fill: rotationRegionColor } );
     this.addChild( rotationRegionPath );
+
+    // Increase the touch area for the rotation region and move it toward the back
+    rotationRegionPath.touchArea = rotationRegionPath.bounds.dilated( 8 ).shiftedX( 8 );
+
     rotationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function() {
         showTranslationDragHandlesProperty.value = false;
