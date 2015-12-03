@@ -58,6 +58,13 @@ define( function( require ) {
 
     // add arrow shape
     var radius = modelViewTransform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + laserImageWidth * 0.85;
+
+    // For the Prisms Screen
+    if ( laser.getDistanceFromPivot() < 1E-14 ) {
+      radius = 95;
+      deltaAngle *= 2;
+    }
+
     var startAngle = -laser.getAngle();
     var endAngle = -laser.getAngle() - deltaAngle;
     var counterClockwiseDragArrow = new CurvedArrowShape( radius, startAngle, endAngle, {

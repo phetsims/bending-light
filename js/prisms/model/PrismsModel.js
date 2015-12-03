@@ -50,7 +50,7 @@ define( function( require ) {
     BendingLightModel.call( this,
       Math.PI,
       false,
-      BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT * 1.1, {
+      1E-16, {
 
         // Show multiple beams to help show how lenses work
         manyRays: 1,
