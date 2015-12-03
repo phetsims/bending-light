@@ -89,7 +89,8 @@ define( function( require ) {
      */
     function translationRegion( fullShape ) {
 
-      // Empty shape since shouldn't be rotatable in this tab
+      // In the Prisms screen, the protractor can be rotated by dragging it by its ring, translated by dragging the
+      // cross-bar
       return fullShape;
     }
 
