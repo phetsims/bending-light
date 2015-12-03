@@ -189,7 +189,7 @@ define( function( require ) {
     // add light emission on/off button
     var redButton = new BooleanRoundStickyToggleButton( laser.onProperty, {
       radius: 11,
-      centerX: laserImageNode.centerX,
+      centerX: 28,
       centerY: laserImageNode.centerY,
       baseColor: 'red',
       touchExpansion: 5
