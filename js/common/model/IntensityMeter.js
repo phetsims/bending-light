@@ -57,7 +57,7 @@ define( function( require ) {
     getSensorShape: function() {
 
       // fine tuned to match the given image
-      var radius = 1.215E-6 / 2;
+      var radius = 1E-6;
       return new Shape().arcPoint( this.sensorPosition, radius, 0, Math.PI * 2, false );
     },
 
