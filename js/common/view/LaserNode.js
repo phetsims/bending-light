@@ -20,7 +20,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
 
   // constants
