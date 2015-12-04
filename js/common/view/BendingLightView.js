@@ -36,11 +36,11 @@ define( function( require ) {
    * @param {number} centerOffsetLeft - how much to shift the model view transform horizontally in stage coordinates.
    *                                  - The origin of each screen must be adjusted based on the layout of other control
    *                                  - panels.
-   *                                  - Intro Screen: it is shifted 102 to the left since there is extra room
+   *                                  - Intro Screen: it is shifted far to the left since there is extra room
    *                                  - above the protractor toolbox for the laser to traverse to.
-   *                                  - Prisms screen: it is shifted 90 to the left to center the play area in
+   *                                  - Prisms screen: it is shifted far to the left to center the play area in
    *                                  - the space between the left side of the screen and the control panels on the right
-   *                                  - More Tools screen: it is shifted by 0 since there are equal sized control
+   *                                  - More Tools screen: it is not since there are equal sized control
    *                                  - panels on the right and left side of the screen.
    * @param {number} verticalOffset - how much to shift the model view transform vertically in stage coordinates
    *                                - In the prisms screen, it is shifted up a bit to center the play area above the south
