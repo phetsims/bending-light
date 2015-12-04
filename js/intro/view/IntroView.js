@@ -50,7 +50,7 @@ define( function( require ) {
 
   /**
    * @param {IntroModel} introModel - model of intro screen
-   * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
+   * @param {number} centerOffsetLeft - how much to shift the model view transform horizontally in stage coordinates
    * @param {boolean} hasMoreTools - whether contain more tools
    * @param {number} IndexOfRefractionDecimals - decimalPlaces to show for index of refraction
    * @param {function} createLaserControlPanel

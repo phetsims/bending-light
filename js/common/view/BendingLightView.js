@@ -33,8 +33,16 @@ define( function( require ) {
    * @param {function} laserTranslationRegion - region that defines laser translation
    * @param {function} laserRotationRegion - region that defines laser rotation
    * @param {string} laserImageName - name of laser image
-   * @param {number} centerOffsetLeft - amount of space that center to be shifted to left
-   * @param {number} verticalOffset - how much to shift the model view transform in stage coordinates
+   * @param {number} centerOffsetLeft - how much to shift the model view transform horizontally in stage coordinates
+   *                                  - in the Intro screen, it is shifted 102 to the left since there is extra room
+   *                                  - above the protractor toolbox for the laser to traverse to.
+   *                                  - in the Prisms screen, it is shifted 90 to the left to center the play area in
+   *                                  - the space between the left side of the screen and the control panels on the right
+   *                                  - in the More Tools screen, it is shifted by 0 since there are equal sized control
+   *                                  - panels on the right and left side of the screen.
+   * @param {number} verticalOffset - how much to shift the model view transform vertically in stage coordinates
+   *                                - In the prisms screen, it is shifted up a bit to center the play area above the south
+   *                                - control panel.
    * @param {function} occlusionHandler - function that moves objects out from behind a control panel if dropped there
    * @constructor
    */
@@ -42,6 +50,7 @@ define( function( require ) {
                              laserTranslationRegion, laserRotationRegion, laserImageName, centerOffsetLeft,
                              verticalOffset, occlusionHandler ) {
 
+    console.log( 'vo', verticalOffset );
     this.occlusionHandler = occlusionHandler;
     this.bendingLightModel = bendingLightModel;
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );

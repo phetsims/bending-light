@@ -31,9 +31,15 @@ define( function( require ) {
     Screen.call( this, introString, new Image( icon ),
       function() { return new IntroModel( Substance.WATER, true ); },
       function( model ) {
-        return new IntroView( model, 102, false, 2, function( introModel ) {
-          return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
-        }, [] );
+        return new IntroView( model,
+
+          // in the Intro screen, it is shifted 102 to the left since there is extra room above the protractor toolbox
+          // for the laser to traverse to.
+          102,
+
+          false, 2, function( introModel ) {
+            return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
+          }, [] );
       },
       { backgroundColor: 'white' }
     );
