@@ -31,6 +31,9 @@ define( function( require ) {
   var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/prisms/view/LaserTypeRadioButtonGroup' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
 
+  // images
+  var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
+
   // constants
   var INSET = 10;
 
@@ -70,7 +73,7 @@ define( function( require ) {
       function( full, back ) { return back; },
 
       // laserImageName
-      'laserKnob',
+      laserKnobImage,
 
       // center the play area horizontally in the space between the left side of the screen and the control panels on
       // the right

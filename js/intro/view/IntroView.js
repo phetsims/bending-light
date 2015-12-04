@@ -45,6 +45,9 @@ define( function( require ) {
   var anglesString = require( 'string!BENDING_LIGHT/angles' );
   var normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
 
+  // images
+  var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
+
   // constants
   var INSET = 10;
 
@@ -131,8 +134,8 @@ define( function( require ) {
       // laserRotationRegion
       rotationRegionShape,
 
-      // laserImageName
-      'laser',
+      // laserImage
+      laserWithoutKnobImage,
 
       // centerLeftOffset
       centerOffsetLeft,

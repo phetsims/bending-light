@@ -21,10 +21,6 @@ define( function( require ) {
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
   var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
 
-  // images
-  var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
-  var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
-
   /**
    * @param {BendingLightModel} bendingLightModel - main model of the simulations
    * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
@@ -32,7 +28,7 @@ define( function( require ) {
    * @param {function} ccwArrowNotAtMax - shows whether laser at min angle
    * @param {function} laserTranslationRegion - region that defines laser translation
    * @param {function} laserRotationRegion - region that defines laser rotation
-   * @param {string} laserImageName - name of laser image
+   * @param {HTMLImageElement} laserImage - name of laser image
    * @param {number} centerOffsetLeft - how much to shift the model view transform horizontally in stage coordinates.
    *                                  - The origin of each screen must be adjusted based on the layout of other control
    *                                  - panels.
@@ -49,10 +45,9 @@ define( function( require ) {
    * @constructor
    */
   function BendingLightView( bendingLightModel, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax,
-                             laserTranslationRegion, laserRotationRegion, laserImageName, centerOffsetLeft,
+                             laserTranslationRegion, laserRotationRegion, laserImage, centerOffsetLeft,
                              verticalOffset, occlusionHandler ) {
 
-    console.log( 'vo', verticalOffset );
     this.occlusionHandler = occlusionHandler;
     this.bendingLightModel = bendingLightModel;
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
@@ -114,7 +109,7 @@ define( function( require ) {
     this.addChild( this.laserViewLayer );
 
     // Used for radius and length of drag handlers
-    var laserImageWidth = laserWithoutKnobImage.width;
+    var laserImageWidth = laserImage.width;
 
     // add rotation for the laser that show if/when the laser can be rotated about its pivot
     var showRotationDragHandlesProperty = new Property( false );
@@ -132,7 +127,6 @@ define( function( require ) {
     this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public (read-only)
 
     // add the laser
-    var laserImage = (laserImageName === 'laser') ? laserWithoutKnobImage : laserKnobImage;
     var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImage,
       this.visibleBoundsProperty,
