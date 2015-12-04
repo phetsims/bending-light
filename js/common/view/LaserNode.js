@@ -212,10 +212,6 @@ define( function( require ) {
       redButton.setRotation( laser.getAngle() );
     } );
 
-    // touch area
-    var b = this.localBounds.dilatedY( 8 );
-    this.touchArea = new Bounds2( b.minX, b.minY, b.maxX + 23, b.maxY );
-
     /**
      * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
      * model
