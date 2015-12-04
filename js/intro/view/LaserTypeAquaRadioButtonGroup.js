@@ -25,9 +25,15 @@ define( function( require ) {
    */
   function LaserTypeAquaRadioButtonGroup( laserTypeProperty ) {
 
-    var radioButtonOptions = { radius: 6, font: new PhetFont( 12 ) };
+    var radioButtonOptions = {
+      radius: 6,
+      font: new PhetFont( 12 )
+    };
     var createButtonTextNode = function( text ) {
-      return new Text( text, { font: new PhetFont( 12 ) } );
+      return new Text( text, {
+        maxWidth: 120, // measured empirically to ensure no overlap with the laser at any angle
+        font: new PhetFont( 12 )
+      } );
     };
     var rayButton = new AquaRadioButton(
       laserTypeProperty,

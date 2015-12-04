@@ -54,8 +54,11 @@ define( function( require ) {
     } );
 
     var formattedString = StringUtils.format( wavelengthPatternString, Util.roundSymmetric( wavelengthPropertyNM.value ) );
-    var wavelengthValueText = new Text( formattedString );
-    var wavelengthBoxShape = new Rectangle( 0, 0, new Text( unitsNmString ).width + 36, 18, 2, 2, {
+
+    // Prevent the i18n strings from making the wavelength slider too wide, see #311
+    var maxWidth = 80;
+    var wavelengthValueText = new Text( formattedString, { maxWidth: maxWidth } );
+    var wavelengthBoxShape = new Rectangle( 0, 0, new Text( unitsNmString, { maxWidth: maxWidth } ).width + 36, 18, 2, 2, {
       fill: 'white',
       stroke: 'black'
     } );
