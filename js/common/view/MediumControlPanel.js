@@ -222,9 +222,21 @@ define( function( require ) {
     indexOfRefractionLabel.right = minusButton.left - INSET;
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
-    // handling long strings
-    console.log( 'mcbw', materialComboBox.width, 'r-l', plusButton.right - indexOfRefractionLabel.left );
-    var sliderWidth = Math.max( materialComboBox.width, plusButton.right - indexOfRefractionLabel.left ) - 10;
+    var indexOfRefractionNode = new Node( {
+      children: textFieldVisible ? [
+        indexOfRefractionLabel,
+        minusButton,
+        indexOfRefractionReadoutBoxShape,
+        indexOfRefractionValueText,
+        plusButton
+      ] : [
+        indexOfRefractionLabel
+      ]
+    } );
+
+    // handling long strings, bring the slider in enough that moving the knob to the right doesn't resize the parent
+    // panel.
+    var sliderWidth = indexOfRefractionNode.width - 20;
     var labelWidth = sliderWidth * 0.25;
     var airTitle = new Text( airString );
     if ( airTitle.width > labelWidth ) {
@@ -263,17 +275,6 @@ define( function( require ) {
       font: new PhetFont( 16 ),
       centerX: indexOfRefractionSlider.centerX,
       centerY: indexOfRefractionSlider.centerY
-    } );
-    var indexOfRefractionNode = new Node( {
-      children: textFieldVisible ? [
-        indexOfRefractionLabel,
-        minusButton,
-        indexOfRefractionReadoutBoxShape,
-        indexOfRefractionValueText,
-        plusButton
-      ] : [
-        indexOfRefractionLabel
-      ]
     } );
 
     // position the indexOfRefractionNode and indexOfRefractionSlider
