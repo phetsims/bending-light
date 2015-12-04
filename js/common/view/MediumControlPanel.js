@@ -236,7 +236,7 @@ define( function( require ) {
 
     // handling long strings, bring the slider in enough that moving the knob to the right doesn't resize the parent
     // panel.
-    var sliderWidth = indexOfRefractionNode.width - 20;
+    var sliderWidth = Math.max( materialComboBox.width, indexOfRefractionNode.width ) - 12;
     var labelWidth = sliderWidth * 0.25;
     var airTitle = new Text( airString );
     if ( airTitle.width > labelWidth ) {
