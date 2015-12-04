@@ -79,7 +79,10 @@ define( function( require ) {
     dragBoundsProperty.link( function( dragBounds ) {
       var center = laser.emissionPoint;
       var eroded = dragBounds.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
-      laser.emissionPoint = modelViewTransform.viewToModelBounds( eroded ).getClosestPoint( center.x, center.y );
+
+      var newEmissionPoint = modelViewTransform.viewToModelBounds( eroded ).getClosestPoint( center.x, center.y );
+      var delta = newEmissionPoint.minus( laser.emissionPoint );
+      laser.translate( delta.x, delta.y );
     } );
 
     // add the drag region for translating the laser
