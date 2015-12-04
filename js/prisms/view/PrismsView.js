@@ -95,12 +95,26 @@ define( function( require ) {
     }
 
     BendingLightView.call( this,
+
+      // bendingLightModel
       prismsModel,
+
+      // clampDragAngle
       clampDragAngle,
+
+      // clockwiseArrowNotAtMax
       clockwiseArrowNotAtMax,
+
+      // ccwArrowNotAtMax
       ccwArrowNotAtMax,
+
+      // laserTranslationRegion
       translationRegion,
+
+      // laserRotationRegion
       rotationRegionShape,
+
+      // laserImageName
       'laserKnob',
 
       // center the play area horizontally in the space between the left side of the screen and the control panels on

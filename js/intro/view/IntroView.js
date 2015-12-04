@@ -145,7 +145,7 @@ define( function( require ) {
       // centerLeftOffset
       centerOffsetLeft,
 
-      // verticalOffset
+      // verticalOffset, in this case centered vertically in the screen
       0,
 
       // occlusionHandler: No need to handle occlusions
