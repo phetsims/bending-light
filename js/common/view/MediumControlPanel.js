@@ -202,8 +202,10 @@ define( function( require ) {
       arrowWidth: 15
     } );
     // touch area
-    minusButton.touchArea = new Bounds2( minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
-      minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20 );
+    minusButton.touchArea = new Bounds2(
+      minusButton.localBounds.minX - 20, minusButton.localBounds.minY - 5,
+      minusButton.localBounds.maxX + 20, minusButton.localBounds.maxY + 20
+    );
 
     // adjust index of refraction value to the center of the readout box
     indexOfRefractionValueText.centerX = indexOfRefractionReadoutBoxShape.centerX;
@@ -221,6 +223,7 @@ define( function( require ) {
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
     // handling long strings
+    console.log( 'mcbw', materialComboBox.width, 'r-l', plusButton.right - indexOfRefractionLabel.left );
     var sliderWidth = Math.max( materialComboBox.width, plusButton.right - indexOfRefractionLabel.left ) - 10;
     var labelWidth = sliderWidth * 0.25;
     var airTitle = new Text( airString );
@@ -261,23 +264,17 @@ define( function( require ) {
       centerX: indexOfRefractionSlider.centerX,
       centerY: indexOfRefractionSlider.centerY
     } );
-    var indexOfRefractionNode;
-    if ( textFieldVisible ) {
-      indexOfRefractionNode = new Node( {
-        children: [
-          indexOfRefractionLabel,
-          minusButton,
-          indexOfRefractionReadoutBoxShape,
-          indexOfRefractionValueText,
-          plusButton
-        ]
-      } );
-    }
-    else {
-      indexOfRefractionNode = new Node( {
-        children: [ indexOfRefractionLabel ]
-      } );
-    }
+    var indexOfRefractionNode = new Node( {
+      children: textFieldVisible ? [
+        indexOfRefractionLabel,
+        minusButton,
+        indexOfRefractionReadoutBoxShape,
+        indexOfRefractionValueText,
+        plusButton
+      ] : [
+        indexOfRefractionLabel
+      ]
+    } );
 
     // position the indexOfRefractionNode and indexOfRefractionSlider
     indexOfRefractionNode.top = materialComboBox.bottom + INSET;
