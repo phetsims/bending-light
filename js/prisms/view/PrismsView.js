@@ -47,72 +47,27 @@ define( function( require ) {
     this.prismsModel = prismsModel;
     var prismsView = this;
 
-    /**
-     * Specify how the drag angle should be clamped
-     * @param {number} angle
-     * @returns {*}
-     */
-    function clampDragAngle( angle ) {
-      return angle;
-    }
-
-    /**
-     * In prisms tab laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
-     * @returns {boolean}
-     */
-    function clockwiseArrowNotAtMax() {
-      return true;
-    }
-
-    /**
-     * Determine if the counterclockwise arrow can be shown.
-     * @returns {boolean}
-     */
-    function ccwArrowNotAtMax() {
-      return true;
-    }
-
-    /**
-     * Rotation if the user clicks top on the object
-     * @param {Shape} full
-     * @param {Shape} back
-     * @returns {*}
-     */
-    function rotationRegionShape( full, back ) {
-      return back;
-    }
-
-    /**
-     * Region for translating the protractor
-     * @param {Shape} fullShape
-     * @returns {*}
-     */
-    function translationRegion( fullShape ) {
-
-      // In the Prisms screen, the protractor can be rotated by dragging it by its ring, translated by dragging the
-      // cross-bar
-      return fullShape;
-    }
-
     BendingLightView.call( this,
 
       // bendingLightModel
       prismsModel,
 
-      // clampDragAngle
-      clampDragAngle,
+      // clampDragAngle -- unclamped
+      function( angle ) { return angle; },
 
-      // clockwiseArrowNotAtMax
-      clockwiseArrowNotAtMax,
+      // clockwiseArrowNotAtMax - In prisms tab laser node can rotate 360 degrees.so arrows showing all the times when
+      // laser node rotate
+      function() { return true; },
 
-      // ccwArrowNotAtMax
-      ccwArrowNotAtMax,
+      // ccwArrowNotAtMax - Determine if the counterclockwise arrow can be shown.
+      function() {return true;},
 
-      // laserTranslationRegion
-      translationRegion,
+      // laserTranslationRegion - In the Prisms screen, the protractor can be rotated by dragging it by its ring,
+      // translated by dragging the cross-bar
+      function( fullShape ) { return fullShape; },
 
-      // laserRotationRegion
-      rotationRegionShape,
+      // laserRotationRegion - Rotation if the user clicks top on the object
+      function( full, back ) { return back; },
 
       // laserImageName
       'laserKnob',

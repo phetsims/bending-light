@@ -106,19 +106,6 @@ define( function( require ) {
       return full;
     }
 
-    // get the function that chooses which region of the protractor can be used for rotation--none in this tab.
-    this.getProtractorRotationRegion = function() {
-
-      // empty shape since shouldn't be rotatable in this tab
-      return Shape.rect( 0, 0, 0, 0 );
-    };
-
-    // get the function that chooses which region of the protractor can be used for translation--both the inner bar and
-    // outer circle in this screen
-    this.getProtractorDragRegion = function( fullShape ) {
-      return fullShape;
-    };
-
     BendingLightView.call( this,
 
       // bendingLightModel
@@ -133,8 +120,13 @@ define( function( require ) {
       // ccwArrowNotAtMax
       ccwArrowNotAtMax,
 
-      // laserTranslationRegion
-      this.getProtractorRotationRegion,
+      // laserTranslationRegion - get the function that chooses which region of the protractor can be used for rotation
+      // none in this tab.
+      function() {
+
+        // empty shape since shouldn't be rotatable in this tab
+        return Shape.rect( 0, 0, 0, 0 );
+      },
 
       // laserRotationRegion
       rotationRegionShape,
