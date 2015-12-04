@@ -120,16 +120,35 @@ define( function( require ) {
     };
 
     BendingLightView.call( this,
+
+      // bendingLightModel
       introModel,
+
+      // clampDragAngle
       clampDragAngle,
+
+      // clockwiseArrowNotAtMax
       clockwiseArrowNotAtMax,
+
+      // ccwArrowNotAtMax
       ccwArrowNotAtMax,
+
+      // laserTranslationRegion
       this.getProtractorRotationRegion,
+
+      // laserRotationRegion
       rotationRegionShape,
+
+      // laserImageName
       'laser',
+
+      // centerLeftOffset
       centerOffsetLeft,
+
+      // verticalOffset
       0,
-      // No need to handle occlusions
+
+      // occlusionHandler: No need to handle occlusions
       function() {}
     );
 
