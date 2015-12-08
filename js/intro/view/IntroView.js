@@ -88,21 +88,18 @@ define( function( require ) {
         else {
           return laserAngle < BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
         }
+      },
+      /**
+       * indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
+       * @param {number} laserAngle
+       * @returns {boolean}
+       */
+      ccwArrowNotAtMax: function( laserAngle ) {
+        return laserAngle > Math.PI / 2;
       }
-
-
     }, options );
     var introView = this;
     this.introModel = introModel; // @public (read-only)
-
-    /**
-     * indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
-     * @param {number} laserAngle
-     * @returns {boolean}
-     */
-    function ccwArrowNotAtMax( laserAngle ) {
-      return laserAngle > Math.PI / 2;
-    }
 
     /**
      * rotation if the user clicks anywhere on the object
@@ -120,9 +117,6 @@ define( function( require ) {
 
       // bendingLightModel
       introModel,
-
-      // ccwArrowNotAtMax
-      ccwArrowNotAtMax,
 
       // laserTranslationRegion - get the function that chooses which region of the protractor can be used for rotation
       // none in this tab.

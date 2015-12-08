@@ -23,7 +23,6 @@ define( function( require ) {
 
   /**
    * @param {BendingLightModel} bendingLightModel - main model of the simulations
-   * @param {function} ccwArrowNotAtMax - shows whether laser at min angle
    * @param {function} laserTranslationRegion - region that defines laser translation
    * @param {function} laserRotationRegion - region that defines laser rotation
    * @param {HTMLImageElement} laserImage - name of laser image
@@ -31,8 +30,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function BendingLightView( bendingLightModel, ccwArrowNotAtMax,
-                             laserTranslationRegion, laserRotationRegion, laserImage, occlusionHandler, options ) {
+  function BendingLightView( bendingLightModel, laserTranslationRegion, laserRotationRegion, laserImage, occlusionHandler, options ) {
 
 
     // The origin of each screen must be adjusted based on the layout of other control
@@ -44,6 +42,7 @@ define( function( require ) {
     // More Tools screen: it is not since there are equal sized control
     // panels on the right and left side of the screen.
     options = _.extend( {
+      ccwArrowNotAtMax: function() {return true;}, // {function} shows whether laser at min angle
       clockwiseArrowNotAtMax: function() { return true; },// {function} shows whether laser at max angle, In prisms tab
       // laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
       clampDragAngle: function( angle ) { return angle; },// {function} function that limits the angle of laser to its bounds
@@ -124,7 +123,7 @@ define( function( require ) {
       showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty,
       options.clockwiseArrowNotAtMax,
-      ccwArrowNotAtMax,
+      options.ccwArrowNotAtMax,
       laserImageWidth
     );
 

@@ -55,9 +55,6 @@ define( function( require ) {
       // bendingLightModel
       prismsModel,
 
-      // ccwArrowNotAtMax - Determine if the counterclockwise arrow can be shown.
-      function() {return true;},
-
       // laserTranslationRegion - In the Prisms screen, the protractor can be rotated by dragging it by its ring,
       // translated by dragging the cross-bar
       function( fullShape ) { return fullShape; },
