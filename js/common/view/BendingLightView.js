@@ -23,7 +23,6 @@ define( function( require ) {
 
   /**
    * @param {BendingLightModel} bendingLightModel - main model of the simulations
-   * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
    * @param {function} clockwiseArrowNotAtMax - shows whether laser at max angle
    * @param {function} ccwArrowNotAtMax - shows whether laser at min angle
    * @param {function} laserTranslationRegion - region that defines laser translation
@@ -33,7 +32,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function BendingLightView( bendingLightModel, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax,
+  function BendingLightView( bendingLightModel, clockwiseArrowNotAtMax, ccwArrowNotAtMax,
                              laserTranslationRegion, laserRotationRegion, laserImage, occlusionHandler, options ) {
 
 
@@ -46,6 +45,7 @@ define( function( require ) {
     // More Tools screen: it is not since there are equal sized control
     // panels on the right and left side of the screen.
     options = _.extend( {
+      clampDragAngle: function( angle ) { return angle; },// {function} function that limits the angle of laser to its bounds
       horizontalPlayAreaOffset: 0, // {number} in stage coordinates, how far to shift the play area horizontally
       verticalPlayAreaOffset: 0 // {number} in stage coordinates, how far to shift the play area vertically.  In the
                                 // prisms screen, it is shifted up a bit to center the play area above the south control panel
@@ -131,7 +131,7 @@ define( function( require ) {
 
     // add the laser
     var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
-      showTranslationDragHandlesProperty, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImage,
+      showTranslationDragHandlesProperty, options.clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImage,
       this.visibleBoundsProperty,
       occlusionHandler
     );

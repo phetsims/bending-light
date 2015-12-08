@@ -55,9 +55,6 @@ define( function( require ) {
       // bendingLightModel
       prismsModel,
 
-      // clampDragAngle -- unclamped
-      function( angle ) { return angle; },
-
       // clockwiseArrowNotAtMax - In prisms tab laser node can rotate 360 degrees.so arrows showing all the times when
       // laser node rotate
       function() { return true; },
@@ -88,6 +85,7 @@ define( function( require ) {
           }
         } );
       }, {
+
         // center the play area horizontally in the space between the left side of the screen and the control panels on
         // the right, and move the laser to the left.
         horizontalPlayAreaOffset: 240,

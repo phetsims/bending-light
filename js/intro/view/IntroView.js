@@ -65,20 +65,21 @@ define( function( require ) {
 
       // in the Intro screen, it is shifted 102 to the left since there is extra room above the protractor toolbox
       // for the laser to traverse to.
-      horizontalPlayAreaOffset: 102
+      horizontalPlayAreaOffset: 102,
+
+      /**
+       * Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
+       * @param {number} angle
+       * @returns {*}
+       */
+      clampDragAngle: function( angle ) {
+        while ( angle < 0 ) { angle += Math.PI * 2; }
+        return Util.clamp( angle, Math.PI / 2, Math.PI );
+      }
+
     }, options );
     var introView = this;
     this.introModel = introModel; // @public (read-only)
-
-    /**
-     * Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
-     * @param {number} angle
-     * @returns {*}
-     */
-    function clampDragAngle( angle ) {
-      while ( angle < 0 ) { angle += Math.PI * 2; }
-      return Util.clamp( angle, Math.PI / 2, Math.PI );
-    }
 
     /**
      * Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
@@ -119,9 +120,6 @@ define( function( require ) {
 
       // bendingLightModel
       introModel,
-
-      // clampDragAngle
-      clampDragAngle,
 
       // clockwiseArrowNotAtMax
       clockwiseArrowNotAtMax,
