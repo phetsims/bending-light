@@ -63,28 +63,29 @@ define( function( require ) {
       function( full, back ) { return back; },
 
       // laserImageName
-      laserKnobImage,
-
-      // occlusion handler, if the prism is dropped behind a control panel, bump it to the left.
-      function( node ) {
-
-        var controlPanels = [
-          laserControlPanel, // eslint-disable-line no-use-before-define
-          environmentMediumControlPanel // eslint-disable-line no-use-before-define
-        ];
-        controlPanels.forEach( function( controlPanel ) {
-          if ( controlPanel.globalBounds.containsPoint( node.globalBounds.center ) ) {
-            node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
-          }
-        } );
-      }, {
+      laserKnobImage, {
 
         // center the play area horizontally in the space between the left side of the screen and the control panels on
         // the right, and move the laser to the left.
         horizontalPlayAreaOffset: 240,
 
         // Center the play area vertically above the south control panel
-        verticalPlayAreaOffset: -43
+        verticalPlayAreaOffset: -43,
+
+        // if the prism is dropped behind a control panel, bump it to the left.
+        occlusionHandler: function( node ) {
+
+          var controlPanels = [
+            laserControlPanel, // eslint-disable-line no-use-before-define
+            laserTypeRadioButtonGroup, // eslint-disable-line no-use-before-define
+            environmentMediumControlPanel // eslint-disable-line no-use-before-define
+          ];
+          controlPanels.forEach( function( controlPanel ) {
+            if ( controlPanel.globalBounds.containsPoint( node.globalBounds.center ) ) {
+              node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
+            }
+          } );
+        }
       }
     );
 

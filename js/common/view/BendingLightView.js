@@ -25,12 +25,11 @@ define( function( require ) {
    * @param {BendingLightModel} bendingLightModel - main model of the simulations
    * @param {function} laserTranslationRegion - region that defines laser translation
    * @param {function} laserRotationRegion - region that defines laser rotation
-   * @param {HTMLImageElement} laserImage - name of laser image
-   * @param {function} occlusionHandler - function that moves objects out from behind a control panel if dropped there
+   * @param {HTMLImageElement} laserImage - laser image
    * @param {Object} [options]
    * @constructor
    */
-  function BendingLightView( bendingLightModel, laserTranslationRegion, laserRotationRegion, laserImage, occlusionHandler, options ) {
+  function BendingLightView( bendingLightModel, laserTranslationRegion, laserRotationRegion, laserImage, options ) {
 
 
     // The origin of each screen must be adjusted based on the layout of other control
@@ -42,6 +41,7 @@ define( function( require ) {
     // More Tools screen: it is not since there are equal sized control
     // panels on the right and left side of the screen.
     options = _.extend( {
+      occlusionHandler: function() {}, // {function} moves objects out from behind a control panel if dropped there
       ccwArrowNotAtMax: function() {return true;}, // {function} shows whether laser at min angle
       clockwiseArrowNotAtMax: function() { return true; },// {function} shows whether laser at max angle, In prisms tab
       // laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
@@ -51,7 +51,7 @@ define( function( require ) {
                                 // prisms screen, it is shifted up a bit to center the play area above the south control panel
     }, options );
 
-    this.occlusionHandler = occlusionHandler;
+    this.occlusionHandler = options.occlusionHandler;
     this.bendingLightModel = bendingLightModel;
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
@@ -133,7 +133,7 @@ define( function( require ) {
     var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty, options.clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImage,
       this.visibleBoundsProperty,
-      occlusionHandler
+      this.occlusionHandler
     );
     this.addChild( laserNode );
 

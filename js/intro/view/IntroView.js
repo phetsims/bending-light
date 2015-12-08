@@ -132,9 +132,6 @@ define( function( require ) {
       // laserImage
       laserWithoutKnobImage,
 
-      // occlusionHandler: No need to handle occlusions
-      function() {},
-
       // options
       options
     );
