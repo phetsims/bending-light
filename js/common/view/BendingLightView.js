@@ -29,24 +29,27 @@ define( function( require ) {
    * @param {function} laserTranslationRegion - region that defines laser translation
    * @param {function} laserRotationRegion - region that defines laser rotation
    * @param {HTMLImageElement} laserImage - name of laser image
-   * @param {number} centerOffsetLeft - how much to shift the model view transform horizontally in stage coordinates.
-   *                                  - The origin of each screen must be adjusted based on the layout of other control
-   *                                  - panels.
-   *                                  - Intro Screen: it is shifted far to the left since there is extra room
-   *                                  - above the protractor toolbox for the laser to traverse to.
-   *                                  - Prisms screen: it is shifted far to the left to center the play area in
-   *                                  - the space between the left side of the screen and the control panels on the right
-   *                                  - More Tools screen: it is not since there are equal sized control
-   *                                  - panels on the right and left side of the screen.
-   * @param {number} verticalOffset - how much to shift the model view transform vertically in stage coordinates
-   *                                - In the prisms screen, it is shifted up a bit to center the play area above the south
-   *                                - control panel.
    * @param {function} occlusionHandler - function that moves objects out from behind a control panel if dropped there
+   * @param {Object} [options]
    * @constructor
    */
   function BendingLightView( bendingLightModel, clampDragAngle, clockwiseArrowNotAtMax, ccwArrowNotAtMax,
-                             laserTranslationRegion, laserRotationRegion, laserImage, centerOffsetLeft,
-                             verticalOffset, occlusionHandler ) {
+                             laserTranslationRegion, laserRotationRegion, laserImage, occlusionHandler, options ) {
+
+
+    // The origin of each screen must be adjusted based on the layout of other control
+    // panels.
+    // Intro Screen: it is shifted far to the left since there is extra room
+    // above the protractor toolbox for the laser to traverse to.
+    // Prisms screen: it is shifted far to the left to center the play area in
+    // the space between the left side of the screen and the control panels on the right
+    // More Tools screen: it is not since there are equal sized control
+    // panels on the right and left side of the screen.
+    options = _.extend( {
+      horizontalPlayAreaOffset: 0, // {number} in stage coordinates, how far to shift the play area horizontally
+      verticalPlayAreaOffset: 0 // {number} in stage coordinates, how far to shift the play area vertically.  In the
+                                // prisms screen, it is shifted up a bit to center the play area above the south control panel
+    }, options );
 
     this.occlusionHandler = occlusionHandler;
     this.bendingLightModel = bendingLightModel;
@@ -80,7 +83,7 @@ define( function( require ) {
     // @public (read-only)
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       new Vector2( 0, 0 ),
-      new Vector2( 388 - centerOffsetLeft, stageHeight / 2 + verticalOffset ),
+      new Vector2( 388 - options.horizontalPlayAreaOffset, stageHeight / 2 + options.verticalPlayAreaOffset ),
       scale
     );
 

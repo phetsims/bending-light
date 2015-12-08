@@ -36,7 +36,7 @@ define( function( require ) {
     this.moreToolsModel = moreToolsModel; // @public (read-only)
     var moreToolsView = this;
 
-    IntroView.call( this, moreToolsModel, 0, true, 3, function( model ) {
+    IntroView.call( this, moreToolsModel, true, 3, function( model ) {
       return new VBox( {
         spacing: 10,
         align: 'left',
@@ -45,6 +45,9 @@ define( function( require ) {
           new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
         ]
       } );
+    }, {
+      verticalPlayAreaOffset: 0,
+      horizontalPlayAreaOffset: 0
     } );
 
     // updates the visibility of speed controls

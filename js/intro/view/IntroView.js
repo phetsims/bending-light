@@ -53,14 +53,20 @@ define( function( require ) {
 
   /**
    * @param {IntroModel} introModel - model of intro screen
-   * @param {number} centerOffsetLeft - how much to shift the model view transform horizontally in stage coordinates
    * @param {boolean} hasMoreTools - whether contain more tools
    * @param {number} IndexOfRefractionDecimals - decimalPlaces to show for index of refraction
    * @param {function} createLaserControlPanel
+   * @param {Object} [options]
    * @constructor
    */
-  function IntroView( introModel, centerOffsetLeft, hasMoreTools, IndexOfRefractionDecimals, createLaserControlPanel ) {
+  function IntroView( introModel, hasMoreTools, IndexOfRefractionDecimals, createLaserControlPanel, options ) {
 
+    options = _.extend( {
+
+      // in the Intro screen, it is shifted 102 to the left since there is extra room above the protractor toolbox
+      // for the laser to traverse to.
+      horizontalPlayAreaOffset: 102
+    }, options );
     var introView = this;
     this.introModel = introModel; // @public (read-only)
 
@@ -137,14 +143,11 @@ define( function( require ) {
       // laserImage
       laserWithoutKnobImage,
 
-      // centerLeftOffset
-      centerOffsetLeft,
-
-      // verticalOffset, in this case centered vertically in the screen
-      0,
-
       // occlusionHandler: No need to handle occlusions
-      function() {}
+      function() {},
+
+      // options
+      options
     );
 
     var stageWidth = this.layoutBounds.width;

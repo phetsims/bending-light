@@ -75,13 +75,6 @@ define( function( require ) {
       // laserImageName
       laserKnobImage,
 
-      // center the play area horizontally in the space between the left side of the screen and the control panels on
-      // the right
-      90,
-
-      // Center the play area vertically above the south control panel
-      -43,
-
       // occlusion handler, if the prism is dropped behind a control panel, bump it to the left.
       function( node ) {
 
@@ -94,6 +87,13 @@ define( function( require ) {
             node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
           }
         } );
+      }, {
+        // center the play area horizontally in the space between the left side of the screen and the control panels on
+        // the right
+        horizontalPlayAreaOffset: 90,
+
+        // Center the play area vertically above the south control panel
+        verticalPlayAreaOffset: -43
       }
     );
 

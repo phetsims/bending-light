@@ -32,10 +32,10 @@ define( function( require ) {
 
   /**
    * @param {Substance} bottomSubstance - state of bottom medium
-   * @param {boolean} centerOffsetLeft - specifies center alignment
+   * @param {boolean} horizontalPlayAreaOffset - specifies center alignment
    * @constructor
    */
-  function IntroModel( bottomSubstance, centerOffsetLeft ) {
+  function IntroModel( bottomSubstance, horizontalPlayAreaOffset ) {
 
     var introModel = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
@@ -69,9 +69,9 @@ define( function( require ) {
 
     // @public (read-only)-model components
     this.intensityMeter = new IntensityMeter(
-      -this.modelWidth * (centerOffsetLeft ? 0.34 : 0.48),
+      -this.modelWidth * (horizontalPlayAreaOffset ? 0.34 : 0.48),
       -this.modelHeight * 0.285,
-      -this.modelWidth * (centerOffsetLeft ? 0.282 : 0.421),
+      -this.modelWidth * (horizontalPlayAreaOffset ? 0.282 : 0.421),
       -this.modelHeight * 0.312
     );
 
