@@ -31,15 +31,6 @@ define( function( require ) {
    */
   function BendingLightView( bendingLightModel, laserTranslationRegion, laserRotationRegion, laserImage, options ) {
 
-
-    // The origin of each screen must be adjusted based on the layout of other control
-    // panels.
-    // Intro Screen: it is shifted far to the left since there is extra room
-    // above the protractor toolbox for the laser to traverse to.
-    // Prisms screen: it is shifted far to the left to center the play area in
-    // the space between the left side of the screen and the control panels on the right
-    // More Tools screen: it is not since there are equal sized control
-    // panels on the right and left side of the screen.
     options = _.extend( {
       occlusionHandler: function() {}, // {function} moves objects out from behind a control panel if dropped there
       ccwArrowNotAtMax: function() {return true;}, // {function} shows whether laser at min angle

@@ -114,25 +114,16 @@ define( function( require ) {
     }
 
     BendingLightView.call( this,
-
-      // bendingLightModel
       introModel,
 
-      // laserTranslationRegion - get the function that chooses which region of the protractor can be used for rotation
-      // none in this tab.
-      function() {
+      // The Protractor shouldn't be rotatable in this tab
+      function() { return Shape.rect( 0, 0, 0, 0 ); },
 
-        // empty shape since shouldn't be rotatable in this tab
-        return Shape.rect( 0, 0, 0, 0 );
-      },
+      // in this screen, clicking anywhere on the laser (i.e. on its 'full' bounds) translates it, so always return the
+      // 'full' region
+      function( full ) { return full; },
 
-      // laserRotationRegion
-      rotationRegionShape,
-
-      // laserImage
       laserWithoutKnobImage,
-
-      // options
       options
     );
 

@@ -52,17 +52,14 @@ define( function( require ) {
 
     BendingLightView.call( this,
 
-      // bendingLightModel
       prismsModel,
 
-      // laserTranslationRegion - In the Prisms screen, the protractor can be rotated by dragging it by its ring,
-      // translated by dragging the cross-bar
+      // The protractor can be rotated by dragging it by its ring, translated by dragging the cross-bar
       function( fullShape ) { return fullShape; },
 
       // laserRotationRegion - Rotation if the user clicks top on the object
       function( full, back ) { return back; },
 
-      // laserImageName
       laserKnobImage, {
 
         // center the play area horizontally in the space between the left side of the screen and the control panels on
