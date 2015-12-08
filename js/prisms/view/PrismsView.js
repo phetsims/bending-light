@@ -190,9 +190,7 @@ define( function( require ) {
     var protractorNode = new ProtractorNode( prismsModel.showProtractorProperty, true, {
       scale: 0.46
     } );
-    protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
-    var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
-    var protractorLocationProperty = new Property( protractorLocation );
+    var protractorLocationProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
 
     var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
       targetNode: protractorNode,
@@ -238,7 +236,8 @@ define( function( require ) {
     );
 
     this.resetPrismsView = function() {
-      protractorNode.center = this.modelViewTransform.modelToViewXY( 0, 0 );
+      protractorLocationProperty.reset();
+      protractorNode.reset();
     };
 
     // Add a thin gray line to separate the navigation bar when the environmentMediumNode is black
