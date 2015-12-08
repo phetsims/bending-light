@@ -75,25 +75,25 @@ define( function( require ) {
       clampDragAngle: function( angle ) {
         while ( angle < 0 ) { angle += Math.PI * 2; }
         return Util.clamp( angle, Math.PI / 2, Math.PI );
+      },
+      /**
+       * Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
+       * @param {number} laserAngle
+       * @returns {boolean}
+       */
+      clockwiseArrowNotAtMax: function( laserAngle ) {
+        if ( introModel.laserView === 'ray' ) {
+          return laserAngle < Math.PI;
+        }
+        else {
+          return laserAngle < BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
+        }
       }
+
 
     }, options );
     var introView = this;
     this.introModel = introModel; // @public (read-only)
-
-    /**
-     * Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
-     * @param {number} laserAngle
-     * @returns {boolean}
-     */
-    function clockwiseArrowNotAtMax( laserAngle ) {
-      if ( introModel.laserView === 'ray' ) {
-        return laserAngle < Math.PI;
-      }
-      else {
-        return laserAngle < BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
-      }
-    }
 
     /**
      * indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
@@ -120,9 +120,6 @@ define( function( require ) {
 
       // bendingLightModel
       introModel,
-
-      // clockwiseArrowNotAtMax
-      clockwiseArrowNotAtMax,
 
       // ccwArrowNotAtMax
       ccwArrowNotAtMax,

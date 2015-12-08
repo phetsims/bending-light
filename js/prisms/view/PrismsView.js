@@ -55,10 +55,6 @@ define( function( require ) {
       // bendingLightModel
       prismsModel,
 
-      // clockwiseArrowNotAtMax - In prisms tab laser node can rotate 360 degrees.so arrows showing all the times when
-      // laser node rotate
-      function() { return true; },
-
       // ccwArrowNotAtMax - Determine if the counterclockwise arrow can be shown.
       function() {return true;},
 
