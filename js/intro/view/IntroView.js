@@ -45,9 +45,6 @@ define( function( require ) {
   var anglesString = require( 'string!BENDING_LIGHT/angles' );
   var normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
 
-  // images
-  var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
-
   // constants
   var INSET = 10;
 
@@ -101,18 +98,6 @@ define( function( require ) {
     var introView = this;
     this.introModel = introModel; // @public (read-only)
 
-    /**
-     * rotation if the user clicks anywhere on the object
-     * @param {Shape} full
-     * @returns {*}
-     */
-    function rotationRegionShape( full ) {
-
-      // in this screen, clicking anywhere on the laser (i.e. on its 'full' bounds) translates it, so always return the
-      // 'full' region
-      return full;
-    }
-
     BendingLightView.call( this,
       introModel,
 
@@ -123,7 +108,7 @@ define( function( require ) {
       // 'full' region
       function( full ) { return full; },
 
-      laserWithoutKnobImage,
+      false,
       options
     );
 

@@ -31,9 +31,6 @@ define( function( require ) {
   var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/prisms/view/LaserTypeRadioButtonGroup' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
 
-  // images
-  var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
-
   // constants
   var INSET = 10;
 
@@ -60,7 +57,7 @@ define( function( require ) {
       // laserRotationRegion - Rotation if the user clicks top on the object
       function( full, back ) { return back; },
 
-      laserKnobImage, {
+      true, {
 
         // center the play area horizontally in the space between the left side of the screen and the control panels on
         // the right, and move the laser to the left.
@@ -328,7 +325,7 @@ define( function( require ) {
       );
 
       // add translation indicators that show if/when the laser can be moved by dragging
-      var arrowLength = 76;
+      var arrowLength = 83;
 
       var horizontalTranslationDragHandle = new TranslationDragHandle(
         this.modelViewTransform,

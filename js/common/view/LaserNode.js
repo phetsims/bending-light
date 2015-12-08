@@ -22,6 +22,10 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
 
+  // images
+  var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
+  var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
+
   // constants
   var dragRegionColor = new Color( 255, 0, 0, 0 );
   var rotationRegionColor = new Color( 0, 0, 255, 0 );
@@ -36,15 +40,20 @@ define( function( require ) {
    *                                       translating the laser
    * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating
    *                                       the laser
-   * @param {string} laserImage - name of the laser image
+   * @param {boolean} hasKnob - true if the laser should be shown with a knob
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the laser may be dragged
    * @param {function} occlusionHandler - function that will move the laser out from behind a control panel if dropped
    *                                      there
    * @constructor
    */
   function LaserNode( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
-                      clampDragAngle, translationRegion, rotationRegion, laserImage, dragBoundsProperty,
+                      clampDragAngle, translationRegion, rotationRegion, hasKnob, dragBoundsProperty,
                       occlusionHandler ) {
+
+    var laserImage = hasKnob ? laserKnobImage : laserWithoutKnobImage;
+
+    // @public (read-only), Used for radius and length of drag handlers
+    this.laserImageWidth = laserImage.width;
 
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker

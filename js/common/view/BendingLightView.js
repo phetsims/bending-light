@@ -25,11 +25,11 @@ define( function( require ) {
    * @param {BendingLightModel} bendingLightModel - main model of the simulations
    * @param {function} laserTranslationRegion - region that defines laser translation
    * @param {function} laserRotationRegion - region that defines laser rotation
-   * @param {HTMLImageElement} laserImage - laser image
+   * @param {boolean} laserHasKnob - laser image
    * @param {Object} [options]
    * @constructor
    */
-  function BendingLightView( bendingLightModel, laserTranslationRegion, laserRotationRegion, laserImage, options ) {
+  function BendingLightView( bendingLightModel, laserTranslationRegion, laserRotationRegion, laserHasKnob, options ) {
 
     options = _.extend( {
       occlusionHandler: function() {}, // {function} moves objects out from behind a control panel if dropped there
@@ -102,12 +102,16 @@ define( function( require ) {
     this.laserViewLayer = new Node(); // @public (read-only)
     this.addChild( this.laserViewLayer );
 
-    // Used for radius and length of drag handlers
-    var laserImageWidth = laserImage.width;
+    this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public (read-only)
 
     // add rotation for the laser that show if/when the laser can be rotated about its pivot
     var showRotationDragHandlesProperty = new Property( false );
     var showTranslationDragHandlesProperty = new Property( false );
+
+    var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
+      showTranslationDragHandlesProperty, options.clampDragAngle, laserTranslationRegion, laserRotationRegion,
+      laserHasKnob, this.visibleBoundsProperty, this.occlusionHandler
+    );
 
     // add laser node rotation and translation arrows in array, to move them to front of all other nodes in prism screen
     this.addLaserHandles(
@@ -115,17 +119,10 @@ define( function( require ) {
       showTranslationDragHandlesProperty,
       options.clockwiseArrowNotAtMax,
       options.ccwArrowNotAtMax,
-      laserImageWidth
+      laserNode.laserImageWidth
     );
-
-    this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public (read-only)
 
     // add the laser
-    var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
-      showTranslationDragHandlesProperty, options.clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImage,
-      this.visibleBoundsProperty,
-      this.occlusionHandler
-    );
     this.addChild( laserNode );
 
     this.addChild( this.afterLightLayer2 );
