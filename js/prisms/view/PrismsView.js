@@ -89,8 +89,8 @@ define( function( require ) {
         } );
       }, {
         // center the play area horizontally in the space between the left side of the screen and the control panels on
-        // the right
-        horizontalPlayAreaOffset: 90,
+        // the right, and move the laser to the left.
+        horizontalPlayAreaOffset: 240,
 
         // Center the play area vertically above the south control panel
         verticalPlayAreaOffset: -43
