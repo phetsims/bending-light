@@ -32,10 +32,12 @@ define( function( require ) {
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the prism may be dragged
    * @param {function} occlusionHandler - function that takes a node and updates it if it would be occluded by a control
    *                                    - panel
+   * @param {boolean} isIcon - true if the prism node is being created to be shown as an icon in the toolbox
+   *                         - false if the prism node will be dragged in the play area
    * @constructor
    */
   function PrismNode( prismsModel, modelViewTransform, prism, prismToolboxNode, prismLayer, dragBoundsProperty,
-                      occlusionHandler ) {
+                      occlusionHandler, isIcon ) {
 
     Node.call( this, { cursor: 'pointer' } );
     var prismNode = this;
@@ -50,29 +52,31 @@ define( function( require ) {
     // Prism rotation with knob
     var previousAngle;
     var prismCenterPoint;
-    knobNode.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-        prismNode.moveToFront();
-        var start = knobNode.globalToParentPoint( event.pointer.point );
-        prismCenterPoint = prism.shape.getRotationCenter();
-        var startX = modelViewTransform.viewToModelX( start.x );// model values
-        var startY = modelViewTransform.viewToModelY( start.y );// model values
-        previousAngle = Math.atan2( (prismCenterPoint.y - startY), ( prismCenterPoint.x - startX ) );
-      },
-      drag: function( event ) {
-        var end = knobNode.globalToParentPoint( event.pointer.point );
-        prismCenterPoint = prism.shape.getRotationCenter();
-        var endX = modelViewTransform.viewToModelX( end.x );// model values
-        var endY = modelViewTransform.viewToModelY( end.y );// model values
-        var angle = Math.atan2( (prismCenterPoint.y - endY), ( prismCenterPoint.x - endX ) );
-        prism.rotate( angle - previousAngle );
-        previousAngle = angle;
-      },
+    if ( !isIcon ) {
+      knobNode.addInputListener( new SimpleDragHandler( {
+        start: function( event ) {
+          prismNode.moveToFront();
+          var start = knobNode.globalToParentPoint( event.pointer.point );
+          prismCenterPoint = prism.shape.getRotationCenter();
+          var startX = modelViewTransform.viewToModelX( start.x );// model values
+          var startY = modelViewTransform.viewToModelY( start.y );// model values
+          previousAngle = Math.atan2( (prismCenterPoint.y - startY), ( prismCenterPoint.x - startX ) );
+        },
+        drag: function( event ) {
+          var end = knobNode.globalToParentPoint( event.pointer.point );
+          prismCenterPoint = prism.shape.getRotationCenter();
+          var endX = modelViewTransform.viewToModelX( end.x );// model values
+          var endY = modelViewTransform.viewToModelY( end.y );// model values
+          var angle = Math.atan2( (prismCenterPoint.y - endY), ( prismCenterPoint.x - endX ) );
+          prism.rotate( angle - previousAngle );
+          previousAngle = angle;
+        },
 
-      // A Prism cannot be put back into the toolbox by rotating it.
-      end: function() {}
-    } ) );
-    knobNode.touchArea = Shape.circle( 0, 10, 40 );
+        // A Prism cannot be put back into the toolbox by rotating it.
+        end: function() {}
+      } ) );
+      knobNode.touchArea = Shape.circle( 0, 10, 40 );
+    }
 
     var prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
       stroke: 'gray'
@@ -120,7 +124,9 @@ define( function( require ) {
       }
     } );
 
-    prismPathNode.addInputListener( this.movableDragHandler );
+    if ( !isIcon ) {
+      prismPathNode.addInputListener( this.movableDragHandler );
+    }
 
     var knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
 
