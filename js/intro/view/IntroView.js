@@ -51,12 +51,12 @@ define( function( require ) {
   /**
    * @param {IntroModel} introModel - model of intro screen
    * @param {boolean} hasMoreTools - whether contain more tools
-   * @param {number} IndexOfRefractionDecimals - decimalPlaces to show for index of refraction
+   * @param {number} indexOfRefractionDecimals - decimalPlaces to show for index of refraction
    * @param {function} createLaserControlPanel
    * @param {Object} [options]
    * @constructor
    */
-  function IntroView( introModel, hasMoreTools, IndexOfRefractionDecimals, createLaserControlPanel, options ) {
+  function IntroView( introModel, hasMoreTools, indexOfRefractionDecimals, createLaserControlPanel, options ) {
 
     options = _.extend( {
 
@@ -122,7 +122,7 @@ define( function( require ) {
 
     // add control panels for setting the index of refraction for each medium
     var topMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
-      introModel.topMediumProperty, materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
+      introModel.topMediumProperty, materialString, true, introModel.wavelengthProperty, indexOfRefractionDecimals, {
         yMargin: 7
       } );
     var topMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
@@ -138,7 +138,7 @@ define( function( require ) {
     // add control panels for setting the index of refraction for each medium
     var bottomMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
     var bottomMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
-      introModel.bottomMediumProperty, materialString, true, introModel.wavelengthProperty, IndexOfRefractionDecimals, {
+      introModel.bottomMediumProperty, materialString, true, introModel.wavelengthProperty, indexOfRefractionDecimals, {
         yMargin: 7
       } );
     bottomMediumControlPanel.setTranslation(
