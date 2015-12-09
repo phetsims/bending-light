@@ -36,15 +36,20 @@ define( function( require ) {
     this.moreToolsModel = moreToolsModel; // @public (read-only)
     var moreToolsView = this;
 
-    IntroView.call( this, moreToolsModel, true, 3, function( model ) {
-      return new VBox( {
-        spacing: 10,
-        align: 'left',
-        children: [
-          new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
-          new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
-        ]
-      } );
+    IntroView.call( this, moreToolsModel,
+      true, // hasMoreTools
+      3, // indexOfRefractionDecimals
+
+      // createLaserControlPanel
+      function( model ) {
+        return new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
+            new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
+          ]
+        } );
     }, {
       verticalPlayAreaOffset: 0,
       horizontalPlayAreaOffset: 0

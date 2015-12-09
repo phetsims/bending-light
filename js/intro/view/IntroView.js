@@ -101,11 +101,11 @@ define( function( require ) {
     BendingLightView.call( this,
       introModel,
 
-      // The Protractor shouldn't be rotatable in this tab
+      // laserTranslationRegion - The Protractor shouldn't be rotatable in this screen
       function() { return Shape.rect( 0, 0, 0, 0 ); },
 
-      // in this screen, clicking anywhere on the laser (i.e. on its 'full' bounds) translates it, so always return the
-      // 'full' region
+      // laserRotationRegion - In this screen, clicking anywhere on the laser (i.e. on its 'full' bounds)
+      // translates it, so always return the 'full' region.
       function( full ) { return full; },
 
       // laserHasKnob

@@ -50,7 +50,7 @@ define( function( require ) {
 
       prismsModel,
 
-      // The protractor can be rotated by dragging it by its ring, translated by dragging the cross-bar
+      // laserTranslationRegion - The protractor can be rotated by dragging it by its ring, translated by dragging the cross-bar
       function( fullShape ) { return fullShape; },
 
       // laserRotationRegion - Rotation if the user clicks top on the object

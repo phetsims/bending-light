@@ -32,8 +32,11 @@ define( function( require ) {
       function() { return new IntroModel( Substance.WATER, true ); },
       function( model ) {
         return new IntroView( model,
+          false, // hasMoreTools
+          2, // indexOfRefractionDecimals
 
-          false, 2, function( introModel ) {
+          // createLaserControlPanel
+          function( introModel ) {
             return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
           }, [] );
       },
