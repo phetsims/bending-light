@@ -56,8 +56,10 @@ define( function( require ) {
       // laserRotationRegion - Rotation if the user clicks top on the object
       function( full, back ) { return back; },
 
-      true, {
+      // laserHasKnob
+      true,
 
+      {
         // center the play area horizontally in the space between the left side of the screen and the control panels on
         // the right, and move the laser to the left.
         horizontalPlayAreaOffset: 240,

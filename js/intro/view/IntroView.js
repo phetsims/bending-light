@@ -108,6 +108,7 @@ define( function( require ) {
       // 'full' region
       function( full ) { return full; },
 
+      // laserHasKnob
       false,
       options
     );
