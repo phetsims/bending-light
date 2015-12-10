@@ -38,7 +38,7 @@ define( function( require ) {
     this.updateWireShape = function() {
 
       // connect left-center of body to bottom-center of probe.
-      var bodyConnectionPointX = bodyNode.x;
+      var bodyConnectionPointX = bodyNode.x + bodyNode.width;
       var bodyConnectionPointY = bodyNode.y + bodyNode.height * verticalWireAttachmentPoint;
       var probeConnectionPointX = probeNode.centerX;
       var probeConnectionPointY = probeNode.bottom;
@@ -48,7 +48,7 @@ define( function( require ) {
       wireNode.shape = new Shape()
         .moveTo( bodyConnectionPointX, bodyConnectionPointY )
         .cubicCurveTo(
-          bodyConnectionPointX - connectionPointXOffsetFactor, bodyConnectionPointY,
+          bodyConnectionPointX + connectionPointXOffsetFactor, bodyConnectionPointY,
           probeConnectionPointX, probeConnectionPointY + connectionPointXOffsetFactor,
           probeConnectionPointX, probeConnectionPointY
         );

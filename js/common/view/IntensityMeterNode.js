@@ -97,10 +97,6 @@ define( function( require ) {
     intensityMeter.readingProperty.link( function() {
       valueNode.setText( intensityMeter.reading.getString() );
       valueNode.center = valueBackground.center;
-      //valueNode.setTranslation(
-      //  valueBackground.centerX - valueNode.width / 2,
-      //  valueBackground.centerY + valueNode.height / 2
-      //);
     } );
 
     // Connect the sensor to the body with a gray wire
@@ -142,7 +138,7 @@ define( function( require ) {
 
   return inherit( Node, IntensityMeterNode, {
     resetRelativeLocations: function() {
-      this.bodyNode.center = this.probeNode.center.plusXY( 90, 10 );
+      this.bodyNode.center = this.probeNode.center.plusXY( -90, 10 );
       this.wireNode.updateWireShape();
     },
     updateWireShape: function() {
