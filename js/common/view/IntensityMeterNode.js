@@ -138,7 +138,7 @@ define( function( require ) {
 
   return inherit( Node, IntensityMeterNode, {
     resetRelativeLocations: function() {
-      this.bodyNode.center = this.probeNode.center.plusXY( -90, 10 );
+      this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );
       this.wireNode.updateWireShape();
     },
     updateWireShape: function() {

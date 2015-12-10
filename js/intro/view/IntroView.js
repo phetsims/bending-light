@@ -342,9 +342,10 @@ define( function( require ) {
       // Show the probe in the play area and hide the icon
       introModel.intensityMeter.enabled = true;
 
-      // Center the probe on the pointer
-      var sensorViewPosition = intensityMeterNode.probeNode.globalToParentPoint( event.pointer.point );
-      introModel.intensityMeter.sensorPosition = modelViewTransform.viewToModelPosition( sensorViewPosition );
+      // Center the center-bottom of the body on the pointer
+      var bodyViewPosition = intensityMeterNode.bodyNode.globalToParentPoint( event.pointer.point )
+        .plusXY( -intensityMeterNode.bodyNode.width / 2, -intensityMeterNode.bodyNode.height + 5 );
+      introModel.intensityMeter.bodyPosition = modelViewTransform.viewToModelPosition( bodyViewPosition );
       intensityMeterNode.resetRelativeLocations();
       intensityMeterNode.syncModelFromView();
     } ) );

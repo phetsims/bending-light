@@ -179,7 +179,7 @@ define( function( require ) {
 
   return inherit( Node, WaveSensorNode, {
     resetRelativePositions: function() {
-      this.bodyNode.center = this.probe1Node.center.plusXY( -110, -12 );
+      this.probe1Node.center = this.bodyNode.center.plusXY( 110, 12 );
       this.probe2Node.center = this.probe1Node.center.plusXY( -25, -37 );
       this.syncModelFromView();
     }
