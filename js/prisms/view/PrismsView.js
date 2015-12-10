@@ -104,7 +104,7 @@ define( function( require ) {
     var environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.mediumColorFactory, prismsModel.environmentMediumProperty,
       environmentString, false, prismsModel.wavelengthProperty,
       indexOfRefractionDecimals, {
-        xMargin: 7,
+        xMargin: 13.5, // Adjusted manually so that the panels will align in English
         yMargin: 6,
         comboBoxListPosition: 'below'
       } );
@@ -131,7 +131,7 @@ define( function( require ) {
         new WavelengthControl( prismsModel.wavelengthProperty, sliderEnabledProperty, 146 ) ]
     } ), {
       cornerRadius: 5,
-      xMargin: 9,
+      xMargin: 10,
       yMargin: 6,
       fill: '#EEEEEE',
       stroke: '#696969',
