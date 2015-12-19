@@ -26,7 +26,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function PrismsScreen() {
+  function PrismsScreen( tandem ) {
     var prismModel = new PrismsModel();
     Screen.call( this, prismsString, new Image( iconImage ),
       function() {
@@ -34,8 +34,10 @@ define( function( require ) {
       },
       function( model ) {
         return new PrismsView( model );
-      },
-      { navigationBarIcon: new Image( navbarIconImage ) }
+      }, {
+        navigationBarIcon: new Image( navbarIconImage ),
+        tandem: tandem
+      }
     );
   }
 

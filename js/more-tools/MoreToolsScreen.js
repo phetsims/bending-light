@@ -25,7 +25,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function MoreToolsScreen() {
+  function MoreToolsScreen( tandem ) {
     Screen.call( this,
       moreToolsString,
       new Image( iconImage ),
@@ -35,7 +35,8 @@ define( function( require ) {
       function( model ) {
         return new MoreToolsView( model );
       }, {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        tandem: tandem
       }
     );
 

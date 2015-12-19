@@ -27,7 +27,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function IntroScreen() {
+  function IntroScreen( tandem ) {
     Screen.call( this, introString, new Image( icon ),
       function() { return new IntroModel( Substance.WATER, true ); },
       function( model ) {
@@ -39,8 +39,10 @@ define( function( require ) {
           function( introModel ) {
             return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
           }, [] );
-      },
-      { backgroundColor: 'white' }
+      }, {
+        backgroundColor: 'white',
+        tandem: tandem
+      }
     );
   }
 
