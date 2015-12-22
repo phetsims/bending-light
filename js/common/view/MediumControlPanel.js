@@ -274,7 +274,8 @@ define( function( require ) {
     var unknown = new Text( unknownString, {
       font: new PhetFont( 16 ),
       centerX: indexOfRefractionSlider.centerX,
-      centerY: indexOfRefractionSlider.centerY
+      centerY: indexOfRefractionSlider.centerY,
+      maxWidth: indexOfRefractionSlider.width * 0.8
     } );
 
     // position the indexOfRefractionNode and indexOfRefractionSlider
@@ -294,9 +295,12 @@ define( function( require ) {
     var mediumPanel = new Panel( mediumPanelNode, {
       fill: '#EEEEEE',
       stroke: '#696969',
-      xMargin: options.xMargin,
+      xMargin: 13.5, // Adjusted manually so that the panels will align in English and the slider knob won't go outside
+                     // the panel
       yMargin: options.yMargin,
-      cornerRadius: 5, lineWidth: options.lineWidth
+      cornerRadius: 5,
+      lineWidth: options.lineWidth,
+      resize: false // Don't resize when the slider knob encroaches on the right border
     } );
     this.addChild( mediumPanel );
     Property.multilink( [ mediumProperty, this.laserWavelength ],
