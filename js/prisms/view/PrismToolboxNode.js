@@ -160,7 +160,6 @@ define( function( require ) {
       prismsModel.wavelengthProperty,
       2, {
         lineWidth: 0,
-        xMargin: 0,
         yMargin: 4
       } );
     this.objectMediumControlPanel = objectMediumControlPanel;
