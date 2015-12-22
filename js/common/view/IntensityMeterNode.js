@@ -81,7 +81,8 @@ define( function( require ) {
     // Add the reading to the body node
     var valueNode = new Text( intensityMeter.reading.getString(), {
       font: new PhetFont( 25 ),
-      fill: 'black'
+      fill: 'black',
+      maxWidth: valueBackground.width * 0.85
     } );
 
     // add up all the shapes to form a body node

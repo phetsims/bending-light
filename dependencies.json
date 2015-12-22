@@ -1,63 +1,63 @@
 {
-  "comment": "# bending-light 1.0.0-dev.51 Thu Dec 10 2015 15:04:29 GMT-0700 (MST)",
+  "comment": "# bending-light 1.0.0-rc.1 Fri Dec 18 2015 10:50:54 GMT-0700 (MST)",
   "assert": {
     "sha": "d4909677d27ed571d5d859d709a0612bf7811db8",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "axon": {
     "sha": "60075be97fdf9b4b312311c5e6902de2dca78f3e",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "bending-light": {
-    "sha": "007d4f70e0a2bdfbd634e16bca1ebcf63ebca114",
-    "branch": "master"
+    "sha": "79a6385fbeb808622f74c649b36f48642d0f5955",
+    "branch": "1.0"
   },
   "brand": {
     "sha": "c9282935819904d033c0e22d9d36e3590019f38b",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "chipper": {
     "sha": "d18a2538e68fff26d80d6e0cfa2beca4b032dc79",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "dot": {
     "sha": "24f07fa0a43389dcabff3a9ea3f43b334e1aa32d",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "joist": {
     "sha": "f73eef15ccb0356570915f9da1d536aed17e7ca5",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "kite": {
     "sha": "a4907ccc07cc80d6d3c9c1e240ba7664e32db56b",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "phet-core": {
     "sha": "73a034c676ee7b14b99aeeb1e7aad79f579b91b1",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "phetcommon": {
     "sha": "d712ace0fd0fa47ab617934aec8721228aefc0fc",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "scenery": {
     "sha": "98ea2eeb998282b37da86e961bc939c3942265aa",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "scenery-phet": {
     "sha": "a62aafce23e67d3dbfd3ce1b823066c3182e0711",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "sherpa": {
     "sha": "be8c4fc917f1644586ba4459351eade68e3bc0d2",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "sun": {
     "sha": "1b39dfc51ab6fafb35ebc114f966f34a5c97b5eb",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "tandem": {
     "sha": "87f3d2ab6435081cfe062e3b8e81afac2cbb970b",
-    "branch": "master"
+    "branch": "HEAD"
   }
 }
