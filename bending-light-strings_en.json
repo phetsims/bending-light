@@ -59,23 +59,11 @@
   "environment": {
     "value": "Environment"
   },
-  "low": {
-    "value": "Low"
-  },
-  "high": {
-    "value": "High"
-  },
   "intensity": {
     "value": "Intensity"
   },
-  "laserView": {
-    "value": "Laser View"
-  },
   "ray": {
     "value": "Ray"
-  },
-  "laser": {
-    "value": "Laser"
   },
   "wave": {
     "value": "Wave"
@@ -86,29 +74,11 @@
   "time": {
     "value": "Time"
   },
-  "toolbox": {
-    "value": "Toolbox"
-  },
   "protractor": {
     "value": "Protractor"
   },
   "moreTools": {
     "value": "More Tools"
-  },
-  "oneColor": {
-    "value": "One Color"
-  },
-  "oneColor5x": {
-    "value": "One Color (5x)"
-  },
-  "whiteLight": {
-    "value": "White Light"
-  },
-  "singleRay": {
-    "value": "Single Ray"
-  },
-  "multipleRays": {
-    "value": "Multiple Rays"
   },
   "reflections": {
     "value": "Reflections"
