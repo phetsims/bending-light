@@ -113,7 +113,7 @@ define( function( require ) {
       endDrag: function() {
         occlusionHandler( prismNode );
         if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
-          if ( prismLayer.isChild( prismNode ) ) {
+          if ( prismLayer.hasChild( prismNode ) ) {
             prismsModel.removePrism( prism );
             prism.shapeProperty.unlink( prismNode.updatePrismShape );
             prismsModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
