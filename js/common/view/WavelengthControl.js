@@ -49,7 +49,7 @@ define( function( require ) {
       trackHeight: 20,
       tweakersVisible: false,
       valueVisible: false,
-      thumbTouchAreaExpandY: 4,
+      thumbTouchAreaYDilation: 4,
       pointerAreasOverTrack: true
     } );
 
