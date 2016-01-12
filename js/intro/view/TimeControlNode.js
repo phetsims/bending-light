@@ -39,20 +39,20 @@ define( function( require ) {
 
     // touch area
     var radioButtonSpacing = 5;
-    var touchAreaHeightExpansion = radioButtonSpacing / 2;
+    var touchAreaYDilation = radioButtonSpacing / 2;
     slowMotionRadioBox.touchArea = new Bounds2(
       slowMotionRadioBox.localBounds.minX,
-      slowMotionRadioBox.localBounds.minY - touchAreaHeightExpansion,
+      slowMotionRadioBox.localBounds.minY - touchAreaYDilation,
       slowMotionRadioBox.localBounds.minX + speedControlMaxWidth,
-      slowMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
+      slowMotionRadioBox.localBounds.maxY + touchAreaYDilation
     );
 
     // touch area
     normalMotionRadioBox.touchArea = new Bounds2(
       normalMotionRadioBox.localBounds.minX,
-      normalMotionRadioBox.localBounds.minY - touchAreaHeightExpansion,
+      normalMotionRadioBox.localBounds.minY - touchAreaYDilation,
       normalMotionRadioBox.localBounds.minX + speedControlMaxWidth,
-      normalMotionRadioBox.localBounds.maxY + touchAreaHeightExpansion
+      normalMotionRadioBox.localBounds.maxY + touchAreaYDilation
     );
 
     // add radio buttons to the VBox
