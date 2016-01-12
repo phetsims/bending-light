@@ -207,7 +207,7 @@ define( function( require ) {
       centerX: 28,
       centerY: laserImageNode.centerY,
       baseColor: 'red',
-      touchExpansion: 5
+      touchAreaDilation: 5
     } );
     this.addChild( redButton );
 
