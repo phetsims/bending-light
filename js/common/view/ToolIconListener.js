@@ -24,21 +24,21 @@ define( function( require ) {
 
         // Forward the event to the components
         for ( var i = 0; i < components.length; i++ ) {
-          components[ i ].forwardStartEvent( event );
+          components[ i ].handleForwardedStartEvent( event );
         }
       },
       drag: function( event ) {
 
         // Forward the event to the components
         for ( var i = 0; i < components.length; i++ ) {
-          components[ i ].forwardDragEvent( event );
+          components[ i ].handleForwardedDragEvent( event );
         }
       },
       end: function( event ) {
 
         // Forward the event to the components
         for ( var i = 0; i < components.length; i++ ) {
-          components[ i ].forwardEndEvent( event );
+          components[ i ].handleForwardedEndEvent( event );
         }
       }
     } );

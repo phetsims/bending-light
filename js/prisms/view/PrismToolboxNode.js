@@ -114,7 +114,7 @@ define( function( require ) {
             // There is a precedent for this hack in SimpleDragHandler.js
             var c = event.currentTarget;
             event.currentTarget = prismNode;
-            prismNode.movableDragHandler.forwardStartEvent( event );
+            prismNode.movableDragHandler.handleForwardedStartEvent( event );
             event.currentTarget = c;
           },
           drag: function( event ) {
@@ -126,7 +126,7 @@ define( function( require ) {
             // There is a precedent for this hack in SimpleDragHandler.js
             var c = event.currentTarget;
             event.currentTarget = prismNode;
-            prismNode.movableDragHandler.forwardDragEvent( event );
+            prismNode.movableDragHandler.handleForwardedDragEvent( event );
             event.currentTarget = c; // oh noes
           },
         end: function( event ) {
@@ -138,7 +138,7 @@ define( function( require ) {
           // There is a precedent for this hack in SimpleDragHandler.js
           var c = event.currentTarget;
           event.currentTarget = prismNode;
-          prismNode.movableDragHandler.forwardEndEvent( event );
+          prismNode.movableDragHandler.handleForwardedEndEvent( event );
           event.currentTarget = c;
           }
         }
