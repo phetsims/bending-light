@@ -20,7 +20,7 @@
     ],
     "phet-io": {
       "preload": [
-        "../together/js/api/bending-light-api.js"
+        "../phet-io/js/api/bending-light-api.js"
       ]
     }
   }
