@@ -85,7 +85,7 @@ define( function( require ) {
       var waveSensorNode = this.waveSensorNode;
       waveSensor.enabledProperty.link( function( enabled ) {
         waveSensorIcon.visible = !enabled;
-        moreToolsView.waveSensorNode.visible = enabled;
+        waveSensorNode.visible = enabled;
       } );
 
       var dropInToolbox = this.dropInToolbox;
@@ -103,21 +103,21 @@ define( function( require ) {
       var probe1Listener = createMovableDragHandler(
         waveSensorNode.probe1Node,
         waveSensor.probe1.positionProperty,
-        moreToolsView.moreToolsModel.waveSensor.enabledProperty
+        waveSensor.enabledProperty
       );
       waveSensorNode.probe1Node.addInputListener( probe1Listener );
 
       var probe2Listener = createMovableDragHandler(
         waveSensorNode.probe2Node,
         waveSensor.probe2.positionProperty,
-        moreToolsView.moreToolsModel.waveSensor.enabledProperty
+        waveSensor.enabledProperty
       );
       waveSensorNode.probe2Node.addInputListener( probe2Listener );
 
       var bodyListener = createMovableDragHandler(
         waveSensorNode.bodyNode,
-        moreToolsView.moreToolsModel.waveSensor.bodyPositionProperty,
-        moreToolsView.moreToolsModel.waveSensor.enabledProperty
+        waveSensor.bodyPositionProperty,
+        waveSensor.enabledProperty
       );
       waveSensorNode.bodyNode.addInputListener( bodyListener );
 
@@ -128,14 +128,14 @@ define( function( require ) {
         ], function( event ) {
 
           // Show the probe in the play area and hide the icon
-          moreToolsView.moreToolsModel.waveSensor.enabled = true;
+        waveSensor.enabled = true;
 
           // Center the body label on the pointer
-          var pt = moreToolsView.waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point )
-            .plusXY( 0, -moreToolsView.waveSensorNode.bodyNode.height / 2 + 5 );
-          moreToolsView.moreToolsModel.waveSensor.bodyPosition = modelViewTransform.viewToModelPosition( pt );
-          moreToolsView.waveSensorNode.resetRelativePositions();
-          moreToolsView.waveSensorNode.syncModelFromView();
+        var pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point )
+          .plusXY( 0, -waveSensorNode.bodyNode.height / 2 + 5 );
+        waveSensor.bodyPosition = modelViewTransform.viewToModelPosition( pt );
+        waveSensorNode.resetRelativePositions();
+        waveSensorNode.syncModelFromView();
         } )
       );
 
