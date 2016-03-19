@@ -178,6 +178,8 @@ define( function( require ) {
         gl.drawArrays( gl.TRIANGLE_STRIP, 0, 4 );
       }
       shaderProgram.unuse();
+
+      return WebGLNode.PAINTED_SOMETHING;
     },
 
     dispose: function() {
