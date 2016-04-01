@@ -1,5 +1,5 @@
 {
-  "comment": "# bending-light 1.0.2 Fri Apr 01 2016 12:56:56 GMT-0600 (MDT)",
+  "comment": "# bending-light 1.0.2 Fri Apr 01 2016 14:38:11 GMT-0600 (MDT)",
   "assert": {
     "sha": "d4909677d27ed571d5d859d709a0612bf7811db8",
     "branch": "HEAD"
@@ -9,12 +9,12 @@
     "branch": "HEAD"
   },
   "bending-light": {
-    "sha": "dfe9e8ae3f6d05fd7ef48de874bd8b5818587df6",
+    "sha": "0d07317a1cf26a2dd2e5a5d03163758f78471ebd",
     "branch": "1.0"
   },
   "brand": {
-    "sha": "c9282935819904d033c0e22d9d36e3590019f38b",
-    "branch": "HEAD"
+    "sha": "156c1ac975113ac690d12a88cb4caa592440a034",
+    "branch": "bending-light-1.0"
   },
   "chipper": {
     "sha": "d18a2538e68fff26d80d6e0cfa2beca4b032dc79",
@@ -25,8 +25,8 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "1e90c1aeb0461750b347bef70e205ca7ceed80d6",
-    "branch": "HEAD"
+    "sha": "17c5a281bd3107ebef153ee938cb5543c0733e4e",
+    "branch": "bending-light-1.0"
   },
   "kite": {
     "sha": "a4907ccc07cc80d6d3c9c1e240ba7664e32db56b",
@@ -38,7 +38,7 @@
   },
   "phetcommon": {
     "sha": "d71dc9ef13282a0970c0007e8af3eecaafd24a87",
-    "branch": "bending-light-1.0"
+    "branch": "HEAD"
   },
   "scenery": {
     "sha": "ad956984b42d5ebc6f4e582734d1a0c4fce31417",
