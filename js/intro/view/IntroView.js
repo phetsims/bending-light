@@ -409,21 +409,22 @@ define( function( require ) {
     FloatingLayout.floatTop( this, [ laserControlPanel ] );
     FloatingLayout.floatBottom( this, [ checkBoxPanel, resetAllButton, this.timeControlNode ] );
 
-    this.events.on( 'layoutFinished', function() {
+    this.visibleBoundsProperty.link( function() {
       introView.toolbox.bottom = checkBoxPanel.top - 10;
     } );
 
-    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
-      protractorNodeListener.setDragBounds( new Rectangle2( -dx, -dy, width, height ) );
-      probeListener.setDragBounds( modelViewTransform.viewToModelBounds( new Rectangle2( -dx, -dy, width, height ) ) );
+    this.visibleBoundsProperty.link( function( visibleBounds ) {
+
+      protractorNodeListener.setDragBounds( visibleBounds );
+      probeListener.setDragBounds( modelViewTransform.viewToModelBounds( visibleBounds ) );
 
       // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node
       // will remain in bounds
       var viewDragBounds = new Rectangle2(
-        -dx - intensityMeterNode.bodyNode.bounds.width / 2,
-        -dy - intensityMeterNode.bodyNode.bounds.height / 2,
-        width,
-        height
+        visibleBounds.left - intensityMeterNode.bodyNode.bounds.width / 2,
+        visibleBounds.top - intensityMeterNode.bodyNode.bounds.height / 2,
+        visibleBounds.width,
+        visibleBounds.height
       );
       var dragBounds = modelViewTransform.viewToModelBounds( viewDragBounds );
       bodyListener.setDragBounds( dragBounds );
@@ -491,10 +492,9 @@ define( function( require ) {
           canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
         } );
         bendingLightView.incidentWaveLayer.addChild( waveCanvasNode );
-        this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
-            waveCanvasNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
-          }
-        );
+        this.visibleBoundsProperty.link( function( visibleBounds ) {
+          waveCanvasNode.setCanvasBounds( visibleBounds );
+        } );
       }
     }
   } );

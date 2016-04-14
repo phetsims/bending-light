@@ -25,10 +25,10 @@ define( function() {
      * @param {Node[]} nodes
      */
     floatRight: function( screenView, nodes ) {
-      screenView.events.on( 'layoutFinished', function( dx, dy, width ) {
+      screenView.visibleBoundsProperty.link( function( visibleBounds ) {
 
         // Let the panels move to the right, but not too far
-        var right = Math.min( width - dx - leftRightPadding, screenView.layoutBounds.width * (1 + floatFraction) );
+        var right = Math.min( visibleBounds.right - leftRightPadding, screenView.layoutBounds.width * (1 + floatFraction) );
         nodes.forEach( function( node ) {
           node.right = right;
         } );
@@ -43,10 +43,10 @@ define( function() {
      */
     floatLeft: function( screenView, nodes, delta ) {
       delta = delta || 0;
-      screenView.events.on( 'layoutFinished', function( dx ) {
+      screenView.visibleBoundsProperty.link( function( visibleBounds ) {
 
         // Let the panels move to the left, but not too far
-        var left = Math.max( -dx + leftRightPadding, -screenView.layoutBounds.width * floatFraction );
+        var left = Math.max( visibleBounds.left + leftRightPadding, -screenView.layoutBounds.width * floatFraction );
         nodes.forEach( function( node ) {
           node.left = left + delta;
         } );
@@ -60,10 +60,10 @@ define( function() {
      * @param {Node[]} nodes
      */
     floatTop: function( screenView, nodes ) {
-      screenView.events.on( 'layoutFinished', function( dx, dy ) {
+      screenView.visibleBoundsProperty.link( function( visibleBounds ) {
 
         // Let the panels move to the top, but not too far
-        var top = Math.max( -dy + topBottomPadding, -screenView.layoutBounds.width * floatFraction );
+        var top = Math.max( visibleBounds.top + topBottomPadding, -screenView.layoutBounds.width * floatFraction );
         nodes.forEach( function( node ) {
           node.top = top;
         } );
@@ -77,10 +77,10 @@ define( function() {
      * @param {Node[]} nodes
      */
     floatBottom: function( screenView, nodes ) {
-      screenView.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+      screenView.visibleBoundsProperty.link( function( visibleBounds ) {
 
         // Let the panels move to the bottom, but not too far
-        var bottom = Math.min( height - dy - topBottomPadding, screenView.layoutBounds.width * (1 + floatFraction) );
+        var bottom = Math.min( visibleBounds.bottom - topBottomPadding, screenView.layoutBounds.width * (1 + floatFraction) );
         nodes.forEach( function( node ) {
           node.bottom = bottom;
         } );

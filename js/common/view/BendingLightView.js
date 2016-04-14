@@ -102,8 +102,6 @@ define( function( require ) {
     this.laserViewLayer = new Node(); // @public (read-only)
     this.addChild( this.laserViewLayer );
 
-    this.visibleBoundsProperty = new Property( this.layoutBounds ); // @public (read-only)
-
     // add rotation for the laser that show if/when the laser can be rotated about its pivot
     var showRotationDragHandlesProperty = new Property( false );
     var showTranslationDragHandlesProperty = new Property( false );
@@ -141,11 +139,9 @@ define( function( require ) {
       }
     );
 
-    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
-        bendingLightView.singleColorLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
-        bendingLightView.visibleBoundsProperty.value = new Bounds2( -dx, -dy, width - dx, height - dy );
-      }
-    );
+    this.visibleBoundsProperty.link( function( visibleBounds ) {
+      bendingLightView.singleColorLightNode.setCanvasBounds( visibleBounds );
+    } );
   }
 
   return inherit( ScreenView, BendingLightView, {

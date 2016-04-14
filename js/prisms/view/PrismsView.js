@@ -21,7 +21,6 @@ define( function( require ) {
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
   var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
-  var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Panel = require( 'SUN/Panel' );
@@ -223,17 +222,16 @@ define( function( require ) {
     FloatingLayout.floatBottom( this, [ prismToolboxNode, resetAllButton ] );
     FloatingLayout.floatTop( this, [ environmentMediumControlPanel ] );
 
-    this.events.on( 'layoutFinished', function() {
+    this.visibleBoundsProperty.link( function( visibleBounds ) {
       laserTypeRadioButtonGroup.top = environmentMediumControlPanel.bottom + 15;
       laserControlPanel.top = laserTypeRadioButtonGroup.bottom + 15;
     } );
 
-    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
-        prismsView.whiteLightNode.setCanvasBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
-      protractorNodeListener.setDragBounds( new Bounds2( -dx, -dy, width - dx, height - dy ) );
-      environmentMediumNodeForMonochromaticLight.setRect( -dx, -dy, width, height );
-      }
-    );
+    this.visibleBoundsProperty.link( function( visibleBounds ) {
+      prismsView.whiteLightNode.setCanvasBounds( visibleBounds );
+      protractorNodeListener.setDragBounds( visibleBounds );
+      environmentMediumNodeForMonochromaticLight.setRect( visibleBounds.x, visibleBounds.y, visibleBounds.width, visibleBounds.height );
+    } );
 
     this.resetPrismsView = function() {
       protractorLocationProperty.reset();
@@ -242,11 +240,10 @@ define( function( require ) {
 
     // Add a thin gray line to separate the navigation bar when the environmentMediumNode is black
     var navigationBarSeparator = new Rectangle( 0, 0, 100, 100, { fill: '#999999', pickable: false } );
-    this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
-        var rectHeight = 2;
-        navigationBarSeparator.setRect( -dx, -dy + height - rectHeight, width, rectHeight );
-      }
-    );
+    this.visibleBoundsProperty.link( function( visibleBounds ) {
+      var rectHeight = 2;
+      navigationBarSeparator.setRect( visibleBounds.x, visibleBounds.y + visibleBounds.height - rectHeight, visibleBounds.width, rectHeight );
+    } );
     prismsModel.laser.colorModeProperty.link( function( color ) {
       navigationBarSeparator.visible = color === 'white';
     } );

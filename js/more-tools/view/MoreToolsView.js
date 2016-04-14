@@ -139,12 +139,11 @@ define( function( require ) {
         } )
       );
 
-      this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+      this.visibleBoundsProperty.link( function( visibleBounds ) {
 
         // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
         // node will remain in bounds
-        var viewBounds = new Rectangle( -dx, -dy, width, height );
-        var modelBounds = moreToolsView.modelViewTransform.viewToModelBounds( viewBounds );
+        var modelBounds = moreToolsView.modelViewTransform.viewToModelBounds( visibleBounds );
         probe1Listener.setDragBounds( modelBounds );
         probe2Listener.setDragBounds( modelBounds );
         bodyListener.setDragBounds( modelBounds );
@@ -203,11 +202,11 @@ define( function( require ) {
         moreToolsView.moreToolsModel.velocitySensor.position = velocitySensorModelPosition;
       } ) );
 
-      this.events.on( 'layoutFinished', function( dx, dy, width, height ) {
+      this.visibleBoundsProperty.link( function( visibleBounds ) {
 
         // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
         // node will remain in bounds
-        var bounds = new Rectangle( -dx - velocitySensorNode.bounds.width / 2, -dy, width, height );
+        var bounds = new Rectangle( visibleBounds.x - velocitySensorNode.bounds.width / 2, visibleBounds.y, visibleBounds.width, visibleBounds.height );
         velocitySensorListener.setDragBounds( moreToolsView.modelViewTransform.viewToModelBounds( bounds ) );
       } );
 
