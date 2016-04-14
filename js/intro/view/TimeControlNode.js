@@ -16,7 +16,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
+  var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   var Text = require( 'SCENERY/nodes/Text' );
 
   // strings
@@ -79,7 +79,7 @@ define( function( require ) {
     } );
 
     // add step button
-    var stepButton = new StepButton(
+    var stepButton = new StepForwardButton(
       function() {
         introModel.updateSimulationTimeAndWaveShape( 'normal' );
         updateWaveShape();
