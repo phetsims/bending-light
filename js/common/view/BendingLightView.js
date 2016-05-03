@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
@@ -144,6 +145,8 @@ define( function( require ) {
     } );
   }
 
+  bendingLight.register( 'BendingLightView', BendingLightView );
+  
   return inherit( ScreenView, BendingLightView, {
 
     reset: function() {

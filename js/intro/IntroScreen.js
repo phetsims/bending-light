@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
   var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
@@ -46,5 +47,7 @@ define( function( require ) {
     );
   }
 
+  bendingLight.register( 'IntroScreen', IntroScreen );
+  
   return inherit( Screen, IntroScreen );
 } );

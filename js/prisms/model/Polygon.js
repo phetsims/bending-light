@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
   var Shape = require( 'KITE/Shape' );
@@ -58,6 +59,8 @@ define( function( require ) {
     }
   }
 
+  bendingLight.register( 'Polygon', Polygon );
+  
   return inherit( Object, Polygon, {
 
     /**

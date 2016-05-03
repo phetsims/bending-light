@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -285,5 +286,7 @@ define( function( require ) {
     this.mutate( options );
   }
 
+  bendingLight.register( 'PrismToolboxNode', PrismToolboxNode );
+  
   return inherit( Node, PrismToolboxNode );
 } );

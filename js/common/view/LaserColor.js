@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
@@ -21,6 +22,8 @@ define( function( require ) {
     this.wavelength = wavelength; // @public
   }
 
+  bendingLight.register( 'LaserColor', LaserColor );
+  
   return inherit( Object, LaserColor, {
 
     /**

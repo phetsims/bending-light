@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
   var DataPoint = require( 'BENDING_LIGHT/more-tools/model/DataPoint' );
@@ -72,6 +73,8 @@ define( function( require ) {
     this.probe2Value = probe2Value;
   }
 
+  bendingLight.register( 'WaveSensor', WaveSensor );
+  
   return inherit( PropertySet, WaveSensor, {
 
     // @public - create a copy for use in toolbox icons, etc.

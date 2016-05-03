@@ -12,6 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector3 = require( 'DOT/Vector3' );
   var Matrix3 = require( 'DOT/Matrix3' );
@@ -293,7 +294,7 @@ define( function( require ) {
     0.0556434, -0.2040259, 1.0572252
   );
 
-  return {
+  var BendingLightConstants = {
     SCREEN_VIEW_OPTIONS: {
       layoutBounds: new Bounds2( 0, 0, 834, 504 )
     },
@@ -313,4 +314,8 @@ define( function( require ) {
 
     PRISM_NODE_ALPHA: 0.5
   };
+
+  bendingLight.register( 'BendingLightConstants', BendingLightConstants );
+  
+  return BendingLightConstants;
 } );

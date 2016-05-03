@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
@@ -31,6 +32,8 @@ define( function( require ) {
     this.particleGradientColor = particleGradientColor; // @public
   }
 
+  bendingLight.register( 'WaveParticle', WaveParticle );
+  
   return inherit( Object, WaveParticle, {
 
     /**

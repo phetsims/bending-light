@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -135,6 +136,8 @@ define( function( require ) {
     }
   }
 
+  bendingLight.register( 'LightRay', LightRay );
+  
   return inherit( Object, LightRay, {
 
     /**

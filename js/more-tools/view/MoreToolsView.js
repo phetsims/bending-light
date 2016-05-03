@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
   var VelocitySensorNode = require( 'BENDING_LIGHT/more-tools/view/VelocitySensorNode' );
@@ -62,6 +63,8 @@ define( function( require ) {
       } );
   }
 
+  bendingLight.register( 'MoreToolsView', MoreToolsView );
+  
   return inherit( IntroView, MoreToolsView, {
     getWaveSensorIcon: function() {
       var modelViewTransform = this.modelViewTransform;

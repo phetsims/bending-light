@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
@@ -136,5 +137,7 @@ define( function( require ) {
     } );
   }
 
+  bendingLight.register( 'WavelengthControl', WavelengthControl );
+  
   return inherit( Node, WavelengthControl );
 } );

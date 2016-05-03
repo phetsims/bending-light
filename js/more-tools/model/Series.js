@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
@@ -26,6 +27,8 @@ define( function( require ) {
     this.color = color;
   }
 
+  bendingLight.register( 'Series', Series );
+  
   return inherit( Object, Series, {
 
     /**
@@ -36,7 +39,7 @@ define( function( require ) {
     keepLastSamples: function( minTime ) {
       var startIndex = 0;
       if ( this.seriesProperty.get().length ) {
-        
+
         // update the start time
         while ( this.seriesProperty.get()[ startIndex ] && this.seriesProperty.get()[ startIndex ].time < minTime ) {
           startIndex = startIndex + 1;

@@ -9,6 +9,9 @@
 define( function() {
   'use strict';
 
+  // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+
   // The fraction the objects can float out of the layout bounds
   var floatFraction = 0.3;
 
@@ -16,7 +19,7 @@ define( function() {
   var topBottomPadding = 15;
   var leftRightPadding = 10;
 
-  return {
+  var FloatingLayout = {
 
     /**
      * Move the nodes to the edge when the screen resizes, but not too far
@@ -87,4 +90,8 @@ define( function() {
       } );
     }
   };
+
+  bendingLight.register( 'FloatingLayout', FloatingLayout );
+  
+  return FloatingLayout;
 } );

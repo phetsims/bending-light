@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
@@ -44,5 +45,7 @@ define( function( require ) {
     } );
   }
 
+  bendingLight.register( 'ToolIconListener', ToolIconListener );
+  
   return inherit( SimpleDragHandler, ToolIconListener );
 } );

@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
@@ -27,5 +28,7 @@ define( function( require ) {
     this.point = point; // @public (read-only)
   }
 
+  bendingLight.register( 'Intersection', Intersection );
+  
   return inherit( Object, Intersection );
 } );

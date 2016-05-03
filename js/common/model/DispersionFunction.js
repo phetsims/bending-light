@@ -13,6 +13,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Util = require( 'DOT/Util' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
@@ -27,6 +28,8 @@ define( function( require ) {
     this.referenceWavelength = wavelength; // @public (read-only)
   }
 
+  bendingLight.register( 'DispersionFunction', DispersionFunction );
+  
   return inherit( Object, DispersionFunction, {
 
     /**

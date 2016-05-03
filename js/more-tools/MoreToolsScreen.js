@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var MoreToolsModel = require( 'BENDING_LIGHT/more-tools/model/MoreToolsModel' );
   var MoreToolsView = require( 'BENDING_LIGHT/more-tools/view/MoreToolsView' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -41,6 +42,8 @@ define( function( require ) {
     );
 
   }
+
+  bendingLight.register( 'MoreToolsScreen', MoreToolsScreen );
 
   return inherit( Screen, MoreToolsScreen );
 } );

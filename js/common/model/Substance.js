@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
@@ -41,6 +42,8 @@ define( function( require ) {
     this.indexForRed = indexForRed; // @public (read-only)
   }
 
+  bendingLight.register( 'Substance', Substance );
+  
   return inherit( Object, Substance, {}, {
     AIR: new Substance( airString, 1.000293, false, false ),
     WATER: new Substance( waterString, 1.333, false, false ),

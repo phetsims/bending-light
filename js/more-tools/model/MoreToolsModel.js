@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
   var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
@@ -51,6 +52,8 @@ define( function( require ) {
         moreToolsModel.getVelocity( moreToolsModel.velocitySensor.position ) );
     } );
   }
+
+  bendingLight.register( 'MoreToolsModel', MoreToolsModel );
 
   return inherit( IntroModel, MoreToolsModel, {
     reset: function() {

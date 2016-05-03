@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
@@ -342,6 +343,8 @@ define( function( require ) {
     } );
   }
 
+  bendingLight.register( 'MediumControlPanel', MediumControlPanel );
+  
   return inherit( Node, MediumControlPanel, {
 
     /**

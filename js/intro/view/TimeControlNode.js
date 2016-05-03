@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -102,5 +103,7 @@ define( function( require ) {
     this.mutate( options );
   }
 
+  bendingLight.register( 'TimeControlNode', TimeControlNode );
+  
   return inherit( HBox, TimeControlNode );
 } );

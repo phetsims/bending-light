@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -37,6 +38,8 @@ define( function( require ) {
     this.strokeWidth = this.modelViewTransform.modelToViewDeltaX( LightRay.RAY_WIDTH );
   }
 
+  bendingLight.register( 'SingleColorLightCanvasNode', SingleColorLightCanvasNode );
+  
   return inherit( CanvasNode, SingleColorLightCanvasNode, {
 
     /**

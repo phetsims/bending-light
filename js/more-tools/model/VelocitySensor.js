@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -33,6 +34,8 @@ define( function( require ) {
     } );
   }
 
+  bendingLight.register( 'VelocitySensor', VelocitySensor );
+  
   return inherit( PropertySet, VelocitySensor, {
 
     // Make a copy for use in the toolbox icon

@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Intersection = require( 'BENDING_LIGHT/prisms/model/Intersection' );
 
@@ -20,8 +21,9 @@ define( function( require ) {
     assert && assert( false, 'should not be instantiated' );
   }
 
-  return inherit( Object, PrismIntersection, {},
-    // static
+  bendingLight.register( 'PrismIntersection', PrismIntersection );
+
+  return inherit( Object, PrismIntersection, {}, // static
     {
 
       /**

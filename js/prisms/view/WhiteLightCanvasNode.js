@@ -17,6 +17,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
@@ -53,6 +54,8 @@ define( function( require ) {
     environmentMediumProperty.link( update );
   }
 
+  bendingLight.register( 'WhiteLightCanvasNode', WhiteLightCanvasNode );
+  
   return inherit( CanvasNode, WhiteLightCanvasNode, {
 
     /**

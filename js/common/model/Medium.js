@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
@@ -26,6 +27,8 @@ define( function( require ) {
     this.color = color; // @public (read-only), color is based on the index of refraction at red wavelength
   }
 
+  bendingLight.register( 'Medium', Medium );
+  
   return inherit( Object, Medium, {
 
     /**

@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -137,6 +138,8 @@ define( function( require ) {
     this.syncModelFromView();
   }
 
+  bendingLight.register( 'IntensityMeterNode', IntensityMeterNode );
+  
   return inherit( Node, IntensityMeterNode, {
     resetRelativeLocations: function() {
       this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );

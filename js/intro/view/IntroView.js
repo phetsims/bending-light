@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
@@ -431,6 +432,8 @@ define( function( require ) {
     } );
   }
 
+  bendingLight.register( 'IntroView', IntroView );
+  
   return inherit( BendingLightView, IntroView, {
 
     reset: function() {

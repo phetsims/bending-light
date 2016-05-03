@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var Color = require( 'SCENERY/util/Color' );
   var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var LinearFunction = require( 'DOT/LinearFunction' );
@@ -100,7 +101,8 @@ define( function( require ) {
 
   // distance between adjacent colors for shades of gray against the black background
   var step = 55;
-
+  bendingLight.register( 'MediumColorFactory', MediumColorFactory );
+  
   return inherit( Object, MediumColorFactory, {
 
     /**

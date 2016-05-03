@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var ObservableArray = require( 'AXON/ObservableArray' );
@@ -99,6 +100,8 @@ define( function( require ) {
     this.rotationArrowAngleOffset = 0;
   }
 
+  bendingLight.register( 'PrismsModel', PrismsModel );
+  
   return inherit( BendingLightModel, PrismsModel, {
 
     /**

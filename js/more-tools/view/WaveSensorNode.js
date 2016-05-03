@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Color = require( 'SCENERY/util/Color' );
@@ -177,6 +178,8 @@ define( function( require ) {
     this.mutate( options );
   }
 
+  bendingLight.register( 'WaveSensorNode', WaveSensorNode );
+  
   return inherit( Node, WaveSensorNode, {
     resetRelativePositions: function() {
       this.probe1Node.center = this.bodyNode.center.plusXY( 110, 12 );

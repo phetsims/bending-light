@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
   var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
@@ -107,6 +108,8 @@ define( function( require ) {
     this.rotationArrowAngleOffset = -Math.PI / 4;
   }
 
+  bendingLight.register( 'IntroModel', IntroModel );
+  
   return inherit( BendingLightModel, IntroModel, {
 
     /**

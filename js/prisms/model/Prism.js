@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
 
@@ -29,6 +30,8 @@ define( function( require ) {
     this.typeName = typeName;
   }
 
+  bendingLight.register( 'Prism', Prism );
+  
   return inherit( PropertySet, Prism, {
 
     /**

@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -32,5 +33,7 @@ define( function( require ) {
     this.mutate( options );
   }
 
+  bendingLight.register( 'NormalLine', NormalLine );
+  
   return inherit( Node, NormalLine );
 } );

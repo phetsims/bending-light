@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var IntroScreen = require( 'BENDING_LIGHT/intro/IntroScreen' );
   var PrismsScreen = require( 'BENDING_LIGHT/prisms/PrismsScreen' );
   var MoreToolsScreen = require( 'BENDING_LIGHT/more-tools/MoreToolsScreen' );

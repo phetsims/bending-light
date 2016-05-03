@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
@@ -87,6 +88,8 @@ define( function( require ) {
     } );
   }
 
+  bendingLight.register( 'ChartNode', ChartNode );
+  
   return inherit( Node, ChartNode, {
 
     /**

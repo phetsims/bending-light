@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var PrismIntersection = require( 'BENDING_LIGHT/prisms/model/PrismIntersection' );
@@ -27,6 +28,8 @@ define( function( require ) {
     this.shape = Shape.circle( this.center.x, this.center.y, this.radius ); // @public (read-only)
   }
 
+  bendingLight.register( 'Circle', Circle );
+  
   return inherit( Object, Circle, {
 
     /**

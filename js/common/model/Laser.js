@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -59,6 +60,8 @@ define( function( require ) {
     } );
   }
 
+  bendingLight.register( 'Laser', Laser );
+  
   return inherit( PropertySet, Laser, {
 
     /**

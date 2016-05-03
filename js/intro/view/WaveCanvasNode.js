@@ -12,6 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
 
@@ -27,6 +28,8 @@ define( function( require ) {
     CanvasNode.call( this, options );
   }
 
+  bendingLight.register( 'WaveCanvasNode', WaveCanvasNode );
+  
   return inherit( CanvasNode, WaveCanvasNode, {
 
     /**

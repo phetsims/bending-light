@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
@@ -188,6 +189,8 @@ define( function( require ) {
       this.shaderProgram = null;
     }
   } );
+
+  bendingLight.register( 'WaveWebGLNode', WaveWebGLNode );
 
   return WaveWebGLNode;
 } );

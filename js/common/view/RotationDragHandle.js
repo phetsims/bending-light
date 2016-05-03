@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
@@ -88,5 +89,7 @@ define( function( require ) {
     } );
   }
 
+  bendingLight.register( 'RotationDragHandle', RotationDragHandle );
+  
   return inherit( Node, RotationDragHandle );
 } );

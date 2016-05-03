@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var PrismsModel = require( 'BENDING_LIGHT/prisms/model/PrismsModel' );
   var PrismsView = require( 'BENDING_LIGHT/prisms/view/PrismsView' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -41,5 +42,7 @@ define( function( require ) {
     );
   }
 
+  bendingLight.register( 'PrismsScreen', PrismsScreen );
+  
   return inherit( Screen, PrismsScreen );
 } );

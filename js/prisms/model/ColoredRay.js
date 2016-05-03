@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
@@ -37,6 +38,8 @@ define( function( require ) {
     this.frequency = frequency; // @public (read-only)
   }
 
+  bendingLight.register( 'ColoredRay', ColoredRay );
+  
   return inherit( Object, ColoredRay, {
 
     // @public

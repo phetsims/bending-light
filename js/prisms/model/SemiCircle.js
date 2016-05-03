@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Line = require( 'KITE/segments/Line' );
@@ -41,6 +42,8 @@ define( function( require ) {
       .close();
   }
 
+  bendingLight.register( 'SemiCircle', SemiCircle );
+  
   return inherit( Object, SemiCircle, {
 
     /**
