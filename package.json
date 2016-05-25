@@ -17,11 +17,6 @@
     "requirejsNamespace": "BENDING_LIGHT",
     "preload": [
       "../sherpa/lib/Tween-r12.js"
-    ],
-    "phet-io": {
-      "preload": [
-        "../phet-io/js/api/bending-light-api.js"
-      ]
-    }
+    ]
   }
 }
