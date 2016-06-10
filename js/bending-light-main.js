@@ -18,7 +18,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // If running as phet-io, load the API
-  require( 'ifphetio!PHET_IO/api/bending-light-api' );
+  require( 'ifphetio!PHET_IO/simulations/bending-light/bending-light-api' );
 
   // strings
   var bendingLightTitleString = require( 'string!BENDING_LIGHT/bending-light.title' );
