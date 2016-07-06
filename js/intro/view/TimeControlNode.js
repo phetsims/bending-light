@@ -80,16 +80,15 @@ define( function( require ) {
     } );
 
     // add step button
-    var stepButton = new StepForwardButton(
-      function() {
+    var stepButton = new StepForwardButton( introModel.isPlayingProperty, {
+      listener: function() {
         introModel.updateSimulationTimeAndWaveShape( 'normal' );
         updateWaveShape();
       },
-      introModel.isPlayingProperty, {
-        radius: 12,
-        stroke: 'black',
-        fill: '#005566'
-      } );
+      radius: 12,
+      stroke: 'black',
+      fill: '#005566'
+    } );
 
     HBox.call( this, {
       spacing: 15,
