@@ -80,7 +80,8 @@ define( function( require ) {
     } );
 
     // add step button
-    var stepButton = new StepForwardButton( introModel.isPlayingProperty, {
+    var stepButton = new StepForwardButton( {
+      playingProperty: introModel.isPlayingProperty,
       listener: function() {
         introModel.updateSimulationTimeAndWaveShape( 'normal' );
         updateWaveShape();
