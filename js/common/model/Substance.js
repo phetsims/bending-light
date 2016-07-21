@@ -43,14 +43,18 @@ define( function( require ) {
   }
 
   bendingLight.register( 'Substance', Substance );
-  
-  return inherit( Object, Substance, {}, {
-    AIR: new Substance( airString, 1.000293, false, false ),
-    WATER: new Substance( waterString, 1.333, false, false ),
-    GLASS: new Substance( glassString, 1.5, false, false ),
-    DIAMOND: new Substance( diamondString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false ),
-    MYSTERY_A: new Substance( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false ),
-    MYSTERY_B: new Substance( mysteryBString, 1.4, true, false ),
+
+  inherit( Object, Substance, {}, {
     DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT: DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT
   } );
+
+  // static instances
+  Substance.AIR = new Substance( airString, 1.000293, false, false );
+  Substance.WATER = new Substance( waterString, 1.333, false, false );
+  Substance.GLASS = new Substance( glassString, 1.5, false, false );
+  Substance.DIAMOND = new Substance( diamondString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false );
+  Substance.MYSTERY_A = new Substance( mysteryAString, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
+  Substance.MYSTERY_B = new Substance( mysteryBString, 1.4, true, false );
+
+  return Substance;
 } );
