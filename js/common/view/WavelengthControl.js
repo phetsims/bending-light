@@ -15,7 +15,7 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
+  var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Property = require( 'AXON/Property' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );

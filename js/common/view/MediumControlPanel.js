@@ -25,7 +25,7 @@ define( function( require ) {
   var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
   var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
   var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
-  var ArrowButton = require( 'SCENERY_PHET/buttons/ArrowButton' );
+  var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
