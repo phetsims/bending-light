@@ -1,5 +1,5 @@
 {
-  "comment": "# bending-light 1.0.6-rc.1 Thu Aug 04 2016 12:51:11 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# bending-light 1.0.6 Thu Aug 04 2016 12:56:42 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d4909677d27ed571d5d859d709a0612bf7811db8",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "bending-light": {
-    "sha": "8cdddbc829c3690e719739f5aa58a4e906ecc87e",
+    "sha": "d9ec968fa314233b7f9620b5e6a7580519da81ff",
     "branch": "1.0"
   },
   "brand": {
