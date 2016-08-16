@@ -19,6 +19,20 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
+  // constants
+  /**
+   * If a vector is infinite, make it finite
+   * @param vector
+   */
+  var makeFinite = function( vector ) {
+    if ( !isFinite( vector.x ) ) {
+      vector.x = 0;
+    }
+    if ( !isFinite( vector.y ) ) {
+      vector.y = 0;
+    }
+  };
+
   /**
    * @param {number} trapeziumWidth - width of wave at intersection of mediums
    * @param {Vector2} tail - tail position of light ray
@@ -118,6 +132,12 @@ define( function( require ) {
         tipPoint1XY.x = tailPoint2XY.x;
       }
 
+      // Make sure we don't send NaN or +/- Infinity to Kite, see https://github.com/phetsims/bending-light/issues/329
+      makeFinite( tailPoint1XY );
+      makeFinite( tailPoint2XY );
+      makeFinite( tipPoint1XY );
+      makeFinite( tipPoint2XY );
+
       // @public (read-only)
       this.waveShape = new Shape()
         .moveToPoint( tailPoint1XY )
@@ -137,7 +157,7 @@ define( function( require ) {
   }
 
   bendingLight.register( 'LightRay', LightRay );
-  
+
   return inherit( Object, LightRay, {
 
     /**
