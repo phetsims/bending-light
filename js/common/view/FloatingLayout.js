@@ -6,7 +6,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function() {
+define( function( require ) {
   'use strict';
 
   // modules
@@ -92,6 +92,6 @@ define( function() {
   };
 
   bendingLight.register( 'FloatingLayout', FloatingLayout );
-  
+
   return FloatingLayout;
 } );
