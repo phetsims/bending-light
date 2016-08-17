@@ -17,9 +17,6 @@ define( function( require ) {
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var Tandem = require( 'TANDEM/Tandem' );
 
-  // If running as phet-io, load the API
-  require( 'ifphetio!PHET_IO/simulations/bending-light/bending-light-api' );
-
   // strings
   var bendingLightTitleString = require( 'string!BENDING_LIGHT/bending-light.title' );
 
@@ -34,8 +31,7 @@ define( function( require ) {
       qualityAssurance: 'Steele Dalton, Bryce Griebenow, Elise Morgan, \n\tOliver Orejola, Arnab Purkayastha, Ben Roberts, Bryan Yoelin',
       thanks: 'Thanks to Actual Concepts for working with the PhET development team\n' +
         'to convert this simulation to HTML5.'
-    },
-    tandem: tandem
+    }
   };
 
   SimLauncher.launch( function() {
