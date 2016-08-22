@@ -30,7 +30,7 @@ define( function( require ) {
       team: 'Trish Loeblein, Ariel Paul, Kathy Perkins',
       qualityAssurance: 'Steele Dalton, Bryce Griebenow, Elise Morgan, \n\tOliver Orejola, Arnab Purkayastha, Ben Roberts, Bryan Yoelin',
       thanks: 'Thanks to Actual Concepts for working with the PhET development team\n' +
-        'to convert this simulation to HTML5.'
+              'to convert this simulation to HTML5.'
     }
   };
 
@@ -43,4 +43,3 @@ define( function( require ) {
     sim.start();
   } );
 } );
-
