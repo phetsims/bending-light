@@ -50,8 +50,7 @@ define( function( require ) {
       trackHeight: 20,
       tweakersVisible: false,
       valueVisible: false,
-      thumbTouchAreaYDilation: 4,
-      pointerAreasOverTrack: true
+      thumbTouchAreaYDilation: 4
     } );
 
     var formattedString = StringUtils.format( wavelengthPatternString, Util.roundSymmetric( wavelengthPropertyNM.value ) );
