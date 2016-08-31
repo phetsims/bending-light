@@ -260,6 +260,7 @@ define( function( require ) {
       trackFill: 'white',
       trackSize: new Dimension2( sliderWidth, 1 ),
       thumbSize: new Dimension2( 10, 20 ),
+      thumbTouchAreaYDilation: 8, // So it will not overlap the tweaker buttons
       majorTickLength: 11,
       tickLabelSpacing: 3,
       startDrag: function() {
