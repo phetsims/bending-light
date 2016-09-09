@@ -28,21 +28,23 @@ define( function( require ) {
    * @constructor
    */
   function PrismsScreen( tandem ) {
+
+    var options = {
+      name: prismsString,
+      homeScreenIcon: new Image( iconImage ),
+      navigationBarIcon: new Image( navbarIconImage ),
+      tandem: tandem
+    };
+
     var prismModel = new PrismsModel();
-    Screen.call( this, prismsString, new Image( iconImage ),
-      function() {
-        return prismModel;
-      },
-      function( model ) {
-        return new PrismsView( model );
-      }, {
-        navigationBarIcon: new Image( navbarIconImage ),
-        tandem: tandem
-      }
-    );
+
+    Screen.call( this,
+      function() { return prismModel; },
+      function( model ) { return new PrismsView( model ); },
+      options );
   }
 
   bendingLight.register( 'PrismsScreen', PrismsScreen );
-  
+
   return inherit( Screen, PrismsScreen );
 } );

@@ -27,20 +27,18 @@ define( function( require ) {
    * @constructor
    */
   function MoreToolsScreen( tandem ) {
-    Screen.call( this,
-      moreToolsString,
-      new Image( iconImage ),
-      function() {
-        return new MoreToolsModel();
-      },
-      function( model ) {
-        return new MoreToolsView( model );
-      }, {
-        backgroundColor: 'white',
-        tandem: tandem
-      }
-    );
 
+    var options = {
+      name: moreToolsString,
+      homeScreenIcon: new Image( iconImage ),
+      backgroundColor: 'white',
+      tandem: tandem
+    };
+
+    Screen.call( this,
+      function() { return new MoreToolsModel(); },
+      function( model ) { return new MoreToolsView( model ); },
+      options );
   }
 
   bendingLight.register( 'MoreToolsScreen', MoreToolsScreen );

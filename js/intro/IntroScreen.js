@@ -29,7 +29,15 @@ define( function( require ) {
    * @constructor
    */
   function IntroScreen( tandem ) {
-    Screen.call( this, introString, new Image( icon ),
+
+    var options = {
+      name: introString,
+      homeScreenIcon: new Image( icon ),
+      backgroundColor: 'white',
+      tandem: tandem
+    };
+
+    Screen.call( this,
       function() { return new IntroModel( Substance.WATER, true ); },
       function( model ) {
         return new IntroView( model,
@@ -40,14 +48,11 @@ define( function( require ) {
           function( introModel ) {
             return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
           }, [] );
-      }, {
-        backgroundColor: 'white',
-        tandem: tandem
-      }
-    );
+      },
+      options );
   }
 
   bendingLight.register( 'IntroScreen', IntroScreen );
-  
+
   return inherit( Screen, IntroScreen );
 } );
