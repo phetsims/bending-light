@@ -36,10 +36,8 @@ define( function( require ) {
       tandem: tandem
     };
 
-    var prismModel = new PrismsModel();
-
     Screen.call( this,
-      function() { return prismModel; },
+      function() { return new PrismsModel(); },
       function( model ) { return new PrismsView( model ); },
       options );
   }
