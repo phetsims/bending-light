@@ -45,7 +45,7 @@ define( function( require ) {
    */
   function VelocitySensorNode( modelViewTransform, velocitySensor, arrowScale, options ) {
 
-    var velocitySensorNode = this;
+    var self = this;
     Node.call( this, {
       cursor: 'pointer',
       pickable: true
@@ -138,7 +138,7 @@ define( function( require ) {
       var positionY = modelViewTransform.modelToViewDeltaY( velocity.y ) * arrowScale;
 
       // update the arrow shape when the velocity value changes
-      velocitySensorNode.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY, {
+      self.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY, {
         tailWidth: arrowWidth,
         headWidth: 2 * arrowWidth,
         headHeight: 2 * arrowWidth
@@ -151,7 +151,7 @@ define( function( require ) {
     velocitySensor.positionProperty.link( function( position ) {
       var velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
       var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
-      velocitySensorNode.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
+      self.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
     } );
 
     // Update the text when the value or units changes.

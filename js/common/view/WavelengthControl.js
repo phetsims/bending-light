@@ -109,7 +109,7 @@ define( function( require ) {
     minusButton.right = wavelengthBoxShape.left - PLUS_MINUS_SPACING;
     minusButton.centerY = wavelengthBoxShape.centerY;
 
-    var wavelengthControl = this;
+    var self = this;
     Node.call( this, {
       children: [
         minusButton,
@@ -122,8 +122,8 @@ define( function( require ) {
     enabledProperty.link( function( enabled ) {
 
       // set the opacity when not selected
-      wavelengthControl.setPickable( enabled );
-      wavelengthControl.opacity = enabled ? 1 : 0.4;
+      self.setPickable( enabled );
+      self.opacity = enabled ? 1 : 0.4;
     } );
 
     wavelengthPropertyNM.link( function( wavelength ) {

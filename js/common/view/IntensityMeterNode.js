@@ -33,8 +33,8 @@ define( function( require ) {
    */
   function IntensityMeterNode( modelViewTransform, intensityMeter, options ) {
 
-    var intensityMeterNode = this;
-    Node.call( intensityMeterNode );
+    var self = this;
+    Node.call( self );
     this.modelViewTransform = modelViewTransform; // @public (read-only)
     this.intensityMeter = intensityMeter;
 
@@ -105,13 +105,13 @@ define( function( require ) {
     this.wireNode = new WireNode( this.probeNode, this.bodyNode, 'gray', 0.78 );
 
     intensityMeter.sensorPositionProperty.link( function( sensorPosition ) {
-      intensityMeterNode.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
-      intensityMeterNode.updateWireShape();
+      self.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
+      self.updateWireShape();
     } );
 
     intensityMeter.bodyPositionProperty.link( function( bodyPosition ) {
-      intensityMeterNode.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
-      intensityMeterNode.updateWireShape();
+      self.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
+      self.updateWireShape();
     } );
 
     // add the components
@@ -125,8 +125,8 @@ define( function( require ) {
      * hence
      */
     this.syncModelFromView = function() {
-      var sensorPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.probeNode.translation );
-      var bodyPosition = modelViewTransform.viewToModelPosition( intensityMeterNode.bodyNode.translation );
+      var sensorPosition = modelViewTransform.viewToModelPosition( self.probeNode.translation );
+      var bodyPosition = modelViewTransform.viewToModelPosition( self.bodyNode.translation );
 
       intensityMeter.sensorPosition = sensorPosition;
       intensityMeter.bodyPosition = bodyPosition;

@@ -52,7 +52,7 @@ define( function( require ) {
    */
   function PrismToolboxNode( modelViewTransform, prismsModel, prismLayer, dragBoundsProperty, occlusionHandler,
                              options ) {
-    var prismToolboxNode = this;
+    var self = this;
 
     Node.call( this );
     var content = new HBox( {
@@ -62,7 +62,7 @@ define( function( require ) {
     // Create prism icon
     var createPrismIcon = function( prism ) {
       var prismShape = prism.copy();
-      return new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
+      return new PrismNode( prismsModel, modelViewTransform, prismShape, self, prismLayer,
         dragBoundsProperty, occlusionHandler, true );
     };
 
@@ -93,14 +93,14 @@ define( function( require ) {
       // Add drag listener for the prisms icon
       prismToolboxIconNode.addInputListener( new SimpleDragHandler( {
           start: function( event ) {
-            var start = prismToolboxNode.globalToParentPoint( event.pointer.point );
+            var start = self.globalToParentPoint( event.pointer.point );
             var prismShape = prism.copy();
 
             // add prism model to the prisms model
             prismsModel.addPrism( prismShape );
 
             // create a prism node and add to the prisms layer
-            prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, prismToolboxNode, prismLayer,
+            prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, self, prismLayer,
               dragBoundsProperty, occlusionHandler, false );
             prismLayer.addChild( prismNode );
             prismShape.translate(

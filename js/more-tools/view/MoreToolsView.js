@@ -35,7 +35,7 @@ define( function( require ) {
   function MoreToolsView( moreToolsModel ) {
 
     this.moreToolsModel = moreToolsModel; // @public (read-only)
-    var moreToolsView = this;
+    var self = this;
 
     IntroView.call( this, moreToolsModel,
       true, // hasMoreTools
@@ -59,7 +59,7 @@ define( function( require ) {
     // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       function( laserView, isWaveSensorEnabled ) {
-        moreToolsView.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
+        self.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
       } );
   }
 
@@ -68,7 +68,7 @@ define( function( require ) {
   return inherit( IntroView, MoreToolsView, {
     getWaveSensorIcon: function() {
       var modelViewTransform = this.modelViewTransform;
-      var moreToolsView = this;
+      var self = this;
 
       var waveSensor = this.moreToolsModel.waveSensor;
       var waveSensorIcon = new WaveSensorNode(
@@ -97,7 +97,7 @@ define( function( require ) {
         return new MovableDragHandler( positionProperty, {
           modelViewTransform: modelViewTransform,
           endDrag: function() {
-            moreToolsView.bumpLeft( node, positionProperty );
+            self.bumpLeft( node, positionProperty );
             dropInToolbox( node, enabledProperty );
           }
         } );
@@ -146,7 +146,7 @@ define( function( require ) {
 
         // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
         // node will remain in bounds
-        var modelBounds = moreToolsView.modelViewTransform.viewToModelBounds( visibleBounds );
+        var modelBounds = self.modelViewTransform.viewToModelBounds( visibleBounds );
         probe1Listener.setDragBounds( modelBounds );
         probe2Listener.setDragBounds( modelBounds );
         bodyListener.setDragBounds( modelBounds );
@@ -156,7 +156,7 @@ define( function( require ) {
       return waveSensorIcon;
     },
     getVelocitySensorIcon: function() {
-      var moreToolsView = this;
+      var self = this;
       var velocitySensorToolboxScale = 1.2;
       var velocitySensorIconNode = new VelocitySensorNode(
         this.modelViewTransform,
@@ -175,7 +175,7 @@ define( function( require ) {
           scale: 2
         }
       );
-      moreToolsView.moreToolsModel.velocitySensor.enabledProperty.link( function( enabled ) {
+      self.moreToolsModel.velocitySensor.enabledProperty.link( function( enabled ) {
         velocitySensorIconNode.visible = !enabled;
         velocitySensorNode.visible = enabled;
       } );
@@ -183,10 +183,10 @@ define( function( require ) {
       var velocitySensorListener = new MovableDragHandler( this.moreToolsModel.velocitySensor.positionProperty, {
         modelViewTransform: this.modelViewTransform,
         endDrag: function() {
-          moreToolsView.bumpLeft( velocitySensorNode, moreToolsView.moreToolsModel.velocitySensor.positionProperty );
-          moreToolsView.dropInToolbox(
+          self.bumpLeft( velocitySensorNode, self.moreToolsModel.velocitySensor.positionProperty );
+          self.dropInToolbox(
             velocitySensorNode,
-            moreToolsView.moreToolsModel.velocitySensor.enabledProperty
+            self.moreToolsModel.velocitySensor.enabledProperty
           );
         }
       } );
@@ -197,12 +197,12 @@ define( function( require ) {
       velocitySensorIconNode.addInputListener( new ToolIconListener( [ velocitySensorListener ], function( event ) {
 
         // Show the protractor in the play area and hide the icon
-        moreToolsView.moreToolsModel.velocitySensor.enabledProperty.value = true;
+        self.moreToolsModel.velocitySensor.enabledProperty.value = true;
 
         // Center the protractor on the pointer
         var viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point );
-        var velocitySensorModelPosition = moreToolsView.modelViewTransform.viewToModelPosition( viewPosition );
-        moreToolsView.moreToolsModel.velocitySensor.position = velocitySensorModelPosition;
+        var velocitySensorModelPosition = self.modelViewTransform.viewToModelPosition( viewPosition );
+        self.moreToolsModel.velocitySensor.position = velocitySensorModelPosition;
       } ) );
 
       this.visibleBoundsProperty.link( function( visibleBounds ) {
@@ -210,7 +210,7 @@ define( function( require ) {
         // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
         // node will remain in bounds
         var bounds = new Rectangle( visibleBounds.x - velocitySensorNode.bounds.width / 2, visibleBounds.y, visibleBounds.width, visibleBounds.height );
-        velocitySensorListener.setDragBounds( moreToolsView.modelViewTransform.viewToModelBounds( bounds ) );
+        velocitySensorListener.setDragBounds( self.modelViewTransform.viewToModelBounds( bounds ) );
       } );
 
       this.afterLightLayer2.addChild( velocitySensorNode );

@@ -38,7 +38,7 @@ define( function( require ) {
    */
   function ProbeNodeWrapper( probe, color, modelViewTransform ) {
 
-    var probeNode = this;
+    var self = this;
     Node.call( this, { cursor: 'pointer' } );
 
     // Add the probe
@@ -59,11 +59,11 @@ define( function( require ) {
 
     // Probe location
     probe.positionProperty.link( function( position ) {
-      probeNode.translation = modelViewTransform.modelToViewPosition( position );
+      self.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
     this.syncModelFromView = function() {
-      probe.position = modelViewTransform.viewToModelPosition( probeNode.translation );
+      probe.position = modelViewTransform.viewToModelPosition( self.translation );
     };
   }
 
@@ -77,7 +77,7 @@ define( function( require ) {
    */
   function WaveSensorNode( modelViewTransform, waveSensor, options ) {
 
-    var waveSensorNode = this;
+    var self = this;
     Node.call( this, { cursor: 'pointer' } );
 
     // Color taken from the image
@@ -151,7 +151,7 @@ define( function( require ) {
 
     // Synchronize the body position with the model (centered on the model point)
     waveSensor.bodyPositionProperty.link( function( position ) {
-      waveSensorNode.bodyNode.center = modelViewTransform.modelToViewPosition( position );
+      self.bodyNode.center = modelViewTransform.modelToViewPosition( position );
       wire1Node.updateWireShape();
       wire2Node.updateWireShape();
     } );
@@ -164,9 +164,9 @@ define( function( require ) {
     } );
 
     this.syncModelFromView = function() {
-      waveSensor.bodyPosition = modelViewTransform.viewToModelPosition( waveSensorNode.bodyNode.center );
-      waveSensorNode.probe1Node.syncModelFromView();
-      waveSensorNode.probe2Node.syncModelFromView();
+      waveSensor.bodyPosition = modelViewTransform.viewToModelPosition( self.bodyNode.center );
+      self.probe1Node.syncModelFromView();
+      self.probe2Node.syncModelFromView();
     };
 
     this.addChild( this.bodyNode );

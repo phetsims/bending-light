@@ -31,8 +31,8 @@ define( function( require ) {
    */
   function ProtractorNode( showProtractorProperty, rotateable, options ) {
 
-    var protractorNode = this;
-    Node.call( protractorNode );
+    var self = this;
+    Node.call( self );
 
     this.showProtractorProperty = showProtractorProperty; // @public (read-only)
 
@@ -87,26 +87,26 @@ define( function( require ) {
       var start;
       rotatePath.addInputListener( new SimpleDragHandler( {
         start: function( event ) {
-          start = protractorNode.globalToParentPoint( event.pointer.point );
+          start = self.globalToParentPoint( event.pointer.point );
         },
         drag: function( event ) {
 
           // compute the change in angle based on the new drag event
-          var end = protractorNode.globalToParentPoint( event.pointer.point );
-          var centerX = protractorNode.getCenterX();
-          var centerY = protractorNode.getCenterY();
+          var end = self.globalToParentPoint( event.pointer.point );
+          var centerX = self.getCenterX();
+          var centerY = self.getCenterY();
           var startAngle = Math.atan2( centerY - start.y, centerX - start.x );
           var angle = Math.atan2( centerY - end.y, centerX - end.x );
 
           // rotate the protractor model
-          protractorNode.protractorAngleProperty.value += angle - startAngle;
+          self.protractorAngleProperty.value += angle - startAngle;
           start = end;
         }
       } ) );
 
       // update the protractor angle
-      protractorNode.protractorAngleProperty.link( function( angle ) {
-        protractorNode.rotateAround( protractorNode.center, angle - protractorNode.getRotation() );
+      self.protractorAngleProperty.link( function( angle ) {
+        self.rotateAround( self.center, angle - self.getRotation() );
       } );
       this.barPath = new Path( new Shape().rect( w * 0.2, h / 2, w * 0.6, h * 0.15 ) );
       this.addChild( this.barPath );

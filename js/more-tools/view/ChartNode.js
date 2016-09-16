@@ -62,7 +62,7 @@ define( function( require ) {
    */
   function ChartNode( chartBounds, seriesArray ) {
 
-    var chartNode = this;
+    var self = this;
     Node.call( this );
     this.chartBounds = chartBounds; // @public (read-only)
     this.seriesArray = seriesArray; // @public (read-only)
@@ -84,7 +84,7 @@ define( function( require ) {
 
     // Add nodes for the grid lines and series's
     seriesArray.forEach( function( series ) {
-      chartNode.addChild( new SeriesNode( series, chartNode.modelViewTransformProperty, chartNode.chartBounds ) );
+      self.addChild( new SeriesNode( series, self.modelViewTransformProperty, self.chartBounds ) );
     } );
   }
 

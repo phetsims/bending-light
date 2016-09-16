@@ -34,7 +34,7 @@ define( function( require ) {
       lineWidth: 3,
       stroke: color
     } );
-    var wireNode = this;
+    var self = this;
 
     this.updateWireShape = function() {
 
@@ -46,7 +46,7 @@ define( function( require ) {
 
       var connectionPointXOffsetFactor = 25;
 
-      wireNode.shape = new Shape()
+      self.shape = new Shape()
         .moveTo( bodyConnectionPointX, bodyConnectionPointY )
         .cubicCurveTo(
           bodyConnectionPointX + connectionPointXOffsetFactor, bodyConnectionPointY,

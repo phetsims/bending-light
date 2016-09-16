@@ -44,7 +44,7 @@ define( function( require ) {
 
     this.prismLayer = new Node( { layerSplit: true } );
     this.prismsModel = prismsModel;
-    var prismsView = this;
+    var self = this;
 
     BendingLightView.call( this,
 
@@ -144,16 +144,16 @@ define( function( require ) {
     prismsModel.intersections.addItemAddedListener( function( addedIntersection ) {
       if ( prismsModel.showNormals ) {
         var node = new IntersectionNode(
-          prismsView.modelViewTransform,
+          self.modelViewTransform,
           addedIntersection,
           prismsModel.intersectionStrokeProperty
         );
-        prismsView.addChild( node );
+        self.addChild( node );
 
         prismsModel.intersections.addItemRemovedListener( function( removedIntersection ) {
           if ( removedIntersection === addedIntersection ) {
             node.dispose();
-            prismsView.removeChild( node );
+            self.removeChild( node );
           }
         } );
       }
@@ -174,7 +174,7 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton( {
       listener: function() {
         prismsModel.reset();
-        prismsView.reset();
+        self.reset();
         environmentMediumControlPanel.reset();
         prismToolboxNode.objectMediumControlPanel.reset();
         radioButtonAdapterProperty.reset();
@@ -229,7 +229,7 @@ define( function( require ) {
     } );
 
     this.visibleBoundsProperty.link( function( visibleBounds ) {
-      prismsView.whiteLightNode.setCanvasBounds( visibleBounds );
+      self.whiteLightNode.setCanvasBounds( visibleBounds );
       protractorNodeListener.setDragBounds( visibleBounds );
       environmentMediumNodeForMonochromaticLight.setRect( visibleBounds.x, visibleBounds.y, visibleBounds.width, visibleBounds.height );
     } );
@@ -288,7 +288,7 @@ define( function( require ) {
     addLightNodes: function() {
       var stageWidth = this.layoutBounds.width;
       var stageHeight = this.layoutBounds.height;
-      var bendingLightView = this;
+      var self = this;
 
       var bendingLightModel = this.bendingLightModel;
       this.whiteLightNode = new WhiteLightCanvasNode(
@@ -307,7 +307,7 @@ define( function( require ) {
       // switch between light render for white vs nonwhite light
       bendingLightModel.laser.colorModeProperty.link( function( color ) {
         var white = color === 'white';
-        bendingLightView.whiteLightNode.setVisible( white );
+        self.whiteLightNode.setVisible( white );
       } );
     },
 

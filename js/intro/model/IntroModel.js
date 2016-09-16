@@ -38,7 +38,7 @@ define( function( require ) {
    */
   function IntroModel( bottomSubstance, horizontalPlayAreaOffset ) {
 
-    var introModel = this;
+    var self = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
 
     // Top medium
@@ -53,7 +53,7 @@ define( function( require ) {
     // Update the top medium index of refraction when top medium change
     this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [
         this.topMediumProperty,
-        introModel.laser.colorProperty
+        self.laser.colorProperty
       ],
       function( topMedium, color ) {
         return topMedium.getIndexOfRefraction( color.wavelength );
@@ -62,7 +62,7 @@ define( function( require ) {
     // Update the bottom medium index of refraction when bottom medium change
     this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [
         this.bottomMediumProperty,
-        introModel.laser.colorProperty
+        self.laser.colorProperty
       ],
       function( bottomMedium, color ) {
         return bottomMedium.getIndexOfRefraction( color.wavelength );
@@ -88,11 +88,11 @@ define( function( require ) {
     ], function() {
 
       // clear the accumulator in the intensity meter so it can sum up the newly created rays
-      introModel.intensityMeter.clearRayReadings();
-      introModel.updateModel();
-      if ( introModel.laserView === 'wave' && introModel.laser.on ) {
-        if ( !introModel.allowWebGL ) {
-          introModel.createInitialParticles();
+      self.intensityMeter.clearRayReadings();
+      self.updateModel();
+      if ( self.laserView === 'wave' && self.laser.on ) {
+        if ( !self.allowWebGL ) {
+          self.createInitialParticles();
         }
       }
     } );
@@ -353,10 +353,10 @@ define( function( require ) {
      * @returns {Object|null}- returns object of time and magnitude if point is on ray otherwise returns null
      */
     getWaveValue: function( position ) {
-      var introModel = this;
+      var self = this;
       for ( var i = 0; i < this.rays.length; i++ ) {
         var ray = this.rays.get( i );
-        if ( ray.contains( position, introModel.laserView === 'wave' ) ) {
+        if ( ray.contains( position, self.laserView === 'wave' ) ) {
 
           // map power to displayed amplitude
           var amplitude = Math.sqrt( ray.powerFraction );
@@ -394,11 +394,11 @@ define( function( require ) {
 
       // Update the time
       this.time = this.time + (speed === 'normal' ? 1E-16 : 0.5E-16);
-      var introModel = this;
+      var self = this;
 
       // set time for each ray
       this.rays.forEach( function( ray ) {
-        ray.setTime( introModel.time );
+        ray.setTime( self.time );
       } );
       if ( this.laser.on && this.laserView === 'wave' ) {
         if ( !this.allowWebGL ) {

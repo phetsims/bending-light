@@ -35,7 +35,7 @@ define( function( require ) {
                                laserImageWidth, rotationArrowAngleOffset ) {
 
     Node.call( this );
-    var rotationDragHandle = this;
+    var self = this;
 
     // Property to help determine whether the drag handle should be shown
     var notAtMaximumProperty = new DerivedProperty( [
@@ -49,7 +49,7 @@ define( function( require ) {
     );
 
     // Show the drag handle if the "show drag handles" is true and if the laser isn't already at the max angle.
-    notAtMaximumProperty.linkAttribute( rotationDragHandle, 'visible' );
+    notAtMaximumProperty.linkAttribute( self, 'visible' );
 
     // Add drag arrow path
     var dragArrow = new Path( null, { fill: '#33FF00', stroke: 'black' } );

@@ -96,7 +96,7 @@ define( function( require ) {
         return laserAngle > Math.PI / 2;
       }
     }, options );
-    var introView = this;
+    var self = this;
     this.introModel = introModel; // @public (read-only)
 
     BendingLightView.call( this,
@@ -177,7 +177,7 @@ define( function( require ) {
 
       // Method to add a step listener
       function( stepCallback ) {
-        introView.on( 'step', stepCallback );
+        self.on( 'step', stepCallback );
       }
     ) );
 
@@ -192,10 +192,10 @@ define( function( require ) {
       introModel.laser.emissionPointProperty,
       introModel.laser.colorProperty
     ], function() {
-      for ( var k = 0; k < introView.incidentWaveLayer.getChildrenCount(); k++ ) {
-        introView.incidentWaveLayer.children[ k ].step();
+      for ( var k = 0; k < self.incidentWaveLayer.getChildrenCount(); k++ ) {
+        self.incidentWaveLayer.children[ k ].step();
       }
-      introView.incidentWaveLayer.setVisible( introModel.laser.on && introModel.laserView === 'wave' );
+      self.incidentWaveLayer.setVisible( introModel.laser.on && introModel.laserView === 'wave' );
     } );
 
     // add laser view panel
@@ -267,14 +267,14 @@ define( function( require ) {
 
     // When a node is released, check if it is over the toolbox.  If so, drop it in.
     var dropInToolbox = function( node, enabledProperty ) {
-      if ( node.getGlobalBounds().intersectsBounds( introView.toolbox.getGlobalBounds() ) ) {
+      if ( node.getGlobalBounds().intersectsBounds( self.toolbox.getGlobalBounds() ) ) {
         enabledProperty.value = false;
       }
     };
     this.dropInToolbox = dropInToolbox;
     var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
       endDrag: function() {
-        dropInToolbox( protractorNode, introView.showProtractorProperty );
+        dropInToolbox( protractorNode, self.showProtractorProperty );
       }
     } );
 
@@ -282,13 +282,13 @@ define( function( require ) {
     // for the node in the play area
     protractorNodeIcon.addInputListener( new ToolIconListener( [ protractorNodeListener ], function( event ) {
       // Show the protractor in the play area and hide the icon
-      introView.showProtractorProperty.value = true;
+      self.showProtractorProperty.value = true;
 
       // Center the protractor on the pointer
       protractorLocationProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
     } ) );
 
-    introView.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
+    self.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
 
     var modelViewTransform = this.modelViewTransform;
 
@@ -377,7 +377,7 @@ define( function( require ) {
     // add reset all button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        introView.reset();
+        self.reset();
       },
       bottom: this.layoutBounds.bottom - 14,
       right: this.layoutBounds.right - 2 * INSET,
@@ -397,7 +397,7 @@ define( function( require ) {
 
       // show play pause and step buttons only in wave view
       introModel.laserViewProperty.link( function( laserType ) {
-        introView.timeControlNode.visible = (laserType === 'wave');
+        self.timeControlNode.visible = (laserType === 'wave');
       } );
     }
 
@@ -411,7 +411,7 @@ define( function( require ) {
     FloatingLayout.floatBottom( this, [ checkBoxPanel, resetAllButton, this.timeControlNode ] );
 
     this.visibleBoundsProperty.link( function() {
-      introView.toolbox.bottom = checkBoxPanel.top - 10;
+      self.toolbox.bottom = checkBoxPanel.top - 10;
     } );
 
     this.visibleBoundsProperty.link( function( visibleBounds ) {
@@ -480,21 +480,21 @@ define( function( require ) {
       BendingLightView.prototype.addLightNodes.call( this );
 
       var bendingLightModel = this.bendingLightModel;
-      var bendingLightView = this;
+      var self = this;
 
       this.addChild( this.incidentWaveLayer );
 
       // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
       if ( bendingLightModel.allowWebGL ) {
-        var waveWebGLNode = new WaveWebGLNode( bendingLightView.modelViewTransform,
+        var waveWebGLNode = new WaveWebGLNode( self.modelViewTransform,
           bendingLightModel.rays );
-        bendingLightView.incidentWaveLayer.addChild( waveWebGLNode );
+        self.incidentWaveLayer.addChild( waveWebGLNode );
       }
       else {
-        var waveCanvasNode = new WaveCanvasNode( this.bendingLightModel.rays, bendingLightView.modelViewTransform, {
+        var waveCanvasNode = new WaveCanvasNode( this.bendingLightModel.rays, self.modelViewTransform, {
           canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
         } );
-        bendingLightView.incidentWaveLayer.addChild( waveCanvasNode );
+        self.incidentWaveLayer.addChild( waveCanvasNode );
         this.visibleBoundsProperty.link( function( visibleBounds ) {
           waveCanvasNode.setCanvasBounds( visibleBounds );
         } );

@@ -59,7 +59,7 @@ define( function( require ) {
                                decimalPlaces, options ) {
 
     Node.call( this );
-    var mediumControlPanel = this;
+    var self = this;
     this.mediumColorFactory = mediumColorFactory;
 
     options = _.extend( {
@@ -175,8 +175,8 @@ define( function( require ) {
     // add plus button for index of refraction text
     var plusButton = new ArrowButton( 'right', function propertyPlus() {
       custom = true;
-      mediumControlPanel.mediumIndexProperty.set(
-        Util.toFixedNumber( Math.min( mediumControlPanel.mediumIndexProperty.get() + 1 / Math.pow( 10, decimalPlaces ),
+      self.mediumIndexProperty.set(
+        Util.toFixedNumber( Math.min( self.mediumIndexProperty.get() + 1 / Math.pow( 10, decimalPlaces ),
           INDEX_OF_REFRACTION_MAX ), decimalPlaces ) );
     }, {
       scale: 0.7,
@@ -192,8 +192,8 @@ define( function( require ) {
     // add minus button for index of refraction text
     var minusButton = new ArrowButton( 'left', function propertyMinus() {
       custom = true;
-      mediumControlPanel.mediumIndexProperty.set(
-        Util.toFixedNumber( Math.max( mediumControlPanel.mediumIndexProperty.get() - 1 / Math.pow( 10, decimalPlaces ),
+      self.mediumIndexProperty.set(
+        Util.toFixedNumber( Math.max( self.mediumIndexProperty.get() - 1 / Math.pow( 10, decimalPlaces ),
           INDEX_OF_REFRACTION_MIN ), decimalPlaces ) );
     }, {
       scale: 0.7,
@@ -318,18 +318,18 @@ define( function( require ) {
       indexOfRefractionSlider.setVisible( !mediumProperty.get().isMystery() );
       if ( !mediumProperty.get().isMystery() ) {
         lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
-        mediumControlPanel.mediumIndexProperty.set( lastNonMysteryIndexAtRed );
+        self.mediumIndexProperty.set( lastNonMysteryIndexAtRed );
       }
       updateComboBox();
     } );
     comboBoxSubstanceProperty.link( function( selected ) {
       if ( !selected.custom ) {
-        mediumControlPanel.setSubstance( selected );
+        self.setSubstance( selected );
       }
       else {
 
         // if it was custom, then use the the index of refraction but keep the name as "custom"
-        mediumControlPanel.setSubstance(
+        self.setSubstance(
           new Substance( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
       }
     } );
@@ -337,7 +337,7 @@ define( function( require ) {
     // disable the plus button when wavelength is at max and minus button at min wavelength
     this.mediumIndexProperty.link( function( indexOfRefraction ) {
       if ( custom ) {
-        mediumControlPanel.setCustomIndexOfRefraction( indexOfRefraction );
+        self.setCustomIndexOfRefraction( indexOfRefraction );
       }
       plusButton.enabled = ( Util.toFixed( indexOfRefraction, decimalPlaces ) < INDEX_OF_REFRACTION_MAX);
       minusButton.enabled = ( Util.toFixed( indexOfRefraction, decimalPlaces ) > INDEX_OF_REFRACTION_MIN );
@@ -363,14 +363,14 @@ define( function( require ) {
      */
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
 
-      var mediumControlPanel = this;
+      var self = this;
 
       // have to pass the value through the dispersion function to account for the
       // current wavelength of the laser (since index of refraction is a function of wavelength)
       var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );
       this.setMedium( new Medium( this.mediumProperty.get().shape,
         new Substance( customString, indexOfRefraction, false, true ),
-        mediumControlPanel.mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
+        self.mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
       ) );
     },
 

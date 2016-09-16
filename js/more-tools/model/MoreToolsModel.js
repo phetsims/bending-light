@@ -23,7 +23,7 @@ define( function( require ) {
    */
   function MoreToolsModel() {
 
-    var moreToolsModel = this;
+    var self = this;
 
     // On this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent
     // bend
@@ -31,7 +31,7 @@ define( function( require ) {
 
     this.velocitySensor = new VelocitySensor(); // @public (read-only)
     var waveValueGetter = function( position ) {
-      return moreToolsModel.getWaveValue( position );
+      return self.getWaveValue( position );
     };
 
     // @public (read-only)
@@ -48,8 +48,8 @@ define( function( require ) {
       this.laser.emissionPointProperty,
       this.laser.wavelengthProperty
     ], function() {
-      moreToolsModel.velocitySensor.valueProperty.set(
-        moreToolsModel.getVelocity( moreToolsModel.velocitySensor.position ) );
+      self.velocitySensor.valueProperty.set(
+        self.getVelocity( self.velocitySensor.position ) );
     } );
   }
 

@@ -47,7 +47,7 @@ define( function( require ) {
     this.intersections = new ObservableArray();
 
     this.mediumColorFactory = new MediumColorFactory();
-    var prismsModel = this;
+    var self = this;
     BendingLightModel.call( this,
       Math.PI,
       false,
@@ -73,7 +73,7 @@ define( function( require ) {
       } );
 
     this.laser.colorModeProperty.link( function( colorMode ) {
-      prismsModel.intersectionStroke = colorMode === 'white' ? 'white' : 'black';
+      self.intersectionStroke = colorMode === 'white' ? 'white' : 'black';
     } );
     Property.multilink( [
       this.manyRaysProperty,
@@ -88,9 +88,9 @@ define( function( require ) {
       this.laser.colorProperty,
       this.laserViewProperty
     ], function() {
-      prismsModel.clear();
-      prismsModel.updateModel();
-      prismsModel.dirty = true;
+      self.clear();
+      self.updateModel();
+      self.dirty = true;
     } );
 
     // coalesce repeat updates so work is not duplicated in white light node.

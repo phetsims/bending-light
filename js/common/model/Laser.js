@@ -28,7 +28,7 @@ define( function( require ) {
   function Laser( wavelengthProperty, distanceFromPivot, angle, topLeftQuadrant ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
-    var laser = this;
+    var self = this;
     PropertySet.call( this, {
       pivot: new Vector2( 0, 0 ), // @public, point to be pivoted about, and at which the laser points
       on: false, // @public, true if the laser is activated and emitting light
@@ -54,8 +54,8 @@ define( function( require ) {
     this.waveProperty.link( function() {
 
       // prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
-      if ( laser.wave && laser.getAngle() > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
-        laser.setAngle( BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE );
+      if ( self.wave && self.getAngle() > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
+        self.setAngle( BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE );
       }
     } );
   }

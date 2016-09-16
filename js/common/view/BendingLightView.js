@@ -47,7 +47,7 @@ define( function( require ) {
     this.bendingLightModel = bendingLightModel;
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
-    var bendingLightView = this;
+    var self = this;
     this.showProtractorProperty = new Property( false ); // @public (read-only)
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
@@ -136,12 +136,12 @@ define( function( require ) {
 
     Property.multilink( [ bendingLightModel.laser.colorModeProperty, bendingLightModel.laserViewProperty ],
       function( colorMode, laserView ) {
-        bendingLightView.singleColorLightNode.visible = laserView === 'ray' && colorMode !== 'white';
+        self.singleColorLightNode.visible = laserView === 'ray' && colorMode !== 'white';
       }
     );
 
     this.visibleBoundsProperty.link( function( visibleBounds ) {
-      bendingLightView.singleColorLightNode.setCanvasBounds( visibleBounds );
+      self.singleColorLightNode.setCanvasBounds( visibleBounds );
     } );
   }
 

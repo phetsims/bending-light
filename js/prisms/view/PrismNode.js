@@ -41,13 +41,13 @@ define( function( require ) {
                       occlusionHandler, isIcon ) {
 
     Node.call( this, { cursor: 'pointer' } );
-    var prismNode = this;
+    var self = this;
     var knobHeight = 15;
 
     // It looks like a box on the side of the prism
     var knobNode = new Image( knobImage );
     if ( prism.shape.getReferencePoint() ) {
-      prismNode.addChild( knobNode );
+      self.addChild( knobNode );
     }
 
     // Prism rotation with knob
@@ -56,7 +56,7 @@ define( function( require ) {
     if ( !isIcon ) {
       knobNode.addInputListener( new SimpleDragHandler( {
         start: function( event ) {
-          prismNode.moveToFront();
+          self.moveToFront();
           var start = knobNode.globalToParentPoint( event.pointer.point );
           prismCenterPoint = prism.shape.getRotationCenter();
           var startX = modelViewTransform.viewToModelX( start.x );// model values
@@ -112,13 +112,13 @@ define( function( require ) {
     this.movableDragHandler = new MovableDragHandler( positionProperty, {
       modelViewTransform: modelViewTransform,
       endDrag: function() {
-        occlusionHandler( prismNode );
-        if ( prismToolboxNode.visibleBounds.containsCoordinates( prismNode.getCenterX(), prismNode.getCenterY() ) ) {
-          if ( prismLayer.hasChild( prismNode ) ) {
+        occlusionHandler( self );
+        if ( prismToolboxNode.visibleBounds.containsCoordinates( self.getCenterX(), self.getCenterY() ) ) {
+          if ( prismLayer.hasChild( self ) ) {
             prismsModel.removePrism( prism );
-            prism.shapeProperty.unlink( prismNode.updatePrismShape );
-            prismsModel.prismMediumProperty.unlink( prismNode.updatePrismColor );
-            prismLayer.removeChild( prismNode );
+            prism.shapeProperty.unlink( self.updatePrismShape );
+            prismsModel.prismMediumProperty.unlink( self.updatePrismColor );
+            prismLayer.removeChild( self );
           }
           prismsModel.dirty = true;
         }

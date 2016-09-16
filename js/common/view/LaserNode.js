@@ -64,7 +64,7 @@ define( function( require ) {
     } );
 
     Node.call( this, { cursor: 'pointer' } );
-    var laserNode = this;
+    var self = this;
 
     // add laser image
     var laserImageNode = new Image( laserImage, { scale: 0.58 } );
@@ -102,7 +102,7 @@ define( function( require ) {
     } );
     translationRegionPath.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
-        start = laserNode.globalToParentPoint( event.pointer.point );
+        start = self.globalToParentPoint( event.pointer.point );
         showTranslationDragHandlesProperty.value = true;
       },
       drag: function( event ) {
@@ -110,7 +110,7 @@ define( function( require ) {
         var laserNodeDragBounds = dragBoundsProperty.value.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
         var laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
 
-        var endDrag = laserNode.globalToParentPoint( event.pointer.point );
+        var endDrag = self.globalToParentPoint( event.pointer.point );
         var deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
         var deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
 
@@ -137,7 +137,7 @@ define( function( require ) {
       },
       end: function() {
         showTranslationDragHandlesProperty.value = false;
-        occlusionHandler( laserNode );
+        occlusionHandler( self );
       }
     } ) );
 
@@ -165,7 +165,7 @@ define( function( require ) {
         overCountProperty.value = overCountProperty.value + 1;
       },
       drag: function( event ) {
-        var coordinateFrame = laserNode.parents[ 0 ];
+        var coordinateFrame = self.parents[ 0 ];
         var laserAnglebeforeRotate = laser.getAngle();
         var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
         var angle = Math.atan2( modelViewTransform.viewToModelY( localLaserPosition.y ) - laser.pivot.y,
@@ -216,9 +216,9 @@ define( function( require ) {
     laser.emissionPointProperty.link( function( newEmissionPoint ) {
       var emissionPointX = modelViewTransform.modelToViewX( newEmissionPoint.x );
       var emissionPointY = modelViewTransform.modelToViewY( newEmissionPoint.y );
-      laserNode.setTranslation( emissionPointX, emissionPointY );
-      laserNode.setRotation( -laser.getAngle() );
-      laserNode.translate( 0, -lightImageHeight / 2 );
+      self.setTranslation( emissionPointX, emissionPointY );
+      self.setRotation( -laser.getAngle() );
+      self.translate( 0, -lightImageHeight / 2 );
 
       // So the light always looks like it comes from the top left, despite the laser angle
       redButton.setRotation( laser.getAngle() );

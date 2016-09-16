@@ -44,11 +44,11 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform; // @private
     this.whiteLightRays = whiteLightRays; // @private
     this.environmentMediumProperty = environmentMediumProperty;
-    var whiteLightCanvasNode = this;
+    var self = this;
     var update = function() {
       var a = environmentMediumProperty.value.substance.indexOfRefractionForRedLight;
-      whiteLightCanvasNode.colorCSS = mediumColorFactory.getColor( a ).toCSS();
-      whiteLightCanvasNode.invalidatePaint();
+      self.colorCSS = mediumColorFactory.getColor( a ).toCSS();
+      self.invalidatePaint();
     };
     mediumColorFactory.lightTypeProperty.link( update );
     environmentMediumProperty.link( update );

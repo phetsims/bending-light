@@ -55,11 +55,11 @@ define( function( require ) {
                       addStepListener ) {
     Node.call( this );
 
-    var angleNode = this;
+    var self = this;
 
     // Only show the AngleNode when it is selected via a checkbox and the laser is on
     Property.multilink( [ showAnglesProperty, laserOnProperty ], function( showAngles, laserOn ) {
-      angleNode.visible = showAngles && laserOn;
+      self.visible = showAngles && laserOn;
     } );
 
     var createArcPath = function() {
