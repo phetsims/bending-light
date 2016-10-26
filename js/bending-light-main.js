@@ -28,7 +28,7 @@ define( function( require ) {
       leadDesign: 'Amy Rouinfar (HTML5),  Noah Podolefsky (Java)',
       softwareDevelopment: 'Sam Reid',
       team: 'Trish Loeblein, Ariel Paul, Kathy Perkins',
-      qualityAssurance: 'Steele Dalton, Bryce Griebenow, Elise Morgan, \n\tOliver Orejola, Arnab Purkayastha, Ben Roberts, Bryan Yoelin',
+      qualityAssurance: 'Steele Dalton, Amanda Davis, Bryce Griebenow, Ethan Johnson,\n\tElise Morgan, Oliver Orejola, Arnab Purkayastha, Ben Roberts, Bryan Yoelin',
       thanks: 'Thanks to Actual Concepts for working with the PhET development team\n' +
               'to convert this simulation to HTML5.'
     }
