@@ -72,8 +72,8 @@ define( function( require ) {
     this.timeWidth = 72E-16; // @public (read-only)
 
     // Mapping from model (SI) to chart coordinates
-    Property.addProperty( this, 'modelViewTransform', ModelViewTransform2.createRectangleMapping(
-      new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
+    Property.addProperty( this, 'modelViewTransform',
+      ModelViewTransform2.createRectangleMapping( new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
     // Add grid to the chart
     this.gridLines = new ObservableArray(); // @public (read-only)
