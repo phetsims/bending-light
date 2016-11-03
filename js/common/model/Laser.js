@@ -22,7 +22,7 @@ define( function( require ) {
    * @param {Property.<number>} wavelengthProperty - wavelength of light
    * @param {number} distanceFromPivot - distance from laser pivot point
    * @param {number} angle - laser angle
-   * @param {Boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
+   * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
    * @constructor
    */
   function Laser( wavelengthProperty, distanceFromPivot, angle, topLeftQuadrant ) {
@@ -61,7 +61,7 @@ define( function( require ) {
   }
 
   bendingLight.register( 'Laser', Laser );
-  
+
   return inherit( PropertySet, Laser, {
 
     /**
