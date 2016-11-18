@@ -72,8 +72,7 @@ define( function( require ) {
     this.timeWidth = 72E-16; // @public (read-only)
 
     // Mapping from model (SI) to chart coordinates
-    Property.addProperty( this, 'modelViewTransform',
-      ModelViewTransform2.createRectangleMapping( new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
+    this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping( new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
     // Add grid to the chart
     this.gridLines = new ObservableArray(); // @public (read-only)
@@ -127,13 +126,13 @@ define( function( require ) {
 
       // Add one horizontal grid line
       var horizontalGridLineDelta = this.getDelta(
-        this.modelViewTransform.viewToModelDeltaX( DASH_ON + DASH_OFF ), time );
+        this.modelViewTransformProperty.get().viewToModelDeltaX( DASH_ON + DASH_OFF ), time );
 
       // Horizontal axis
       this.gridLines.push( {
         x1: minTime, y1: 0,
         x2: minTime + this.timeWidth, y2: 0,
-        lineDashOffset: this.modelViewTransform.modelToViewDeltaX( horizontalGridLineDelta )
+        lineDashOffset: this.modelViewTransformProperty.get().modelToViewDeltaX( horizontalGridLineDelta )
       } );
       this.gridCanvasNode.step();
 
