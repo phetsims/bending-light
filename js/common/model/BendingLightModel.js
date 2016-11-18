@@ -73,8 +73,7 @@ define( function( require ) {
     this.modelHeight = this.modelWidth * 0.7; // @public (read-only)
 
     // Check to see if WebGL was prevented by a query parameter
-    var disallowWebGL = phet.chipper.queryParameters.webgl;
-    this.allowWebGL = Util.checkWebGLSupport() && !disallowWebGL; // @public (read-only)
+    this.allowWebGL = Util.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
 
     PropertySet.call( this, _.extend( {
       laserView: 'ray', // @public, Whether the laser is Ray or Wave mode
