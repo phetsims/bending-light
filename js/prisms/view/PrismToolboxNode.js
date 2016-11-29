@@ -92,7 +92,7 @@ define( function( require ) {
 
       // Add drag listener for the prisms icon
       prismToolboxIconNode.addInputListener( new SimpleDragHandler( {
-          start: function( event ) {
+          start: function( event, trail ) {
             var start = self.globalToParentPoint( event.pointer.point );
             var prismShape = prism.copy();
 
@@ -115,10 +115,10 @@ define( function( require ) {
             // There is a precedent for this hack in SimpleDragHandler.js
             var c = event.currentTarget;
             event.currentTarget = prismNode;
-            prismNode.movableDragHandler.handleForwardedStartEvent( event );
+            prismNode.movableDragHandler.handleForwardedStartEvent( event, trail );
             event.currentTarget = c;
           },
-          drag: function( event ) {
+          drag: function( event, trail ) {
 
             // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
             // Presumably because they were in similar coordinate frames?
@@ -127,10 +127,10 @@ define( function( require ) {
             // There is a precedent for this hack in SimpleDragHandler.js
             var c = event.currentTarget;
             event.currentTarget = prismNode;
-            prismNode.movableDragHandler.handleForwardedDragEvent( event );
+            prismNode.movableDragHandler.handleForwardedDragEvent( event, trail );
             event.currentTarget = c; // oh noes
           },
-        end: function( event ) {
+        end: function( event, trail ) {
 
           // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
           // Presumably because they were in similar coordinate frames?
@@ -139,7 +139,7 @@ define( function( require ) {
           // There is a precedent for this hack in SimpleDragHandler.js
           var c = event.currentTarget;
           event.currentTarget = prismNode;
-          prismNode.movableDragHandler.handleForwardedEndEvent( event );
+          prismNode.movableDragHandler.handleForwardedEndEvent( event, trail );
           event.currentTarget = c;
           }
         }

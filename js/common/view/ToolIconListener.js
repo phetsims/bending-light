@@ -20,32 +20,32 @@ define( function( require ) {
    */
   function ToolIconListener( components, init ) {
     SimpleDragHandler.call( this, {
-      start: function( event ) {
+      start: function( event, trail ) {
         init( event );
 
         // Forward the event to the components
         for ( var i = 0; i < components.length; i++ ) {
-          components[ i ].handleForwardedStartEvent( event );
+          components[ i ].handleForwardedStartEvent( event, trail );
         }
       },
-      drag: function( event ) {
+      drag: function( event, trail ) {
 
         // Forward the event to the components
         for ( var i = 0; i < components.length; i++ ) {
-          components[ i ].handleForwardedDragEvent( event );
+          components[ i ].handleForwardedDragEvent( event, trail );
         }
       },
-      end: function( event ) {
+      end: function( event, trail ) {
 
         // Forward the event to the components
         for ( var i = 0; i < components.length; i++ ) {
-          components[ i ].handleForwardedEndEvent( event );
+          components[ i ].handleForwardedEndEvent( event, trail );
         }
       }
     } );
   }
 
   bendingLight.register( 'ToolIconListener', ToolIconListener );
-  
+
   return inherit( SimpleDragHandler, ToolIconListener );
 } );
