@@ -77,7 +77,8 @@ define( function( require ) {
         } ).length;
         prismIcon.visible = count < 5;
       };
-      prismsModel.prisms.addListeners( listener, listener );
+      prismsModel.prisms.addItemAddedListener( listener );
+      prismsModel.prisms.addItemRemovedListener( listener );
       var prismIconBounds = prismIcon.bounds;
       prismIcon.scale( 55 / prismIcon.height );
       var prismToolboxIconNode = new Path( Shape.rectangle(
@@ -287,6 +288,6 @@ define( function( require ) {
   }
 
   bendingLight.register( 'PrismToolboxNode', PrismToolboxNode );
-  
+
   return inherit( Node, PrismToolboxNode );
 } );

@@ -154,7 +154,8 @@ define( function( require ) {
     var markDirty = function() {
       dirty = true;
     };
-    rays.addListeners( markDirty, markDirty );
+    rays.addItemAddedListener( markDirty );
+    rays.addItemRemovedListener( markDirty );
 
     /**
      * Select the ray of the given type 'incident' | 'reflected' | 'incident', or null if there isn't one of that type
@@ -274,6 +275,6 @@ define( function( require ) {
   }
 
   bendingLight.register( 'AngleNode', AngleNode );
-  
+
   return inherit( Node, AngleNode );
 } );
