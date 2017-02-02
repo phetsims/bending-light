@@ -19,7 +19,6 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
   var Property = require( 'AXON/Property' );
-  var Color = require( 'SCENERY/util/Color' );
 
   // strings
   var introString = require( 'string!BENDING_LIGHT/intro' );
@@ -35,7 +34,7 @@ define( function( require ) {
     var options = {
       name: introString,
       homeScreenIcon: new Image( icon ),
-      backgroundColorProperty: new Property( Color.toColor( 'white' ) ),
+      backgroundColorProperty: new Property( 'white' ),
       tandem: tandem
     };
 

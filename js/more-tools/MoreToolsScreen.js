@@ -17,7 +17,6 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Property = require( 'AXON/Property' );
-  var Color = require( 'SCENERY/util/Color' );
 
   // strings
   var moreToolsString = require( 'string!BENDING_LIGHT/moreTools' );
@@ -33,7 +32,7 @@ define( function( require ) {
     var options = {
       name: moreToolsString,
       homeScreenIcon: new Image( iconImage ),
-      backgroundColorProperty: new Property( Color.toColor( 'white' ) ),
+      backgroundColorProperty: new Property( 'white' ),
       tandem: tandem
     };
 
