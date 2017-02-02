@@ -88,7 +88,7 @@ define( function( require ) {
 
       // color is determined by perpendicular distance of coordinate from the start of the particle.
       'float colorFactor = abs( 1.0 - positionDiff / ( uWaveLength * 0.5 ) );',
-      'gl_FragColor.rgb = uColor * (colorFactor);',
+      'gl_FragColor.rgb = uColor * (colorFactor * uPowerFraction);',
       'gl_FragColor.a = sqrt(uPowerFraction);',
       '}'
     ].join( '\n' );
