@@ -194,7 +194,7 @@ define( function( require ) {
     var showProtractor = { label: new Text( protractorString, textOptions ), icon: createProtractorIcon() };
 
     // compute the maximum item width
-    var widestItem = _.max( [ showReflections, showNormal, showProtractor ], function( item ) {
+    var widestItem = _.maxBy( [ showReflections, showNormal, showProtractor ], function( item ) {
       return item.label.width + ( ( item.icon ) ? item.icon.width : 0 );
     } );
     var widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0);
@@ -240,7 +240,7 @@ define( function( require ) {
       checkBoxOptions
     );
 
-    var maxCheckBoxWidth = _.max( [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ],
+    var maxCheckBoxWidth = _.maxBy( [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ],
         function( item ) {
           return item.width;
         }
