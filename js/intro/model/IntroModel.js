@@ -31,6 +31,9 @@ define( function( require ) {
   // constants
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
+  // If the ray is too long in this step, then webgl will have rendering artifacts, see #147
+  var BEAM_LENGTH = 1E-3;
+
   /**
    * @param {Substance} bottomSubstance - state of bottom medium
    * @param {boolean} horizontalPlayAreaOffset - specifies center alignment
@@ -109,7 +112,7 @@ define( function( require ) {
   }
 
   bendingLight.register( 'IntroModel', IntroModel );
-  
+
   return inherit( BendingLightModel, IntroModel, {
 
     /**
@@ -184,7 +187,7 @@ define( function( require ) {
             var reflectedRay = new LightRay(
               trapeziumWidth,
               new Vector2( 0, 0 ),
-              Vector2.createPolar( 1, Math.PI - this.laser.getAngle() ),
+              Vector2.createPolar( BEAM_LENGTH, Math.PI - this.laser.getAngle() ),
               n1,
               wavelengthInTopMedium,
               this.laser.getWavelength() * 1E9,
@@ -227,9 +230,7 @@ define( function( require ) {
               var transmittedRay = new LightRay(
                 trapeziumWidth,
                 new Vector2( 0, 0 ),
-
-                // Note: if the ray is too long in this step, then webgl will have rendering artifacts, see #147
-                Vector2.createPolar( 0.001, theta2 - Math.PI / 2 ),
+                Vector2.createPolar( BEAM_LENGTH, theta2 - Math.PI / 2 ),
                 n2,
                 transmittedWavelength,
                 this.laser.getWavelength() * 1E9,
