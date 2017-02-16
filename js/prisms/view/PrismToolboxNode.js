@@ -39,6 +39,7 @@ define( function( require ) {
 
   // constants
   var MAX_TEXT_WIDTH = 115;
+  var MAX_PRISM_COUNT = 6; // for each type
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -75,7 +76,7 @@ define( function( require ) {
         var count = _.filter( prismsModel.prisms.getArray(), function( p ) {
           return p.typeName === prism.typeName;
         } ).length;
-        prismIcon.visible = count < 5;
+        prismIcon.visible = count < MAX_PRISM_COUNT;
       };
       prismsModel.prisms.addItemAddedListener( listener );
       prismsModel.prisms.addItemRemovedListener( listener );
