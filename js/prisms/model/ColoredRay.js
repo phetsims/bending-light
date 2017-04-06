@@ -55,7 +55,7 @@ define( function( require ) {
     /**
      * Gets the wavelength for this ray if it wasn't inside a medium
      * @public
-     * @return {number}
+     * @returns {number}
      */
     getBaseWavelength: function() {
       return BendingLightConstants.SPEED_OF_LIGHT / this.frequency;

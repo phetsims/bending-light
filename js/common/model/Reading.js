@@ -41,7 +41,7 @@ define( function( require ) {
       /**
        * Get string to display on intensity sensor
        * @public
-       * @return {string}
+       * @returns {string}
        */
       getString: function() {
         return this.format( this.value * 100 );
@@ -59,7 +59,7 @@ define( function( require ) {
       /**
        * Determines whether ray hit the intensity sensor or not
        * @public
-       * @return {boolean}
+       * @returns {boolean}
        */
       isHit: function() {
         return true;
@@ -72,7 +72,7 @@ define( function( require ) {
         /**
          * Get string to display on intensity sensor
          * @public
-         * @return {string}
+         * @returns {string}
          */
         getString: function() {
           return missString;
@@ -80,7 +80,7 @@ define( function( require ) {
 
         /**
          * Determines whether ray hit the intensity sensor or not
-         * @return {boolean}
+         * @returns {boolean}
          */
         isHit: function() {
           return false;
