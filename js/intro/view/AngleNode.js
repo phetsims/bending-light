@@ -160,7 +160,7 @@ define( function( require ) {
     /**
      * Select the ray of the given type 'incident' | 'reflected' | 'incident', or null if there isn't one of that type
      * @param type
-     * @returns {*}
+     * @returns {LightRay}
      */
     var getRay = function( type ) {
       var selected = null;

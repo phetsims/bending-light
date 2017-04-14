@@ -68,7 +68,7 @@ define( function( require ) {
       /**
        * Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
        * @param {number} angle
-       * @returns {*}
+       * @returns {number}
        */
       clampDragAngle: function( angle ) {
         while ( angle < 0 ) { angle += Math.PI * 2; }
