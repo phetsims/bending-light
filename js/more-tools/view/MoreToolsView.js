@@ -131,12 +131,12 @@ define( function( require ) {
         ], function( event ) {
 
           // Show the probe in the play area and hide the icon
-        waveSensor.enabled = true;
+        waveSensor.enabledProperty.set( true );
 
           // Center the body label on the pointer
         var pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point )
           .plusXY( 0, -waveSensorNode.bodyNode.height / 2 + 5 );
-        waveSensor.bodyPosition = modelViewTransform.viewToModelPosition( pt );
+        waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( pt );
         waveSensorNode.resetRelativePositions();
         waveSensorNode.syncModelFromView();
         } )
@@ -228,7 +228,7 @@ define( function( require ) {
      */
     updateWaveShape: function() {
       IntroView.prototype.updateWaveShape.call( this );
-      if ( this.waveSensorNode.waveSensor.enabled ) {
+      if ( this.waveSensorNode.waveSensor.enabledProperty.get() ) {
         this.waveSensorNode.waveSensor.step();
         this.waveSensorNode.chartNode.step( this.moreToolsModel.time );
       }

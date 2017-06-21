@@ -63,7 +63,7 @@ define( function( require ) {
     } );
 
     this.syncModelFromView = function() {
-      probe.position = modelViewTransform.viewToModelPosition( self.translation );
+      probe.positionProperty.value = modelViewTransform.viewToModelPosition( self.translation );
     };
   }
 
@@ -164,7 +164,7 @@ define( function( require ) {
     } );
 
     this.syncModelFromView = function() {
-      waveSensor.bodyPosition = modelViewTransform.viewToModelPosition( self.bodyNode.center );
+      waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( self.bodyNode.center );
       self.probe1Node.syncModelFromView();
       self.probe2Node.syncModelFromView();
     };

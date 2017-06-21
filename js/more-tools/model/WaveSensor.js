@@ -15,7 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
   var DataPoint = require( 'BENDING_LIGHT/more-tools/model/DataPoint' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
 
   /**
    * Model for a probe, including its position and recorded data series
@@ -26,21 +26,32 @@ define( function( require ) {
    */
   function Probe( x, y ) {
 
-    PropertySet.call( this, {
-        series: [], // @public, array of data points
-        position: new Vector2( x, y ) // @public, position of a probe
-      }
-    );
+    // @public, array of data points
+    this.seriesProperty = new Property( [] );
+
+    // @public, position of a probe
+    this.positionProperty = new Property( new Vector2( x, y ) );
+
+    Property.preventGetSet( this, 'series' );
+    Property.preventGetSet( this, 'position' );
   }
 
-  inherit( PropertySet, Probe, {
+  inherit( Object, Probe, {
+
+    /**
+     * Resets the model.
+     */
+    reset: function() {
+      this.seriesProperty.reset();
+      this.positionProperty.reset();
+    },
 
     /**
      * @public
      * @param {Option<DataPoint>} sample
      */
     addSample: function( sample ) {
-      this.series.push( sample );
+      this.seriesProperty.get().push( sample );
       this.seriesProperty.notifyObserversStatic();
     }
   } );
@@ -58,15 +69,15 @@ define( function( require ) {
     this.probe1 = new Probe( -0.00001932, -0.0000052 );
     this.probe2 = new Probe( -0.0000198, -0.0000062 );
 
-    PropertySet.call( this, {
+    // @public
+    this.bodyPositionProperty = new Property( new Vector2( -0.0000172, -0.00000605 ) );
 
-      // @public
-      bodyPosition: new Vector2( -0.0000172, -0.00000605 ),
+    // @public
+    // in the play area
+    this.enabledProperty = new Property( false );
 
-      // @public
-      // in the play area
-      enabled: false
-    } );
+    Property.preventGetSet( this, 'bodyPosition' );
+    Property.preventGetSet( this, 'enabled' );
 
     // Function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;
@@ -74,15 +85,15 @@ define( function( require ) {
   }
 
   bendingLight.register( 'WaveSensor', WaveSensor );
-  
-  return inherit( PropertySet, WaveSensor, {
+
+  return inherit( Object, WaveSensor, {
 
     // @public - create a copy for use in toolbox icons, etc.
     copy: function() {
       var waveSensor = new WaveSensor( 0, 0 );
-      waveSensor.bodyPosition = this.bodyPosition;
-      waveSensor.probe1.position = this.probe1.position;
-      waveSensor.probe2.position = this.probe2.position;
+      waveSensor.bodyPositionProperty.value = this.bodyPositionProperty.value;
+      waveSensor.probe1.positionProperty.value = this.probe1.positionProperty.value;
+      waveSensor.probe2.positionProperty.value = this.probe2.positionProperty.value;
       return waveSensor;
     },
 
@@ -106,7 +117,7 @@ define( function( require ) {
     updateProbeSample: function( probe, probeValue ) {
 
       // Read the value from the probe function. May be None if not intersecting a light ray
-      var value = probeValue( probe.position );
+      var value = probeValue( probe.positionProperty.get() );
       if ( value ) {
         probe.addSample( new DataPoint( value.time, value.magnitude ) );
       }
@@ -116,7 +127,8 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      PropertySet.prototype.reset.call( this );
+      this.bodyPositionProperty.reset();
+      this.enabledProperty.reset();
       this.probe1.reset();
       this.probe2.reset();
     }
