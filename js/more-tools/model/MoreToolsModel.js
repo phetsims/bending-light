@@ -49,7 +49,7 @@ define( function( require ) {
       this.laser.wavelengthProperty
     ], function() {
       self.velocitySensor.valueProperty.set(
-        self.getVelocity( self.velocitySensor.position ) );
+        self.getVelocity( self.velocitySensor.positionProperty.get() ) );
     } );
   }
 

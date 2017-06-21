@@ -64,7 +64,7 @@ define( function( require ) {
   }
 
   bendingLight.register( 'MoreToolsView', MoreToolsView );
-  
+
   return inherit( IntroView, MoreToolsView, {
     getWaveSensorIcon: function() {
       var modelViewTransform = this.modelViewTransform;
@@ -202,7 +202,7 @@ define( function( require ) {
         // Center the protractor on the pointer
         var viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point );
         var velocitySensorModelPosition = self.modelViewTransform.viewToModelPosition( viewPosition );
-        self.moreToolsModel.velocitySensor.position = velocitySensorModelPosition;
+        self.moreToolsModel.velocitySensor.positionProperty.set( velocitySensorModelPosition );
       } ) );
 
       this.visibleBoundsProperty.link( function( visibleBounds ) {

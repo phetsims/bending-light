@@ -12,7 +12,8 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Vector2 = require( 'DOT/Vector2' );
 
   /**
@@ -20,30 +21,45 @@ define( function( require ) {
    */
   function VelocitySensor() {
 
-    PropertySet.call( this, {
+    // @public position of the sensor. Sampled by running the sim with a console.log statement
+    this.positionProperty = new Property( new Vector2( -0.00002051402284781722, -0.0000025716197470420186 ) );
 
-      // @public position of the sensor. Sampled by running the sim with a console.log statement
-      position: new Vector2( -0.00002051402284781722, -0.0000025716197470420186 ),
-      value: new Vector2( 0, 0 ), // @public, velocity as measured by the sensor
-      enabled: false // @public, True if it is in the play area
-    } );
+    // @public, velocity as measured by the sensor
+    this.valueProperty = new Property( new Vector2( 0, 0 ) );
+
+    // @public, True if it is in the play area
+    this.enabledProperty = new Property( false );
 
     // shows the visibility of arrows
-    this.addDerivedProperty( 'isArrowVisible', [ 'value' ], function( value ) {
+    this.isArrowVisibleProperty = new DerivedProperty( [ this.valueProperty ], function( value ) {
       return value.magnitude() > 0;
     } );
+
+    Property.preventGetSet( this, 'position' );
+    Property.preventGetSet( this, 'value' );
+    Property.preventGetSet( this, 'enabled' );
+    Property.preventGetSet( this, 'isArrowVisible' );
   }
 
   bendingLight.register( 'VelocitySensor', VelocitySensor );
-  
-  return inherit( PropertySet, VelocitySensor, {
+
+  return inherit( Object, VelocitySensor, {
+
+    /**
+     * Restore the initial values.
+     */
+    reset: function() {
+      this.positionProperty.reset();
+      this.valueProperty.reset();
+      this.enabledProperty.reset();
+    },
 
     // Make a copy for use in the toolbox icon
     copy: function() {
       var velocitySensor = new VelocitySensor();
-      velocitySensor.position = this.position.copy();
-      velocitySensor.value = this.value.copy();
-      velocitySensor.enabled = this.enabled;
+      velocitySensor.positionProperty.value = this.positionProperty.value.copy();
+      velocitySensor.valueProperty.value = this.valueProperty.value.copy();
+      velocitySensor.enabledProperty.value = this.enabledProperty.value;
       return velocitySensor;
     },
 
@@ -53,7 +69,7 @@ define( function( require ) {
      * @param {Vector2} delta - amount of space to be translated
      */
     translate: function( delta ) {
-      this.positionProperty.set( this.position.plus( delta ) );
+      this.positionProperty.set( this.positionProperty.value.plus( delta ) );
     }
   } );
 } );
