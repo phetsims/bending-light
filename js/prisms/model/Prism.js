@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
 
   /**
    * @param {Polygon|Circle|SemiCircle} shape
@@ -22,17 +22,16 @@ define( function( require ) {
   function Prism( shape, typeName ) {
 
     // @public
-    PropertySet.call( this, {
-      shape: shape
-    } );
+    this.shapeProperty = new Property( shape );
+    Property.preventGetSet( this, 'shape' );
 
     // @public (read-only)
     this.typeName = typeName;
   }
 
   bendingLight.register( 'Prism', Prism );
-  
-  return inherit( PropertySet, Prism, {
+
+  return inherit( Object, Prism, {
 
     /**
      * Translate prism by the specified amount
@@ -41,7 +40,7 @@ define( function( require ) {
      * @param {number} deltaY - amount of space in y direction the prism to be translated
      */
     translate: function( deltaX, deltaY ) {
-      this.shapeProperty.set( this.shape.getTranslatedInstance( deltaX, deltaY ) );
+      this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( deltaX, deltaY ) );
     },
 
     /**
@@ -51,7 +50,7 @@ define( function( require ) {
      * @returns {Array}
      */
     getIntersections: function( incidentRay ) {
-      return this.shape.getIntersections( incidentRay );
+      return this.shapeProperty.get().getIntersections( incidentRay );
     },
 
     /**
@@ -61,7 +60,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     contains: function( point ) {
-      return this.shape.containsPoint( point );
+      return this.shapeProperty.get().containsPoint( point );
     },
 
     /**
@@ -70,7 +69,7 @@ define( function( require ) {
      * @returns {Prism}
      */
     copy: function() {
-      return new Prism( this.shape, this.typeName );
+      return new Prism( this.shapeProperty.get(), this.typeName );
     },
 
     /**
@@ -79,7 +78,7 @@ define( function( require ) {
      * @param {number} deltaAngle - angle to be rotated
      */
     rotate: function( deltaAngle ) {
-      this.shapeProperty.set( this.shape.getRotatedInstance( deltaAngle, this.shape.getRotationCenter() ) );
+      this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle, this.shapeProperty.get().getRotationCenter() ) );
     }
   } );
 } );

@@ -46,7 +46,7 @@ define( function( require ) {
 
     // It looks like a box on the side of the prism
     var knobNode = new Image( knobImage );
-    if ( prism.shape.getReferencePoint() ) {
+    if ( prism.shapeProperty.get().getReferencePoint() ) {
       self.addChild( knobNode );
     }
 
@@ -58,14 +58,14 @@ define( function( require ) {
         start: function( event ) {
           self.moveToFront();
           var start = knobNode.globalToParentPoint( event.pointer.point );
-          prismCenterPoint = prism.shape.getRotationCenter();
+          prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
           var startX = modelViewTransform.viewToModelX( start.x );// model values
           var startY = modelViewTransform.viewToModelY( start.y );// model values
           previousAngle = Math.atan2( (prismCenterPoint.y - startY), ( prismCenterPoint.x - startX ) );
         },
         drag: function( event ) {
           var end = knobNode.globalToParentPoint( event.pointer.point );
-          prismCenterPoint = prism.shape.getRotationCenter();
+          prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
           var endX = modelViewTransform.viewToModelX( end.x );// model values
           var endY = modelViewTransform.viewToModelY( end.y );// model values
           var angle = Math.atan2( (prismCenterPoint.y - endY), ( prismCenterPoint.x - endX ) );
@@ -79,14 +79,14 @@ define( function( require ) {
       knobNode.touchArea = Shape.circle( 0, 10, 40 );
     }
 
-    var prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shape.shape ), {
+    var prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().shape ), {
       stroke: 'gray'
     } );
     this.addChild( prismPathNode );
 
     // When the window reshapes, make sure no prism is left outside of the play area
     dragBoundsProperty.link( function( dragBounds ) {
-      var center = prism.shape.centroid;
+      var center = prism.shapeProperty.get().centroid;
       var inBounds = modelViewTransform.viewToModelBounds( dragBounds ).getClosestPoint( center.x, center.y );
       prism.translate( inBounds.x - center.x, inBounds.y - center.y );
     } );
@@ -94,7 +94,7 @@ define( function( require ) {
     // MovableDragHandler is nice, but it only works with Properties, so we much make a synthetic Property.<Vector2>
     var positionProperty = {
       get: function() {
-        return prism.shape.getRotationCenter();
+        return prism.shapeProperty.get().getRotationCenter();
       },
       set: function( newPosition ) {
         var oldPosition = this.get();
@@ -136,11 +136,11 @@ define( function( require ) {
       prismsModel.clear();
       prismsModel.updateModel();
       prismsModel.dirty = true;
-      prismPathNode.setShape( modelViewTransform.modelToViewShape( prism.shape.shape ) );
+      prismPathNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.get().shape ) );
 
-      var prismReferencePoint = prism.shape.getReferencePoint();
+      var prismReferencePoint = prism.shapeProperty.get().getReferencePoint();
       if ( prismReferencePoint ) {
-        var prismShapeCenter = prism.shape.getRotationCenter();
+        var prismShapeCenter = prism.shapeProperty.get().getRotationCenter();
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
 
