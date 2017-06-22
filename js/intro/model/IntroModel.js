@@ -260,7 +260,7 @@ define( function( require ) {
       var angleOffset = rayType === 'incident' ? Math.PI : 0;
 
       // find intersection points with the intensity sensor
-      var intersects = this.intensityMeter.enabled ?
+      var intersects = this.intensityMeter.enabledProperty.value ?
                        ray.getIntersections( this.intensityMeter.getSensorShape(), rayType ) : [];
 
       // if it intersected, then absorb the ray

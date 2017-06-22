@@ -80,7 +80,7 @@ define( function( require ) {
     }
 
     // Add the reading to the body node
-    var valueNode = new Text( intensityMeter.reading.getString(), {
+    var valueNode = new Text( intensityMeter.readingProperty.get().getString(), {
       font: new PhetFont( 25 ),
       fill: 'black',
       maxWidth: valueBackground.width * 0.85
@@ -96,8 +96,8 @@ define( function( require ) {
     titleNode.centerX = outerRectangle.centerX;
 
     // displayed value
-    intensityMeter.readingProperty.link( function() {
-      valueNode.setText( intensityMeter.reading.getString() );
+    intensityMeter.readingProperty.link( function( reading ) {
+      valueNode.setText( reading.getString() );
       valueNode.center = valueBackground.center;
     } );
 
@@ -128,8 +128,8 @@ define( function( require ) {
       var sensorPosition = modelViewTransform.viewToModelPosition( self.probeNode.translation );
       var bodyPosition = modelViewTransform.viewToModelPosition( self.bodyNode.translation );
 
-      intensityMeter.sensorPosition = sensorPosition;
-      intensityMeter.bodyPosition = bodyPosition;
+      intensityMeter.sensorPositionProperty.value = sensorPosition;
+      intensityMeter.bodyPositionProperty.value = bodyPosition;
     };
 
     this.mutate( options );
@@ -139,7 +139,7 @@ define( function( require ) {
   }
 
   bendingLight.register( 'IntensityMeterNode', IntensityMeterNode );
-  
+
   return inherit( Node, IntensityMeterNode, {
     resetRelativeLocations: function() {
       this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );

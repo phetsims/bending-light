@@ -341,12 +341,12 @@ define( function( require ) {
     intensityMeterNodeIcon.addInputListener( new ToolIconListener( [ bodyListener, probeListener ], function( event ) {
 
       // Show the probe in the play area and hide the icon
-      introModel.intensityMeter.enabled = true;
+      introModel.intensityMeter.enabledProperty.value = true;
 
       // Center the center-bottom of the body on the pointer
       var bodyViewPosition = intensityMeterNode.bodyNode.globalToParentPoint( event.pointer.point )
         .plusXY( -intensityMeterNode.bodyNode.width / 2, -intensityMeterNode.bodyNode.height + 5 );
-      introModel.intensityMeter.bodyPosition = modelViewTransform.viewToModelPosition( bodyViewPosition );
+      introModel.intensityMeter.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( bodyViewPosition );
       intensityMeterNode.resetRelativeLocations();
       intensityMeterNode.syncModelFromView();
     } ) );

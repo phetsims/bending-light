@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var Vector2 = require( 'DOT/Vector2' );
   var Shape = require( 'KITE/Shape' );
   var Reading = require( 'BENDING_LIGHT/common/model/Reading' );
@@ -27,29 +27,42 @@ define( function( require ) {
    */
   function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {
 
-    PropertySet.call( this, {
-        reading: Reading.MISS, // @public, value to show on the body
-        sensorPosition: new Vector2( sensorX, sensorY ), // @public,
-        bodyPosition: new Vector2( bodyX, bodyY ), // @public,
-        enabled: false // @public, True if it is in the play area
-      }
-    );
+    this.readingProperty = new Property( Reading.MISS ); // @public, value to show on the body
+    this.sensorPositionProperty = new Property( new Vector2( sensorX, sensorY ) ); // @public
+    this.bodyPositionProperty = new Property( new Vector2( bodyX, bodyY ) ); // @public
+    this.enabledProperty = new Property( false ); // @public, True if it is in the play area
+
+    Property.preventGetSet( this, 'reading' );
+    Property.preventGetSet( this, 'sensorPosition' );
+    Property.preventGetSet( this, 'bodyPosition' );
+    Property.preventGetSet( this, 'enabled' );
 
     // @public (read-only), accumulation of readings
     this.rayReadings = [];
   }
 
   bendingLight.register( 'IntensityMeter', IntensityMeter );
-  
-  return inherit( PropertySet, IntensityMeter, {
+
+  return inherit( Object, IntensityMeter, {
+
+    /**
+     * Restore the initial values.
+     */
+    reset: function() {
+      this.readingProperty.reset();
+      this.sensorPositionProperty.reset();
+      this.bodyPositionProperty.reset();
+      this.enabledProperty.reset();
+      this.rayReadings.length = 0;
+    },
 
     // Copy the model for reuse in the toolbox node.
     copy: function() {
       return new IntensityMeter(
-        this.sensorPosition.x,
-        this.sensorPosition.y,
-        this.bodyPosition.x,
-        this.bodyPosition.y
+        this.sensorPositionProperty.get().x,
+        this.sensorPositionProperty.get().y,
+        this.bodyPositionProperty.get().x,
+        this.bodyPositionProperty.get().y
       );
     },
 
@@ -61,7 +74,7 @@ define( function( require ) {
 
       // fine tuned to match the given image
       var radius = 1E-6;
-      return new Shape().arcPoint( this.sensorPosition, radius, 0, Math.PI * 2, false );
+      return new Shape().arcPoint( this.sensorPositionProperty.get(), radius, 0, Math.PI * 2, false );
     },
 
     /**
