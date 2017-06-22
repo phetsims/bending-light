@@ -48,32 +48,34 @@ define( function( require ) {
 
     this.mediumColorFactory = new MediumColorFactory();
     var self = this;
-    BendingLightModel.call( this,
-      Math.PI,
-      false,
-      1E-16, {
+    BendingLightModel.call( this, Math.PI, false, 1E-16 );
 
-        // Show multiple beams to help show how lenses work
-        manyRays: 1,
 
-        // If false, will hide non TIR reflections
-        showReflections: false,
-        showNormals: false,
-        showProtractor: false, // @public
+    // Show multiple beams to help show how lenses work
+    this.manyRaysProperty = new Property( 1 );
 
-        // Environment the laser is in
-        environmentMedium: new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR,
-          this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ),
+    // If false, will hide non TIR reflections
+    this.showReflectionsProperty = new Property( false );
+    this.showNormalsProperty = new Property( false );
+    this.showProtractorProperty = new Property( false );// @public
 
-        // Material that comprises the prisms
-        prismMedium: new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS,
-          this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ),
+    // Environment the laser is in
+    this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ) );
 
-        intersectionStroke: 'black'
-      } );
+    // Material that comprises the prisms
+    this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ) );
+
+    this.intersectionStrokeProperty = new Property( 'black' );
+    Property.preventGetSet( this, 'manyRays' );
+    Property.preventGetSet( this, 'showReflections' );
+    Property.preventGetSet( this, 'showNormals' );
+    Property.preventGetSet( this, 'showProtractor' );
+    Property.preventGetSet( this, 'environmentMedium' );
+    Property.preventGetSet( this, 'prismsMedium' );
+    Property.preventGetSet( this, 'intersectionStroke' );
 
     this.laser.colorModeProperty.link( function( colorMode ) {
-      self.intersectionStroke = colorMode === 'white' ? 'white' : 'black';
+      self.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
     } );
     Property.multilink( [
       this.manyRaysProperty,
@@ -101,7 +103,7 @@ define( function( require ) {
   }
 
   bendingLight.register( 'PrismsModel', PrismsModel );
-  
+
   return inherit( BendingLightModel, PrismsModel, {
 
     /**
@@ -212,8 +214,8 @@ define( function( require ) {
         for ( var i = 0; i < wavelengths.length; i++ ) {
           var wavelength = wavelengths[ i ] / 1E9; // convert to meters
           mediumIndexOfRefraction = laserInPrism ?
-                                    this.prismMedium.getIndexOfRefraction( wavelength ) :
-                                    this.environmentMedium.getIndexOfRefraction( wavelength );
+                                    this.prismMediumProperty.value.getIndexOfRefraction( wavelength ) :
+                                    this.environmentMediumProperty.value.getIndexOfRefraction( wavelength );
 
           // show the intersection for the smallest and largest wavelengths.  Protect against floating point error for
           // the latter
@@ -224,8 +226,8 @@ define( function( require ) {
       }
       else {
         mediumIndexOfRefraction = laserInPrism ?
-                                  this.prismMedium.getIndexOfRefraction( this.laser.getWavelength() ) :
-                                  this.environmentMedium.getIndexOfRefraction( this.laser.getWavelength() );
+                                  this.prismMediumProperty.value.getIndexOfRefraction( this.laser.getWavelength() ) :
+                                  this.environmentMediumProperty.value.getIndexOfRefraction( this.laser.getWavelength() );
         this.propagateTheRay( new ColoredRay( ray, power, this.laser.getWavelength(),
           mediumIndexOfRefraction, this.laser.getFrequency() ), 0, true );
       }
@@ -241,7 +243,7 @@ define( function( require ) {
         var tail = this.laser.emissionPoint;
         var laserInPrism = this.isLaserInPrism();
         var directionUnitVector = this.laser.getDirectionUnitVector();
-        if ( this.manyRays === 1 ) {
+        if ( this.manyRaysProperty.value === 1 ) {
 
           // This can be used to show the main central ray
           this.propagate( new Ray2( tail, directionUnitVector ), 1.0, laserInPrism );
@@ -316,8 +318,8 @@ define( function( require ) {
 
         // Index of refraction of the other medium
         var n2 = outputInsidePrism ?
-                 this.prismMedium.getIndexOfRefraction( incidentRay.getBaseWavelength() ) :
-                 this.environmentMedium.getIndexOfRefraction( incidentRay.getBaseWavelength() );
+                 this.prismMediumProperty.value.getIndexOfRefraction( incidentRay.getBaseWavelength() ) :
+                 this.environmentMediumProperty.value.getIndexOfRefraction( incidentRay.getBaseWavelength() );
 
         // Precompute for readability
         var point = intersection.point;
@@ -364,7 +366,7 @@ define( function( require ) {
           n2,
           incidentRay.frequency
         );
-        if ( this.showReflections || totalInternalReflection ) {
+        if ( this.showReflectionsProperty.value || totalInternalReflection ) {
           this.propagateTheRay( reflected, count + 1, showIntersection );
         }
         this.propagateTheRay( refracted, count + 1, showIntersection );
@@ -386,7 +388,7 @@ define( function( require ) {
           0,
           true,
           false,
-          this.laserView,
+          this.laserViewProperty.value,
           'prism'
         ) );
       }
@@ -412,7 +414,7 @@ define( function( require ) {
           0,
           true,
           false,
-          this.laserView,
+          this.laserViewProperty.value,
           'prism'
         ) );
       }

@@ -117,7 +117,7 @@ define( function( require ) {
     radioButtonAdapterProperty.link( function( radioButtonAdapterValue ) {
       prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === 'white' ? 'white' :
                                                   'singleColor';
-      prismsModel.manyRays = radioButtonAdapterValue === 'singleColor5x' ? 5 : 1;
+      prismsModel.manyRaysProperty.value = radioButtonAdapterValue === 'singleColor5x' ? 5 : 1;
       sliderEnabledProperty.value = radioButtonAdapterValue !== 'white';
     } );
 
@@ -142,7 +142,7 @@ define( function( require ) {
 
     // Optionally show the normal lines at each intersection
     prismsModel.intersections.addItemAddedListener( function( addedIntersection ) {
-      if ( prismsModel.showNormals ) {
+      if ( prismsModel.showNormalsProperty.value ) {
         var node = new IntersectionNode(
           self.modelViewTransform,
           addedIntersection,

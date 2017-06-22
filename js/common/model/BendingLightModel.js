@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
@@ -75,23 +75,29 @@ define( function( require ) {
     // Check to see if WebGL was prevented by a query parameter
     this.allowWebGL = Util.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
 
-    PropertySet.call( this, _.extend( {
-      laserView: 'ray', // @public, Whether the laser is Ray or Wave mode
-      wavelength: BendingLightConstants.WAVELENGTH_RED, // @public
-      isPlaying: true, // @public
-      speed: 'normal', // @public
-      indexOfRefraction: 1, // @public
-      showNormal: true, // @public
-      showAngles: false // @public
-    }, properties ) );
+    this.laserViewProperty = new Property( 'ray' ); // @public, Whether the laser is Ray or Wave mode
+    this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED ); // @public
+    this.isPlayingProperty = new Property( true );// @public
+    this.speedProperty = new Property( 'normal' ); // @public
+    this.indexOfRefractionProperty = new Property( 1 ); //@public
+    this.showNormalProperty = new Property( true );// @public
+    this.showAnglesProperty = new Property( false ); // @public
+
+    Property.preventGetSet( this, 'laserView' );
+    Property.preventGetSet( this, 'wavelength' );
+    Property.preventGetSet( this, 'isPlaying' );
+    Property.preventGetSet( this, 'speed' );
+    Property.preventGetSet( this, 'indexOfRefraction' );
+    Property.preventGetSet( this, 'showNormal' );
+    Property.preventGetSet( this, 'showAngles' );
 
     // @public (read-only)- the laser
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }
 
   bendingLight.register( 'BendingLightModel', BendingLightModel );
-  
-  return inherit( PropertySet, BendingLightModel, {
+
+  return inherit( Object, BendingLightModel, {
 
       /**
        * Adds a ray to the model
@@ -127,7 +133,13 @@ define( function( require ) {
        * @override
        */
       reset: function() {
-        PropertySet.prototype.reset.call( this );
+        this.laserViewProperty.reset();
+        this.wavelengthProperty.reset();
+        this.isPlayingProperty.reset();
+        this.speedProperty.reset();
+        this.indexOfRefractionProperty.reset();
+        this.showNormalProperty.reset();
+        this.showAnglesProperty.reset();
         this.laser.reset();
       }
     },

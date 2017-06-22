@@ -93,7 +93,7 @@ define( function( require ) {
       // clear the accumulator in the intensity meter so it can sum up the newly created rays
       self.intensityMeter.clearRayReadings();
       self.updateModel();
-      if ( self.laserView === 'wave' && self.laser.on ) {
+      if ( self.laserViewProperty.value === 'wave' && self.laser.on ) {
         if ( !self.allowWebGL ) {
           self.createInitialParticles();
         }
@@ -158,7 +158,7 @@ define( function( require ) {
         // since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
         var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
-          this.laser.getWavelength() * 1E9, sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserView, 'incident' );
+          this.laser.getWavelength() * 1E9, sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserViewProperty.value, 'incident' );
 
         var rayAbsorbed = this.addAndAbsorb( incidentRay, 'incident' );
         if ( !rayAbsorbed ) {
@@ -196,7 +196,7 @@ define( function( require ) {
               sourceWaveWidth,
               incidentRay.getNumberOfWavelengths(),
               true,
-              true, this.laserView, 'reflected'
+              true, this.laserViewProperty.value, 'reflected'
             );
             this.addAndAbsorb( reflectedRay, 'reflected' );
           }
@@ -240,7 +240,7 @@ define( function( require ) {
                 incidentRay.getNumberOfWavelengths(),
                 true,
                 true,
-                this.laserView, 'transmitted' );
+                this.laserViewProperty.value, 'transmitted' );
               this.addAndAbsorb( transmittedRay, 'transmitted' );
             }
           }
@@ -294,7 +294,7 @@ define( function( require ) {
           ray.numWavelengthsPhaseOffset,
           false,
           ray.extendBackwards,
-          this.laserView,
+          this.laserViewProperty.value,
           rayType
         );
 
@@ -338,7 +338,7 @@ define( function( require ) {
      * @returns {Vector2}
      */
     getVelocity: function( position ) {
-      var laserView = this.laserView;
+      var laserView = this.laserViewProperty.value;
       for ( var i = 0; i < this.rays.length; i++ ) {
         if ( this.rays.get( i ).contains( position, laserView === 'wave' ) ) {
           return this.rays.get( i ).getVelocityVector();
@@ -357,7 +357,7 @@ define( function( require ) {
       var self = this;
       for ( var i = 0; i < this.rays.length; i++ ) {
         var ray = this.rays.get( i );
-        if ( ray.contains( position, self.laserView === 'wave' ) ) {
+        if ( ray.contains( position, self.laserViewProperty.value === 'wave' ) ) {
 
           // map power to displayed amplitude
           var amplitude = Math.sqrt( ray.powerFraction );
@@ -382,8 +382,8 @@ define( function( require ) {
      */
     step: function() {
 
-      if ( this.isPlaying ) {
-        this.updateSimulationTimeAndWaveShape( this.speed );
+      if ( this.isPlayingProperty.value ) {
+        this.updateSimulationTimeAndWaveShape( this.speedProperty.value );
       }
     },
 
@@ -401,7 +401,7 @@ define( function( require ) {
       this.rays.forEach( function( ray ) {
         ray.setTime( self.time );
       } );
-      if ( this.laser.on && this.laserView === 'wave' ) {
+      if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
         if ( !this.allowWebGL ) {
           this.propagateParticles();
         }

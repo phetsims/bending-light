@@ -80,7 +80,7 @@ define( function( require ) {
        * @returns {boolean}
        */
       clockwiseArrowNotAtMax: function( laserAngle ) {
-        if ( introModel.laserView === 'ray' ) {
+        if ( introModel.laserViewProperty.value === 'ray' ) {
           return laserAngle < Math.PI;
         }
         else {
@@ -195,7 +195,7 @@ define( function( require ) {
       for ( var k = 0; k < self.incidentWaveLayer.getChildrenCount(); k++ ) {
         self.incidentWaveLayer.children[ k ].step();
       }
-      self.incidentWaveLayer.setVisible( introModel.laser.on && introModel.laserView === 'wave' );
+      self.incidentWaveLayer.setVisible( introModel.laser.on && introModel.laserViewProperty.value === 'wave' );
     } );
 
     // add laser view panel
@@ -454,7 +454,7 @@ define( function( require ) {
     step: function() {
       this.trigger0( 'step' );
       BendingLightView.prototype.step.call( this );
-      if ( this.introModel.isPlaying ) {
+      if ( this.introModel.isPlayingProperty.value ) {
         this.updateWaveShape();
       }
     },
@@ -465,7 +465,7 @@ define( function( require ) {
      */
     updateWaveShape: function() {
 
-      if ( this.introModel.laserView === 'wave' ) {
+      if ( this.introModel.laserViewProperty.value === 'wave' ) {
         for ( var k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
           this.incidentWaveLayer.children[ k ].step();
         }
