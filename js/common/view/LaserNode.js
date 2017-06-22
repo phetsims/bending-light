@@ -87,11 +87,11 @@ define( function( require ) {
 
     // When the window reshapes, make sure the laser remains in the play area
     dragBoundsProperty.link( function( dragBounds ) {
-      var center = laser.emissionPoint;
+      var center = laser.emissionPointProperty.value;
       var eroded = dragBounds.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
 
       var newEmissionPoint = modelViewTransform.viewToModelBounds( eroded ).getClosestPoint( center.x, center.y );
-      var delta = newEmissionPoint.minus( laser.emissionPoint );
+      var delta = newEmissionPoint.minus( laser.emissionPointProperty.value );
       laser.translate( delta.x, delta.y );
     } );
 
@@ -115,13 +115,13 @@ define( function( require ) {
         var deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
 
         // location of final emission point with out constraining to bounds
-        emissionPointEndLocation.setXY( laser.emissionPoint.x + deltaX, laser.emissionPoint.y + deltaY );
+        emissionPointEndLocation.setXY( laser.emissionPointProperty.value.x + deltaX, laser.emissionPointProperty.value.y + deltaY );
 
         // location of final emission point with constraining to bounds
         var emissionPointEndLocationInBounds = laserDragBoundsInModelValues.closestPointTo( emissionPointEndLocation );
 
-        var translateX = emissionPointEndLocationInBounds.x - laser.emissionPoint.x;
-        var translateY = emissionPointEndLocationInBounds.y - laser.emissionPoint.y;
+        var translateX = emissionPointEndLocationInBounds.x - laser.emissionPointProperty.value.x;
+        var translateY = emissionPointEndLocationInBounds.y - laser.emissionPointProperty.value.y;
         laser.translate( translateX, translateY );
 
         // Store the position of caught point after translating. Can be obtained by adding distance between emission
@@ -168,20 +168,20 @@ define( function( require ) {
         var coordinateFrame = self.parents[ 0 ];
         var laserAnglebeforeRotate = laser.getAngle();
         var localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
-        var angle = Math.atan2( modelViewTransform.viewToModelY( localLaserPosition.y ) - laser.pivot.y,
-          modelViewTransform.viewToModelX( localLaserPosition.x ) - laser.pivot.x );
+        var angle = Math.atan2( modelViewTransform.viewToModelY( localLaserPosition.y ) - laser.pivotProperty.value.y,
+          modelViewTransform.viewToModelX( localLaserPosition.x ) - laser.pivotProperty.value.x );
         var laserAngleAfterClamp = clampDragAngle( angle );
 
         // prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
         var pastMaxAngle = laserAngleAfterClamp > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
-        if ( laser.wave && pastMaxAngle && laser.topLeftQuadrant ) {
+        if ( laser.waveProperty.value && pastMaxAngle && laser.topLeftQuadrant ) {
           laserAngleAfterClamp = BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE;
         }
         laser.setAngle( laserAngleAfterClamp );
 
         var laserNodeDragBounds = dragBoundsProperty.value.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
         var laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
-        if ( !laserDragBoundsInModelValues.containsPoint( laser.emissionPoint ) ) {
+        if ( !laserDragBoundsInModelValues.containsPoint( laser.emissionPointProperty.value ) ) {
           laser.setAngle( laserAnglebeforeRotate );
         }
         showTranslationDragHandlesProperty.value = false;

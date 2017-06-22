@@ -80,8 +80,8 @@ define( function( require ) {
     // Update the shape when the laser moves
     Property.multilink( [ laser.emissionPointProperty, showDragHandlesProperty ], function() {
       if ( showDragHandlesProperty.get() ) {
-        var dragArrowX = modelViewTransform.modelToViewX( laser.pivot.x );
-        var dragArrowY = modelViewTransform.modelToViewY( laser.pivot.y );
+        var dragArrowX = modelViewTransform.modelToViewX( laser.pivotProperty.value.x );
+        var dragArrowY = modelViewTransform.modelToViewY( laser.pivotProperty.value.y );
 
         dragArrow.setRotation( -laser.getAngle() + Math.PI + rotationArrowAngleOffset );
         dragArrow.setTranslation( dragArrowX, dragArrowY );

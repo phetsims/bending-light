@@ -195,7 +195,7 @@ define( function( require ) {
       for ( var k = 0; k < self.incidentWaveLayer.getChildrenCount(); k++ ) {
         self.incidentWaveLayer.children[ k ].step();
       }
-      self.incidentWaveLayer.setVisible( introModel.laser.on && introModel.laserViewProperty.value === 'wave' );
+      self.incidentWaveLayer.setVisible( introModel.laser.onProperty.value && introModel.laserViewProperty.value === 'wave' );
     } );
 
     // add laser view panel

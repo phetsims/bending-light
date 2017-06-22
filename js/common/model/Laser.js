@@ -14,7 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Vector2 = require( 'DOT/Vector2' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
 
@@ -29,16 +29,17 @@ define( function( require ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
     var self = this;
-    PropertySet.call( this, {
-      pivot: new Vector2( 0, 0 ), // @public, point to be pivoted about, and at which the laser points
-      on: false, // @public, true if the laser is activated and emitting light
-      wave: false, // @public
-      colorMode: 'singleColor', // @public
+    this.pivotProperty = new Property( new Vector2( 0, 0 ) ); // @public, point to be pivoted about, and at which the laser points
+    this.onProperty = new Property( false ); // @public, true if the laser is activated and emitting light
+    this.waveProperty = new Property( false ); // @public
+    this.colorModeProperty = new Property( 'singleColor' ); // @public
+    this.emissionPointProperty = new Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
 
-      // model the point where light comes out of the laser
-      // where the light comes from
-      emissionPoint: Vector2.createPolar( distanceFromPivot, angle ) // @public
-    } );
+    Property.preventGetSet( this, 'pivot' );
+    Property.preventGetSet( this, 'on' );
+    Property.preventGetSet( this, 'wave' );
+    Property.preventGetSet( this, 'colorMode' );
+    Property.preventGetSet( this, 'emissionPoint' );
 
     // @public (read-only)
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], function( wavelength ) {
@@ -54,7 +55,7 @@ define( function( require ) {
     this.waveProperty.link( function() {
 
       // prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
-      if ( self.wave && self.getAngle() > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
+      if ( self.waveProperty.value && self.getAngle() > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
         self.setAngle( BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE );
       }
     } );
@@ -62,7 +63,18 @@ define( function( require ) {
 
   bendingLight.register( 'Laser', Laser );
 
-  return inherit( PropertySet, Laser, {
+  return inherit( Object, Laser, {
+
+    /**
+     * Restore to initial values.
+     */
+    reset: function() {
+      this.pivotProperty.reset();
+      this.onProperty.reset();
+      this.waveProperty.reset();
+      this.colorModeProperty.reset();
+      this.emissionPointProperty.reset();
+    },
 
     /**
      * Translate the laser in model
@@ -74,8 +86,8 @@ define( function( require ) {
 
       // Caution -- For reasons unknown to @samreid, if the order of the following instructions is switched, the
       // laser will rotate while being dragged, see #221
-      this.pivot = this.pivot.plusXY( deltaX, deltaY );
-      this.emissionPoint = this.emissionPoint.plusXY( deltaX, deltaY );
+      this.pivotProperty.value = this.pivotProperty.value.plusXY( deltaX, deltaY );
+      this.emissionPointProperty.value = this.emissionPointProperty.value.plusXY( deltaX, deltaY );
     },
 
     /**
@@ -84,9 +96,9 @@ define( function( require ) {
      * @returns {Vector2}
      */
     getDirectionUnitVector: function() {
-      var magnitude = this.pivot.distance( this.emissionPoint );
-      this.directionUnitVector.x = (this.pivot.x - this.emissionPoint.x) / magnitude;
-      this.directionUnitVector.y = (this.pivot.y - this.emissionPoint.y) / magnitude;
+      var magnitude = this.pivotProperty.value.distance( this.emissionPointProperty.value );
+      this.directionUnitVector.x = (this.pivotProperty.value.x - this.emissionPointProperty.value.x) / magnitude;
+      this.directionUnitVector.y = (this.pivotProperty.value.y - this.emissionPointProperty.value.y) / magnitude;
       return this.directionUnitVector;
     },
 
@@ -96,10 +108,10 @@ define( function( require ) {
      * @public
      */
     setAngle: function( angle ) {
-      var distFromPivot = this.pivot.distance( this.emissionPoint );
-      this.emissionPoint = new Vector2(
-        distFromPivot * Math.cos( angle ) + this.pivot.x,
-        distFromPivot * Math.sin( angle ) + this.pivot.y
+      var distFromPivot = this.pivotProperty.value.distance( this.emissionPointProperty.value );
+      this.emissionPointProperty.value = new Vector2(
+        distFromPivot * Math.cos( angle ) + this.pivotProperty.value.x,
+        distFromPivot * Math.sin( angle ) + this.pivotProperty.value.y
       );
     },
 
@@ -118,7 +130,7 @@ define( function( require ) {
      * @public
      */
     getDistanceFromPivot: function() {
-      return this.pivot.distance( this.emissionPoint );
+      return this.pivotProperty.value.distance( this.emissionPointProperty.value );
     },
 
     /**

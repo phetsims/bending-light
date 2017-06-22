@@ -279,7 +279,7 @@ define( function( require ) {
      * @private, for internal use only.
      */
     updateWhiteLightNode: function() {
-      if ( this.prismsModel.laser.colorMode === 'white' && this.prismsModel.dirty ) {
+      if ( this.prismsModel.laser.colorModeProperty.value === 'white' && this.prismsModel.dirty ) {
         this.whiteLightNode.step();
         this.prismsModel.dirty = false;
       }

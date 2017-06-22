@@ -93,7 +93,7 @@ define( function( require ) {
       // clear the accumulator in the intensity meter so it can sum up the newly created rays
       self.intensityMeter.clearRayReadings();
       self.updateModel();
-      if ( self.laserViewProperty.value === 'wave' && self.laser.on ) {
+      if ( self.laserViewProperty.value === 'wave' && self.laser.onProperty.value ) {
         if ( !self.allowWebGL ) {
           self.createInitialParticles();
         }
@@ -122,8 +122,8 @@ define( function( require ) {
      */
     propagateRays: function() {
 
-      if ( this.laser.on ) {
-        var tail = this.laser.emissionPoint;
+      if ( this.laser.onProperty.value ) {
+        var tail = this.laser.emissionPointProperty.value;
 
         // Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
         // index in top medium
@@ -401,7 +401,7 @@ define( function( require ) {
       this.rays.forEach( function( ray ) {
         ray.setTime( self.time );
       } );
-      if ( this.laser.on && this.laserViewProperty.value === 'wave' ) {
+      if ( this.laser.onProperty.value && this.laserViewProperty.value === 'wave' ) {
         if ( !this.allowWebGL ) {
           this.propagateParticles();
         }

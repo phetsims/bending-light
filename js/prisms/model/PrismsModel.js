@@ -206,7 +206,7 @@ define( function( require ) {
 
       // Determines whether to use white light or single color light
       var mediumIndexOfRefraction;
-      if ( this.laser.colorMode === 'white' ) {
+      if ( this.laser.colorModeProperty.value === 'white' ) {
         // This number is the number of (equally spaced wavelength) rays to show in a white beam. More rays looks
         // better but is more computationally intensive.
         var wavelengths = BendingLightConstants.WHITE_LIGHT_WAVELENGTHS;
@@ -239,8 +239,8 @@ define( function( require ) {
      */
     propagateRays: function() {
 
-      if ( this.laser.on ) {
-        var tail = this.laser.emissionPoint;
+      if ( this.laser.onProperty.value ) {
+        var tail = this.laser.emissionPointProperty.value;
         var laserInPrism = this.isLaserInPrism();
         var directionUnitVector = this.laser.getDirectionUnitVector();
         if ( this.manyRaysProperty.value === 1 ) {
@@ -266,7 +266,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     isLaserInPrism: function() {
-      var emissionPoint = this.laser.emissionPoint;
+      var emissionPoint = this.laser.emissionPointProperty.value;
       for ( var i = 0; i < this.prisms.length; i++ ) {
         if ( this.prisms.get( i ).contains( emissionPoint ) ) {
           return true;

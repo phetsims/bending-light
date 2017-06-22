@@ -131,7 +131,7 @@ define( function( require ) {
 
     // switches between ray and wave
     bendingLightModel.laserViewProperty.link( function( laserView ) {
-      bendingLightModel.laser.wave = (laserView === 'wave');
+      bendingLightModel.laser.waveProperty.value = (laserView === 'wave');
     } );
 
     Property.multilink( [ bendingLightModel.laser.colorModeProperty, bendingLightModel.laserViewProperty ],
