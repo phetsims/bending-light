@@ -52,7 +52,7 @@ define( function( require ) {
      */
     addSample: function( sample ) {
       this.seriesProperty.get().push( sample );
-      this.seriesProperty.notifyObserversStatic();
+      this.seriesProperty.notifyListenersStatic();
     }
   } );
 
