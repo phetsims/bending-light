@@ -9,20 +9,20 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var AquaRadioButton = require( 'SUN/AquaRadioButton' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
   var normalSpeedString = require( 'string!BENDING_LIGHT/normalSpeed' );
+  var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
 
   /**
    *

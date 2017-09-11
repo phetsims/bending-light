@@ -13,8 +13,8 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
 
   /**
    * @param {ObservableArray<[]>} gridLines - contains details of each grid line

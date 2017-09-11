@@ -11,8 +11,8 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
 
   /**
    * @param {Property.<[]>} seriesProperty - contains data points of series

@@ -11,11 +11,11 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var PrismsModel = require( 'BENDING_LIGHT/prisms/model/PrismsModel' );
   var PrismsView = require( 'BENDING_LIGHT/prisms/view/PrismsView' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
-  var Image = require( 'SCENERY/nodes/Image' );
 
   // strings
   var prismsString = require( 'string!BENDING_LIGHT/prisms' );

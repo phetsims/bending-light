@@ -12,21 +12,21 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  var Color = require( 'SCENERY/util/Color' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var IntensityMeter = require( 'BENDING_LIGHT/common/model/IntensityMeter' );
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
   var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
-  var Shape = require( 'KITE/Shape' );
-  var Reading = require( 'BENDING_LIGHT/common/model/Reading' );
-  var WaveParticle = require( 'BENDING_LIGHT/common/model/WaveParticle' );
   var Ray2 = require( 'DOT/Ray2' );
-  var Color = require( 'SCENERY/util/Color' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var IntensityMeter = require( 'BENDING_LIGHT/common/model/IntensityMeter' );
+  var Reading = require( 'BENDING_LIGHT/common/model/Reading' );
+  var Shape = require( 'KITE/Shape' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var WaveParticle = require( 'BENDING_LIGHT/common/model/WaveParticle' );
 
   // constants
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;

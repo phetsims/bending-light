@@ -14,9 +14,9 @@ define( function( require ) {
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Shape = require( 'KITE/Shape' );
   var Reading = require( 'BENDING_LIGHT/common/model/Reading' );
+  var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {number} sensorX - sensor x position in model coordinates

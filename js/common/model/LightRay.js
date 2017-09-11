@@ -11,13 +11,13 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Ray2 = require( 'DOT/Ray2' );
   var Line = require( 'KITE/segments/Line' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Ray2 = require( 'DOT/Ray2' );
+  var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   /**

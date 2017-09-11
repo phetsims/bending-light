@@ -11,14 +11,14 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var GridCanvasNode = require( 'BENDING_LIGHT/more-tools/view/GridCanvasNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
   var Property = require( 'AXON/Property' );
   var SeriesCanvasNode = require( 'BENDING_LIGHT/more-tools/view/SeriesCanvasNode' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var GridCanvasNode = require( 'BENDING_LIGHT/more-tools/view/GridCanvasNode' );
 
   // stroke dash parameters
   var DASH_ON = 10;

@@ -11,8 +11,8 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var inherit = require( 'PHET_CORE/inherit' );
 
   /**
    * @param {Ray2} ray - tail and direction

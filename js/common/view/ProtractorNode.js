@@ -12,13 +12,13 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Property = require( 'AXON/Property' );
+  var Shape = require( 'KITE/Shape' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   // images
   var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );

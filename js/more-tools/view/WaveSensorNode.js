@@ -11,19 +11,19 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Color = require( 'SCENERY/util/Color' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var ChartNode = require( 'BENDING_LIGHT/more-tools/view/ChartNode' );
-  var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
+  var Color = require( 'SCENERY/util/Color' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
+  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
 
   // strings
   var timeString = require( 'string!BENDING_LIGHT/time' );

@@ -11,9 +11,9 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Vector2 = require( 'DOT/Vector2' );
 
   /**

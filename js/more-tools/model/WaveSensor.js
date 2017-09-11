@@ -12,10 +12,10 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Vector2 = require( 'DOT/Vector2' );
   var DataPoint = require( 'BENDING_LIGHT/more-tools/model/DataPoint' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * Model for a probe, including its position and recorded data series

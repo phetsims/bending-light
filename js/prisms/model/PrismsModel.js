@@ -11,26 +11,26 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
   var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
-  var SemiCircle = require( 'BENDING_LIGHT/prisms/model/SemiCircle' );
-  var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
+  var Color = require( 'SCENERY/util/Color' );
   var ColoredRay = require( 'BENDING_LIGHT/prisms/model/ColoredRay' );
-  var Ray2 = require( 'DOT/Ray2' );
-  var Property = require( 'AXON/Property' );
-  var Util = require( 'DOT/Util' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
   var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
-  var Prism = require( 'BENDING_LIGHT/prisms/model/Prism' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Shape = require( 'KITE/Shape' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var Color = require( 'SCENERY/util/Color' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
+  var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
+  var Prism = require( 'BENDING_LIGHT/prisms/model/Prism' );
+  var Property = require( 'AXON/Property' );
+  var Ray2 = require( 'DOT/Ray2' );
+  var SemiCircle = require( 'BENDING_LIGHT/prisms/model/SemiCircle' );
+  var Shape = require( 'KITE/Shape' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  var Util = require( 'DOT/Util' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   // constants
   var WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;

@@ -12,11 +12,11 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var Color = require( 'SCENERY/util/Color' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Property = require( 'AXON/Property' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var Util = require( 'DOT/Util' );
-  var inherit = require( 'PHET_CORE/inherit' );
 
   function MediumColorFactory() {
     this.lightTypeProperty = new Property( 'singleColor' ); // could also be 'white'

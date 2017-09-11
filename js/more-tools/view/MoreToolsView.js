@@ -14,16 +14,16 @@ define( function( require ) {
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
-  var VelocitySensorNode = require( 'BENDING_LIGHT/more-tools/view/VelocitySensorNode' );
-  var WaveSensorNode = require( 'BENDING_LIGHT/more-tools/view/WaveSensorNode' );
-  var Property = require( 'AXON/Property' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'DOT/Rectangle' );
-  var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
   var Shape = require( 'KITE/Shape' );
+  var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var VelocitySensorNode = require( 'BENDING_LIGHT/more-tools/view/VelocitySensorNode' );
+  var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
+  var WaveSensorNode = require( 'BENDING_LIGHT/more-tools/view/WaveSensorNode' );
 
   // constants
   var arrowScale = 1.5E-14;

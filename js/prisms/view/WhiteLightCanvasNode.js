@@ -18,12 +18,12 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Util = require( 'DOT/Util' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Util = require( 'DOT/Util' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates

@@ -11,12 +11,12 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Property = require( 'AXON/Property' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
+  var Property = require( 'AXON/Property' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {Property.<number>} wavelengthProperty - wavelength of light

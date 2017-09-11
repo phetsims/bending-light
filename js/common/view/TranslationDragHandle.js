@@ -11,10 +11,10 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var Property = require( 'AXON/Property' );
 
   /**

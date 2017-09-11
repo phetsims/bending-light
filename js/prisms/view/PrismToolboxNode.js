@@ -11,28 +11,28 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var CheckBox = require( 'SUN/CheckBox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HStrut = require( 'SCENERY/nodes/HStrut' );
-  var CheckBox = require( 'SUN/CheckBox' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var objectsString = require( 'string!BENDING_LIGHT/objects' );
-  var reflectionsString = require( 'string!BENDING_LIGHT/reflections' );
   var normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
+  var objectsString = require( 'string!BENDING_LIGHT/objects' );
   var protractorString = require( 'string!BENDING_LIGHT/protractor' );
+  var reflectionsString = require( 'string!BENDING_LIGHT/reflections' );
 
   // images
   var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );

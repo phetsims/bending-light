@@ -13,10 +13,10 @@ define( function( require ) {
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
-  var WaveSensor = require( 'BENDING_LIGHT/more-tools/model/WaveSensor' );
-  var VelocitySensor = require( 'BENDING_LIGHT/more-tools/model/VelocitySensor' );
   var Property = require( 'AXON/Property' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  var VelocitySensor = require( 'BENDING_LIGHT/more-tools/model/VelocitySensor' );
+  var WaveSensor = require( 'BENDING_LIGHT/more-tools/model/WaveSensor' );
 
   /**
    * @constructor

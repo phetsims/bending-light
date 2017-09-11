@@ -11,8 +11,8 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates

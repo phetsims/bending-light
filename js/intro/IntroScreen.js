@@ -11,14 +11,14 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
-  var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Screen = require( 'JOIST/Screen' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
+  var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
   var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
   var Property = require( 'AXON/Property' );
+  var Screen = require( 'JOIST/Screen' );
+  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
 
   // strings
   var introString = require( 'string!BENDING_LIGHT/intro' );

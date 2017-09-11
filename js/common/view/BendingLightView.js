@@ -11,16 +11,16 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
-  var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
   var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
+  var ScreenView = require( 'JOIST/ScreenView' );
   var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {BendingLightModel} bendingLightModel - main model of the simulations

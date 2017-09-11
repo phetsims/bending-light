@@ -11,12 +11,12 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var MoreToolsModel = require( 'BENDING_LIGHT/more-tools/model/MoreToolsModel' );
   var MoreToolsView = require( 'BENDING_LIGHT/more-tools/view/MoreToolsView' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Screen = require( 'JOIST/Screen' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var Property = require( 'AXON/Property' );
+  var Screen = require( 'JOIST/Screen' );
 
   // strings
   var moreToolsString = require( 'string!BENDING_LIGHT/moreTools' );

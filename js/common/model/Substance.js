@@ -11,17 +11,17 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
+  var inherit = require( 'PHET_CORE/inherit' );
 
   // strings
   var airString = require( 'string!BENDING_LIGHT/air' );
-  var waterString = require( 'string!BENDING_LIGHT/water' );
-  var glassString = require( 'string!BENDING_LIGHT/glass' );
   var diamondString = require( 'string!BENDING_LIGHT/diamond' );
+  var glassString = require( 'string!BENDING_LIGHT/glass' );
   var mysteryAString = require( 'string!BENDING_LIGHT/mysteryA' );
   var mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
+  var waterString = require( 'string!BENDING_LIGHT/water' );
 
   // constants
   var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;

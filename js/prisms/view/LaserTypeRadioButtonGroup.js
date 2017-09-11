@@ -10,13 +10,13 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var Shape = require( 'KITE/Shape' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Line = require( 'SCENERY/nodes/Line' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Shape = require( 'KITE/Shape' );
 
   // images
   var laserImage = require( 'image!BENDING_LIGHT/laser.png' );

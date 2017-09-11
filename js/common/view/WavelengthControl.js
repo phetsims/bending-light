@@ -9,19 +9,19 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var ArrowButton = require( 'SUN/buttons/ArrowButton' );
   var Property = require( 'AXON/Property' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   // strings
   var unitsNmString = require( 'string!BENDING_LIGHT/units_nm' );

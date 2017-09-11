@@ -11,16 +11,16 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
 
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );

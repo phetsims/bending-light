@@ -13,28 +13,28 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Bounds2 = require( 'DOT/Bounds2' );
+  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var ArrowShape = require( 'SCENERY_PHET/ArrowShape' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var Util = require( 'DOT/Util' );
+  var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Color = require( 'SCENERY/util/Color' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var Util = require( 'DOT/Util' );
 
   // strings
   var speedString = require( 'string!BENDING_LIGHT/speed' );
-  var velocityPatternString = require( 'string!BENDING_LIGHT/velocityPattern' );
   var unknownVelocityString = require( 'string!BENDING_LIGHT/unknownVelocity' );
+  var velocityPatternString = require( 'string!BENDING_LIGHT/velocityPattern' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames

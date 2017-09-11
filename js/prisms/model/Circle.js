@@ -12,8 +12,8 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Shape = require( 'KITE/Shape' );
   var PrismIntersection = require( 'BENDING_LIGHT/prisms/model/PrismIntersection' );
+  var Shape = require( 'KITE/Shape' );
 
   /**
    * @param {Vector2} center - center of the circle

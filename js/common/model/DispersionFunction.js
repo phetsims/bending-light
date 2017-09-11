@@ -14,9 +14,9 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Util = require( 'DOT/Util' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
 
   /**
    * @param {number} referenceIndexOfRefraction - IndexOfRefraction of medium

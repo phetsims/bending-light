@@ -10,9 +10,9 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
 
   // constants

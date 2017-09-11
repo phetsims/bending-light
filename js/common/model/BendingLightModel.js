@@ -12,13 +12,13 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var Util = require( 'SCENERY/util/Util' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
   var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
+  var Property = require( 'AXON/Property' );
+  var Util = require( 'SCENERY/util/Util' );
 
   // constants
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;

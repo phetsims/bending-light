@@ -11,17 +11,17 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
+  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var BooleanRoundStickyToggleButton = require( 'SUN/buttons/BooleanRoundStickyToggleButton' );
   var Color = require( 'SCENERY/util/Color' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var BooleanRoundStickyToggleButton = require( 'SUN/buttons/BooleanRoundStickyToggleButton' );
-  var Shape = require( 'KITE/Shape' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
+  var Shape = require( 'KITE/Shape' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // images
   var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );

@@ -10,12 +10,12 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Arc = require( 'KITE/segments/Arc' );
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Shape = require( 'KITE/Shape' );
   var Line = require( 'KITE/segments/Line' );
-  var Arc = require( 'KITE/segments/Arc' );
   var PrismIntersection = require( 'BENDING_LIGHT/prisms/model/PrismIntersection' );
+  var Shape = require( 'KITE/Shape' );
 
   /**
    * @param {number} referencePointIndex - is used as the drag handle corner for rotation

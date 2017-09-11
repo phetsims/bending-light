@@ -14,8 +14,8 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Vector3 = require( 'DOT/Vector3' );
   var Matrix3 = require( 'DOT/Matrix3' );
+  var Vector3 = require( 'DOT/Vector3' );
 
   // constants (these are vars because other constants refer to them)
   var SPEED_OF_LIGHT = 2.99792458E8;

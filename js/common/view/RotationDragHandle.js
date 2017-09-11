@@ -12,10 +12,10 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  var CurvedArrowShape = require( 'SCENERY_PHET/CurvedArrowShape' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var CurvedArrowShape = require( 'SCENERY_PHET/CurvedArrowShape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
 

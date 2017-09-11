@@ -11,24 +11,24 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
-  var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
-  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
-  var IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
-  var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
-  var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
-  var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
+  var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/prisms/view/LaserTypeRadioButtonGroup' );
+  var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Panel = require( 'SUN/Panel' );
+  var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
+  var Property = require( 'AXON/Property' );
+  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
-  var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/prisms/view/LaserTypeRadioButtonGroup' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
 
   // constants
   var INSET = 10;

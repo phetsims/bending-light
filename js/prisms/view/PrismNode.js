@@ -11,15 +11,15 @@ define( function( require ) {
 
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Shape = require( 'KITE/Shape' );
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // images
   var knobImage = require( 'image!BENDING_LIGHT/knob.png' );

@@ -12,8 +12,8 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
+  var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
