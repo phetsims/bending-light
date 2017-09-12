@@ -31,9 +31,6 @@ define( function( require ) {
 
     // @public, position of a probe
     this.positionProperty = new Property( new Vector2( x, y ) );
-
-    Property.preventGetSet( this, 'series' );
-    Property.preventGetSet( this, 'position' );
   }
 
   inherit( Object, Probe, {
@@ -75,9 +72,6 @@ define( function( require ) {
     // @public
     // in the play area
     this.enabledProperty = new Property( false );
-
-    Property.preventGetSet( this, 'bodyPosition' );
-    Property.preventGetSet( this, 'enabled' );
 
     // Function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;

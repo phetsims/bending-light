@@ -23,7 +23,6 @@ define( function( require ) {
 
     // @public
     this.shapeProperty = new Property( shape );
-    Property.preventGetSet( this, 'shape' );
 
     // @public (read-only)
     this.typeName = typeName;

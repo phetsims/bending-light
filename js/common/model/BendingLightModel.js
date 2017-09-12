@@ -83,14 +83,6 @@ define( function( require ) {
     this.showNormalProperty = new Property( true );// @public
     this.showAnglesProperty = new Property( false ); // @public
 
-    Property.preventGetSet( this, 'laserView' );
-    Property.preventGetSet( this, 'wavelength' );
-    Property.preventGetSet( this, 'isPlaying' );
-    Property.preventGetSet( this, 'speed' );
-    Property.preventGetSet( this, 'indexOfRefraction' );
-    Property.preventGetSet( this, 'showNormal' );
-    Property.preventGetSet( this, 'showAngles' );
-
     // @public (read-only)- the laser
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }

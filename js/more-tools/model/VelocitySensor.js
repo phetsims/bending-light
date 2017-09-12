@@ -34,11 +34,6 @@ define( function( require ) {
     this.isArrowVisibleProperty = new DerivedProperty( [ this.valueProperty ], function( value ) {
       return value.magnitude() > 0;
     } );
-
-    Property.preventGetSet( this, 'position' );
-    Property.preventGetSet( this, 'value' );
-    Property.preventGetSet( this, 'enabled' );
-    Property.preventGetSet( this, 'isArrowVisible' );
   }
 
   bendingLight.register( 'VelocitySensor', VelocitySensor );

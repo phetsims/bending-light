@@ -66,14 +66,6 @@ define( function( require ) {
     this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ) );
 
     this.intersectionStrokeProperty = new Property( 'black' );
-    Property.preventGetSet( this, 'manyRays' );
-    Property.preventGetSet( this, 'showReflections' );
-    Property.preventGetSet( this, 'showNormals' );
-    Property.preventGetSet( this, 'showProtractor' );
-    Property.preventGetSet( this, 'environmentMedium' );
-    Property.preventGetSet( this, 'prismsMedium' );
-    Property.preventGetSet( this, 'intersectionStroke' );
-
     this.laser.colorModeProperty.link( function( colorMode ) {
       self.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
     } );

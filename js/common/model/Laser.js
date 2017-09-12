@@ -35,12 +35,6 @@ define( function( require ) {
     this.colorModeProperty = new Property( 'singleColor' ); // @public
     this.emissionPointProperty = new Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
 
-    Property.preventGetSet( this, 'pivot' );
-    Property.preventGetSet( this, 'on' );
-    Property.preventGetSet( this, 'wave' );
-    Property.preventGetSet( this, 'colorMode' );
-    Property.preventGetSet( this, 'emissionPoint' );
-
     // @public (read-only)
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], function( wavelength ) {
       return new LaserColor( wavelength );

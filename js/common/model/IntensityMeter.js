@@ -32,11 +32,6 @@ define( function( require ) {
     this.bodyPositionProperty = new Property( new Vector2( bodyX, bodyY ) ); // @public
     this.enabledProperty = new Property( false ); // @public, True if it is in the play area
 
-    Property.preventGetSet( this, 'reading' );
-    Property.preventGetSet( this, 'sensorPosition' );
-    Property.preventGetSet( this, 'bodyPosition' );
-    Property.preventGetSet( this, 'enabled' );
-
     // @public (read-only), accumulation of readings
     this.rayReadings = [];
   }
