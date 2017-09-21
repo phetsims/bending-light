@@ -1,4 +1,4 @@
-// Copyright 2015, University of Colorado Boulder
+// Copyright 2015-2016, University of Colorado Boulder
 
 /**
  * The icon to be shown with the "Angles" checkbox.

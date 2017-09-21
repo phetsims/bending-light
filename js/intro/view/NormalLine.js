@@ -1,4 +1,4 @@
-// Copyright 2015, University of Colorado Boulder
+// Copyright 2015-2016, University of Colorado Boulder
 
 /**
  * The normal line is a graphic that indicates the point of intersection of the light ray and

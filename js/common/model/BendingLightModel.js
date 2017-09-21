@@ -1,4 +1,4 @@
-// Copyright 2015, University of Colorado Boulder
+// Copyright 2015-2017, University of Colorado Boulder
 
 /**
  * Main model for bending light application. Rays are recomputed whenever laser parameters changed. Each ray oscillates

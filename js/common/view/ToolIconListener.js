@@ -1,4 +1,4 @@
-// Copyright 2015, University of Colorado Boulder
+// Copyright 2015-2016, University of Colorado Boulder
 
 /**
  * Listener for tool icons (in the toolbox) used for creating a node and forwarding events to its listener.
