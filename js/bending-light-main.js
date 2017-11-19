@@ -21,7 +21,7 @@ define( function( require ) {
   var bendingLightTitleString = require( 'string!BENDING_LIGHT/bending-light.title' );
 
   // constants
-  var tandem = Tandem.createRootTandem();
+  var tandem = Tandem.rootTandem;
 
   var simOptions = {
     credits: {
