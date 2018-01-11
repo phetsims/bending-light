@@ -159,7 +159,7 @@ define( function( require ) {
       }
     } );
 
-    // Add prisms tool box Node
+    // Add prisms toolbox Node
     var prismToolboxNode = new PrismToolboxNode(
       this.modelViewTransform,
       prismsModel,
