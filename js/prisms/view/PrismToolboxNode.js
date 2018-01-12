@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var CheckBox = require( 'SUN/CheckBox' );
+  var Checkbox = require( 'SUN/Checkbox' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HStrut = require( 'SCENERY/nodes/HStrut' );
   var Image = require( 'SCENERY/nodes/Image' );
@@ -219,62 +219,62 @@ define( function( require ) {
       }
     };
 
-    var checkBoxOptions = {
+    var checkboxOptions = {
       boxWidth: 20,
       spacing: 2
     };
 
     // add check boxes for reflections, normal and protractor
-    var showReflectionsCheckBox = new CheckBox(
+    var showReflectionsCheckbox = new Checkbox(
       createItem( showReflections ),
       prismsModel.showReflectionsProperty,
-      checkBoxOptions
+      checkboxOptions
     );
-    var showNormalCheckBox = new CheckBox(
+    var showNormalCheckbox = new Checkbox(
       createItem( showNormal ),
       prismsModel.showNormalsProperty,
-      checkBoxOptions
+      checkboxOptions
     );
-    var showProtractorCheckBox = new CheckBox(
+    var showProtractorCheckbox = new Checkbox(
       createItem( showProtractor ),
       prismsModel.showProtractorProperty,
-      checkBoxOptions
+      checkboxOptions
     );
 
-    var maxCheckBoxWidth = _.maxBy( [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ],
+    var maxCheckboxWidth = _.maxBy( [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ],
         function( item ) {
           return item.width;
         }
       ).width + 5;
 
     // touch Areas
-    showReflectionsCheckBox.touchArea = new Bounds2(
-      showReflectionsCheckBox.localBounds.minX - 5,
-      showReflectionsCheckBox.localBounds.minY,
-      showReflectionsCheckBox.localBounds.minX + maxCheckBoxWidth,
-      showReflectionsCheckBox.localBounds.maxY
+    showReflectionsCheckbox.touchArea = new Bounds2(
+      showReflectionsCheckbox.localBounds.minX - 5,
+      showReflectionsCheckbox.localBounds.minY,
+      showReflectionsCheckbox.localBounds.minX + maxCheckboxWidth,
+      showReflectionsCheckbox.localBounds.maxY
     );
 
-    showNormalCheckBox.touchArea = new Bounds2(
-      showNormalCheckBox.localBounds.minX - 5,
-      showNormalCheckBox.localBounds.minY,
-      showNormalCheckBox.localBounds.minX + maxCheckBoxWidth,
-      showNormalCheckBox.localBounds.maxY
+    showNormalCheckbox.touchArea = new Bounds2(
+      showNormalCheckbox.localBounds.minX - 5,
+      showNormalCheckbox.localBounds.minY,
+      showNormalCheckbox.localBounds.minX + maxCheckboxWidth,
+      showNormalCheckbox.localBounds.maxY
     );
 
-    showProtractorCheckBox.touchArea = new Bounds2(
-      showProtractorCheckBox.localBounds.minX - 5,
-      showProtractorCheckBox.localBounds.minY,
-      showProtractorCheckBox.localBounds.minX + maxCheckBoxWidth,
-      showProtractorCheckBox.localBounds.maxY
+    showProtractorCheckbox.touchArea = new Bounds2(
+      showProtractorCheckbox.localBounds.minX - 5,
+      showProtractorCheckbox.localBounds.minY,
+      showProtractorCheckbox.localBounds.minX + maxCheckboxWidth,
+      showProtractorCheckbox.localBounds.maxY
     );
 
     // pad all the rows so the text nodes are left aligned and the icons is right aligned
-    var checkBoxes = new VBox( {
+    var checkboxes = new VBox( {
       align: 'left', spacing: 4,
-      children: [ showReflectionsCheckBox, showNormalCheckBox, showProtractorCheckBox ]
+      children: [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ]
     } );
-    content.addChild( checkBoxes );
+    content.addChild( checkboxes );
 
     // Add the sensors panel
     var background = new Rectangle( 0, 0, content.width + 25, content.height + 2, 5, 5, {

@@ -16,7 +16,7 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var CheckBox = require( 'SUN/CheckBox' );
+  var Checkbox = require( 'SUN/Checkbox' );
   var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -220,7 +220,7 @@ define( function( require ) {
 
     // add normal check box
     var normalIcon = new NormalLine( 17, [ 4, 3 ] );
-    var normalCheckBox = new CheckBox( new HBox( {
+    var normalCheckbox = new Checkbox( new HBox( {
       children: [
         normalText, normalIcon
       ], spacing: 12
@@ -231,7 +231,7 @@ define( function( require ) {
 
     // add angle check box
     var angleIcon = new AngleIcon();
-    var angleCheckBox = new CheckBox( new HBox( {
+    var angleCheckbox = new Checkbox( new HBox( {
       children: [
         angleText, angleIcon
       ], spacing: 12
@@ -240,14 +240,14 @@ define( function( require ) {
       spacing: 5
     } );
 
-    var checkboxPanelChildren = hasMoreTools ? [ normalCheckBox, angleCheckBox ] : [ normalCheckBox ];
-    var checkBoxPanel = new VBox( {
+    var checkboxPanelChildren = hasMoreTools ? [ normalCheckbox, angleCheckbox ] : [ normalCheckbox ];
+    var checkboxPanel = new VBox( {
       children: checkboxPanelChildren,
       spacing: 6,
       align: 'left',
       bottom: this.layoutBounds.maxY - 10
     } );
-    this.beforeLightLayer2.addChild( checkBoxPanel );
+    this.beforeLightLayer2.addChild( checkboxPanel );
 
     // create the protractor node
     var protractorNodeIcon = new ProtractorNode( this.showProtractorProperty, false, {
@@ -368,7 +368,7 @@ define( function( require ) {
       yMargin: 10,
       stroke: '#696969',
       lineWidth: 1.5, fill: '#EEEEEE',
-      bottom: checkBoxPanel.top - 15
+      bottom: checkboxPanel.top - 15
     } );
     this.beforeLightLayer2.addChild( this.toolbox );
     this.beforeLightLayer2.addChild( protractorNode );
@@ -388,7 +388,7 @@ define( function( require ) {
 
     // add sim speed controls
     this.timeControlNode = new TimeControlNode( introModel, this.updateWaveShape.bind( this ), {
-      left: checkBoxPanel.right + 75,
+      left: checkboxPanel.right + 75,
       bottom: this.layoutBounds.maxY - 10
     } );
     this.beforeLightLayer.addChild( this.timeControlNode );
@@ -405,13 +405,13 @@ define( function( require ) {
     FloatingLayout.floatLeft( this, [ laserControlPanel, this.toolbox ] );
 
     // Indent the checkboxes a bit so it looks more natural
-    FloatingLayout.floatLeft( this, [ checkBoxPanel ], 10 );
+    FloatingLayout.floatLeft( this, [ checkboxPanel ], 10 );
 
     FloatingLayout.floatTop( this, [ laserControlPanel ] );
-    FloatingLayout.floatBottom( this, [ checkBoxPanel, resetAllButton, this.timeControlNode ] );
+    FloatingLayout.floatBottom( this, [ checkboxPanel, resetAllButton, this.timeControlNode ] );
 
     this.visibleBoundsProperty.link( function() {
-      self.toolbox.bottom = checkBoxPanel.top - 10;
+      self.toolbox.bottom = checkboxPanel.top - 10;
     } );
 
     this.visibleBoundsProperty.link( function( visibleBounds ) {
