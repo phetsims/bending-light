@@ -178,8 +178,8 @@ define( function( require ) {
       } );
     content.addChild( dividerBetweenMediumPanelAndControlPanel );
 
-    // Add check boxes
-    // Create an icon for the protractor check box
+    // Add checkboxes
+    // Create an icon for the protractor checkbox
     var createProtractorIcon = function() {
       var protractorImageNode = new Image( protractorImage );
       protractorImageNode.scale( 20 / protractorImage[ 0 ].width );
@@ -224,7 +224,7 @@ define( function( require ) {
       spacing: 2
     };
 
-    // add check boxes for reflections, normal and protractor
+    // add checkboxes for reflections, normal and protractor
     var showReflectionsCheckbox = new Checkbox(
       createItem( showReflections ),
       prismsModel.showReflectionsProperty,

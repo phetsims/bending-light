@@ -218,7 +218,7 @@ define( function( require ) {
     var normalText = new Text( normalLineString, { fontSize: 12 } );
     var angleText = new Text( anglesString, { fontSize: 12 } );
 
-    // add normal check box
+    // add normal checkbox
     var normalIcon = new NormalLine( 17, [ 4, 3 ] );
     var normalCheckbox = new Checkbox( new HBox( {
       children: [
@@ -229,7 +229,7 @@ define( function( require ) {
       spacing: 5
     } );
 
-    // add angle check box
+    // add angle checkbox
     var angleIcon = new AngleIcon();
     var angleCheckbox = new Checkbox( new HBox( {
       children: [
