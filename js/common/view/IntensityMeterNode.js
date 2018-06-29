@@ -12,18 +12,27 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NodeProperty = require( 'SCENERY/util/NodeProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // strings
   var intensityString = require( 'string!BENDING_LIGHT/intensity' );
+
+  // constants
+  var NORMAL_DISTANCE = 25;
+  var bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
+  var sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
@@ -76,7 +85,7 @@ define( function( require ) {
       fill: 'white'
     } );
     if ( titleNode.width > rectangleWidth - 15 ) {
-      titleNode.scale( (rectangleWidth - 15) / titleNode.width );
+      titleNode.scale( ( rectangleWidth - 15 ) / titleNode.width );
     }
 
     // Add the reading to the body node
@@ -102,16 +111,27 @@ define( function( require ) {
     } );
 
     // Connect the sensor to the body with a gray wire
-    this.wireNode = new WireNode( this.probeNode, this.bodyNode, 'gray', 0.78 );
+    var above = function( amount ) {
+      return function( position ) {return position.plusXY( 0, -amount );};
+    };
+
+    var rightBottomProperty = new NodeProperty( this.bodyNode, 'bounds', 'rightBottom' );
+
+    // @private
+    this.wireNode = new WireNode(
+      new DerivedProperty( [ rightBottomProperty ], above( 12 ) ), bodyNormalProperty,
+      new NodeProperty( this.probeNode, 'bounds', 'centerBottom' ), sensorNormalProperty, {
+        lineWidth: 3,
+        stroke: 'gray'
+      }
+    );
 
     intensityMeter.sensorPositionProperty.link( function( sensorPosition ) {
       self.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
-      self.updateWireShape();
     } );
 
     intensityMeter.bodyPositionProperty.link( function( bodyPosition ) {
       self.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
-      self.updateWireShape();
     } );
 
     // add the components
@@ -143,10 +163,6 @@ define( function( require ) {
   return inherit( Node, IntensityMeterNode, {
     resetRelativeLocations: function() {
       this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );
-      this.wireNode.updateWireShape();
-    },
-    updateWireShape: function() {
-      this.wireNode.updateWireShape();
     }
   } );
 } );

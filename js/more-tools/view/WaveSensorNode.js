@@ -14,19 +14,28 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var ChartNode = require( 'BENDING_LIGHT/more-tools/view/ChartNode' );
   var Color = require( 'SCENERY/util/Color' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NodeProperty = require( 'SCENERY/util/NodeProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Series = require( 'BENDING_LIGHT/more-tools/model/Series' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var WireNode = require( 'BENDING_LIGHT/common/view/WireNode' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // strings
   var timeString = require( 'string!BENDING_LIGHT/time' );
+
+  // constants
+  var NORMAL_DISTANCE = 25;
+  var bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
+  var sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
   /**
    * View for rendering a probe that can be used to sense wave values
@@ -125,7 +134,7 @@ define( function( require ) {
     // Add the "time" axis label at the bottom center of the chart
     var titleNode = new Text( timeString, { font: new PhetFont( 16 ), fill: 'white' } );
     if ( titleNode.width > rectangleWidth - 15 ) {
-      titleNode.scale( (rectangleWidth - 15) / titleNode.width );
+      titleNode.scale( ( rectangleWidth - 15 ) / titleNode.width );
     }
     this.bodyNode.addChild( titleNode );
     titleNode.centerX = outerRectangle.centerX;
@@ -143,24 +152,38 @@ define( function( require ) {
     this.probe1Node = new ProbeNodeWrapper( waveSensor.probe1, '#5c5d5f', modelViewTransform ); // @public (read-only)
     this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform ); // @public (read-only)
 
-    // Rendering order, including wires
-    var wire1Node = new WireNode( this.probe1Node, this.bodyNode, darkProbeColor.toCSS(), fractionalVerticalDistanceToTitle );
-    this.addChild( wire1Node );
-    var wire2Node = new WireNode( this.probe2Node, this.bodyNode, lightProbeColor.toCSS(), fractionalVerticalDistanceToTitle );
-    this.addChild( wire2Node );
+    // Connect the sensor to the body with a gray wire
+    var above = function( amount ) {
+
+      // Nudge behind the body a so there is no gap
+      return function( position ) {return position.plusXY( -2, -amount );};
+    };
+
+    var rightBottomProperty = new NodeProperty( this.bodyNode, 'bounds', 'rightBottom' );
+
+    // @private
+    this.wire1Node = new WireNode(
+      new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ), bodyNormalProperty,
+      new NodeProperty( this.probe1Node, 'bounds', 'centerBottom' ), sensorNormalProperty, {
+        lineWidth: 3,
+        stroke: darkProbeColor.toCSS()
+      }
+    );
+
+    this.wire2Node = new WireNode(
+      new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ), bodyNormalProperty,
+      new NodeProperty( this.probe2Node, 'bounds', 'centerBottom' ), sensorNormalProperty, {
+        lineWidth: 3,
+        stroke: lightProbeColor.toCSS()
+      }
+    );
+
+    this.addChild( this.wire1Node );
+    this.addChild( this.wire2Node );
 
     // Synchronize the body position with the model (centered on the model point)
     waveSensor.bodyPositionProperty.link( function( position ) {
       self.bodyNode.center = modelViewTransform.modelToViewPosition( position );
-      wire1Node.updateWireShape();
-      wire2Node.updateWireShape();
-    } );
-
-    waveSensor.probe1.positionProperty.link( function( position ) {
-      wire1Node.updateWireShape();
-    } );
-    waveSensor.probe2.positionProperty.link( function() {
-      wire2Node.updateWireShape();
     } );
 
     this.syncModelFromView = function() {
@@ -179,7 +202,7 @@ define( function( require ) {
   }
 
   bendingLight.register( 'WaveSensorNode', WaveSensorNode );
-  
+
   return inherit( Node, WaveSensorNode, {
     resetRelativePositions: function() {
       this.probe1Node.center = this.bodyNode.center.plusXY( 110, 12 );
