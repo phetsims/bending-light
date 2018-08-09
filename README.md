@@ -1,15 +1,15 @@
 Bending Light
 =============
-"Bending Light" is an educational simulation in HTML5, by <a href="http://phet.colorado.edu/" target="_blank">PhET Interactive Simulations</a>
+"Bending Light" is an educational simulation in HTML5, by <a href="https://phet.colorado.edu/" target="_blank">PhET Interactive Simulations</a>
 at the University of Colorado Boulder.
 For a description of this simulation, associated resources, and a link to the published version,
-<a href="http://phet.colorado.edu/en/simulation/bending-light" target="_blank">visit the simulation's web page</a>.
+<a href="https://phet.colorado.edu/en/simulation/bending-light" target="_blank">visit the simulation's web page</a>.
 
 ### Try it!
 
-<a href="http://phet.colorado.edu/sims/html/bending-light/latest/bending-light_en.html" target="_blank">Click here to run "Bending Light".</a>
+<a href="https://phet.colorado.edu/sims/html/bending-light/latest/bending-light_en.html" target="_blank">Click here to run "Bending Light".</a>
 
-<a href="http://phet.colorado.edu/sims/html/bending-light/latest/bending-light_en.html" target="_blank">
+<a href="https://phet.colorado.edu/sims/html/bending-light/latest/bending-light_en.html" target="_blank">
 <img src="https://raw.githubusercontent.com/phetsims/bending-light/master/assets/bending-light-screenshot.png" alt="Screenshot" style="width: 400px;"/>
 </a>
 
