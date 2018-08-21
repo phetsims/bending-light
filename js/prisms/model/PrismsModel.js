@@ -60,10 +60,10 @@ define( function( require ) {
     this.showProtractorProperty = new Property( false );// @public
 
     // Environment the laser is in
-    this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ) );
+    this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );
 
     // Material that comprises the prisms
-    this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ) );
+    this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ), { reentrant: true } );
 
     this.intersectionStrokeProperty = new Property( 'black' );
     this.laser.colorModeProperty.link( function( colorMode ) {
@@ -126,8 +126,8 @@ define( function( require ) {
 
       // triangle, attach at bottom right
       prismsTypes.push( new Prism( new Polygon( 1, [
-        new Vector2( -a / 2, -a / (2 * Math.sqrt( 3 )) ),
-        new Vector2( a / 2, -a / (2 * Math.sqrt( 3 )) ),
+        new Vector2( -a / 2, -a / ( 2 * Math.sqrt( 3 ) ) ),
+        new Vector2( a / 2, -a / ( 2 * Math.sqrt( 3 ) ) ),
         new Vector2( 0, a / Math.sqrt( 3 ) )
       ], 0 ), 'triangle' ) );
 
@@ -298,7 +298,7 @@ define( function( require ) {
           this.intersections.add( intersection );
         }
 
-        var pointOnOtherSide = (incidentRay.directionUnitVector.times( 1E-12 )).add( intersection.point );
+        var pointOnOtherSide = ( incidentRay.directionUnitVector.times( 1E-12 ) ).add( intersection.point );
         var outputInsidePrism = false;
         var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
         this.prisms.forEach( function( prism ) {
@@ -319,16 +319,16 @@ define( function( require ) {
 
         // Compute the output rays, see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
         var cosTheta1 = n.dotXY( L.x * -1, L.y * -1 );
-        var cosTheta2Radicand = 1 - Math.pow( n1 / n2, 2 ) * (1 - Math.pow( cosTheta1, 2 ));
+        var cosTheta2Radicand = 1 - Math.pow( n1 / n2, 2 ) * ( 1 - Math.pow( cosTheta1, 2 ) );
         var totalInternalReflection = cosTheta2Radicand < 0;
         var cosTheta2 = Math.sqrt( Math.abs( cosTheta2Radicand ) );
-        var vReflect = (n.times( 2 * cosTheta1 )).add( L );
+        var vReflect = ( n.times( 2 * cosTheta1 ) ).add( L );
         var vRefract = cosTheta1 > 0 ?
-                       (L.times( n1 / n2 )).addXY(
+                       ( L.times( n1 / n2 ) ).addXY(
                          n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ),
                          n.y * ( n1 / n2 * cosTheta1 - cosTheta2 )
                        ) :
-                       (L.times( n1 / n2 )).addXY(
+                       ( L.times( n1 / n2 ) ).addXY(
                          n.x * ( n1 / n2 * cosTheta1 + cosTheta2 ),
                          n.y * ( n1 / n2 * cosTheta1 + cosTheta2 )
                        );
@@ -337,9 +337,9 @@ define( function( require ) {
         vRefract = vRefract.normalized();
 
         var reflectedPower = totalInternalReflection ? 1
-          : Util.clamp( BendingLightModel.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
+                                                     : Util.clamp( BendingLightModel.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
         var transmittedPower = totalInternalReflection ? 0
-          : Util.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
+                                                       : Util.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
 
         // Create the new rays and propagate them recursively
         var reflectedRay = new Ray2( incidentRay.directionUnitVector.times( -1E-12 ).add( point ), vReflect );

@@ -46,11 +46,11 @@ define( function( require ) {
 
     // Top medium
     this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), Substance.AIR,
-      this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ) );
+      this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );
 
     // Bottom medium
     this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomSubstance,
-      this.mediumColorFactory.getColor( bottomSubstance.indexOfRefractionForRedLight ) ) );
+      this.mediumColorFactory.getColor( bottomSubstance.indexOfRefractionForRedLight ) ), { reentrant: true } );
     this.time = 0; // @public
 
     // Update the top medium index of refraction when top medium change
@@ -73,9 +73,9 @@ define( function( require ) {
 
     // @public (read-only)-model components
     this.intensityMeter = new IntensityMeter(
-      -this.modelWidth * (horizontalPlayAreaOffset ? 0.34 : 0.48),
+      -this.modelWidth * ( horizontalPlayAreaOffset ? 0.34 : 0.48 ),
       -this.modelHeight * 0.285,
-      -this.modelWidth * (horizontalPlayAreaOffset ? 0.282 : 0.421),
+      -this.modelWidth * ( horizontalPlayAreaOffset ? 0.282 : 0.421 ),
       -this.modelHeight * 0.312
     );
 
@@ -210,7 +210,7 @@ define( function( require ) {
             // transmitted
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
             var transmittedWavelength = incidentRay.wavelength / n2 * n1;
-            if ( !( isNaN( theta2 ) || !isFinite( theta2 )) ) {
+            if ( !( isNaN( theta2 ) || !isFinite( theta2 ) ) ) {
               var transmittedPowerRatio = BendingLightModel.getTransmittedPower(
                 n1,
                 n2,
@@ -276,8 +276,8 @@ define( function( require ) {
           y = intersects[ 0 ].point.y;
         }
         if ( intersects.length === 2 ) {
-          x = (intersects[ 0 ].point.x + intersects[ 1 ].point.x) / 2;
-          y = (intersects[ 0 ].point.y + intersects[ 1 ].point.y) / 2;
+          x = ( intersects[ 0 ].point.x + intersects[ 1 ].point.x ) / 2;
+          y = ( intersects[ 0 ].point.y + intersects[ 1 ].point.y ) / 2;
         }
 
         var distance = Math.sqrt( x * x + y * y );
@@ -394,7 +394,7 @@ define( function( require ) {
     updateSimulationTimeAndWaveShape: function( speed ) {
 
       // Update the time
-      this.time = this.time + (speed === 'normal' ? 1E-16 : 0.5E-16);
+      this.time = this.time + ( speed === 'normal' ? 1E-16 : 0.5E-16 );
       var self = this;
 
       // set time for each ray
@@ -474,7 +474,7 @@ define( function( require ) {
         var totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
 
         // Just keep the fractional part
-        var phaseDiff = (totalPhaseOffsetInNumberOfWavelengths % 1) * wavelength;
+        var phaseDiff = ( totalPhaseOffsetInNumberOfWavelengths % 1 ) * wavelength;
         var tailX;
         var tailY;
         var angle = lightRay.getAngle();
@@ -488,16 +488,16 @@ define( function( require ) {
 
           // for reflected and refracted ray
           var distance = lightRay.trapeziumWidth / 2 * Math.cos( angle );
-          phaseDiff = (distance + phaseDiff) % wavelength;
-          tailX = lightRay.tail.x - (directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle ));
-          tailY = lightRay.tail.y - (directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle ));
+          phaseDiff = ( distance + phaseDiff ) % wavelength;
+          tailX = lightRay.tail.x - ( directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle ) );
+          tailY = lightRay.tail.y - ( directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle ) );
         }
 
         // Changing the wave particle position within the wave particle phase
         for ( var j = 0; j < waveParticles.length; j++ ) {
           var particle = waveParticles.get( j );
-          particle.setX( tailX + (directionVector.x * ( ( j * wavelength ) + phaseDiff ) ) );
-          particle.setY( tailY + (directionVector.y * ( ( j * wavelength ) + phaseDiff ) ) );
+          particle.setX( tailX + ( directionVector.x * ( ( j * wavelength ) + phaseDiff ) ) );
+          particle.setY( tailY + ( directionVector.y * ( ( j * wavelength ) + phaseDiff ) ) );
         }
       }
     }

@@ -35,7 +35,7 @@ define( function( require ) {
    * @constructor
    */
   function WavelengthControl( wavelengthProperty, enabledProperty, trackWidth ) {
-    var wavelengthPropertyNM = new Property( wavelengthProperty.value * 1E9 );
+    var wavelengthPropertyNM = new Property( wavelengthProperty.value * 1E9, { reentrant: true } );
 
     wavelengthProperty.link( function( wavelength ) {
       wavelengthPropertyNM.value = wavelength * 1E9;
@@ -85,7 +85,7 @@ define( function( require ) {
 
     // disable the minus button at minimum wavelength and plus button at max wavelength
     wavelengthPropertyNM.link( function( wavelength ) {
-      plusButton.enabled = ( wavelength < BendingLightConstants.LASER_MAX_WAVELENGTH);
+      plusButton.enabled = ( wavelength < BendingLightConstants.LASER_MAX_WAVELENGTH );
       minusButton.enabled = ( wavelength > VisibleColor.MIN_WAVELENGTH );
     } );
 
@@ -137,6 +137,6 @@ define( function( require ) {
   }
 
   bendingLight.register( 'WavelengthControl', WavelengthControl );
-  
+
   return inherit( Node, WavelengthControl );
 } );
