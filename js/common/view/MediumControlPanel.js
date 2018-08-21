@@ -164,7 +164,9 @@ define( function( require ) {
     if ( indexOfRefractionLabel.width > indexOfRefractionLabelWidth ) {
       indexOfRefractionLabel.scale( indexOfRefractionLabelWidth / indexOfRefractionLabel.width );
     }
-    this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) );
+    this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), {
+      reentrant: true
+    } );
     var readoutString = Util.toFixed( this.mediumIndexProperty.get(), decimalPlaces );
     var indexOfRefractionValueText = new Text( readoutString, textOptions );
     var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 45, 20, 2, 2, {
@@ -339,13 +341,13 @@ define( function( require ) {
       if ( custom ) {
         self.setCustomIndexOfRefraction( indexOfRefraction );
       }
-      plusButton.enabled = ( Util.toFixed( indexOfRefraction, decimalPlaces ) < INDEX_OF_REFRACTION_MAX);
+      plusButton.enabled = ( Util.toFixed( indexOfRefraction, decimalPlaces ) < INDEX_OF_REFRACTION_MAX );
       minusButton.enabled = ( Util.toFixed( indexOfRefraction, decimalPlaces ) > INDEX_OF_REFRACTION_MIN );
     } );
   }
 
   bendingLight.register( 'MediumControlPanel', MediumControlPanel );
-  
+
   return inherit( Node, MediumControlPanel, {
 
     /**
