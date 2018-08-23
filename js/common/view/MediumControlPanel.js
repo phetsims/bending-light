@@ -330,7 +330,7 @@ define( function( require ) {
       }
       else {
 
-        // if it was custom, then use the the index of refraction but keep the name as "custom"
+        // if it was custom, then use the index of refraction but keep the name as "custom"
         self.setSubstance(
           new Substance( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
       }
