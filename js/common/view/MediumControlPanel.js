@@ -25,6 +25,7 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -255,20 +256,18 @@ define( function( require ) {
     }
 
     // add slider for index of refraction
-    var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty, {
-      min: INDEX_OF_REFRACTION_MIN,
-      max: INDEX_OF_REFRACTION_MAX
-    }, {
-      trackFill: 'white',
-      trackSize: new Dimension2( sliderWidth, 1 ),
-      thumbSize: new Dimension2( 10, 20 ),
-      thumbTouchAreaYDilation: 8, // So it will not overlap the tweaker buttons
-      majorTickLength: 11,
-      tickLabelSpacing: 3,
-      startDrag: function() {
-        custom = true;
-      }
-    } );
+    var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty,
+      new Range( INDEX_OF_REFRACTION_MIN, INDEX_OF_REFRACTION_MAX ), {
+        trackFill: 'white',
+        trackSize: new Dimension2( sliderWidth, 1 ),
+        thumbSize: new Dimension2( 10, 20 ),
+        thumbTouchAreaYDilation: 8, // So it will not overlap the tweaker buttons
+        majorTickLength: 11,
+        tickLabelSpacing: 3,
+        startDrag: function() {
+          custom = true;
+        }
+      } );
     indexOfRefractionSlider.addMajorTick( Substance.AIR.indexOfRefractionForRedLight, airTitle );
     indexOfRefractionSlider.addMajorTick( Substance.WATER.indexOfRefractionForRedLight, waterTitle );
     indexOfRefractionSlider.addMajorTick( Substance.GLASS.indexOfRefractionForRedLight, glassTitle );
