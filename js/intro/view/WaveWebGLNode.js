@@ -90,6 +90,9 @@ define( function( require ) {
       'float colorFactor = abs( 1.0 - positionDiff / ( uWaveLength * 0.5 ) );',
       'gl_FragColor.rgb = uColor * (colorFactor);',
       'gl_FragColor.a = sqrt(uPowerFraction);',
+
+      // Use premultipled alpha, see https://github.com/phetsims/energy-skate-park/issues/39
+      'gl_FragColor.rgb *= gl_FragColor.a;',
       '}'
     ].join( '\n' );
 
