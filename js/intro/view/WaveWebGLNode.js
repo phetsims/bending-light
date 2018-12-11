@@ -15,6 +15,9 @@ define( function( require ) {
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
   var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
 
+  var scratchFloatArray1 = new Float32Array( 9 );
+  var scratchFloatArray2 = new Float32Array( 9 );
+
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {ObservableArray<LightRay>} rays - light rays
@@ -165,10 +168,8 @@ define( function( require ) {
         gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
         gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( elements ), gl.STATIC_DRAW );
 
-        gl.uniformMatrix3fv( shaderProgram.uniformLocations.uModelViewMatrix, false,
-          new Float32Array( modelViewMatrix.entries ) );
-        gl.uniformMatrix3fv( shaderProgram.uniformLocations.uProjectionMatrix, false,
-          new Float32Array( projectionMatrix.entries ) );
+        gl.uniformMatrix3fv( shaderProgram.uniformLocations.uModelViewMatrix, false, modelViewMatrix.copyToArray( scratchFloatArray1 ) );
+        gl.uniformMatrix3fv( shaderProgram.uniformLocations.uProjectionMatrix, false, projectionMatrix.copyToArray( scratchFloatArray2 ) );
         gl.uniform1f( shaderProgram.uniformLocations.uPowerFraction, lightRayPowerFraction );
         gl.uniform2f( shaderProgram.uniformLocations.uTail, tailViewX, tailViewY );
         gl.uniform1f( shaderProgram.uniformLocations.uAngle, lightRayAngle );
