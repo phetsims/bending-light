@@ -151,11 +151,10 @@ define( function( require ) {
     var materialComboBox = new ComboBox( items, comboBoxSubstanceProperty, view, {
       labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
-      buttonXMargin: 5,
-      buttonYMargin: 2,
-      buttonCornerRadius: 3,
-      itemXMargin: 2,
-      itemYMargin: 2
+      xMargin: 7,
+      yMargin: 4,
+      arrowHeight: 6,
+      cornerRadius: 3
     } );
 
     // add index of refraction text and value
