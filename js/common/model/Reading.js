@@ -12,11 +12,12 @@ define( function( require ) {
   // modules
   var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var MathSymbols = require( 'SCENERY_PHET/MathSymbols' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Util = require( 'DOT/Util' );
 
   // strings
-  var missString = require( 'string!BENDING_LIGHT/miss' );
+  var missString = MathSymbols.NO_VALUE;
   var pattern0ValuePercentString = require( 'string!BENDING_LIGHT/pattern_0value_percent' );
 
   // constants
