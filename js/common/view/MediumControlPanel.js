@@ -129,7 +129,7 @@ define( function( require ) {
       }
 
       // only set to a different substance if "custom" wasn't specified.
-      // otherwise pressing "air" then "custom" will make the combobox jump back to "air"
+      // otherwise pressing "air" then "custom" will make the combo box jump back to "air"
       if ( selected !== -1 && !mediumProperty.get().substance.custom ) {
         comboBoxSubstanceProperty.set( substances[ selected ] );
         custom = false;
