@@ -16,6 +16,7 @@ define( function( require ) {
   var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var ComboBox = require( 'SUN/ComboBox' );
+  var ComboBoxItem = require( 'SUN/ComboBoxItem' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
   var HSlider = require( 'SUN/HSlider' );
@@ -104,7 +105,7 @@ define( function( require ) {
         itemName.scale( comboBoxTextWidth / itemName.width );
       }
 
-      return ComboBox.createItem( itemName, item );
+      return new ComboBoxItem( itemName, item );
     };
     // states to choose from (and indicate) in the combo box
     var substances = [
@@ -152,7 +153,7 @@ define( function( require ) {
       labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
       xMargin: 7,
-      yMargin: 4,
+      yMargin: 7,
       arrowHeight: 6,
       cornerRadius: 3
     } );
