@@ -153,7 +153,7 @@ define( function( require ) {
       labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
       xMargin: 7,
-      yMargin: 7,
+      yMargin: 4,
       arrowHeight: 6,
       cornerRadius: 3
     } );
