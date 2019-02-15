@@ -115,7 +115,7 @@ define( function( require ) {
      * @public
      */
     getAngle: function() {
-      return this.getDirectionUnitVector().angle() + Math.PI;
+      return this.getDirectionUnitVector().angle + Math.PI;
     },
 
     /**
