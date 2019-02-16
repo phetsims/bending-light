@@ -284,7 +284,7 @@ define( function( require ) {
 
   // var NUM_RAY_SATURATION = _.max( _.reduce( NORMALIZED_XYZ_INTENSITIES, function( memo, item ) {
   //   return memo.plus( item );
-  // }, new Vector3() ) );
+  // }, new Vector3( 0, 0, 0 ) ) );
 
   // {Matrix3} - Maps color vectors in the XYZ colorspace into RGB (using the sRGB primaries, but not applying the
   //             nonlinear mapping part of sRGB).
