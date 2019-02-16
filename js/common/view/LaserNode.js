@@ -83,7 +83,7 @@ define( function( require ) {
     var fullRectangle = Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
 
     // re usable vector to avoid vector allocation
-    var emissionPointEndLocation = new Vector2();
+    var emissionPointEndLocation = new Vector2( 0, 0 );
 
     // When the window reshapes, make sure the laser remains in the play area
     dragBoundsProperty.link( function( dragBounds ) {

@@ -150,7 +150,7 @@ define( function( require ) {
       var radius = a / 2;
 
       // Continuous Circle
-      prismsTypes.push( new Prism( new Circle( new Vector2(), radius ), 'circle' ) );
+      prismsTypes.push( new Prism( new Circle( new Vector2( 0, 0 ), radius ), 'circle' ) );
 
       // SemiCircle
       prismsTypes.push( new Prism( new SemiCircle( 1, [
