@@ -159,11 +159,11 @@ define( function( require ) {
       function( velocity ) {
 
         // add '?' for null velocity
-        if ( velocity.magnitude() === 0 ) {
+        if ( velocity.magnitude === 0 ) {
           labelText.text = unknownVelocityString;
         }
         else {
-          var stringNumber = Util.toFixed( velocity.magnitude() / BendingLightConstants.SPEED_OF_LIGHT, 2 );
+          var stringNumber = Util.toFixed( velocity.magnitude / BendingLightConstants.SPEED_OF_LIGHT, 2 );
           var text = StringUtils.format( velocityPatternString, stringNumber );
           labelText.setText( text );
         }

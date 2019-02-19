@@ -241,7 +241,7 @@ define( function( require ) {
     var xyz = XYZ[ wavelength ];
 
     XYZ_INTENSITIES[ wavelength ] = new Vector3( xyz.x * intensity, xyz.y * intensity, xyz.z * intensity );
-    XYZ_INTENSITIES_MAGNITUDE[ wavelength ] = XYZ_INTENSITIES[ wavelength ].magnitude();
+    XYZ_INTENSITIES_MAGNITUDE[ wavelength ] = XYZ_INTENSITIES[ wavelength ].magnitude;
   }
 
   // {Vector3} - Maximum value for each component of XYZ_INTENSITIES.

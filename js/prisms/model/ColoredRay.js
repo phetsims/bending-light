@@ -24,7 +24,7 @@ define( function( require ) {
    */
   function ColoredRay( ray, power, wavelength, mediumIndexOfRefraction, frequency ) {
 
-    assert && assert( !isNaN( ray.direction.magnitude() ), 'direction unit vector should have a numeric magnitude' );
+    assert && assert( !isNaN( ray.direction.magnitude ), 'direction unit vector should have a numeric magnitude' );
 
     // @private, read only.
     this.ray = ray;

@@ -32,7 +32,7 @@ define( function( require ) {
 
     // shows the visibility of arrows
     this.isArrowVisibleProperty = new DerivedProperty( [ this.valueProperty ], function( value ) {
-      return value.magnitude() > 0;
+      return value.magnitude > 0;
     } );
   }
 

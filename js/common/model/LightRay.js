@@ -128,7 +128,7 @@ define( function( require ) {
       // meter sensor shape
       if ( (tailPoint2XY.x - tipPoint1XY.x) > 1E-10 ) {
         tipPoint1XY.y = tailPoint2XY.y;
-        tailPoint2XY.x = this.toVector().magnitude() / Math.cos( this.getAngle() );
+        tailPoint2XY.x = this.toVector().magnitude / Math.cos( this.getAngle() );
         tipPoint1XY.x = tailPoint2XY.x;
       }
 
@@ -209,7 +209,7 @@ define( function( require ) {
         var n = tip.minus( tail ).normalized();
         var a = tail;
         var aMinusP = a.minus( p );
-        var distanceToRay = aMinusP.minus( n.timesScalar( aMinusP.dot( n ) ) ).magnitude();
+        var distanceToRay = aMinusP.minus( n.timesScalar( aMinusP.dot( n ) ) ).magnitude;
 
         var perpendicular = Vector2.createPolar( 1, this.getAngle() + Math.PI / 2 );
         var sign = perpendicular.dot( p.minus( a ) ) < 0 ? -1 : +1;
