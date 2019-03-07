@@ -17,6 +17,7 @@ define( function( require ) {
   var LaserColor = require( 'BENDING_LIGHT/common/view/LaserColor' );
   var Property = require( 'AXON/Property' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   /**
    * @param {Property.<number>} wavelengthProperty - wavelength of light
@@ -29,11 +30,11 @@ define( function( require ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
     var self = this;
-    this.pivotProperty = new Property( new Vector2( 0, 0 ) ); // @public, point to be pivoted about, and at which the laser points
+    this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) ); // @public, point to be pivoted about, and at which the laser points
     this.onProperty = new Property( false ); // @public, true if the laser is activated and emitting light
     this.waveProperty = new Property( false ); // @public
     this.colorModeProperty = new Property( 'singleColor' ); // @public
-    this.emissionPointProperty = new Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
+    this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
 
     // @public (read-only)
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], function( wavelength ) {

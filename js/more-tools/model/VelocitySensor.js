@@ -15,6 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   /**
    * @constructor
@@ -22,10 +23,10 @@ define( function( require ) {
   function VelocitySensor() {
 
     // @public position of the sensor. Sampled by running the sim with a console.log statement
-    this.positionProperty = new Property( new Vector2( -0.00002051402284781722, -0.0000025716197470420186 ) );
+    this.positionProperty = new Vector2Property( new Vector2( -0.00002051402284781722, -0.0000025716197470420186 ) );
 
     // @public, velocity as measured by the sensor
-    this.valueProperty = new Property( new Vector2( 0, 0 ) );
+    this.valueProperty = new Vector2Property( new Vector2( 0, 0 ) );
 
     // @public, True if it is in the play area
     this.enabledProperty = new Property( false );

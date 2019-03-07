@@ -16,6 +16,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   /**
    * Model for a probe, including its position and recorded data series
@@ -30,7 +31,7 @@ define( function( require ) {
     this.seriesProperty = new Property( [] );
 
     // @public, position of a probe
-    this.positionProperty = new Property( new Vector2( x, y ) );
+    this.positionProperty = new Vector2Property( new Vector2( x, y ) );
   }
 
   inherit( Object, Probe, {
@@ -67,7 +68,7 @@ define( function( require ) {
     this.probe2 = new Probe( -0.0000198, -0.0000062 );
 
     // @public
-    this.bodyPositionProperty = new Property( new Vector2( -0.0000172, -0.00000605 ) );
+    this.bodyPositionProperty = new Vector2Property( new Vector2( -0.0000172, -0.00000605 ) );
 
     // @public
     // in the play area

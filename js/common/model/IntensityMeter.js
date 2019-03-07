@@ -17,6 +17,7 @@ define( function( require ) {
   var Reading = require( 'BENDING_LIGHT/common/model/Reading' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   /**
    * @param {number} sensorX - sensor x position in model coordinates
@@ -28,8 +29,8 @@ define( function( require ) {
   function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {
 
     this.readingProperty = new Property( Reading.MISS ); // @public, value to show on the body
-    this.sensorPositionProperty = new Property( new Vector2( sensorX, sensorY ) ); // @public
-    this.bodyPositionProperty = new Property( new Vector2( bodyX, bodyY ) ); // @public
+    this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) ); // @public
+    this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) ); // @public
     this.enabledProperty = new Property( false ); // @public, True if it is in the play area
 
     // @public (read-only), accumulation of readings

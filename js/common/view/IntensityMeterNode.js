@@ -19,11 +19,11 @@ define( function( require ) {
   var NodeProperty = require( 'SCENERY/util/NodeProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
-  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
   var WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // strings
@@ -31,8 +31,8 @@ define( function( require ) {
 
   // constants
   var NORMAL_DISTANCE = 25;
-  var bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
-  var sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
+  var bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 ) );
+  var sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
