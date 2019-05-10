@@ -31,7 +31,8 @@ define( function( require ) {
       qualityAssurance: 'Steele Dalton, Amanda Davis, Bryce Griebenow, Ethan Johnson, Elise Morgan, Oliver Orejola, ' +
                         'Arnab Purkayastha, Ben Roberts, Bryan Yoelin',
       thanks: 'Thanks to Actual Concepts for working with the PhET development team to convert this simulation to HTML5.'
-    }
+    },
+    webgl: true
   };
 
   SimLauncher.launch( function() {
