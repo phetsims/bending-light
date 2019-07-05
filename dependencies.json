@@ -1,5 +1,5 @@
 {
-  "comment": "# bending-light 1.1.14 Wed Apr 24 2019 14:35:16 GMT-0800 (Alaskan Daylight Time)",
+  "comment": "# bending-light 1.1.14 Fri Jul 05 2019 14:05:45 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "7d27130a4d27da15aa7f8a21bbfb9245288c1b44",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "bending-light": {
-    "sha": "550f4b8fba588661f9f80ba93091ad3fb3a54eb6",
+    "sha": "4c84ac0bbd02d60c4c377d3f336311ead1c250c1",
     "branch": "1.1"
   },
   "brand": {
@@ -37,8 +37,8 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "8ca95ddf1c8be65fff98a209982386b1d7967247",
-    "branch": "HEAD"
+    "sha": "85d1d4c6275958d728c17e5bb48dd0ed8b7852a0",
+    "branch": "bending-light-1.1"
   },
   "phetmarks": {
     "sha": "3fdfece0fe0262594bb06856833b8b16be25deb8",
