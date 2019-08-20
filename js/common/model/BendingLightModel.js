@@ -53,8 +53,6 @@ define( function( require ) {
   var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   /**
-   * Main constructor for BendingLightModel, which contains all of the model logic for the entire sim screen.
-   *
    * @param {number} laserAngle - laser angle in radians
    * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
    * @param {number} laserDistanceFromPivot - distance of laser from pivot point

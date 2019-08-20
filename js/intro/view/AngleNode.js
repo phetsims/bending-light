@@ -40,8 +40,6 @@ define( function( require ) {
   };
 
   /**
-   * Main constructor.
-   *
    * @param {Property.<boolean>} showAnglesProperty -
    * @param {Property.<boolean>} laserOnProperty -
    * @param {Property.<boolean>} showNormalProperty -
