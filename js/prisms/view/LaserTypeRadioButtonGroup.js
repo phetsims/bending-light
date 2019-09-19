@@ -5,21 +5,21 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Line = require( 'SCENERY/nodes/Line' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Shape = require( 'KITE/Shape' );
 
   // images
-  var laserImage = require( 'image!BENDING_LIGHT/laser.png' );
+  const laserImage = require( 'image!BENDING_LIGHT/laser.png' );
 
   /**
    *

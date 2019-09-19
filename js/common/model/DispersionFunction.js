@@ -9,14 +9,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Util = require( 'DOT/Util' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Util = require( 'DOT/Util' );
 
   /**
    * @param {number} referenceIndexOfRefraction - IndexOfRefraction of medium

@@ -6,45 +6,45 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
-  var AngleNode = require( 'BENDING_LIGHT/intro/view/AngleNode' );
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Checkbox = require( 'SUN/Checkbox' );
-  var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
-  var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
-  var MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
-  var NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
-  var Panel = require( 'SUN/Panel' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Property = require( 'AXON/Property' );
-  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
-  var Rectangle2 = require( 'DOT/Rectangle' );// eslint-disable-line require-statement-match
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var Shape = require( 'KITE/Shape' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
-  var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
-  var Util = require( 'DOT/Util' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
-  var WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
+  const AngleIcon = require( 'BENDING_LIGHT/intro/view/AngleIcon' );
+  const AngleNode = require( 'BENDING_LIGHT/intro/view/AngleNode' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  const BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const Checkbox = require( 'SUN/Checkbox' );
+  const FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
+  const MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
+  const MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
+  const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  const NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
+  const Panel = require( 'SUN/Panel' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Property = require( 'AXON/Property' );
+  const ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
+  const Rectangle2 = require( 'DOT/Rectangle' );// eslint-disable-line require-statement-match
+  const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const Shape = require( 'KITE/Shape' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
+  const ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
+  const Util = require( 'DOT/Util' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
+  const WaveWebGLNode = require( 'BENDING_LIGHT/intro/view/WaveWebGLNode' );
 
   // strings
-  var anglesString = require( 'string!BENDING_LIGHT/angles' );
-  var materialString = require( 'string!BENDING_LIGHT/material' );
-  var normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
+  const anglesString = require( 'string!BENDING_LIGHT/angles' );
+  const materialString = require( 'string!BENDING_LIGHT/material' );
+  const normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
 
   // constants
   var INSET = 10;

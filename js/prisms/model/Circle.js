@@ -6,14 +6,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PrismIntersection = require( 'BENDING_LIGHT/prisms/model/PrismIntersection' );
-  var Shape = require( 'KITE/Shape' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const PrismIntersection = require( 'BENDING_LIGHT/prisms/model/PrismIntersection' );
+  const Shape = require( 'KITE/Shape' );
 
   /**
    * @param {Vector2} center - center of the circle

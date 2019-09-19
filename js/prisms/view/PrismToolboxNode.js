@@ -6,36 +6,36 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Checkbox = require( 'SUN/Checkbox' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var HStrut = require( 'SCENERY/nodes/HStrut' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const Checkbox = require( 'SUN/Checkbox' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const HStrut = require( 'SCENERY/nodes/HStrut' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PrismNode = require( 'BENDING_LIGHT/prisms/view/PrismNode' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Shape = require( 'KITE/Shape' );
+  const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
-  var objectsString = require( 'string!BENDING_LIGHT/objects' );
-  var protractorString = require( 'string!BENDING_LIGHT/protractor' );
-  var reflectionsString = require( 'string!BENDING_LIGHT/reflections' );
+  const normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
+  const objectsString = require( 'string!BENDING_LIGHT/objects' );
+  const protractorString = require( 'string!BENDING_LIGHT/protractor' );
+  const reflectionsString = require( 'string!BENDING_LIGHT/reflections' );
 
   // images
-  var protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
+  const protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
 
   // constants
   var MAX_TEXT_WIDTH = 115;

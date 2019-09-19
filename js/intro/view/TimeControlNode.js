@@ -5,24 +5,24 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AquaRadioButton = require( 'SUN/AquaRadioButton' );
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const AquaRadioButton = require( 'SUN/AquaRadioButton' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
+  const StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var normalSpeedString = require( 'string!BENDING_LIGHT/normalSpeed' );
-  var slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
+  const normalSpeedString = require( 'string!BENDING_LIGHT/normalSpeed' );
+  const slowMotionString = require( 'string!BENDING_LIGHT/slowMotion' );
 
   /**
    *

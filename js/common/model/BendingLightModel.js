@@ -7,18 +7,18 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Laser = require( 'BENDING_LIGHT/common/model/Laser' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var Property = require( 'AXON/Property' );
-  var Util = require( 'SCENERY/util/Util' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Laser = require( 'BENDING_LIGHT/common/model/Laser' );
+  const MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
+  const ObservableArray = require( 'AXON/ObservableArray' );
+  const Property = require( 'AXON/Property' );
+  const Util = require( 'SCENERY/util/Util' );
 
   // constants
   var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;

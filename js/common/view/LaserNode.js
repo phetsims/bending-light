@@ -6,26 +6,26 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var BooleanRoundStickyToggleButton = require( 'SUN/buttons/BooleanRoundStickyToggleButton' );
-  var Color = require( 'SCENERY/util/Color' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Property = require( 'AXON/Property' );
-  var Shape = require( 'KITE/Shape' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  const BooleanRoundStickyToggleButton = require( 'SUN/buttons/BooleanRoundStickyToggleButton' );
+  const Color = require( 'SCENERY/util/Color' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Property = require( 'AXON/Property' );
+  const Shape = require( 'KITE/Shape' );
+  const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // images
-  var laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
-  var laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
+  const laserKnobImage = require( 'image!BENDING_LIGHT/laser_knob.png' );
+  const laserWithoutKnobImage = require( 'image!BENDING_LIGHT/laser.png' );
 
   // constants
   var dragRegionColor = new Color( 255, 0, 0, 0 );

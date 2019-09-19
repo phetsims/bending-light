@@ -6,23 +6,23 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PrismsModel = require( 'BENDING_LIGHT/prisms/model/PrismsModel' );
-  var PrismsView = require( 'BENDING_LIGHT/prisms/view/PrismsView' );
-  var Screen = require( 'JOIST/Screen' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const PrismsModel = require( 'BENDING_LIGHT/prisms/model/PrismsModel' );
+  const PrismsView = require( 'BENDING_LIGHT/prisms/view/PrismsView' );
+  const Screen = require( 'JOIST/Screen' );
 
   // strings
-  var prismsString = require( 'string!BENDING_LIGHT/prisms' );
+  const prismsString = require( 'string!BENDING_LIGHT/prisms' );
 
   // images
-  var iconImage = require( 'mipmap!BENDING_LIGHT/Prisms_Screen_White.png' );
-  var navbarIconImage = require( 'mipmap!BENDING_LIGHT/Prisms_Screen_White_NavBar.png' );
+  const iconImage = require( 'mipmap!BENDING_LIGHT/Prisms_Screen_White.png' );
+  const navbarIconImage = require( 'mipmap!BENDING_LIGHT/Prisms_Screen_White_NavBar.png' );
 
   /**
    * @constructor

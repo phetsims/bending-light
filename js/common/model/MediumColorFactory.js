@@ -6,17 +6,17 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Color = require( 'SCENERY/util/Color' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LinearFunction = require( 'DOT/LinearFunction' );
-  var Property = require( 'AXON/Property' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
-  var Util = require( 'DOT/Util' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Color = require( 'SCENERY/util/Color' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LinearFunction = require( 'DOT/LinearFunction' );
+  const Property = require( 'AXON/Property' );
+  const Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  const Util = require( 'DOT/Util' );
 
   function MediumColorFactory() {
     this.lightTypeProperty = new Property( 'singleColor' ); // could also be 'white'

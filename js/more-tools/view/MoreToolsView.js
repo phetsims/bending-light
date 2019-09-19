@@ -7,23 +7,23 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
-  var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
-  var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'DOT/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
-  var ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var VelocitySensorNode = require( 'BENDING_LIGHT/more-tools/view/VelocitySensorNode' );
-  var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
-  var WaveSensorNode = require( 'BENDING_LIGHT/more-tools/view/WaveSensorNode' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
+  const LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
+  const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  const Property = require( 'AXON/Property' );
+  const Rectangle = require( 'DOT/Rectangle' );
+  const Shape = require( 'KITE/Shape' );
+  const ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const VelocitySensorNode = require( 'BENDING_LIGHT/more-tools/view/VelocitySensorNode' );
+  const WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
+  const WaveSensorNode = require( 'BENDING_LIGHT/more-tools/view/WaveSensorNode' );
 
   // constants
   var arrowScale = 1.5E-14;

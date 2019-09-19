@@ -6,21 +6,21 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
-  var RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
+  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Property = require( 'AXON/Property' );
+  const RotationDragHandle = require( 'BENDING_LIGHT/common/view/RotationDragHandle' );
+  const ScreenView = require( 'JOIST/ScreenView' );
+  const SingleColorLightCanvasNode = require( 'BENDING_LIGHT/common/view/SingleColorLightCanvasNode' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {BendingLightModel} bendingLightModel - main model of the simulations

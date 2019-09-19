@@ -6,18 +6,18 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'KITE/segments/Line' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var Ray2 = require( 'DOT/Ray2' );
-  var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Line = require( 'KITE/segments/Line' );
+  const ObservableArray = require( 'AXON/ObservableArray' );
+  const Ray2 = require( 'DOT/Ray2' );
+  const Shape = require( 'KITE/Shape' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // constants
   /**

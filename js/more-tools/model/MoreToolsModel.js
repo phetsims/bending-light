@@ -6,17 +6,17 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
-  var Property = require( 'AXON/Property' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
-  var VelocitySensor = require( 'BENDING_LIGHT/more-tools/model/VelocitySensor' );
-  var WaveSensor = require( 'BENDING_LIGHT/more-tools/model/WaveSensor' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
+  const Property = require( 'AXON/Property' );
+  const Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  const VelocitySensor = require( 'BENDING_LIGHT/more-tools/model/VelocitySensor' );
+  const WaveSensor = require( 'BENDING_LIGHT/more-tools/model/WaveSensor' );
 
   /**
    * @constructor

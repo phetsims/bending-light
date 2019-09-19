@@ -6,19 +6,19 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var IntroScreen = require( 'BENDING_LIGHT/intro/IntroScreen' );
-  var MoreToolsScreen = require( 'BENDING_LIGHT/more-tools/MoreToolsScreen' );
-  var PrismsScreen = require( 'BENDING_LIGHT/prisms/PrismsScreen' );
-  var Sim = require( 'JOIST/Sim' );
-  var SimLauncher = require( 'JOIST/SimLauncher' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const IntroScreen = require( 'BENDING_LIGHT/intro/IntroScreen' );
+  const MoreToolsScreen = require( 'BENDING_LIGHT/more-tools/MoreToolsScreen' );
+  const PrismsScreen = require( 'BENDING_LIGHT/prisms/PrismsScreen' );
+  const Sim = require( 'JOIST/Sim' );
+  const SimLauncher = require( 'JOIST/SimLauncher' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // strings
-  var bendingLightTitleString = require( 'string!BENDING_LIGHT/bending-light.title' );
+  const bendingLightTitleString = require( 'string!BENDING_LIGHT/bending-light.title' );
 
   // constants
   var tandem = Tandem.rootTandem;

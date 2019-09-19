@@ -8,14 +8,14 @@
  * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Matrix3 = require( 'DOT/Matrix3' );
-  var Vector3 = require( 'DOT/Vector3' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const Matrix3 = require( 'DOT/Matrix3' );
+  const Vector3 = require( 'DOT/Vector3' );
 
   // constants (these are vars because other constants refer to them)
   var SPEED_OF_LIGHT = 2.99792458E8;

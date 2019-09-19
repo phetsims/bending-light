@@ -7,38 +7,38 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ArrowButton = require( 'SUN/buttons/ArrowButton' );
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var ComboBox = require( 'SUN/ComboBox' );
-  var ComboBoxItem = require( 'SUN/ComboBoxItem' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
-  var HSlider = require( 'SUN/HSlider' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Panel = require( 'SUN/Panel' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
-  var Range = require( 'DOT/Range' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
+  const ArrowButton = require( 'SUN/buttons/ArrowButton' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const ComboBox = require( 'SUN/ComboBox' );
+  const ComboBoxItem = require( 'SUN/ComboBoxItem' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
+  const HSlider = require( 'SUN/HSlider' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Medium = require( 'BENDING_LIGHT/common/model/Medium' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Panel = require( 'SUN/Panel' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Util = require( 'DOT/Util' );
 
   // strings
-  var airString = require( 'string!BENDING_LIGHT/air' );
-  var customString = require( 'string!BENDING_LIGHT/custom' );
-  var glassString = require( 'string!BENDING_LIGHT/glass' );
-  var indexOfRefractionString = require( 'string!BENDING_LIGHT/indexOfRefraction' );
-  var unknownString = require( 'string!BENDING_LIGHT/unknown' );
-  var waterString = require( 'string!BENDING_LIGHT/water' );
+  const airString = require( 'string!BENDING_LIGHT/air' );
+  const customString = require( 'string!BENDING_LIGHT/custom' );
+  const glassString = require( 'string!BENDING_LIGHT/glass' );
+  const indexOfRefractionString = require( 'string!BENDING_LIGHT/indexOfRefraction' );
+  const unknownString = require( 'string!BENDING_LIGHT/unknown' );
+  const waterString = require( 'string!BENDING_LIGHT/water' );
 
   // constants
   var INDEX_OF_REFRACTION_MIN = Substance.AIR.indexForRed;

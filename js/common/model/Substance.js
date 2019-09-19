@@ -6,22 +6,22 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
-  var inherit = require( 'PHET_CORE/inherit' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  const DispersionFunction = require( 'BENDING_LIGHT/common/model/DispersionFunction' );
+  const inherit = require( 'PHET_CORE/inherit' );
 
   // strings
-  var airString = require( 'string!BENDING_LIGHT/air' );
-  var diamondString = require( 'string!BENDING_LIGHT/diamond' );
-  var glassString = require( 'string!BENDING_LIGHT/glass' );
-  var mysteryAString = require( 'string!BENDING_LIGHT/mysteryA' );
-  var mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
-  var waterString = require( 'string!BENDING_LIGHT/water' );
+  const airString = require( 'string!BENDING_LIGHT/air' );
+  const diamondString = require( 'string!BENDING_LIGHT/diamond' );
+  const glassString = require( 'string!BENDING_LIGHT/glass' );
+  const mysteryAString = require( 'string!BENDING_LIGHT/mysteryA' );
+  const mysteryBString = require( 'string!BENDING_LIGHT/mysteryB' );
+  const waterString = require( 'string!BENDING_LIGHT/water' );
 
   // constants
   var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;

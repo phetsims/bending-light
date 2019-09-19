@@ -5,15 +5,15 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
 
   // constants
   var lineDash = [];

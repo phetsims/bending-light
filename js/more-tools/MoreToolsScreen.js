@@ -6,23 +6,23 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var MoreToolsModel = require( 'BENDING_LIGHT/more-tools/model/MoreToolsModel' );
-  var MoreToolsView = require( 'BENDING_LIGHT/more-tools/view/MoreToolsView' );
-  var Property = require( 'AXON/Property' );
-  var Screen = require( 'JOIST/Screen' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const MoreToolsModel = require( 'BENDING_LIGHT/more-tools/model/MoreToolsModel' );
+  const MoreToolsView = require( 'BENDING_LIGHT/more-tools/view/MoreToolsView' );
+  const Property = require( 'AXON/Property' );
+  const Screen = require( 'JOIST/Screen' );
 
   // strings
-  var moreToolsString = require( 'string!BENDING_LIGHT/moreTools' );
+  const moreToolsString = require( 'string!BENDING_LIGHT/moreTools' );
 
   // images
-  var iconImage = require( 'mipmap!BENDING_LIGHT/More_Tools_Screen.png' );
+  const iconImage = require( 'mipmap!BENDING_LIGHT/More_Tools_Screen.png' );
 
   /**
    * @constructor

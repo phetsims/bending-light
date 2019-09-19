@@ -6,14 +6,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
-  var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
+  const WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
 
   var scratchFloatArray1 = new Float32Array( 9 );
   var scratchFloatArray2 = new Float32Array( 9 );

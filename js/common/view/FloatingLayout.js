@@ -6,11 +6,11 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
 
   // The fraction the objects can float out of the layout bounds
   var floatFraction = 0.3;

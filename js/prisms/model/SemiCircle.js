@@ -6,16 +6,16 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Arc = require( 'KITE/segments/Arc' );
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'KITE/segments/Line' );
-  var PrismIntersection = require( 'BENDING_LIGHT/prisms/model/PrismIntersection' );
-  var Shape = require( 'KITE/Shape' );
+  const Arc = require( 'KITE/segments/Arc' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Line = require( 'KITE/segments/Line' );
+  const PrismIntersection = require( 'BENDING_LIGHT/prisms/model/PrismIntersection' );
+  const Shape = require( 'KITE/Shape' );
 
   /**
    * @param {number} referencePointIndex - is used as the drag handle corner for rotation

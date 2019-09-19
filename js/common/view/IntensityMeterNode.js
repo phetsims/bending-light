@@ -6,28 +6,28 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var NodeProperty = require( 'SCENERY/util/NodeProperty' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Vector2Property = require( 'DOT/Vector2Property' );
-  var WireNode = require( 'SCENERY_PHET/WireNode' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const NodeProperty = require( 'SCENERY/util/NodeProperty' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const Vector2Property = require( 'DOT/Vector2Property' );
+  const WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // strings
-  var intensityString = require( 'string!BENDING_LIGHT/intensity' );
+  const intensityString = require( 'string!BENDING_LIGHT/intensity' );
 
   // constants
   var NORMAL_DISTANCE = 25;

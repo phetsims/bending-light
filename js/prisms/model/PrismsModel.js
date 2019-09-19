@@ -6,31 +6,31 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
-  var Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
-  var Color = require( 'SCENERY/util/Color' );
-  var ColoredRay = require( 'BENDING_LIGHT/prisms/model/ColoredRay' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
-  var Medium = require( 'BENDING_LIGHT/common/model/Medium' );
-  var MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
-  var Prism = require( 'BENDING_LIGHT/prisms/model/Prism' );
-  var Property = require( 'AXON/Property' );
-  var Ray2 = require( 'DOT/Ray2' );
-  var SemiCircle = require( 'BENDING_LIGHT/prisms/model/SemiCircle' );
-  var Shape = require( 'KITE/Shape' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
-  var Util = require( 'DOT/Util' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  const BendingLightModel = require( 'BENDING_LIGHT/common/model/BendingLightModel' );
+  const Circle = require( 'BENDING_LIGHT/prisms/model/Circle' );
+  const Color = require( 'SCENERY/util/Color' );
+  const ColoredRay = require( 'BENDING_LIGHT/prisms/model/ColoredRay' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
+  const Medium = require( 'BENDING_LIGHT/common/model/Medium' );
+  const MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
+  const ObservableArray = require( 'AXON/ObservableArray' );
+  const Polygon = require( 'BENDING_LIGHT/prisms/model/Polygon' );
+  const Prism = require( 'BENDING_LIGHT/prisms/model/Prism' );
+  const Property = require( 'AXON/Property' );
+  const Ray2 = require( 'DOT/Ray2' );
+  const SemiCircle = require( 'BENDING_LIGHT/prisms/model/SemiCircle' );
+  const Shape = require( 'KITE/Shape' );
+  const Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   // constants
   var WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;

@@ -6,35 +6,35 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
-  var FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
-  var LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/prisms/view/LaserTypeRadioButtonGroup' );
-  var MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Panel = require( 'SUN/Panel' );
-  var PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
-  var Property = require( 'AXON/Property' );
-  var ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
-  var WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightView = require( 'BENDING_LIGHT/common/view/BendingLightView' );
+  const FloatingLayout = require( 'BENDING_LIGHT/common/view/FloatingLayout' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const IntersectionNode = require( 'BENDING_LIGHT/prisms/view/IntersectionNode' );
+  const LaserTypeRadioButtonGroup = require( 'BENDING_LIGHT/prisms/view/LaserTypeRadioButtonGroup' );
+  const MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
+  const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Panel = require( 'SUN/Panel' );
+  const PrismToolboxNode = require( 'BENDING_LIGHT/prisms/view/PrismToolboxNode' );
+  const Property = require( 'AXON/Property' );
+  const ProtractorNode = require( 'BENDING_LIGHT/common/view/ProtractorNode' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const TranslationDragHandle = require( 'BENDING_LIGHT/common/view/TranslationDragHandle' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const WavelengthControl = require( 'BENDING_LIGHT/common/view/WavelengthControl' );
+  const WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
 
   // constants
   var INSET = 10;
 
   // strings
-  var environmentString = require( 'string!BENDING_LIGHT/environment' );
+  const environmentString = require( 'string!BENDING_LIGHT/environment' );
 
   /**
    * @param {PrismsModel} prismsModel - model of prisms screen

@@ -13,17 +13,17 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Util = require( 'DOT/Util' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Util = require( 'DOT/Util' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates

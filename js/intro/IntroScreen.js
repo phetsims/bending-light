@@ -6,25 +6,25 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
-  var IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
-  var LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
-  var Property = require( 'AXON/Property' );
-  var Screen = require( 'JOIST/Screen' );
-  var Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
+  const IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
+  const LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
+  const Property = require( 'AXON/Property' );
+  const Screen = require( 'JOIST/Screen' );
+  const Substance = require( 'BENDING_LIGHT/common/model/Substance' );
 
   // strings
-  var introString = require( 'string!BENDING_LIGHT/intro' );
+  const introString = require( 'string!BENDING_LIGHT/intro' );
 
   // images
-  var icon = require( 'mipmap!BENDING_LIGHT/Intro_Screen.png' );
+  const icon = require( 'mipmap!BENDING_LIGHT/Intro_Screen.png' );
 
   /**
    * @constructor
