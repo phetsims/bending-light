@@ -21,9 +21,9 @@ define( require => {
   const bendingLightTitleString = require( 'string!BENDING_LIGHT/bending-light.title' );
 
   // constants
-  var tandem = Tandem.rootTandem;
+  const tandem = Tandem.rootTandem;
 
-  var simOptions = {
+  const simOptions = {
     credits: {
       leadDesign: 'Amy Rouinfar (HTML5),  Noah Podolefsky (Java)',
       softwareDevelopment: 'Sam Reid',
@@ -36,7 +36,7 @@ define( require => {
   };
 
   SimLauncher.launch( function() {
-    var sim = new Sim( bendingLightTitleString, [
+    const sim = new Sim( bendingLightTitleString, [
       new IntroScreen( tandem.createTandem( 'introScreen' ) ),
       new PrismsScreen( tandem.createTandem( 'prismsScreen' ) ),
       new MoreToolsScreen( tandem.createTandem( 'moreToolsScreen' ) )

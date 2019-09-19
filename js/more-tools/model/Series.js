@@ -37,7 +37,7 @@ define( require => {
      * @param {number} minTime - minimum time to be displayed on chart node
      */
     keepLastSamples: function( minTime ) {
-      var startIndex = 0;
+      let startIndex = 0;
       if ( this.seriesProperty.get().length ) {
 
         // update the start time

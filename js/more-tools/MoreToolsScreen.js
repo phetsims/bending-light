@@ -29,7 +29,7 @@ define( require => {
    */
   function MoreToolsScreen( tandem ) {
 
-    var options = {
+    const options = {
       name: moreToolsString,
       homeScreenIcon: new Image( iconImage ),
       backgroundColorProperty: new Property( 'white' ),

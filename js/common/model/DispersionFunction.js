@@ -39,15 +39,15 @@ define( require => {
      * @returns {number}
      */
     getSellmeierValue: function( wavelength ) {
-      var L2 = wavelength * wavelength;
-      var B1 = 1.03961212;
-      var B2 = 0.231792344;
-      var B3 = 1.01046945;
+      const L2 = wavelength * wavelength;
+      const B1 = 1.03961212;
+      const B2 = 0.231792344;
+      const B3 = 1.01046945;
 
       // convert to metric
-      var C1 = 6.00069867E-3 * 1E-12;
-      var C2 = 2.00179144E-2 * 1E-12;
-      var C3 = 1.03560653E2 * 1E-12;
+      const C1 = 6.00069867E-3 * 1E-12;
+      const C2 = 2.00179144E-2 * 1E-12;
+      const C3 = 1.03560653E2 * 1E-12;
       return Math.sqrt( 1 + B1 * L2 / (L2 - C1) + B2 * L2 / (L2 - C2) + B3 * L2 / (L2 - C3) );
     },
 
@@ -69,14 +69,14 @@ define( require => {
     getIndexOfRefraction: function( wavelength ) {
 
       // get the reference values
-      var nAirReference = this.getAirIndex( this.referenceWavelength );
-      var nGlassReference = this.getSellmeierValue( this.referenceWavelength );
+      const nAirReference = this.getAirIndex( this.referenceWavelength );
+      const nGlassReference = this.getSellmeierValue( this.referenceWavelength );
 
       // determine the mapping and make sure it is in a good range
-      var delta = nGlassReference - nAirReference;
+      const delta = nGlassReference - nAirReference;
 
       // 0 to 1 (air to glass)
-      var x = (this.referenceIndexOfRefraction - nAirReference) / delta;
+      let x = (this.referenceIndexOfRefraction - nAirReference) / delta;
       x = Util.clamp( x, 0, Number.POSITIVE_INFINITY );
 
       // take a linear combination of glass and air equations

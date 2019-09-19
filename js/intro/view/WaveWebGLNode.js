@@ -15,8 +15,8 @@ define( require => {
   const ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
   const WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
 
-  var scratchFloatArray1 = new Float32Array( 9 );
-  var scratchFloatArray2 = new Float32Array( 9 );
+  const scratchFloatArray1 = new Float32Array( 9 );
+  const scratchFloatArray2 = new Float32Array( 9 );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
@@ -49,7 +49,7 @@ define( require => {
     this.node = node;
 
     // Simple example for custom shader
-    var vertexShaderSource = [
+    const vertexShaderSource = [
 
       // Position
       'attribute vec3 aPosition;', // vertex attribute
@@ -71,7 +71,7 @@ define( require => {
     ].join( '\n' );
 
     // custom fragment shader
-    var fragmentShaderSource = [
+    const fragmentShaderSource = [
       'precision mediump float;',
       'uniform float uPowerFraction;', // light ray power fraction
       'uniform vec2 uTail;', // Tail point
@@ -109,30 +109,30 @@ define( require => {
 
   inherit( Object, WavePainter, {
     paint: function( modelViewMatrix, projectionMatrix ) {
-      var gl = this.gl;
-      var shaderProgram = this.shaderProgram;
-      var rays = this.node.rays;
-      var modelViewTransform = this.node.modelViewTransform;
+      const gl = this.gl;
+      const shaderProgram = this.shaderProgram;
+      const rays = this.node.rays;
+      const modelViewTransform = this.node.modelViewTransform;
 
       shaderProgram.use();
 
-      for ( var i = rays.length - 1; i >= 0; i-- ) {
-        var elements = [];
+      for ( let i = rays.length - 1; i >= 0; i-- ) {
+        const elements = [];
         var red;
         var green;
         var blue;
-        var lightRay = rays.get( i );
-        var lightRayWaveSubPath = lightRay.waveShape.subpaths[ 0 ];
+        const lightRay = rays.get( i );
+        const lightRayWaveSubPath = lightRay.waveShape.subpaths[ 0 ];
 
         // get the x and y coordinates of wave corner points
-        var point1X = modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 0 ].x );
-        var point1Y = modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 0 ].y );
-        var point2X = modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 1 ].x );
-        var point2Y = modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 1 ].y );
-        var point3X = modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 3 ].x );
-        var point3Y = modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 3 ].y );
-        var point4X = modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 2 ].x );
-        var point4Y = modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 2 ].y );
+        const point1X = modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 0 ].x );
+        const point1Y = modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 0 ].y );
+        const point2X = modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 1 ].x );
+        const point2Y = modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 1 ].y );
+        const point3X = modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 3 ].x );
+        const point3Y = modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 3 ].y );
+        const point4X = modelViewTransform.modelToViewX( lightRayWaveSubPath.points[ 2 ].x );
+        const point4Y = modelViewTransform.modelToViewY( lightRayWaveSubPath.points[ 2 ].y );
 
         // points to draw light ray beam
         elements.push( point1X, point1Y, 1 );
@@ -141,21 +141,21 @@ define( require => {
         elements.push( point4X, point4Y, 1 );
 
         // light ray power fraction
-        var lightRayPowerFraction = lightRay.powerFraction;
+        const lightRayPowerFraction = lightRay.powerFraction;
 
         // tail position in view co-ordinates
-        var tailViewX = modelViewTransform.modelToViewX( lightRay.tail.x );
-        var tailViewY = modelViewTransform.modelToViewY( lightRay.tail.y );
+        const tailViewX = modelViewTransform.modelToViewX( lightRay.tail.x );
+        const tailViewY = modelViewTransform.modelToViewY( lightRay.tail.y );
 
         // light ray angle
-        var lightRayAngle = lightRay.getAngle();
+        const lightRayAngle = lightRay.getAngle();
 
         // light ray wavelength
-        var wavelength = modelViewTransform.modelToViewDeltaX( lightRay.wavelength );
+        const wavelength = modelViewTransform.modelToViewDeltaX( lightRay.wavelength );
 
         // phase
-        var totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
-        var phaseDiff = modelViewTransform.modelToViewDeltaX(
+        const totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
+        const phaseDiff = modelViewTransform.modelToViewDeltaX(
           // Just keep the fractional part
           (totalPhaseOffsetInNumberOfWavelengths % 1) * lightRay.wavelength
         );

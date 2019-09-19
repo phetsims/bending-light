@@ -21,7 +21,7 @@ define( require => {
   const Util = require( 'SCENERY/util/Util' );
 
   // constants
-  var DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
+  const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
 
   /**
    * Get the fraction of power reflected from the medium
@@ -32,7 +32,7 @@ define( require => {
    * @param {number} cosTheta2 - cosine of reflected angle
    * @returns {number}
    */
-  var getReflectedPower = function getReflectedPower( n1, n2, cosTheta1, cosTheta2 ) {
+  const getReflectedPower = function getReflectedPower( n1, n2, cosTheta1, cosTheta2 ) {
     return Math.pow( (n1 * cosTheta1 - n2 * cosTheta2) / (n1 * cosTheta1 + n2 * cosTheta2), 2 );
   };
 
@@ -45,12 +45,12 @@ define( require => {
    * @param {number} cosTheta2 - cosine of transmitted angle
    * @returns {number}
    */
-  var getTransmittedPower = function getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ) {
+  const getTransmittedPower = function getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ) {
     return 4 * n1 * n2 * cosTheta1 * cosTheta2 / (Math.pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ));
   };
 
   // a good size for the units being used in the sim; used to determine the dimensions of various model objects
-  var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
+  const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   /**
    * @param {number} laserAngle - laser angle in radians
@@ -103,7 +103,7 @@ define( require => {
        * @public
        */
       clearModel: function() {
-        for ( var i = 0; i < this.rays.length; i++ ) {
+        for ( let i = 0; i < this.rays.length; i++ ) {
           this.rays.get( i ).particles.clear();
         }
         this.rays.clear();

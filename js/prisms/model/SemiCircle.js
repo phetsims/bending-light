@@ -34,7 +34,7 @@ define( require => {
     this.centroid = this.center;
 
     // Creates a shape
-    var startAngle = Math.atan2( this.center.y - this.points[ 1 ].y, this.center.x - this.points[ 1 ].x );
+    const startAngle = Math.atan2( this.center.y - this.points[ 1 ].y, this.center.x - this.points[ 1 ].x );
 
     // @public (read-only) - the shape of the semi-circle
     this.shape = new Shape()
@@ -65,8 +65,8 @@ define( require => {
      */
     getTranslatedInstance: function( deltaX, deltaY ) {
 
-      var newPoints = [];
-      for ( var j = 0; j < this.points.length; j++ ) {
+      const newPoints = [];
+      for ( let j = 0; j < this.points.length; j++ ) {
 
         // get new points after rotating
         newPoints.push( this.points[ j ].plusXY( deltaX, deltaY ) );
@@ -84,10 +84,10 @@ define( require => {
      * @returns {SemiCircle}
      */
     getRotatedInstance: function( angle, rotationPoint ) {
-      var newPoints = [];
-      for ( var k = 0; k < this.points.length; k++ ) {
-        var vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
-        var rotated = vectorAboutCentroid.rotate( angle );
+      const newPoints = [];
+      for ( let k = 0; k < this.points.length; k++ ) {
+        const vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
+        const rotated = vectorAboutCentroid.rotate( angle );
 
         // get new points after rotating
         newPoints.push( rotated.add( rotationPoint ) );
@@ -133,9 +133,9 @@ define( require => {
      * @returns {array.<Intersection>}
      */
     getIntersections: function( ray ) {
-      var segment = new Line( this.points[ 0 ], this.points[ 1 ] );
-      var startAngle = Math.atan2( this.points[ 1 ].y - this.center.y, this.points[ 1 ].x - this.center.x );
-      var arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
+      const segment = new Line( this.points[ 0 ], this.points[ 1 ] );
+      const startAngle = Math.atan2( this.points[ 1 ].y - this.center.y, this.points[ 1 ].x - this.center.x );
+      const arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
       return PrismIntersection.getIntersections( [ segment ], arc, this.center, ray );
     }
   } );

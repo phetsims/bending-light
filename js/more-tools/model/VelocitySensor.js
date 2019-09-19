@@ -52,7 +52,7 @@ define( require => {
 
     // Make a copy for use in the toolbox icon
     copy: function() {
-      var velocitySensor = new VelocitySensor();
+      const velocitySensor = new VelocitySensor();
       velocitySensor.positionProperty.value = this.positionProperty.value.copy();
       velocitySensor.valueProperty.value = this.valueProperty.value.copy();
       velocitySensor.enabledProperty.value = this.enabledProperty.value;

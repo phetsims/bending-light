@@ -16,7 +16,7 @@ define( require => {
   const LightRay = require( 'BENDING_LIGHT/common/model/LightRay' );
 
   // constants
-  var lineDash = [];
+  const lineDash = [];
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -57,8 +57,8 @@ define( require => {
       context.setLineDash( lineDash );
       context.lineCap = 'round';
 
-      for ( var i = 0; i < this.rays.length; i++ ) {
-        var ray = this.rays.get( i );
+      for ( let i = 0; i < this.rays.length; i++ ) {
+        const ray = this.rays.get( i );
 
         // iPad3 shows a opacity=0 ray as opacity=1 for unknown reasons, so we simply omit those rays
         if ( ray.powerFraction > 1E-6 ) {

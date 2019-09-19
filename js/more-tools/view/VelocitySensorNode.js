@@ -45,7 +45,7 @@ define( require => {
    */
   function VelocitySensorNode( modelViewTransform, velocitySensor, arrowScale, options ) {
 
-    var self = this;
+    const self = this;
     Node.call( this, {
       cursor: 'pointer',
       pickable: true
@@ -54,15 +54,15 @@ define( require => {
     this.modelViewTransform = modelViewTransform; // @public (read-only)
     this.velocitySensor = velocitySensor; // @public (read-only)
 
-    var rectangleWidth = 54;
-    var rectangleHeight = 37;
+    const rectangleWidth = 54;
+    const rectangleHeight = 37;
     this.bodyNode = new Node(); // @private
 
-    var triangleHeight = 15;
-    var triangleWidth = 8;
+    const triangleHeight = 15;
+    const triangleWidth = 8;
 
     // Adding triangle shape
-    var triangleShapeNode = new Path( new Shape()
+    const triangleShapeNode = new Path( new Shape()
       .moveTo( 0, 0 )
       .lineTo( triangleWidth, -triangleHeight / 2 )
       .lineTo( triangleWidth, +triangleHeight / 2 )
@@ -73,9 +73,9 @@ define( require => {
     this.bodyNode.addChild( triangleShapeNode );
 
     // Adding outer rectangle
-    var bodyColor = new Color( '#CF8702' );
-    var arc = 7.5;
-    var bodyRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, arc, arc, {
+    const bodyColor = new Color( '#CF8702' );
+    const arc = 7.5;
+    const bodyRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, arc, arc, {
       stroke: '#844702',
       fill: new LinearGradient( 0, 0, 0, rectangleHeight )
 
@@ -94,7 +94,7 @@ define( require => {
     this.bodyNode.addChild( bodyRectangle );
 
     // Adding velocity meter title text
-    var titleText = new Text( speedString, {
+    const titleText = new Text( speedString, {
       fill: 'black',
       font: new PhetFont( 10 ),
       maxWidth: rectangleWidth - 7.5,
@@ -105,7 +105,7 @@ define( require => {
     this.bodyNode.addChild( titleText );
 
     // Adding inner rectangle
-    var whiteTextArea = new ShadedRectangle( new Bounds2( 0, 0, rectangleWidth - 15, rectangleHeight - 22.5 ), {
+    const whiteTextArea = new ShadedRectangle( new Bounds2( 0, 0, rectangleWidth - 15, rectangleHeight - 22.5 ), {
       baseColor: 'white',
       lightSource: 'rightBottom',
       cornerRadius: 3,
@@ -115,7 +115,7 @@ define( require => {
     this.bodyNode.addChild( whiteTextArea );
 
     // Adding velocity measure label
-    var labelText = new Text( '', {
+    const labelText = new Text( '', {
       fill: 'black',
       font: new PhetFont( 10 ),
       center: whiteTextArea.center
@@ -125,7 +125,7 @@ define( require => {
     this.addChild( this.bodyNode );
 
     // Arrow shape
-    var arrowWidth = 6;
+    const arrowWidth = 6;
     this.arrowShape = new Path( null, {
       fill: 'blue',
       opacity: 0.6
@@ -134,8 +134,8 @@ define( require => {
 
     velocitySensor.valueProperty.link( function( velocity ) {
 
-      var positionX = modelViewTransform.modelToViewDeltaX( velocity.x ) * arrowScale;
-      var positionY = modelViewTransform.modelToViewDeltaY( velocity.y ) * arrowScale;
+      const positionX = modelViewTransform.modelToViewDeltaX( velocity.x ) * arrowScale;
+      const positionY = modelViewTransform.modelToViewDeltaY( velocity.y ) * arrowScale;
 
       // update the arrow shape when the velocity value changes
       self.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY, {
@@ -149,8 +149,8 @@ define( require => {
 
     // update the velocity node position
     velocitySensor.positionProperty.link( function( position ) {
-      var velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
-      var velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
+      const velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
+      const velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
       self.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
     } );
 
@@ -163,8 +163,8 @@ define( require => {
           labelText.text = unknownVelocityString;
         }
         else {
-          var stringNumber = Util.toFixed( velocity.magnitude / BendingLightConstants.SPEED_OF_LIGHT, 2 );
-          var text = StringUtils.format( velocityPatternString, stringNumber );
+          const stringNumber = Util.toFixed( velocity.magnitude / BendingLightConstants.SPEED_OF_LIGHT, 2 );
+          const text = StringUtils.format( velocityPatternString, stringNumber );
           labelText.setText( text );
         }
         labelText.center = whiteTextArea.center;

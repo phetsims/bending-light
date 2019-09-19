@@ -24,7 +24,7 @@ define( require => {
   const waterString = require( 'string!BENDING_LIGHT/water' );
 
   // constants
-  var DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
+  const DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
   /**
    * @param {string} name - name of the medium

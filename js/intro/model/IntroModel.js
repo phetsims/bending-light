@@ -29,10 +29,10 @@ define( require => {
   const WaveParticle = require( 'BENDING_LIGHT/common/model/WaveParticle' );
 
   // constants
-  var CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
+  const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
   // If the ray is too long in this step, then webgl will have rendering artifacts, see #147
-  var BEAM_LENGTH = 1E-3;
+  const BEAM_LENGTH = 1E-3;
 
   /**
    * @param {Substance} bottomSubstance - state of bottom medium
@@ -41,7 +41,7 @@ define( require => {
    */
   function IntroModel( bottomSubstance, horizontalPlayAreaOffset ) {
 
-    var self = this;
+    const self = this;
     BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
 
     // Top medium
@@ -123,52 +123,52 @@ define( require => {
     propagateRays: function() {
 
       if ( this.laser.onProperty.value ) {
-        var tail = this.laser.emissionPointProperty.value;
+        const tail = this.laser.emissionPointProperty.value;
 
         // Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
         // index in top medium
-        var n1 = this.indexOfRefractionOfTopMediumProperty.get();
+        const n1 = this.indexOfRefractionOfTopMediumProperty.get();
 
         // index of bottom medium
-        var n2 = this.indexOfRefractionOfBottomMediumProperty.get();
+        const n2 = this.indexOfRefractionOfBottomMediumProperty.get();
 
         // angle from the up vertical
-        var theta1 = this.laser.getAngle() - Math.PI / 2;
+        const theta1 = this.laser.getAngle() - Math.PI / 2;
 
         // angle from the down vertical
-        var theta2 = Math.asin( n1 / n2 * Math.sin( theta1 ) );
+        const theta2 = Math.asin( n1 / n2 * Math.sin( theta1 ) );
 
         // start with full strength laser
-        var sourcePower = 1.0;
+        const sourcePower = 1.0;
 
         // cross section of incident light, used to compute wave widths
-        var a = CHARACTERISTIC_LENGTH * 4;
+        const a = CHARACTERISTIC_LENGTH * 4;
 
         // This one fixes the input beam to be a fixed width independent of angle
-        var sourceWaveWidth = a / 2;
+        const sourceWaveWidth = a / 2;
 
         // according to http://en.wikipedia.org/wiki/Wavelength
-        var color = this.laser.colorProperty.get().getColor();
-        var wavelengthInTopMedium = this.laser.colorProperty.get().wavelength / n1;
+        const color = this.laser.colorProperty.get().getColor();
+        const wavelengthInTopMedium = this.laser.colorProperty.get().wavelength / n1;
 
         // calculated wave width of reflected and refracted wave width.
         // specially used in in wave Mode
-        var trapeziumWidth = Math.abs( sourceWaveWidth / Math.sin( this.laser.getAngle() ) );
+        const trapeziumWidth = Math.abs( sourceWaveWidth / Math.sin( this.laser.getAngle() ) );
 
         // since the n1 depends on the wavelength, when you change the wavelength,
         // the wavelengthInTopMedium also changes (seemingly in the opposite direction)
-        var incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
+        const incidentRay = new LightRay( trapeziumWidth, tail, new Vector2( 0, 0 ), n1, wavelengthInTopMedium,
           this.laser.getWavelength() * 1E9, sourcePower, color, sourceWaveWidth, 0.0, true, false, this.laserViewProperty.value, 'incident' );
 
-        var rayAbsorbed = this.addAndAbsorb( incidentRay, 'incident' );
+        const rayAbsorbed = this.addAndAbsorb( incidentRay, 'incident' );
         if ( !rayAbsorbed ) {
-          var thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
-          var hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) ||
+          const thetaOfTotalInternalReflection = Math.asin( n2 / n1 );
+          let hasTransmittedRay = isNaN( thetaOfTotalInternalReflection ) ||
                                   theta1 < thetaOfTotalInternalReflection;
 
           // reflected
           // assuming perpendicular beam polarization, compute percent power
-          var reflectedPowerRatio;
+          let reflectedPowerRatio;
           if ( hasTransmittedRay ) {
             reflectedPowerRatio = BendingLightModel.getReflectedPower( n1, n2, Math.cos( theta1 ), Math.cos( theta2 ) );
           }
@@ -182,9 +182,9 @@ define( require => {
           }
 
           // make sure it has enough power to show up on the intensity meter, after rounding
-          var hasReflectedRay = reflectedPowerRatio >= 0.005;
+          const hasReflectedRay = reflectedPowerRatio >= 0.005;
           if ( hasReflectedRay ) {
-            var reflectedRay = new LightRay(
+            const reflectedRay = new LightRay(
               trapeziumWidth,
               new Vector2( 0, 0 ),
               Vector2.createPolar( BEAM_LENGTH, Math.PI - this.laser.getAngle() ),
@@ -209,9 +209,9 @@ define( require => {
 
             // transmitted
             // n2/n1 = L1/L2 => L2 = L1*n2/n1
-            var transmittedWavelength = incidentRay.wavelength / n2 * n1;
+            const transmittedWavelength = incidentRay.wavelength / n2 * n1;
             if ( !( isNaN( theta2 ) || !isFinite( theta2 ) ) ) {
-              var transmittedPowerRatio = BendingLightModel.getTransmittedPower(
+              let transmittedPowerRatio = BendingLightModel.getTransmittedPower(
                 n1,
                 n2,
                 Math.cos( theta1 ),
@@ -223,11 +223,11 @@ define( require => {
 
               // make the beam width depend on the input beam width, so that the same beam width is transmitted as was
               // intercepted
-              var beamHalfWidth = a / 2;
-              var extentInterceptedHalfWidth = beamHalfWidth / Math.sin( Math.PI / 2 - theta1 ) / 2;
-              var transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
-              var transmittedWaveWidth = transmittedBeamHalfWidth * 2;
-              var transmittedRay = new LightRay(
+              const beamHalfWidth = a / 2;
+              const extentInterceptedHalfWidth = beamHalfWidth / Math.sin( Math.PI / 2 - theta1 ) / 2;
+              const transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
+              const transmittedWaveWidth = transmittedBeamHalfWidth * 2;
+              const transmittedRay = new LightRay(
                 trapeziumWidth,
                 new Vector2( 0, 0 ),
                 Vector2.createPolar( BEAM_LENGTH, theta2 - Math.PI / 2 ),
@@ -257,17 +257,17 @@ define( require => {
      * @returns {boolean}
      */
     addAndAbsorb: function( ray, rayType ) {
-      var angleOffset = rayType === 'incident' ? Math.PI : 0;
+      const angleOffset = rayType === 'incident' ? Math.PI : 0;
 
       // find intersection points with the intensity sensor
-      var intersects = this.intensityMeter.enabledProperty.value ?
+      const intersects = this.intensityMeter.enabledProperty.value ?
                        ray.getIntersections( this.intensityMeter.getSensorShape(), rayType ) : [];
 
       // if it intersected, then absorb the ray
-      var rayAbsorbed = intersects.length > 0;
+      let rayAbsorbed = intersects.length > 0;
       if ( rayAbsorbed ) {
-        var x;
-        var y;
+        let x;
+        let y;
         assert && assert( intersects.length <= 2, 'too many intersections' );
         if ( intersects.length === 1 ) {
 
@@ -280,8 +280,8 @@ define( require => {
           y = ( intersects[ 0 ].point.y + intersects[ 1 ].point.y ) / 2;
         }
 
-        var distance = Math.sqrt( x * x + y * y );
-        var interrupted = new LightRay(
+        const distance = Math.sqrt( x * x + y * y );
+        const interrupted = new LightRay(
           ray.trapeziumWidth,
           ray.tail,
           Vector2.createPolar( distance, ray.getAngle() + angleOffset ),
@@ -299,7 +299,7 @@ define( require => {
         );
 
         // don't let the wave intersect the intensity meter if it is behind the laser emission point
-        var isForward = ray.toVector().dot( interrupted.toVector() ) > 0;
+        const isForward = ray.toVector().dot( interrupted.toVector() ) > 0;
         if ( interrupted.getLength() < ray.getLength() && isForward ) {
           this.addRay( interrupted );
         }
@@ -338,8 +338,8 @@ define( require => {
      * @returns {Vector2}
      */
     getVelocity: function( position ) {
-      var laserView = this.laserViewProperty.value;
-      for ( var i = 0; i < this.rays.length; i++ ) {
+      const laserView = this.laserViewProperty.value;
+      for ( let i = 0; i < this.rays.length; i++ ) {
         if ( this.rays.get( i ).contains( position, laserView === 'wave' ) ) {
           return this.rays.get( i ).getVelocityVector();
         }
@@ -354,20 +354,20 @@ define( require => {
      * @returns {Object|null}- returns object of time and magnitude if point is on ray otherwise returns null
      */
     getWaveValue: function( position ) {
-      var self = this;
-      for ( var i = 0; i < this.rays.length; i++ ) {
-        var ray = this.rays.get( i );
+      const self = this;
+      for ( let i = 0; i < this.rays.length; i++ ) {
+        const ray = this.rays.get( i );
         if ( ray.contains( position, self.laserViewProperty.value === 'wave' ) ) {
 
           // map power to displayed amplitude
-          var amplitude = Math.sqrt( ray.powerFraction );
+          const amplitude = Math.sqrt( ray.powerFraction );
 
           // find out how far the light has come, so we can compute the remainder of phases
-          var rayUnitVector = ray.getUnitVector();
-          var x = position.x - ray.tail.x;
-          var y = position.y - ray.tail.y;
-          var distanceAlongRay = rayUnitVector.x * x + rayUnitVector.y * y;
-          var phase = ray.getCosArg( distanceAlongRay );
+          const rayUnitVector = ray.getUnitVector();
+          const x = position.x - ray.tail.x;
+          const y = position.y - ray.tail.y;
+          const distanceAlongRay = rayUnitVector.x * x + rayUnitVector.y * y;
+          const phase = ray.getCosArg( distanceAlongRay );
 
           // wave is a*cos(theta)
           return { time: ray.time, magnitude: amplitude * Math.cos( phase + Math.PI ) };
@@ -395,7 +395,7 @@ define( require => {
 
       // Update the time
       this.time = this.time + ( speed === 'normal' ? 1E-16 : 0.5E-16 );
-      var self = this;
+      const self = this;
 
       // set time for each ray
       this.rays.forEach( function( ray ) {
@@ -414,14 +414,14 @@ define( require => {
      */
     createInitialParticles: function() {
 
-      var particleColor;
-      var particleGradientColor;
-      var j;
-      for ( var k = 0; k < this.rays.length; k++ ) {
-        var lightRay = this.rays.get( k );
-        var directionVector = lightRay.getUnitVector();
-        var wavelength = lightRay.wavelength;
-        var angle = lightRay.getAngle();
+      let particleColor;
+      let particleGradientColor;
+      let j;
+      for ( let k = 0; k < this.rays.length; k++ ) {
+        const lightRay = this.rays.get( k );
+        const directionVector = lightRay.getUnitVector();
+        const wavelength = lightRay.wavelength;
+        const angle = lightRay.getAngle();
         if ( k === 0 ) {
 
           // calculating tip and tail for incident ray
@@ -438,16 +438,16 @@ define( require => {
           this.tailVector.x = lightRay.tail.x - directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle );
           this.tailVector.y = lightRay.tail.y - directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle );
         }
-        var lightRayInRay2Form = new Ray2( this.tailVector, directionVector );
-        var distance = this.tipVector.distance( this.tailVector );
-        var gapBetweenSuccessiveParticles = wavelength;
+        const lightRayInRay2Form = new Ray2( this.tailVector, directionVector );
+        const distance = this.tipVector.distance( this.tailVector );
+        const gapBetweenSuccessiveParticles = wavelength;
         particleColor = new Color( lightRay.color.getRed(), lightRay.color.getGreen(), lightRay.color.getBlue(),
           Math.sqrt( lightRay.powerFraction ) ).toCSS();
         particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.powerFraction ) ).toCSS();
 
         // calculate the number of particles that can fit in the distance
-        var numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;
-        var waveParticleGap = 0;
+        const numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;
+        let waveParticleGap = 0;
 
         // create the wave particles
         for ( j = 0; j < numberOfParticles; j++ ) {
@@ -464,20 +464,20 @@ define( require => {
      */
     propagateParticles: function() {
 
-      for ( var i = 0; i < this.rays.length; i++ ) {
-        var lightRay = this.rays.get( i );
-        var wavelength = lightRay.wavelength;
-        var directionVector = lightRay.getUnitVector();
-        var waveParticles = lightRay.particles;
+      for ( let i = 0; i < this.rays.length; i++ ) {
+        const lightRay = this.rays.get( i );
+        const wavelength = lightRay.wavelength;
+        const directionVector = lightRay.getUnitVector();
+        const waveParticles = lightRay.particles;
 
         // Compute the total phase along the length of the ray.
-        var totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
+        const totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
 
         // Just keep the fractional part
-        var phaseDiff = ( totalPhaseOffsetInNumberOfWavelengths % 1 ) * wavelength;
+        let phaseDiff = ( totalPhaseOffsetInNumberOfWavelengths % 1 ) * wavelength;
         var tailX;
         var tailY;
-        var angle = lightRay.getAngle();
+        const angle = lightRay.getAngle();
         if ( i === 0 ) {
 
           // for incident ray
@@ -487,15 +487,15 @@ define( require => {
         else {
 
           // for reflected and refracted ray
-          var distance = lightRay.trapeziumWidth / 2 * Math.cos( angle );
+          const distance = lightRay.trapeziumWidth / 2 * Math.cos( angle );
           phaseDiff = ( distance + phaseDiff ) % wavelength;
           tailX = lightRay.tail.x - ( directionVector.x * lightRay.trapeziumWidth / 2 * Math.cos( angle ) );
           tailY = lightRay.tail.y - ( directionVector.y * lightRay.trapeziumWidth / 2 * Math.cos( angle ) );
         }
 
         // Changing the wave particle position within the wave particle phase
-        for ( var j = 0; j < waveParticles.length; j++ ) {
-          var particle = waveParticles.get( j );
+        for ( let j = 0; j < waveParticles.length; j++ ) {
+          const particle = waveParticles.get( j );
           particle.setX( tailX + ( directionVector.x * ( ( j * wavelength ) + phaseDiff ) ) );
           particle.setY( tailY + ( directionVector.y * ( ( j * wavelength ) + phaseDiff ) ) );
         }

@@ -42,7 +42,7 @@ define( require => {
     // radius is 0 for polygon
     if ( this.radius === 0 ) {
       this.shape.moveToPoint( this.points[ 0 ] );
-      for ( var i = 1; i < this.points.length; i++ ) {
+      for ( let i = 1; i < this.points.length; i++ ) {
         this.shape.lineToPoint( this.points[ i ] );
       }
       this.shape.close();
@@ -51,7 +51,7 @@ define( require => {
 
       // radius is nonzero for diverging lens
       this.center = this.points[ 0 ].plus( this.points[ 3 ] ).multiplyScalar( 0.5 );
-      var startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
+      const startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
       this.shape.ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, true )
         .lineToPoint( this.points[ 2 ] )
         .lineToPoint( this.points[ 1 ] )
@@ -82,8 +82,8 @@ define( require => {
      */
     getTranslatedInstance: function( deltaX, deltaY ) {
 
-      var newPoints = [];
-      for ( var j = 0; j < this.points.length; j++ ) {
+      const newPoints = [];
+      for ( let j = 0; j < this.points.length; j++ ) {
 
         // get the new points after translating
         newPoints.push( this.points[ j ].plusXY( deltaX, deltaY ) );
@@ -101,10 +101,10 @@ define( require => {
      * @returns {Polygon}
      */
     getRotatedInstance: function( angle, rotationPoint ) {
-      var newPoints = [];
-      for ( var k = 0; k < this.points.length; k++ ) {
-        var vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
-        var rotated = vectorAboutCentroid.rotate( angle );
+      const newPoints = [];
+      for ( let k = 0; k < this.points.length; k++ ) {
+        const vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
+        const rotated = vectorAboutCentroid.rotate( angle );
 
         // get the new points after rotating
         newPoints.push( rotated.add( rotationPoint ) );
@@ -150,16 +150,16 @@ define( require => {
      * @returns {Vector2}
      */
     getCentroid: function( p ) {
-      var cx = 0;
-      var cy = 0;
-      for ( var i = 0; i < p.length; i++ ) {
-        var j = ( i + 1 ) % p.length;
-        var n = ( ( p[ i ].x * p[ j ].y ) - ( p[ j ].x * p[ i ].y ) );
+      let cx = 0;
+      let cy = 0;
+      for ( let i = 0; i < p.length; i++ ) {
+        const j = ( i + 1 ) % p.length;
+        const n = ( ( p[ i ].x * p[ j ].y ) - ( p[ j ].x * p[ i ].y ) );
         cx += ( p[ i ].x + p[ j ].x ) * n;
         cy += ( p[ i ].y + p[ j ].y ) * n;
       }
-      var a = this.getArea( p );
-      var f = 1 / ( a * 6);
+      const a = this.getArea( p );
+      const f = 1 / ( a * 6);
       cx *= f;
       cy *= f;
       return new Vector2( cx, cy );
@@ -173,9 +173,9 @@ define( require => {
      * @returns {number}
      */
     getArea: function( p ) {
-      var a = 0;
-      for ( var i = 0; i < p.length; i++ ) {
-        var j = ( i + 1 ) % p.length;
+      let a = 0;
+      for ( let i = 0; i < p.length; i++ ) {
+        const j = ( i + 1 ) % p.length;
         a += ( p[ i ].x * p[ j ].y );
         a -= ( p[ j ].x * p[ i ].y );
       }
@@ -190,9 +190,9 @@ define( require => {
      * @returns {Array}
      */
     getIntersections: function( ray ) {
-      var arc = null;
+      let arc = null;
       if ( this.radius !== 0 ) {
-        var startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
+        const startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
         arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
       }
       return PrismIntersection.getIntersections( this.getEdges(), arc, this.center, ray );
@@ -204,8 +204,8 @@ define( require => {
      * @returns {Array}
      */
     getEdges: function() {
-      var lineSegments = [];
-      for ( var i = 0; i < this.points.length - 1; i++ ) {
+      const lineSegments = [];
+      for ( let i = 0; i < this.points.length - 1; i++ ) {
         lineSegments.push( new Line( this.points[ i ], this.points[ i + 1 ] ) );
       }
       if ( this.radius === 0 ) {

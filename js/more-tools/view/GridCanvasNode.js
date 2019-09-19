@@ -43,10 +43,10 @@ define( require => {
     paintCanvas: function( context ) {
 
       context.save();
-      for ( var i = 0; i < this.gridLines.length; i++ ) {
+      for ( let i = 0; i < this.gridLines.length; i++ ) {
         context.beginPath();
-        var gridLine = this.gridLines.get( i );
-        var modelViewTransform = this.modelViewTransformProperty.get();
+        const gridLine = this.gridLines.get( i );
+        const modelViewTransform = this.modelViewTransformProperty.get();
         context.moveTo(
           modelViewTransform.modelToViewX( gridLine.x1 ),
           modelViewTransform.modelToViewY( gridLine.y1 ) );

@@ -23,14 +23,14 @@ define( require => {
    */
   function MoreToolsModel() {
 
-    var self = this;
+    const self = this;
 
     // On this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent
     // bend
     IntroModel.call( this, Substance.GLASS, false );
 
     this.velocitySensor = new VelocitySensor(); // @public (read-only)
-    var waveValueGetter = function( position ) {
+    const waveValueGetter = function( position ) {
       return self.getWaveValue( position );
     };
 

@@ -33,8 +33,8 @@ define( require => {
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   // constants
-  var WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
-  var CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
+  const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
+  const CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
   /**
    * @constructor
@@ -47,7 +47,7 @@ define( require => {
     this.intersections = new ObservableArray();
 
     this.mediumColorFactory = new MediumColorFactory();
-    var self = this;
+    const self = this;
     BendingLightModel.call( this, Math.PI, false, 1E-16 );
 
 
@@ -119,10 +119,10 @@ define( require => {
      * @returns {Array}
      */
     getPrismPrototypes: function() {
-      var prismsTypes = [];
+      const prismsTypes = [];
 
       // characteristic length scale
-      var a = CHARACTERISTIC_LENGTH * 10;
+      const a = CHARACTERISTIC_LENGTH * 10;
 
       // triangle, attach at bottom right
       prismsTypes.push( new Prism( new Polygon( 1, [
@@ -147,7 +147,7 @@ define( require => {
         new Vector2( -a / 2, -a / 2 )
       ], 0 ), 'square' ) );
 
-      var radius = a / 2;
+      const radius = a / 2;
 
       // Continuous Circle
       prismsTypes.push( new Prism( new Circle( new Vector2( 0, 0 ), radius ), 'circle' ) );
@@ -197,21 +197,21 @@ define( require => {
     propagate: function( ray, power, laserInPrism ) {
 
       // Determines whether to use white light or single color light
-      var mediumIndexOfRefraction;
+      let mediumIndexOfRefraction;
       if ( this.laser.colorModeProperty.value === 'white' ) {
         // This number is the number of (equally spaced wavelength) rays to show in a white beam. More rays looks
         // better but is more computationally intensive.
-        var wavelengths = BendingLightConstants.WHITE_LIGHT_WAVELENGTHS;
+        const wavelengths = BendingLightConstants.WHITE_LIGHT_WAVELENGTHS;
 
-        for ( var i = 0; i < wavelengths.length; i++ ) {
-          var wavelength = wavelengths[ i ] / 1E9; // convert to meters
+        for ( let i = 0; i < wavelengths.length; i++ ) {
+          const wavelength = wavelengths[ i ] / 1E9; // convert to meters
           mediumIndexOfRefraction = laserInPrism ?
                                     this.prismMediumProperty.value.getIndexOfRefraction( wavelength ) :
                                     this.environmentMediumProperty.value.getIndexOfRefraction( wavelength );
 
           // show the intersection for the smallest and largest wavelengths.  Protect against floating point error for
           // the latter
-          var showIntersection = ( i === 0 ) || ( i === wavelengths.length - 1 );
+          const showIntersection = ( i === 0 ) || ( i === wavelengths.length - 1 );
           this.propagateTheRay( new ColoredRay( ray, power, wavelength, mediumIndexOfRefraction,
             BendingLightConstants.SPEED_OF_LIGHT / wavelength ), 0, showIntersection );
         }
@@ -232,9 +232,9 @@ define( require => {
     propagateRays: function() {
 
       if ( this.laser.onProperty.value ) {
-        var tail = this.laser.emissionPointProperty.value;
-        var laserInPrism = this.isLaserInPrism();
-        var directionUnitVector = this.laser.getDirectionUnitVector();
+        const tail = this.laser.emissionPointProperty.value;
+        const laserInPrism = this.isLaserInPrism();
+        const directionUnitVector = this.laser.getDirectionUnitVector();
         if ( this.manyRaysProperty.value === 1 ) {
 
           // This can be used to show the main central ray
@@ -243,8 +243,8 @@ define( require => {
         else {
 
           // Many parallel rays
-          for ( var x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
-            var offset = directionUnitVector.rotated( Math.PI / 2 ).multiplyScalar( x );
+          for ( let x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
+            const offset = directionUnitVector.rotated( Math.PI / 2 ).multiplyScalar( x );
             this.propagate( new Ray2( offset.add( tail ), directionUnitVector ), 1.0, laserInPrism );
           }
         }
@@ -258,8 +258,8 @@ define( require => {
      * @returns {boolean}
      */
     isLaserInPrism: function() {
-      var emissionPoint = this.laser.emissionPointProperty.value;
-      for ( var i = 0; i < this.prisms.length; i++ ) {
+      const emissionPoint = this.laser.emissionPointProperty.value;
+      for ( let i = 0; i < this.prisms.length; i++ ) {
         if ( this.prisms.get( i ).contains( emissionPoint ) ) {
           return true;
         }
@@ -277,9 +277,9 @@ define( require => {
      *                                     extrema of white light wavelengths
      */
     propagateTheRay: function( incidentRay, count, showIntersection ) {
-      var rayColor;
-      var rayVisibleColor;
-      var waveWidth = CHARACTERISTIC_LENGTH * 5;
+      let rayColor;
+      let rayVisibleColor;
+      const waveWidth = CHARACTERISTIC_LENGTH * 5;
 
       // Termination condition: we have reached too many iterations or if the ray is very weak
       if ( count > 50 || incidentRay.power < 0.001 ) {
@@ -287,10 +287,10 @@ define( require => {
       }
 
       // Check for an intersection
-      var intersection = this.getIntersection( incidentRay, this.prisms );
-      var L = incidentRay.directionUnitVector;
-      var n1 = incidentRay.mediumIndexOfRefraction;
-      var wavelengthInN1 = incidentRay.wavelength / n1;
+      const intersection = this.getIntersection( incidentRay, this.prisms );
+      const L = incidentRay.directionUnitVector;
+      const n1 = incidentRay.mediumIndexOfRefraction;
+      const wavelengthInN1 = incidentRay.wavelength / n1;
       if ( intersection !== null ) {
 
         // List the intersection in the model
@@ -298,32 +298,32 @@ define( require => {
           this.intersections.add( intersection );
         }
 
-        var pointOnOtherSide = ( incidentRay.directionUnitVector.times( 1E-12 ) ).add( intersection.point );
-        var outputInsidePrism = false;
-        var lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
+        const pointOnOtherSide = ( incidentRay.directionUnitVector.times( 1E-12 ) ).add( intersection.point );
+        let outputInsidePrism = false;
+        const lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
         this.prisms.forEach( function( prism ) {
-          var intersection = prism.shapeProperty.get().shape.intersection( lightRayAfterIntersectionInRay2Form );
+          const intersection = prism.shapeProperty.get().shape.intersection( lightRayAfterIntersectionInRay2Form );
           if ( intersection.length % 2 === 1 ) {
             outputInsidePrism = true;
           }
         } );
 
         // Index of refraction of the other medium
-        var n2 = outputInsidePrism ?
+        const n2 = outputInsidePrism ?
                  this.prismMediumProperty.value.getIndexOfRefraction( incidentRay.getBaseWavelength() ) :
                  this.environmentMediumProperty.value.getIndexOfRefraction( incidentRay.getBaseWavelength() );
 
         // Precompute for readability
-        var point = intersection.point;
-        var n = intersection.unitNormal;
+        const point = intersection.point;
+        const n = intersection.unitNormal;
 
         // Compute the output rays, see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
-        var cosTheta1 = n.dotXY( L.x * -1, L.y * -1 );
-        var cosTheta2Radicand = 1 - Math.pow( n1 / n2, 2 ) * ( 1 - Math.pow( cosTheta1, 2 ) );
-        var totalInternalReflection = cosTheta2Radicand < 0;
-        var cosTheta2 = Math.sqrt( Math.abs( cosTheta2Radicand ) );
-        var vReflect = ( n.times( 2 * cosTheta1 ) ).add( L );
-        var vRefract = cosTheta1 > 0 ?
+        const cosTheta1 = n.dotXY( L.x * -1, L.y * -1 );
+        const cosTheta2Radicand = 1 - Math.pow( n1 / n2, 2 ) * ( 1 - Math.pow( cosTheta1, 2 ) );
+        const totalInternalReflection = cosTheta2Radicand < 0;
+        const cosTheta2 = Math.sqrt( Math.abs( cosTheta2Radicand ) );
+        const vReflect = ( n.times( 2 * cosTheta1 ) ).add( L );
+        let vRefract = cosTheta1 > 0 ?
                        ( L.times( n1 / n2 ) ).addXY(
                          n.x * ( n1 / n2 * cosTheta1 - cosTheta2 ),
                          n.y * ( n1 / n2 * cosTheta1 - cosTheta2 )
@@ -336,22 +336,22 @@ define( require => {
         // Normalize the direction vector, see https://github.com/phetsims/bending-light/issues/226
         vRefract = vRefract.normalized();
 
-        var reflectedPower = totalInternalReflection ? 1
+        const reflectedPower = totalInternalReflection ? 1
                                                      : Util.clamp( BendingLightModel.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
-        var transmittedPower = totalInternalReflection ? 0
+        const transmittedPower = totalInternalReflection ? 0
                                                        : Util.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
 
         // Create the new rays and propagate them recursively
-        var reflectedRay = new Ray2( incidentRay.directionUnitVector.times( -1E-12 ).add( point ), vReflect );
-        var reflected = new ColoredRay(
+        const reflectedRay = new Ray2( incidentRay.directionUnitVector.times( -1E-12 ).add( point ), vReflect );
+        const reflected = new ColoredRay(
           reflectedRay,
           incidentRay.power * reflectedPower,
           incidentRay.wavelength,
           incidentRay.mediumIndexOfRefraction,
           incidentRay.frequency
         );
-        var refractedRay = new Ray2( incidentRay.directionUnitVector.times( +1E-12 ).add( point ), vRefract );
-        var refracted = new ColoredRay(
+        const refractedRay = new Ray2( incidentRay.directionUnitVector.times( +1E-12 ).add( point ), vRefract );
+        const refracted = new ColoredRay(
           refractedRay,
           incidentRay.power * transmittedPower,
           incidentRay.wavelength,
@@ -420,7 +420,7 @@ define( require => {
      * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
      */
     getIntersection: function( incidentRay, prisms ) {
-      var allIntersections = [];
+      let allIntersections = [];
       prisms.forEach( function( prism ) {
         prism.getIntersections( incidentRay ).forEach( function( intersection ) {
           allIntersections.push( intersection );

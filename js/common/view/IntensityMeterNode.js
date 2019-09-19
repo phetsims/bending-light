@@ -30,9 +30,9 @@ define( require => {
   const intensityString = require( 'string!BENDING_LIGHT/intensity' );
 
   // constants
-  var NORMAL_DISTANCE = 25;
-  var bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 ) );
-  var sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
+  const NORMAL_DISTANCE = 25;
+  const bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 ) );
+  const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
@@ -42,7 +42,7 @@ define( require => {
    */
   function IntensityMeterNode( modelViewTransform, intensityMeter, options ) {
 
-    var self = this;
+    const self = this;
     Node.call( self );
     this.modelViewTransform = modelViewTransform; // @public (read-only)
     this.intensityMeter = intensityMeter;
@@ -50,11 +50,11 @@ define( require => {
     this.probeNode = new ProbeNode( { cursor: 'pointer', scale: 0.6 } );
 
     // add body node
-    var rectangleWidth = 150;
-    var rectangleHeight = 95;
+    const rectangleWidth = 150;
+    const rectangleHeight = 95;
 
     // adding outer rectangle
-    var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 5, 5, {
+    const outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 5, 5, {
       stroke: new LinearGradient( 0, 0, 0, rectangleHeight )
         .addColorStop( 0, '#408260' )
         .addColorStop( 1, '#005127' ),
@@ -65,14 +65,14 @@ define( require => {
     } );
 
     // second rectangle
-    var innerRectangle = new Rectangle( 2, 2, rectangleWidth - 10, rectangleHeight - 10, 5, 5, {
+    const innerRectangle = new Rectangle( 2, 2, rectangleWidth - 10, rectangleHeight - 10, 5, 5, {
       fill: '#008541',
       centerX: outerRectangle.centerX,
       centerY: outerRectangle.centerY
     } );
 
     // adding inner rectangle
-    var valueBackground = new ShadedRectangle( new Bounds2( 0, 0, rectangleWidth * 0.8, rectangleHeight * 0.4 ), {
+    const valueBackground = new ShadedRectangle( new Bounds2( 0, 0, rectangleWidth * 0.8, rectangleHeight * 0.4 ), {
       baseColor: 'white',
       lightSource: 'rightBottom',
       centerX: innerRectangle.centerX,
@@ -80,7 +80,7 @@ define( require => {
     } );
 
     // Add a "Intensity" title to the body node
-    var titleNode = new Text( intensityString, {
+    const titleNode = new Text( intensityString, {
       font: new PhetFont( 24 ),
       fill: 'white'
     } );
@@ -89,7 +89,7 @@ define( require => {
     }
 
     // Add the reading to the body node
-    var valueNode = new Text( intensityMeter.readingProperty.get().getString(), {
+    const valueNode = new Text( intensityMeter.readingProperty.get().getString(), {
       font: new PhetFont( 25 ),
       fill: 'black',
       maxWidth: valueBackground.width * 0.85
@@ -111,11 +111,11 @@ define( require => {
     } );
 
     // Connect the sensor to the body with a gray wire
-    var above = function( amount ) {
+    const above = function( amount ) {
       return function( position ) {return position.plusXY( 0, -amount );};
     };
 
-    var rightBottomProperty = new NodeProperty( this.bodyNode, 'bounds', 'rightBottom' );
+    const rightBottomProperty = new NodeProperty( this.bodyNode, 'bounds', 'rightBottom' );
 
     // @private
     this.wireNode = new WireNode(
@@ -145,8 +145,8 @@ define( require => {
      * hence
      */
     this.syncModelFromView = function() {
-      var sensorPosition = modelViewTransform.viewToModelPosition( self.probeNode.translation );
-      var bodyPosition = modelViewTransform.viewToModelPosition( self.bodyNode.translation );
+      const sensorPosition = modelViewTransform.viewToModelPosition( self.probeNode.translation );
+      const bodyPosition = modelViewTransform.viewToModelPosition( self.bodyNode.translation );
 
       intensityMeter.sensorPositionProperty.value = sensorPosition;
       intensityMeter.bodyPositionProperty.value = bodyPosition;

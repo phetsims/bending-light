@@ -40,8 +40,8 @@ define( require => {
     paintCanvas: function( context ) {
 
       // Render the incident ray last so that it will overlap the reflected ray completely
-      for ( var k = this.lightRays.length - 1; k >= 0; k-- ) {
-        var ray = this.lightRays.get( k );
+      for ( let k = this.lightRays.length - 1; k >= 0; k-- ) {
+        const ray = this.lightRays.get( k );
 
         if ( ray.particles.length > 0 ) {
 
@@ -54,7 +54,7 @@ define( require => {
             this.modelViewTransform.modelToViewX( ray.clipRegionCorners[ 0 ].x ),
             this.modelViewTransform.modelToViewY( ray.clipRegionCorners[ 0 ].y )
           );
-          for ( var m = 1; m <= 3; m++ ) {
+          for ( let m = 1; m <= 3; m++ ) {
             context.lineTo(
               this.modelViewTransform.modelToViewX( ray.clipRegionCorners[ m ].x ),
               this.modelViewTransform.modelToViewY( ray.clipRegionCorners[ m ].y )
@@ -62,7 +62,7 @@ define( require => {
           }
           context.clip();
 
-          var particle = ray.particles.get( 0 );
+          const particle = ray.particles.get( 0 );
 
           // Set the origin at the beginning of the particle
           context.translate(
@@ -74,7 +74,7 @@ define( require => {
           context.rotate( -particle.angle );
 
           // Distance between wave crests
-          var wavelength = this.modelViewTransform.modelToViewDeltaX( particle.height );
+          const wavelength = this.modelViewTransform.modelToViewDeltaX( particle.height );
 
           // Fill the background with the dark color, in the entire clip area
           context.fillStyle = particle.particleGradientColor;
@@ -85,8 +85,8 @@ define( require => {
 
           // Render each crest, but we don't need as many wavelengths for the incoming light
           // The extreme case is violet light with a shallow angle and a tall screen.
-          var maxIndex = (k === 0 ? 50 : 150);
-          for ( var i = -1; i < maxIndex; i++ ) {
+          const maxIndex = (k === 0 ? 50 : 150);
+          for ( let i = -1; i < maxIndex; i++ ) {
             context.fillRect( wavelength * i, -100, wavelength / 2, 200 );
           }
 

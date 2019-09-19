@@ -29,7 +29,7 @@ define( require => {
   function Laser( wavelengthProperty, distanceFromPivot, angle, topLeftQuadrant ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
-    var self = this;
+    const self = this;
     this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) ); // @public, point to be pivoted about, and at which the laser points
     this.onProperty = new Property( false ); // @public, true if the laser is activated and emitting light
     this.waveProperty = new Property( false ); // @public
@@ -91,7 +91,7 @@ define( require => {
      * @returns {Vector2}
      */
     getDirectionUnitVector: function() {
-      var magnitude = this.pivotProperty.value.distance( this.emissionPointProperty.value );
+      const magnitude = this.pivotProperty.value.distance( this.emissionPointProperty.value );
       this.directionUnitVector.x = (this.pivotProperty.value.x - this.emissionPointProperty.value.x) / magnitude;
       this.directionUnitVector.y = (this.pivotProperty.value.y - this.emissionPointProperty.value.y) / magnitude;
       return this.directionUnitVector;
@@ -103,7 +103,7 @@ define( require => {
      * @public
      */
     setAngle: function( angle ) {
-      var distFromPivot = this.pivotProperty.value.distance( this.emissionPointProperty.value );
+      const distFromPivot = this.pivotProperty.value.distance( this.emissionPointProperty.value );
       this.emissionPointProperty.value = new Vector2(
         distFromPivot * Math.cos( angle ) + this.pivotProperty.value.x,
         distFromPivot * Math.sin( angle ) + this.pivotProperty.value.y

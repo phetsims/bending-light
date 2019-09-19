@@ -18,19 +18,19 @@ define( require => {
   const Vector3 = require( 'DOT/Vector3' );
 
   // constants (these are vars because other constants refer to them)
-  var SPEED_OF_LIGHT = 2.99792458E8;
-  var WAVELENGTH_RED = 650E-9; //nanometers
+  const SPEED_OF_LIGHT = 2.99792458E8;
+  const WAVELENGTH_RED = 650E-9; //nanometers
 
   //only go to 700nm because after that the reds are too black
-  var LASER_MAX_WAVELENGTH = 700; // nm
+  const LASER_MAX_WAVELENGTH = 700; // nm
 
   // so the refracted wave mode doesn't get too big because at angle = PI it would become infinite.
   // this value was determined by printing out actual angle values at runtime and sampling a good value.
-  var MAX_ANGLE_IN_WAVE_MODE = 3.0194;
+  const MAX_ANGLE_IN_WAVE_MODE = 3.0194;
 
   // CIE 1931 2-angle tristimulus values, from http://cvrl.ioo.ucl.ac.uk/cmfs.htm. Maps wavelength (in nm) to an
   // X,Y,Z value in the XYZ color space.
-  var XYZ = {
+  const XYZ = {
     360: { x: 0.0001299, y: 0.000003917, z: 0.0006061 },
     365: { x: 0.0002321, y: 0.000006965, z: 0.001086 },
     370: { x: 0.0004149, y: 0.00001239, z: 0.001946 },
@@ -131,7 +131,7 @@ define( require => {
   // CIE Standard Illuminant D65 relative spectral power distribution (e.g. white light wavelength distribution)
   // From http://www.cie.co.at/publ/abst/datatables15_2004/sid65.txt, with wavelength < 360 removed to match our XYZ
   // table. The relative values between wavelengths are what is important here.
-  var D65 = {
+  const D65 = {
     360: 46.6383,
     365: 49.3637,
     370: 52.0891,
@@ -231,28 +231,28 @@ define( require => {
 
   // {Object} - Maps wavelength (nm) to {Vector3} XYZ colorspace values multiplied times the D65 intensity. Combines
   //            the D65 and XYZ responses, so it contains "how bright in XYZ" each wavelength will be for white light.
-  var XYZ_INTENSITIES = {};
+  const XYZ_INTENSITIES = {};
 
   // Cache the magnitudes as well so they don't need to be computed many times during each draw
-  var XYZ_INTENSITIES_MAGNITUDE = {};
+  const XYZ_INTENSITIES_MAGNITUDE = {};
 
-  for ( var wavelength in XYZ ) {
-    var intensity = D65[ wavelength ];
-    var xyz = XYZ[ wavelength ];
+  for ( const wavelength in XYZ ) {
+    const intensity = D65[ wavelength ];
+    const xyz = XYZ[ wavelength ];
 
     XYZ_INTENSITIES[ wavelength ] = new Vector3( xyz.x * intensity, xyz.y * intensity, xyz.z * intensity );
     XYZ_INTENSITIES_MAGNITUDE[ wavelength ] = XYZ_INTENSITIES[ wavelength ].magnitude;
   }
 
   // {Vector3} - Maximum value for each component of XYZ_INTENSITIES.
-  var MAX_XYZ_INTENSITY = (function() {
+  const MAX_XYZ_INTENSITY = (function() {
     // max of XYZ * D65 for each channel
-    var maxX = 0;
-    var maxY = 0;
-    var maxZ = 0;
+    let maxX = 0;
+    let maxY = 0;
+    let maxZ = 0;
 
-    for ( var wavelength in XYZ_INTENSITIES ) {
-      var xyz = XYZ_INTENSITIES[ wavelength ];
+    for ( const wavelength in XYZ_INTENSITIES ) {
+      const xyz = XYZ_INTENSITIES[ wavelength ];
       maxX = Math.max( maxX, xyz.x );
       maxY = Math.max( maxY, xyz.y );
       maxZ = Math.max( maxZ, xyz.z );
@@ -263,11 +263,11 @@ define( require => {
   // {Object} - Maps wavelength (nm) to {Vector3} XYZ colorspace values, with each component separately normalized, so
   //            that each XYZ value is in the range [0,1]. Multiplying any entry componentwise with MAX_XYZ_INTENSITY
   //            will result in the original XYZ_INTENSITIES value.
-  var NORMALIZED_XYZ_INTENSITIES = (function() {
-    var result = {};
+  const NORMALIZED_XYZ_INTENSITIES = (function() {
+    const result = {};
 
-    for ( var wavelength in XYZ_INTENSITIES ) {
-      var xyz = XYZ_INTENSITIES[ wavelength ];
+    for ( const wavelength in XYZ_INTENSITIES ) {
+      const xyz = XYZ_INTENSITIES[ wavelength ];
       result[ wavelength ] = new Vector3(
         xyz.x / MAX_XYZ_INTENSITY.x,
         xyz.y / MAX_XYZ_INTENSITY.y,
@@ -280,7 +280,7 @@ define( require => {
   // {Array.<Number>} - Our range of visible wavelengths we will display (should have ~16 values so we have 4 bits left
   //                    to store color values in after quantization). The more wavelengths we display, the fewer bits
   //                    will be available.
-  var WHITE_LIGHT_WAVELENGTHS = _.range( 400, 700, 10 ); // excludes maximum value
+  const WHITE_LIGHT_WAVELENGTHS = _.range( 400, 700, 10 ); // excludes maximum value
 
   // var NUM_RAY_SATURATION = _.max( _.reduce( NORMALIZED_XYZ_INTENSITIES, function( memo, item ) {
   //   return memo.plus( item );
@@ -288,13 +288,13 @@ define( require => {
 
   // {Matrix3} - Maps color vectors in the XYZ colorspace into RGB (using the sRGB primaries, but not applying the
   //             nonlinear mapping part of sRGB).
-  var XYZ_TO_RGB_MATRIX = new Matrix3().rowMajor(
+  const XYZ_TO_RGB_MATRIX = new Matrix3().rowMajor(
     3.2404542, -1.5371385, -0.4985314,
     -0.9692660, 1.8760108, 0.0415560,
     0.0556434, -0.2040259, 1.0572252
   );
 
-  var BendingLightConstants = {
+  const BendingLightConstants = {
     SCREEN_VIEW_OPTIONS: {
       layoutBounds: new Bounds2( 0, 0, 834, 504 )
     },

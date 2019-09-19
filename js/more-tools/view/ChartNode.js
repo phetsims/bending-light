@@ -21,8 +21,8 @@ define( require => {
   const SeriesCanvasNode = require( 'BENDING_LIGHT/more-tools/view/SeriesCanvasNode' );
 
   // stroke dash parameters
-  var DASH_ON = 10;
-  var DASH_OFF = 5;
+  const DASH_ON = 10;
+  const DASH_OFF = 5;
 
   /**
    * Node for drawing the series of points.
@@ -38,7 +38,7 @@ define( require => {
     Node.call( this );
 
     // add series canvas
-    var seriesCanvasNode = new SeriesCanvasNode(
+    const seriesCanvasNode = new SeriesCanvasNode(
       series.seriesProperty,
       modelViewTransformProperty,
       series.color.toCSS(), {
@@ -62,7 +62,7 @@ define( require => {
    */
   function ChartNode( chartBounds, seriesArray ) {
 
-    var self = this;
+    const self = this;
     Node.call( this );
     this.chartBounds = chartBounds; // @public (read-only)
     this.seriesArray = seriesArray; // @public (read-only)
@@ -107,7 +107,7 @@ define( require => {
     simulationTimeChanged: function( time ) {
 
       // Update the mapping from model to chart
-      var minTime = time - this.timeWidth;
+      const minTime = time - this.timeWidth;
       this.modelViewTransformProperty.set( ModelViewTransform2.createRectangleMapping(
         new Bounds2( minTime, -1, minTime + this.timeWidth, 1 ), this.chartBounds ) );
 
@@ -115,17 +115,17 @@ define( require => {
       this.gridLines.clear();
 
       // Distance between vertical grid lines
-      var verticalGridLineSpacing = this.timeWidth / 4;
-      var verticalGridLineSpacingDelta = this.getDelta( verticalGridLineSpacing, time );
+      const verticalGridLineSpacing = this.timeWidth / 4;
+      const verticalGridLineSpacingDelta = this.getDelta( verticalGridLineSpacing, time );
 
       // Add vertical grid lines
-      for ( var x = minTime - verticalGridLineSpacingDelta + verticalGridLineSpacing;
+      for ( let x = minTime - verticalGridLineSpacingDelta + verticalGridLineSpacing;
             x <= minTime + this.timeWidth; x += verticalGridLineSpacing ) {
         this.addVerticalLine( x );
       }
 
       // Add one horizontal grid line
-      var horizontalGridLineDelta = this.getDelta(
+      const horizontalGridLineDelta = this.getDelta(
         this.modelViewTransformProperty.get().viewToModelDeltaX( DASH_ON + DASH_OFF ), time );
 
       // Horizontal axis
@@ -150,7 +150,7 @@ define( require => {
      * @returns {number}
      */
     getDelta: function( verticalGridLineSpacing, time ) {
-      var totalNumPeriods = time / verticalGridLineSpacing;
+      const totalNumPeriods = time / verticalGridLineSpacing;
 
       // for computing the phase so we make the right number of grid lines, just keep the fractional part
       return ( totalNumPeriods % 1 ) * verticalGridLineSpacing;

@@ -47,7 +47,7 @@ define( require => {
     this.bendingLightModel = bendingLightModel;
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
-    var self = this;
+    const self = this;
     this.showProtractorProperty = new Property( false ); // @public (read-only)
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
@@ -65,12 +65,12 @@ define( require => {
     this.afterLightLayer2 = new Node(); // @public (read-only)
     this.afterLightLayer3 = new Node(); // @public (read-only)
 
-    var stageWidth = this.layoutBounds.width;
-    var stageHeight = this.layoutBounds.height;
+    const stageWidth = this.layoutBounds.width;
+    const stageHeight = this.layoutBounds.height;
 
     // center the stage in the canvas, specifies how things scale up and down with window size, maps stage to pixels
     // create the transform from model (SI) to view (stage) coordinates
-    var scale = stageHeight / bendingLightModel.modelHeight;
+    const scale = stageHeight / bendingLightModel.modelHeight;
 
     // @public (read-only)
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
@@ -104,10 +104,10 @@ define( require => {
     this.addChild( this.laserViewLayer );
 
     // add rotation for the laser that show if/when the laser can be rotated about its pivot
-    var showRotationDragHandlesProperty = new Property( false );
-    var showTranslationDragHandlesProperty = new Property( false );
+    const showRotationDragHandlesProperty = new Property( false );
+    const showTranslationDragHandlesProperty = new Property( false );
 
-    var laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
+    const laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty, options.clampDragAngle, laserTranslationRegion, laserRotationRegion,
       laserHasKnob, this.visibleBoundsProperty, this.occlusionHandler
     );
@@ -165,17 +165,17 @@ define( require => {
 
     addLaserHandles: function( showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
                                clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
-      var bendingLightModel = this.bendingLightModel;
+      const bendingLightModel = this.bendingLightModel;
 
       // Shows the direction in which laser can be rotated
       // for laser left rotation
-      var leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
+      const leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
         Math.PI / 23, showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58,
         bendingLightModel.rotationArrowAngleOffset );
       this.addChild( leftRotationDragHandle );
 
       // for laser right rotation
-      var rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
+      const rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
         -Math.PI / 23,
         showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58,
         bendingLightModel.rotationArrowAngleOffset

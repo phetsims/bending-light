@@ -41,10 +41,10 @@ define( require => {
   const waterString = require( 'string!BENDING_LIGHT/water' );
 
   // constants
-  var INDEX_OF_REFRACTION_MIN = Substance.AIR.indexForRed;
-  var INDEX_OF_REFRACTION_MAX = 1.6;
-  var PLUS_MINUS_SPACING = 4;
-  var INSET = 10;
+  const INDEX_OF_REFRACTION_MIN = Substance.AIR.indexForRed;
+  const INDEX_OF_REFRACTION_MAX = 1.6;
+  const PLUS_MINUS_SPACING = 4;
+  const INSET = 10;
 
   /**
    * @param {BendingLightView} view - view of the simulation
@@ -61,7 +61,7 @@ define( require => {
                                decimalPlaces, options ) {
 
     Node.call( this );
-    var self = this;
+    const self = this;
     this.mediumColorFactory = mediumColorFactory;
 
     options = _.extend( {
@@ -74,33 +74,33 @@ define( require => {
     }, options );
     this.mediumProperty = mediumProperty; // @private, the medium to observe
     this.laserWavelength = laserWavelength; // @private
-    var initialSubstance = mediumProperty.get().substance;
+    const initialSubstance = mediumProperty.get().substance;
 
     // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
     // if we kept the same index of refraction, the user could use that to easily look up the mystery values.
-    var lastNonMysteryIndexAtRed = initialSubstance.indexOfRefractionForRedLight;
+    let lastNonMysteryIndexAtRed = initialSubstance.indexOfRefractionForRedLight;
 
     // dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
-    var customState = new Substance(
+    const customState = new Substance(
       customString,
       Substance.MYSTERY_B.indexOfRefractionForRedLight + 1.2,
       false,
       true
     );
-    var custom = true;
+    let custom = true;
 
     // add material combo box
-    var materialTitleWidth = textFieldVisible ? 80 : 90;
-    var materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
+    const materialTitleWidth = textFieldVisible ? 80 : 90;
+    const materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
     if ( materialTitle.width > materialTitleWidth ) {
       materialTitle.scale( materialTitleWidth / materialTitle.width );
     }
 
-    var textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
+    const textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
-    var createItem = function( item ) {
-      var comboBoxTextWidth = textFieldVisible ? 130 : 75;
-      var itemName = new Text( item.name, textOptionsOfComboBoxStrings );
+    const createItem = function( item ) {
+      const comboBoxTextWidth = textFieldVisible ? 130 : 75;
+      const itemName = new Text( item.name, textOptionsOfComboBoxStrings );
       if ( itemName.width > comboBoxTextWidth ) {
         itemName.scale( comboBoxTextWidth / itemName.width );
       }
@@ -108,7 +108,7 @@ define( require => {
       return new ComboBoxItem( itemName, item );
     };
     // states to choose from (and indicate) in the combo box
-    var substances = [
+    const substances = [
       Substance.AIR,
       Substance.WATER,
       Substance.GLASS,
@@ -116,13 +116,13 @@ define( require => {
       Substance.MYSTERY_B,
       customState
     ];
-    var comboBoxSubstanceProperty = new Property( initialSubstance );
+    const comboBoxSubstanceProperty = new Property( initialSubstance );
 
     // update combo box
-    var updateComboBox = function() {
-      var selected = -1;
-      for ( var i = 0; i < substances.length; i++ ) {
-        var substance = substances[ i ];
+    const updateComboBox = function() {
+      let selected = -1;
+      for ( let i = 0; i < substances.length; i++ ) {
+        const substance = substances[ i ];
         if ( substance.dispersionFunction.getIndexOfRefraction( laserWavelength.get() ) ===
              mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ) ) {
           selected = i;
@@ -143,13 +143,13 @@ define( require => {
     };
 
     // items
-    var items = [];
-    for ( var i = 0; i < substances.length; i++ ) {
-      var material = substances[ i ];
+    const items = [];
+    for ( let i = 0; i < substances.length; i++ ) {
+      const material = substances[ i ];
       items[ i ] = createItem( material );
     }
     // add a combo box
-    var materialComboBox = new ComboBox( items, comboBoxSubstanceProperty, view, {
+    const materialComboBox = new ComboBox( items, comboBoxSubstanceProperty, view, {
       labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
       xMargin: 7,
@@ -159,24 +159,24 @@ define( require => {
     } );
 
     // add index of refraction text and value
-    var textOptions = { font: new PhetFont( 12 ) };
-    var indexOfRefractionLabelWidth = textFieldVisible ? 152 : 208;
-    var indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
+    const textOptions = { font: new PhetFont( 12 ) };
+    const indexOfRefractionLabelWidth = textFieldVisible ? 152 : 208;
+    const indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
     if ( indexOfRefractionLabel.width > indexOfRefractionLabelWidth ) {
       indexOfRefractionLabel.scale( indexOfRefractionLabelWidth / indexOfRefractionLabel.width );
     }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), {
       reentrant: true
     } );
-    var readoutString = Util.toFixed( this.mediumIndexProperty.get(), decimalPlaces );
-    var indexOfRefractionValueText = new Text( readoutString, textOptions );
-    var indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 45, 20, 2, 2, {
+    const readoutString = Util.toFixed( this.mediumIndexProperty.get(), decimalPlaces );
+    const indexOfRefractionValueText = new Text( readoutString, textOptions );
+    const indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 45, 20, 2, 2, {
       fill: 'white',
       stroke: 'black'
     } );
 
     // add plus button for index of refraction text
-    var plusButton = new ArrowButton( 'right', function propertyPlus() {
+    const plusButton = new ArrowButton( 'right', function propertyPlus() {
       custom = true;
       self.mediumIndexProperty.set(
         Util.toFixedNumber( Math.min( self.mediumIndexProperty.get() + 1 / Math.pow( 10, decimalPlaces ),
@@ -193,7 +193,7 @@ define( require => {
       plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 20 );
 
     // add minus button for index of refraction text
-    var minusButton = new ArrowButton( 'left', function propertyMinus() {
+    const minusButton = new ArrowButton( 'left', function propertyMinus() {
       custom = true;
       self.mediumIndexProperty.set(
         Util.toFixedNumber( Math.max( self.mediumIndexProperty.get() - 1 / Math.pow( 10, decimalPlaces ),
@@ -226,7 +226,7 @@ define( require => {
     indexOfRefractionLabel.right = minusButton.left - INSET;
     indexOfRefractionLabel.centerY = minusButton.centerY;
 
-    var indexOfRefractionNode = new Node( {
+    const indexOfRefractionNode = new Node( {
       children: textFieldVisible ? [
         indexOfRefractionLabel,
         minusButton,
@@ -240,23 +240,23 @@ define( require => {
 
     // handling long strings, bring the slider in enough that moving the knob to the right doesn't resize the parent
     // panel.
-    var sliderWidth = Math.max( materialComboBox.width, indexOfRefractionNode.width ) - 12;
-    var labelWidth = sliderWidth * 0.25;
-    var airTitle = new Text( airString );
+    const sliderWidth = Math.max( materialComboBox.width, indexOfRefractionNode.width ) - 12;
+    const labelWidth = sliderWidth * 0.25;
+    const airTitle = new Text( airString );
     if ( airTitle.width > labelWidth ) {
       airTitle.scale( labelWidth / airTitle.width );
     }
-    var waterTitle = new Text( waterString );
+    const waterTitle = new Text( waterString );
     if ( waterTitle.width > labelWidth ) {
       waterTitle.scale( labelWidth / waterTitle.width );
     }
-    var glassTitle = new Text( glassString );
+    const glassTitle = new Text( glassString );
     if ( glassTitle.width > labelWidth ) {
       glassTitle.scale( labelWidth / glassTitle.width );
     }
 
     // add slider for index of refraction
-    var indexOfRefractionSlider = new HSlider( this.mediumIndexProperty,
+    const indexOfRefractionSlider = new HSlider( this.mediumIndexProperty,
       new Range( INDEX_OF_REFRACTION_MIN, INDEX_OF_REFRACTION_MAX ), {
         trackFill: 'white',
         trackSize: new Dimension2( sliderWidth, 1 ),
@@ -274,7 +274,7 @@ define( require => {
     indexOfRefractionSlider.addMajorTick( 1.6 );
 
     // add a text to display when mystery is selected
-    var unknown = new Text( unknownString, {
+    const unknown = new Text( unknownString, {
       font: new PhetFont( 16 ),
       centerX: indexOfRefractionSlider.centerX,
       centerY: indexOfRefractionSlider.centerY,
@@ -290,12 +290,12 @@ define( require => {
     unknown.centerY = indexOfRefractionNode.bottom + INSET;
 
     // add all the nodes to mediumPanelNode
-    var mediumPanelNode = new Node( {
+    const mediumPanelNode = new Node( {
       children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
       spacing: 10
     } );
 
-    var mediumPanel = new Panel( mediumPanelNode, {
+    const mediumPanel = new Panel( mediumPanelNode, {
       fill: '#EEEEEE',
       stroke: '#696969',
       xMargin: 13.5, // Adjusted manually so that the panels will align in English and the slider knob won't go outside
@@ -364,11 +364,11 @@ define( require => {
      */
     setCustomIndexOfRefraction: function( indexOfRefraction ) {
 
-      var self = this;
+      const self = this;
 
       // have to pass the value through the dispersion function to account for the
       // current wavelength of the laser (since index of refraction is a function of wavelength)
-      var dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );
+      const dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );
       this.setMedium( new Medium( this.mediumProperty.get().shape,
         new Substance( customString, indexOfRefraction, false, true ),
         self.mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
@@ -381,7 +381,7 @@ define( require => {
      * @param {Substance} substance - specifies state of the medium
      */
     setSubstance: function( substance ) {
-      var color = this.mediumColorFactory.getColor( substance.indexOfRefractionForRedLight );
+      const color = this.mediumColorFactory.getColor( substance.indexOfRefractionForRedLight );
       this.setMedium( new Medium( this.mediumProperty.get().shape, substance, color ) );
     },
 

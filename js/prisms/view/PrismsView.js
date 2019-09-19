@@ -31,7 +31,7 @@ define( require => {
   const WhiteLightCanvasNode = require( 'BENDING_LIGHT/prisms/view/WhiteLightCanvasNode' );
 
   // constants
-  var INSET = 10;
+  const INSET = 10;
 
   // strings
   const environmentString = require( 'string!BENDING_LIGHT/environment' );
@@ -44,7 +44,7 @@ define( require => {
 
     this.prismLayer = new Node( { layerSplit: true } );
     this.prismsModel = prismsModel;
-    var self = this;
+    const self = this;
 
     BendingLightView.call( this,
 
@@ -70,7 +70,7 @@ define( require => {
         // if the prism is dropped behind a control panel, bump it to the left.
         occlusionHandler: function( node ) {
 
-          var controlPanels = [
+          const controlPanels = [
             laserControlPanel, // eslint-disable-line no-use-before-define
             laserTypeRadioButtonGroup, // eslint-disable-line no-use-before-define
             environmentMediumControlPanel // eslint-disable-line no-use-before-define
@@ -86,19 +86,19 @@ define( require => {
 
     // Node for the environment that spans the screen (only for monochromatic light, the white light background
     // is rendered as opaque in the white light node for blending purposes)
-    var environmentMediumNodeForMonochromaticLight = new Rectangle( 0, 0, 0, 0 );
+    const environmentMediumNodeForMonochromaticLight = new Rectangle( 0, 0, 0, 0 );
     prismsModel.environmentMediumProperty.link( function( environmentMedium ) {
 
       // This medium node only shows the color for monochromatic light
-      var indexOfRefractionForRed = environmentMedium.substance.dispersionFunction.getIndexOfRefractionForRed();
-      var color = prismsModel.mediumColorFactory.getColorAgainstWhite( indexOfRefractionForRed );
+      const indexOfRefractionForRed = environmentMedium.substance.dispersionFunction.getIndexOfRefractionForRed();
+      const color = prismsModel.mediumColorFactory.getColorAgainstWhite( indexOfRefractionForRed );
       environmentMediumNodeForMonochromaticLight.fill = color;
     } );
 
     // Put it behind everything else
     this.insertChild( 0, environmentMediumNodeForMonochromaticLight );
 
-    var indexOfRefractionDecimals = 2;
+    const indexOfRefractionDecimals = 2;
 
     // Add control panels for setting the index of refraction for each medium
     var environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.mediumColorFactory, prismsModel.environmentMediumProperty,
@@ -111,9 +111,9 @@ define( require => {
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
 
-    var sliderEnabledProperty = new Property();
+    const sliderEnabledProperty = new Property();
 
-    var radioButtonAdapterProperty = new Property( 'singleColor' );
+    const radioButtonAdapterProperty = new Property( 'singleColor' );
     radioButtonAdapterProperty.link( function( radioButtonAdapterValue ) {
       prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === 'white' ? 'white' :
                                                   'singleColor';
@@ -143,7 +143,7 @@ define( require => {
     // Optionally show the normal lines at each intersection
     prismsModel.intersections.addItemAddedListener( function( addedIntersection ) {
       if ( prismsModel.showNormalsProperty.value ) {
-        var node = new IntersectionNode(
+        const node = new IntersectionNode(
           self.modelViewTransform,
           addedIntersection,
           prismsModel.intersectionStrokeProperty
@@ -160,7 +160,7 @@ define( require => {
     } );
 
     // Add prisms toolbox Node
-    var prismToolboxNode = new PrismToolboxNode(
+    const prismToolboxNode = new PrismToolboxNode(
       this.modelViewTransform,
       prismsModel,
       this.prismLayer,
@@ -171,7 +171,7 @@ define( require => {
     );
 
     // Add the reset all button
-    var resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: function() {
         prismsModel.reset();
         self.reset();
@@ -187,17 +187,17 @@ define( require => {
     this.afterLightLayer.addChild( prismToolboxNode );
 
     // Add the protractor node
-    var protractorNode = new ProtractorNode( prismsModel.showProtractorProperty, true, {
+    const protractorNode = new ProtractorNode( prismsModel.showProtractorProperty, true, {
       scale: 0.46
     } );
-    var protractorLocationProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
+    const protractorLocationProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
 
-    var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
+    const protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
       targetNode: protractorNode,
       endDrag: function() {
 
         // If the protractor is hidden behind any of the controls in the top right, move it to the left
-        var bounds = environmentMediumControlPanel.globalBounds
+        const bounds = environmentMediumControlPanel.globalBounds
           .union( laserTypeRadioButtonGroup.globalBounds )
           .union( laserControlPanel.globalBounds );
         while ( bounds.intersectsBounds( protractorNode.globalBounds ) ) {
@@ -240,9 +240,9 @@ define( require => {
     };
 
     // Add a thin gray line to separate the navigation bar when the environmentMediumNode is black
-    var navigationBarSeparator = new Rectangle( 0, 0, 100, 100, { fill: '#999999', pickable: false } );
+    const navigationBarSeparator = new Rectangle( 0, 0, 100, 100, { fill: '#999999', pickable: false } );
     this.visibleBoundsProperty.link( function( visibleBounds ) {
-      var rectHeight = 2;
+      const rectHeight = 2;
       navigationBarSeparator.setRect( visibleBounds.x, visibleBounds.y + visibleBounds.height - rectHeight, visibleBounds.width, rectHeight );
     } );
     prismsModel.laser.colorModeProperty.link( function( color ) {
@@ -286,11 +286,11 @@ define( require => {
     },
 
     addLightNodes: function() {
-      var stageWidth = this.layoutBounds.width;
-      var stageHeight = this.layoutBounds.height;
-      var self = this;
+      const stageWidth = this.layoutBounds.width;
+      const stageHeight = this.layoutBounds.height;
+      const self = this;
 
-      var bendingLightModel = this.bendingLightModel;
+      const bendingLightModel = this.bendingLightModel;
       this.whiteLightNode = new WhiteLightCanvasNode(
         this.modelViewTransform,
         stageWidth,
@@ -306,14 +306,14 @@ define( require => {
 
       // switch between light render for white vs nonwhite light
       bendingLightModel.laser.colorModeProperty.link( function( color ) {
-        var white = color === 'white';
+        const white = color === 'white';
         self.whiteLightNode.setVisible( white );
       } );
     },
 
     addLaserHandles: function( showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
                                clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
-      var bendingLightModel = this.bendingLightModel;
+      const bendingLightModel = this.bendingLightModel;
       BendingLightView.prototype.addLaserHandles.call(
         this,
         showRotationDragHandlesProperty,
@@ -324,9 +324,9 @@ define( require => {
       );
 
       // add translation indicators that show if/when the laser can be moved by dragging
-      var arrowLength = 83;
+      const arrowLength = 83;
 
-      var horizontalTranslationDragHandle = new TranslationDragHandle(
+      const horizontalTranslationDragHandle = new TranslationDragHandle(
         this.modelViewTransform,
         bendingLightModel.laser,
         arrowLength,
@@ -336,7 +336,7 @@ define( require => {
       );
       this.addChild( horizontalTranslationDragHandle );
 
-      var verticalTranslationDragHandle = new TranslationDragHandle(
+      const verticalTranslationDragHandle = new TranslationDragHandle(
         this.modelViewTransform,
         bendingLightModel.laser,
         0,

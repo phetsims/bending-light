@@ -17,11 +17,11 @@ define( require => {
   const Util = require( 'DOT/Util' );
 
   // strings
-  var missString = MathSymbols.NO_VALUE;
+  const missString = MathSymbols.NO_VALUE;
   const pattern0ValuePercentString = require( 'string!BENDING_LIGHT/pattern_0value_percent' );
 
   // constants
-  var VALUE_DECIMALS = 2;
+  const VALUE_DECIMALS = 2;
 
   /**
    * A single reading for the intensity meter

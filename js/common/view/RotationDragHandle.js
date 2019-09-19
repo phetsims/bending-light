@@ -35,10 +35,10 @@ define( require => {
                                laserImageWidth, rotationArrowAngleOffset ) {
 
     Node.call( this );
-    var self = this;
+    const self = this;
 
     // Property to help determine whether the drag handle should be shown
-    var notAtMaximumProperty = new DerivedProperty( [
+    const notAtMaximumProperty = new DerivedProperty( [
         laser.emissionPointProperty,
         laser.pivotProperty,
         showDragHandlesProperty
@@ -52,13 +52,13 @@ define( require => {
     notAtMaximumProperty.linkAttribute( self, 'visible' );
 
     // Add drag arrow path
-    var dragArrow = new Path( null, { fill: '#33FF00', stroke: 'black' } );
+    const dragArrow = new Path( null, { fill: '#33FF00', stroke: 'black' } );
     this.addChild( dragArrow );
-    var arrowHeadHeight = deltaAngle > 0 ? -7 : 7;
-    var isArrowDirectionAntiClockWise = deltaAngle > 0;
+    const arrowHeadHeight = deltaAngle > 0 ? -7 : 7;
+    const isArrowDirectionAntiClockWise = deltaAngle > 0;
 
     // add arrow shape
-    var radius = modelViewTransform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + laserImageWidth * 0.85;
+    let radius = modelViewTransform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + laserImageWidth * 0.85;
 
     // For the Prisms Screen
     if ( laser.getDistanceFromPivot() < 1E-14 ) {
@@ -66,9 +66,9 @@ define( require => {
       deltaAngle *= 2;
     }
 
-    var startAngle = -laser.getAngle();
-    var endAngle = -laser.getAngle() - deltaAngle;
-    var counterClockwiseDragArrow = new CurvedArrowShape( radius, startAngle, endAngle, {
+    const startAngle = -laser.getAngle();
+    const endAngle = -laser.getAngle() - deltaAngle;
+    const counterClockwiseDragArrow = new CurvedArrowShape( radius, startAngle, endAngle, {
       doubleHead: false,
       headWidth: 13.6,
       headHeight: arrowHeadHeight,
@@ -80,8 +80,8 @@ define( require => {
     // Update the shape when the laser moves
     Property.multilink( [ laser.emissionPointProperty, showDragHandlesProperty ], function() {
       if ( showDragHandlesProperty.get() ) {
-        var dragArrowX = modelViewTransform.modelToViewX( laser.pivotProperty.value.x );
-        var dragArrowY = modelViewTransform.modelToViewY( laser.pivotProperty.value.y );
+        const dragArrowX = modelViewTransform.modelToViewX( laser.pivotProperty.value.x );
+        const dragArrowY = modelViewTransform.modelToViewY( laser.pivotProperty.value.y );
 
         dragArrow.setRotation( -laser.getAngle() + Math.PI + rotationArrowAngleOffset );
         dragArrow.setTranslation( dragArrowX, dragArrowY );

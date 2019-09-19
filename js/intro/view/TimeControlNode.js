@@ -30,17 +30,17 @@ define( require => {
    */
   function TimeControlNode( introModel, updateWaveShape, options ) {
 
-    var slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
+    const slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
       new Text( slowMotionString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
-    var normalMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'normal',
+    const normalMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'normal',
       new Text( normalSpeedString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
 
-    var speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ?
+    const speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ?
                                slowMotionRadioBox.width : normalMotionRadioBox.width;
 
     // touch area
-    var radioButtonSpacing = 5;
-    var touchAreaYDilation = radioButtonSpacing / 2;
+    const radioButtonSpacing = 5;
+    const touchAreaYDilation = radioButtonSpacing / 2;
     slowMotionRadioBox.touchArea = new Bounds2(
       slowMotionRadioBox.localBounds.minX,
       slowMotionRadioBox.localBounds.minY - touchAreaYDilation,
@@ -57,7 +57,7 @@ define( require => {
     );
 
     // add radio buttons to the VBox
-    var speedControl = new VBox( {
+    const speedControl = new VBox( {
       align: 'left',
       spacing: radioButtonSpacing,
       children: [
@@ -67,20 +67,20 @@ define( require => {
     } );
 
     // add play pause button
-    var playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
+    const playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
       radius: 18,
       stroke: 'black',
       fill: '#005566'
     } );
 
     // Make the Play/Pause button bigger when it is showing the pause button, see #298
-    var pauseSizeIncreaseFactor = 1.28;
+    const pauseSizeIncreaseFactor = 1.28;
     introModel.isPlayingProperty.lazyLink( function( isPlaying ) {
       playPauseButton.scale( isPlaying ? ( 1 / pauseSizeIncreaseFactor ) : pauseSizeIncreaseFactor );
     } );
 
     // add step button
-    var stepButton = new StepForwardButton( {
+    const stepButton = new StepForwardButton( {
       isPlayingProperty: introModel.isPlayingProperty,
       listener: function() {
         introModel.updateSimulationTimeAndWaveShape( 'normal' );

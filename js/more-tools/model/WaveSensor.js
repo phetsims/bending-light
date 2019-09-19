@@ -85,7 +85,7 @@ define( require => {
 
     // @public - create a copy for use in toolbox icons, etc.
     copy: function() {
-      var waveSensor = new WaveSensor( 0, 0 );
+      const waveSensor = new WaveSensor( 0, 0 );
       waveSensor.bodyPositionProperty.value = this.bodyPositionProperty.value;
       waveSensor.probe1.positionProperty.value = this.probe1.positionProperty.value;
       waveSensor.probe2.positionProperty.value = this.probe2.positionProperty.value;
@@ -112,7 +112,7 @@ define( require => {
     updateProbeSample: function( probe, probeValue ) {
 
       // Read the value from the probe function. May be None if not intersecting a light ray
-      var value = probeValue( probe.positionProperty.get() );
+      const value = probeValue( probe.positionProperty.get() );
       if ( value ) {
         probe.addSample( new DataPoint( value.time, value.magnitude ) );
       }

@@ -29,7 +29,7 @@ define( require => {
    */
   function PrismsScreen( tandem ) {
 
-    var options = {
+    const options = {
       name: prismsString,
       homeScreenIcon: new Image( iconImage ),
       navigationBarIcon: new Image( navbarIconImage ),

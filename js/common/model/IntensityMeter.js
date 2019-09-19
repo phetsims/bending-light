@@ -69,7 +69,7 @@ define( require => {
     getSensorShape: function() {
 
       // fine tuned to match the given image
-      var radius = 1E-6;
+      const radius = 1E-6;
       return new Shape().arcPoint( this.sensorPositionProperty.get(), radius, 0, Math.PI * 2, false );
     },
 
@@ -100,7 +100,7 @@ define( require => {
     updateReading: function() {
 
       // enumerate the hits
-      var hits = [];
+      const hits = [];
       this.rayReadings.forEach( function( rayReading ) {
         if ( rayReading.isHit() ) {
           hits.push( rayReading );
@@ -114,7 +114,7 @@ define( require => {
       else {
 
         // otherwise, sum the intensities
-        var total = 0.0;
+        let total = 0.0;
         hits.forEach( function( hit ) {
           total += hit.value;
         } );

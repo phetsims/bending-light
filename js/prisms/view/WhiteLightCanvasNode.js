@@ -44,9 +44,9 @@ define( require => {
     this.modelViewTransform = modelViewTransform; // @private
     this.whiteLightRays = whiteLightRays; // @private
     this.environmentMediumProperty = environmentMediumProperty;
-    var self = this;
-    var update = function() {
-      var a = environmentMediumProperty.value.substance.indexOfRefractionForRedLight;
+    const self = this;
+    const update = function() {
+      const a = environmentMediumProperty.value.substance.indexOfRefractionForRedLight;
       self.colorCSS = mediumColorFactory.getColor( a ).toCSS();
       self.invalidatePaint();
     };
@@ -79,28 +79,28 @@ define( require => {
       // "Screen", basically adds colors together, making them lighter
       context.globalCompositeOperation = 'lighter';
 
-      for ( var i = 0; i < this.whiteLightRays.length; i++ ) {
-        var lightRay = this.whiteLightRays.get( i ); // {LightRay}
+      for ( let i = 0; i < this.whiteLightRays.length; i++ ) {
+        const lightRay = this.whiteLightRays.get( i ); // {LightRay}
 
-        var wavelength = Util.roundSymmetric( lightRay.wavelengthInVacuum ); // convert back to (nm)
+        const wavelength = Util.roundSymmetric( lightRay.wavelengthInVacuum ); // convert back to (nm)
 
         // Get the line values to make the next part more readable
-        var x1 = this.modelViewTransform.modelToViewX( lightRay.tip.x );
-        var y1 = this.modelViewTransform.modelToViewY( lightRay.tip.y );
-        var x2 = this.modelViewTransform.modelToViewX( lightRay.tail.x );
-        var y2 = this.modelViewTransform.modelToViewY( lightRay.tail.y );
+        const x1 = this.modelViewTransform.modelToViewX( lightRay.tip.x );
+        const y1 = this.modelViewTransform.modelToViewY( lightRay.tip.y );
+        const x2 = this.modelViewTransform.modelToViewX( lightRay.tail.x );
+        const y2 = this.modelViewTransform.modelToViewY( lightRay.tail.y );
 
         // Scale intensity into a custom alpha range
-        var a = Util.clamp( BendingLightConstants.D65[ wavelength ] * Math.sqrt( lightRay.powerFraction ) / 118, 0, 1 )
+        const a = Util.clamp( BendingLightConstants.D65[ wavelength ] * Math.sqrt( lightRay.powerFraction ) / 118, 0, 1 )
                 / 8;
 
         // skip alpha values that are just too light to see, which could also cause number format problems when creating
         // css color
         if ( a > 1E-5 ) {
-          var c = VisibleColor.wavelengthToColor( wavelength );
+          const c = VisibleColor.wavelengthToColor( wavelength );
           // var color = BendingLightConstants.XYZ_INTENSITIES[ wavelength ]
 
-          var strokeStyle = 'rgb(' +
+          const strokeStyle = 'rgb(' +
                             Util.roundSymmetric( c.r * a / 0.9829313170995397 ) + ',' +
                             Util.roundSymmetric( c.g * a ) + ',' +
                             Util.roundSymmetric( c.b * a / 0.7144456644926587 ) +

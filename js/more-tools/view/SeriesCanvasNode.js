@@ -40,16 +40,16 @@ define( require => {
      * @param {CanvasRenderingContext2D} context
      */
     paintCanvas: function( context ) {
-      var moved = false;
+      let moved = false;
 
       context.beginPath();
-      for ( var i = 0; i < this.seriesProperty.get().length; i++ ) {
-        var dataPoint = this.seriesProperty.get()[ i ];
+      for ( let i = 0; i < this.seriesProperty.get().length; i++ ) {
+        const dataPoint = this.seriesProperty.get()[ i ];
 
         // check for the data point and if exist draw series
         if ( dataPoint ) {
-          var x = this.modelViewTransformProperty.get().modelToViewX( dataPoint.time );
-          var y = this.modelViewTransformProperty.get().modelToViewY( dataPoint.value );
+          const x = this.modelViewTransformProperty.get().modelToViewX( dataPoint.time );
+          const y = this.modelViewTransformProperty.get().modelToViewY( dataPoint.value );
           if ( !moved ) {
             context.moveTo( x, y );
             moved = true;

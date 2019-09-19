@@ -47,7 +47,7 @@ define( require => {
   const normalLineString = require( 'string!BENDING_LIGHT/normalLine' );
 
   // constants
-  var INSET = 10;
+  const INSET = 10;
 
   /**
    * @param {IntroModel} introModel - model of intro screen
@@ -96,7 +96,7 @@ define( require => {
         return laserAngle > Math.PI / 2;
       }
     }, options );
-    var self = this;
+    const self = this;
     this.introModel = introModel; // @public (read-only)
 
     BendingLightView.call( this,
@@ -114,19 +114,19 @@ define( require => {
       options
     );
 
-    var stageWidth = this.layoutBounds.width;
-    var stageHeight = this.layoutBounds.height;
+    const stageWidth = this.layoutBounds.width;
+    const stageHeight = this.layoutBounds.height;
 
     // add MediumNodes for top and bottom
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMediumProperty ) );
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
 
     // add control panels for setting the index of refraction for each medium
-    var topMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
+    const topMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
       introModel.topMediumProperty, materialString, true, introModel.wavelengthProperty, indexOfRefractionDecimals, {
         yMargin: 7
       } );
-    var topMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
+    const topMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
     topMediumControlPanel.setTranslation(
       stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - topMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() + 4 );
@@ -137,8 +137,8 @@ define( require => {
     this.afterLightLayer3.addChild( topMediumControlPanel );
 
     // add control panels for setting the index of refraction for each medium
-    var bottomMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
-    var bottomMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
+    const bottomMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
+    const bottomMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
       introModel.bottomMediumProperty, materialString, true, introModel.wavelengthProperty, indexOfRefractionDecimals, {
         yMargin: 7
       } );
@@ -160,8 +160,8 @@ define( require => {
     } ) ) );
 
     // show the normal line where the laser strikes the interface between mediums
-    var normalLineHeight = stageHeight / 2;
-    var normalLine = new NormalLine( normalLineHeight, [ 7, 6 ], {
+    const normalLineHeight = stageHeight / 2;
+    const normalLine = new NormalLine( normalLineHeight, [ 7, 6 ], {
       x: this.modelViewTransform.modelToViewX( 0 ),
       y: this.modelViewTransform.modelToViewY( 0 ) - normalLineHeight / 2
     } );
@@ -192,17 +192,17 @@ define( require => {
       introModel.laser.emissionPointProperty,
       introModel.laser.colorProperty
     ], function() {
-      for ( var k = 0; k < self.incidentWaveLayer.getChildrenCount(); k++ ) {
+      for ( let k = 0; k < self.incidentWaveLayer.getChildrenCount(); k++ ) {
         self.incidentWaveLayer.children[ k ].step();
       }
       self.incidentWaveLayer.setVisible( introModel.laser.onProperty.value && introModel.laserViewProperty.value === 'wave' );
     } );
 
     // add laser view panel
-    var laserViewXOffset = hasMoreTools ? 13 : 12;
-    var laserViewYOffset = hasMoreTools ? 2 * INSET - 4 : 2 * INSET;
+    const laserViewXOffset = hasMoreTools ? 13 : 12;
+    const laserViewYOffset = hasMoreTools ? 2 * INSET - 4 : 2 * INSET;
 
-    var laserControlPanel = new Panel( createLaserControlPanel( introModel ), {
+    const laserControlPanel = new Panel( createLaserControlPanel( introModel ), {
       cornerRadius: 5,
       xMargin: 9,
       yMargin: 6,
@@ -215,12 +215,12 @@ define( require => {
     this.laserViewLayer.addChild( laserControlPanel );
 
     // text for checkboxes
-    var normalText = new Text( normalLineString, { fontSize: 12 } );
-    var angleText = new Text( anglesString, { fontSize: 12 } );
+    const normalText = new Text( normalLineString, { fontSize: 12 } );
+    const angleText = new Text( anglesString, { fontSize: 12 } );
 
     // add normal checkbox
-    var normalIcon = new NormalLine( 17, [ 4, 3 ] );
-    var normalCheckbox = new Checkbox( new HBox( {
+    const normalIcon = new NormalLine( 17, [ 4, 3 ] );
+    const normalCheckbox = new Checkbox( new HBox( {
       children: [
         normalText, normalIcon
       ], spacing: 12
@@ -230,8 +230,8 @@ define( require => {
     } );
 
     // add angle checkbox
-    var angleIcon = new AngleIcon();
-    var angleCheckbox = new Checkbox( new HBox( {
+    const angleIcon = new AngleIcon();
+    const angleCheckbox = new Checkbox( new HBox( {
       children: [
         angleText, angleIcon
       ], spacing: 12
@@ -240,8 +240,8 @@ define( require => {
       spacing: 5
     } );
 
-    var checkboxPanelChildren = hasMoreTools ? [ normalCheckbox, angleCheckbox ] : [ normalCheckbox ];
-    var checkboxPanel = new VBox( {
+    const checkboxPanelChildren = hasMoreTools ? [ normalCheckbox, angleCheckbox ] : [ normalCheckbox ];
+    const checkboxPanel = new VBox( {
       children: checkboxPanelChildren,
       spacing: 6,
       align: 'left',
@@ -250,7 +250,7 @@ define( require => {
     this.beforeLightLayer2.addChild( checkboxPanel );
 
     // create the protractor node
-    var protractorNodeIcon = new ProtractorNode( this.showProtractorProperty, false, {
+    const protractorNodeIcon = new ProtractorNode( this.showProtractorProperty, false, {
       scale: 0.24
     } );
     protractorNodeIcon.mouseArea = Shape.bounds( protractorNodeIcon.localBounds );
@@ -259,20 +259,20 @@ define( require => {
       protractorNodeIcon.visible = !showProtractor;
     } );
 
-    var protractorNode = new ProtractorNode( this.showProtractorProperty, false, {
+    const protractorNode = new ProtractorNode( this.showProtractorProperty, false, {
       scale: 0.8
     } );
-    var protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
-    var protractorLocationProperty = new Property( protractorLocation );
+    const protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
+    const protractorLocationProperty = new Property( protractorLocation );
 
     // When a node is released, check if it is over the toolbox.  If so, drop it in.
-    var dropInToolbox = function( node, enabledProperty ) {
+    const dropInToolbox = function( node, enabledProperty ) {
       if ( node.getGlobalBounds().intersectsBounds( self.toolbox.getGlobalBounds() ) ) {
         enabledProperty.value = false;
       }
     };
     this.dropInToolbox = dropInToolbox;
-    var protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
+    const protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
       endDrag: function() {
         dropInToolbox( protractorNode, self.showProtractorProperty );
       }
@@ -290,10 +290,10 @@ define( require => {
 
     self.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
 
-    var modelViewTransform = this.modelViewTransform;
+    const modelViewTransform = this.modelViewTransform;
 
     // When a node is dropped behind a control panel, move it to the side so it won't be lost.
-    var bumpLeft = function( node, positionProperty ) {
+    const bumpLeft = function( node, positionProperty ) {
       while ( node.getGlobalBounds().intersectsBounds( topMediumControlPanel.getGlobalBounds() ) ||
               node.getGlobalBounds().intersectsBounds( bottomMediumControlPanel.getGlobalBounds() ) ) {
         positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
@@ -307,19 +307,19 @@ define( require => {
     protractorNode.addInputListener( protractorNodeListener );
 
     // add intensity meter
-    var intensityMeterNodeIcon = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter.copy(), {
+    const intensityMeterNodeIcon = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter.copy(), {
       scale: 0.45,
       cursor: 'pointer'
     } );
     intensityMeterNodeIcon.mouseArea = Shape.bounds( intensityMeterNodeIcon.localBounds );
     intensityMeterNodeIcon.touchArea = Shape.bounds( intensityMeterNodeIcon.localBounds );
 
-    var intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
+    const intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
     introModel.intensityMeter.enabledProperty.link( function( enabled ) {
       intensityMeterNode.visible = enabled;
       intensityMeterNodeIcon.visible = !enabled;
     } );
-    var probeListener = new MovableDragHandler( introModel.intensityMeter.sensorPositionProperty, {
+    const probeListener = new MovableDragHandler( introModel.intensityMeter.sensorPositionProperty, {
       modelViewTransform: modelViewTransform,
       endDrag: function() {
         bumpLeft( intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
@@ -327,7 +327,7 @@ define( require => {
       }
     } );
     intensityMeterNode.probeNode.addInputListener( probeListener );
-    var bodyListener = new MovableDragHandler( introModel.intensityMeter.bodyPositionProperty, {
+    const bodyListener = new MovableDragHandler( introModel.intensityMeter.bodyPositionProperty, {
       modelViewTransform: modelViewTransform,
       endDrag: function() {
         bumpLeft( intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
@@ -344,7 +344,7 @@ define( require => {
       introModel.intensityMeter.enabledProperty.value = true;
 
       // Center the center-bottom of the body on the pointer
-      var bodyViewPosition = intensityMeterNode.bodyNode.globalToParentPoint( event.pointer.point )
+      const bodyViewPosition = intensityMeterNode.bodyNode.globalToParentPoint( event.pointer.point )
         .plusXY( -intensityMeterNode.bodyNode.width / 2, -intensityMeterNode.bodyNode.height + 5 );
       introModel.intensityMeter.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( bodyViewPosition );
       intensityMeterNode.resetRelativeLocations();
@@ -354,7 +354,7 @@ define( require => {
     // @protected for subclass usage in MoreToolsView
     this.bumpLeft = bumpLeft;
 
-    var toolboxNodes = [
+    let toolboxNodes = [
       protractorNodeIcon,
       intensityMeterNodeIcon
     ];
@@ -375,7 +375,7 @@ define( require => {
     this.beforeLightLayer2.addChild( intensityMeterNode );
 
     // add reset all button
-    var resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: function() {
         self.reset();
       },
@@ -421,13 +421,13 @@ define( require => {
 
       // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node
       // will remain in bounds
-      var viewDragBounds = new Rectangle2(
+      const viewDragBounds = new Rectangle2(
         visibleBounds.left - intensityMeterNode.bodyNode.bounds.width / 2,
         visibleBounds.top - intensityMeterNode.bodyNode.bounds.height / 2,
         visibleBounds.width,
         visibleBounds.height
       );
-      var dragBounds = modelViewTransform.viewToModelBounds( viewDragBounds );
+      const dragBounds = modelViewTransform.viewToModelBounds( viewDragBounds );
       bodyListener.setDragBounds( dragBounds );
     } );
   }
@@ -466,7 +466,7 @@ define( require => {
     updateWaveShape: function() {
 
       if ( this.introModel.laserViewProperty.value === 'wave' ) {
-        for ( var k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
+        for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
           this.incidentWaveLayer.children[ k ].step();
         }
       }
@@ -479,19 +479,19 @@ define( require => {
     addLightNodes: function() {
       BendingLightView.prototype.addLightNodes.call( this );
 
-      var bendingLightModel = this.bendingLightModel;
-      var self = this;
+      const bendingLightModel = this.bendingLightModel;
+      const self = this;
 
       this.addChild( this.incidentWaveLayer );
 
       // if WebGL is supported add WaveWebGLNode otherwise wave is rendered with the canvas.
       if ( bendingLightModel.allowWebGL ) {
-        var waveWebGLNode = new WaveWebGLNode( self.modelViewTransform,
+        const waveWebGLNode = new WaveWebGLNode( self.modelViewTransform,
           bendingLightModel.rays );
         self.incidentWaveLayer.addChild( waveWebGLNode );
       }
       else {
-        var waveCanvasNode = new WaveCanvasNode( this.bendingLightModel.rays, self.modelViewTransform, {
+        const waveCanvasNode = new WaveCanvasNode( this.bendingLightModel.rays, self.modelViewTransform, {
           canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
         } );
         self.incidentWaveLayer.addChild( waveCanvasNode );

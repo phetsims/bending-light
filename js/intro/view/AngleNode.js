@@ -23,16 +23,16 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   // constants
-  var CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
-  var LINE_HEIGHT = 13;
-  var NUM_DIGITS = 1; // number of digits in the text readouts
-  var ROUNDING_FACTOR = 10; // Round to the nearest tenth
-  var BUMP_TO_SIDE_DISTANCE = 38; // How far to move the text to the side if it was in the way of the rays
-  var TEXT_COLOR = 'black'; // The gray from the phet-io logo, which works well against black and white
+  const CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
+  const LINE_HEIGHT = 13;
+  const NUM_DIGITS = 1; // number of digits in the text readouts
+  const ROUNDING_FACTOR = 10; // Round to the nearest tenth
+  const BUMP_TO_SIDE_DISTANCE = 38; // How far to move the text to the side if it was in the way of the rays
+  const TEXT_COLOR = 'black'; // The gray from the phet-io logo, which works well against black and white
 
   // When there is total internal reflection, treat it as if it is a powerless ray for simplicity
   // Also used if there is no reflected ray
-  var MOCK_ZERO_RAY = {
+  const MOCK_ZERO_RAY = {
     getAngle: function() {
       return 0;
     },
@@ -53,35 +53,35 @@ define( require => {
                       addStepListener ) {
     Node.call( this );
 
-    var self = this;
+    const self = this;
 
     // Only show the AngleNode when it is selected via a checkbox and the laser is on
     Property.multilink( [ showAnglesProperty, laserOnProperty ], function( showAngles, laserOn ) {
       self.visible = showAngles && laserOn;
     } );
 
-    var createArcPath = function() {
+    const createArcPath = function() {
       return new Path( null, { stroke: 'black', lineWidth: 1 } );
     };
 
-    var getOriginX = function() {
+    const getOriginX = function() {
       return modelViewTransform.modelToViewX( 0 );
     };
 
-    var getOriginY = function() {
+    const getOriginY = function() {
       return modelViewTransform.modelToViewY( 0 );
     };
 
     // Show the top angles both with a single arc so it is continuous
-    var upperArcPath = createArcPath();
+    const upperArcPath = createArcPath();
     this.addChild( upperArcPath );
 
-    var lowerArcPath = createArcPath();
+    const lowerArcPath = createArcPath();
     this.addChild( lowerArcPath );
 
-    var createText = function() {
-      var text = new Text( '', { fontSize: 12, fill: TEXT_COLOR } );
-      var panel = new Panel( text, {
+    const createText = function() {
+      const text = new Text( '', { fontSize: 12, fill: TEXT_COLOR } );
+      const panel = new Panel( text, {
         fill: 'white',
         opacity: 0.75,
         stroke: null,
@@ -109,19 +109,19 @@ define( require => {
     };
 
     // Readout for the angle for the incoming light ray
-    var incomingReadout = createText();
+    const incomingReadout = createText();
     this.addChild( incomingReadout );
 
     // Readout for the angle for the reflected light ray, which will always read the same value as the
     // incoming light ray for physics reasons.
-    var reflectedReadout = createText();
+    const reflectedReadout = createText();
     this.addChild( reflectedReadout );
 
-    var refractedReadout = createText();
+    const refractedReadout = createText();
     this.addChild( refractedReadout );
 
     // Helper function used to create the vertical line marker above and below the origin
-    var createLine = function( y ) {
+    const createLine = function( y ) {
       return new Line(
         getOriginX(), getOriginY() + y - LINE_HEIGHT / 2,
         getOriginX(), getOriginY() + y + LINE_HEIGHT / 2, {
@@ -131,11 +131,11 @@ define( require => {
       );
     };
 
-    var lowerMark = createLine( CIRCLE_RADIUS );
-    var upperMark = createLine( -CIRCLE_RADIUS );
+    const lowerMark = createLine( CIRCLE_RADIUS );
+    const upperMark = createLine( -CIRCLE_RADIUS );
 
     // Only redraw when necessary to improve performance.
-    var dirty = true;
+    let dirty = true;
 
     showNormalProperty.link( function( showNormal ) {
 
@@ -149,7 +149,7 @@ define( require => {
     this.addChild( lowerMark );
     this.addChild( upperMark );
 
-    var markDirty = function() {
+    const markDirty = function() {
       dirty = true;
     };
     rays.addItemAddedListener( markDirty );
@@ -160,10 +160,10 @@ define( require => {
      * @param type
      * @returns {LightRay}
      */
-    var getRay = function( type ) {
-      var selected = null;
-      for ( var i = 0; i < rays.length; i++ ) {
-        var ray = rays.get( i );
+    const getRay = function( type ) {
+      let selected = null;
+      for ( let i = 0; i < rays.length; i++ ) {
+        const ray = rays.get( i );
         if ( ray.rayType === type ) {
           assert && assert( selected === null, 'multiple rays of the same type' );
           selected = ray;
@@ -180,17 +180,17 @@ define( require => {
       if ( dirty ) {
 
         // Get the rays from the model.  They must be specified in the following order.
-        var incomingRay = getRay( 'incident' );
-        var reflectedRay = getRay( 'reflected' );
-        var refractedRay = getRay( 'transmitted' );
+        const incomingRay = getRay( 'incident' );
+        const reflectedRay = getRay( 'reflected' );
+        const refractedRay = getRay( 'transmitted' );
         if ( incomingRay === null && reflectedRay === null && refractedRay === null ) {
           return;
         }
 
-        var incomingAngleFromNormal = incomingRay.getAngle() + Math.PI / 2;
-        var refractedAngleFromNormal = refractedRay.getAngle() + Math.PI / 2;
+        const incomingAngleFromNormal = incomingRay.getAngle() + Math.PI / 2;
+        const refractedAngleFromNormal = refractedRay.getAngle() + Math.PI / 2;
 
-        var getShape = function( angle, startAngle, endAngle, anticlockwise ) {
+        const getShape = function( angle, startAngle, endAngle, anticlockwise ) {
           return angle >= 1E-6 ?
                  Shape.arc(
                    getOriginX(),
@@ -204,10 +204,10 @@ define( require => {
         };
 
         // Only show the incident angle when the ray is coming in at a shallow angle, see #288
-        var isIncomingRayHorizontal = Math.abs( incomingRay.getAngle() ) < 1E-6;
+        const isIncomingRayHorizontal = Math.abs( incomingRay.getAngle() ) < 1E-6;
 
         // When the indices of refraction are equal, there is no reflected ray
-        var showReflectedAngle = reflectedRay.powerFraction >= 1E-6 && !isIncomingRayHorizontal;
+        const showReflectedAngle = reflectedRay.powerFraction >= 1E-6 && !isIncomingRayHorizontal;
 
         upperArcPath.shape = getShape(
           incomingAngleFromNormal,
@@ -221,28 +221,28 @@ define( require => {
           Math.PI / 2 - refractedAngleFromNormal,
           true
         );
-        var origin = new Vector2( getOriginX(), getOriginY() );
+        const origin = new Vector2( getOriginX(), getOriginY() );
 
         // send out a ray from the origin past the center of the angle to position the readout
-        var incomingRayDegreesFromNormal = Util.roundSymmetric(
+        const incomingRayDegreesFromNormal = Util.roundSymmetric(
             incomingAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR
           ) / ROUNDING_FACTOR;
-        var refractedRayDegreesFromNormal = Util.roundSymmetric(
+        const refractedRayDegreesFromNormal = Util.roundSymmetric(
             refractedAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR
           ) / ROUNDING_FACTOR;
-        var incomingReadoutText = incomingRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
+        const incomingReadoutText = incomingRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
-        var createDirectionVector = function( angle ) {
+        const createDirectionVector = function( angle ) {
           return Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT + 5, angle );
         };
-        var incomingReadoutDirection = createDirectionVector( -Math.PI / 2 - incomingAngleFromNormal / 2 );
-        var reflectedReadoutDirection = createDirectionVector( -Math.PI / 2 + incomingAngleFromNormal / 2 );
-        var refractedReadoutDirection = createDirectionVector( +Math.PI / 2 - refractedAngleFromNormal / 2 );
+        const incomingReadoutDirection = createDirectionVector( -Math.PI / 2 - incomingAngleFromNormal / 2 );
+        const reflectedReadoutDirection = createDirectionVector( -Math.PI / 2 + incomingAngleFromNormal / 2 );
+        const refractedReadoutDirection = createDirectionVector( +Math.PI / 2 - refractedAngleFromNormal / 2 );
 
         incomingReadout.text = incomingReadoutText;
 
         // When the angle becomes too small, pop the text out so that it won't be obscured by the ray
-        var angleThresholdToBumpToSide = 30; // degrees
+        const angleThresholdToBumpToSide = 30; // degrees
 
         incomingReadout.center = origin.plus( incomingReadoutDirection )
           .plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : -BUMP_TO_SIDE_DISTANCE, 0 );
@@ -253,17 +253,17 @@ define( require => {
 
         reflectedReadout.visible = showReflectedAngle;
 
-        var refractedReadoutText = refractedRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
+        const refractedReadoutText = refractedRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
         // Total internal reflection, or not a significant refracted ray (light coming horizontally)
-        var showLowerAngle = refractedRay.powerFraction >= 1E-6 && !isIncomingRayHorizontal;
+        const showLowerAngle = refractedRay.powerFraction >= 1E-6 && !isIncomingRayHorizontal;
 
         refractedReadout.visible = showLowerAngle;
         lowerArcPath.visible = showLowerAngle;
         lowerMark.visible = !showNormalProperty.value && showLowerAngle;
 
         refractedReadout.text = refractedReadoutText;
-        var bumpBottomReadout = refractedRayDegreesFromNormal >= angleThresholdToBumpToSide;
+        const bumpBottomReadout = refractedRayDegreesFromNormal >= angleThresholdToBumpToSide;
         refractedReadout.center = origin.plus( refractedReadoutDirection )
           .plusXY( bumpBottomReadout ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
 

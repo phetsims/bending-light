@@ -24,7 +24,7 @@ define( require => {
    * If a vector is infinite, make it finite
    * @param vector
    */
-  var makeFinite = function( vector ) {
+  const makeFinite = function( vector ) {
     if ( !isFinite( vector.x ) ) {
       vector.x = 0;
     }
@@ -99,30 +99,30 @@ define( require => {
 
       // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
       // angle of tail is Math.PI/2 for transmitted and reflected rays.
-      var tipAngle = this.extend ? Math.PI / 2 : this.getAngle();
-      var tailAngle = this.extendBackwards ? Math.PI / 2 : this.getAngle();
-      var tipWidth = this.extend ? this.trapeziumWidth : this.waveWidth;
-      var tailWidth = this.extendBackwards ? this.trapeziumWidth : this.waveWidth;
+      const tipAngle = this.extend ? Math.PI / 2 : this.getAngle();
+      const tailAngle = this.extendBackwards ? Math.PI / 2 : this.getAngle();
+      const tipWidth = this.extend ? this.trapeziumWidth : this.waveWidth;
+      const tailWidth = this.extendBackwards ? this.trapeziumWidth : this.waveWidth;
 
       // Calculating two end points of tip. They are at the angle of Math.PI/2 with respect to the ray angle
-      var tipVectorX = tipWidth * Math.cos( tipAngle + Math.PI / 2 ) / 2;
-      var tipVectorY = tipWidth * Math.sin( tipAngle + Math.PI / 2 ) / 2;
+      const tipVectorX = tipWidth * Math.cos( tipAngle + Math.PI / 2 ) / 2;
+      const tipVectorY = tipWidth * Math.sin( tipAngle + Math.PI / 2 ) / 2;
 
       // Calculating two end points of tail. They are at the angle of Math.PI/2 with respect to the ray angle
-      var tailVectorX = tailWidth * Math.cos( tailAngle + Math.PI / 2 ) / 2;
-      var tailVectorY = tailWidth * Math.sin( tailAngle + Math.PI / 2 ) / 2;
+      const tailVectorX = tailWidth * Math.cos( tailAngle + Math.PI / 2 ) / 2;
+      const tailVectorY = tailWidth * Math.sin( tailAngle + Math.PI / 2 ) / 2;
 
-      var tipPoint1 = this.tip.minusXY( tipVectorX, tipVectorY );
-      var tipPoint2 = this.tip.plusXY( tipVectorX, tipVectorY );
-      var tailPoint1 = this.tail.minusXY( tailVectorX, tailVectorY );
-      var tailPoint2 = this.tail.plusXY( tailVectorX, tailVectorY );
+      const tipPoint1 = this.tip.minusXY( tipVectorX, tipVectorY );
+      const tipPoint2 = this.tip.plusXY( tipVectorX, tipVectorY );
+      const tailPoint1 = this.tail.minusXY( tailVectorX, tailVectorY );
+      const tailPoint2 = this.tail.plusXY( tailVectorX, tailVectorY );
 
       // Getting correct order of points
-      var tipPoint1XY = tipPoint2.x > tipPoint1.x ? tipPoint2 : tipPoint1;
-      var tipPoint2XY = tipPoint2.x < tipPoint1.x ? tipPoint2 : tipPoint1;
+      const tipPoint1XY = tipPoint2.x > tipPoint1.x ? tipPoint2 : tipPoint1;
+      const tipPoint2XY = tipPoint2.x < tipPoint1.x ? tipPoint2 : tipPoint1;
 
-      var tailPoint1XY = tailPoint1.x < tailPoint2.x ? tailPoint1 : tailPoint2;
-      var tailPoint2XY = tailPoint1.x > tailPoint2.x ? tailPoint1 : tailPoint2;
+      const tailPoint1XY = tailPoint1.x < tailPoint2.x ? tailPoint1 : tailPoint2;
+      const tailPoint2XY = tailPoint1.x > tailPoint2.x ? tailPoint1 : tailPoint2;
 
       // This is to avoid drawing of wave backwards (near the intersection of mediums) when it intersects intensity
       // meter sensor shape
@@ -179,9 +179,9 @@ define( require => {
     },
 
     createParallelRay: function( distance, rayType ) {
-      var perpendicular = Vector2.createPolar( distance, this.getAngle() + Math.PI / 2 );
-      var t = rayType === 'incident' ? this.tip : this.tail;
-      var tail = t.plus( perpendicular );
+      const perpendicular = Vector2.createPolar( distance, this.getAngle() + Math.PI / 2 );
+      const t = rayType === 'incident' ? this.tip : this.tail;
+      const tail = t.plus( perpendicular );
       return new Ray2( tail, Vector2.createPolar( 1, this.getAngle() + (rayType === 'incident' ? Math.PI : 0) ) );
     },
 
@@ -199,26 +199,26 @@ define( require => {
         // Create a ray that is parallel to the light ray and within the beam width that is closest to the center
         // of the sensor.  This is the most straightforward way to check for the closest intersection to the sensor
         // region.
-        var p = sensorRegion.getBounds().center;
+        const p = sensorRegion.getBounds().center;
 
-        var tip = this.tip;
-        var tail = this.tail;
+        const tip = this.tip;
+        const tail = this.tail;
 
         // Compute the distance from the sensor to the ray, using
         // https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-        var n = tip.minus( tail ).normalized();
-        var a = tail;
-        var aMinusP = a.minus( p );
-        var distanceToRay = aMinusP.minus( n.timesScalar( aMinusP.dot( n ) ) ).magnitude;
+        const n = tip.minus( tail ).normalized();
+        const a = tail;
+        const aMinusP = a.minus( p );
+        let distanceToRay = aMinusP.minus( n.timesScalar( aMinusP.dot( n ) ) ).magnitude;
 
-        var perpendicular = Vector2.createPolar( 1, this.getAngle() + Math.PI / 2 );
-        var sign = perpendicular.dot( p.minus( a ) ) < 0 ? -1 : +1;
+        const perpendicular = Vector2.createPolar( 1, this.getAngle() + Math.PI / 2 );
+        const sign = perpendicular.dot( p.minus( a ) ) < 0 ? -1 : +1;
         distanceToRay = sign * Math.min( distanceToRay, this.waveWidth / 2 );
         return sensorRegion.intersection( this.createParallelRay( distanceToRay, rayType ) );
       }
       else {
-        var direction = Vector2.createPolar( 1, this.getAngle() + (rayType === 'incident' ? Math.PI : 0 ) );
-        var ray = new Ray2( rayType === 'incident' ? this.tip : this.tail, direction );
+        const direction = Vector2.createPolar( 1, this.getAngle() + (rayType === 'incident' ? Math.PI : 0 ) );
+        const ray = new Ray2( rayType === 'incident' ? this.tip : this.tail, direction );
         return sensorRegion.intersection( ray );
       }
     },
@@ -256,7 +256,7 @@ define( require => {
      * @returns {Vector2}
      */
     getUnitVector: function() {
-      var magnitude = this.tip.distance( this.tail );
+      const magnitude = this.tip.distance( this.tail );
       this.unitVector.x = (this.tip.x - this.tail.x) / magnitude;
       this.unitVector.y = (this.tip.y - this.tail.y) / magnitude;
       return this.unitVector;
@@ -335,10 +335,10 @@ define( require => {
      * @returns {number}
      */
     getCosArg: function( distanceAlongRay ) {
-      var w = this.getAngularFrequency();
-      var k = 2 * Math.PI / this.wavelength;
-      var x = distanceAlongRay;
-      var t = this.time;
+      const w = this.getAngularFrequency();
+      const k = 2 * Math.PI / this.wavelength;
+      const x = distanceAlongRay;
+      const t = this.time;
       return k * x - w * t + 2 * Math.PI * this.numWavelengthsPhaseOffset;
     }
   }, {

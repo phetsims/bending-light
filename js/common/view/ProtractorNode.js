@@ -31,7 +31,7 @@ define( require => {
    */
   function ProtractorNode( showProtractorProperty, rotateable, options ) {
 
-    var self = this;
+    const self = this;
     Node.call( self );
 
     this.showProtractorProperty = showProtractorProperty; // @public (read-only)
@@ -43,15 +43,15 @@ define( require => {
     this.addChild( this.protractorImageNode );
 
     // Use nicknames for the protractor image width and height to make the layout code easier to understand
-    var w = this.protractorImageNode.getWidth();
-    var h = this.protractorImageNode.getHeight();
+    const w = this.protractorImageNode.getWidth();
+    const h = this.protractorImageNode.getHeight();
 
     /**
      * Creates the outer rim shape of the protractor, used for the outer rim shape as well as the full shape with
      * the interior middle bar.
      * @returns {Shape}
      */
-    var createOuterRimShape = function() {
+    const createOuterRimShape = function() {
       return new Shape()
         .moveTo( w, h / 2 )
         .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
@@ -77,14 +77,14 @@ define( require => {
       this.protractorAngleProperty = new Property( 0.0 );
 
       // add a mouse listener for rotating when the rotate shape (the outer ring in the 'prism' screen is dragged)
-      var rotatePath = new Path( this.outerRimShape, {
+      const rotatePath = new Path( this.outerRimShape, {
         pickable: true,
         cursor: 'pointer'
       } );
       this.addChild( rotatePath );
 
       // rotate listener
-      var start;
+      let start;
       rotatePath.addInputListener( new SimpleDragHandler( {
         start: function( event ) {
           start = self.globalToParentPoint( event.pointer.point );
@@ -92,11 +92,11 @@ define( require => {
         drag: function( event ) {
 
           // compute the change in angle based on the new drag event
-          var end = self.globalToParentPoint( event.pointer.point );
-          var centerX = self.getCenterX();
-          var centerY = self.getCenterY();
-          var startAngle = Math.atan2( centerY - start.y, centerX - start.x );
-          var angle = Math.atan2( centerY - end.y, centerX - end.x );
+          const end = self.globalToParentPoint( event.pointer.point );
+          const centerX = self.getCenterX();
+          const centerY = self.getCenterY();
+          const startAngle = Math.atan2( centerY - start.y, centerX - start.x );
+          const angle = Math.atan2( centerY - end.y, centerX - end.x );
 
           // rotate the protractor model
           self.protractorAngleProperty.value += angle - startAngle;

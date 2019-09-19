@@ -27,13 +27,13 @@ define( require => {
    */
   function LaserTypeRadioButtonGroup( radioButtonAdapterProperty, options ) {
 
-    var laserImageNode = new Image( laserImage, {
+    const laserImageNode = new Image( laserImage, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )
     } );
 
-    var lineWidth = 37;
-    var redLineAt = function( y ) {
+    const lineWidth = 37;
+    const redLineAt = function( y ) {
       return new Line( 0, 0, lineWidth, 0, {
         stroke: 'red',
         lineWidth: 2,
@@ -42,9 +42,9 @@ define( require => {
       } );
     };
 
-    var dy = 6.25;
-    var padding = 2;// vertical padding above the laser in the white light radio button
-    var overallScale = 0.875;
+    const dy = 6.25;
+    const padding = 2;// vertical padding above the laser in the white light radio button
+    const overallScale = 0.875;
     RadioButtonGroup.call( this, radioButtonAdapterProperty, [ {
       value: 'singleColor',
       node: new Node( {

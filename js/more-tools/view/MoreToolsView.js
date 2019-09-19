@@ -26,7 +26,7 @@ define( require => {
   const WaveSensorNode = require( 'BENDING_LIGHT/more-tools/view/WaveSensorNode' );
 
   // constants
-  var arrowScale = 1.5E-14;
+  const arrowScale = 1.5E-14;
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
@@ -35,7 +35,7 @@ define( require => {
   function MoreToolsView( moreToolsModel ) {
 
     this.moreToolsModel = moreToolsModel; // @public (read-only)
-    var self = this;
+    const self = this;
 
     IntroView.call( this, moreToolsModel,
       true, // hasMoreTools
@@ -67,11 +67,11 @@ define( require => {
 
   return inherit( IntroView, MoreToolsView, {
     getWaveSensorIcon: function() {
-      var modelViewTransform = this.modelViewTransform;
-      var self = this;
+      const modelViewTransform = this.modelViewTransform;
+      const self = this;
 
-      var waveSensor = this.moreToolsModel.waveSensor;
-      var waveSensorIcon = new WaveSensorNode(
+      const waveSensor = this.moreToolsModel.waveSensor;
+      const waveSensorIcon = new WaveSensorNode(
         this.modelViewTransform,
         waveSensor.copy(), {
           scale: 0.4
@@ -85,15 +85,15 @@ define( require => {
         this.modelViewTransform,
         waveSensor
       );
-      var waveSensorNode = this.waveSensorNode;
+      const waveSensorNode = this.waveSensorNode;
       waveSensor.enabledProperty.link( function( enabled ) {
         waveSensorIcon.visible = !enabled;
         waveSensorNode.visible = enabled;
       } );
 
-      var dropInToolbox = this.dropInToolbox;
+      const dropInToolbox = this.dropInToolbox;
 
-      var createMovableDragHandler = function( node, positionProperty, enabledProperty ) {
+      const createMovableDragHandler = function( node, positionProperty, enabledProperty ) {
         return new MovableDragHandler( positionProperty, {
           modelViewTransform: modelViewTransform,
           endDrag: function() {
@@ -103,21 +103,21 @@ define( require => {
         } );
       };
 
-      var probe1Listener = createMovableDragHandler(
+      const probe1Listener = createMovableDragHandler(
         waveSensorNode.probe1Node,
         waveSensor.probe1.positionProperty,
         waveSensor.enabledProperty
       );
       waveSensorNode.probe1Node.addInputListener( probe1Listener );
 
-      var probe2Listener = createMovableDragHandler(
+      const probe2Listener = createMovableDragHandler(
         waveSensorNode.probe2Node,
         waveSensor.probe2.positionProperty,
         waveSensor.enabledProperty
       );
       waveSensorNode.probe2Node.addInputListener( probe2Listener );
 
-      var bodyListener = createMovableDragHandler(
+      const bodyListener = createMovableDragHandler(
         waveSensorNode.bodyNode,
         waveSensor.bodyPositionProperty,
         waveSensor.enabledProperty
@@ -134,7 +134,7 @@ define( require => {
         waveSensor.enabledProperty.set( true );
 
           // Center the body label on the pointer
-        var pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point )
+        const pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point )
           .plusXY( 0, -waveSensorNode.bodyNode.height / 2 + 5 );
         waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( pt );
         waveSensorNode.resetRelativePositions();
@@ -146,7 +146,7 @@ define( require => {
 
         // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
         // node will remain in bounds
-        var modelBounds = self.modelViewTransform.viewToModelBounds( visibleBounds );
+        const modelBounds = self.modelViewTransform.viewToModelBounds( visibleBounds );
         probe1Listener.setDragBounds( modelBounds );
         probe2Listener.setDragBounds( modelBounds );
         bodyListener.setDragBounds( modelBounds );
@@ -156,9 +156,9 @@ define( require => {
       return waveSensorIcon;
     },
     getVelocitySensorIcon: function() {
-      var self = this;
-      var velocitySensorToolboxScale = 1.2;
-      var velocitySensorIconNode = new VelocitySensorNode(
+      const self = this;
+      const velocitySensorToolboxScale = 1.2;
+      const velocitySensorIconNode = new VelocitySensorNode(
         this.modelViewTransform,
         this.moreToolsModel.velocitySensor.copy(),
         arrowScale, {
@@ -168,7 +168,7 @@ define( require => {
       velocitySensorIconNode.mouseArea = Shape.bounds( velocitySensorIconNode.localBounds );
       velocitySensorIconNode.touchArea = Shape.bounds( velocitySensorIconNode.localBounds );
 
-      var velocitySensorNode = new VelocitySensorNode(
+      const velocitySensorNode = new VelocitySensorNode(
         this.modelViewTransform,
         this.moreToolsModel.velocitySensor,
         arrowScale, {
@@ -180,7 +180,7 @@ define( require => {
         velocitySensorNode.visible = enabled;
       } );
 
-      var velocitySensorListener = new MovableDragHandler( this.moreToolsModel.velocitySensor.positionProperty, {
+      const velocitySensorListener = new MovableDragHandler( this.moreToolsModel.velocitySensor.positionProperty, {
         modelViewTransform: this.modelViewTransform,
         endDrag: function() {
           self.bumpLeft( velocitySensorNode, self.moreToolsModel.velocitySensor.positionProperty );
@@ -200,8 +200,8 @@ define( require => {
         self.moreToolsModel.velocitySensor.enabledProperty.value = true;
 
         // Center the protractor on the pointer
-        var viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point );
-        var velocitySensorModelPosition = self.modelViewTransform.viewToModelPosition( viewPosition );
+        const viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point );
+        const velocitySensorModelPosition = self.modelViewTransform.viewToModelPosition( viewPosition );
         self.moreToolsModel.velocitySensor.positionProperty.set( velocitySensorModelPosition );
       } ) );
 
@@ -209,7 +209,7 @@ define( require => {
 
         // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
         // node will remain in bounds
-        var bounds = new Rectangle( visibleBounds.x - velocitySensorNode.bounds.width / 2, visibleBounds.y, visibleBounds.width, visibleBounds.height );
+        const bounds = new Rectangle( visibleBounds.x - velocitySensorNode.bounds.width / 2, visibleBounds.y, visibleBounds.width, visibleBounds.height );
         velocitySensorListener.setDragBounds( self.modelViewTransform.viewToModelBounds( bounds ) );
       } );
 

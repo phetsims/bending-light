@@ -38,8 +38,8 @@ define( require => {
   const protractorImage = require( 'mipmap!BENDING_LIGHT/protractor.png' );
 
   // constants
-  var MAX_TEXT_WIDTH = 115;
-  var MAX_PRISM_COUNT = 6; // for each type
+  const MAX_TEXT_WIDTH = 115;
+  const MAX_PRISM_COUNT = 6; // for each type
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -53,36 +53,36 @@ define( require => {
    */
   function PrismToolboxNode( modelViewTransform, prismsModel, prismLayer, dragBoundsProperty, occlusionHandler,
                              options ) {
-    var self = this;
+    const self = this;
 
     Node.call( this );
-    var content = new HBox( {
+    const content = new HBox( {
       spacing: 8.4
     } );
 
     // Create prism icon
-    var createPrismIcon = function( prism ) {
-      var prismShape = prism.copy();
+    const createPrismIcon = function( prism ) {
+      const prismShape = prism.copy();
       return new PrismNode( prismsModel, modelViewTransform, prismShape, self, prismLayer,
         dragBoundsProperty, occlusionHandler, true );
     };
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
-    var prismNode;
+    let prismNode;
     prismsModel.getPrismPrototypes().forEach( function( prism ) {
-      var prismIcon = createPrismIcon( prism );
+      const prismIcon = createPrismIcon( prism );
 
-      var listener = function() {
-        var count = _.filter( prismsModel.prisms.getArray(), function( p ) {
+      const listener = function() {
+        const count = _.filter( prismsModel.prisms.getArray(), function( p ) {
           return p.typeName === prism.typeName;
         } ).length;
         prismIcon.visible = count < MAX_PRISM_COUNT;
       };
       prismsModel.prisms.addItemAddedListener( listener );
       prismsModel.prisms.addItemRemovedListener( listener );
-      var prismIconBounds = prismIcon.bounds;
+      const prismIconBounds = prismIcon.bounds;
       prismIcon.scale( 55 / prismIcon.height );
-      var prismToolboxIconNode = new Path( Shape.rectangle(
+      const prismToolboxIconNode = new Path( Shape.rectangle(
         prismIconBounds.minX,
         prismIconBounds.minY,
         prismIconBounds.getWidth(),
@@ -95,8 +95,8 @@ define( require => {
       // Add drag listener for the prisms icon
       prismToolboxIconNode.addInputListener( new SimpleDragHandler( {
           start: function( event, trail ) {
-            var start = self.globalToParentPoint( event.pointer.point );
-            var prismShape = prism.copy();
+            const start = self.globalToParentPoint( event.pointer.point );
+            const prismShape = prism.copy();
 
             // add prism model to the prisms model
             prismsModel.addPrism( prismShape );
@@ -115,7 +115,7 @@ define( require => {
             // See Scenery #131 create drag listener
             // See Scenery #218 multitouch
             // There is a precedent for this hack in SimpleDragHandler.js
-            var c = event.currentTarget;
+            const c = event.currentTarget;
             event.currentTarget = prismNode;
             prismNode.movableDragHandler.handleForwardedStartEvent( event, trail );
             event.currentTarget = c;
@@ -127,7 +127,7 @@ define( require => {
             // See Scenery #131 create drag listener
             // See Scenery #218 multitouch
             // There is a precedent for this hack in SimpleDragHandler.js
-            var c = event.currentTarget;
+            const c = event.currentTarget;
             event.currentTarget = prismNode;
             prismNode.movableDragHandler.handleForwardedDragEvent( event, trail );
             event.currentTarget = c; // oh noes
@@ -139,7 +139,7 @@ define( require => {
           // See Scenery #131 create drag listener
           // See Scenery #218 multitouch
           // There is a precedent for this hack in SimpleDragHandler.js
-          var c = event.currentTarget;
+          const c = event.currentTarget;
           event.currentTarget = prismNode;
           prismNode.movableDragHandler.handleForwardedEndEvent( event, trail );
           event.currentTarget = c;
@@ -154,8 +154,8 @@ define( require => {
     } );
 
     // Allow the user to control the type of material in the prisms
-    var environmentMediumMaterialListParent = new Node();
-    var objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
+    const environmentMediumMaterialListParent = new Node();
+    const objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
       prismsModel.mediumColorFactory,
       prismsModel.prismMediumProperty,
       objectsString,
@@ -166,13 +166,13 @@ define( require => {
         yMargin: 4
       } );
     this.objectMediumControlPanel = objectMediumControlPanel;
-    var dividerBetweenPrismsAndPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10, 10, {
+    const dividerBetweenPrismsAndPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10, 10, {
       stroke: 'gray', lineWidth: 0.2, fill: 'gray'
     } );
     content.addChild( dividerBetweenPrismsAndPanel );
 
     content.addChild( objectMediumControlPanel );
-    var dividerBetweenMediumPanelAndControlPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10,
+    const dividerBetweenMediumPanelAndControlPanel = new Rectangle( 0, 0, 0.6, objectMediumControlPanel.height - 10, 10,
       10, {
         stroke: 'gray', lineWidth: 0.2, fill: 'gray'
       } );
@@ -180,35 +180,35 @@ define( require => {
 
     // Add checkboxes
     // Create an icon for the protractor checkbox
-    var createProtractorIcon = function() {
-      var protractorImageNode = new Image( protractorImage );
+    const createProtractorIcon = function() {
+      const protractorImageNode = new Image( protractorImage );
       protractorImageNode.scale( 20 / protractorImage[ 0 ].width );
       return protractorImageNode;
     };
 
-    var textOptions = { font: new PhetFont( 10 ) };
+    const textOptions = { font: new PhetFont( 10 ) };
 
     // itemSpec describes the pieces that make up an item in the control panel,
     // conforms to the contract: { label: {Node}, icon: {Node} (optional) }
-    var showReflections = { label: new Text( reflectionsString, textOptions ) };
-    var showNormal = { label: new Text( normalLineString, textOptions ) };
-    var showProtractor = { label: new Text( protractorString, textOptions ), icon: createProtractorIcon() };
+    const showReflections = { label: new Text( reflectionsString, textOptions ) };
+    const showNormal = { label: new Text( normalLineString, textOptions ) };
+    const showProtractor = { label: new Text( protractorString, textOptions ), icon: createProtractorIcon() };
 
     // compute the maximum item width
-    var widestItem = _.maxBy( [ showReflections, showNormal, showProtractor ], function( item ) {
+    const widestItem = _.maxBy( [ showReflections, showNormal, showProtractor ], function( item ) {
       return item.label.width + ( ( item.icon ) ? item.icon.width : 0 );
     } );
-    var widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0);
-    var maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
+    const widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0);
+    const maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
 
     // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
-    var createItem = function( itemSpec ) {
+    const createItem = function( itemSpec ) {
       if ( itemSpec.icon ) {
-        var textWidth = maxWidth - itemSpec.icon.width - 10;
+        const textWidth = maxWidth - itemSpec.icon.width - 10;
         if ( itemSpec.label.width > textWidth ) {
           itemSpec.label.scale( textWidth / itemSpec.label.width );
         }
-        var strutWidth = maxWidth - itemSpec.label.width - itemSpec.icon.width;
+        const strutWidth = maxWidth - itemSpec.label.width - itemSpec.icon.width;
         return new HBox( { children: [ itemSpec.label, new HStrut( strutWidth ), itemSpec.icon ] } );
       }
       else {
@@ -219,29 +219,29 @@ define( require => {
       }
     };
 
-    var checkboxOptions = {
+    const checkboxOptions = {
       boxWidth: 20,
       spacing: 2
     };
 
     // add checkboxes for reflections, normal and protractor
-    var showReflectionsCheckbox = new Checkbox(
+    const showReflectionsCheckbox = new Checkbox(
       createItem( showReflections ),
       prismsModel.showReflectionsProperty,
       checkboxOptions
     );
-    var showNormalCheckbox = new Checkbox(
+    const showNormalCheckbox = new Checkbox(
       createItem( showNormal ),
       prismsModel.showNormalsProperty,
       checkboxOptions
     );
-    var showProtractorCheckbox = new Checkbox(
+    const showProtractorCheckbox = new Checkbox(
       createItem( showProtractor ),
       prismsModel.showProtractorProperty,
       checkboxOptions
     );
 
-    var maxCheckboxWidth = _.maxBy( [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ],
+    const maxCheckboxWidth = _.maxBy( [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ],
         function( item ) {
           return item.width;
         }
@@ -270,14 +270,14 @@ define( require => {
     );
 
     // pad all the rows so the text nodes are left aligned and the icons is right aligned
-    var checkboxes = new VBox( {
+    const checkboxes = new VBox( {
       align: 'left', spacing: 4,
       children: [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ]
     } );
     content.addChild( checkboxes );
 
     // Add the sensors panel
-    var background = new Rectangle( 0, 0, content.width + 25, content.height + 2, 5, 5, {
+    const background = new Rectangle( 0, 0, content.width + 25, content.height + 2, 5, 5, {
       stroke: '#696969', lineWidth: 1.5, fill: '#EEEEEE'
     } );
     this.addChild( background );

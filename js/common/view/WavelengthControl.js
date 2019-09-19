@@ -28,20 +28,20 @@ define( require => {
   const wavelengthPatternString = require( 'string!BENDING_LIGHT/wavelengthPattern' );
 
   // constants
-  var PLUS_MINUS_SPACING = 4;
+  const PLUS_MINUS_SPACING = 4;
 
   /**
    *
    * @constructor
    */
   function WavelengthControl( wavelengthProperty, enabledProperty, trackWidth ) {
-    var wavelengthPropertyNM = new Property( wavelengthProperty.value * 1E9, { reentrant: true } );
+    const wavelengthPropertyNM = new Property( wavelengthProperty.value * 1E9, { reentrant: true } );
 
     wavelengthProperty.link( function( wavelength ) {
       wavelengthPropertyNM.value = wavelength * 1E9;
     } );
     // Add WavelengthSlider node
-    var wavelengthSlider = new WavelengthSlider( wavelengthPropertyNM, {
+    const wavelengthSlider = new WavelengthSlider( wavelengthPropertyNM, {
       cursorStroke: 'white',
       maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
       thumbWidth: 20,
@@ -53,18 +53,18 @@ define( require => {
       thumbTouchAreaYDilation: 4
     } );
 
-    var formattedString = StringUtils.format( wavelengthPatternString, Util.roundSymmetric( wavelengthPropertyNM.value ) );
+    const formattedString = StringUtils.format( wavelengthPatternString, Util.roundSymmetric( wavelengthPropertyNM.value ) );
 
     // Prevent the i18n strings from making the wavelength slider too wide, see #311
-    var maxWidth = 80;
-    var wavelengthValueText = new Text( formattedString, { maxWidth: maxWidth } );
-    var wavelengthBoxShape = new Rectangle( 0, 0, new Text( unitsNmString, { maxWidth: maxWidth } ).width + 36, 18, 2, 2, {
+    const maxWidth = 80;
+    const wavelengthValueText = new Text( formattedString, { maxWidth: maxWidth } );
+    const wavelengthBoxShape = new Rectangle( 0, 0, new Text( unitsNmString, { maxWidth: maxWidth } ).width + 36, 18, 2, 2, {
       fill: 'white',
       stroke: 'black'
     } );
 
     // add plus button
-    var plusButton = new ArrowButton( 'right', function propertyPlus() {
+    const plusButton = new ArrowButton( 'right', function propertyPlus() {
       wavelengthPropertyNM.set(
         Math.min( wavelengthPropertyNM.value + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
     }, {
@@ -76,7 +76,7 @@ define( require => {
       plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 8 );
 
     // add minus button
-    var minusButton = new ArrowButton( 'left', function propertyMinus() {
+    const minusButton = new ArrowButton( 'left', function propertyMinus() {
       wavelengthPropertyNM.set(
         Math.max( wavelengthPropertyNM.value - 1, VisibleColor.MIN_WAVELENGTH ) );
     }, {
@@ -109,7 +109,7 @@ define( require => {
     minusButton.right = wavelengthBoxShape.left - PLUS_MINUS_SPACING;
     minusButton.centerY = wavelengthBoxShape.centerY;
 
-    var self = this;
+    const self = this;
     Node.call( this, {
       children: [
         minusButton,

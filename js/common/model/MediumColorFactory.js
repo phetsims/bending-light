@@ -28,7 +28,7 @@ define( require => {
    * @param {number} value
    * @returns {number}
    */
-  var clamp = function( value ) {
+  const clamp = function( value ) {
     return Util.clamp( value, 0, 255 );
   };
 
@@ -40,8 +40,8 @@ define( require => {
    * @param {number} ratio
    * @returns {Color}
    */
-  var colorBlend = function( a, b, ratio ) {
-    var reduction = (1 - ratio);
+  const colorBlend = function( a, b, ratio ) {
+    const reduction = (1 - ratio);
     return new Color(
       clamp( a.getRed() * reduction + b.getRed() * ratio ),
       clamp( a.getGreen() * reduction + b.getGreen() * ratio ),
@@ -50,18 +50,18 @@ define( require => {
     );
   };
 
-  var createProfile = function( AIR_COLOR, WATER_COLOR, GLASS_COLOR, DIAMOND_COLOR ) {
+  const createProfile = function( AIR_COLOR, WATER_COLOR, GLASS_COLOR, DIAMOND_COLOR ) {
 
     return function( indexForRed ) {
 
       // precompute to improve readability below
-      var waterIndexForRed = Substance.WATER.indexOfRefractionForRedLight;
-      var glassIndexForRed = Substance.GLASS.indexOfRefractionForRedLight;
-      var diamondIndexForRed = Substance.DIAMOND.indexOfRefractionForRedLight;
+      const waterIndexForRed = Substance.WATER.indexOfRefractionForRedLight;
+      const glassIndexForRed = Substance.GLASS.indexOfRefractionForRedLight;
+      const diamondIndexForRed = Substance.DIAMOND.indexOfRefractionForRedLight;
 
       // find out what region the index of refraction lies in, and linearly interpolate between adjacent medium colors
-      var linearFunction;
-      var ratio;
+      let linearFunction;
+      let ratio;
       if ( indexForRed < waterIndexForRed ) {
 
         // Map the values between 1 and waterIndexForRed to (0,1) linearly
@@ -100,7 +100,7 @@ define( require => {
   };
 
   // distance between adjacent colors for shades of gray against the black background
-  var step = 55;
+  const step = 55;
   bendingLight.register( 'MediumColorFactory', MediumColorFactory );
   
   return inherit( Object, MediumColorFactory, {

@@ -34,9 +34,9 @@ define( require => {
        * @constructor
        */
       getIntersections: function( edges, arc, center, coloredRay ) {
-        var intersections = [];
-        var intersection;
-        var unitNormal;
+        const intersections = [];
+        let intersection;
+        let unitNormal;
         if ( edges.length !== 0 ) {
           edges.forEach( function( lineSegment ) {
 

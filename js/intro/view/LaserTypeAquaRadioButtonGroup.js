@@ -26,23 +26,23 @@ define( require => {
    */
   function LaserTypeAquaRadioButtonGroup( laserTypeProperty ) {
 
-    var radioButtonOptions = {
+    const radioButtonOptions = {
       radius: 6,
       font: new PhetFont( 12 )
     };
-    var createButtonTextNode = function( text ) {
+    const createButtonTextNode = function( text ) {
       return new Text( text, {
         maxWidth: 120, // measured empirically to ensure no overlap with the laser at any angle
         font: new PhetFont( 12 )
       } );
     };
-    var rayButton = new AquaRadioButton(
+    const rayButton = new AquaRadioButton(
       laserTypeProperty,
       'ray',
       createButtonTextNode( rayString ),
       radioButtonOptions
     );
-    var waveButton = new AquaRadioButton(
+    const waveButton = new AquaRadioButton(
       laserTypeProperty,
       'wave',
       createButtonTextNode( waveString ),

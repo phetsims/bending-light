@@ -23,7 +23,7 @@ define( require => {
     Node.call( this, { pickable: false } ); // user can't interact with the medium except through control panels.
 
     // add the shape that paints the medium
-    var mediumRectangleNode = new Path( modelViewTransform.modelToViewShape( mediumProperty.value.shape ), {
+    const mediumRectangleNode = new Path( modelViewTransform.modelToViewShape( mediumProperty.value.shape ), {
       stroke: 'gray',
       fill: mediumProperty.value.color
     } );

@@ -33,9 +33,9 @@ define( require => {
   const timeString = require( 'string!BENDING_LIGHT/time' );
 
   // constants
-  var NORMAL_DISTANCE = 25;
-  var bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 ) );
-  var sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
+  const NORMAL_DISTANCE = 25;
+  const bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 ) );
+  const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
   /**
    * View for rendering a probe that can be used to sense wave values
@@ -47,7 +47,7 @@ define( require => {
    */
   function ProbeNodeWrapper( probe, color, modelViewTransform ) {
 
-    var self = this;
+    const self = this;
     Node.call( this, { cursor: 'pointer' } );
 
     // Add the probe
@@ -86,22 +86,22 @@ define( require => {
    */
   function WaveSensorNode( modelViewTransform, waveSensor, options ) {
 
-    var self = this;
+    const self = this;
     Node.call( this, { cursor: 'pointer' } );
 
     // Color taken from the image
-    var darkProbeColor = new Color( 88, 89, 91 );
-    var lightProbeColor = new Color( 147, 149, 152 );
+    const darkProbeColor = new Color( 88, 89, 91 );
+    const lightProbeColor = new Color( 147, 149, 152 );
 
     this.modelViewTransform = modelViewTransform; // @public (read-only)
     this.waveSensor = waveSensor; // @public (read-only)
 
     // Add body node
-    var rectangleWidth = 135;
-    var rectangleHeight = 100;
+    const rectangleWidth = 135;
+    const rectangleHeight = 100;
 
     // Adding outer rectangle
-    var outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 5, 5, {
+    const outerRectangle = new Rectangle( 0, 0, rectangleWidth, rectangleHeight, 5, 5, {
       stroke: new LinearGradient( 0, 0, 0, rectangleHeight )
         .addColorStop( 0, '#2F9BCE' )
         .addColorStop( 1, '#00486A' ),
@@ -112,7 +112,7 @@ define( require => {
     } );
 
     // Second rectangle
-    var innerRectangle = new Rectangle( 0, 0, rectangleWidth - 5, rectangleHeight - 10, 0, 0, {
+    const innerRectangle = new Rectangle( 0, 0, rectangleWidth - 5, rectangleHeight - 10, 0, 0, {
       fill: '#0078B0',
       stroke: '#0081BE',
       centerX: outerRectangle.centerX,
@@ -120,7 +120,7 @@ define( require => {
     } );
 
     // Adding inner rectangle
-    var innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth * 0.98, rectangleHeight * 0.63 ), {
+    const innerMostRectangle = new ShadedRectangle( new Bounds2( 10, 0, rectangleWidth * 0.98, rectangleHeight * 0.63 ), {
       baseColor: 'white',
       lightSource: 'rightBottom',
       centerX: innerRectangle.centerX,
@@ -132,13 +132,13 @@ define( require => {
     this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle ], scale: 0.93 } );
 
     // Add the "time" axis label at the bottom center of the chart
-    var titleNode = new Text( timeString, { font: new PhetFont( 16 ), fill: 'white' } );
+    const titleNode = new Text( timeString, { font: new PhetFont( 16 ), fill: 'white' } );
     if ( titleNode.width > rectangleWidth - 15 ) {
       titleNode.scale( ( rectangleWidth - 15 ) / titleNode.width );
     }
     this.bodyNode.addChild( titleNode );
     titleNode.centerX = outerRectangle.centerX;
-    var fractionalVerticalDistanceToTitle = 0.82;
+    const fractionalVerticalDistanceToTitle = 0.82;
     titleNode.y = this.bodyNode.height * fractionalVerticalDistanceToTitle;
 
     // Add the chart inside the body, with one series for each of the dark and light probes
@@ -153,13 +153,13 @@ define( require => {
     this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform ); // @public (read-only)
 
     // Connect the sensor to the body with a gray wire
-    var above = function( amount ) {
+    const above = function( amount ) {
 
       // Nudge behind the body a so there is no gap
       return function( position ) {return position.plusXY( -2, -amount );};
     };
 
-    var rightBottomProperty = new NodeProperty( this.bodyNode, 'bounds', 'rightBottom' );
+    const rightBottomProperty = new NodeProperty( this.bodyNode, 'bounds', 'rightBottom' );
 
     // @private
     this.wire1Node = new WireNode(
