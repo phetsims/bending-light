@@ -1,4 +1,4 @@
-// Copyright 2015-2017, University of Colorado Boulder
+// Copyright 2015-2019, University of Colorado Boulder
 
 /**
  * The protractor node is a circular device for measuring angles. In this sim it is used for measuring the angle of the
