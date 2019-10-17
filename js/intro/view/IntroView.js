@@ -23,6 +23,7 @@ define( require => {
   const IntensityMeterNode = require( 'BENDING_LIGHT/common/view/IntensityMeterNode' );
   const MediumControlPanel = require( 'BENDING_LIGHT/common/view/MediumControlPanel' );
   const MediumNode = require( 'BENDING_LIGHT/common/view/MediumNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   const NormalLine = require( 'BENDING_LIGHT/intro/view/NormalLine' );
   const Panel = require( 'SUN/Panel' );
@@ -59,7 +60,7 @@ define( require => {
    */
   function IntroView( introModel, hasMoreTools, indexOfRefractionDecimals, createLaserControlPanel, options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       // in the Intro screen, it is shifted 102 to the left since there is extra room above the protractor toolbox
       // for the laser to traverse to.

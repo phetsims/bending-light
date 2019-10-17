@@ -14,6 +14,7 @@ define( require => {
   const Bounds2 = require( 'DOT/Bounds2' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LaserNode = require( 'BENDING_LIGHT/common/view/LaserNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
@@ -32,7 +33,7 @@ define( require => {
    */
   function BendingLightView( bendingLightModel, laserTranslationRegion, laserRotationRegion, laserHasKnob, options ) {
 
-    options = _.extend( {
+    options = merge( {
       occlusionHandler: function() {}, // {function} moves objects out from behind a control panel if dropped there
       ccwArrowNotAtMax: function() {return true;}, // {function} shows whether laser at min angle
       clockwiseArrowNotAtMax: function() { return true; },// {function} shows whether laser at max angle, In prisms tab

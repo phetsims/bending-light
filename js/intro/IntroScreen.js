@@ -48,7 +48,7 @@ define( require => {
           // createLaserControlPanel
           function( introModel ) {
             return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
-          }, [] );
+          } );
       },
       options );
   }

@@ -22,6 +22,7 @@ define( require => {
   const HSlider = require( 'SUN/HSlider' );
   const inherit = require( 'PHET_CORE/inherit' );
   const Medium = require( 'BENDING_LIGHT/common/model/Medium' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Panel = require( 'SUN/Panel' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -64,7 +65,7 @@ define( require => {
     const self = this;
     this.mediumColorFactory = mediumColorFactory;
 
-    options = _.extend( {
+    options = merge( {
       xMargin: 10,
       yMargin: 10,
       fill: '#f2fa6a',
