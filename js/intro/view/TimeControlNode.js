@@ -69,14 +69,9 @@ define( require => {
     // add play pause button
     const playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
       radius: 18,
+      playButtonScaleFactor: 1.28,
       stroke: 'black',
       fill: '#005566'
-    } );
-
-    // Make the Play/Pause button bigger when it is showing the pause button, see #298
-    const pauseSizeIncreaseFactor = 1.28;
-    introModel.isPlayingProperty.lazyLink( function( isPlaying ) {
-      playPauseButton.scale( isPlaying ? ( 1 / pauseSizeIncreaseFactor ) : pauseSizeIncreaseFactor );
     } );
 
     // add step button
@@ -104,6 +99,6 @@ define( require => {
   }
 
   bendingLight.register( 'TimeControlNode', TimeControlNode );
-  
+
   return inherit( HBox, TimeControlNode );
 } );
