@@ -21,7 +21,7 @@ define( require => {
   const bendingLightTitleString = require( 'string!BENDING_LIGHT/bending-light.title' );
 
   // constants
-  const tandem = Tandem.rootTandem;
+  const tandem = Tandem.ROOT;
 
   const simOptions = {
     credits: {
