@@ -69,7 +69,7 @@ define( require => {
     // add play pause button
     const playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
       radius: 18,
-      playButtonScaleFactor: 1.28,
+      scaleFactorWhenPaused: 1.28,
       stroke: 'black',
       fill: '#005566'
     } );
