@@ -19,7 +19,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Shape = require( 'KITE/Shape' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // constants
@@ -224,10 +224,10 @@ define( require => {
         const origin = new Vector2( getOriginX(), getOriginY() );
 
         // send out a ray from the origin past the center of the angle to position the readout
-        const incomingRayDegreesFromNormal = Util.roundSymmetric(
+        const incomingRayDegreesFromNormal = Utils.roundSymmetric(
             incomingAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR
           ) / ROUNDING_FACTOR;
-        const refractedRayDegreesFromNormal = Util.roundSymmetric(
+        const refractedRayDegreesFromNormal = Utils.roundSymmetric(
             refractedAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR
           ) / ROUNDING_FACTOR;
         const incomingReadoutText = incomingRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';

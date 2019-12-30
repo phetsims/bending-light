@@ -14,7 +14,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const MathSymbols = require( 'SCENERY_PHET/MathSymbols' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // strings
   const missString = MathSymbols.NO_VALUE;
@@ -54,7 +54,7 @@ define( require => {
        * @returns {string}
        */
       format: function( value ) {
-        return StringUtils.format( pattern0ValuePercentString, Util.toFixed( value, VALUE_DECIMALS ) );
+        return StringUtils.format( pattern0ValuePercentString, Utils.toFixed( value, VALUE_DECIMALS ) );
       },
 
       /**

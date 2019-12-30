@@ -29,7 +29,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // strings
   const speedString = require( 'string!BENDING_LIGHT/speed' );
@@ -163,7 +163,7 @@ define( require => {
           labelText.text = unknownVelocityString;
         }
         else {
-          const stringNumber = Util.toFixed( velocity.magnitude / BendingLightConstants.SPEED_OF_LIGHT, 2 );
+          const stringNumber = Utils.toFixed( velocity.magnitude / BendingLightConstants.SPEED_OF_LIGHT, 2 );
           const text = StringUtils.format( velocityPatternString, stringNumber );
           labelText.setText( text );
         }

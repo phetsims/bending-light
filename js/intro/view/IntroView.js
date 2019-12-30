@@ -36,7 +36,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const TimeControlNode = require( 'BENDING_LIGHT/intro/view/TimeControlNode' );
   const ToolIconListener = require( 'BENDING_LIGHT/common/view/ToolIconListener' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const Vector2 = require( 'DOT/Vector2' );
   const WaveCanvasNode = require( 'BENDING_LIGHT/intro/view/WaveCanvasNode' );
@@ -73,7 +73,7 @@ define( require => {
        */
       clampDragAngle: function( angle ) {
         while ( angle < 0 ) { angle += Math.PI * 2; }
-        return Util.clamp( angle, Math.PI / 2, Math.PI );
+        return Utils.clamp( angle, Math.PI / 2, Math.PI );
       },
       /**
        * Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles

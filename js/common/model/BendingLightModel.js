@@ -18,7 +18,7 @@ define( require => {
   const MediumColorFactory = require( 'BENDING_LIGHT/common/model/MediumColorFactory' );
   const ObservableArray = require( 'AXON/ObservableArray' );
   const Property = require( 'AXON/Property' );
-  const Util = require( 'SCENERY/util/Util' );
+  const Utils = require( 'SCENERY/util/Utils' );
 
   // constants
   const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
@@ -71,7 +71,7 @@ define( require => {
     this.modelHeight = this.modelWidth * 0.7; // @public (read-only)
 
     // Check to see if WebGL was prevented by a query parameter
-    this.allowWebGL = Util.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
+    this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
 
     this.laserViewProperty = new Property( 'ray' ); // @public, Whether the laser is Ray or Wave mode
     this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED ); // @public

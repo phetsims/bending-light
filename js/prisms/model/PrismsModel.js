@@ -28,7 +28,7 @@ define( require => {
   const SemiCircle = require( 'BENDING_LIGHT/prisms/model/SemiCircle' );
   const Shape = require( 'KITE/Shape' );
   const Substance = require( 'BENDING_LIGHT/common/model/Substance' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
@@ -337,9 +337,9 @@ define( require => {
         vRefract = vRefract.normalized();
 
         const reflectedPower = totalInternalReflection ? 1
-                                                     : Util.clamp( BendingLightModel.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
+                                                     : Utils.clamp( BendingLightModel.getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
         const transmittedPower = totalInternalReflection ? 0
-                                                       : Util.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
+                                                       : Utils.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
 
         // Create the new rays and propagate them recursively
         const reflectedRay = new Ray2( incidentRay.directionUnitVector.times( -1E-12 ).add( point ), vReflect );

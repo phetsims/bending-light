@@ -19,7 +19,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
@@ -53,7 +53,7 @@ define( require => {
       thumbTouchAreaYDilation: 4
     } );
 
-    const formattedString = StringUtils.format( wavelengthPatternString, Util.roundSymmetric( wavelengthPropertyNM.value ) );
+    const formattedString = StringUtils.format( wavelengthPatternString, Utils.roundSymmetric( wavelengthPropertyNM.value ) );
 
     // Prevent the i18n strings from making the wavelength slider too wide, see #311
     const maxWidth = 80;
@@ -132,7 +132,7 @@ define( require => {
       wavelengthProperty.set( wavelength / 1E9 );
 
       // set the value in the slider text box
-      wavelengthValueText.setText( StringUtils.format( wavelengthPatternString, Util.roundSymmetric( wavelength ), unitsNmString ) );
+      wavelengthValueText.setText( StringUtils.format( wavelengthPatternString, Utils.roundSymmetric( wavelength ), unitsNmString ) );
     } );
   }
 

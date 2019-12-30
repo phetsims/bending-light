@@ -16,7 +16,7 @@ define( require => {
   const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
   const BendingLightConstants = require( 'BENDING_LIGHT/common/BendingLightConstants' );
   const inherit = require( 'PHET_CORE/inherit' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   /**
    * @param {number} referenceIndexOfRefraction - IndexOfRefraction of medium
@@ -77,7 +77,7 @@ define( require => {
 
       // 0 to 1 (air to glass)
       let x = (this.referenceIndexOfRefraction - nAirReference) / delta;
-      x = Util.clamp( x, 0, Number.POSITIVE_INFINITY );
+      x = Utils.clamp( x, 0, Number.POSITIVE_INFINITY );
 
       // take a linear combination of glass and air equations
       return x * this.getSellmeierValue( wavelength ) + (1 - x) * this.getAirIndex( wavelength );

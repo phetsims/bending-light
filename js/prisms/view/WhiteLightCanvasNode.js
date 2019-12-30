@@ -22,7 +22,7 @@ define( require => {
   const Bounds2 = require( 'DOT/Bounds2' );
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const inherit = require( 'PHET_CORE/inherit' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
 
   /**
@@ -82,7 +82,7 @@ define( require => {
       for ( let i = 0; i < this.whiteLightRays.length; i++ ) {
         const lightRay = this.whiteLightRays.get( i ); // {LightRay}
 
-        const wavelength = Util.roundSymmetric( lightRay.wavelengthInVacuum ); // convert back to (nm)
+        const wavelength = Utils.roundSymmetric( lightRay.wavelengthInVacuum ); // convert back to (nm)
 
         // Get the line values to make the next part more readable
         const x1 = this.modelViewTransform.modelToViewX( lightRay.tip.x );
@@ -91,7 +91,7 @@ define( require => {
         const y2 = this.modelViewTransform.modelToViewY( lightRay.tail.y );
 
         // Scale intensity into a custom alpha range
-        const a = Util.clamp( BendingLightConstants.D65[ wavelength ] * Math.sqrt( lightRay.powerFraction ) / 118, 0, 1 )
+        const a = Utils.clamp( BendingLightConstants.D65[ wavelength ] * Math.sqrt( lightRay.powerFraction ) / 118, 0, 1 )
                 / 8;
 
         // skip alpha values that are just too light to see, which could also cause number format problems when creating
@@ -101,9 +101,9 @@ define( require => {
           // var color = BendingLightConstants.XYZ_INTENSITIES[ wavelength ]
 
           const strokeStyle = 'rgb(' +
-                            Util.roundSymmetric( c.r * a / 0.9829313170995397 ) + ',' +
-                            Util.roundSymmetric( c.g * a ) + ',' +
-                            Util.roundSymmetric( c.b * a / 0.7144456644926587 ) +
+                            Utils.roundSymmetric( c.r * a / 0.9829313170995397 ) + ',' +
+                            Utils.roundSymmetric( c.g * a ) + ',' +
+                            Utils.roundSymmetric( c.b * a / 0.7144456644926587 ) +
                             ')';
           context.strokeStyle = strokeStyle;
           context.beginPath();

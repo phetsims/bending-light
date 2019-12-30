@@ -16,7 +16,7 @@ define( require => {
   const LinearFunction = require( 'DOT/LinearFunction' );
   const Property = require( 'AXON/Property' );
   const Substance = require( 'BENDING_LIGHT/common/model/Substance' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   function MediumColorFactory() {
     this.lightTypeProperty = new Property( 'singleColor' ); // could also be 'white'
@@ -29,7 +29,7 @@ define( require => {
    * @returns {number}
    */
   const clamp = function( value ) {
-    return Util.clamp( value, 0, 255 );
+    return Utils.clamp( value, 0, 255 );
   };
 
   /**

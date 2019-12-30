@@ -31,7 +31,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Substance = require( 'BENDING_LIGHT/common/model/Substance' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // strings
   const airString = require( 'string!BENDING_LIGHT/air' );
@@ -169,7 +169,7 @@ define( require => {
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), {
       reentrant: true
     } );
-    const readoutString = Util.toFixed( this.mediumIndexProperty.get(), decimalPlaces );
+    const readoutString = Utils.toFixed( this.mediumIndexProperty.get(), decimalPlaces );
     const indexOfRefractionValueText = new Text( readoutString, textOptions );
     const indexOfRefractionReadoutBoxShape = new Rectangle( 0, 0, 45, 20, 2, 2, {
       fill: 'white',
@@ -180,7 +180,7 @@ define( require => {
     const plusButton = new ArrowButton( 'right', function propertyPlus() {
       custom = true;
       self.mediumIndexProperty.set(
-        Util.toFixedNumber( Math.min( self.mediumIndexProperty.get() + 1 / Math.pow( 10, decimalPlaces ),
+        Utils.toFixedNumber( Math.min( self.mediumIndexProperty.get() + 1 / Math.pow( 10, decimalPlaces ),
           INDEX_OF_REFRACTION_MAX ), decimalPlaces ) );
     }, {
       scale: 0.7,
@@ -197,7 +197,7 @@ define( require => {
     const minusButton = new ArrowButton( 'left', function propertyMinus() {
       custom = true;
       self.mediumIndexProperty.set(
-        Util.toFixedNumber( Math.max( self.mediumIndexProperty.get() - 1 / Math.pow( 10, decimalPlaces ),
+        Utils.toFixedNumber( Math.max( self.mediumIndexProperty.get() - 1 / Math.pow( 10, decimalPlaces ),
           INDEX_OF_REFRACTION_MIN ), decimalPlaces ) );
     }, {
       scale: 0.7,
@@ -310,7 +310,7 @@ define( require => {
     Property.multilink( [ mediumProperty, this.laserWavelength ],
       function() {
         custom = mediumProperty.get().substance.custom;
-        indexOfRefractionValueText.text = Util.toFixed(
+        indexOfRefractionValueText.text = Utils.toFixed(
           mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), decimalPlaces );
       } );
 
@@ -341,8 +341,8 @@ define( require => {
       if ( custom ) {
         self.setCustomIndexOfRefraction( indexOfRefraction );
       }
-      plusButton.enabled = ( Util.toFixed( indexOfRefraction, decimalPlaces ) < INDEX_OF_REFRACTION_MAX );
-      minusButton.enabled = ( Util.toFixed( indexOfRefraction, decimalPlaces ) > INDEX_OF_REFRACTION_MIN );
+      plusButton.enabled = ( Utils.toFixed( indexOfRefraction, decimalPlaces ) < INDEX_OF_REFRACTION_MAX );
+      minusButton.enabled = ( Utils.toFixed( indexOfRefraction, decimalPlaces ) > INDEX_OF_REFRACTION_MIN );
     } );
   }
 
