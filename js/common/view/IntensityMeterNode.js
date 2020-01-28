@@ -141,7 +141,7 @@ define( require => {
 
     /**
      * @public - when the nodes are positioned by moving the node itself (for view layout), synchonize the model
-     * Without this, when the body node is bumped out of the medium panels, it would have the wrong model location and
+     * Without this, when the body node is bumped out of the medium panels, it would have the wrong model position and
      * hence
      */
     this.syncModelFromView = function() {
@@ -154,14 +154,14 @@ define( require => {
 
     this.mutate( options );
 
-    this.resetRelativeLocations();
+    this.resetRelativePositions();
     this.syncModelFromView();
   }
 
   bendingLight.register( 'IntensityMeterNode', IntensityMeterNode );
 
   return inherit( Node, IntensityMeterNode, {
-    resetRelativeLocations: function() {
+    resetRelativePositions: function() {
       this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );
     }
   } );

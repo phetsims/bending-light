@@ -66,7 +66,7 @@ define( require => {
       scale: 0.35
     } ) );
 
-    // Probe location
+    // Probe position
     probe.positionProperty.link( function( position ) {
       self.translation = modelViewTransform.modelToViewPosition( position );
     } );

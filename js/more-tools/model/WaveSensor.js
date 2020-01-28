@@ -1,7 +1,7 @@
 // Copyright 2015-2019, University of Colorado Boulder
 
 /**
- * Sensor for wave values, reads the wave amplitude as a function of time and location. Two probes can be used to
+ * Sensor for wave values, reads the wave amplitude as a function of time and position. Two probes can be used to
  * compare values.
  *
  * @author Sam Reid (PhET Interactive Simulations)
@@ -61,9 +61,9 @@ define( require => {
    */
   function WaveSensor( probe1Value, probe2Value ) {
 
-    // Set the relative location of the probes and body in model coordinates (SI). These values for initial probe and
-    // body locations were obtained by printing out actual values at runtime, then dragging the objects to a good
-    // looking location. This amount of precision is unnecessary, but these values were just sampled directly.
+    // Set the relative position of the probes and body in model coordinates (SI). These values for initial probe and
+    // body positions were obtained by printing out actual values at runtime, then dragging the objects to a good
+    // looking position. This amount of precision is unnecessary, but these values were just sampled directly.
     this.probe1 = new Probe( -0.00001932, -0.0000052 );
     this.probe2 = new Probe( -0.0000198, -0.0000062 );
 

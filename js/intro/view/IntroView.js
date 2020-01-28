@@ -263,8 +263,8 @@ define( require => {
     const protractorNode = new ProtractorNode( this.showProtractorProperty, false, {
       scale: 0.8
     } );
-    const protractorLocation = new Vector2( protractorNode.centerX, protractorNode.centerY );
-    const protractorLocationProperty = new Property( protractorLocation );
+    const protractorPosition = new Vector2( protractorNode.centerX, protractorNode.centerY );
+    const protractorPositionProperty = new Property( protractorPosition );
 
     // When a node is released, check if it is over the toolbox.  If so, drop it in.
     const dropInToolbox = function( node, enabledProperty ) {
@@ -273,7 +273,7 @@ define( require => {
       }
     };
     this.dropInToolbox = dropInToolbox;
-    const protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
+    const protractorNodeListener = new MovableDragHandler( protractorPositionProperty, {
       endDrag: function() {
         dropInToolbox( protractorNode, self.showProtractorProperty );
       }
@@ -286,7 +286,7 @@ define( require => {
       self.showProtractorProperty.value = true;
 
       // Center the protractor on the pointer
-      protractorLocationProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
+      protractorPositionProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
     } ) );
 
     self.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
@@ -301,8 +301,8 @@ define( require => {
       }
     };
 
-    protractorLocationProperty.link( function( protractorLocation ) {
-      protractorNode.center = protractorLocation;
+    protractorPositionProperty.link( function( protractorPosition ) {
+      protractorNode.center = protractorPosition;
     } );
 
     protractorNode.addInputListener( protractorNodeListener );
@@ -348,7 +348,7 @@ define( require => {
       const bodyViewPosition = intensityMeterNode.bodyNode.globalToParentPoint( event.pointer.point )
         .plusXY( -intensityMeterNode.bodyNode.width / 2, -intensityMeterNode.bodyNode.height + 5 );
       introModel.intensityMeter.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( bodyViewPosition );
-      intensityMeterNode.resetRelativeLocations();
+      intensityMeterNode.resetRelativePositions();
       intensityMeterNode.syncModelFromView();
     } ) );
 

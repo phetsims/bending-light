@@ -190,9 +190,9 @@ define( require => {
     const protractorNode = new ProtractorNode( prismsModel.showProtractorProperty, true, {
       scale: 0.46
     } );
-    const protractorLocationProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
+    const protractorPositionProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
 
-    const protractorNodeListener = new MovableDragHandler( protractorLocationProperty, {
+    const protractorNodeListener = new MovableDragHandler( protractorPositionProperty, {
       targetNode: protractorNode,
       endDrag: function() {
 
@@ -201,14 +201,14 @@ define( require => {
           .union( laserTypeRadioButtonGroup.globalBounds )
           .union( laserControlPanel.globalBounds );
         while ( bounds.intersectsBounds( protractorNode.globalBounds ) ) {
-          protractorLocationProperty.value = protractorLocationProperty.value.plusXY( -10, 0 );
+          protractorPositionProperty.value = protractorPositionProperty.value.plusXY( -10, 0 );
         }
       }
     } );
     protractorNode.barPath.addInputListener( protractorNodeListener );
 
-    protractorLocationProperty.link( function( protractorLocation ) {
-      protractorNode.center = protractorLocation;
+    protractorPositionProperty.link( function( protractorPosition ) {
+      protractorNode.center = protractorPosition;
     } );
 
     this.afterLightLayer.addChild( protractorNode );
@@ -235,7 +235,7 @@ define( require => {
     } );
 
     this.resetPrismsView = function() {
-      protractorLocationProperty.reset();
+      protractorPositionProperty.reset();
       protractorNode.reset();
     };
 

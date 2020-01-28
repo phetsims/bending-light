@@ -83,7 +83,7 @@ define( require => {
     const fullRectangle = Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
 
     // re usable vector to avoid vector allocation
-    const emissionPointEndLocation = new Vector2( 0, 0 );
+    const emissionPointEndPosition = new Vector2( 0, 0 );
 
     // When the window reshapes, make sure the laser remains in the play area
     dragBoundsProperty.link( function( dragBounds ) {
@@ -114,21 +114,21 @@ define( require => {
         const deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
         const deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
 
-        // location of final emission point with out constraining to bounds
-        emissionPointEndLocation.setXY( laser.emissionPointProperty.value.x + deltaX, laser.emissionPointProperty.value.y + deltaY );
+        // position of final emission point with out constraining to bounds
+        emissionPointEndPosition.setXY( laser.emissionPointProperty.value.x + deltaX, laser.emissionPointProperty.value.y + deltaY );
 
-        // location of final emission point with constraining to bounds
-        const emissionPointEndLocationInBounds = laserDragBoundsInModelValues.closestPointTo( emissionPointEndLocation );
+        // position of final emission point with constraining to bounds
+        const emissionPointEndPositionInBounds = laserDragBoundsInModelValues.closestPointTo( emissionPointEndPosition );
 
-        const translateX = emissionPointEndLocationInBounds.x - laser.emissionPointProperty.value.x;
-        const translateY = emissionPointEndLocationInBounds.y - laser.emissionPointProperty.value.y;
+        const translateX = emissionPointEndPositionInBounds.x - laser.emissionPointProperty.value.x;
+        const translateY = emissionPointEndPositionInBounds.y - laser.emissionPointProperty.value.y;
         laser.translate( translateX, translateY );
 
         // Store the position of caught point after translating. Can be obtained by adding distance between emission
-        // point and drag point (end - emissionPointEndLocation) to emission point (emissionPointEndLocationInBounds)
+        // point and drag point (end - emissionPointEndPosition) to emission point (emissionPointEndPositionInBounds)
         // after translating.
-        const boundsDx = emissionPointEndLocationInBounds.x - emissionPointEndLocation.x;
-        const boundsDY = emissionPointEndLocationInBounds.y - emissionPointEndLocation.y;
+        const boundsDx = emissionPointEndPositionInBounds.x - emissionPointEndPosition.x;
+        const boundsDY = emissionPointEndPositionInBounds.y - emissionPointEndPosition.y;
         endDrag.x = endDrag.x + modelViewTransform.modelToViewDeltaX( boundsDx );
         endDrag.y = endDrag.y + modelViewTransform.modelToViewDeltaY( boundsDY );
 

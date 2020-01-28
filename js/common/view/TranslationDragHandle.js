@@ -43,7 +43,7 @@ define( require => {
 
     arrowNode.setTailAndTip( -dx, -dy, +dx, +dy );
 
-    // update the location when laser pivot or emission point change
+    // update the position when laser pivot or emission point change
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty, showDragHandlesProperty ],
       function( laserPivot, laserEmission ) {
         if ( showDragHandlesProperty.get() ) {
