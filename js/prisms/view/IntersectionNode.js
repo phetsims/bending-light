@@ -6,50 +6,47 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Line = require( 'SCENERY/nodes/Line' );
+import inherit from '../../../../phet-core/js/inherit.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import bendingLight from '../../bendingLight.js';
 
-  /**
-   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {Intersection} intersection - specifies details of intersection point and unit normal
-   * @param {Property.<string|Color>} strokeProperty - the stroke to use for the intersection node
-   * @constructor
-   */
-  function IntersectionNode( modelViewTransform, intersection, strokeProperty ) {
+/**
+ * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
+ * @param {Intersection} intersection - specifies details of intersection point and unit normal
+ * @param {Property.<string|Color>} strokeProperty - the stroke to use for the intersection node
+ * @constructor
+ */
+function IntersectionNode( modelViewTransform, intersection, strokeProperty ) {
 
-    const centerX = modelViewTransform.modelToViewX( intersection.point.x );
-    const centerY = modelViewTransform.modelToViewY( intersection.point.y );
-    const normalX = modelViewTransform.modelToViewDeltaX( intersection.unitNormal.x );
-    const normalY = modelViewTransform.modelToViewDeltaY( intersection.unitNormal.y );
-    const normalMagnitude = Math.sqrt( normalX * normalX + normalY * normalY );
-    const unitNormalX = normalX / normalMagnitude;
-    const unitNormalY = normalY / normalMagnitude;
-    const length = 100;//in stage coordinates
+  const centerX = modelViewTransform.modelToViewX( intersection.point.x );
+  const centerY = modelViewTransform.modelToViewY( intersection.point.y );
+  const normalX = modelViewTransform.modelToViewDeltaX( intersection.unitNormal.x );
+  const normalY = modelViewTransform.modelToViewDeltaY( intersection.unitNormal.y );
+  const normalMagnitude = Math.sqrt( normalX * normalX + normalY * normalY );
+  const unitNormalX = normalX / normalMagnitude;
+  const unitNormalY = normalY / normalMagnitude;
+  const length = 100;//in stage coordinates
 
-    // Show a dotted line of the normal at the interface between two mediums where the laser struck
-    const x1 = centerX + unitNormalX * length / 2;
-    const y1 = centerY + unitNormalY * length / 2;
-    const x2 = centerX + unitNormalX * -length / 2;
-    const y2 = centerY + unitNormalY * -length / 2;
-    Line.call( this, x1, y1, x2, y2, {
-      stroke: strokeProperty.value,
-      lineDash: [ 10, 5 ]
-    } );
+  // Show a dotted line of the normal at the interface between two mediums where the laser struck
+  const x1 = centerX + unitNormalX * length / 2;
+  const y1 = centerY + unitNormalY * length / 2;
+  const x2 = centerX + unitNormalX * -length / 2;
+  const y2 = centerY + unitNormalY * -length / 2;
+  Line.call( this, x1, y1, x2, y2, {
+    stroke: strokeProperty.value,
+    lineDash: [ 10, 5 ]
+  } );
 
-    const handle = strokeProperty.linkAttribute( this, 'stroke' );
+  const handle = strokeProperty.linkAttribute( this, 'stroke' );
 
-    // @public - dispose of the IntersectionNode, getting rid of the attached listeners
-    this.dispose = function() {
-      strokeProperty.unlink( handle );
-    };
-  }
+  // @public - dispose of the IntersectionNode, getting rid of the attached listeners
+  this.dispose = function() {
+    strokeProperty.unlink( handle );
+  };
+}
 
-  bendingLight.register( 'IntersectionNode', IntersectionNode );
-  
-  return inherit( Line, IntersectionNode );
-} );
+bendingLight.register( 'IntersectionNode', IntersectionNode );
+
+inherit( Line, IntersectionNode );
+export default IntersectionNode;

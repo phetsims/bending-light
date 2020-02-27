@@ -6,48 +6,44 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const inherit = require( 'PHET_CORE/inherit' );
+import inherit from '../../../../phet-core/js/inherit.js';
+import bendingLight from '../../bendingLight.js';
+
+/**
+ * @param {Shape} shape - shape of the medium
+ * @param {Substance} substance - state of the medium
+ * @param {Color} color - color of the medium
+ * @constructor
+ */
+function Medium( shape, substance, color ) {
+
+  // immutable shape
+  this.shape = shape; // @public (read-only)
+  this.substance = substance; // @public (read-only)
+  this.color = color; // @public (read-only), color is based on the index of refraction at red wavelength
+}
+
+bendingLight.register( 'Medium', Medium );
+
+export default inherit( Object, Medium, {
 
   /**
-   * @param {Shape} shape - shape of the medium
-   * @param {Substance} substance - state of the medium
-   * @param {Color} color - color of the medium
-   * @constructor
+   * Determines the index of refraction of medium
+   * @public
+   * @param {number} wavelength - wavelength of the medium
+   * @returns {number}
    */
-  function Medium( shape, substance, color ) {
+  getIndexOfRefraction: function( wavelength ) {
+    return this.substance.dispersionFunction.getIndexOfRefraction( wavelength );
+  },
 
-    // immutable shape
-    this.shape = shape; // @public (read-only)
-    this.substance = substance; // @public (read-only)
-    this.color = color; // @public (read-only), color is based on the index of refraction at red wavelength
+  /**
+   * Determines whether the medium is mystery or not
+   * @public
+   * @returns {boolean}
+   */
+  isMystery: function() {
+    return this.substance.mystery;
   }
-
-  bendingLight.register( 'Medium', Medium );
-  
-  return inherit( Object, Medium, {
-
-    /**
-     * Determines the index of refraction of medium
-     * @public
-     * @param {number} wavelength - wavelength of the medium
-     * @returns {number}
-     */
-    getIndexOfRefraction: function( wavelength ) {
-      return this.substance.dispersionFunction.getIndexOfRefraction( wavelength );
-    },
-
-    /**
-     * Determines whether the medium is mystery or not
-     * @public
-     * @returns {boolean}
-     */
-    isMystery: function() {
-      return this.substance.mystery;
-    }
-  } );
 } );

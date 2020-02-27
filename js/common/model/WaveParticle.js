@@ -7,68 +7,64 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const inherit = require( 'PHET_CORE/inherit' );
+import inherit from '../../../../phet-core/js/inherit.js';
+import bendingLight from '../../bendingLight.js';
+
+/**
+ * @param {Vector2} position - position of wave particle
+ * @param {number} width - width of wave particle
+ * @param {Color} color - color of wave particle
+ * @param {Color} particleGradientColor
+ * @param {number} angle - angle of wave particle
+ * @param {number} waveHeight - height of wave particle
+ * @constructor
+ */
+function WaveParticle( position, width, color, particleGradientColor, angle, waveHeight ) {
+  this.position = position; // @public
+  this.width = width; // @public
+  this.color = color; // @public
+  this.angle = angle; // @public
+  this.height = waveHeight; // @public
+  this.particleGradientColor = particleGradientColor; // @public
+}
+
+bendingLight.register( 'WaveParticle', WaveParticle );
+
+export default inherit( Object, WaveParticle, {
 
   /**
-   * @param {Vector2} position - position of wave particle
-   * @param {number} width - width of wave particle
-   * @param {Color} color - color of wave particle
-   * @param {Color} particleGradientColor
-   * @param {number} angle - angle of wave particle
-   * @param {number} waveHeight - height of wave particle
-   * @constructor
+   * get particle x position
+   * @public
+   * @returns {number}
    */
-  function WaveParticle( position, width, color, particleGradientColor, angle, waveHeight ) {
-    this.position = position; // @public
-    this.width = width; // @public
-    this.color = color; // @public
-    this.angle = angle; // @public
-    this.height = waveHeight; // @public
-    this.particleGradientColor = particleGradientColor; // @public
+  getX: function() {
+    return this.position.x;
+  },
+
+  /**
+   * get particle Y position
+   * @public
+   * @returns {number}
+   */
+  getY: function() {
+    return this.position.y;
+  },
+
+  /**
+   * Set the particle x position
+   * @public
+   * @param {number} x - x position in model values
+   */
+  setX: function( x ) {
+    this.position.x = x;
+  },
+
+  /**
+   * @public
+   * @param {number} y - y position in model values
+   */
+  setY: function( y ) {
+    this.position.y = y;
   }
-
-  bendingLight.register( 'WaveParticle', WaveParticle );
-  
-  return inherit( Object, WaveParticle, {
-
-    /**
-     * get particle x position
-     * @public
-     * @returns {number}
-     */
-    getX: function() {
-      return this.position.x;
-    },
-
-    /**
-     * get particle Y position
-     * @public
-     * @returns {number}
-     */
-    getY: function() {
-      return this.position.y;
-    },
-
-    /**
-     * Set the particle x position
-     * @public
-     * @param {number} x - x position in model values
-     */
-    setX: function( x ) {
-      this.position.x = x;
-    },
-
-    /**
-     * @public
-     * @param {number} y - y position in model values
-     */
-    setY: function( y ) {
-      this.position.y = y;
-    }
-  } );
 } );

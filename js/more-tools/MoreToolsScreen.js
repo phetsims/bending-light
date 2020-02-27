@@ -6,43 +6,39 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const MoreToolsModel = require( 'BENDING_LIGHT/more-tools/model/MoreToolsModel' );
-  const MoreToolsView = require( 'BENDING_LIGHT/more-tools/view/MoreToolsView' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
+import Property from '../../../axon/js/Property.js';
+import Screen from '../../../joist/js/Screen.js';
+import inherit from '../../../phet-core/js/inherit.js';
+import Image from '../../../scenery/js/nodes/Image.js';
+import iconImage from '../../mipmaps/More_Tools_Screen_png.js';
+import bendingLightStrings from '../bending-light-strings.js';
+import bendingLight from '../bendingLight.js';
+import MoreToolsModel from './model/MoreToolsModel.js';
+import MoreToolsView from './view/MoreToolsView.js';
 
-  // strings
-  const moreToolsString = require( 'string!BENDING_LIGHT/moreTools' );
+const moreToolsString = bendingLightStrings.moreTools;
 
-  // images
-  const iconImage = require( 'mipmap!BENDING_LIGHT/More_Tools_Screen.png' );
 
-  /**
-   * @constructor
-   */
-  function MoreToolsScreen( tandem ) {
+/**
+ * @constructor
+ */
+function MoreToolsScreen( tandem ) {
 
-    const options = {
-      name: moreToolsString,
-      homeScreenIcon: new Image( iconImage ),
-      backgroundColorProperty: new Property( 'white' ),
-      tandem: tandem
-    };
+  const options = {
+    name: moreToolsString,
+    homeScreenIcon: new Image( iconImage ),
+    backgroundColorProperty: new Property( 'white' ),
+    tandem: tandem
+  };
 
-    Screen.call( this,
-      function() { return new MoreToolsModel(); },
-      function( model ) { return new MoreToolsView( model ); },
-      options );
-  }
+  Screen.call( this,
+    function() { return new MoreToolsModel(); },
+    function( model ) { return new MoreToolsView( model ); },
+    options );
+}
 
-  bendingLight.register( 'MoreToolsScreen', MoreToolsScreen );
+bendingLight.register( 'MoreToolsScreen', MoreToolsScreen );
 
-  return inherit( Screen, MoreToolsScreen );
-} );
+inherit( Screen, MoreToolsScreen );
+export default MoreToolsScreen;

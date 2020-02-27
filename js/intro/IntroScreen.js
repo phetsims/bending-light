@@ -6,54 +6,50 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const IntroModel = require( 'BENDING_LIGHT/intro/model/IntroModel' );
-  const IntroView = require( 'BENDING_LIGHT/intro/view/IntroView' );
-  const LaserTypeAquaRadioButtonGroup = require( 'BENDING_LIGHT/intro/view/LaserTypeAquaRadioButtonGroup' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const Substance = require( 'BENDING_LIGHT/common/model/Substance' );
+import Property from '../../../axon/js/Property.js';
+import Screen from '../../../joist/js/Screen.js';
+import inherit from '../../../phet-core/js/inherit.js';
+import Image from '../../../scenery/js/nodes/Image.js';
+import icon from '../../mipmaps/Intro_Screen_png.js';
+import bendingLightStrings from '../bending-light-strings.js';
+import bendingLight from '../bendingLight.js';
+import Substance from '../common/model/Substance.js';
+import IntroModel from './model/IntroModel.js';
+import IntroView from './view/IntroView.js';
+import LaserTypeAquaRadioButtonGroup from './view/LaserTypeAquaRadioButtonGroup.js';
 
-  // strings
-  const introString = require( 'string!BENDING_LIGHT/intro' );
+const introString = bendingLightStrings.intro;
 
-  // images
-  const icon = require( 'mipmap!BENDING_LIGHT/Intro_Screen.png' );
 
-  /**
-   * @constructor
-   */
-  function IntroScreen( tandem ) {
+/**
+ * @constructor
+ */
+function IntroScreen( tandem ) {
 
-    const options = {
-      name: introString,
-      homeScreenIcon: new Image( icon ),
-      backgroundColorProperty: new Property( 'white' ),
-      tandem: tandem
-    };
+  const options = {
+    name: introString,
+    homeScreenIcon: new Image( icon ),
+    backgroundColorProperty: new Property( 'white' ),
+    tandem: tandem
+  };
 
-    Screen.call( this,
-      function() { return new IntroModel( Substance.WATER, true ); },
-      function( model ) {
-        return new IntroView( model,
-          false, // hasMoreTools
-          2, // indexOfRefractionDecimals
+  Screen.call( this,
+    function() { return new IntroModel( Substance.WATER, true ); },
+    function( model ) {
+      return new IntroView( model,
+        false, // hasMoreTools
+        2, // indexOfRefractionDecimals
 
-          // createLaserControlPanel
-          function( introModel ) {
-            return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
-          } );
-      },
-      options );
-  }
+        // createLaserControlPanel
+        function( introModel ) {
+          return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
+        } );
+    },
+    options );
+}
 
-  bendingLight.register( 'IntroScreen', IntroScreen );
+bendingLight.register( 'IntroScreen', IntroScreen );
 
-  return inherit( Screen, IntroScreen );
-} );
+inherit( Screen, IntroScreen );
+export default IntroScreen;

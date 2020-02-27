@@ -7,28 +7,25 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const inherit = require( 'PHET_CORE/inherit' );
+import inherit from '../../../../phet-core/js/inherit.js';
+import bendingLight from '../../bendingLight.js';
 
-  /**
-   * @param {Vector2} unitNormal - unit normal at the intersection of light ray
-   * @param {Vector2} point - point where the light ray intersects
-   * @constructor
-   */
-  function Intersection( unitNormal, point ) {
+/**
+ * @param {Vector2} unitNormal - unit normal at the intersection of light ray
+ * @param {Vector2} point - point where the light ray intersects
+ * @constructor
+ */
+function Intersection( unitNormal, point ) {
 
-    // Unit normal at the meeting between two interfaces where the light ray has struck
-    this.unitNormal = unitNormal; // @public (read-only)
+  // Unit normal at the meeting between two interfaces where the light ray has struck
+  this.unitNormal = unitNormal; // @public (read-only)
 
-    // The point where the light ray struck
-    this.point = point; // @public (read-only)
-  }
+  // The point where the light ray struck
+  this.point = point; // @public (read-only)
+}
 
-  bendingLight.register( 'Intersection', Intersection );
-  
-  return inherit( Object, Intersection );
-} );
+bendingLight.register( 'Intersection', Intersection );
+
+inherit( Object, Intersection );
+export default Intersection;

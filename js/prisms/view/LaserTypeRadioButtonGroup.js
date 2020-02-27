@@ -5,94 +5,89 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Line = require( 'SCENERY/nodes/Line' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const Shape = require( 'KITE/Shape' );
+import Shape from '../../../../kite/js/Shape.js';
+import inherit from '../../../../phet-core/js/inherit.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import laserImage from '../../../images/laser_png.js';
+import bendingLight from '../../bendingLight.js';
 
-  // images
-  const laserImage = require( 'image!BENDING_LIGHT/laser.png' );
+/**
+ *
+ * @constructor
+ */
+function LaserTypeRadioButtonGroup( radioButtonAdapterProperty, options ) {
 
-  /**
-   *
-   * @constructor
-   */
-  function LaserTypeRadioButtonGroup( radioButtonAdapterProperty, options ) {
+  const laserImageNode = new Image( laserImage, {
+    scale: 0.6,
+    clipArea: Shape.rectangle( 100, 0, 44, 100 )
+  } );
 
-    const laserImageNode = new Image( laserImage, {
-      scale: 0.6,
-      clipArea: Shape.rectangle( 100, 0, 44, 100 )
+  const lineWidth = 37;
+  const redLineAt = function( y ) {
+    return new Line( 0, 0, lineWidth, 0, {
+      stroke: 'red',
+      lineWidth: 2,
+      centerY: laserImageNode.centerY + y,
+      left: laserImageNode.centerX
     } );
+  };
 
-    const lineWidth = 37;
-    const redLineAt = function( y ) {
-      return new Line( 0, 0, lineWidth, 0, {
-        stroke: 'red',
-        lineWidth: 2,
-        centerY: laserImageNode.centerY + y,
-        left: laserImageNode.centerX
-      } );
-    };
+  const dy = 6.25;
+  const padding = 2;// vertical padding above the laser in the white light radio button
+  const overallScale = 0.875;
+  RadioButtonGroup.call( this, radioButtonAdapterProperty, [ {
+    value: 'singleColor',
+    node: new Node( {
+      scale: overallScale,
+      children: [
+        redLineAt( 0 ),
+        laserImageNode
+      ]
+    } )
+  }, {
+    value: 'singleColor5x',
+    node: new Node( {
+      scale: overallScale,
+      children: [
+        redLineAt( 0 ),
+        redLineAt( -dy ),
+        redLineAt( -dy * 2 ),
+        redLineAt( +dy ),
+        redLineAt( +dy * 2 ),
+        laserImageNode
+      ]
+    } )
+  }, {
+    value: 'white',
+    node: new Node( {
+      scale: overallScale,
+      children: [
+        new Rectangle( 60, -padding, 50, laserImageNode.height + padding * 2, { fill: '#261f21' } ),
+        new Line( 0, 0, lineWidth, 0, {
+          stroke: 'white',
+          lineWidth: 2,
+          centerY: laserImageNode.centerY,
+          left: laserImageNode.centerX
+        } ),
+        laserImageNode
+      ]
+    } )
+  } ], {
+    orientation: 'horizontal',
+    baseColor: 'white',
+    selectedStroke: '#3291b8',
+    selectedLineWidth: 2.5
+  } );
 
-    const dy = 6.25;
-    const padding = 2;// vertical padding above the laser in the white light radio button
-    const overallScale = 0.875;
-    RadioButtonGroup.call( this, radioButtonAdapterProperty, [ {
-      value: 'singleColor',
-      node: new Node( {
-        scale: overallScale,
-        children: [
-          redLineAt( 0 ),
-          laserImageNode
-        ]
-      } )
-    }, {
-      value: 'singleColor5x',
-      node: new Node( {
-        scale: overallScale,
-        children: [
-          redLineAt( 0 ),
-          redLineAt( -dy ),
-          redLineAt( -dy * 2 ),
-          redLineAt( +dy ),
-          redLineAt( +dy * 2 ),
-          laserImageNode
-        ]
-      } )
-    }, {
-      value: 'white',
-      node: new Node( {
-        scale: overallScale,
-        children: [
-          new Rectangle( 60, -padding, 50, laserImageNode.height + padding * 2, { fill: '#261f21' } ),
-          new Line( 0, 0, lineWidth, 0, {
-            stroke: 'white',
-            lineWidth: 2,
-            centerY: laserImageNode.centerY,
-            left: laserImageNode.centerX
-          } ),
-          laserImageNode
-        ]
-      } )
-    } ], {
-      orientation: 'horizontal',
-      baseColor: 'white',
-      selectedStroke: '#3291b8',
-      selectedLineWidth: 2.5
-    } );
+  this.mutate( options );
+}
 
-    this.mutate( options );
-  }
+bendingLight.register( 'LaserTypeRadioButtonGroup', LaserTypeRadioButtonGroup );
 
-  bendingLight.register( 'LaserTypeRadioButtonGroup', LaserTypeRadioButtonGroup );
-  
-  return inherit( RadioButtonGroup, LaserTypeRadioButtonGroup );
-} );
+inherit( RadioButtonGroup, LaserTypeRadioButtonGroup );
+export default LaserTypeRadioButtonGroup;

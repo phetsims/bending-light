@@ -7,33 +7,30 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const Shape = require( 'KITE/Shape' );
+import Shape from '../../../../kite/js/Shape.js';
+import inherit from '../../../../phet-core/js/inherit.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import bendingLight from '../../bendingLight.js';
 
-  /**
-   * @param {number} height - height of normal
-   * @param {array.<number>} lineDash
-   * @param {Object} [options] - options that can be passed on to the underlying node
-   * @constructor
-   */
-  function NormalLine( height, lineDash, options ) {
-    Node.call( this );
+/**
+ * @param {number} height - height of normal
+ * @param {array.<number>} lineDash
+ * @param {Object} [options] - options that can be passed on to the underlying node
+ * @constructor
+ */
+function NormalLine( height, lineDash, options ) {
+  Node.call( this );
 
-    this.addChild( new Path( Shape.lineSegment( 0, 0, 0, height ), {
-      stroke: 'black',
-      lineDash: lineDash
-    } ) );
-    this.mutate( options );
-  }
+  this.addChild( new Path( Shape.lineSegment( 0, 0, 0, height ), {
+    stroke: 'black',
+    lineDash: lineDash
+  } ) );
+  this.mutate( options );
+}
 
-  bendingLight.register( 'NormalLine', NormalLine );
-  
-  return inherit( Node, NormalLine );
-} );
+bendingLight.register( 'NormalLine', NormalLine );
+
+inherit( Node, NormalLine );
+export default NormalLine;

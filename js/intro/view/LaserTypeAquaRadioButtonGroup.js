@@ -5,57 +5,54 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const AquaRadioButton = require( 'SUN/AquaRadioButton' );
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const Text = require( 'SCENERY/nodes/Text' );
-  const VBox = require( 'SCENERY/nodes/VBox' );
+import inherit from '../../../../phet-core/js/inherit.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import VBox from '../../../../scenery/js/nodes/VBox.js';
+import AquaRadioButton from '../../../../sun/js/AquaRadioButton.js';
+import bendingLightStrings from '../../bending-light-strings.js';
+import bendingLight from '../../bendingLight.js';
 
-  // strings
-  const rayString = require( 'string!BENDING_LIGHT/ray' );
-  const waveString = require( 'string!BENDING_LIGHT/wave' );
+const rayString = bendingLightStrings.ray;
+const waveString = bendingLightStrings.wave;
 
-  /**
-   *
-   * @constructor
-   */
-  function LaserTypeAquaRadioButtonGroup( laserTypeProperty ) {
+/**
+ *
+ * @constructor
+ */
+function LaserTypeAquaRadioButtonGroup( laserTypeProperty ) {
 
-    const radioButtonOptions = {
-      radius: 6,
+  const radioButtonOptions = {
+    radius: 6,
+    font: new PhetFont( 12 )
+  };
+  const createButtonTextNode = function( text ) {
+    return new Text( text, {
+      maxWidth: 120, // measured empirically to ensure no overlap with the laser at any angle
       font: new PhetFont( 12 )
-    };
-    const createButtonTextNode = function( text ) {
-      return new Text( text, {
-        maxWidth: 120, // measured empirically to ensure no overlap with the laser at any angle
-        font: new PhetFont( 12 )
-      } );
-    };
-    const rayButton = new AquaRadioButton(
-      laserTypeProperty,
-      'ray',
-      createButtonTextNode( rayString ),
-      radioButtonOptions
-    );
-    const waveButton = new AquaRadioButton(
-      laserTypeProperty,
-      'wave',
-      createButtonTextNode( waveString ),
-      radioButtonOptions
-    );
-    VBox.call( this, {
-      spacing: 10,
-      align: 'left',
-      children: [ rayButton, waveButton ]
     } );
-  }
+  };
+  const rayButton = new AquaRadioButton(
+    laserTypeProperty,
+    'ray',
+    createButtonTextNode( rayString ),
+    radioButtonOptions
+  );
+  const waveButton = new AquaRadioButton(
+    laserTypeProperty,
+    'wave',
+    createButtonTextNode( waveString ),
+    radioButtonOptions
+  );
+  VBox.call( this, {
+    spacing: 10,
+    align: 'left',
+    children: [ rayButton, waveButton ]
+  } );
+}
 
-  bendingLight.register( 'LaserTypeAquaRadioButtonGroup', LaserTypeAquaRadioButtonGroup );
-  
-  return inherit( VBox, LaserTypeAquaRadioButtonGroup );
-} );
+bendingLight.register( 'LaserTypeAquaRadioButtonGroup', LaserTypeAquaRadioButtonGroup );
+
+inherit( VBox, LaserTypeAquaRadioButtonGroup );
+export default LaserTypeAquaRadioButtonGroup;

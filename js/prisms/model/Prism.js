@@ -6,78 +6,74 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const bendingLight = require( 'BENDING_LIGHT/bendingLight' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Property = require( 'AXON/Property' );
+import Property from '../../../../axon/js/Property.js';
+import inherit from '../../../../phet-core/js/inherit.js';
+import bendingLight from '../../bendingLight.js';
+
+/**
+ * @param {Polygon|Circle|SemiCircle} shape
+ * @param {string} typeName for keeping track of how many of each kind there are, to remove from toolbox
+ * @constructor
+ */
+function Prism( shape, typeName ) {
+
+  // @public
+  this.shapeProperty = new Property( shape );
+
+  // @public (read-only)
+  this.typeName = typeName;
+}
+
+bendingLight.register( 'Prism', Prism );
+
+export default inherit( Object, Prism, {
 
   /**
-   * @param {Polygon|Circle|SemiCircle} shape
-   * @param {string} typeName for keeping track of how many of each kind there are, to remove from toolbox
-   * @constructor
+   * Translate prism by the specified amount
+   * @public
+   * @param {number} deltaX - amount of space in x direction the prism to be translated
+   * @param {number} deltaY - amount of space in y direction the prism to be translated
    */
-  function Prism( shape, typeName ) {
+  translate: function( deltaX, deltaY ) {
+    this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( deltaX, deltaY ) );
+  },
 
-    // @public
-    this.shapeProperty = new Property( shape );
+  /**
+   * Compute the intersections of the specified ray with this polygon's edges
+   * @public
+   * @param {ColoredRay} incidentRay - model of the ray
+   * @returns {Array}
+   */
+  getIntersections: function( incidentRay ) {
+    return this.shapeProperty.get().getIntersections( incidentRay );
+  },
 
-    // @public (read-only)
-    this.typeName = typeName;
+  /**
+   * Determines whether shape contains given point or not
+   * @public
+   * @param {Vector2} point
+   * @returns {boolean}
+   */
+  contains: function( point ) {
+    return this.shapeProperty.get().containsPoint( point );
+  },
+
+  /**
+   * Creates a copy of the prism
+   * @public
+   * @returns {Prism}
+   */
+  copy: function() {
+    return new Prism( this.shapeProperty.get(), this.typeName );
+  },
+
+  /**
+   * Rotate prism by the specified angle
+   * @public
+   * @param {number} deltaAngle - angle to be rotated
+   */
+  rotate: function( deltaAngle ) {
+    this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle, this.shapeProperty.get().getRotationCenter() ) );
   }
-
-  bendingLight.register( 'Prism', Prism );
-
-  return inherit( Object, Prism, {
-
-    /**
-     * Translate prism by the specified amount
-     * @public
-     * @param {number} deltaX - amount of space in x direction the prism to be translated
-     * @param {number} deltaY - amount of space in y direction the prism to be translated
-     */
-    translate: function( deltaX, deltaY ) {
-      this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( deltaX, deltaY ) );
-    },
-
-    /**
-     * Compute the intersections of the specified ray with this polygon's edges
-     * @public
-     * @param {ColoredRay} incidentRay - model of the ray
-     * @returns {Array}
-     */
-    getIntersections: function( incidentRay ) {
-      return this.shapeProperty.get().getIntersections( incidentRay );
-    },
-
-    /**
-     * Determines whether shape contains given point or not
-     * @public
-     * @param {Vector2} point
-     * @returns {boolean}
-     */
-    contains: function( point ) {
-      return this.shapeProperty.get().containsPoint( point );
-    },
-
-    /**
-     * Creates a copy of the prism
-     * @public
-     * @returns {Prism}
-     */
-    copy: function() {
-      return new Prism( this.shapeProperty.get(), this.typeName );
-    },
-
-    /**
-     * Rotate prism by the specified angle
-     * @public
-     * @param {number} deltaAngle - angle to be rotated
-     */
-    rotate: function( deltaAngle ) {
-      this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle, this.shapeProperty.get().getRotationCenter() ) );
-    }
-  } );
 } );
