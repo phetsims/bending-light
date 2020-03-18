@@ -56,7 +56,7 @@ class PrismToolboxNode extends Node {
     } );
 
     // Create prism icon
-    const createPrismIcon = ( prism ) => {
+    const createPrismIcon = prism => {
       const prismShape = prism.copy();
       return new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer,
         dragBoundsProperty, occlusionHandler, true );
@@ -101,16 +101,16 @@ class PrismToolboxNode extends Node {
             dragBoundsProperty, occlusionHandler, false );
           prismLayer.addChild( prismNode );
           prismShape.translate(
-              modelViewTransform.viewToModelX( start.x ),
-              modelViewTransform.viewToModelY( start.y )
-            );
+            modelViewTransform.viewToModelX( start.x ),
+            modelViewTransform.viewToModelY( start.y )
+          );
 
-            // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
-            // Presumably because they were in similar coordinate frames?
-            // See Scenery #131 create drag listener
-            // See Scenery #218 multitouch
-            // There is a precedent for this hack in SimpleDragHandler.js
-            const c = event.currentTarget;
+          // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
+          // Presumably because they were in similar coordinate frames?
+          // See Scenery #131 create drag listener
+          // See Scenery #218 multitouch
+          // There is a precedent for this hack in SimpleDragHandler.js
+          const c = event.currentTarget;
             event.currentTarget = prismNode;
             prismNode.movableDragHandler.handleForwardedStartEvent( event, trail );
             event.currentTarget = c;
