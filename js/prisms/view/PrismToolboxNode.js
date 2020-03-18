@@ -67,10 +67,8 @@ class PrismToolboxNode extends Node {
     prismsModel.getPrismPrototypes().forEach( prism => {
       const prismIcon = createPrismIcon( prism );
 
-      const listener = function() {
-        const count = _.filter( prismsModel.prisms.getArray(), function( p ) {
-          return p.typeName === prism.typeName;
-        } ).length;
+      const listener = () => {
+        const count = _.filter( prismsModel.prisms.getArray(), p => p.typeName === prism.typeName ).length;
         prismIcon.visible = count < MAX_PRISM_COUNT;
       };
       prismsModel.prisms.addItemAddedListener( listener );
@@ -111,33 +109,33 @@ class PrismToolboxNode extends Node {
           // See Scenery #218 multitouch
           // There is a precedent for this hack in SimpleDragHandler.js
           const c = event.currentTarget;
-            event.currentTarget = prismNode;
-            prismNode.movableDragHandler.handleForwardedStartEvent( event, trail );
-            event.currentTarget = c;
-          },
-          drag: function( event, trail ) {
+          event.currentTarget = prismNode;
+          prismNode.movableDragHandler.handleForwardedStartEvent( event, trail );
+          event.currentTarget = c;
+        },
+        drag: ( event, trail ) => {
 
-            // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
-            // Presumably because they were in similar coordinate frames?
-            // See Scenery #131 create drag listener
-            // See Scenery #218 multitouch
-            // There is a precedent for this hack in SimpleDragHandler.js
-            const c = event.currentTarget;
-            event.currentTarget = prismNode;
-            prismNode.movableDragHandler.handleForwardedDragEvent( event, trail );
-            event.currentTarget = c; // oh noes
+          // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
+          // Presumably because they were in similar coordinate frames?
+          // See Scenery #131 create drag listener
+          // See Scenery #218 multitouch
+          // There is a precedent for this hack in SimpleDragHandler.js
+          const c = event.currentTarget;
+          event.currentTarget = prismNode;
+          prismNode.movableDragHandler.handleForwardedDragEvent( event, trail );
+          event.currentTarget = c; // oh noes
           },
-          end: function( event, trail ) {
+        end: ( event, trail ) => {
 
-            // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
-            // Presumably because they were in similar coordinate frames?
-            // See Scenery #131 create drag listener
-            // See Scenery #218 multitouch
-            // There is a precedent for this hack in SimpleDragHandler.js
-            const c = event.currentTarget;
-            event.currentTarget = prismNode;
-            prismNode.movableDragHandler.handleForwardedEndEvent( event, trail );
-            event.currentTarget = c;
+          // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
+          // Presumably because they were in similar coordinate frames?
+          // See Scenery #131 create drag listener
+          // See Scenery #218 multitouch
+          // There is a precedent for this hack in SimpleDragHandler.js
+          const c = event.currentTarget;
+          event.currentTarget = prismNode;
+          prismNode.movableDragHandler.handleForwardedEndEvent( event, trail );
+          event.currentTarget = c;
           }
         }
       ) );
@@ -175,7 +173,7 @@ class PrismToolboxNode extends Node {
 
     // Add checkboxes
     // Create an icon for the protractor checkbox
-    const createProtractorIcon = function() {
+    const createProtractorIcon = () => {
       const protractorImageNode = new Image( protractorImage );
       protractorImageNode.scale( 20 / protractorImage[ 0 ].width );
       return protractorImageNode;
@@ -190,14 +188,12 @@ class PrismToolboxNode extends Node {
     const showProtractor = { label: new Text( protractorString, textOptions ), icon: createProtractorIcon() };
 
     // compute the maximum item width
-    const widestItem = _.maxBy( [ showReflections, showNormal, showProtractor ], function( item ) {
-      return item.label.width + ( ( item.icon ) ? item.icon.width : 0 );
-    } );
+    const widestItem = _.maxBy( [ showReflections, showNormal, showProtractor ], item => item.label.width + ( ( item.icon ) ? item.icon.width : 0 ) );
     const widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0 );
     const maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
 
     // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
-    const createItem = function( itemSpec ) {
+    const createItem = itemSpec => {
       if ( itemSpec.icon ) {
         const textWidth = maxWidth - itemSpec.icon.width - 10;
         if ( itemSpec.label.width > textWidth ) {
@@ -237,9 +233,7 @@ class PrismToolboxNode extends Node {
     );
 
     const maxCheckboxWidth = _.maxBy( [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ],
-      function( item ) {
-        return item.width;
-      }
+      item => item.width
     ).width + 5;
 
     // touch Areas

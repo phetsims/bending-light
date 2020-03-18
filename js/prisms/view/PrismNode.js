@@ -57,7 +57,7 @@ class PrismNode extends Node {
           const startY = modelViewTransform.viewToModelY( start.y );// model values
           previousAngle = Math.atan2( ( prismCenterPoint.y - startY ), ( prismCenterPoint.x - startX ) );
         },
-        drag: function( event ) {
+        drag: event => {
           const end = knobNode.globalToParentPoint( event.pointer.point );
           prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
           const endX = modelViewTransform.viewToModelX( end.x );// model values
@@ -68,7 +68,7 @@ class PrismNode extends Node {
         },
 
         // A Prism cannot be put back into the toolbox by rotating it.
-        end: function() {}
+        end: () => {}
       } ) );
       knobNode.touchArea = Shape.circle( 0, 10, 40 );
     }
@@ -79,7 +79,7 @@ class PrismNode extends Node {
     this.addChild( prismPathNode );
 
     // When the window reshapes, make sure no prism is left outside of the play area
-    dragBoundsProperty.link( function( dragBounds ) {
+    dragBoundsProperty.link( dragBounds => {
       const center = prism.shapeProperty.get().centroid;
       const inBounds = modelViewTransform.viewToModelBounds( dragBounds ).getClosestPoint( center.x, center.y );
       prism.translate( inBounds.x - center.x, inBounds.y - center.y );
@@ -87,11 +87,9 @@ class PrismNode extends Node {
 
     // MovableDragHandler is nice, but it only works with Properties, so we much make a synthetic Property.<Vector2>
     const positionProperty = {
-      get: function() {
-        return prism.shapeProperty.get().getRotationCenter();
-      },
-      set: function( newPosition ) {
-        const oldPosition = this.get();
+      get: () => prism.shapeProperty.get().getRotationCenter(),
+      set: newPosition => {
+        const oldPosition = positionProperty.get();
 
         // Keep it in bounds
         // Couldn't get this figured out with MovableDragHandler, our case is a bit too out of the box since there is
@@ -126,7 +124,7 @@ class PrismNode extends Node {
     const knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
 
     // @public - also used in PrismToolboxNode
-    this.updatePrismShape = function() {
+    this.updatePrismShape = () => {
       prismsModel.clear();
       prismsModel.updateModel();
       prismsModel.dirty = true;
@@ -155,7 +153,7 @@ class PrismNode extends Node {
     prism.shapeProperty.link( this.updatePrismShape );
 
     // @public - used in PrismToolboxNode
-    this.updatePrismColor = function() {
+    this.updatePrismColor = () => {
       const indexOfRefraction = prismsModel.prismMediumProperty.value.substance.indexOfRefractionForRedLight;
       prismPathNode.fill = prismsModel.mediumColorFactory.getColor( indexOfRefraction )
         .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
@@ -171,7 +169,7 @@ class PrismNode extends Node {
      * @param {number} y
      * @public
      */
-    this.translateViewXY = function( x, y ) {
+    this.translateViewXY = ( x, y ) => {
       const delta = modelViewTransform.viewToModelDeltaXY( x, y );
       prism.translate( delta.x, delta.y );
     };

@@ -29,8 +29,8 @@ class PrismsScreen extends Screen {
     };
 
     super(
-      function() { return new PrismsModel(); },
-      function( model ) { return new PrismsView( model ); },
+      () => new PrismsModel(),
+      model => new PrismsView( model ),
       options );
   }
 }

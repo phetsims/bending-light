@@ -68,17 +68,13 @@ Reading.MISS = {
    * @public
    * @returns {string}
    */
-  getString: function() {
-    return missString;
-  },
+  getString: () => missString,
 
   /**
    * Determines whether ray hit the intensity sensor or not
    * @returns {boolean}
    */
-  isHit: function() {
-    return false;
-  }
+  isHit: () => false
 };
 
 bendingLight.register( 'Reading', Reading );

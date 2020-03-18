@@ -32,7 +32,7 @@ const simOptions = {
   webgl: true
 };
 
-SimLauncher.launch( function() {
+SimLauncher.launch( () => {
   const sim = new Sim( bendingLightTitleString, [
     new IntroScreen( tandem.createTandem( 'introScreen' ) ),
     new PrismsScreen( tandem.createTandem( 'prismsScreen' ) ),

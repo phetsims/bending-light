@@ -29,9 +29,7 @@ const TEXT_COLOR = 'black'; // The gray from the phet-io logo, which works well 
 // When there is total internal reflection, treat it as if it is a powerless ray for simplicity
 // Also used if there is no reflected ray
 const MOCK_ZERO_RAY = {
-  getAngle: function() {
-    return 0;
-  },
+  getAngle: () => 0,
   powerFraction: 0
 };
 
@@ -54,17 +52,11 @@ class AngleNode extends Node {
       this.visible = showAngles && laserOn;
     } );
 
-    const createArcPath = function() {
-      return new Path( null, { stroke: 'black', lineWidth: 1 } );
-    };
+    const createArcPath = () => new Path( null, { stroke: 'black', lineWidth: 1 } );
 
-    const getOriginX = function() {
-      return modelViewTransform.modelToViewX( 0 );
-    };
+    const getOriginX = () => modelViewTransform.modelToViewX( 0 );
 
-    const getOriginY = function() {
-      return modelViewTransform.modelToViewY( 0 );
-    };
+    const getOriginY = () => modelViewTransform.modelToViewY( 0 );
 
     // Show the top angles both with a single arc so it is continuous
     const upperArcPath = createArcPath();
@@ -73,7 +65,7 @@ class AngleNode extends Node {
     const lowerArcPath = createArcPath();
     this.addChild( lowerArcPath );
 
-    const createText = function() {
+    const createText = () => {
       const text = new Text( '', { fontSize: 12, fill: TEXT_COLOR } );
       const panel = new Panel( text, {
         fill: 'white',
@@ -91,8 +83,8 @@ class AngleNode extends Node {
 
       // defines ES5 getter/setter
       Object.defineProperty( panel, 'text', {
-        get: function() { return 'hello'; },
-        set: function( value ) { text.text = value; },
+        get: () => 'hello',// TODO: Is this correct?
+        set: value => { text.text = value; },
 
         // Make it configurable and enumerable so it's easy to override...
         configurable: true,
@@ -115,15 +107,13 @@ class AngleNode extends Node {
     this.addChild( refractedReadout );
 
     // Helper function used to create the vertical line marker above and below the origin
-    const createLine = function( y ) {
-      return new Line(
-        getOriginX(), getOriginY() + y - LINE_HEIGHT / 2,
-        getOriginX(), getOriginY() + y + LINE_HEIGHT / 2, {
-          stroke: 'black',
-          lineWidth: 1
-        }
-      );
-    };
+    const createLine = y => new Line(
+      getOriginX(), getOriginY() + y - LINE_HEIGHT / 2,
+      getOriginX(), getOriginY() + y + LINE_HEIGHT / 2, {
+        stroke: 'black',
+        lineWidth: 1
+      }
+    );
 
     const lowerMark = createLine( CIRCLE_RADIUS );
     const upperMark = createLine( -CIRCLE_RADIUS );
@@ -131,7 +121,7 @@ class AngleNode extends Node {
     // Only redraw when necessary to improve performance.
     let dirty = true;
 
-    showNormalProperty.link( function( showNormal ) {
+    showNormalProperty.link( showNormal => {
 
       // Only show the top marker when the normal is not shown, since they would interfere if both shown together
       upperMark.visible = !showNormal;
@@ -143,7 +133,7 @@ class AngleNode extends Node {
     this.addChild( lowerMark );
     this.addChild( upperMark );
 
-    const markDirty = function() {
+    const markDirty = () => {
       dirty = true;
     };
     rays.addItemAddedListener( markDirty );
@@ -154,7 +144,7 @@ class AngleNode extends Node {
      * @param type
      * @returns {LightRay}
      */
-    const getRay = function( type ) {
+    const getRay = type => {
       let selected = null;
       for ( let i = 0; i < rays.length; i++ ) {
         const ray = rays.get( i );
@@ -170,7 +160,7 @@ class AngleNode extends Node {
     };
 
     // Update the shape each frame
-    addStepListener( function() {
+    addStepListener( () => {
       if ( dirty ) {
 
         // Get the rays from the model.  They must be specified in the following order.
@@ -184,18 +174,16 @@ class AngleNode extends Node {
         const incomingAngleFromNormal = incomingRay.getAngle() + Math.PI / 2;
         const refractedAngleFromNormal = refractedRay.getAngle() + Math.PI / 2;
 
-        const getShape = function( angle, startAngle, endAngle, anticlockwise ) {
-          return angle >= 1E-6 ?
-                 Shape.arc(
-                   getOriginX(),
-                   getOriginY(),
-                   CIRCLE_RADIUS,
-                   startAngle,
-                   endAngle,
-                   anticlockwise
-                 ) :
-                 null;
-        };
+        const getShape = ( angle, startAngle, endAngle, anticlockwise ) => angle >= 1E-6 ?
+                                                                           Shape.arc(
+                                                                             getOriginX(),
+                                                                             getOriginY(),
+                                                                             CIRCLE_RADIUS,
+                                                                             startAngle,
+                                                                             endAngle,
+                                                                             anticlockwise
+                                                                           ) :
+                                                                           null;
 
         // Only show the incident angle when the ray is coming in at a shallow angle, see #288
         const isIncomingRayHorizontal = Math.abs( incomingRay.getAngle() ) < 1E-6;

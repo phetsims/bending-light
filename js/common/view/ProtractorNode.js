@@ -45,17 +45,15 @@ class ProtractorNode extends Node {
      * the interior middle bar.
      * @returns {Shape}
      */
-    const createOuterRimShape = function() {
-      return new Shape()
-        .moveTo( w, h / 2 )
-        .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
-        .lineTo( w * 0.2, h / 2 )
-        .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, false )
-        .lineTo( w, h / 2 )
-        .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, false )
-        .lineTo( w * 0.2, h / 2 )
-        .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true );
-    };
+    const createOuterRimShape = () => new Shape()
+      .moveTo( w, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, true )
+      .lineTo( w * 0.2, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, false )
+      .lineTo( w, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w / 2, h / 2, 0, 0, Math.PI, false )
+      .lineTo( w * 0.2, h / 2 )
+      .ellipticalArc( w / 2, h / 2, w * 0.3, h * 0.3, 0, Math.PI, 0, true );
 
     // shape for the outer ring of the protractor, must match the image.
     this.outerRimShape = createOuterRimShape();

@@ -20,7 +20,7 @@ import BendingLightConstants from '../BendingLightConstants.js';
  * If a vector is infinite, make it finite
  * @param vector
  */
-const makeFinite = function( vector ) {
+const makeFinite = vector => {
   if ( !isFinite( vector.x ) ) {
     vector.x = 0;
   }

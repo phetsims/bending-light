@@ -26,14 +26,12 @@ class LaserTypeRadioButtonGroup extends RadioButtonGroup {
     } );
 
     const lineWidth = 37;
-    const redLineAt = function( y ) {
-      return new Line( 0, 0, lineWidth, 0, {
-        stroke: 'red',
-        lineWidth: 2,
-        centerY: laserImageNode.centerY + y,
-        left: laserImageNode.centerX
-      } );
-    };
+    const redLineAt = y => new Line( 0, 0, lineWidth, 0, {
+      stroke: 'red',
+      lineWidth: 2,
+      centerY: laserImageNode.centerY + y,
+      left: laserImageNode.centerX
+    } );
 
     const dy = 6.25;
     const padding = 2;// vertical padding above the laser in the white light radio button

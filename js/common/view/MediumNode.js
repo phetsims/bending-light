@@ -27,7 +27,7 @@ class MediumNode extends Node {
     this.addChild( mediumRectangleNode );
 
     // Update whenever the medium changes
-    mediumProperty.link( function( medium ) {
+    mediumProperty.link( medium => {
       mediumRectangleNode.fill = medium.color;
     } );
   }

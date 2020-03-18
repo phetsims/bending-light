@@ -72,7 +72,7 @@ class TimeControlNode extends HBox {
     // add step button
     const stepButton = new StepForwardButton( {
       isPlayingProperty: introModel.isPlayingProperty,
-      listener: function() {
+      listener: () => {
         introModel.updateSimulationTimeAndWaveShape( 'normal' );
         updateWaveShape();
       },

@@ -45,9 +45,7 @@ class SeriesNode extends Node {
     this.addChild( seriesCanvasNode );
 
     // Update the series canvas for every change in series
-    series.seriesProperty.link( function() {
-      seriesCanvasNode.step();
-    } );
+    series.seriesProperty.link( () => seriesCanvasNode.step() );
   }
 }
 
@@ -127,9 +125,7 @@ class ChartNode extends Node {
     this.gridCanvasNode.step();
 
     // Remove any points that have gone outside of the time window, otherwise it is a memory leak
-    this.seriesArray.forEach( function( series ) {
-      series.keepLastSamples( minTime );
-    } );
+    this.seriesArray.forEach( series => series.keepLastSamples( minTime ) );
   }
 
   /**

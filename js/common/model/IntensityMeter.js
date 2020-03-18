@@ -94,7 +94,7 @@ class IntensityMeter {
 
     // enumerate the hits
     const hits = [];
-    this.rayReadings.forEach( function( rayReading ) {
+    this.rayReadings.forEach( rayReading => {
       if ( rayReading.isHit() ) {
         hits.push( rayReading );
       }
@@ -108,7 +108,7 @@ class IntensityMeter {
 
       // otherwise, sum the intensities
       let total = 0.0;
-      hits.forEach( function( hit ) {
+      hits.forEach( hit => {
         total += hit.value;
       } );
       this.readingProperty.set( new Reading( total ) );

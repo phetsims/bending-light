@@ -242,7 +242,7 @@ for ( const wavelength in XYZ ) {
 }
 
 // {Vector3} - Maximum value for each component of XYZ_INTENSITIES.
-const MAX_XYZ_INTENSITY = ( function() {
+const MAX_XYZ_INTENSITY = ( () => {
   // max of XYZ * D65 for each channel
   let maxX = 0;
   let maxY = 0;
@@ -260,7 +260,7 @@ const MAX_XYZ_INTENSITY = ( function() {
 // {Object} - Maps wavelength (nm) to {Vector3} XYZ colorspace values, with each component separately normalized, so
 //            that each XYZ value is in the range [0,1]. Multiplying any entry componentwise with MAX_XYZ_INTENSITY
 //            will result in the original XYZ_INTENSITIES value.
-const NORMALIZED_XYZ_INTENSITIES = ( function() {
+const NORMALIZED_XYZ_INTENSITIES = ( () => {
   const result = {};
 
   for ( const wavelength in XYZ_INTENSITIES ) {
@@ -279,6 +279,7 @@ const NORMALIZED_XYZ_INTENSITIES = ( function() {
 //                    will be available.
 const WHITE_LIGHT_WAVELENGTHS = _.range( 400, 700, 10 ); // excludes maximum value
 
+// TODO: Commented out code
 // var NUM_RAY_SATURATION = _.max( _.reduce( NORMALIZED_XYZ_INTENSITIES, function( memo, item ) {
 //   return memo.plus( item );
 // }, new Vector3( 0, 0, 0 ) ) );

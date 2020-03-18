@@ -55,9 +55,7 @@ class MediumColorFactory {
  * @param {number} value
  * @returns {number}
  */
-const clamp = function( value ) {
-  return Utils.clamp( value, 0, 255 );
-};
+const clamp = value => Utils.clamp( value, 0, 255 );
 
 /**
  * Blend colors a and b with the specified amount of "b" to use between 0 and 1
@@ -67,7 +65,7 @@ const clamp = function( value ) {
  * @param {number} ratio
  * @returns {Color}
  */
-const colorBlend = function( a, b, ratio ) {
+const colorBlend = ( a, b, ratio ) => {
   const reduction = ( 1 - ratio );
   return new Color(
     clamp( a.getRed() * reduction + b.getRed() * ratio ),
@@ -77,53 +75,50 @@ const colorBlend = function( a, b, ratio ) {
   );
 };
 
-const createProfile = function( AIR_COLOR, WATER_COLOR, GLASS_COLOR, DIAMOND_COLOR ) {
+const createProfile = ( AIR_COLOR, WATER_COLOR, GLASS_COLOR, DIAMOND_COLOR ) => function( indexForRed ) {
 
-  return function( indexForRed ) {
+  // precompute to improve readability below
+  const waterIndexForRed = Substance.WATER.indexOfRefractionForRedLight;
+  const glassIndexForRed = Substance.GLASS.indexOfRefractionForRedLight;
+  const diamondIndexForRed = Substance.DIAMOND.indexOfRefractionForRedLight;
 
-    // precompute to improve readability below
-    const waterIndexForRed = Substance.WATER.indexOfRefractionForRedLight;
-    const glassIndexForRed = Substance.GLASS.indexOfRefractionForRedLight;
-    const diamondIndexForRed = Substance.DIAMOND.indexOfRefractionForRedLight;
+  // find out what region the index of refraction lies in, and linearly interpolate between adjacent medium colors
+  let linearFunction;
+  let ratio;
+  if ( indexForRed < waterIndexForRed ) {
 
-    // find out what region the index of refraction lies in, and linearly interpolate between adjacent medium colors
-    let linearFunction;
-    let ratio;
-    if ( indexForRed < waterIndexForRed ) {
+    // Map the values between 1 and waterIndexForRed to (0,1) linearly
+    linearFunction = new LinearFunction( 1.0, waterIndexForRed, 0, 1 );
 
-      // Map the values between 1 and waterIndexForRed to (0,1) linearly
-      linearFunction = new LinearFunction( 1.0, waterIndexForRed, 0, 1 );
+    // returns the value between 0 to 1.
+    ratio = linearFunction( indexForRed );
+    return colorBlend( AIR_COLOR, WATER_COLOR, ratio );
+  }
+  else {
+    if ( indexForRed < glassIndexForRed ) {
+
+      // Map the values between waterIndexForRed and glassIndexForRed to (0,1) linearly
+      linearFunction = new LinearFunction( waterIndexForRed, glassIndexForRed, 0, 1 );
 
       // returns the value between 0 to 1.
       ratio = linearFunction( indexForRed );
-      return colorBlend( AIR_COLOR, WATER_COLOR, ratio );
+      return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
     }
     else {
-      if ( indexForRed < glassIndexForRed ) {
+      if ( indexForRed < diamondIndexForRed ) {
 
-        // Map the values between waterIndexForRed and glassIndexForRed to (0,1) linearly
-        linearFunction = new LinearFunction( waterIndexForRed, glassIndexForRed, 0, 1 );
+        // Map the values between glassIndexForRed and diamondIndexForRed to (0,1) linearly
+        linearFunction = new LinearFunction( glassIndexForRed, diamondIndexForRed, 0, 1 );
 
         // returns the value between 0 to 1.
         ratio = linearFunction( indexForRed );
-        return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
+        return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
       }
       else {
-        if ( indexForRed < diamondIndexForRed ) {
-
-          // Map the values between glassIndexForRed and diamondIndexForRed to (0,1) linearly
-          linearFunction = new LinearFunction( glassIndexForRed, diamondIndexForRed, 0, 1 );
-
-          // returns the value between 0 to 1.
-          ratio = linearFunction( indexForRed );
-          return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
-        }
-        else {
-          return DIAMOND_COLOR;
-        }
+        return DIAMOND_COLOR;
       }
     }
-  };
+  }
 };
 
 // distance between adjacent colors for shades of gray against the black background

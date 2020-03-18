@@ -51,7 +51,7 @@ class LaserNode extends Node {
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker
     const overCountProperty = new Property( 0 );
-    overCountProperty.link( function( overCount ) {
+    overCountProperty.link( overCount => {
       showRotationDragHandlesProperty.value = overCount > 0;
     } );
 
@@ -80,7 +80,7 @@ class LaserNode extends Node {
     const emissionPointEndPosition = new Vector2( 0, 0 );
 
     // When the window reshapes, make sure the laser remains in the play area
-    dragBoundsProperty.link( function( dragBounds ) {
+    dragBoundsProperty.link( dragBounds => {
       const center = laser.emissionPointProperty.value;
       const eroded = dragBounds.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
 
@@ -137,10 +137,10 @@ class LaserNode extends Node {
 
     // Listeners to enable/disable the translation dragHandles
     translationRegionPath.addInputListener( {
-      enter: function() {
+      enter: () => {
         showTranslationDragHandlesProperty.value = showRotationDragHandlesProperty.value ? false : true;
       },
-      exit: function() {
+      exit: () => {
         showTranslationDragHandlesProperty.value = false;
       }
     } );
@@ -154,7 +154,7 @@ class LaserNode extends Node {
     rotationRegionPath.touchArea = rotationRegionPath.bounds.dilated( 8 ).shiftedX( 8 );
 
     rotationRegionPath.addInputListener( new SimpleDragHandler( {
-      start: function() {
+      start: () => {
         showTranslationDragHandlesProperty.value = false;
         overCountProperty.value = overCountProperty.value + 1;
       },
@@ -181,17 +181,17 @@ class LaserNode extends Node {
         showTranslationDragHandlesProperty.value = false;
         showRotationDragHandlesProperty.value = true;
       },
-      end: function() {
+      end: () => {
         overCountProperty.value = overCountProperty.value - 1;
       }
     } ) );
 
     // Listeners to enable/disable the rotation dragHandles
     rotationRegionPath.addInputListener( {
-      enter: function() {
+      enter: () => {
         overCountProperty.value = overCountProperty.value + 1;
       },
-      exit: function() {
+      exit: () => {
         overCountProperty.value = overCountProperty.value - 1;
       }
     } );
@@ -226,7 +226,7 @@ class LaserNode extends Node {
      * @param {number} y
      * @public
      */
-    this.translateViewXY = function( x, y ) {
+    this.translateViewXY = ( x, y ) => {
       const delta = modelViewTransform.viewToModelDeltaXY( x, y );
       laser.translate( delta.x, delta.y );
     };

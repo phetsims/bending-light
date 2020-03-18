@@ -50,22 +50,20 @@ class IntroModel extends BendingLightModel {
     this.time = 0; // @public
 
     // Update the top medium index of refraction when top medium change
+    // @public (read-only)
     this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [
         this.topMediumProperty,
         this.laser.colorProperty
       ],
-      function( topMedium, color ) {
-        return topMedium.getIndexOfRefraction( color.wavelength );
-      } ); // @public (read-only)
+      ( topMedium, color ) => topMedium.getIndexOfRefraction( color.wavelength ) );
 
     // Update the bottom medium index of refraction when bottom medium change
+    // @public (read-only)
     this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [
         this.bottomMediumProperty,
         this.laser.colorProperty
       ],
-      function( bottomMedium, color ) {
-        return bottomMedium.getIndexOfRefraction( color.wavelength );
-      } ); // @public (read-only)
+      ( bottomMedium, color ) => bottomMedium.getIndexOfRefraction( color.wavelength ) );
 
     // @public (read-only)-model components
     this.intensityMeter = new IntensityMeter(

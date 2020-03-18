@@ -148,10 +148,10 @@ class WaveSensorNode extends Node {
     this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform ); // @public (read-only)
 
     // Connect the sensor to the body with a gray wire
-    const above = function( amount ) {
+    const above = amount => {
 
       // Nudge behind the body a so there is no gap
-      return function( position ) {return position.plusXY( -2, -amount );};
+      return position => position.plusXY( -2, -amount );
     };
 
     const rightBottomProperty = new NodeProperty( this.bodyNode, 'bounds', 'rightBottom' );

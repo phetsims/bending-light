@@ -26,12 +26,10 @@ class LaserTypeAquaRadioButtonGroup extends VBox {
       radius: 6,
       font: new PhetFont( 12 )
     };
-    const createButtonTextNode = function( text ) {
-      return new Text( text, {
-        maxWidth: 120, // measured empirically to ensure no overlap with the laser at any angle
-        font: new PhetFont( 12 )
-      } );
-    };
+    const createButtonTextNode = text => new Text( text, {
+      maxWidth: 120, // measured empirically to ensure no overlap with the laser at any angle
+      font: new PhetFont( 12 )
+    } );
     const rayButton = new AquaRadioButton(
       laserTypeProperty,
       'ray',

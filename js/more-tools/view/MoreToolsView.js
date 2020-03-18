@@ -36,16 +36,14 @@ class MoreToolsView extends IntroView {
       3, // indexOfRefractionDecimals
 
       // createLaserControlPanel
-      function( model ) {
-        return new VBox( {
-          spacing: 10,
-          align: 'left',
-          children: [
-            new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
-            new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
-          ]
-        } );
-      }, {
+      model => new VBox( {
+        spacing: 10,
+        align: 'left',
+        children: [
+          new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
+          new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
+        ]
+      } ), {
         verticalPlayAreaOffset: 0,
         horizontalPlayAreaOffset: 0
       } );
@@ -79,7 +77,7 @@ class MoreToolsView extends IntroView {
       waveSensor
     );
     const waveSensorNode = this.waveSensorNode;
-    waveSensor.enabledProperty.link( function( enabled ) {
+    waveSensor.enabledProperty.link( enabled => {
       waveSensorIcon.visible = !enabled;
       waveSensorNode.visible = enabled;
     } );
@@ -121,7 +119,7 @@ class MoreToolsView extends IntroView {
         bodyListener,
         probe1Listener,
         probe2Listener
-      ], function( event ) {
+      ], event => {
 
         // Show the probe in the play area and hide the icon
         waveSensor.enabledProperty.set( true );
@@ -170,7 +168,7 @@ class MoreToolsView extends IntroView {
         scale: 2
       }
     );
-    moreToolsModel.velocitySensor.enabledProperty.link( function( enabled ) {
+    moreToolsModel.velocitySensor.enabledProperty.link( enabled => {
       velocitySensorIconNode.visible = !enabled;
       velocitySensorNode.visible = enabled;
     } );

@@ -100,15 +100,13 @@ class IntensityMeterNode extends Node {
     titleNode.centerX = outerRectangle.centerX;
 
     // displayed value
-    intensityMeter.readingProperty.link( function( reading ) {
+    intensityMeter.readingProperty.link( reading => {
       valueNode.setText( reading.getString() );
       valueNode.center = valueBackground.center;
     } );
 
     // Connect the sensor to the body with a gray wire
-    const above = function( amount ) {
-      return function( position ) {return position.plusXY( 0, -amount );};
-    };
+    const above = amount => position => position.plusXY( 0, -amount );
 
     const rightBottomProperty = new NodeProperty( this.bodyNode, 'bounds', 'rightBottom' );
 

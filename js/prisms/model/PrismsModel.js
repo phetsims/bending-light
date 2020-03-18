@@ -291,7 +291,7 @@ class PrismsModel extends BendingLightModel {
       const pointOnOtherSide = ( incidentRay.directionUnitVector.times( 1E-12 ) ).add( intersection.point );
       let outputInsidePrism = false;
       const lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
-      this.prisms.forEach( function( prism ) {
+      this.prisms.forEach( prism => {
         const intersection = prism.shapeProperty.get().shape.intersection( lightRayAfterIntersectionInRay2Form );
         if ( intersection.length % 2 === 1 ) {
           outputInsidePrism = true;
@@ -411,16 +411,12 @@ class PrismsModel extends BendingLightModel {
    */
   getIntersection( incidentRay, prisms ) {
     let allIntersections = [];
-    prisms.forEach( function( prism ) {
-      prism.getIntersections( incidentRay ).forEach( function( intersection ) {
-        allIntersections.push( intersection );
-      } );
+    prisms.forEach( prism => {
+      prism.getIntersections( incidentRay ).forEach( intersection => allIntersections.push( intersection ) );
     } );
 
     // Get the closest one (which would be hit first)
-    allIntersections = _.sortBy( allIntersections, function( allIntersection ) {
-      return allIntersection.point.distance( incidentRay.tail );
-    } );
+    allIntersections = _.sortBy( allIntersections, allIntersection => allIntersection.point.distance( incidentRay.tail ) );
     return allIntersections.length === 0 ? null : allIntersections[ 0 ];
   }
 

@@ -27,7 +27,7 @@ class PrismIntersection {
     let intersection;
     let unitNormal;
     if ( edges.length !== 0 ) {
-      edges.forEach( function( lineSegment ) {
+      edges.forEach( lineSegment => {
 
         // Get the intersection if there is one
         intersection = lineSegment.intersection( coloredRay.ray );

@@ -95,7 +95,7 @@ class MediumControlPanel extends Node {
 
     const textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
-    const createItem = function( item ) {
+    const createItem = item => {
       const comboBoxTextWidth = textFieldVisible ? 130 : 75;
       const itemName = new Text( item.name, textOptionsOfComboBoxStrings );
       if ( itemName.width > comboBoxTextWidth ) {
@@ -116,7 +116,7 @@ class MediumControlPanel extends Node {
     const comboBoxSubstanceProperty = new Property( initialSubstance );
 
     // update combo box
-    const updateComboBox = function() {
+    const updateComboBox = () => {
       let selected = -1;
       for ( let i = 0; i < substances.length; i++ ) {
         const substance = substances[ i ];
@@ -262,7 +262,7 @@ class MediumControlPanel extends Node {
         thumbTouchAreaYDilation: 8, // So it will not overlap the tweaker buttons
         majorTickLength: 11,
         tickLabelSpacing: 3,
-        startDrag: function() {
+        startDrag: () => {
           custom = true;
         }
       } );
@@ -305,7 +305,7 @@ class MediumControlPanel extends Node {
     } );
     this.addChild( mediumPanel );
     Property.multilink( [ mediumProperty, this.laserWavelength ],
-      function() {
+      () => {
         custom = mediumProperty.get().substance.custom;
         indexOfRefractionValueText.text = Utils.toFixed(
           mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), decimalPlaces );

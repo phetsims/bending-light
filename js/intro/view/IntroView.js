@@ -68,7 +68,7 @@ class IntroView extends BendingLightView {
        * @param {number} angle
        * @returns {number}
        */
-      clampDragAngle: function( angle ) {
+      clampDragAngle: angle => {
         while ( angle < 0 ) { angle += Math.PI * 2; }
         return Utils.clamp( angle, Math.PI / 2, Math.PI );
       },
@@ -77,7 +77,7 @@ class IntroView extends BendingLightView {
        * @param {number} laserAngle
        * @returns {boolean}
        */
-      clockwiseArrowNotAtMax: function( laserAngle ) {
+      clockwiseArrowNotAtMax: laserAngle => {
         if ( introModel.laserViewProperty.value === 'ray' ) {
           return laserAngle < Math.PI;
         }
@@ -90,20 +90,18 @@ class IntroView extends BendingLightView {
        * @param {number} laserAngle
        * @returns {boolean}
        */
-      ccwArrowNotAtMax: function( laserAngle ) {
-        return laserAngle > Math.PI / 2;
-      }
+      ccwArrowNotAtMax: laserAngle => laserAngle > Math.PI / 2
     }, options );
 
     super(
       introModel,
 
       // laserTranslationRegion - The Protractor shouldn't be rotatable in this screen
-      function() { return Shape.rect( 0, 0, 0, 0 ); },
+      () => Shape.rect( 0, 0, 0, 0 ),
 
       // laserRotationRegion - In this screen, clicking anywhere on the laser (i.e. on its 'full' bounds)
       // translates it, so always return the 'full' region.
-      function( full ) { return full; },
+      full => full,
 
       // laserHasKnob
       false,
@@ -251,7 +249,7 @@ class IntroView extends BendingLightView {
     } );
     protractorNodeIcon.mouseArea = Shape.bounds( protractorNodeIcon.localBounds );
     protractorNodeIcon.touchArea = Shape.bounds( protractorNodeIcon.localBounds );
-    this.showProtractorProperty.link( function( showProtractor ) {
+    this.showProtractorProperty.link( showProtractor => {
       protractorNodeIcon.visible = !showProtractor;
     } );
 
@@ -287,14 +285,14 @@ class IntroView extends BendingLightView {
     const modelViewTransform = this.modelViewTransform;
 
     // When a node is dropped behind a control panel, move it to the side so it won't be lost.
-    const bumpLeft = function( node, positionProperty ) {
+    const bumpLeft = ( node, positionProperty ) => {
       while ( node.getGlobalBounds().intersectsBounds( topMediumControlPanel.getGlobalBounds() ) ||
               node.getGlobalBounds().intersectsBounds( bottomMediumControlPanel.getGlobalBounds() ) ) {
         positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
       }
     };
 
-    protractorPositionProperty.link( function( protractorPosition ) {
+    protractorPositionProperty.link( protractorPosition => {
       protractorNode.center = protractorPosition;
     } );
 
@@ -309,13 +307,13 @@ class IntroView extends BendingLightView {
     intensityMeterNodeIcon.touchArea = Shape.bounds( intensityMeterNodeIcon.localBounds );
 
     const intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
-    introModel.intensityMeter.enabledProperty.link( function( enabled ) {
+    introModel.intensityMeter.enabledProperty.link( enabled => {
       intensityMeterNode.visible = enabled;
       intensityMeterNodeIcon.visible = !enabled;
     } );
     const probeListener = new MovableDragHandler( introModel.intensityMeter.sensorPositionProperty, {
       modelViewTransform: modelViewTransform,
-      endDrag: function() {
+      endDrag: () => {
         bumpLeft( intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
         dropInToolbox( intensityMeterNode.probeNode, introModel.intensityMeter.enabledProperty );
       }
@@ -323,16 +321,16 @@ class IntroView extends BendingLightView {
     intensityMeterNode.probeNode.addInputListener( probeListener );
     const bodyListener = new MovableDragHandler( introModel.intensityMeter.bodyPositionProperty, {
       modelViewTransform: modelViewTransform,
-      endDrag: function() {
+      endDrag: () => {
         bumpLeft( intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
         dropInToolbox( intensityMeterNode.bodyNode, introModel.intensityMeter.enabledProperty );
       }
     } );
     intensityMeterNode.bodyNode.addInputListener( bodyListener );
 
-    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
+    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHandler
     // for the node in the play area
-    intensityMeterNodeIcon.addInputListener( new ToolIconListener( [ bodyListener, probeListener ], function( event ) {
+    intensityMeterNodeIcon.addInputListener( new ToolIconListener( [ bodyListener, probeListener ], event => {
 
       // Show the probe in the play area and hide the icon
       introModel.intensityMeter.enabledProperty.value = true;
@@ -481,7 +479,7 @@ class IntroView extends BendingLightView {
         canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
       } );
       this.incidentWaveLayer.addChild( waveCanvasNode );
-      this.visibleBoundsProperty.link( function( visibleBounds ) {
+      this.visibleBoundsProperty.link( visibleBounds => {
         waveCanvasNode.setCanvasBounds( visibleBounds );
       } );
     }

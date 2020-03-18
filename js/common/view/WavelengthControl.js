@@ -34,7 +34,7 @@ class WavelengthControl extends Node {
   constructor( wavelengthProperty, enabledProperty, trackWidth ) {
     const wavelengthPropertyNM = new Property( wavelengthProperty.value * 1E9, { reentrant: true } );
 
-    wavelengthProperty.link( function( wavelength ) {
+    wavelengthProperty.link( wavelength => {
       wavelengthPropertyNM.value = wavelength * 1E9;
     } );
     // Add WavelengthSlider node
@@ -61,7 +61,7 @@ class WavelengthControl extends Node {
     } );
 
     // add plus button
-    const plusButton = new ArrowButton( 'right', function propertyPlus() {
+    const plusButton = new ArrowButton( 'right', () => {
       wavelengthPropertyNM.set(
         Math.min( wavelengthPropertyNM.value + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
     }, {
@@ -73,7 +73,7 @@ class WavelengthControl extends Node {
       plusButton.localBounds.maxX + 20, plusButton.localBounds.maxY + 8 );
 
     // add minus button
-    const minusButton = new ArrowButton( 'left', function propertyMinus() {
+    const minusButton = new ArrowButton( 'left', () => {
       wavelengthPropertyNM.set(
         Math.max( wavelengthPropertyNM.value - 1, VisibleColor.MIN_WAVELENGTH ) );
     }, {
@@ -81,7 +81,7 @@ class WavelengthControl extends Node {
     } );
 
     // disable the minus button at minimum wavelength and plus button at max wavelength
-    wavelengthPropertyNM.link( function( wavelength ) {
+    wavelengthPropertyNM.link( wavelength => {
       plusButton.enabled = ( wavelength < BendingLightConstants.LASER_MAX_WAVELENGTH );
       minusButton.enabled = ( wavelength > VisibleColor.MIN_WAVELENGTH );
     } );
@@ -122,7 +122,7 @@ class WavelengthControl extends Node {
       this.opacity = enabled ? 1 : 0.4;
     } );
 
-    wavelengthPropertyNM.link( function( wavelength ) {
+    wavelengthPropertyNM.link( wavelength => {
 
       // set the laser wavelength according to the slider wavelength
       wavelengthProperty.set( wavelength / 1E9 );

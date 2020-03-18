@@ -39,9 +39,7 @@ class RotationDragHandle extends Node {
         laser.pivotProperty,
         showDragHandlesProperty
       ],
-      function( emissionPoint, pivot, showDragHandles ) {
-        return notAtMax( laser.getAngle() ) && showDragHandles;
-      }
+      ( emissionPoint, pivot, showDragHandles ) => notAtMax( laser.getAngle() ) && showDragHandles
     );
 
     // Show the drag handle if the "show drag handles" is true and if the laser isn't already at the max angle.
@@ -74,7 +72,7 @@ class RotationDragHandle extends Node {
     dragArrow.setShape( counterClockwiseDragArrow );
 
     // Update the shape when the laser moves
-    Property.multilink( [ laser.emissionPointProperty, showDragHandlesProperty ], function() {
+    Property.multilink( [ laser.emissionPointProperty, showDragHandlesProperty ], () => {
       if ( showDragHandlesProperty.get() ) {
         const dragArrowX = modelViewTransform.modelToViewX( laser.pivotProperty.value.x );
         const dragArrowY = modelViewTransform.modelToViewY( laser.pivotProperty.value.y );

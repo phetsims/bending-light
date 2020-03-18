@@ -31,11 +31,11 @@ class BendingLightView extends ScreenView {
   constructor( bendingLightModel, laserTranslationRegion, laserRotationRegion, laserHasKnob, options ) {
 
     options = merge( {
-      occlusionHandler: function() {}, // {function} moves objects out from behind a control panel if dropped there
-      ccwArrowNotAtMax: function() {return true;}, // {function} shows whether laser at min angle
-      clockwiseArrowNotAtMax: function() { return true; },// {function} shows whether laser at max angle, In prisms tab
+      occlusionHandler: () => {}, // {function} moves objects out from behind a control panel if dropped there
+      ccwArrowNotAtMax: () => true, // {function} shows whether laser at min angle
+      clockwiseArrowNotAtMax: () => true,// {function} shows whether laser at max angle, In prisms tab
       // laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
-      clampDragAngle: function( angle ) { return angle; },// {function} function that limits the angle of laser to its bounds
+      clampDragAngle: angle => angle,// {function} function that limits the angle of laser to its bounds
       horizontalPlayAreaOffset: 0, // {number} in stage coordinates, how far to shift the play area horizontally
       verticalPlayAreaOffset: 0 // {number} in stage coordinates, how far to shift the play area vertically.  In the
                                 // prisms screen, it is shifted up a bit to center the play area above the south control panel
@@ -128,7 +128,7 @@ class BendingLightView extends ScreenView {
     this.addChild( this.afterLightLayer3 );
 
     // switches between ray and wave
-    bendingLightModel.laserViewProperty.link( function( laserView ) {
+    bendingLightModel.laserViewProperty.link( laserView => {
       bendingLightModel.laser.waveProperty.value = ( laserView === 'wave' );
     } );
 

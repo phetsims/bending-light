@@ -33,9 +33,7 @@ class Laser {
     this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
 
     // @public (read-only)
-    this.colorProperty = new DerivedProperty( [ wavelengthProperty ], function( wavelength ) {
-      return new LaserColor( wavelength );
-    } );
+    this.colorProperty = new DerivedProperty( [ wavelengthProperty ], wavelength => new LaserColor( wavelength ) );
 
     // @public (read-only)
     this.wavelengthProperty = wavelengthProperty;

@@ -29,8 +29,8 @@ class MoreToolsScreen extends Screen {
     };
 
     super(
-      function() { return new MoreToolsModel(); },
-      function( model ) { return new MoreToolsView( model ); },
+      () => new MoreToolsModel(),
+      model => new MoreToolsView( model ),
       options
     );
   }

@@ -17,7 +17,7 @@ class ToolIconListener extends SimpleDragHandler {
    */
   constructor( components, init ) {
     super( {
-      start: function( event, trail ) {
+      start: ( event, trail ) => {
         init( event );
 
         // Forward the event to the components
@@ -25,14 +25,14 @@ class ToolIconListener extends SimpleDragHandler {
           components[ i ].handleForwardedStartEvent( event, trail );
         }
       },
-      drag: function( event, trail ) {
+      drag: ( event, trail ) => {
 
         // Forward the event to the components
         for ( let i = 0; i < components.length; i++ ) {
           components[ i ].handleForwardedDragEvent( event, trail );
         }
       },
-      end: function( event, trail ) {
+      end: ( event, trail ) => {
 
         // Forward the event to the components
         for ( let i = 0; i < components.length; i++ ) {

@@ -33,17 +33,15 @@ class IntroScreen extends Screen {
     };
 
     super(
-      function() { return new IntroModel( Substance.WATER, true ); },
-      function( model ) {
-        return new IntroView( model,
-          false, // hasMoreTools
-          2, // indexOfRefractionDecimals
+      () => new IntroModel( Substance.WATER, true ),
+      model => new IntroView( model,
+        false, // hasMoreTools
+        2, // indexOfRefractionDecimals
 
-          // createLaserControlPanel
-          function( introModel ) {
-            return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
-          } );
-      },
+        // createLaserControlPanel
+        function( introModel ) {
+          return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
+        } ),
       options );
   }
 }

@@ -43,10 +43,10 @@ class PrismsView extends BendingLightView {
       prismsModel,
 
       // laserTranslationRegion - The protractor can be rotated by dragging it by its ring, translated by dragging the cross-bar
-      function( fullShape ) { return fullShape; },
+      fullShape => fullShape,
 
       // laserRotationRegion - Rotation if the user clicks top on the object
-      function( full, back ) { return back; },
+      ( full, back ) => back,
 
       // laserHasKnob
       true,
@@ -60,14 +60,14 @@ class PrismsView extends BendingLightView {
         verticalPlayAreaOffset: -43,
 
         // if the prism is dropped behind a control panel, bump it to the left.
-        occlusionHandler: function( node ) {
+        occlusionHandler: node => {
 
           const controlPanels = [
             laserControlPanel, // eslint-disable-line no-use-before-define
             laserTypeRadioButtonGroup, // eslint-disable-line no-use-before-define
             environmentMediumControlPanel // eslint-disable-line no-use-before-define
           ];
-          controlPanels.forEach( function( controlPanel ) {
+          controlPanels.forEach( controlPanel => {
             if ( controlPanel.globalBounds.containsPoint( node.globalBounds.center ) ) {
               node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
             }
@@ -82,7 +82,7 @@ class PrismsView extends BendingLightView {
     // Node for the environment that spans the screen (only for monochromatic light, the white light background
     // is rendered as opaque in the white light node for blending purposes)
     const environmentMediumNodeForMonochromaticLight = new Rectangle( 0, 0, 0, 0 );
-    prismsModel.environmentMediumProperty.link( function( environmentMedium ) {
+    prismsModel.environmentMediumProperty.link( environmentMedium => {
 
       // This medium node only shows the color for monochromatic light
       const indexOfRefractionForRed = environmentMedium.substance.dispersionFunction.getIndexOfRefractionForRed();
@@ -109,7 +109,7 @@ class PrismsView extends BendingLightView {
     const sliderEnabledProperty = new Property();
 
     const radioButtonAdapterProperty = new Property( 'singleColor' );
-    radioButtonAdapterProperty.link( function( radioButtonAdapterValue ) {
+    radioButtonAdapterProperty.link( radioButtonAdapterValue => {
       prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === 'white' ? 'white' :
                                                   'singleColor';
       prismsModel.manyRaysProperty.value = radioButtonAdapterValue === 'singleColor5x' ? 5 : 1;
@@ -189,7 +189,7 @@ class PrismsView extends BendingLightView {
 
     const protractorNodeListener = new MovableDragHandler( protractorPositionProperty, {
       targetNode: protractorNode,
-      endDrag: function() {
+      endDrag: () => {
 
         // If the protractor is hidden behind any of the controls in the top right, move it to the left
         const bounds = environmentMediumControlPanel.globalBounds
@@ -202,7 +202,7 @@ class PrismsView extends BendingLightView {
     } );
     protractorNode.barPath.addInputListener( protractorNodeListener );
 
-    protractorPositionProperty.link( function( protractorPosition ) {
+    protractorPositionProperty.link( protractorPosition => {
       protractorNode.center = protractorPosition;
     } );
 
@@ -218,7 +218,7 @@ class PrismsView extends BendingLightView {
     FloatingLayout.floatBottom( this, [ prismToolboxNode, resetAllButton ] );
     FloatingLayout.floatTop( this, [ environmentMediumControlPanel ] );
 
-    this.visibleBoundsProperty.link( function( visibleBounds ) {
+    this.visibleBoundsProperty.link( visibleBounds => {
       laserTypeRadioButtonGroup.top = environmentMediumControlPanel.bottom + 15;
       laserControlPanel.top = laserTypeRadioButtonGroup.bottom + 15;
     } );
@@ -229,23 +229,23 @@ class PrismsView extends BendingLightView {
       environmentMediumNodeForMonochromaticLight.setRect( visibleBounds.x, visibleBounds.y, visibleBounds.width, visibleBounds.height );
     } );
 
-    this.resetPrismsView = function() {
+    this.resetPrismsView = () => {
       protractorPositionProperty.reset();
       protractorNode.reset();
     };
 
     // Add a thin gray line to separate the navigation bar when the environmentMediumNode is black
     const navigationBarSeparator = new Rectangle( 0, 0, 100, 100, { fill: '#999999', pickable: false } );
-    this.visibleBoundsProperty.link( function( visibleBounds ) {
+    this.visibleBoundsProperty.link( visibleBounds => {
       const rectHeight = 2;
       navigationBarSeparator.setRect( visibleBounds.x, visibleBounds.y + visibleBounds.height - rectHeight, visibleBounds.width, rectHeight );
     } );
-    prismsModel.laser.colorModeProperty.link( function( color ) {
+    prismsModel.laser.colorModeProperty.link( color => {
       navigationBarSeparator.visible = color === 'white';
     } );
     this.addChild( navigationBarSeparator );
 
-    prismsModel.laser.colorModeProperty.link( function( colorMode ) {
+    prismsModel.laser.colorModeProperty.link( colorMode => {
       prismsModel.mediumColorFactory.lightTypeProperty.value = colorMode;
     } );
   }

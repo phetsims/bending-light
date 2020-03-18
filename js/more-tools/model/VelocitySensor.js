@@ -26,9 +26,7 @@ class VelocitySensor {
     this.enabledProperty = new Property( false );
 
     // shows the visibility of arrows
-    this.isArrowVisibleProperty = new DerivedProperty( [ this.valueProperty ], function( value ) {
-      return value.magnitude > 0;
-    } );
+    this.isArrowVisibleProperty = new DerivedProperty( [ this.valueProperty ], value => value.magnitude > 0 );
   }
 
   /**
