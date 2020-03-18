@@ -8,26 +8,22 @@
  */
 
 import Shape from '../../../../kite/js/Shape.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import bendingLight from '../../bendingLight.js';
 import PrismIntersection from './PrismIntersection.js';
 
-/**
- * @param {Vector2} center - center of the circle
- * @param {number} radius - radius of the circle
- * @constructor
- */
-function Circle( center, radius ) {
+class Circle {
 
-  this.center = center; // @public (read-only)
-  this.centroid = center; // @public (read-only)
-  this.radius = radius; // @public (read-only)
-  this.shape = Shape.circle( this.center.x, this.center.y, this.radius ); // @public (read-only)
-}
+  /**
+   * @param {Vector2} center - center of the circle
+   * @param {number} radius - radius of the circle
+   */
+  constructor( center, radius ) {
 
-bendingLight.register( 'Circle', Circle );
-
-export default inherit( Object, Circle, {
+    this.center = center; // @public (read-only)
+    this.centroid = center; // @public (read-only)
+    this.radius = radius; // @public (read-only)
+    this.shape = Shape.circle( this.center.x, this.center.y, this.radius ); // @public (read-only)
+  }
 
   /**
    * Create a new Circle translated by the specified amount
@@ -36,9 +32,9 @@ export default inherit( Object, Circle, {
    * @param {number} deltaY - amount of space to be translate in y direction
    * @returns {Circle}
    */
-  getTranslatedInstance: function( deltaX, deltaY ) {
+  getTranslatedInstance( deltaX, deltaY ) {
     return new Circle( this.center.plusXY( deltaX, deltaY ), this.radius );
-  },
+  }
 
   /**
    * Finds the intersections between the edges of the circle and the specified ray
@@ -46,27 +42,27 @@ export default inherit( Object, Circle, {
    * @param {ColoredRay} ray - model of the ray
    * @returns {Array}
    */
-  getIntersections: function( ray ) {
+  getIntersections( ray ) {
     return PrismIntersection.getIntersections( [], this.shape, this.center, ray );
-  },
+  }
 
   /**
    * Computes the centroid of the corner points
    * @public
    * @returns {Vector2}
    */
-  getRotationCenter: function() {
+  getRotationCenter() {
     return this.center;
-  },
+  }
 
   /**
    * Signify that the circle can't be rotated
    * @public
    * @returns {null}
    */
-  getReferencePoint: function() {
+  getReferencePoint() {
     return null;
-  },
+  }
 
   /**
    * Determines whether shape contains given point or not
@@ -74,7 +70,11 @@ export default inherit( Object, Circle, {
    * @param {Vector2} point
    * @returns {boolean}
    */
-  containsPoint: function( point ) {
+  containsPoint( point ) {
     return point.distance( this.center ) <= this.radius;
   }
-} );
+}
+
+bendingLight.register( 'Circle', Circle );
+
+export default Circle;

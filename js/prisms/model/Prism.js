@@ -8,26 +8,22 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import bendingLight from '../../bendingLight.js';
 
-/**
- * @param {Polygon|Circle|SemiCircle} shape
- * @param {string} typeName for keeping track of how many of each kind there are, to remove from toolbox
- * @constructor
- */
-function Prism( shape, typeName ) {
+class Prism {
 
-  // @public
-  this.shapeProperty = new Property( shape );
+  /**
+   * @param {Polygon|Circle|SemiCircle} shape
+   * @param {string} typeName for keeping track of how many of each kind there are, to remove from toolbox
+   */
+  constructor( shape, typeName ) {
 
-  // @public (read-only)
-  this.typeName = typeName;
-}
+    // @public
+    this.shapeProperty = new Property( shape );
 
-bendingLight.register( 'Prism', Prism );
-
-export default inherit( Object, Prism, {
+    // @public (read-only)
+    this.typeName = typeName;
+  }
 
   /**
    * Translate prism by the specified amount
@@ -35,9 +31,9 @@ export default inherit( Object, Prism, {
    * @param {number} deltaX - amount of space in x direction the prism to be translated
    * @param {number} deltaY - amount of space in y direction the prism to be translated
    */
-  translate: function( deltaX, deltaY ) {
+  translate( deltaX, deltaY ) {
     this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( deltaX, deltaY ) );
-  },
+  }
 
   /**
    * Compute the intersections of the specified ray with this polygon's edges
@@ -45,9 +41,9 @@ export default inherit( Object, Prism, {
    * @param {ColoredRay} incidentRay - model of the ray
    * @returns {Array}
    */
-  getIntersections: function( incidentRay ) {
+  getIntersections( incidentRay ) {
     return this.shapeProperty.get().getIntersections( incidentRay );
-  },
+  }
 
   /**
    * Determines whether shape contains given point or not
@@ -55,25 +51,29 @@ export default inherit( Object, Prism, {
    * @param {Vector2} point
    * @returns {boolean}
    */
-  contains: function( point ) {
+  contains( point ) {
     return this.shapeProperty.get().containsPoint( point );
-  },
+  }
 
   /**
    * Creates a copy of the prism
    * @public
    * @returns {Prism}
    */
-  copy: function() {
+  copy() {
     return new Prism( this.shapeProperty.get(), this.typeName );
-  },
+  }
 
   /**
    * Rotate prism by the specified angle
    * @public
    * @param {number} deltaAngle - angle to be rotated
    */
-  rotate: function( deltaAngle ) {
+  rotate( deltaAngle ) {
     this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle, this.shapeProperty.get().getRotationCenter() ) );
   }
-} );
+}
+
+bendingLight.register( 'Prism', Prism );
+
+export default Prism;

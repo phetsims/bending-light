@@ -9,35 +9,31 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 
-/**
- * @param {ObservableArray<[]>} gridLines - contains details of each grid line
- * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinates
- * @param {array.<number>} strokeDash
- * @param {Object} [options] - options that can be passed on to the underlying node
- * @constructor
- */
-function GridCanvasNode( gridLines, modelViewTransformProperty, strokeDash, options ) {
+class GridCanvasNode extends CanvasNode {
 
-  CanvasNode.call( this, options );
-  this.gridLines = gridLines; // @private
-  this.modelViewTransformProperty = modelViewTransformProperty; // @private
-  this.strokeDash = strokeDash; // @private
-}
+  /**
+   * @param {ObservableArray<[]>} gridLines - contains details of each grid line
+   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinates
+   * @param {array.<number>} strokeDash
+   * @param {Object} [options] - options that can be passed on to the underlying node
+   */
+  constructor( gridLines, modelViewTransformProperty, strokeDash, options ) {
 
-bendingLight.register( 'GridCanvasNode', GridCanvasNode );
-
-export default inherit( CanvasNode, GridCanvasNode, {
+    super( options );
+    this.gridLines = gridLines; // @private
+    this.modelViewTransformProperty = modelViewTransformProperty; // @private
+    this.strokeDash = strokeDash; // @private
+  }
 
   /**
    * Paints the grid lines on the canvas node.
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas: function( context ) {
+  paintCanvas( context ) {
 
     context.save();
     for ( let i = 0; i < this.gridLines.length; i++ ) {
@@ -59,12 +55,16 @@ export default inherit( CanvasNode, GridCanvasNode, {
       context.closePath();
     }
     context.restore();
-  },
+  }
 
   /**
    * @public
    */
-  step: function() {
+  step() {
     this.invalidatePaint();
   }
-} );
+}
+
+bendingLight.register( 'GridCanvasNode', GridCanvasNode );
+
+export default GridCanvasNode;

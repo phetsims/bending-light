@@ -9,7 +9,6 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import iconImage from '../../mipmaps/More_Tools_Screen_png.js';
 import bendingLightStrings from '../bending-light-strings.js';
@@ -19,26 +18,24 @@ import MoreToolsView from './view/MoreToolsView.js';
 
 const moreToolsString = bendingLightStrings.moreTools;
 
+class MoreToolsScreen extends Screen {
+  constructor( tandem ) {
 
-/**
- * @constructor
- */
-function MoreToolsScreen( tandem ) {
+    const options = {
+      name: moreToolsString,
+      homeScreenIcon: new Image( iconImage ),
+      backgroundColorProperty: new Property( 'white' ),
+      tandem: tandem
+    };
 
-  const options = {
-    name: moreToolsString,
-    homeScreenIcon: new Image( iconImage ),
-    backgroundColorProperty: new Property( 'white' ),
-    tandem: tandem
-  };
-
-  Screen.call( this,
-    function() { return new MoreToolsModel(); },
-    function( model ) { return new MoreToolsView( model ); },
-    options );
+    super(
+      function() { return new MoreToolsModel(); },
+      function( model ) { return new MoreToolsView( model ); },
+      options
+    );
+  }
 }
 
 bendingLight.register( 'MoreToolsScreen', MoreToolsScreen );
 
-inherit( Screen, MoreToolsScreen );
 export default MoreToolsScreen;

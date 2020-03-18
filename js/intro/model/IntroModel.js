@@ -13,7 +13,6 @@ import Property from '../../../../axon/js/Property.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
@@ -31,93 +30,90 @@ const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 // If the ray is too long in this step, then webgl will have rendering artifacts, see #147
 const BEAM_LENGTH = 1E-3;
 
-/**
- * @param {Substance} bottomSubstance - state of bottom medium
- * @param {boolean} horizontalPlayAreaOffset - specifies center alignment
- * @constructor
- */
-function IntroModel( bottomSubstance, horizontalPlayAreaOffset ) {
+class IntroModel extends BendingLightModel {
 
-  const self = this;
-  BendingLightModel.call( this, Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
+  /**
+   * @param {Substance} bottomSubstance - state of bottom medium
+   * @param {boolean} horizontalPlayAreaOffset - specifies center alignment
+   */
+  constructor( bottomSubstance, horizontalPlayAreaOffset ) {
 
-  // Top medium
-  this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), Substance.AIR,
-    this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );
+    super( Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
 
-  // Bottom medium
-  this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomSubstance,
-    this.mediumColorFactory.getColor( bottomSubstance.indexOfRefractionForRedLight ) ), { reentrant: true } );
-  this.time = 0; // @public
+    // Top medium
+    this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), Substance.AIR,
+      this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );
 
-  // Update the top medium index of refraction when top medium change
-  this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [
-      this.topMediumProperty,
-      self.laser.colorProperty
-    ],
-    function( topMedium, color ) {
-      return topMedium.getIndexOfRefraction( color.wavelength );
-    } ); // @public (read-only)
+    // Bottom medium
+    this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomSubstance,
+      this.mediumColorFactory.getColor( bottomSubstance.indexOfRefractionForRedLight ) ), { reentrant: true } );
+    this.time = 0; // @public
 
-  // Update the bottom medium index of refraction when bottom medium change
-  this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [
-      this.bottomMediumProperty,
-      self.laser.colorProperty
-    ],
-    function( bottomMedium, color ) {
-      return bottomMedium.getIndexOfRefraction( color.wavelength );
-    } ); // @public (read-only)
+    // Update the top medium index of refraction when top medium change
+    this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [
+        this.topMediumProperty,
+        this.laser.colorProperty
+      ],
+      function( topMedium, color ) {
+        return topMedium.getIndexOfRefraction( color.wavelength );
+      } ); // @public (read-only)
 
-  // @public (read-only)-model components
-  this.intensityMeter = new IntensityMeter(
-    -this.modelWidth * ( horizontalPlayAreaOffset ? 0.34 : 0.48 ),
-    -this.modelHeight * 0.285,
-    -this.modelWidth * ( horizontalPlayAreaOffset ? 0.282 : 0.421 ),
-    -this.modelHeight * 0.312
-  );
+    // Update the bottom medium index of refraction when bottom medium change
+    this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [
+        this.bottomMediumProperty,
+        this.laser.colorProperty
+      ],
+      function( bottomMedium, color ) {
+        return bottomMedium.getIndexOfRefraction( color.wavelength );
+      } ); // @public (read-only)
 
-  Property.multilink( [
-    this.laserViewProperty,
-    this.laser.onProperty,
-    this.intensityMeter.sensorPositionProperty,
-    this.intensityMeter.enabledProperty,
-    this.laser.emissionPointProperty,
-    this.laser.colorProperty,
-    this.indexOfRefractionOfBottomMediumProperty,
-    this.indexOfRefractionOfTopMediumProperty
-  ], function() {
+    // @public (read-only)-model components
+    this.intensityMeter = new IntensityMeter(
+      -this.modelWidth * ( horizontalPlayAreaOffset ? 0.34 : 0.48 ),
+      -this.modelHeight * 0.285,
+      -this.modelWidth * ( horizontalPlayAreaOffset ? 0.282 : 0.421 ),
+      -this.modelHeight * 0.312
+    );
 
-    // clear the accumulator in the intensity meter so it can sum up the newly created rays
-    self.intensityMeter.clearRayReadings();
-    self.updateModel();
-    if ( self.laserViewProperty.value === 'wave' && self.laser.onProperty.value ) {
-      if ( !self.allowWebGL ) {
-        self.createInitialParticles();
+    Property.multilink( [
+      this.laserViewProperty,
+      this.laser.onProperty,
+      this.intensityMeter.sensorPositionProperty,
+      this.intensityMeter.enabledProperty,
+      this.laser.emissionPointProperty,
+      this.laser.colorProperty,
+      this.indexOfRefractionOfBottomMediumProperty,
+      this.indexOfRefractionOfTopMediumProperty
+    ], () => {
+
+      // clear the accumulator in the intensity meter so it can sum up the newly created rays
+      this.intensityMeter.clearRayReadings();
+      this.updateModel();
+      if ( this.laserViewProperty.value === 'wave' && this.laser.onProperty.value ) {
+        if ( !this.allowWebGL ) {
+          this.createInitialParticles();
+        }
       }
-    }
-  } );
+    } );
 
-  // Note: vectors that are used in step function are created here to reduce Vector2 allocations
-  // light ray tail position
-  this.tailVector = new Vector2( 0, 0 ); // @private, for internal use only
+    // Note: vectors that are used in step function are created here to reduce Vector2 allocations
+    // light ray tail position
+    this.tailVector = new Vector2( 0, 0 ); // @private, for internal use only
 
-  // light ray tip position
-  this.tipVector = new Vector2( 0, 0 ); // @private, for internal use only
+    // light ray tip position
+    this.tipVector = new Vector2( 0, 0 ); // @private, for internal use only
 
-  // @public
-  this.rotationArrowAngleOffset = -Math.PI / 4;
-}
+    // @public
+    this.rotationArrowAngleOffset = -Math.PI / 4;
+  }
 
-bendingLight.register( 'IntroModel', IntroModel );
-
-export default inherit( BendingLightModel, IntroModel, {
 
   /**
    * Light rays were cleared from model before propagateRays was called, this creates them according to the laser and
    * mediums
    * @public
    */
-  propagateRays: function() {
+  propagateRays() {
 
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
@@ -243,7 +239,7 @@ export default inherit( BendingLightModel, IntroModel, {
         }
       }
     }
-  },
+  }
 
   /**
    * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
@@ -253,7 +249,7 @@ export default inherit( BendingLightModel, IntroModel, {
    * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
    * @returns {boolean}
    */
-  addAndAbsorb: function( ray, rayType ) {
+  addAndAbsorb( ray, rayType ) {
     const angleOffset = rayType === 'incident' ? Math.PI : 0;
 
     // find intersection points with the intensity sensor
@@ -315,18 +311,18 @@ export default inherit( BendingLightModel, IntroModel, {
       this.intensityMeter.addRayReading( Reading.MISS );
     }
     return rayAbsorbed;
-  },
+  }
 
   /**
    * @public
    * @override
    */
-  reset: function() {
-    BendingLightModel.prototype.reset.call( this );
+  reset() {
+    super.reset();
     this.topMediumProperty.reset();
     this.bottomMediumProperty.reset();
     this.intensityMeter.reset();
-  },
+  }
 
   /**
    * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
@@ -334,7 +330,7 @@ export default inherit( BendingLightModel, IntroModel, {
    * @param {Vector2} position - position where the velocity to be determined
    * @returns {Vector2}
    */
-  getVelocity: function( position ) {
+  getVelocity( position ) {
     const laserView = this.laserViewProperty.value;
     for ( let i = 0; i < this.rays.length; i++ ) {
       if ( this.rays.get( i ).contains( position, laserView === 'wave' ) ) {
@@ -342,7 +338,7 @@ export default inherit( BendingLightModel, IntroModel, {
       }
     }
     return new Vector2( 0, 0 );
-  },
+  }
 
   /**
    * Determine the wave value of the topmost light ray at the specified position, or None if none exists
@@ -350,11 +346,10 @@ export default inherit( BendingLightModel, IntroModel, {
    * @param {Vector2} position - position where the wave value to be determined
    * @returns {Object|null}- returns object of time and magnitude if point is on ray otherwise returns null
    */
-  getWaveValue: function( position ) {
-    const self = this;
+  getWaveValue( position ) {
     for ( let i = 0; i < this.rays.length; i++ ) {
       const ray = this.rays.get( i );
-      if ( ray.contains( position, self.laserViewProperty.value === 'wave' ) ) {
+      if ( ray.contains( position, this.laserViewProperty.value === 'wave' ) ) {
 
         // map power to displayed amplitude
         const amplitude = Math.sqrt( ray.powerFraction );
@@ -371,45 +366,42 @@ export default inherit( BendingLightModel, IntroModel, {
       }
     }
     return null;
-  },
+  }
 
   /**
    * Called by the animation loop.
    * @protected
    */
-  step: function() {
+  step() {
 
     if ( this.isPlayingProperty.value ) {
       this.updateSimulationTimeAndWaveShape( this.speedProperty.value );
     }
-  },
+  }
 
   /**
    * Update simulation time and wave propagation.
    * @public
    */
-  updateSimulationTimeAndWaveShape: function( speed ) {
+  updateSimulationTimeAndWaveShape( speed ) {
 
     // Update the time
     this.time = this.time + ( speed === 'normal' ? 1E-16 : 0.5E-16 );
-    const self = this;
 
     // set time for each ray
-    this.rays.forEach( function( ray ) {
-      ray.setTime( self.time );
-    } );
+    this.rays.forEach( ray => ray.setTime( this.time ) );
     if ( this.laser.onProperty.value && this.laserViewProperty.value === 'wave' ) {
       if ( !this.allowWebGL ) {
         this.propagateParticles();
       }
     }
-  },
+  }
 
   /**
    * create the particles between light ray tail and and tip
    * @private
    */
-  createInitialParticles: function() {
+  createInitialParticles() {
 
     let particleColor;
     let particleGradientColor;
@@ -453,13 +445,13 @@ export default inherit( BendingLightModel, IntroModel, {
         waveParticleGap += gapBetweenSuccessiveParticles;
       }
     }
-  },
+  }
 
   /**
    * Propagate the particles
    * @private
    */
-  propagateParticles: function() {
+  propagateParticles() {
 
     for ( let i = 0; i < this.rays.length; i++ ) {
       const lightRay = this.rays.get( i );
@@ -498,4 +490,8 @@ export default inherit( BendingLightModel, IntroModel, {
       }
     }
   }
-} );
+}
+
+bendingLight.register( 'IntroModel', IntroModel );
+
+export default IntroModel;

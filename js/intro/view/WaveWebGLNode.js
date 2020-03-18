@@ -7,7 +7,6 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import WebGLNode from '../../../../scenery/js/nodes/WebGLNode.js';
 import ShaderProgram from '../../../../scenery/js/util/ShaderProgram.js';
 import bendingLight from '../../bendingLight.js';
@@ -15,97 +14,96 @@ import bendingLight from '../../bendingLight.js';
 const scratchFloatArray1 = new Float32Array( 9 );
 const scratchFloatArray2 = new Float32Array( 9 );
 
-/**
- * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
- * @param {ObservableArray<LightRay>} rays - light rays
- * @constructor
- */
-function WaveWebGLNode( modelViewTransform, rays ) {
-  this.modelViewTransform = modelViewTransform; // @public (read-only)
-  this.rays = rays; // @private
-  WebGLNode.call( this, WavePainter );
-}
+class WaveWebGLNode extends WebGLNode {
 
-inherit( WebGLNode, WaveWebGLNode, {
+  /**
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
+   * @param {ObservableArray<LightRay>} rays - light rays
+   */
+  constructor( modelViewTransform, rays ) {
+    super( WavePainter );
+    this.modelViewTransform = modelViewTransform; // @public (read-only)
+    this.rays = rays; // @private
+  }
+
   /**
    * @public
    */
-  step: function() {
+  step() {
     this.invalidatePaint();
   }
-} );
-
-/**
- * @constructor
- *
- * @param {WebGLRenderingContext} gl
- * @param {WaveWebGLNode} node
- */
-function WavePainter( gl, node ) {
-  this.gl = gl;
-  this.node = node;
-
-  // Simple example for custom shader
-  const vertexShaderSource = [
-
-    // Position
-    'attribute vec3 aPosition;', // vertex attribute
-    'uniform mat3 uModelViewMatrix;',
-    'uniform mat3 uProjectionMatrix;',
-    'varying vec2 vPosition;',
-    'void main( void ) {',
-    '  vPosition = aPosition.xy;',
-
-    // homogeneous model-view transformation
-    'vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );',
-
-    // homogeneous map to normalized device coordinates
-    'vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );',
-
-    // combine with the z coordinate specified
-    'gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );',
-    '}'
-  ].join( '\n' );
-
-  // custom fragment shader
-  const fragmentShaderSource = [
-    'precision mediump float;',
-    'uniform float uPowerFraction;', // light ray power fraction
-    'uniform vec2 uTail;', // Tail point
-    'uniform float uAngle;', // Angle of the ColoredRay
-    'uniform float uWaveLength;', // Wavelength of the ColoredRay
-    'uniform float uPhase;', // phase difference of the ColoredRay
-    'uniform vec3 uColor;', // Color of the wave
-    'varying vec2 vPosition;',
-    'void main( void ) {',
-
-    // Perpendicular distance from tail to rendering coordinate. This is obtained by Coordinate Transformation to
-    // tail point and applying dot product to the unit vector in the direction of ray and rendering coordinate
-    'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(vPosition.x-uTail.x,uTail.y - vPosition.y));',
-
-    // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
-    'float positionDiff = mod( abs( distance - uPhase), uWaveLength);',
-
-    // color is determined by perpendicular distance of coordinate from the start of the particle.
-    'float colorFactor = abs( 1.0 - positionDiff / ( uWaveLength * 0.5 ) );',
-    'gl_FragColor.rgb = uColor * (colorFactor);',
-    'gl_FragColor.a = sqrt(uPowerFraction);',
-
-    // Use premultipled alpha, see https://github.com/phetsims/energy-skate-park/issues/39
-    'gl_FragColor.rgb *= gl_FragColor.a;',
-    '}'
-  ].join( '\n' );
-
-  this.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
-    attributes: [ 'aPosition' ],
-    uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uPowerFraction', 'uTail', 'uAngle', 'uWaveLength',
-      'uPhase', 'uColor' ]
-  } );
-  this.vertexBuffer = gl.createBuffer();
 }
 
-inherit( Object, WavePainter, {
-  paint: function( modelViewMatrix, projectionMatrix ) {
+class WavePainter {
+
+  /**
+   * @param {WebGLRenderingContext} gl
+   * @param {WaveWebGLNode} node
+   */
+  constructor( gl, node ) {
+    this.gl = gl;
+    this.node = node;
+
+    // Simple example for custom shader
+    const vertexShaderSource = [
+
+      // Position
+      'attribute vec3 aPosition;', // vertex attribute
+      'uniform mat3 uModelViewMatrix;',
+      'uniform mat3 uProjectionMatrix;',
+      'varying vec2 vPosition;',
+      'void main( void ) {',
+      '  vPosition = aPosition.xy;',
+
+      // homogeneous model-view transformation
+      'vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );',
+
+      // homogeneous map to normalized device coordinates
+      'vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );',
+
+      // combine with the z coordinate specified
+      'gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );',
+      '}'
+    ].join( '\n' );
+
+    // custom fragment shader
+    const fragmentShaderSource = [
+      'precision mediump float;',
+      'uniform float uPowerFraction;', // light ray power fraction
+      'uniform vec2 uTail;', // Tail point
+      'uniform float uAngle;', // Angle of the ColoredRay
+      'uniform float uWaveLength;', // Wavelength of the ColoredRay
+      'uniform float uPhase;', // phase difference of the ColoredRay
+      'uniform vec3 uColor;', // Color of the wave
+      'varying vec2 vPosition;',
+      'void main( void ) {',
+
+      // Perpendicular distance from tail to rendering coordinate. This is obtained by Coordinate Transformation to
+      // tail point and applying dot product to the unit vector in the direction of ray and rendering coordinate
+      'float distance = dot(vec2(cos(uAngle),sin(uAngle)), vec2(vPosition.x-uTail.x,uTail.y - vPosition.y));',
+
+      // finding the position of rendering coordinate in each wave particle to determine the color of the pixel
+      'float positionDiff = mod( abs( distance - uPhase), uWaveLength);',
+
+      // color is determined by perpendicular distance of coordinate from the start of the particle.
+      'float colorFactor = abs( 1.0 - positionDiff / ( uWaveLength * 0.5 ) );',
+      'gl_FragColor.rgb = uColor * (colorFactor);',
+      'gl_FragColor.a = sqrt(uPowerFraction);',
+
+      // Use premultipled alpha, see https://github.com/phetsims/energy-skate-park/issues/39
+      'gl_FragColor.rgb *= gl_FragColor.a;',
+      '}'
+    ].join( '\n' );
+
+    this.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
+      attributes: [ 'aPosition' ],
+      uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uPowerFraction', 'uTail', 'uAngle', 'uWaveLength',
+        'uPhase', 'uColor' ]
+    } );
+    this.vertexBuffer = gl.createBuffer();
+  }
+
+  paint( modelViewMatrix, projectionMatrix ) {
     const gl = this.gl;
     const shaderProgram = this.shaderProgram;
     const rays = this.node.rays;
@@ -182,14 +180,14 @@ inherit( Object, WavePainter, {
     shaderProgram.unuse();
 
     return WebGLNode.PAINTED_SOMETHING;
-  },
+  }
 
-  dispose: function() {
+  dispose() {
     this.shaderProgram.dispose();
     this.gl.deleteBuffer( this.vertexBuffer );
     this.shaderProgram = null;
   }
-} );
+}
 
 bendingLight.register( 'WaveWebGLNode', WaveWebGLNode );
 

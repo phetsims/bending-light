@@ -7,28 +7,28 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import bendingLight from '../../bendingLight.js';
 
-/**
- * @param {number} wavelength - wavelength (in meters) of the light
- * @constructor
- */
-function LaserColor( wavelength ) {
-  this.wavelength = wavelength; // @public
-}
+class LaserColor {
 
-bendingLight.register( 'LaserColor', LaserColor );
-
-export default inherit( Object, LaserColor, {
+  /**
+   * @param {number} wavelength - wavelength (in meters) of the light
+   */
+  constructor( wavelength ) {
+    this.wavelength = wavelength; // @public
+  }
 
   /**
    * Determine the color of the light.
    * @public
    * @returns {Color}
    */
-  getColor: function() {
+  getColor() {
     return VisibleColor.wavelengthToColor( this.wavelength * 1E9 ); // convert to nanometers
   }
-} );
+}
+
+bendingLight.register( 'LaserColor', LaserColor );
+
+export default LaserColor;

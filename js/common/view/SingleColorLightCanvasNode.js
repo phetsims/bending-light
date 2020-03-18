@@ -7,7 +7,6 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../model/LightRay.js';
@@ -15,36 +14,33 @@ import LightRay from '../model/LightRay.js';
 // constants
 const lineDash = [];
 
-/**
- * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
- * @param {number} stageWidth - width of the dev area
- * @param {number} stageHeight - height of the dev area
- * @param {ObservableArray.<LightRay>} rays -
- * @constructor
- */
-function SingleColorLightCanvasNode( modelViewTransform, stageWidth, stageHeight, rays ) {
+class SingleColorLightCanvasNode extends CanvasNode {
 
-  CanvasNode.call( this, {
-    canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
-  } );
-  this.modelViewTransform = modelViewTransform; // @private
+  /**
+   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
+   * @param {number} stageWidth - width of the dev area
+   * @param {number} stageHeight - height of the dev area
+   * @param {ObservableArray.<LightRay>} rays -
+   */
+  constructor( modelViewTransform, stageWidth, stageHeight, rays ) {
 
-  this.rays = rays;
-  this.invalidatePaint();
+    super( {
+      canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
+    } );
+    this.modelViewTransform = modelViewTransform; // @private
 
-  this.strokeWidth = this.modelViewTransform.modelToViewDeltaX( LightRay.RAY_WIDTH );
-}
+    this.rays = rays;
+    this.invalidatePaint();
 
-bendingLight.register( 'SingleColorLightCanvasNode', SingleColorLightCanvasNode );
-
-export default inherit( CanvasNode, SingleColorLightCanvasNode, {
+    this.strokeWidth = this.modelViewTransform.modelToViewDeltaX( LightRay.RAY_WIDTH );
+  }
 
   /**
    * Paints the particles on the canvas node.
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas: function( context ) {
+  paintCanvas( context ) {
 
     context.save();
     context.lineWidth = this.strokeWidth;
@@ -89,9 +85,13 @@ export default inherit( CanvasNode, SingleColorLightCanvasNode, {
     //  this.canvasBounds.minX, this.canvasBounds.minY,
     //  this.canvasBounds.width, this.canvasBounds.height
     // );
-  },
+  }
 
-  step: function() {
+  step() {
     this.invalidatePaint();
   }
-} );
+}
+
+bendingLight.register( 'SingleColorLightCanvasNode', SingleColorLightCanvasNode );
+
+export default SingleColorLightCanvasNode;

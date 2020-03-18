@@ -8,7 +8,6 @@
  */
 
 import Screen from '../../../joist/js/Screen.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import navbarIconImage from '../../mipmaps/Prisms_Screen_White_NavBar_png.js';
 import iconImage from '../../mipmaps/Prisms_Screen_White_png.js';
@@ -19,26 +18,23 @@ import PrismsView from './view/PrismsView.js';
 
 const prismsString = bendingLightStrings.prisms;
 
+class PrismsScreen extends Screen {
+  constructor( tandem ) {
 
-/**
- * @constructor
- */
-function PrismsScreen( tandem ) {
+    const options = {
+      name: prismsString,
+      homeScreenIcon: new Image( iconImage ),
+      navigationBarIcon: new Image( navbarIconImage ),
+      tandem: tandem
+    };
 
-  const options = {
-    name: prismsString,
-    homeScreenIcon: new Image( iconImage ),
-    navigationBarIcon: new Image( navbarIconImage ),
-    tandem: tandem
-  };
-
-  Screen.call( this,
-    function() { return new PrismsModel(); },
-    function( model ) { return new PrismsView( model ); },
-    options );
+    super(
+      function() { return new PrismsModel(); },
+      function( model ) { return new PrismsView( model ); },
+      options );
+  }
 }
 
 bendingLight.register( 'PrismsScreen', PrismsScreen );
 
-inherit( Screen, PrismsScreen );
 export default PrismsScreen;

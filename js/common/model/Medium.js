@@ -7,26 +7,22 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import bendingLight from '../../bendingLight.js';
 
-/**
- * @param {Shape} shape - shape of the medium
- * @param {Substance} substance - state of the medium
- * @param {Color} color - color of the medium
- * @constructor
- */
-function Medium( shape, substance, color ) {
+class Medium {
 
-  // immutable shape
-  this.shape = shape; // @public (read-only)
-  this.substance = substance; // @public (read-only)
-  this.color = color; // @public (read-only), color is based on the index of refraction at red wavelength
-}
+  /**
+   * @param {Shape} shape - shape of the medium
+   * @param {Substance} substance - state of the medium
+   * @param {Color} color - color of the medium
+   */
+  constructor( shape, substance, color ) {
 
-bendingLight.register( 'Medium', Medium );
-
-export default inherit( Object, Medium, {
+    // immutable shape
+    this.shape = shape; // @public (read-only)
+    this.substance = substance; // @public (read-only)
+    this.color = color; // @public (read-only), color is based on the index of refraction at red wavelength
+  }
 
   /**
    * Determines the index of refraction of medium
@@ -34,16 +30,20 @@ export default inherit( Object, Medium, {
    * @param {number} wavelength - wavelength of the medium
    * @returns {number}
    */
-  getIndexOfRefraction: function( wavelength ) {
+  getIndexOfRefraction( wavelength ) {
     return this.substance.dispersionFunction.getIndexOfRefraction( wavelength );
-  },
+  }
 
   /**
    * Determines whether the medium is mystery or not
    * @public
    * @returns {boolean}
    */
-  isMystery: function() {
+  isMystery() {
     return this.substance.mystery;
   }
-} );
+}
+
+bendingLight.register( 'Medium', Medium );
+
+export default Medium;

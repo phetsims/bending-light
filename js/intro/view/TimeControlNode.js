@@ -7,7 +7,6 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import PlayPauseButton from '../../../../scenery-phet/js/buttons/PlayPauseButton.js';
 import StepForwardButton from '../../../../scenery-phet/js/buttons/StepForwardButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -21,81 +20,80 @@ import bendingLight from '../../bendingLight.js';
 const normalSpeedString = bendingLightStrings.normalSpeed;
 const slowMotionString = bendingLightStrings.slowMotion;
 
-/**
- *
- * @constructor
- */
-function TimeControlNode( introModel, updateWaveShape, options ) {
+class TimeControlNode extends HBox {
 
-  const slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
-    new Text( slowMotionString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
-  const normalMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'normal',
-    new Text( normalSpeedString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
+  // JSDoc
+  constructor( introModel, updateWaveShape, options ) {
 
-  const speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ?
-                               slowMotionRadioBox.width : normalMotionRadioBox.width;
+    const slowMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'slow',
+      new Text( slowMotionString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
+    const normalMotionRadioBox = new AquaRadioButton( introModel.speedProperty, 'normal',
+      new Text( normalSpeedString, { font: new PhetFont( 12 ) } ), { radius: 8 } );
 
-  // touch area
-  const radioButtonSpacing = 5;
-  const touchAreaYDilation = radioButtonSpacing / 2;
-  slowMotionRadioBox.touchArea = new Bounds2(
-    slowMotionRadioBox.localBounds.minX,
-    slowMotionRadioBox.localBounds.minY - touchAreaYDilation,
-    slowMotionRadioBox.localBounds.minX + speedControlMaxWidth,
-    slowMotionRadioBox.localBounds.maxY + touchAreaYDilation
-  );
+    const speedControlMaxWidth = ( slowMotionRadioBox.width > normalMotionRadioBox.width ) ?
+                                 slowMotionRadioBox.width : normalMotionRadioBox.width;
 
-  // touch area
-  normalMotionRadioBox.touchArea = new Bounds2(
-    normalMotionRadioBox.localBounds.minX,
-    normalMotionRadioBox.localBounds.minY - touchAreaYDilation,
-    normalMotionRadioBox.localBounds.minX + speedControlMaxWidth,
-    normalMotionRadioBox.localBounds.maxY + touchAreaYDilation
-  );
+    // touch area
+    const radioButtonSpacing = 5;
+    const touchAreaYDilation = radioButtonSpacing / 2;
+    slowMotionRadioBox.touchArea = new Bounds2(
+      slowMotionRadioBox.localBounds.minX,
+      slowMotionRadioBox.localBounds.minY - touchAreaYDilation,
+      slowMotionRadioBox.localBounds.minX + speedControlMaxWidth,
+      slowMotionRadioBox.localBounds.maxY + touchAreaYDilation
+    );
 
-  // add radio buttons to the VBox
-  const speedControl = new VBox( {
-    align: 'left',
-    spacing: radioButtonSpacing,
-    children: [
-      normalMotionRadioBox,
-      slowMotionRadioBox
-    ]
-  } );
+    // touch area
+    normalMotionRadioBox.touchArea = new Bounds2(
+      normalMotionRadioBox.localBounds.minX,
+      normalMotionRadioBox.localBounds.minY - touchAreaYDilation,
+      normalMotionRadioBox.localBounds.minX + speedControlMaxWidth,
+      normalMotionRadioBox.localBounds.maxY + touchAreaYDilation
+    );
 
-  // add play pause button
-  const playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
-    radius: 18,
-    scaleFactorWhenPaused: 1.28,
-    stroke: 'black',
-    fill: '#005566'
-  } );
+    // add radio buttons to the VBox
+    const speedControl = new VBox( {
+      align: 'left',
+      spacing: radioButtonSpacing,
+      children: [
+        normalMotionRadioBox,
+        slowMotionRadioBox
+      ]
+    } );
 
-  // add step button
-  const stepButton = new StepForwardButton( {
-    isPlayingProperty: introModel.isPlayingProperty,
-    listener: function() {
-      introModel.updateSimulationTimeAndWaveShape( 'normal' );
-      updateWaveShape();
-    },
-    radius: 12,
-    stroke: 'black',
-    fill: '#005566'
-  } );
+    // add play pause button
+    const playPauseButton = new PlayPauseButton( introModel.isPlayingProperty, {
+      radius: 18,
+      scaleFactorWhenPaused: 1.28,
+      stroke: 'black',
+      fill: '#005566'
+    } );
 
-  HBox.call( this, {
-    spacing: 15,
-    children: [
-      speedControl,
-      playPauseButton,
-      stepButton
-    ],
-    resize: false // don't relayout when the play/pause button changes size
-  } );
-  this.mutate( options );
+    // add step button
+    const stepButton = new StepForwardButton( {
+      isPlayingProperty: introModel.isPlayingProperty,
+      listener: function() {
+        introModel.updateSimulationTimeAndWaveShape( 'normal' );
+        updateWaveShape();
+      },
+      radius: 12,
+      stroke: 'black',
+      fill: '#005566'
+    } );
+
+    super( {
+      spacing: 15,
+      children: [
+        speedControl,
+        playPauseButton,
+        stepButton
+      ],
+      resize: false // don't relayout when the play/pause button changes size
+    } );
+    this.mutate( options );
+  }
 }
 
 bendingLight.register( 'TimeControlNode', TimeControlNode );
 
-inherit( HBox, TimeControlNode );
 export default TimeControlNode;

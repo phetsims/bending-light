@@ -7,33 +7,30 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import bendingLight from '../../bendingLight.js';
 
-/**
- * @param {Property.<[]>} seriesProperty - contains data points of series
- * @param {Color} color - color of series
- * @constructor
- */
-function Series( seriesProperty, color ) {
+class Series {
 
-  // @public (read-only)
-  this.seriesProperty = seriesProperty;
+  /**
+   * @param {Property.<[]>} seriesProperty - contains data points of series
+   * @param {Color} color - color of series
+   */
+  constructor( seriesProperty, color ) {
 
-  // @public (read-only)
-  this.color = color;
-}
+    // @public (read-only)
+    this.seriesProperty = seriesProperty;
 
-bendingLight.register( 'Series', Series );
-
-export default inherit( Object, Series, {
+    // @public (read-only)
+    this.color = color;
+  }
 
   /**
    * Discard early samples that have gone out of range
    * @public
    * @param {number} minTime - minimum time to be displayed on chart node
+   * // TODO: visibility
    */
-  keepLastSamples: function( minTime ) {
+  keepLastSamples( minTime ) {
     let startIndex = 0;
     if ( this.seriesProperty.get().length ) {
 
@@ -44,4 +41,8 @@ export default inherit( Object, Series, {
       this.seriesProperty.set( this.seriesProperty.get().slice( startIndex, this.seriesProperty.get().length ) );
     }
   }
-} );
+}
+
+bendingLight.register( 'Series', Series );
+
+export default Series;

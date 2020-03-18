@@ -11,54 +11,50 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Arc from '../../../../kite/js/segments/Arc.js';
 import Line from '../../../../kite/js/segments/Line.js';
 import Shape from '../../../../kite/js/Shape.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import bendingLight from '../../bendingLight.js';
 import PrismIntersection from './PrismIntersection.js';
 
-/**
- * @param {number} referencePointIndex - index of reference point
- * @param {array.<Vector2>} points - array of corner points
- * @param {number} radius - radius is 0 for polygon or radius for diverging lens
- * @constructor
- */
-function Polygon( referencePointIndex, points, radius ) {
+class Polygon {
 
-  this.points = points; // @private
+  /**
+   * @param {number} referencePointIndex - index of reference point
+   * @param {array.<Vector2>} points - array of corner points
+   * @param {number} radius - radius is 0 for polygon or radius for diverging lens
+   */
+  constructor( referencePointIndex, points, radius ) {
 
-  // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
-  this.referencePointIndex = referencePointIndex; // @private
-  this.radius = radius; // @private
+    this.points = points; // @private
 
-  // @public (read-only), Centroid of the shape
-  this.centroid = this.getCentroid( this.points );
+    // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
+    this.referencePointIndex = referencePointIndex; // @private
+    this.radius = radius; // @private
 
-  // Creates a shape
-  this.shape = new Shape(); // @public (read-only)
-  this.center = null; // @public (read-only)
+    // @public (read-only), Centroid of the shape
+    this.centroid = this.getCentroid( this.points );
 
-  // radius is 0 for polygon
-  if ( this.radius === 0 ) {
-    this.shape.moveToPoint( this.points[ 0 ] );
-    for ( let i = 1; i < this.points.length; i++ ) {
-      this.shape.lineToPoint( this.points[ i ] );
+    // Creates a shape
+    this.shape = new Shape(); // @public (read-only)
+    this.center = null; // @public (read-only)
+
+    // radius is 0 for polygon
+    if ( this.radius === 0 ) {
+      this.shape.moveToPoint( this.points[ 0 ] );
+      for ( let i = 1; i < this.points.length; i++ ) {
+        this.shape.lineToPoint( this.points[ i ] );
+      }
+      this.shape.close();
     }
-    this.shape.close();
+    else {
+
+      // radius is nonzero for diverging lens
+      this.center = this.points[ 0 ].plus( this.points[ 3 ] ).multiplyScalar( 0.5 );
+      const startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
+      this.shape.ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, true )
+        .lineToPoint( this.points[ 2 ] )
+        .lineToPoint( this.points[ 1 ] )
+        .lineToPoint( this.points[ 0 ] );
+    }
   }
-  else {
-
-    // radius is nonzero for diverging lens
-    this.center = this.points[ 0 ].plus( this.points[ 3 ] ).multiplyScalar( 0.5 );
-    const startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
-    this.shape.ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, true )
-      .lineToPoint( this.points[ 2 ] )
-      .lineToPoint( this.points[ 1 ] )
-      .lineToPoint( this.points[ 0 ] );
-  }
-}
-
-bendingLight.register( 'Polygon', Polygon );
-
-export default inherit( Object, Polygon, {
 
   /**
    * Get the specified corner point
@@ -66,9 +62,9 @@ export default inherit( Object, Polygon, {
    * @param {number} i - index of point
    * @returns {Vector2}
    */
-  getPoint: function( i ) {
+  getPoint( i ) {
     return this.points[ i ];
-  },
+  }
 
   /**
    * Create a new Polygon translated by the specified amount
@@ -77,7 +73,7 @@ export default inherit( Object, Polygon, {
    * @param {number} deltaY - distance in y direction to be translated
    * @returns {Polygon}
    */
-  getTranslatedInstance: function( deltaX, deltaY ) {
+  getTranslatedInstance( deltaX, deltaY ) {
 
     const newPoints = [];
     for ( let j = 0; j < this.points.length; j++ ) {
@@ -88,7 +84,7 @@ export default inherit( Object, Polygon, {
 
     // create a new polygon with translated points
     return new Polygon( this.referencePointIndex, newPoints, this.radius );
-  },
+  }
 
   /**
    * Gets a rotated copy of this polygon
@@ -97,7 +93,7 @@ export default inherit( Object, Polygon, {
    * @param {Vector2} rotationPoint - point around which polygon to be rotated
    * @returns {Polygon}
    */
-  getRotatedInstance: function( angle, rotationPoint ) {
+  getRotatedInstance( angle, rotationPoint ) {
     const newPoints = [];
     for ( let k = 0; k < this.points.length; k++ ) {
       const vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
@@ -109,7 +105,7 @@ export default inherit( Object, Polygon, {
 
     // create a new polygon with rotated points
     return new Polygon( this.referencePointIndex, newPoints, this.radius );
-  },
+  }
 
   /**
    * Determines whether shape contains given point or not
@@ -117,18 +113,18 @@ export default inherit( Object, Polygon, {
    * @param {Vector2} point
    * @returns {boolean}
    */
-  containsPoint: function( point ) {
+  containsPoint( point ) {
     return this.shape.containsPoint( point );
-  },
+  }
 
   /**
    * Just use the 0th point for the reference point for rotation drag handles
    * @public
    * @returns {Vector2}
    */
-  getReferencePoint: function() {
+  getReferencePoint() {
     return this.getPoint( this.referencePointIndex );
-  },
+  }
 
   /**
    * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
@@ -136,9 +132,9 @@ export default inherit( Object, Polygon, {
    * @public
    * @returns {Vector2}
    */
-  getRotationCenter: function() {
+  getRotationCenter() {
     return this.centroid;
-  },
+  }
 
   /**
    * Centroid of the polygon
@@ -146,7 +142,7 @@ export default inherit( Object, Polygon, {
    * @param {array.<Vector2>} p - array of corner points
    * @returns {Vector2}
    */
-  getCentroid: function( p ) {
+  getCentroid( p ) {
     let cx = 0;
     let cy = 0;
     for ( let i = 0; i < p.length; i++ ) {
@@ -160,7 +156,7 @@ export default inherit( Object, Polygon, {
     cx *= f;
     cy *= f;
     return new Vector2( cx, cy );
-  },
+  }
 
   /**
    * Computes the area of a polygon using the algorithm described at http://www.mathopenref.com/coordpolygonarea2.html
@@ -169,7 +165,7 @@ export default inherit( Object, Polygon, {
    * @param {array<Vector2>} p - array of corner points
    * @returns {number}
    */
-  getArea: function( p ) {
+  getArea( p ) {
     let a = 0;
     for ( let i = 0; i < p.length; i++ ) {
       const j = ( i + 1 ) % p.length;
@@ -178,7 +174,7 @@ export default inherit( Object, Polygon, {
     }
     a *= 0.5;
     return a;
-  },
+  }
 
   /**
    * Compute the intersections of the specified ray with this polygon's edges
@@ -186,21 +182,21 @@ export default inherit( Object, Polygon, {
    * @param {ColoredRay} ray - model of the ray
    * @returns {Array}
    */
-  getIntersections: function( ray ) {
+  getIntersections( ray ) {
     let arc = null;
     if ( this.radius !== 0 ) {
       const startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
       arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
     }
     return PrismIntersection.getIntersections( this.getEdges(), arc, this.center, ray );
-  },
+  }
 
   /**
    * List all bounding edges in the polygon
    * @private
    * @returns {Array}
    */
-  getEdges: function() {
+  getEdges() {
     const lineSegments = [];
     for ( let i = 0; i < this.points.length - 1; i++ ) {
       lineSegments.push( new Line( this.points[ i ], this.points[ i + 1 ] ) );
@@ -210,4 +206,8 @@ export default inherit( Object, Polygon, {
     }
     return lineSegments;
   }
-} );
+}
+
+bendingLight.register( 'Polygon', Polygon );
+
+export default Polygon;

@@ -7,36 +7,32 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 
-/**
- * @param {Property.<[]>} seriesProperty - contains data points of series
- * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate
- *                                                                      frames
- * @param {string} color - color of the series
- * @param {Object} [options] - options that can be passed on to the underlying node
- * @constructor
- */
-function SeriesCanvasNode( seriesProperty, modelViewTransformProperty, color, options ) {
+class SeriesCanvasNode extends CanvasNode {
 
-  CanvasNode.call( this, options );
-  this.seriesProperty = seriesProperty; // @private
-  this.modelViewTransformProperty = modelViewTransformProperty; // @private
-  this.color = color; // @private
-}
+  /**
+   * @param {Property.<[]>} seriesProperty - contains data points of series
+   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate
+   *                                                                      frames
+   * @param {string} color - color of the series
+   * @param {Object} [options] - options that can be passed on to the underlying node
+   */
+  constructor( seriesProperty, modelViewTransformProperty, color, options ) {
 
-bendingLight.register( 'SeriesCanvasNode', SeriesCanvasNode );
-
-export default inherit( CanvasNode, SeriesCanvasNode, {
+    super( options );
+    this.seriesProperty = seriesProperty; // @private
+    this.modelViewTransformProperty = modelViewTransformProperty; // @private
+    this.color = color; // @private
+  }
 
   /**
    * Paints the series points on the canvas node.
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas: function( context ) {
+  paintCanvas( context ) {
     let moved = false;
 
     context.beginPath();
@@ -62,12 +58,16 @@ export default inherit( CanvasNode, SeriesCanvasNode, {
     context.lineDashOffset = 0;
     context.stroke();
     context.closePath();
-  },
+  }
 
   /**
    * @public
    */
-  step: function() {
+  step() {
     this.invalidatePaint();
   }
-} );
+}
+
+bendingLight.register( 'SeriesCanvasNode', SeriesCanvasNode );
+
+export default SeriesCanvasNode;

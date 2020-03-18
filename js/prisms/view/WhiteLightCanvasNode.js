@@ -16,51 +16,47 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 
-/**
- * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
- * @param {number} stageWidth - width of the dev area
- * @param {number} stageHeight - height of the dev area
- * @param {ObservableArray} whiteLightRays - array of white light rays
- * @param {Property.<Medium>} environmentMediumProperty
- * @param {MediumColorFactory} mediumColorFactory - for creating colors from index of refraction
- * @constructor
- */
-function WhiteLightCanvasNode( modelViewTransform, stageWidth, stageHeight, whiteLightRays,
-                               environmentMediumProperty, mediumColorFactory ) {
+class WhiteLightCanvasNode extends CanvasNode {
 
-  CanvasNode.call( this, {
-    canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
-  } );
-  this.invalidatePaint();
-  this.modelViewTransform = modelViewTransform; // @private
-  this.whiteLightRays = whiteLightRays; // @private
-  this.environmentMediumProperty = environmentMediumProperty;
-  const self = this;
-  const update = function() {
-    const a = environmentMediumProperty.value.substance.indexOfRefractionForRedLight;
-    self.colorCSS = mediumColorFactory.getColor( a ).toCSS();
-    self.invalidatePaint();
-  };
-  mediumColorFactory.lightTypeProperty.link( update );
-  environmentMediumProperty.link( update );
-}
+  /**
+   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
+   * @param {number} stageWidth - width of the dev area
+   * @param {number} stageHeight - height of the dev area
+   * @param {ObservableArray} whiteLightRays - array of white light rays
+   * @param {Property.<Medium>} environmentMediumProperty
+   * @param {MediumColorFactory} mediumColorFactory - for creating colors from index of refraction
+   */
+  constructor( modelViewTransform, stageWidth, stageHeight, whiteLightRays,
+               environmentMediumProperty, mediumColorFactory ) {
 
-bendingLight.register( 'WhiteLightCanvasNode', WhiteLightCanvasNode );
-
-export default inherit( CanvasNode, WhiteLightCanvasNode, {
+    super( {
+      canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
+    } );
+    this.invalidatePaint();
+    this.modelViewTransform = modelViewTransform; // @private
+    this.whiteLightRays = whiteLightRays; // @private
+    this.environmentMediumProperty = environmentMediumProperty;
+    const self = this;
+    const update = function() {
+      const a = environmentMediumProperty.value.substance.indexOfRefractionForRedLight;
+      self.colorCSS = mediumColorFactory.getColor( a ).toCSS();
+      self.invalidatePaint();
+    };
+    mediumColorFactory.lightTypeProperty.link( update );
+    environmentMediumProperty.link( update );
+  }
 
   /**
    * Paints the particles on the canvas node.
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas: function( context ) {
+  paintCanvas( context ) {
     context.lineWidth = 3;
     context.globalCompositeOperation = 'source-over';
     context.fillStyle = this.colorCSS;
@@ -110,12 +106,16 @@ export default inherit( CanvasNode, WhiteLightCanvasNode, {
       }
     }
     context.restore();
-  },
+  }
 
   /**
    * @public
    */
-  step: function() {
+  step() {
     this.invalidatePaint();
   }
-} );
+}
+
+bendingLight.register( 'WhiteLightCanvasNode', WhiteLightCanvasNode );
+
+export default WhiteLightCanvasNode;

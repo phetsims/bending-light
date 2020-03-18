@@ -11,7 +11,6 @@
 import Property from '../../../../axon/js/Property.js';
 import Rectangle from '../../../../dot/js/Rectangle.js';
 import Shape from '../../../../kite/js/Shape.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import bendingLight from '../../bendingLight.js';
@@ -25,49 +24,48 @@ import WaveSensorNode from './WaveSensorNode.js';
 // constants
 const arrowScale = 1.5E-14;
 
-/**
- * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
- * @constructor
- */
-function MoreToolsView( moreToolsModel ) {
+class MoreToolsView extends IntroView {
 
-  this.moreToolsModel = moreToolsModel; // @public (read-only)
-  const self = this;
+  /**
+   * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
+   */
+  constructor( moreToolsModel ) {
 
-  IntroView.call( this, moreToolsModel,
-    true, // hasMoreTools
-    3, // indexOfRefractionDecimals
+    super( moreToolsModel,
+      true, // hasMoreTools
+      3, // indexOfRefractionDecimals
 
-    // createLaserControlPanel
-    function( model ) {
-      return new VBox( {
-        spacing: 10,
-        align: 'left',
-        children: [
-          new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
-          new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
-        ]
+      // createLaserControlPanel
+      function( model ) {
+        return new VBox( {
+          spacing: 10,
+          align: 'left',
+          children: [
+            new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
+            new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
+          ]
+        } );
+      }, {
+        verticalPlayAreaOffset: 0,
+        horizontalPlayAreaOffset: 0
       } );
-    }, {
-      verticalPlayAreaOffset: 0,
-      horizontalPlayAreaOffset: 0
-    } );
 
-  // updates the visibility of speed controls
-  Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
-    function( laserView, isWaveSensorEnabled ) {
-      self.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
-    } );
-}
+    this.moreToolsModel = moreToolsModel; // @public (read-only)
+    const self = this;
 
-bendingLight.register( 'MoreToolsView', MoreToolsView );
+    // updates the visibility of speed controls
+    Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
+      function( laserView, isWaveSensorEnabled ) {
+        self.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
+      } );
+  }
 
-export default inherit( IntroView, MoreToolsView, {
-  getWaveSensorIcon: function() {
+  // TODO
+  getWaveSensorIcon() {
     const modelViewTransform = this.modelViewTransform;
     const self = this;
 
-    const waveSensor = this.moreToolsModel.waveSensor;
+    const waveSensor = this.bendingLightModel.waveSensor;
     const waveSensorIcon = new WaveSensorNode(
       this.modelViewTransform,
       waveSensor.copy(), {
@@ -151,13 +149,16 @@ export default inherit( IntroView, MoreToolsView, {
 
     this.afterLightLayer2.addChild( this.waveSensorNode );
     return waveSensorIcon;
-  },
-  getVelocitySensorIcon: function() {
+  }
+
+  // TODO:
+  getVelocitySensorIcon() {
     const self = this;
+    const moreToolsModel = this.bendingLightModel;
     const velocitySensorToolboxScale = 1.2;
     const velocitySensorIconNode = new VelocitySensorNode(
       this.modelViewTransform,
-      this.moreToolsModel.velocitySensor.copy(),
+      moreToolsModel.velocitySensor.copy(),
       arrowScale, {
         scale: velocitySensorToolboxScale
       }
@@ -167,17 +168,17 @@ export default inherit( IntroView, MoreToolsView, {
 
     const velocitySensorNode = new VelocitySensorNode(
       this.modelViewTransform,
-      this.moreToolsModel.velocitySensor,
+      moreToolsModel.velocitySensor,
       arrowScale, {
         scale: 2
       }
     );
-    self.moreToolsModel.velocitySensor.enabledProperty.link( function( enabled ) {
+    moreToolsModel.velocitySensor.enabledProperty.link( function( enabled ) {
       velocitySensorIconNode.visible = !enabled;
       velocitySensorNode.visible = enabled;
     } );
 
-    const velocitySensorListener = new MovableDragHandler( this.moreToolsModel.velocitySensor.positionProperty, {
+    const velocitySensorListener = new MovableDragHandler( moreToolsModel.velocitySensor.positionProperty, {
       modelViewTransform: this.modelViewTransform,
       endDrag: function() {
         self.bumpLeft( velocitySensorNode, self.moreToolsModel.velocitySensor.positionProperty );
@@ -212,29 +213,28 @@ export default inherit( IntroView, MoreToolsView, {
 
     this.afterLightLayer2.addChild( velocitySensorNode );
     return velocitySensorIconNode;
-  },
-  getAdditionalToolIcons: function() {
+  }
+
+  getAdditionalToolIcons() {
     return [
       this.getVelocitySensorIcon(),
       this.getWaveSensorIcon()
     ];
-  },
+  }
+
   /**
    * Update chart node and wave.
    * @protected
    */
-  updateWaveShape: function() {
-    IntroView.prototype.updateWaveShape.call( this );
+  updateWaveShape() {
+    super.updateWaveShape();
     if ( this.waveSensorNode.waveSensor.enabledProperty.get() ) {
       this.waveSensorNode.waveSensor.step();
       this.waveSensorNode.chartNode.step( this.moreToolsModel.time );
     }
-  },
-
-  /**
-   * @protected
-   */
-  reset: function() {
-    IntroView.prototype.reset.call( this );
   }
-} );
+}
+
+bendingLight.register( 'MoreToolsView', MoreToolsView );
+
+export default MoreToolsView;

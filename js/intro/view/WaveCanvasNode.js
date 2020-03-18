@@ -9,32 +9,29 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 
-/**
- * @param {ObservableArray.<LightRay>} lightRays - the light rays from the model
- * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
- * @param {Object} [options] - options that can be passed on to the underlying node
- * @constructor
- */
-function WaveCanvasNode( lightRays, modelViewTransform, options ) {
-  this.lightRays = lightRays;
-  this.modelViewTransform = modelViewTransform; // @public (read-only)
-  CanvasNode.call( this, options );
-}
+class WaveCanvasNode extends CanvasNode {
 
-bendingLight.register( 'WaveCanvasNode', WaveCanvasNode );
+  /**
+   * @param {ObservableArray.<LightRay>} lightRays - the light rays from the model
+   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
+   * @param {Object} [options] - options that can be passed on to the underlying node
+   */
+  constructor( lightRays, modelViewTransform, options ) {
 
-export default inherit( CanvasNode, WaveCanvasNode, {
+    super( options );
+    this.lightRays = lightRays;
+    this.modelViewTransform = modelViewTransform; // @public (read-only)
+  }
 
   /**
    * Paints the particles on the canvas node.
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas: function( context ) {
+  paintCanvas( context ) {
 
     // Render the incident ray last so that it will overlap the reflected ray completely
     for ( let k = this.lightRays.length - 1; k >= 0; k-- ) {
@@ -91,12 +88,16 @@ export default inherit( CanvasNode, WaveCanvasNode, {
         context.restore();
       }
     }
-  },
+  }
 
   /**
    * @public
    */
-  step: function() {
+  step() {
     this.invalidatePaint();
   }
-} );
+}
+
+bendingLight.register( 'WaveCanvasNode', WaveCanvasNode );
+
+export default WaveCanvasNode;

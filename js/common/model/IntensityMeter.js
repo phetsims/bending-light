@@ -12,89 +12,85 @@ import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Shape from '../../../../kite/js/Shape.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import bendingLight from '../../bendingLight.js';
 import Reading from './Reading.js';
 
-/**
- * @param {number} sensorX - sensor x position in model coordinates
- * @param {number} sensorY - sensor y position in model coordinates
- * @param {number} bodyX - body x position in model coordinates
- * @param {number} bodyY - body y position in model coordinates
- * @constructor
- */
-function IntensityMeter( sensorX, sensorY, bodyX, bodyY ) {
+class IntensityMeter {
 
-  this.readingProperty = new Property( Reading.MISS ); // @public, value to show on the body
-  this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) ); // @public
-  this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) ); // @public
-  this.enabledProperty = new Property( false ); // @public, True if it is in the play area
+  /**
+   * @param {number} sensorX - sensor x position in model coordinates
+   * @param {number} sensorY - sensor y position in model coordinates
+   * @param {number} bodyX - body x position in model coordinates
+   * @param {number} bodyY - body y position in model coordinates
+   */
+  constructor( sensorX, sensorY, bodyX, bodyY ) {
 
-  // @public (read-only), accumulation of readings
-  this.rayReadings = [];
-}
+    this.readingProperty = new Property( Reading.MISS ); // @public, value to show on the body
+    this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) ); // @public
+    this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) ); // @public
+    this.enabledProperty = new Property( false ); // @public, True if it is in the play area
 
-bendingLight.register( 'IntensityMeter', IntensityMeter );
-
-export default inherit( Object, IntensityMeter, {
+    // @public (read-only), accumulation of readings
+    this.rayReadings = [];
+  }
 
   /**
    * Restore the initial values.
    */
-  reset: function() {
+  reset() {
     this.readingProperty.reset();
     this.sensorPositionProperty.reset();
     this.bodyPositionProperty.reset();
     this.enabledProperty.reset();
     this.rayReadings.length = 0;
-  },
+  }
 
   // Copy the model for reuse in the toolbox node.
-  copy: function() {
+  copy() {
     return new IntensityMeter(
       this.sensorPositionProperty.get().x,
       this.sensorPositionProperty.get().y,
       this.bodyPositionProperty.get().x,
       this.bodyPositionProperty.get().y
     );
-  },
+  }
 
   /**
    * @public
    * @returns {Shape}
    */
-  getSensorShape: function() {
+  getSensorShape() {
 
     // fine tuned to match the given image
     const radius = 1E-6;
     return new Shape().arcPoint( this.sensorPositionProperty.get(), radius, 0, Math.PI * 2, false );
-  },
+  }
 
   /**
    * Should be called before a model update so that values from last computation don't leak over into the next
    * summation.
    * @public
    */
-  clearRayReadings: function() {
+  clearRayReadings() {
     this.rayReadings = [];
     this.readingProperty.set( Reading.MISS );
-  },
+  }
 
   /**
    * Add a new reading to the accumulator and update the readout
    * @public
    * @param {Reading} r - intensity of the wave or MISS
    */
-  addRayReading: function( r ) {
+  addRayReading( r ) {
     this.rayReadings.push( r );
     this.updateReading();
-  },
+  }
 
   /**
    * Update the body text based on the accumulated Reading values
    * @private
    */
-  updateReading: function() {
+  updateReading() {
 
     // enumerate the hits
     const hits = [];
@@ -118,4 +114,8 @@ export default inherit( Object, IntensityMeter, {
       this.readingProperty.set( new Reading( total ) );
     }
   }
-} );
+}
+
+bendingLight.register( 'IntensityMeter', IntensityMeter );
+
+export default IntensityMeter;

@@ -13,7 +13,6 @@ import Ray2 from '../../../../dot/js/Ray2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
@@ -33,74 +32,70 @@ import SemiCircle from './SemiCircle.js';
 const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
 const CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
-/**
- * @constructor
- */
-function PrismsModel() {
+class PrismsModel extends BendingLightModel {
+  constructor() {
 
-  this.prisms = new ObservableArray(); // @public (read-only)
+    super( Math.PI, false, 1E-16 );
 
-  // @public (read-only) - List of intersections, which can be shown graphically
-  this.intersections = new ObservableArray();
+    const self = this;
 
-  this.mediumColorFactory = new MediumColorFactory();
-  const self = this;
-  BendingLightModel.call( this, Math.PI, false, 1E-16 );
+    this.prisms = new ObservableArray(); // @public (read-only)
+
+    // @public (read-only) - List of intersections, which can be shown graphically
+    this.intersections = new ObservableArray();
+
+    this.mediumColorFactory = new MediumColorFactory();
 
 
-  // Show multiple beams to help show how lenses work
-  this.manyRaysProperty = new Property( 1 );
+    // Show multiple beams to help show how lenses work
+    this.manyRaysProperty = new Property( 1 );
 
-  // If false, will hide non TIR reflections
-  this.showReflectionsProperty = new Property( false );
-  this.showNormalsProperty = new Property( false );
-  this.showProtractorProperty = new Property( false );// @public
+    // If false, will hide non TIR reflections
+    this.showReflectionsProperty = new Property( false );
+    this.showNormalsProperty = new Property( false );
+    this.showProtractorProperty = new Property( false );// @public
 
-  // Environment the laser is in
-  this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );
+    // Environment the laser is in
+    this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );
 
-  // Material that comprises the prisms
-  this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ), { reentrant: true } );
+    // Material that comprises the prisms
+    this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ), { reentrant: true } );
 
-  this.intersectionStrokeProperty = new Property( 'black' );
-  this.laser.colorModeProperty.link( function( colorMode ) {
-    self.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
-  } );
-  Property.multilink( [
-    this.manyRaysProperty,
-    this.environmentMediumProperty,
-    this.showReflectionsProperty,
-    this.prismMediumProperty,
-    this.laser.onProperty,
-    this.laser.pivotProperty,
-    this.laser.emissionPointProperty,
-    this.showNormalsProperty,
-    this.laser.colorModeProperty,
-    this.laser.colorProperty,
-    this.laserViewProperty
-  ], function() {
-    self.clear();
-    self.updateModel();
-    self.dirty = true;
-  } );
+    this.intersectionStrokeProperty = new Property( 'black' );
+    this.laser.colorModeProperty.link( function( colorMode ) {
+      self.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
+    } );
+    Property.multilink( [
+      this.manyRaysProperty,
+      this.environmentMediumProperty,
+      this.showReflectionsProperty,
+      this.prismMediumProperty,
+      this.laser.onProperty,
+      this.laser.pivotProperty,
+      this.laser.emissionPointProperty,
+      this.showNormalsProperty,
+      this.laser.colorModeProperty,
+      this.laser.colorProperty,
+      this.laserViewProperty
+    ], function() {
+      self.clear();
+      self.updateModel();
+      self.dirty = true;
+    } );
 
-  // coalesce repeat updates so work is not duplicated in white light node.
-  this.dirty = true; // @public
+    // coalesce repeat updates so work is not duplicated in white light node.
+    this.dirty = true; // @public
 
-  // @public
-  this.rotationArrowAngleOffset = 0;
-}
-
-bendingLight.register( 'PrismsModel', PrismsModel );
-
-export default inherit( BendingLightModel, PrismsModel, {
+    // @public
+    this.rotationArrowAngleOffset = 0;
+  }
 
   /**
    * @public
    * @override
    */
-  reset: function() {
-    BendingLightModel.prototype.reset.call( this );
+  reset() {
+    super.reset();
     this.prisms.clear();
     this.manyRaysProperty.reset();
     this.environmentMediumProperty.reset();
@@ -108,14 +103,14 @@ export default inherit( BendingLightModel, PrismsModel, {
     this.showReflectionsProperty.reset();
     this.showNormalsProperty.reset();
     this.showProtractorProperty.reset();
-  },
+  }
 
   /**
    * List of prism prototypes that can be created in the sim
    * @public
    * @returns {Array}
    */
-  getPrismPrototypes: function() {
+  getPrismPrototypes() {
     const prismsTypes = [];
 
     // characteristic length scale
@@ -163,26 +158,26 @@ export default inherit( BendingLightModel, PrismsModel, {
       new Vector2( -0.6 * radius, -radius )
     ], radius ), 'diverging-lens' ) );
     return prismsTypes;
-  },
+  }
 
   /**
    * Adds a prism to the model.
    * @public
    * @param {Prism} prism
    */
-  addPrism: function( prism ) {
+  addPrism( prism ) {
     this.prisms.add( prism );
-  },
+  }
 
   /**
    * Removes a prism from the model
    * @public
    * @param {Prism} prism
    */
-  removePrism: function( prism ) {
+  removePrism( prism ) {
     this.prisms.remove( prism );
     this.updateModel();
-  },
+  }
 
   /**
    * Determines whether white light or single color light
@@ -191,7 +186,7 @@ export default inherit( BendingLightModel, PrismsModel, {
    * @param {number} power - amount of power this light has
    * @param {boolean} laserInPrism - specifies whether laser in prism
    */
-  propagate: function( ray, power, laserInPrism ) {
+  propagate( ray, power, laserInPrism ) {
 
     // Determines whether to use white light or single color light
     let mediumIndexOfRefraction;
@@ -220,13 +215,13 @@ export default inherit( BendingLightModel, PrismsModel, {
       this.propagateTheRay( new ColoredRay( ray, power, this.laser.getWavelength(),
         mediumIndexOfRefraction, this.laser.getFrequency() ), 0, true );
     }
-  },
+  }
 
   /**
    * Algorithm that computes the trajectories of the rays throughout the system
    * @public
    */
-  propagateRays: function() {
+  propagateRays() {
 
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
@@ -246,7 +241,7 @@ export default inherit( BendingLightModel, PrismsModel, {
         }
       }
     }
-  },
+  }
 
   /**
    * Determine if the laser beam originates within a prism for purpose of determining what index of refraction to use
@@ -254,7 +249,7 @@ export default inherit( BendingLightModel, PrismsModel, {
    * @public
    * @returns {boolean}
    */
-  isLaserInPrism: function() {
+  isLaserInPrism() {
     const emissionPoint = this.laser.emissionPointProperty.value;
     for ( let i = 0; i < this.prisms.length; i++ ) {
       if ( this.prisms.get( i ).contains( emissionPoint ) ) {
@@ -262,7 +257,7 @@ export default inherit( BendingLightModel, PrismsModel, {
       }
     }
     return false;
-  },
+  }
 
   /**
    * Recursive algorithm to compute the pattern of rays in the system. This is the main computation of this model,
@@ -273,7 +268,7 @@ export default inherit( BendingLightModel, PrismsModel, {
    * @param {boolean} showIntersection - true if the intersection should be shown.  True for single rays and for
    *                                     extrema of white light wavelengths
    */
-  propagateTheRay: function( incidentRay, count, showIntersection ) {
+  propagateTheRay( incidentRay, count, showIntersection ) {
     let rayColor;
     let rayVisibleColor;
     const waveWidth = CHARACTERISTIC_LENGTH * 5;
@@ -407,7 +402,7 @@ export default inherit( BendingLightModel, PrismsModel, {
         'prism'
       ) );
     }
-  },
+  }
 
   /**
    * Find the nearest intersection between a light ray and the set of prisms in the play area
@@ -416,7 +411,7 @@ export default inherit( BendingLightModel, PrismsModel, {
    * @param {ObservableArray<Prism>} prisms
    * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
    */
-  getIntersection: function( incidentRay, prisms ) {
+  getIntersection( incidentRay, prisms ) {
     let allIntersections = [];
     prisms.forEach( function( prism ) {
       prism.getIntersections( incidentRay ).forEach( function( intersection ) {
@@ -429,12 +424,16 @@ export default inherit( BendingLightModel, PrismsModel, {
       return allIntersection.point.distance( incidentRay.tail );
     } );
     return allIntersections.length === 0 ? null : allIntersections[ 0 ];
-  },
+  }
 
   /**
    * @public
    */
-  clear: function() {
+  clear() {
     this.intersections.clear();
   }
-} );
+}
+
+bendingLight.register( 'PrismsModel', PrismsModel );
+
+export default PrismsModel;

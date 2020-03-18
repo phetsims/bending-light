@@ -9,7 +9,6 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import icon from '../../mipmaps/Intro_Screen_png.js';
 import bendingLightStrings from '../bending-light-strings.js';
@@ -21,35 +20,34 @@ import LaserTypeAquaRadioButtonGroup from './view/LaserTypeAquaRadioButtonGroup.
 
 const introString = bendingLightStrings.intro;
 
+class IntroScreen extends Screen {
 
-/**
- * @constructor
- */
-function IntroScreen( tandem ) {
+  // TODO: JSDoc
+  constructor( tandem ) {
 
-  const options = {
-    name: introString,
-    homeScreenIcon: new Image( icon ),
-    backgroundColorProperty: new Property( 'white' ),
-    tandem: tandem
-  };
+    const options = {
+      name: introString,
+      homeScreenIcon: new Image( icon ),
+      backgroundColorProperty: new Property( 'white' ),
+      tandem: tandem
+    };
 
-  Screen.call( this,
-    function() { return new IntroModel( Substance.WATER, true ); },
-    function( model ) {
-      return new IntroView( model,
-        false, // hasMoreTools
-        2, // indexOfRefractionDecimals
+    super(
+      function() { return new IntroModel( Substance.WATER, true ); },
+      function( model ) {
+        return new IntroView( model,
+          false, // hasMoreTools
+          2, // indexOfRefractionDecimals
 
-        // createLaserControlPanel
-        function( introModel ) {
-          return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
-        } );
-    },
-    options );
+          // createLaserControlPanel
+          function( introModel ) {
+            return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
+          } );
+      },
+      options );
+  }
 }
 
 bendingLight.register( 'IntroScreen', IntroScreen );
 
-inherit( Screen, IntroScreen );
 export default IntroScreen;

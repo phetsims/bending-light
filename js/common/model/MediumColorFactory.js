@@ -10,13 +10,43 @@
 import Property from '../../../../axon/js/Property.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
 
-function MediumColorFactory() {
-  this.lightTypeProperty = new Property( 'singleColor' ); // could also be 'white'
+class MediumColorFactory {
+
+  constructor() {
+    this.lightTypeProperty = new Property( 'singleColor' ); // could also be 'white'
+
+    // TODO: Move to prototype
+
+    /**
+     * Maps index of refraction to color using linear functions
+     * @public
+     * @param {number} indexForRed
+     * @returns {Color}
+     */
+    this.getColorAgainstWhite = createProfile(
+      new Color( 255, 255, 255 ),
+      new Color( 198, 226, 246 ),
+      new Color( 171, 169, 212 ),
+      new Color( 78, 79, 164 )
+    );
+
+    this.getColorAgainstBlack = createProfile(
+      new Color( step * 0, step * 0, step * 0 ),
+      new Color( step * 1, step * 1, step * 1 ),
+      new Color( step * 2, step * 2, step * 2 ),
+      new Color( step * 3, step * 3, step * 3 )
+    );
+  }
+
+  getColor( indexForRed ) {
+    return this.lightTypeProperty.value === 'singleColor' ?
+           this.getColorAgainstWhite( indexForRed ) :
+           this.getColorAgainstBlack( indexForRed );
+  }
 }
 
 /**
@@ -100,30 +130,4 @@ const createProfile = function( AIR_COLOR, WATER_COLOR, GLASS_COLOR, DIAMOND_COL
 const step = 55;
 bendingLight.register( 'MediumColorFactory', MediumColorFactory );
 
-export default inherit( Object, MediumColorFactory, {
-
-  /**
-   * Maps index of refraction to color using linear functions
-   * @public
-   * @param {number} indexForRed
-   * @returns {Color}
-   */
-  getColorAgainstWhite: createProfile(
-    new Color( 255, 255, 255 ),
-    new Color( 198, 226, 246 ),
-    new Color( 171, 169, 212 ),
-    new Color( 78, 79, 164 )
-  ),
-  getColorAgainstBlack: createProfile(
-    new Color( step * 0, step * 0, step * 0 ),
-    new Color( step * 1, step * 1, step * 1 ),
-    new Color( step * 2, step * 2, step * 2 ),
-    new Color( step * 3, step * 3, step * 3 )
-  ),
-
-  getColor: function( indexForRed ) {
-    return this.lightTypeProperty.value === 'singleColor' ?
-           this.getColorAgainstWhite( indexForRed ) :
-           this.getColorAgainstBlack( indexForRed );
-  }
-} );
+export default MediumColorFactory;
