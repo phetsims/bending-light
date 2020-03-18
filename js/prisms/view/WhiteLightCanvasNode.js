@@ -41,11 +41,10 @@ class WhiteLightCanvasNode extends CanvasNode {
     this.modelViewTransform = modelViewTransform; // @private
     this.whiteLightRays = whiteLightRays; // @private
     this.environmentMediumProperty = environmentMediumProperty;
-    const self = this;
-    const update = function() {
+    const update = () => {
       const a = environmentMediumProperty.value.substance.indexOfRefractionForRedLight;
-      self.colorCSS = mediumColorFactory.getColor( a ).toCSS();
-      self.invalidatePaint();
+      this.colorCSS = mediumColorFactory.getColor( a ).toCSS();
+      this.invalidatePaint();
     };
     mediumColorFactory.lightTypeProperty.link( update );
     environmentMediumProperty.link( update );

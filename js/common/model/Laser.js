@@ -26,7 +26,6 @@ class Laser {
   constructor( wavelengthProperty, distanceFromPivot, angle, topLeftQuadrant ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
-    const self = this;
     this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) ); // @public, point to be pivoted about, and at which the laser points
     this.onProperty = new Property( false ); // @public, true if the laser is activated and emitting light
     this.waveProperty = new Property( false ); // @public
@@ -44,11 +43,11 @@ class Laser {
     // laser direction vector
     this.directionUnitVector = new Vector2( 0, 0 ); // @private, for internal use only.
 
-    this.waveProperty.link( function() {
+    this.waveProperty.link( () => {
 
       // prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
-      if ( self.waveProperty.value && self.getAngle() > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
-        self.setAngle( BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE );
+      if ( this.waveProperty.value && this.getAngle() > BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
+        this.setAngle( BendingLightConstants.MAX_ANGLE_IN_WAVE_MODE );
       }
     } );
   }

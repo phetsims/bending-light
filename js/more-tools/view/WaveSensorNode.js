@@ -46,8 +46,6 @@ class ProbeNodeWrapper extends Node {
 
     super( { cursor: 'pointer' } );
 
-    const self = this;
-
     // Add the probe
     this.addChild( new ProbeNode( {
       radius: 43,
@@ -65,12 +63,12 @@ class ProbeNodeWrapper extends Node {
     } ) );
 
     // Probe position
-    probe.positionProperty.link( function( position ) {
-      self.translation = modelViewTransform.modelToViewPosition( position );
+    probe.positionProperty.link( position => {
+      this.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
-    this.syncModelFromView = function() {
-      probe.positionProperty.value = modelViewTransform.viewToModelPosition( self.translation );
+    this.syncModelFromView = () => {
+      probe.positionProperty.value = modelViewTransform.viewToModelPosition( this.translation );
     };
   }
 }
@@ -85,8 +83,6 @@ class WaveSensorNode extends Node {
   constructor( modelViewTransform, waveSensor, options ) {
 
     super( { cursor: 'pointer' } );
-
-    const self = this;
 
     // Color taken from the image
     const darkProbeColor = new Color( 88, 89, 91 );
@@ -181,14 +177,14 @@ class WaveSensorNode extends Node {
     this.addChild( this.wire2Node );
 
     // Synchronize the body position with the model (centered on the model point)
-    waveSensor.bodyPositionProperty.link( function( position ) {
-      self.bodyNode.center = modelViewTransform.modelToViewPosition( position );
+    waveSensor.bodyPositionProperty.link( position => {
+      this.bodyNode.center = modelViewTransform.modelToViewPosition( position );
     } );
 
-    this.syncModelFromView = function() {
-      waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( self.bodyNode.center );
-      self.probe1Node.syncModelFromView();
-      self.probe2Node.syncModelFromView();
+    this.syncModelFromView = () => {
+      waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( this.bodyNode.center );
+      this.probe1Node.syncModelFromView();
+      this.probe2Node.syncModelFromView();
     };
 
     this.addChild( this.bodyNode );

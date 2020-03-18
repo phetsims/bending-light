@@ -37,8 +37,6 @@ class PrismsModel extends BendingLightModel {
 
     super( Math.PI, false, 1E-16 );
 
-    const self = this;
-
     this.prisms = new ObservableArray(); // @public (read-only)
 
     // @public (read-only) - List of intersections, which can be shown graphically
@@ -62,8 +60,8 @@ class PrismsModel extends BendingLightModel {
     this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ), { reentrant: true } );
 
     this.intersectionStrokeProperty = new Property( 'black' );
-    this.laser.colorModeProperty.link( function( colorMode ) {
-      self.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
+    this.laser.colorModeProperty.link( colorMode => {
+      this.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
     } );
     Property.multilink( [
       this.manyRaysProperty,
@@ -77,10 +75,10 @@ class PrismsModel extends BendingLightModel {
       this.laser.colorModeProperty,
       this.laser.colorProperty,
       this.laserViewProperty
-    ], function() {
-      self.clear();
-      self.updateModel();
-      self.dirty = true;
+    ], () => {
+      this.clear();
+      this.updateModel();
+      this.dirty = true;
     } );
 
     // coalesce repeat updates so work is not duplicated in white light node.

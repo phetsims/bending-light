@@ -47,8 +47,6 @@ class VelocitySensorNode extends Node {
       pickable: true
     } );
 
-    const self = this;
-
     this.modelViewTransform = modelViewTransform; // @public (read-only)
     this.velocitySensor = velocitySensor; // @public (read-only)
 
@@ -130,13 +128,13 @@ class VelocitySensorNode extends Node {
     } );
     this.bodyNode.addChild( this.arrowShape );
 
-    velocitySensor.valueProperty.link( function( velocity ) {
+    velocitySensor.valueProperty.link( velocity => {
 
       const positionX = modelViewTransform.modelToViewDeltaX( velocity.x ) * arrowScale;
       const positionY = modelViewTransform.modelToViewDeltaY( velocity.y ) * arrowScale;
 
       // update the arrow shape when the velocity value changes
-      self.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY, {
+      this.arrowShape.setShape( new ArrowShape( 0, 0, positionX, positionY, {
         tailWidth: arrowWidth,
         headWidth: 2 * arrowWidth,
         headHeight: 2 * arrowWidth
@@ -146,10 +144,10 @@ class VelocitySensorNode extends Node {
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
 
     // update the velocity node position
-    velocitySensor.positionProperty.link( function( position ) {
+    velocitySensor.positionProperty.link( position => {
       const velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
       const velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
-      self.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
+      this.setTranslation( velocitySensorXPosition, velocitySensorYPosition );
     } );
 
     // Update the text when the value or units changes.

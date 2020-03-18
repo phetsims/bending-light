@@ -51,21 +51,20 @@ class PrismToolboxNode extends Node {
                options ) {
 
     super();
-    const self = this;
     const content = new HBox( {
       spacing: 8.4
     } );
 
     // Create prism icon
-    const createPrismIcon = function( prism ) {
+    const createPrismIcon = ( prism ) => {
       const prismShape = prism.copy();
-      return new PrismNode( prismsModel, modelViewTransform, prismShape, self, prismLayer,
+      return new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer,
         dragBoundsProperty, occlusionHandler, true );
     };
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
     let prismNode;
-    prismsModel.getPrismPrototypes().forEach( function( prism ) {
+    prismsModel.getPrismPrototypes().forEach( prism => {
       const prismIcon = createPrismIcon( prism );
 
       const listener = function() {
@@ -90,18 +89,18 @@ class PrismToolboxNode extends Node {
 
       // Add drag listener for the prisms icon
       prismToolboxIconNode.addInputListener( new SimpleDragHandler( {
-          start: function( event, trail ) {
-            const start = self.globalToParentPoint( event.pointer.point );
-            const prismShape = prism.copy();
+        start: ( event, trail ) => {
+          const start = this.globalToParentPoint( event.pointer.point );
+          const prismShape = prism.copy();
 
-            // add prism model to the prisms model
-            prismsModel.addPrism( prismShape );
+          // add prism model to the prisms model
+          prismsModel.addPrism( prismShape );
 
-            // create a prism node and add to the prisms layer
-            prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, self, prismLayer,
-              dragBoundsProperty, occlusionHandler, false );
-            prismLayer.addChild( prismNode );
-            prismShape.translate(
+          // create a prism node and add to the prisms layer
+          prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer,
+            dragBoundsProperty, occlusionHandler, false );
+          prismLayer.addChild( prismNode );
+          prismShape.translate(
               modelViewTransform.viewToModelX( start.x ),
               modelViewTransform.viewToModelY( start.y )
             );

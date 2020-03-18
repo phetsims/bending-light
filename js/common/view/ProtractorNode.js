@@ -80,20 +80,20 @@ class ProtractorNode extends Node {
       // rotate listener
       let start;
       rotatePath.addInputListener( new SimpleDragHandler( {
-        start: function( event ) {
-          start = self.globalToParentPoint( event.pointer.point );
+        start: event => {
+          start = this.globalToParentPoint( event.pointer.point );
         },
-        drag: function( event ) {
+        drag: event => {
 
           // compute the change in angle based on the new drag event
-          const end = self.globalToParentPoint( event.pointer.point );
-          const centerX = self.getCenterX();
-          const centerY = self.getCenterY();
+          const end = this.globalToParentPoint( event.pointer.point );
+          const centerX = this.getCenterX();
+          const centerY = this.getCenterY();
           const startAngle = Math.atan2( centerY - start.y, centerX - start.x );
           const angle = Math.atan2( centerY - end.y, centerX - end.x );
 
           // rotate the protractor model
-          self.protractorAngleProperty.value += angle - startAngle;
+          this.protractorAngleProperty.value += angle - startAngle;
           start = end;
         }
       } ) );

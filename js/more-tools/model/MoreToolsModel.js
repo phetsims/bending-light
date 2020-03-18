@@ -22,7 +22,7 @@ class MoreToolsModel extends IntroModel {
     super( Substance.GLASS, false );
 
     this.velocitySensor = new VelocitySensor(); // @public (read-only)
-    const waveValueGetter = position => self.getWaveValue( position );
+    const waveValueGetter = position => this.getWaveValue( position );
 
     // @public (read-only)
     this.waveSensor = new WaveSensor( waveValueGetter, waveValueGetter );

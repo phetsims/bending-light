@@ -36,13 +36,12 @@ class PrismNode extends Node {
                occlusionHandler, isIcon ) {
 
     super( { cursor: 'pointer' } );
-    const self = this;
     const knobHeight = 15;
 
     // It looks like a box on the side of the prism
     const knobNode = new Image( knobImage );
     if ( prism.shapeProperty.get().getReferencePoint() ) {
-      self.addChild( knobNode );
+      this.addChild( knobNode );
     }
 
     // Prism rotation with knob
@@ -50,8 +49,8 @@ class PrismNode extends Node {
     let prismCenterPoint;
     if ( !isIcon ) {
       knobNode.addInputListener( new SimpleDragHandler( {
-        start: function( event ) {
-          self.moveToFront();
+        start: event => {
+          this.moveToFront();
           const start = knobNode.globalToParentPoint( event.pointer.point );
           prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
           const startX = modelViewTransform.viewToModelX( start.x );// model values
@@ -106,14 +105,14 @@ class PrismNode extends Node {
     };
     this.movableDragHandler = new MovableDragHandler( positionProperty, {
       modelViewTransform: modelViewTransform,
-      endDrag: function() {
-        occlusionHandler( self );
-        if ( prismToolboxNode.visibleBounds.containsCoordinates( self.getCenterX(), self.getCenterY() ) ) {
-          if ( prismLayer.hasChild( self ) ) {
+      endDrag: () => {
+        occlusionHandler( this );
+        if ( prismToolboxNode.visibleBounds.containsCoordinates( this.getCenterX(), this.getCenterY() ) ) {
+          if ( prismLayer.hasChild( this ) ) {
             prismsModel.removePrism( prism );
-            prism.shapeProperty.unlink( self.updatePrismShape );
-            prismsModel.prismMediumProperty.unlink( self.updatePrismColor );
-            prismLayer.removeChild( self );
+            prism.shapeProperty.unlink( this.updatePrismShape );
+            prismsModel.prismMediumProperty.unlink( this.updatePrismColor );
+            prismLayer.removeChild( this );
           }
           prismsModel.dirty = true;
         }

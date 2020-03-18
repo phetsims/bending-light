@@ -49,11 +49,9 @@ class AngleNode extends Node {
                addStepListener ) {
     super();
 
-    const self = this;
-
     // Only show the AngleNode when it is selected via a checkbox and the laser is on
-    Property.multilink( [ showAnglesProperty, laserOnProperty ], function( showAngles, laserOn ) {
-      self.visible = showAngles && laserOn;
+    Property.multilink( [ showAnglesProperty, laserOnProperty ], ( showAngles, laserOn ) => {
+      this.visible = showAngles && laserOn;
     } );
 
     const createArcPath = function() {

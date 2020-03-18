@@ -46,7 +46,6 @@ class BendingLightView extends ScreenView {
     this.occlusionHandler = options.occlusionHandler;
     this.bendingLightModel = bendingLightModel;
 
-    const self = this;
     this.showProtractorProperty = new Property( false ); // @public (read-only)
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
@@ -134,14 +133,12 @@ class BendingLightView extends ScreenView {
     } );
 
     Property.multilink( [ bendingLightModel.laser.colorModeProperty, bendingLightModel.laserViewProperty ],
-      function( colorMode, laserView ) {
-        self.singleColorLightNode.visible = laserView === 'ray' && colorMode !== 'white';
+      ( colorMode, laserView ) => {
+        this.singleColorLightNode.visible = laserView === 'ray' && colorMode !== 'white';
       }
     );
 
-    this.visibleBoundsProperty.link( function( visibleBounds ) {
-      self.singleColorLightNode.setCanvasBounds( visibleBounds );
-    } );
+    this.visibleBoundsProperty.link( visibleBounds => this.singleColorLightNode.setCanvasBounds( visibleBounds ) );
   }
 
   reset() {

@@ -60,7 +60,6 @@ class ChartNode extends Node {
   constructor( chartBounds, seriesArray ) {
 
     super();
-    const self = this;
     this.chartBounds = chartBounds; // @public (read-only)
     this.seriesArray = seriesArray; // @public (read-only)
 
@@ -79,9 +78,7 @@ class ChartNode extends Node {
     this.addChild( this.gridCanvasNode );
 
     // Add nodes for the grid lines and series's
-    seriesArray.forEach( function( series ) {
-      self.addChild( new SeriesNode( series, self.modelViewTransformProperty, self.chartBounds ) );
-    } );
+    seriesArray.forEach( series => this.addChild( new SeriesNode( series, this.modelViewTransformProperty, this.chartBounds ) ) );
   }
 
   /**

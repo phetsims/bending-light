@@ -78,7 +78,6 @@ class PrismsView extends BendingLightView {
 
     this.prismLayer = new Node( { layerSplit: true } );
     this.prismsModel = prismsModel;
-    const self = this;
 
     // Node for the environment that spans the screen (only for monochromatic light, the white light background
     // is rendered as opaque in the white light node for blending purposes)
@@ -137,19 +136,19 @@ class PrismsView extends BendingLightView {
     this.incidentWaveLayer.setVisible( false );
 
     // Optionally show the normal lines at each intersection
-    prismsModel.intersections.addItemAddedListener( function( addedIntersection ) {
+    prismsModel.intersections.addItemAddedListener( addedIntersection => {
       if ( prismsModel.showNormalsProperty.value ) {
         const node = new IntersectionNode(
-          self.modelViewTransform,
+          this.modelViewTransform,
           addedIntersection,
           prismsModel.intersectionStrokeProperty
         );
-        self.addChild( node );
+        this.addChild( node );
 
-        prismsModel.intersections.addItemRemovedListener( function( removedIntersection ) {
+        prismsModel.intersections.addItemRemovedListener( removedIntersection => {
           if ( removedIntersection === addedIntersection ) {
             node.dispose();
-            self.removeChild( node );
+            this.removeChild( node );
           }
         } );
       }
@@ -168,9 +167,9 @@ class PrismsView extends BendingLightView {
 
     // Add the reset all button
     const resetAllButton = new ResetAllButton( {
-      listener: function() {
+      listener: () => {
         prismsModel.reset();
-        self.reset();
+        this.reset();
         environmentMediumControlPanel.reset();
         prismToolboxNode.objectMediumControlPanel.reset();
         radioButtonAdapterProperty.reset();
@@ -224,8 +223,8 @@ class PrismsView extends BendingLightView {
       laserControlPanel.top = laserTypeRadioButtonGroup.bottom + 15;
     } );
 
-    this.visibleBoundsProperty.link( function( visibleBounds ) {
-      self.whiteLightNode.setCanvasBounds( visibleBounds );
+    this.visibleBoundsProperty.link( visibleBounds => {
+      this.whiteLightNode.setCanvasBounds( visibleBounds );
       protractorNodeListener.setDragBounds( visibleBounds );
       environmentMediumNodeForMonochromaticLight.setRect( visibleBounds.x, visibleBounds.y, visibleBounds.width, visibleBounds.height );
     } );
@@ -283,7 +282,6 @@ class PrismsView extends BendingLightView {
     // TODO: assert bendingLightModel instanceof PrismsModel
     const stageWidth = this.layoutBounds.width;
     const stageHeight = this.layoutBounds.height;
-    const self = this;
 
     // const bendingLightModel = this.bendingLightModel;
     this.whiteLightNode = new WhiteLightCanvasNode(
@@ -300,9 +298,9 @@ class PrismsView extends BendingLightView {
     this.addChild( this.whiteLightNode );
 
     // switch between light render for white vs nonwhite light
-    bendingLightModel.laser.colorModeProperty.link( function( color ) {
+    bendingLightModel.laser.colorModeProperty.link( color => {
       const white = color === 'white';
-      self.whiteLightNode.setVisible( white );
+      this.whiteLightNode.setVisible( white );
     } );
   }
 
