@@ -57,7 +57,10 @@ class MoreToolsView extends IntroView {
       } );
   }
 
-  // TODO
+  /**
+   * @returns {WaveSensorNode}
+   * @public
+   */
   getWaveSensorIcon() {
     const modelViewTransform = this.modelViewTransform;
 
@@ -147,7 +150,9 @@ class MoreToolsView extends IntroView {
     return waveSensorIcon;
   }
 
-  // TODO:
+  /**
+   * @returns {VelocitySensorNode}
+   */
   getVelocitySensorIcon() {
     const moreToolsModel = this.bendingLightModel;
     const velocitySensorToolboxScale = 1.2;

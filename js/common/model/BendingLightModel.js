@@ -44,13 +44,14 @@ class BendingLightModel {
     // Check to see if WebGL was prevented by a query parameter
     this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
 
-    this.laserViewProperty = new Property( 'ray' ); // @public, Whether the laser is Ray or Wave mode
-    this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED ); // @public
-    this.isPlayingProperty = new Property( true );// @public
-    this.speedProperty = new Property( 'normal' ); // @public
-    this.indexOfRefractionProperty = new Property( 1 ); //@public
-    this.showNormalProperty = new Property( true );// @public
-    this.showAnglesProperty = new Property( false ); // @public
+    // @public
+    this.laserViewProperty = new Property( 'ray' ); // @public, Whether the laser is Ray or Wave mode // TODO: Enumeration
+    this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
+    this.isPlayingProperty = new Property( true );
+    this.speedProperty = new Property( 'normal' );
+    this.indexOfRefractionProperty = new Property( 1 );
+    this.showNormalProperty = new Property( true );
+    this.showAnglesProperty = new Property( false );
 
     // @public (read-only)- the laser
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );

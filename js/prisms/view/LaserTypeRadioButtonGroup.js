@@ -17,9 +17,11 @@ import bendingLight from '../../bendingLight.js';
 
 class LaserTypeRadioButtonGroup extends RadioButtonGroup {
 
-  // TODO: JSDoc
+  /**
+   * @param {Property<string>} radioButtonAdapterProperty TODO: Enumeration
+   * @param {Object} [options]
+   */
   constructor( radioButtonAdapterProperty, options ) {
-
     const laserImageNode = new Image( laserImage, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )

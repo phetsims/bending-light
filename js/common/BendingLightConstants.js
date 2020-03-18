@@ -279,11 +279,6 @@ const NORMALIZED_XYZ_INTENSITIES = ( () => {
 //                    will be available.
 const WHITE_LIGHT_WAVELENGTHS = _.range( 400, 700, 10 ); // excludes maximum value
 
-// TODO: Commented out code
-// var NUM_RAY_SATURATION = _.max( _.reduce( NORMALIZED_XYZ_INTENSITIES, function( memo, item ) {
-//   return memo.plus( item );
-// }, new Vector3( 0, 0, 0 ) ) );
-
 // {Matrix3} - Maps color vectors in the XYZ colorspace into RGB (using the sRGB primaries, but not applying the
 //             nonlinear mapping part of sRGB).
 const XYZ_TO_RGB_MATRIX = new Matrix3().rowMajor(

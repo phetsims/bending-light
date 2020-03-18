@@ -399,7 +399,6 @@ class IntroView extends BendingLightView {
     FloatingLayout.floatBottom( this, [ checkboxPanel, resetAllButton, this.timeControlNode ] );
 
     this.visibleBoundsProperty.link( () => {
-      // TODO: expression form?
       this.toolbox.bottom = checkboxPanel.top - 10;
     } );
 
@@ -421,7 +420,9 @@ class IntroView extends BendingLightView {
     } );
   }
 
-// TODO: JSDoc
+  /**
+   * @public - restore initial conditions
+   */
   reset() {
     super.reset();
     this.introModel.reset();
@@ -429,8 +430,11 @@ class IntroView extends BendingLightView {
     this.bottomMediumControlPanel.reset();
   }
 
-  // TODO: JSDoc
-  // Allow subclasses to provide more tools
+  /**
+   * Allow subclasses to provide more tools
+   * @returns {Node[]}
+   * @protected
+   */
   getAdditionalToolIcons() {
     return [];
   }
@@ -461,8 +465,8 @@ class IntroView extends BendingLightView {
 
   /**
    * Add light representations which are specific to this view.  In this case it is the wave representation.
+   * @param {BendingLightModel} bendingLightModel
    * @private
-   * TODO: JSDoc
    */
   addLightNodes( bendingLightModel ) {
     super.addLightNodes( bendingLightModel );

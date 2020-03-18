@@ -40,7 +40,7 @@ const FloatingLayout = {
    * @public
    * @param {ScreenView} screenView
    * @param {Node[]} nodes
-   * TODO: JSDoc
+   * @param {number} delta
    */
   floatLeft: ( screenView, nodes, delta ) => {
     delta = delta || 0;

@@ -152,8 +152,11 @@ class BendingLightView extends ScreenView {
     }
   }
 
-  // @protected - overriden for IntroView to add the wave nodes
-  // TODO: JSDoc
+  /**
+   * Overriden for IntroView to add the wave nodes
+   * @param {BendingLightModel} bendingLightModel
+   * @protected
+   */
   addLightNodes( bendingLightModel ) {
   }
 

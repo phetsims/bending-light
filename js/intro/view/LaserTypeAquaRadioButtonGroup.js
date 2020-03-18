@@ -17,11 +17,11 @@ const rayString = bendingLightStrings.ray;
 const waveString = bendingLightStrings.wave;
 
 class LaserTypeAquaRadioButtonGroup extends VBox {
+
   /**
-   * TODO: JSDoc
+   * @param laserTypeProperty
    */
   constructor( laserTypeProperty ) {
-
     const radioButtonOptions = {
       radius: 6,
       font: new PhetFont( 12 )

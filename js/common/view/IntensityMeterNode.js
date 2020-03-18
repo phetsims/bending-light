@@ -151,7 +151,9 @@ class IntensityMeterNode extends Node {
     this.syncModelFromView();
   }
 
-  // TODO: JSDoc
+  /**
+   * @public
+   */
   resetRelativePositions() {
     this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );
   }

@@ -276,7 +276,11 @@ class PrismsView extends BendingLightView {
     }
   }
 
-  // TODO: JSDoc
+  /**
+   * Add the screen-specific light nodes
+   * @param {BendingLightModel} bendingLightModel - passed because this is called during construction (before this.model
+   * is set in the subtype)
+   */
   addLightNodes( bendingLightModel ) {
 
     // TODO: assert bendingLightModel instanceof PrismsModel

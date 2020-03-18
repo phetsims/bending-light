@@ -26,9 +26,8 @@ class Series {
 
   /**
    * Discard early samples that have gone out of range
-   * @public
    * @param {number} minTime - minimum time to be displayed on chart node
-   * // TODO: visibility
+   * @public
    */
   keepLastSamples( minTime ) {
     let startIndex = 0;
