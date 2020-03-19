@@ -113,9 +113,6 @@ class WavePainter {
 
     for ( let i = rays.length - 1; i >= 0; i-- ) {
       const elements = [];
-      let red;
-      let green;
-      let blue;
       const lightRay = rays.get( i );
       const lightRayWaveSubPath = lightRay.waveShape.subpaths[ 0 ];
 
@@ -156,9 +153,9 @@ class WavePainter {
       );
 
       // light ray color
-      red = lightRay.color.r / 255;
-      green = lightRay.color.g / 255;
-      blue = lightRay.color.b / 255;
+      const red = lightRay.color.r / 255;
+      const green = lightRay.color.g / 255;
+      const blue = lightRay.color.b / 255;
 
       gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( elements ), gl.STATIC_DRAW );
