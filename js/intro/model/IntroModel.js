@@ -482,8 +482,8 @@ class IntroModel extends BendingLightModel {
 
       // Just keep the fractional part
       let phaseDiff = ( totalPhaseOffsetInNumberOfWavelengths % 1 ) * wavelength;
-      var tailX;
-      var tailY;
+      let tailX;
+      let tailY;
       const angle = lightRay.getAngle();
       if ( i === 0 ) {
 

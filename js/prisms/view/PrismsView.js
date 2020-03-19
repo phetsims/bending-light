@@ -96,7 +96,7 @@ class PrismsView extends BendingLightView {
     const indexOfRefractionDecimals = 2;
 
     // Add control panels for setting the index of refraction for each medium
-    var environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.mediumColorFactory, prismsModel.environmentMediumProperty,
+    const environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.mediumColorFactory, prismsModel.environmentMediumProperty,
       environmentString, false, prismsModel.wavelengthProperty,
       indexOfRefractionDecimals, {
         yMargin: 6,
@@ -116,10 +116,10 @@ class PrismsView extends BendingLightView {
       sliderEnabledProperty.value = radioButtonAdapterValue !== 'white';
     } );
 
-    var laserTypeRadioButtonGroup = new LaserTypeRadioButtonGroup( radioButtonAdapterProperty );
+    const laserTypeRadioButtonGroup = new LaserTypeRadioButtonGroup( radioButtonAdapterProperty );
     this.afterLightLayer2.addChild( laserTypeRadioButtonGroup );
 
-    var laserControlPanel = new Panel( new VBox( {
+    const laserControlPanel = new Panel( new VBox( {
       spacing: 10,
       children: [
         new WavelengthControl( prismsModel.wavelengthProperty, sliderEnabledProperty, 146 ) ]

@@ -113,9 +113,9 @@ class WavePainter {
 
     for ( let i = rays.length - 1; i >= 0; i-- ) {
       const elements = [];
-      var red;
-      var green;
-      var blue;
+      let red;
+      let green;
+      let blue;
       const lightRay = rays.get( i );
       const lightRayWaveSubPath = lightRay.waveShape.subpaths[ 0 ];
 

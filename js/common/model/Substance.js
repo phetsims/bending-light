@@ -38,7 +38,6 @@ class Substance {
     this.indexOfRefractionForRedLight = this.dispersionFunction.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
     this.indexForRed = indexForRed; // @public (read-only)
   }
-
 }
 
 bendingLight.register( 'Substance', Substance );
