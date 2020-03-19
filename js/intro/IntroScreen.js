@@ -35,7 +35,7 @@ class IntroScreen extends Screen {
     };
 
     super(
-      () => new IntroModel( Substance.WATER, true ),
+      () => new IntroModel( Substance.WATER, true, tandem.createTandem( 'model' ) ),
       model => new IntroView( model,
         false, // hasMoreTools
         2, // indexOfRefractionDecimals

@@ -15,11 +15,15 @@ import VelocitySensor from './VelocitySensor.js';
 import WaveSensor from './WaveSensor.js';
 
 class MoreToolsModel extends IntroModel {
-  constructor() {
+
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
 
     // On this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent
     // bend
-    super( Substance.GLASS, false );
+    super( Substance.GLASS, false, tandem );
 
     this.velocitySensor = new VelocitySensor(); // @public (read-only)
     const waveValueGetter = position => this.getWaveValue( position );

@@ -9,17 +9,21 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import DerivedPropertyIO from '../../../../axon/js/DerivedPropertyIO.js';
 import Property from '../../../../axon/js/Property.js';
+import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import IntensityMeter from '../../common/model/IntensityMeter.js';
 import LightRay from '../../common/model/LightRay.js';
 import Medium from '../../common/model/Medium.js';
+import MediumIO from '../../common/model/MediumIO.js';
 import Reading from '../../common/model/Reading.js';
 import Substance from '../../common/model/Substance.js';
 import WaveParticle from '../../common/model/WaveParticle.js';
@@ -35,18 +39,30 @@ class IntroModel extends BendingLightModel {
   /**
    * @param {Substance} bottomSubstance - state of bottom medium
    * @param {boolean} horizontalPlayAreaOffset - specifies center alignment
+   * @param {Tandem} tandem
    */
-  constructor( bottomSubstance, horizontalPlayAreaOffset ) {
+  constructor( bottomSubstance, horizontalPlayAreaOffset, tandem ) {
 
     super( Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
 
     // Top medium
-    this.topMediumProperty = new Property( new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), Substance.AIR,
-      this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );
+    // TODO: Split this into topSubstanceProperty for phet-io
+    const topMedium = new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), Substance.AIR,
+      this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) );
+    this.topMediumProperty = new Property( topMedium, {
+      reentrant: true,
+      tandem: tandem.createTandem( 'topMediumProperty' ),
+      phetioType: PropertyIO( MediumIO )
+    } );
 
     // Bottom medium
-    this.bottomMediumProperty = new Property( new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomSubstance,
-      this.mediumColorFactory.getColor( bottomSubstance.indexOfRefractionForRedLight ) ), { reentrant: true } );
+    const bottomMedium = new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomSubstance,
+      this.mediumColorFactory.getColor( bottomSubstance.indexOfRefractionForRedLight ) );
+    this.bottomMediumProperty = new Property( bottomMedium, {
+      reentrant: true,
+      tandem: tandem.createTandem( 'bottomMediumProperty' ),
+      phetioType: PropertyIO( MediumIO )
+    } );
     this.time = 0; // @public
 
     // Update the top medium index of refraction when top medium change
@@ -55,7 +71,10 @@ class IntroModel extends BendingLightModel {
         this.topMediumProperty,
         this.laser.colorProperty
       ],
-      ( topMedium, color ) => topMedium.getIndexOfRefraction( color.wavelength ) );
+      ( topMedium, color ) => topMedium.getIndexOfRefraction( color.wavelength ), {
+        tandem: tandem.createTandem( 'indexOfRefractionOfTopMediumProperty' ),
+        phetioType: DerivedPropertyIO( NumberIO )
+      } );
 
     // Update the bottom medium index of refraction when bottom medium change
     // @public (read-only)
@@ -63,7 +82,10 @@ class IntroModel extends BendingLightModel {
         this.bottomMediumProperty,
         this.laser.colorProperty
       ],
-      ( bottomMedium, color ) => bottomMedium.getIndexOfRefraction( color.wavelength ) );
+      ( bottomMedium, color ) => bottomMedium.getIndexOfRefraction( color.wavelength ), {
+        tandem: tandem.createTandem( 'indexOfRefractionOfBottomMediumProperty' ),
+        phetioType: DerivedPropertyIO( NumberIO )
+      } );
 
     // @public (read-only)-model components
     this.intensityMeter = new IntensityMeter(
@@ -105,14 +127,12 @@ class IntroModel extends BendingLightModel {
     this.rotationArrowAngleOffset = -Math.PI / 4;
   }
 
-
   /**
    * Light rays were cleared from model before propagateRays was called, this creates them according to the laser and
    * mediums
    * @public
    */
   propagateRays() {
-
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
 

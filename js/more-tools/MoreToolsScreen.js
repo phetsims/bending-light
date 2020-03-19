@@ -29,7 +29,7 @@ class MoreToolsScreen extends Screen {
     };
 
     super(
-      () => new MoreToolsModel(),
+      () => new MoreToolsModel( tandem.createTandem( 'model' ) ),
       model => new MoreToolsView( model ),
       options
     );
