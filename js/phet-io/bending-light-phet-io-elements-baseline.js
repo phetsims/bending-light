@@ -2822,7 +2822,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<BooleanIO>"
     },
-    "bendingLight.introScreen.bottomMediumProperty": {
+    "bendingLight.introScreen.model.bottomMediumProperty": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2835,7 +2835,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<MediumIO>"
     },
-    "bendingLight.introScreen.indexOfRefractionOfBottomMediumProperty": {
+    "bendingLight.introScreen.model.indexOfRefractionOfBottomMediumProperty": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2848,7 +2848,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "DerivedPropertyIO<NumberIO>"
     },
-    "bendingLight.introScreen.indexOfRefractionOfTopMediumProperty": {
+    "bendingLight.introScreen.model.indexOfRefractionOfTopMediumProperty": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2861,7 +2861,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "DerivedPropertyIO<NumberIO>"
     },
-    "bendingLight.introScreen.topMediumProperty": {
+    "bendingLight.introScreen.model.topMediumProperty": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
