@@ -25,7 +25,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import bendingLightStrings from '../../bending-light-strings.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
-import BendingLightView from '../../common/view/BendingLightView.js';
+import BendingLightScreenView from '../../common/view/BendingLightScreenView.js';
 import FloatingLayout from '../../common/view/FloatingLayout.js';
 import IntensityMeterNode from '../../common/view/IntensityMeterNode.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
@@ -46,7 +46,7 @@ const normalLineString = bendingLightStrings.normalLine;
 // constants
 const INSET = 10;
 
-class IntroView extends BendingLightView {
+class IntroScreenView extends BendingLightScreenView {
 
   /**
    * @param {IntroModel} introModel - model of intro screen
@@ -343,7 +343,7 @@ class IntroView extends BendingLightView {
       intensityMeterNode.syncModelFromView();
     } ) );
 
-    // @protected for subclass usage in MoreToolsView
+    // @protected for subclass usage in MoreToolsScreenView
     this.bumpLeft = bumpLeft;
 
     let toolboxNodes = [
@@ -490,6 +490,6 @@ class IntroView extends BendingLightView {
   }
 }
 
-bendingLight.register( 'IntroView', IntroView );
+bendingLight.register( 'IntroScreenView', IntroScreenView );
 
-export default IntroView;
+export default IntroScreenView;

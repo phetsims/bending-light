@@ -15,7 +15,7 @@ import bendingLightStrings from '../bending-light-strings.js';
 import bendingLight from '../bendingLight.js';
 import Substance from '../common/model/Substance.js';
 import IntroModel from './model/IntroModel.js';
-import IntroView from './view/IntroView.js';
+import IntroScreenView from './view/IntroScreenView.js';
 import LaserTypeAquaRadioButtonGroup from './view/LaserTypeAquaRadioButtonGroup.js';
 
 const introString = bendingLightStrings.intro;
@@ -36,7 +36,7 @@ class IntroScreen extends Screen {
 
     super(
       () => new IntroModel( Substance.WATER, true, tandem.createTandem( 'model' ) ),
-      model => new IntroView( model,
+      model => new IntroScreenView( model,
         false, // hasMoreTools
         2, // indexOfRefractionDecimals
 

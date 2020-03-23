@@ -19,7 +19,7 @@ import LaserNode from './LaserNode.js';
 import RotationDragHandle from './RotationDragHandle.js';
 import SingleColorLightCanvasNode from './SingleColorLightCanvasNode.js';
 
-class BendingLightView extends ScreenView {
+class BendingLightScreenView extends ScreenView {
 
   /**
    * @param {BendingLightModel} bendingLightModel - main model of the simulations
@@ -153,7 +153,7 @@ class BendingLightView extends ScreenView {
   }
 
   /**
-   * Overriden for IntroView to add the wave nodes
+   * Overriden for IntroScreenView to add the wave nodes
    * @param {BendingLightModel} bendingLightModel
    * @protected
    */
@@ -181,6 +181,6 @@ class BendingLightView extends ScreenView {
   }
 }
 
-bendingLight.register( 'BendingLightView', BendingLightView );
+bendingLight.register( 'BendingLightScreenView', BendingLightScreenView );
 
-export default BendingLightView;
+export default BendingLightScreenView;

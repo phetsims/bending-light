@@ -16,7 +16,7 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLightStrings from '../../bending-light-strings.js';
 import bendingLight from '../../bendingLight.js';
-import BendingLightView from '../../common/view/BendingLightView.js';
+import BendingLightScreenView from '../../common/view/BendingLightScreenView.js';
 import FloatingLayout from '../../common/view/FloatingLayout.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import ProtractorNode from '../../common/view/ProtractorNode.js';
@@ -32,7 +32,7 @@ const INSET = 10;
 
 const environmentString = bendingLightStrings.environment;
 
-class PrismsView extends BendingLightView {
+class PrismsScreenView extends BendingLightScreenView {
 
   /**
    * @param {PrismsModel} prismsModel - model of prisms screen
@@ -344,6 +344,6 @@ class PrismsView extends BendingLightView {
   }
 }
 
-bendingLight.register( 'PrismsView', PrismsView );
+bendingLight.register( 'PrismsScreenView', PrismsScreenView );
 
-export default PrismsView;
+export default PrismsScreenView;

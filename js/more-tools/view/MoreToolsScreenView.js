@@ -2,7 +2,7 @@
 
 /**
  * View for the "more tools" screen, which adds more tools to the toolbox, and a few more controls for the laser.
- * This extends the IntroView since it shares many of the same features.
+ * This extends the IntroScreenView since it shares many of the same features.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
@@ -16,7 +16,7 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import bendingLight from '../../bendingLight.js';
 import ToolIconListener from '../../common/view/ToolIconListener.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
-import IntroView from '../../intro/view/IntroView.js';
+import IntroScreenView from '../../intro/view/IntroScreenView.js';
 import LaserTypeAquaRadioButtonGroup from '../../intro/view/LaserTypeAquaRadioButtonGroup.js';
 import VelocitySensorNode from './VelocitySensorNode.js';
 import WaveSensorNode from './WaveSensorNode.js';
@@ -24,7 +24,7 @@ import WaveSensorNode from './WaveSensorNode.js';
 // constants
 const arrowScale = 1.5E-14;
 
-class MoreToolsView extends IntroView {
+class MoreToolsScreenView extends IntroScreenView {
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
@@ -235,6 +235,6 @@ class MoreToolsView extends IntroView {
   }
 }
 
-bendingLight.register( 'MoreToolsView', MoreToolsView );
+bendingLight.register( 'MoreToolsScreenView', MoreToolsScreenView );
 
-export default MoreToolsView;
+export default MoreToolsScreenView;

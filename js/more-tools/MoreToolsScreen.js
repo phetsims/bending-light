@@ -14,7 +14,7 @@ import iconImage from '../../mipmaps/More_Tools_Screen_png.js';
 import bendingLightStrings from '../bending-light-strings.js';
 import bendingLight from '../bendingLight.js';
 import MoreToolsModel from './model/MoreToolsModel.js';
-import MoreToolsView from './view/MoreToolsView.js';
+import MoreToolsScreenView from './view/MoreToolsScreenView.js';
 
 const moreToolsString = bendingLightStrings.moreTools;
 
@@ -30,7 +30,7 @@ class MoreToolsScreen extends Screen {
 
     super(
       () => new MoreToolsModel( tandem.createTandem( 'model' ) ),
-      model => new MoreToolsView( model ),
+      model => new MoreToolsScreenView( model ),
       options
     );
   }
