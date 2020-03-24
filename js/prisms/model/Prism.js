@@ -8,6 +8,8 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 
 class Prism {
@@ -21,6 +23,9 @@ class Prism {
     // @public
     this.shapeProperty = new Property( shape );
 
+    // @public - overall translation
+    this.positionProperty = new Vector2Property( new Vector2( 0, 0 ) );
+
     // @public (read-only)
     this.typeName = typeName;
   }
@@ -32,7 +37,12 @@ class Prism {
    * @param {number} deltaY - amount of space in y direction the prism to be translated
    */
   translate( deltaX, deltaY ) {
-    this.shapeProperty.set( this.shapeProperty.get().getTranslatedInstance( deltaX, deltaY ) );
+    this.positionProperty.value = this.positionProperty.value.plusXY( deltaX, deltaY );
+  }
+
+  // @private
+  getTranslatedShape() {
+    return this.shapeProperty.value.getTranslatedInstance( this.positionProperty.value.x, this.positionProperty.value.y );
   }
 
   /**
@@ -42,7 +52,7 @@ class Prism {
    * @returns {Array}
    */
   getIntersections( incidentRay ) {
-    return this.shapeProperty.get().getIntersections( incidentRay );
+    return this.getTranslatedShape().getIntersections( incidentRay );
   }
 
   /**
@@ -52,7 +62,7 @@ class Prism {
    * @returns {boolean}
    */
   contains( point ) {
-    return this.shapeProperty.get().containsPoint( point );
+    return this.getTranslatedShape().containsPoint( point );
   }
 
   /**

@@ -292,7 +292,7 @@ class PrismsModel extends BendingLightModel {
       let outputInsidePrism = false;
       const lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
       this.prisms.forEach( prism => {
-        const intersection = prism.shapeProperty.get().shape.intersection( lightRayAfterIntersectionInRay2Form );
+        const intersection = prism.getTranslatedShape().shape.intersection( lightRayAfterIntersectionInRay2Form );
         if ( intersection.length % 2 === 1 ) {
           outputInsidePrism = true;
         }

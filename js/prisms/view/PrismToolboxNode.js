@@ -10,7 +10,7 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import SimpleDragHandler from '../../../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import HStrut from '../../../../scenery/js/nodes/HStrut.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -86,59 +86,25 @@ class PrismToolboxNode extends Node {
       } );
 
       // Add drag listener for the prisms icon
-      prismToolboxIconNode.addInputListener( new SimpleDragHandler( {
-        start: ( event, trail ) => {
-          const start = this.globalToParentPoint( event.pointer.point );
-          const prismShape = prism.copy();
+      const dragListener = DragListener.createForwardingListener( event => {
 
-          // add prism model to the prisms model
-          prismsModel.addPrism( prismShape );
+        const start = this.globalToParentPoint( event.pointer.point );
+        const prismShape = prism.copy();
+        prismShape.translate(
+          modelViewTransform.viewToModelX( start.x ),
+          modelViewTransform.viewToModelY( start.y )
+        );
 
-          // create a prism node and add to the prisms layer
-          prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer,
-            dragBoundsProperty, occlusionHandler, false );
-          prismLayer.addChild( prismNode );
-          prismShape.translate(
-            modelViewTransform.viewToModelX( start.x ),
-            modelViewTransform.viewToModelY( start.y )
-          );
+        // add prism model to the prisms model
+        prismsModel.addPrism( prismShape );
 
-          // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
-          // Presumably because they were in similar coordinate frames?
-          // See Scenery #131 create drag listener
-          // See Scenery #218 multitouch
-          // There is a precedent for this hack in SimpleDragHandler.js
-          const c = event.currentTarget;
-          event.currentTarget = prismNode;
-          prismNode.movableDragHandler.handleForwardedStartEvent( event, trail );
-          event.currentTarget = c;
-        },
-        drag: ( event, trail ) => {
+        // create a prism node and add to the prisms layer
+        prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer, dragBoundsProperty, occlusionHandler, false );
+        prismLayer.addChild( prismNode );
 
-          // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
-          // Presumably because they were in similar coordinate frames?
-          // See Scenery #131 create drag listener
-          // See Scenery #218 multitouch
-          // There is a precedent for this hack in SimpleDragHandler.js
-          const c = event.currentTarget;
-          event.currentTarget = prismNode;
-          prismNode.movableDragHandler.handleForwardedDragEvent( event, trail );
-          event.currentTarget = c; // oh noes
-        },
-        end: ( event, trail ) => {
-
-          // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
-          // Presumably because they were in similar coordinate frames?
-          // See Scenery #131 create drag listener
-          // See Scenery #218 multitouch
-          // There is a precedent for this hack in SimpleDragHandler.js
-          const c = event.currentTarget;
-          event.currentTarget = prismNode;
-          prismNode.movableDragHandler.handleForwardedEndEvent( event, trail );
-          event.currentTarget = c;
-        }
-        }
-      ) );
+        prismNode.movableDragHandler.press( event, prismNode );
+      } );
+      prismToolboxIconNode.addInputListener( dragListener );
 
       // touch area
       prismIcon.touchArea = prismIcon.localBounds;

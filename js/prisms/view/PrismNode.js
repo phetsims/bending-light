@@ -9,8 +9,8 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import SimpleDragHandler from '../../../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
@@ -52,14 +52,14 @@ class PrismNode extends Node {
         start: event => {
           this.moveToFront();
           const start = knobNode.globalToParentPoint( event.pointer.point );
-          prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
+          prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const startX = modelViewTransform.viewToModelX( start.x );// model values
           const startY = modelViewTransform.viewToModelY( start.y );// model values
           previousAngle = Math.atan2( ( prismCenterPoint.y - startY ), ( prismCenterPoint.x - startX ) );
         },
         drag: event => {
           const end = knobNode.globalToParentPoint( event.pointer.point );
-          prismCenterPoint = prism.shapeProperty.get().getRotationCenter();
+          prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const endX = modelViewTransform.viewToModelX( end.x );// model values
           const endY = modelViewTransform.viewToModelY( end.y );// model values
           const angle = Math.atan2( ( prismCenterPoint.y - endY ), ( prismCenterPoint.x - endX ) );
@@ -73,37 +73,28 @@ class PrismNode extends Node {
       knobNode.touchArea = Shape.circle( 0, 10, 40 );
     }
 
-    const prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.shapeProperty.get().shape ), {
+    const prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.getTranslatedShape().shape ), {
       stroke: 'gray'
     } );
     this.addChild( prismPathNode );
 
     // When the window reshapes, make sure no prism is left outside of the play area
+    // TODO: Broken, see https://github.com/phetsims/bending-light/issues/372
     dragBoundsProperty.link( dragBounds => {
       const center = prism.shapeProperty.get().centroid;
       const inBounds = modelViewTransform.viewToModelBounds( dragBounds ).getClosestPoint( center.x, center.y );
       prism.translate( inBounds.x - center.x, inBounds.y - center.y );
     } );
 
-    // MovableDragHandler is nice, but it only works with Properties, so we much make a synthetic Property.<Vector2>
-    const positionProperty = {
-      get: () => prism.shapeProperty.get().getRotationCenter(),
-      set: newPosition => {
-        const oldPosition = positionProperty.get();
+    this.movableDragHandler = new DragListener( { // TODO: Rename, see https://github.com/phetsims/bending-light/issues/372
+      useParentOffset: true,
+      positionProperty: prism.positionProperty,
 
-        // Keep it in bounds
-        // Couldn't get this figured out with MovableDragHandler, our case is a bit too out of the box since there is
-        // really no Property representing the position of the Prism
-        newPosition = modelViewTransform.viewToModelBounds( dragBoundsProperty.value ).closestPointTo( newPosition );
-        const dx = newPosition.x - oldPosition.x;
-        const dy = newPosition.y - oldPosition.y;
-
-        prism.translate( dx, dy );
-      }
-    };
-    this.movableDragHandler = new MovableDragHandler( positionProperty, {
-      modelViewTransform: modelViewTransform,
-      endDrag: () => {
+      // TODO: Was previously //     newPosition = modelViewTransform.viewToModelBounds( dragBoundsProperty.value ).closestPointTo( newPosition );
+      // TODO: Do we need to transform the bounds?
+      // dragBoundsProperty: dragBoundsProperty, // TODO: get this working, see https://github.com/phetsims/bending-light/issues/372
+      transform: modelViewTransform,
+      end: () => {
         occlusionHandler( this );
         if ( prismToolboxNode.visibleBounds.containsCoordinates( this.getCenterX(), this.getCenterY() ) ) {
           if ( prismLayer.hasChild( this ) ) {
@@ -128,11 +119,12 @@ class PrismNode extends Node {
       prismsModel.clear();
       prismsModel.updateModel();
       prismsModel.dirty = true;
-      prismPathNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.get().shape ) );
+      const delta = prism.positionProperty.value;
+      prismPathNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.get().getTranslatedInstance( delta.x, delta.y ).shape ) );
 
-      const prismReferencePoint = prism.shapeProperty.get().getReferencePoint();
+      const prismReferencePoint = prism.getTranslatedShape().getReferencePoint();
       if ( prismReferencePoint ) {
-        const prismShapeCenter = prism.shapeProperty.get().getRotationCenter();
+        const prismShapeCenter = prism.getTranslatedShape().getRotationCenter();
         knobNode.resetTransform();
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
 
@@ -151,6 +143,7 @@ class PrismNode extends Node {
       }
     };
     prism.shapeProperty.link( this.updatePrismShape );
+    prism.positionProperty.link( this.updatePrismShape );
 
     // @public - used in PrismToolboxNode
     this.updatePrismColor = () => {
