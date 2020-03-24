@@ -22,7 +22,7 @@ class MediumIO extends ObjectIO {
    */
   static toStateObject( medium ) {
     validate( medium, this.validator );
-    return { hello:'there' };
+    return { hello: 'there' };
   }
 
   /**
@@ -31,7 +31,7 @@ class MediumIO extends ObjectIO {
    * @returns {{position: Vector2}}
    */
   static fromStateObject( stateObject ) {
-    return {  };
+    return {};
   }
 
   /**

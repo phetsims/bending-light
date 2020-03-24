@@ -124,7 +124,7 @@ class PrismToolboxNode extends Node {
           event.currentTarget = prismNode;
           prismNode.movableDragHandler.handleForwardedDragEvent( event, trail );
           event.currentTarget = c; // oh noes
-          },
+        },
         end: ( event, trail ) => {
 
           // HACK ALERT.  Changes the event's currentTarget.  Why didn't we need to do this with the other nodes?
@@ -136,7 +136,7 @@ class PrismToolboxNode extends Node {
           event.currentTarget = prismNode;
           prismNode.movableDragHandler.handleForwardedEndEvent( event, trail );
           event.currentTarget = c;
-          }
+        }
         }
       ) );
 
