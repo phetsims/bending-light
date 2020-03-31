@@ -21,7 +21,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import NodeProperty from '../../../../scenery/js/util/NodeProperty.js';
-import bendingLightStrings from '../../bending-light-strings.js';
+import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import Series from '../model/Series.js';
 import ChartNode from './ChartNode.js';

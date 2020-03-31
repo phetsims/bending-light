@@ -11,7 +11,7 @@ import Screen from '../../../joist/js/Screen.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import navbarIconImage from '../../mipmaps/Prisms_Screen_White_NavBar_png.js';
 import iconImage from '../../mipmaps/Prisms_Screen_White_png.js';
-import bendingLightStrings from '../bending-light-strings.js';
+import bendingLightStrings from '../bendingLightStrings.js';
 import bendingLight from '../bendingLight.js';
 import PrismsModel from './model/PrismsModel.js';
 import PrismsScreenView from './view/PrismsScreenView.js';

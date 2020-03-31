@@ -21,7 +21,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import protractorImage from '../../../mipmaps/protractor_png.js';
-import bendingLightStrings from '../../bending-light-strings.js';
+import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import PrismNode from './PrismNode.js';

@@ -11,7 +11,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import icon from '../../mipmaps/Intro_Screen_png.js';
-import bendingLightStrings from '../bending-light-strings.js';
+import bendingLightStrings from '../bendingLightStrings.js';
 import bendingLight from '../bendingLight.js';
 import Substance from '../common/model/Substance.js';
 import IntroModel from './model/IntroModel.js';
