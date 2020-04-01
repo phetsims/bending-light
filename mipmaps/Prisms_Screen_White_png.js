@@ -1,5 +1,5 @@
 /* eslint-disable */
-var mipmaps = [
+const mipmaps = [
   {
     "width": 1142,
     "height": 777,
@@ -26,14 +26,14 @@ var mipmaps = [
     "url": "data:image/png;base64,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"
   }
 ];
-mipmaps.forEach( function( mipmap ) {
+mipmaps.forEach( mipmap => {
   mipmap.img = new Image();
   window.phetImages.push( mipmap.img ); // make sure it's loaded before the sim launches
   mipmap.img.src = mipmap.url; // trigger the loading of the image for its level
   mipmap.canvas = document.createElement( 'canvas' );
   mipmap.canvas.width = mipmap.width;
   mipmap.canvas.height = mipmap.height;
-  var context = mipmap.canvas.getContext( '2d' );
+  const context = mipmap.canvas.getContext( '2d' );
   mipmap.updateCanvas = function() {
     if ( mipmap.img.complete && ( typeof mipmap.img.naturalWidth === 'undefined' || mipmap.img.naturalWidth > 0 ) ) {
       context.drawImage( mipmap.img, 0, 0 );
