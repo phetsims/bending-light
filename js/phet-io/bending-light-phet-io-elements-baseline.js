@@ -1,5 +1,5 @@
 /* eslint-disable */
-window.phet.phetio.preload.phetioElementsBaseline = assert &&
+window.phet.preloads.phetio.phetioElementsBaseline = assert &&
   {
     "bendingLight.general.controller.input.mouseDownAction": {
       "phetioDocumentation": "Emits when a mouse button is pressed The arguments are:<br/><ol><li>point: Vector2IO</li><br/><li>event: EventIO</li></ol>",
