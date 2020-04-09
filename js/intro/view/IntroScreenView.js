@@ -7,6 +7,7 @@
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
 
+import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Rectangle2 from '../../../../dot/js/Rectangle.js'; // eslint-disable-line require-statement-match
@@ -117,6 +118,9 @@ class IntroScreenView extends BendingLightScreenView {
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMediumProperty ) );
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
 
+    // @private {Emitter}
+    this.stepEmitter = new Emitter();
+
     // add control panels for setting the index of refraction for each medium
     const topMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
       introModel.topMediumProperty, materialString, true, introModel.wavelengthProperty, indexOfRefractionDecimals, {
@@ -172,7 +176,7 @@ class IntroScreenView extends BendingLightScreenView {
       this.modelViewTransform,
 
       // Method to add a step listener
-      stepCallback => this.on( 'step', stepCallback )
+      stepCallback => this.stepEmitter.addListener( stepCallback )
     ) );
 
     introModel.showNormalProperty.linkAttribute( normalLine, 'visible' );
@@ -444,7 +448,7 @@ class IntroScreenView extends BendingLightScreenView {
    * @protected
    */
   step() {
-    this.trigger0( 'step' );
+    this.stepEmitter.emit();
     super.step();
     if ( this.introModel.isPlayingProperty.value ) {
       this.updateWaveShape();
