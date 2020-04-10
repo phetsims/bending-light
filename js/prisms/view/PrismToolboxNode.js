@@ -52,7 +52,8 @@ class PrismToolboxNode extends Node {
 
     super();
     const content = new HBox( {
-      spacing: 8.4
+      spacing: 8.4,
+      excludeInvisibleChildrenFromBounds: false
     } );
 
     // Create prism icon

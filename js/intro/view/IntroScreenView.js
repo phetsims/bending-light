@@ -358,7 +358,8 @@ class IntroScreenView extends BendingLightScreenView {
     toolboxNodes = toolboxNodes.concat( this.getAdditionalToolIcons() );
     this.toolbox = new Panel( new VBox( {
       spacing: 10,
-      children: toolboxNodes
+      children: toolboxNodes,
+      excludeInvisibleChildrenFromBounds: false
     } ), {
       xMargin: 10,
       yMargin: 10,
