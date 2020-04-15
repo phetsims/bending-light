@@ -2068,7 +2068,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<BooleanIO>"
     },
-    "bendingLight.general.view.navigationBar.titleTextNode": {
+    "bendingLight.general.view.navigationBar.titleText": {
       "phetioDocumentation": "Displays the title of the simulation in the navigation bar (bottom left)",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2081,7 +2081,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "TextIO"
     },
-    "bendingLight.general.view.navigationBar.titleTextNode.opacityProperty": {
+    "bendingLight.general.view.navigationBar.titleText.opacityProperty": {
       "phetioDocumentation": "Opacity of the parent NodeIO, between 0 (invisible) and 1 (fully visible)",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2094,7 +2094,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "NumberPropertyIO"
     },
-    "bendingLight.general.view.navigationBar.titleTextNode.pickableProperty": {
+    "bendingLight.general.view.navigationBar.titleText.pickableProperty": {
       "phetioDocumentation": "Sets whether the node will be pickable (and hence interactive), see the NodeIO documentation for more details",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2107,7 +2107,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<NullableIO<BooleanIO>>"
     },
-    "bendingLight.general.view.navigationBar.titleTextNode.textProperty": {
+    "bendingLight.general.view.navigationBar.titleText.textProperty": {
       "phetioDocumentation": "Property for the displayed text",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2120,7 +2120,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<StringIO>"
     },
-    "bendingLight.general.view.navigationBar.titleTextNode.visibleProperty": {
+    "bendingLight.general.view.navigationBar.titleText.visibleProperty": {
       "phetioDocumentation": "Controls whether the Node will be visible (and interactive), see the NodeIO documentation for more details.",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2718,7 +2718,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<NullableIO<BooleanIO>>"
     },
-    "bendingLight.homeScreen.view.title": {
+    "bendingLight.homeScreen.view.titleText": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2731,7 +2731,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "TextIO"
     },
-    "bendingLight.homeScreen.view.title.opacityProperty": {
+    "bendingLight.homeScreen.view.titleText.opacityProperty": {
       "phetioDocumentation": "Opacity of the parent NodeIO, between 0 (invisible) and 1 (fully visible)",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2744,7 +2744,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "NumberPropertyIO"
     },
-    "bendingLight.homeScreen.view.title.pickableProperty": {
+    "bendingLight.homeScreen.view.titleText.pickableProperty": {
       "phetioDocumentation": "Sets whether the node will be pickable (and hence interactive), see the NodeIO documentation for more details",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2757,7 +2757,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<NullableIO<BooleanIO>>"
     },
-    "bendingLight.homeScreen.view.title.textProperty": {
+    "bendingLight.homeScreen.view.titleText.textProperty": {
       "phetioDocumentation": "Property for the displayed text",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
@@ -2770,7 +2770,7 @@ window.phet.preloads.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO<StringIO>"
     },
-    "bendingLight.homeScreen.view.title.visibleProperty": {
+    "bendingLight.homeScreen.view.titleText.visibleProperty": {
       "phetioDocumentation": "Controls whether the Node will be visible (and interactive), see the NodeIO documentation for more details.",
       "phetioDynamicElement": false,
       "phetioEventType": "MODEL",
