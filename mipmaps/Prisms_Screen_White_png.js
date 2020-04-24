@@ -1,4 +1,5 @@
 /* eslint-disable */
+import SimLauncher from '../../joist/js/SimLauncher.js';
 const mipmaps = [
   {
     "width": 1142,
@@ -28,13 +29,14 @@ const mipmaps = [
 ];
 mipmaps.forEach( mipmap => {
   mipmap.img = new Image();
-  window.phetImages.push( mipmap.img ); // make sure it's loaded before the sim launches
+  const unlock = SimLauncher.createLock( mipmap.img );
+  mipmap.img.onload = unlock;
   mipmap.img.src = mipmap.url; // trigger the loading of the image for its level
   mipmap.canvas = document.createElement( 'canvas' );
   mipmap.canvas.width = mipmap.width;
   mipmap.canvas.height = mipmap.height;
   const context = mipmap.canvas.getContext( '2d' );
-  mipmap.updateCanvas = function() {
+  mipmap.updateCanvas = () => {
     if ( mipmap.img.complete && ( typeof mipmap.img.naturalWidth === 'undefined' || mipmap.img.naturalWidth > 0 ) ) {
       context.drawImage( mipmap.img, 0, 0 );
       delete mipmap.updateCanvas;
