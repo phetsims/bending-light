@@ -36,6 +36,7 @@ class IntensityMeter {
 
   /**
    * Restore the initial values.
+   * @public
    */
   reset() {
     this.readingProperty.reset();
@@ -45,7 +46,7 @@ class IntensityMeter {
     this.rayReadings.length = 0;
   }
 
-  // Copy the model for reuse in the toolbox node.
+  // @public - Copy the model for reuse in the toolbox node.
   copy() {
     return new IntensityMeter(
       this.sensorPositionProperty.get().x,

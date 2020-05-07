@@ -52,6 +52,7 @@ class Laser {
 
   /**
    * Restore to initial values.
+   * @public
    */
   reset() {
     this.pivotProperty.reset();

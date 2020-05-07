@@ -19,6 +19,7 @@ class MediumIO extends ObjectIO {
    * Serializes an instance.
    * @param {Medium} medium
    * @returns {Object}
+   * @public
    */
   static toStateObject( medium ) {
     validate( medium, this.validator );
@@ -29,6 +30,7 @@ class MediumIO extends ObjectIO {
    * Deserializes an instance.
    * @param {Object} stateObject
    * @returns {{position: Vector2}}
+   * @public
    */
   static fromStateObject( stateObject ) {
     return {};
@@ -39,6 +41,7 @@ class MediumIO extends ObjectIO {
    * phetioEngine.js when setting the state.
    * @param {Medium} medium
    * @param {{position: Vector2}} fromStateObject - the value returned by fromStateObject
+   * @public
    */
   static setValue( medium, fromStateObject ) {
     // validate( medium, this.validator );

@@ -141,6 +141,9 @@ class BendingLightScreenView extends ScreenView {
     this.visibleBoundsProperty.link( visibleBounds => this.singleColorLightNode.setCanvasBounds( visibleBounds ) );
   }
 
+  /**
+   * @public
+   */
   reset() {
     this.showProtractorProperty.reset();
   }
@@ -160,6 +163,14 @@ class BendingLightScreenView extends ScreenView {
   addLightNodes( bendingLightModel ) {
   }
 
+  /**
+   * @param {boolean} showRotationDragHandlesProperty
+   * @param {boolean} showTranslationDragHandlesProperty
+   * @param {boolean}clockwiseArrowNotAtMax
+   * @param {boolean} ccwArrowNotAtMax
+   * @param {number} laserImageWidth
+   * @protected
+   */
   addLaserHandles( showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
                    clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
     const bendingLightModel = this.bendingLightModel;

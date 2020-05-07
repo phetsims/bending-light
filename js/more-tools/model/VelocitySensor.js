@@ -31,6 +31,7 @@ class VelocitySensor {
 
   /**
    * Restore the initial values.
+   * @public
    */
   reset() {
     this.positionProperty.reset();
@@ -38,7 +39,7 @@ class VelocitySensor {
     this.enabledProperty.reset();
   }
 
-  // Make a copy for use in the toolbox icon
+  // @public Make a copy for use in the toolbox icon
   copy() {
     const velocitySensor = new VelocitySensor();
     velocitySensor.positionProperty.value = this.positionProperty.value.copy();

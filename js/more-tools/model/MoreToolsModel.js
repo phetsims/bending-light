@@ -47,6 +47,9 @@ class MoreToolsModel extends IntroModel {
     } );
   }
 
+  /**
+   * @public
+   */
   reset() {
     super.reset();
     this.velocitySensor.reset();

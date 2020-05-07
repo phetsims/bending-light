@@ -42,6 +42,11 @@ class MediumColorFactory {
     );
   }
 
+  /**
+   * @param {number} indexForRed
+   * @returns {Color}
+   * @public
+   */
   getColor( indexForRed ) {
     return this.lightTypeProperty.value === 'singleColor' ?
            this.getColorAgainstWhite( indexForRed ) :

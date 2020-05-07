@@ -280,6 +280,7 @@ class PrismsScreenView extends BendingLightScreenView {
    * Add the screen-specific light nodes
    * @param {BendingLightModel} bendingLightModel - passed because this is called during construction (before this.model
    * is set in the subtype)
+   * @protected
    */
   addLightNodes( bendingLightModel ) {
 
@@ -308,6 +309,14 @@ class PrismsScreenView extends BendingLightScreenView {
     } );
   }
 
+  /**
+   * @param {boolean} showRotationDragHandlesProperty
+   * @param {boolean} showTranslationDragHandlesProperty
+   * @param {boolean} clockwiseArrowNotAtMax
+   * @param {boolean} ccwArrowNotAtMax
+   * @param {number} laserImageWidth
+   * @protected
+   */
   addLaserHandles( showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
                    clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
     const bendingLightModel = this.bendingLightModel;

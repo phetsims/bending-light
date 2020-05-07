@@ -33,6 +33,7 @@ class Probe {
 
   /**
    * Resets the model.
+   * @public
    */
   reset() {
     this.seriesProperty.reset();

@@ -103,6 +103,9 @@ class WavePainter {
     this.vertexBuffer = gl.createBuffer();
   }
 
+  /**
+   * @public
+   */
   paint( modelViewMatrix, projectionMatrix ) {
     const gl = this.gl;
     const shaderProgram = this.shaderProgram;
@@ -179,6 +182,9 @@ class WavePainter {
     return WebGLNode.PAINTED_SOMETHING;
   }
 
+  /**
+   * @public
+   */
   dispose() {
     this.shaderProgram.dispose();
     this.gl.deleteBuffer( this.vertexBuffer );

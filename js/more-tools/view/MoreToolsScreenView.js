@@ -152,6 +152,7 @@ class MoreToolsScreenView extends IntroScreenView {
 
   /**
    * @returns {VelocitySensorNode}
+   * @private
    */
   getVelocitySensorIcon() {
     const moreToolsModel = this.bendingLightModel;
@@ -215,6 +216,10 @@ class MoreToolsScreenView extends IntroScreenView {
     return velocitySensorIconNode;
   }
 
+  /**
+   * @returns {Node[]}
+   * @protected
+   */
   getAdditionalToolIcons() {
     return [
       this.getVelocitySensorIcon(),
