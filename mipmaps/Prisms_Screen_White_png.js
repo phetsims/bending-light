@@ -1,5 +1,5 @@
 /* eslint-disable */
-import SimLauncher from '../../joist/js/SimLauncher.js';
+import simLauncher from '../../joist/js/simLauncher.js';
 const mipmaps = [
   {
     "width": 1142,
@@ -29,7 +29,7 @@ const mipmaps = [
 ];
 mipmaps.forEach( mipmap => {
   mipmap.img = new Image();
-  const unlock = SimLauncher.createLock( mipmap.img );
+  const unlock = simLauncher.createLock( mipmap.img );
   mipmap.img.onload = unlock;
   mipmap.img.src = mipmap.url; // trigger the loading of the image for its level
   mipmap.canvas = document.createElement( 'canvas' );
