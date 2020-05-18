@@ -69,7 +69,7 @@ class PrismToolboxNode extends Node {
       const prismIcon = createPrismIcon( prism );
 
       const listener = () => {
-        const count = _.filter( prismsModel.prisms.getArray(), p => p.typeName === prism.typeName ).length;
+        const count = prismsModel.prisms.count( p => p.typeName === prism.typeName );
         prismIcon.visible = count < MAX_PRISM_COUNT;
       };
       prismsModel.prisms.addItemAddedListener( listener );
