@@ -9,6 +9,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import iconImage from '../../mipmaps/More_Tools_Screen_png.js';
 import bendingLightStrings from '../bendingLightStrings.js';
@@ -23,7 +24,10 @@ class MoreToolsScreen extends Screen {
 
     const options = {
       name: moreToolsString,
-      homeScreenIcon: new Image( iconImage ),
+      homeScreenIcon: new ScreenIcon( new Image( iconImage ), {
+        maxIconWidthProportion: 1,
+        maxIconHeightProportion: 1
+      } ),
       backgroundColorProperty: new Property( 'white' ),
       tandem: tandem
     };
