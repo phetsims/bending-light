@@ -248,8 +248,9 @@ class IntroScreenView extends BendingLightScreenView {
     this.beforeLightLayer2.addChild( checkboxPanel );
 
     // create the protractor node
-    const protractorNodeIcon = new ProtractorNode( this.showProtractorProperty, {
-      scale: 0.24
+    const protractorNodeIcon = ProtractorNode.createIcon( {
+      scale: 0.24,
+      cursor: 'pointer'
     } );
     protractorNodeIcon.mouseArea = Shape.bounds( protractorNodeIcon.localBounds );
     protractorNodeIcon.touchArea = Shape.bounds( protractorNodeIcon.localBounds );

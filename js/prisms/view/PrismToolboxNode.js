@@ -14,7 +14,6 @@ import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import HStrut from '../../../../scenery/js/nodes/HStrut.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -139,21 +138,18 @@ class PrismToolboxNode extends Node {
     content.addChild( dividerBetweenMediumPanelAndControlPanel );
 
     // Add checkboxes
-    // Create an icon for the protractor checkbox
-    const createProtractorIcon = () => {
-      const protractorImage = ProtractorNode.protractorImage;
-      const protractorImageNode = new Image( protractorImage );
-      protractorImageNode.scale( 20 / protractorImage[ 0 ].width );
-      return protractorImageNode;
-    };
-
     const textOptions = { font: new PhetFont( 10 ) };
 
     // itemSpec describes the pieces that make up an item in the control panel,
     // conforms to the contract: { label: {Node}, icon: {Node} (optional) }
     const showReflections = { label: new Text( reflectionsString, textOptions ) };
     const showNormal = { label: new Text( normalLineString, textOptions ) };
-    const showProtractor = { label: new Text( protractorString, textOptions ), icon: createProtractorIcon() };
+    const showProtractor = {
+      label: new Text( protractorString, textOptions ),
+      icon: ProtractorNode.createIcon( {
+        scale: 0.066 // determined empirically
+      } )
+    };
 
     // compute the maximum item width
     const widestItem = _.maxBy( [ showReflections, showNormal, showProtractor ], item => item.label.width + ( ( item.icon ) ? item.icon.width : 0 ) );

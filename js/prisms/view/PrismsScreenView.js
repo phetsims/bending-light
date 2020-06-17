@@ -201,7 +201,7 @@ class PrismsScreenView extends BendingLightScreenView {
         }
       }
     } );
-    protractorNode.barPath.addInputListener( protractorNodeListener );
+    protractorNode.addInputListener( protractorNodeListener );
 
     protractorPositionProperty.link( protractorPosition => {
       protractorNode.center = protractorPosition;
