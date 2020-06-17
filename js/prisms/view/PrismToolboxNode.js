@@ -10,7 +10,7 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import protractorImage from '../../../../scenery-phet/mipmaps/protractor_png.js';
+import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import HStrut from '../../../../scenery/js/nodes/HStrut.js';
@@ -141,6 +141,7 @@ class PrismToolboxNode extends Node {
     // Add checkboxes
     // Create an icon for the protractor checkbox
     const createProtractorIcon = () => {
+      const protractorImage = ProtractorNode.protractorImage;
       const protractorImageNode = new Image( protractorImage );
       protractorImageNode.scale( 20 / protractorImage[ 0 ].width );
       return protractorImageNode;
