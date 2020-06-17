@@ -10,16 +10,16 @@
 import Property from '../../../../axon/js/Property.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
+import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Panel from '../../../../sun/js/Panel.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
+import bendingLightStrings from '../../bendingLightStrings.js';
 import BendingLightScreenView from '../../common/view/BendingLightScreenView.js';
 import FloatingLayout from '../../common/view/FloatingLayout.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
-import ProtractorNode from '../../common/view/ProtractorNode.js';
 import TranslationDragHandle from '../../common/view/TranslationDragHandle.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
 import IntersectionNode from './IntersectionNode.js';
@@ -182,7 +182,8 @@ class PrismsScreenView extends BendingLightScreenView {
     this.afterLightLayer.addChild( prismToolboxNode );
 
     // Add the protractor node
-    const protractorNode = new ProtractorNode( prismsModel.showProtractorProperty, true, {
+    const protractorNode = new ProtractorNode( prismsModel.showProtractorProperty, {
+      rotatable: true,
       scale: 0.46
     } );
     const protractorPositionProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
