@@ -182,7 +182,8 @@ class PrismsScreenView extends BendingLightScreenView {
     this.afterLightLayer.addChild( prismToolboxNode );
 
     // Add the protractor node
-    const protractorNode = new ProtractorNode( prismsModel.showProtractorProperty, true, {
+    const protractorNode = new ProtractorNode( prismsModel.showProtractorProperty, {
+      rotatable: true,
       scale: 0.46
     } );
     const protractorPositionProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
