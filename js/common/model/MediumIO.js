@@ -43,7 +43,7 @@ class MediumIO extends ObjectIO {
    * @param {{position: Vector2}} fromStateObject - the value returned by fromStateObject
    * @public
    */
-  static setValue( medium, fromStateObject ) {
+  static applyState( medium, fromStateObject ) {
     // validate( medium, this.validator );
     // medium.previousPosition.set( fromStateObject.position );
   }
