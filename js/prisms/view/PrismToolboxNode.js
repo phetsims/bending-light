@@ -10,6 +10,7 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import protractorImage from '../../../../scenery-phet/mipmaps/protractor_png.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import HStrut from '../../../../scenery/js/nodes/HStrut.js';
@@ -20,9 +21,8 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import protractorImage from '../../../mipmaps/protractor_png.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
+import bendingLightStrings from '../../bendingLightStrings.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import PrismNode from './PrismNode.js';
 
