@@ -20,20 +20,11 @@ class MediumIO extends ObjectIO {
    * @param {Medium} medium
    * @returns {Object}
    * @public
+   * @override
    */
   static toStateObject( medium ) {
     validate( medium, this.validator );
     return { hello: 'there' };
-  }
-
-  /**
-   * Deserializes an instance.
-   * @param {Object} stateObject
-   * @returns {{position: Vector2}}
-   * @public
-   */
-  static fromStateObject( stateObject ) {
-    return {};
   }
 
   /**
@@ -42,6 +33,7 @@ class MediumIO extends ObjectIO {
    * @param {Medium} medium
    * @param {{position: Vector2}} fromStateObject - the value returned by fromStateObject
    * @public
+   * @override
    */
   static applyState( medium, fromStateObject ) {
     // validate( medium, this.validator );
