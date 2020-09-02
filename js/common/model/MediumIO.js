@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * IO type for Medium.  TODO: Just instrument the "substance" instead
+ * IO Type for Medium.  TODO: Just instrument the "substance" instead
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
