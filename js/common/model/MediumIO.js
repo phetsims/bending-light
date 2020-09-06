@@ -67,7 +67,7 @@ MediumIO.methods = {
 MediumIO.documentation = 'a solute';
 MediumIO.validator = { isValidValue: value => value instanceof Medium };
 MediumIO.typeName = 'MediumIO';
-ObjectIO.validateSubtype( MediumIO );
+ObjectIO.validateIOType( MediumIO );
 
 bendingLight.register( 'MediumIO', MediumIO );
 export default MediumIO;
