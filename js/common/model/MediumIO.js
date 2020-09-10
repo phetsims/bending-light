@@ -47,7 +47,7 @@ MediumIO.methods = {
     returnType: VoidIO,
     parameterTypes: [ StringIO ],
     implementation: text => {
-      this.phetioObject.name = text;
+      this.name = text;
     },
     documentation: 'Set the name of the solute',
     invocableForReadOnlyElements: false
@@ -57,7 +57,7 @@ MediumIO.methods = {
     returnType: VoidIO,
     parameterTypes: [ StringIO ],
     implementation: text => {
-      this.phetioObject.formula = text;
+      this.formula = text;
     },
     documentation: 'Set the formula of the solute',
     invocableForReadOnlyElements: false
