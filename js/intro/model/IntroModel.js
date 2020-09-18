@@ -9,7 +9,6 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import DerivedPropertyIO from '../../../../axon/js/DerivedPropertyIO.js';
 import Property from '../../../../axon/js/Property.js';
 import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
@@ -73,7 +72,7 @@ class IntroModel extends BendingLightModel {
       ],
       ( topMedium, color ) => topMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfTopMediumProperty' ),
-        phetioType: DerivedPropertyIO( NumberIO )
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
 
     // Update the bottom medium index of refraction when bottom medium change
@@ -84,7 +83,7 @@ class IntroModel extends BendingLightModel {
       ],
       ( bottomMedium, color ) => bottomMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfBottomMediumProperty' ),
-        phetioType: DerivedPropertyIO( NumberIO )
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
 
     // @public (read-only)-model components
