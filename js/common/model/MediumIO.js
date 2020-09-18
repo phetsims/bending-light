@@ -6,68 +6,46 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import validate from '../../../../axon/js/validate.js';
-import ObjectIO from '../../../../tandem/js/types/ObjectIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import VoidIO from '../../../../tandem/js/types/VoidIO.js';
 import bendingLight from '../../bendingLight.js';
 import Medium from './Medium.js';
 
-class MediumIO extends ObjectIO {
+const MediumIO = new IOType( 'MediumIO', {
+  isValidValue: value => value instanceof Medium,
+  methods: {
 
-  /**
-   * Serializes an instance.
-   * @param {Medium} medium
-   * @returns {Object}
-   * @public
-   * @override
-   */
-  static toStateObject( medium ) {
-    validate( medium, this.validator );
-    return { hello: 'there' };
-  }
-
-  /**
-   * Set the position of the medium using the value parsed in fromStateObject.  This method is automatically called by
-   * phetioEngine.js when setting the state.
-   * @param {Medium} medium
-   * @param {{position: Vector2}} fromStateObject - the value returned by fromStateObject
-   * @public
-   * @override
-   */
-  static applyState( medium, fromStateObject ) {
-    // validate( medium, this.validator );
-    // medium.previousPosition.set( fromStateObject.position );
-  }
-}
-
-MediumIO.methods = {
-
-  setName: {
-    returnType: VoidIO,
-    parameterTypes: [ StringIO ],
-    implementation: text => {
-      this.name = text;
+    setName: {
+      returnType: VoidIO,
+      parameterTypes: [ StringIO ],
+      implementation: text => {
+        this.name = text;
+      },
+      documentation: 'Set the name of the solute',
+      invocableForReadOnlyElements: false
     },
-    documentation: 'Set the name of the solute',
-    invocableForReadOnlyElements: false
+
+    setFormula: {
+      returnType: VoidIO,
+      parameterTypes: [ StringIO ],
+      implementation: text => {
+        this.formula = text;
+      },
+      documentation: 'Set the formula of the solute',
+      invocableForReadOnlyElements: false
+    }
   },
 
-  setFormula: {
-    returnType: VoidIO,
-    parameterTypes: [ StringIO ],
-    implementation: text => {
-      this.formula = text;
-    },
-    documentation: 'Set the formula of the solute',
-    invocableForReadOnlyElements: false
-  }
-};
+  // TODO: https://github.com/phetsims/tandem/issues/211 this looks bogus
+  toStateObject( medium ) {
+    return { hello: 'there' };
+  },
 
-MediumIO.documentation = 'a solute';
-MediumIO.validator = { isValidValue: value => value instanceof Medium };
-MediumIO.typeName = 'MediumIO';
-ObjectIO.validateIOType( MediumIO );
+  applyState( medium, fromStateObject ) {
+    // medium.previousPosition.set( fromStateObject.position );
+  }
+} );
 
 bendingLight.register( 'MediumIO', MediumIO );
 export default MediumIO;
