@@ -37,13 +37,9 @@ const MediumIO = new IOType( 'MediumIO', {
     }
   },
 
-  // TODO: https://github.com/phetsims/tandem/issues/211 this looks bogus
+  // TODO: This needs to be implemented
   toStateObject( medium ) {
-    return { hello: 'there' };
-  },
-
-  applyState( medium, fromStateObject ) {
-    // medium.previousPosition.set( fromStateObject.position );
+    return {};
   }
 } );
 
