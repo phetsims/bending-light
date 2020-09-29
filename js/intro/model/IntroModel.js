@@ -21,7 +21,6 @@ import BendingLightModel from '../../common/model/BendingLightModel.js';
 import IntensityMeter from '../../common/model/IntensityMeter.js';
 import LightRay from '../../common/model/LightRay.js';
 import Medium from '../../common/model/Medium.js';
-import MediumIO from '../../common/model/MediumIO.js';
 import Reading from '../../common/model/Reading.js';
 import Substance from '../../common/model/Substance.js';
 import WaveParticle from '../../common/model/WaveParticle.js';
@@ -50,7 +49,7 @@ class IntroModel extends BendingLightModel {
     this.topMediumProperty = new Property( topMedium, {
       reentrant: true,
       tandem: tandem.createTandem( 'topMediumProperty' ),
-      phetioType: Property.PropertyIO( MediumIO )
+      phetioType: Property.PropertyIO( Medium.MediumIO )
     } );
 
     // Bottom medium
@@ -59,7 +58,7 @@ class IntroModel extends BendingLightModel {
     this.bottomMediumProperty = new Property( bottomMedium, {
       reentrant: true,
       tandem: tandem.createTandem( 'bottomMediumProperty' ),
-      phetioType: Property.PropertyIO( MediumIO )
+      phetioType: Property.PropertyIO( Medium.MediumIO )
     } );
     this.time = 0; // @public
 

@@ -7,6 +7,9 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import IOType from '../../../../tandem/js/types/IOType.js';
+import StringIO from '../../../../tandem/js/types/StringIO.js';
+import VoidIO from '../../../../tandem/js/types/VoidIO.js';
 import bendingLight from '../../bendingLight.js';
 
 class Medium {
@@ -44,6 +47,37 @@ class Medium {
   }
 }
 
-bendingLight.register( 'Medium', Medium );
+// TODO: Just instrument the "substance" instead
+Medium.MediumIO = new IOType( 'MediumIO', {
+  isValidValue: value => value instanceof Medium,
+  methods: {
 
+    setName: {
+      returnType: VoidIO,
+      parameterTypes: [ StringIO ],
+      implementation: text => {
+        this.name = text;
+      },
+      documentation: 'Set the name of the solute',
+      invocableForReadOnlyElements: false
+    },
+
+    setFormula: {
+      returnType: VoidIO,
+      parameterTypes: [ StringIO ],
+      implementation: text => {
+        this.formula = text;
+      },
+      documentation: 'Set the formula of the solute',
+      invocableForReadOnlyElements: false
+    }
+  },
+
+  // TODO: This needs to be implemented
+  toStateObject( medium ) {
+    return {};
+  }
+} );
+
+bendingLight.register( 'Medium', Medium );
 export default Medium;
