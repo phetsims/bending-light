@@ -10,7 +10,6 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
@@ -51,7 +50,7 @@ class IntroModel extends BendingLightModel {
     this.topMediumProperty = new Property( topMedium, {
       reentrant: true,
       tandem: tandem.createTandem( 'topMediumProperty' ),
-      phetioType: PropertyIO( MediumIO )
+      phetioType: Property.PropertyIO( MediumIO )
     } );
 
     // Bottom medium
@@ -60,7 +59,7 @@ class IntroModel extends BendingLightModel {
     this.bottomMediumProperty = new Property( bottomMedium, {
       reentrant: true,
       tandem: tandem.createTandem( 'bottomMediumProperty' ),
-      phetioType: PropertyIO( MediumIO )
+      phetioType: Property.PropertyIO( MediumIO )
     } );
     this.time = 0; // @public
 
