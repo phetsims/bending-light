@@ -49,7 +49,7 @@ class Medium {
 
 // TODO: Just instrument the "substance" instead
 Medium.MediumIO = new IOType( 'MediumIO', {
-  isValidValue: value => value instanceof Medium,
+  valueType: Medium,
   methods: {
 
     setName: {
