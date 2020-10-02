@@ -406,7 +406,7 @@ class PrismsModel extends BendingLightModel {
    * Find the nearest intersection between a light ray and the set of prisms in the play area
    * @private
    * @param {ColoredRay} incidentRay - model of the ray
-   * @param {ObservableArray<Prism>} prisms
+   * @param {ObservableArrayDef<Prism>} prisms
    * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
    */
   getIntersection( incidentRay, prisms ) {

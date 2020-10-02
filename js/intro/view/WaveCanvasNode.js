@@ -15,7 +15,7 @@ import bendingLight from '../../bendingLight.js';
 class WaveCanvasNode extends CanvasNode {
 
   /**
-   * @param {ObservableArray.<LightRay>} lightRays - the light rays from the model
+   * @param {ObservableArrayDef.<LightRay>} lightRays - the light rays from the model
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Object} [options] - options that can be passed on to the underlying node
    */

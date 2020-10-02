@@ -15,7 +15,7 @@ import bendingLight from '../../bendingLight.js';
 class GridCanvasNode extends CanvasNode {
 
   /**
-   * @param {ObservableArray<[]>} gridLines - contains details of each grid line
+   * @param {ObservableArrayDef<[]>} gridLines - contains details of each grid line
    * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinates
    * @param {array.<number>} strokeDash
    * @param {Object} [options] - options that can be passed on to the underlying node

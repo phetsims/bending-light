@@ -27,7 +27,7 @@ class WhiteLightCanvasNode extends CanvasNode {
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {number} stageWidth - width of the dev area
    * @param {number} stageHeight - height of the dev area
-   * @param {ObservableArray} whiteLightRays - array of white light rays
+   * @param {ObservableArrayDef} whiteLightRays - array of white light rays
    * @param {Property.<Medium>} environmentMediumProperty
    * @param {MediumColorFactory} mediumColorFactory - for creating colors from index of refraction
    */

@@ -39,7 +39,7 @@ class AngleNode extends Node {
    * @param {Property.<boolean>} showAnglesProperty -
    * @param {Property.<boolean>} laserOnProperty -
    * @param {Property.<boolean>} showNormalProperty -
-   * @param {ObservableArray} rays -
+   * @param {ObservableArrayDef} rays -
    * @param {ModelViewTransform2} modelViewTransform
    * @param {function} addStepListener -
    */
