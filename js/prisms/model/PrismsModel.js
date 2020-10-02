@@ -7,7 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import ObservableArray from '../../../../axon/js/ObservableArray.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -37,10 +37,10 @@ class PrismsModel extends BendingLightModel {
 
     super( Math.PI, false, 1E-16 );
 
-    this.prisms = new ObservableArray(); // @public (read-only)
+    this.prisms = createObservableArray(); // @public (read-only)
 
     // @public (read-only) - List of intersections, which can be shown graphically
-    this.intersections = new ObservableArray();
+    this.intersections = createObservableArray();
 
     this.mediumColorFactory = new MediumColorFactory();
 

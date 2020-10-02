@@ -7,7 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import ObservableArray from '../../../../axon/js/ObservableArray.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Line from '../../../../kite/js/segments/Line.js';
@@ -84,7 +84,7 @@ class LightRay {
     this.unitVector = new Vector2( 0, 0 );
 
     // wave particles
-    this.particles = new ObservableArray(); // @public (read-only)
+    this.particles = createObservableArray(); // @public (read-only)
 
     // time used in wave sensor node
     this.time = 0; // @public (read-only)

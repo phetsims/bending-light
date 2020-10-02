@@ -7,7 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import ObservableArray from '../../../../axon/js/ObservableArray.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -69,7 +69,7 @@ class ChartNode extends Node {
     this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping( new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
     // Add grid to the chart
-    this.gridLines = new ObservableArray(); // @public (read-only)
+    this.gridLines = createObservableArray(); // @public (read-only)
     this.gridCanvasNode = new GridCanvasNode( this.gridLines, this.modelViewTransformProperty, [ DASH_ON, DASH_OFF ], {
       canvasBounds: chartBounds
     } );

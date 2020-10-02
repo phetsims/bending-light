@@ -8,7 +8,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import ObservableArray from '../../../../axon/js/ObservableArray.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 import Utils from '../../../../scenery/js/util/Utils.js';
 import bendingLight from '../../bendingLight.js';
@@ -33,7 +33,7 @@ class BendingLightModel {
   constructor( laserAngle, topLeftQuadrant, laserDistanceFromPivot, properties ) {
 
     // @public (read-only)- list of rays in the model
-    this.rays = new ObservableArray();
+    this.rays = createObservableArray();
 
     this.mediumColorFactory = new MediumColorFactory();
 
