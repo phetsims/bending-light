@@ -137,7 +137,7 @@ class WaveSensorNode extends Node {
     titleNode.y = this.bodyNode.height * fractionalVerticalDistanceToTitle;
 
     // Add the chart inside the body, with one series for each of the dark and light probes
-    this.chartNode = new ChartNode( innerMostRectangle.bounds.erode( 3 ), [
+    this.chartNode = new ChartNode( innerMostRectangle.bounds.eroded( 3 ), [
       new Series( waveSensor.probe1.seriesProperty, darkProbeColor ),
       new Series( waveSensor.probe2.seriesProperty, lightProbeColor )
     ] );
