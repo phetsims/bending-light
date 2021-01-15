@@ -23,12 +23,7 @@
     "simulation": true,
     "phet-io": {
       "validation": false
-    },
-    "screens": [
-      { "screenTitleKey": "BENDING_LIGHT/intro" },
-      { "screenTitleKey": "BENDING_LIGHT/prisms" },
-      { "screenTitleKey": "BENDING_LIGHT/moreTools" }
-    ]
+    }
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"
