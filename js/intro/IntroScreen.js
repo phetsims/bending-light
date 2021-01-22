@@ -45,9 +45,7 @@ class IntroScreen extends Screen {
         2, // indexOfRefractionDecimals
 
         // createLaserControlPanel
-        function( introModel ) {
-          return new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty );
-        } ),
+        introModel => new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty ) ),
       options );
   }
 }
