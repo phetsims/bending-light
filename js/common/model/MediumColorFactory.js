@@ -80,7 +80,7 @@ const colorBlend = ( a, b, ratio ) => {
   );
 };
 
-const createProfile = ( AIR_COLOR, WATER_COLOR, GLASS_COLOR, DIAMOND_COLOR ) => function( indexForRed ) {
+const createProfile = ( AIR_COLOR, WATER_COLOR, GLASS_COLOR, DIAMOND_COLOR ) => indexForRed => {
 
   // precompute to improve readability below
   const waterIndexForRed = Substance.WATER.indexOfRefractionForRedLight;

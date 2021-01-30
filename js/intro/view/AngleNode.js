@@ -214,9 +214,7 @@ class AngleNode extends Node {
         ) / ROUNDING_FACTOR;
         const incomingReadoutText = incomingRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
 
-        const createDirectionVector = function( angle ) {
-          return Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT + 5, angle );
-        };
+        const createDirectionVector = angle => Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT + 5, angle );
         const incomingReadoutDirection = createDirectionVector( -Math.PI / 2 - incomingAngleFromNormal / 2 );
         const reflectedReadoutDirection = createDirectionVector( -Math.PI / 2 + incomingAngleFromNormal / 2 );
         const refractedReadoutDirection = createDirectionVector( +Math.PI / 2 - refractedAngleFromNormal / 2 );

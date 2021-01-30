@@ -408,8 +408,7 @@ class IntroScreenView extends BendingLightScreenView {
       this.toolbox.bottom = checkboxPanel.top - 10;
     } );
 
-    this.visibleBoundsProperty.link( function( visibleBounds ) {
-
+    this.visibleBoundsProperty.link( visibleBounds => {
       protractorNodeListener.setDragBounds( visibleBounds );
       probeListener.setDragBounds( modelViewTransform.viewToModelBounds( visibleBounds ) );
 
