@@ -46,7 +46,8 @@ class LaserNode extends Node {
       buttonXMargin: 2,
       buttonYMargin: 2,
       cornerRadius: 2,
-      buttonTouchAreaDilation: 4
+      buttonTouchAreaDilation: 4,
+      getButtonLocation: bodyNode => bodyNode.rightCenter.blend( bodyNode.center, 0.5 )
     } );
 
     const knobImage = new Image( knobImageData, { scale: 0.58, rightCenter: laserPointerNode.leftCenter } );
