@@ -8,22 +8,15 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Shape from '../../../../kite/js/Shape.js';
+import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
 import SimpleDragHandler from '../../../../scenery/js/input/SimpleDragHandler.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
-import Color from '../../../../scenery/js/util/Color.js';
-import BooleanRoundStickyToggleButton from '../../../../sun/js/buttons/BooleanRoundStickyToggleButton.js';
-import laserKnobImage from '../../../images/laser_knob_png.js';
-import laserWithoutKnobImage from '../../../images/laser_png.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
-
-// constants
-const dragRegionColor = new Color( 255, 0, 0, 0 );
-const rotationRegionColor = new Color( 0, 0, 255, 0 );
+import knobImageData from '../../../images/knob_png.js';
 
 class LaserNode extends Node {
 
@@ -46,7 +39,26 @@ class LaserNode extends Node {
                clampDragAngle, translationRegion, rotationRegion, hasKnob, dragBoundsProperty,
                occlusionHandler ) {
 
-    const laserImage = hasKnob ? laserKnobImage : laserWithoutKnobImage;
+    const laserPointerNode = new LaserPointerNode( laser.onProperty, {
+      bodySize: new Dimension2( 70, 30 ),
+      nozzleSize: new Dimension2( 10, 25 ),
+      buttonRadius: 12,
+      buttonXMargin: 2,
+      buttonYMargin: 2,
+      cornerRadius: 2,
+      buttonTouchAreaDilation: 4
+    } );
+
+    const knobImage = new Image( knobImageData, { scale: 0.58, rightCenter: laserPointerNode.leftCenter } );
+    knobImage.touchArea = knobImage.localBounds.dilatedXY( 15, 27 ).shiftedX( -15 );
+    hasKnob && laserPointerNode.addChild( knobImage );
+    laserPointerNode.translate( laserPointerNode.width, laserPointerNode.height / 2 );
+    if ( !hasKnob ) {
+      laserPointerNode.bodyAndNozzleNode.touchArea = laserPointerNode.bodyAndNozzleNode.bounds.dilated( 8 ).shiftedX( -8 );
+    }
+
+    const translationTarget = hasKnob ? laserPointerNode.bodyAndNozzleNode : knobImage;
+    const rotationTarget = hasKnob ? knobImage : laserPointerNode.bodyAndNozzleNode;
 
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker
@@ -58,23 +70,14 @@ class LaserNode extends Node {
     super( { cursor: 'pointer' } );
 
     // @public (read-only), Used for radius and length of drag handlers
-    this.laserImageWidth = laserImage.width;
+    this.laserImageWidth = laserPointerNode.width;
 
     // add laser image
-    const laserImageNode = new Image( laserImage, { scale: 0.58 } );
-    this.addChild( laserImageNode );
-    laserImageNode.rotateAround( laserImageNode.getCenter(), Math.PI );
+    laserPointerNode.rotateAround( laserPointerNode.getCenter(), Math.PI );
 
-    const lightImageWidth = laserImageNode.getWidth();
-    const lightImageHeight = laserImageNode.getHeight();
+    this.addChild( laserPointerNode );
 
-    // drag handlers can choose which of these regions to use for drag events
-    const fractionBackToRotateHandle = 34.0 / 177.0;
-    const frontRectangle = Shape.rect( 0, 0, lightImageWidth * ( 1 - fractionBackToRotateHandle ), lightImageHeight );
-
-    const backRectangle = Shape.rect( lightImageWidth * ( 1 - fractionBackToRotateHandle ), 0,
-      lightImageWidth * fractionBackToRotateHandle, lightImageHeight );
-    const fullRectangle = Shape.rect( 0, 0, lightImageWidth, lightImageHeight );
+    const lightImageHeight = laserPointerNode.getHeight();
 
     // re usable vector to avoid vector allocation
     const emissionPointEndPosition = new Vector2( 0, 0 );
@@ -91,10 +94,8 @@ class LaserNode extends Node {
 
     // add the drag region for translating the laser
     let start;
-    const translationRegionPath = new Path( translationRegion( fullRectangle, frontRectangle ), {
-      fill: dragRegionColor
-    } );
-    translationRegionPath.addInputListener( new SimpleDragHandler( {
+
+    translationTarget.addInputListener( new SimpleDragHandler( {
       start: event => {
         start = this.globalToParentPoint( event.pointer.point );
         showTranslationDragHandlesProperty.value = true;
@@ -136,24 +137,16 @@ class LaserNode extends Node {
     } ) );
 
     // Listeners to enable/disable the translation dragHandles
-    translationRegionPath.addInputListener( {
+    translationTarget.addInputListener( {
       enter: () => {
-        showTranslationDragHandlesProperty.value = showRotationDragHandlesProperty.value ? false : true;
+        showTranslationDragHandlesProperty.value = !showRotationDragHandlesProperty.value;
       },
       exit: () => {
         showTranslationDragHandlesProperty.value = false;
       }
     } );
-    this.addChild( translationRegionPath );
 
-    // Add the drag region for rotating the laser
-    const rotationRegionPath = new Path( rotationRegion( fullRectangle, backRectangle ), { fill: rotationRegionColor } );
-    this.addChild( rotationRegionPath );
-
-    // Increase the touch area for the rotation region and move it toward the back
-    rotationRegionPath.touchArea = rotationRegionPath.bounds.dilated( 8 ).shiftedX( 8 );
-
-    rotationRegionPath.addInputListener( new SimpleDragHandler( {
+    rotationTarget.addInputListener( new SimpleDragHandler( {
       start: () => {
         showTranslationDragHandlesProperty.value = false;
         overCountProperty.value = overCountProperty.value + 1;
@@ -187,7 +180,7 @@ class LaserNode extends Node {
     } ) );
 
     // Listeners to enable/disable the rotation dragHandles
-    rotationRegionPath.addInputListener( {
+    rotationTarget.addInputListener( {
       enter: () => {
         overCountProperty.value = overCountProperty.value + 1;
       },
@@ -196,16 +189,6 @@ class LaserNode extends Node {
       }
     } );
 
-    // add light emission on/off button
-    const redButton = new BooleanRoundStickyToggleButton( laser.onProperty, {
-      radius: 11,
-      centerX: 28,
-      centerY: laserImageNode.centerY,
-      baseColor: 'red',
-      touchAreaDilation: 5
-    } );
-    this.addChild( redButton );
-
     // update the laser position
     laser.emissionPointProperty.link( newEmissionPoint => {
       const emissionPointX = modelViewTransform.modelToViewX( newEmissionPoint.x );
@@ -213,9 +196,6 @@ class LaserNode extends Node {
       this.setTranslation( emissionPointX, emissionPointY );
       this.setRotation( -laser.getAngle() );
       this.translate( 0, -lightImageHeight / 2 );
-
-      // So the light always looks like it comes from the top left, despite the laser angle
-      redButton.setRotation( laser.getAngle() );
     } );
 
     // TODO: Move to prototype?
