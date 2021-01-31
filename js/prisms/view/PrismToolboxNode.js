@@ -175,8 +175,8 @@ class PrismToolboxNode extends Node {
     };
 
     const checkboxOptions = {
-      boxWidth: 20,
-      spacing: 2
+      boxWidth: 15,
+      spacing: 5
     };
 
     // add checkboxes for reflections, normal and protractor
@@ -200,32 +200,39 @@ class PrismToolboxNode extends Node {
       item => item.width
     ).width + 5;
 
+    const SPACING = 9;
+
     // touch Areas
     showReflectionsCheckbox.touchArea = new Bounds2(
       showReflectionsCheckbox.localBounds.minX - 5,
       showReflectionsCheckbox.localBounds.minY,
       showReflectionsCheckbox.localBounds.minX + maxCheckboxWidth,
       showReflectionsCheckbox.localBounds.maxY
-    );
+    ).dilatedY( SPACING / 2 );
 
     showNormalCheckbox.touchArea = new Bounds2(
       showNormalCheckbox.localBounds.minX - 5,
       showNormalCheckbox.localBounds.minY,
       showNormalCheckbox.localBounds.minX + maxCheckboxWidth,
       showNormalCheckbox.localBounds.maxY
-    );
+    ).dilatedY( SPACING / 2 );
 
     showProtractorCheckbox.touchArea = new Bounds2(
       showProtractorCheckbox.localBounds.minX - 5,
       showProtractorCheckbox.localBounds.minY,
       showProtractorCheckbox.localBounds.minX + maxCheckboxWidth,
       showProtractorCheckbox.localBounds.maxY
-    );
+    ).dilatedY( SPACING / 2 );
 
     // pad all the rows so the text nodes are left aligned and the icons is right aligned
     const checkboxes = new VBox( {
-      align: 'left', spacing: 4,
-      children: [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ]
+      align: 'left',
+      spacing: SPACING,
+      children: [
+        showReflectionsCheckbox,
+        showNormalCheckbox,
+        showProtractorCheckbox
+      ]
     } );
     content.addChild( checkboxes );
 
