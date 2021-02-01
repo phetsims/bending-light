@@ -148,7 +148,7 @@ class BendingLightScreenView extends ScreenView {
     this.showProtractorProperty.reset();
   }
 
-  // @protected - intended to be overriden by subclasses
+  // @protected - intended to be overridden by subclasses
   step() {
     if ( this.singleColorLightNode.visible ) {
       this.singleColorLightNode.step();
@@ -156,7 +156,7 @@ class BendingLightScreenView extends ScreenView {
   }
 
   /**
-   * Overriden for IntroScreenView to add the wave nodes
+   * overridden for IntroScreenView to add the wave nodes
    * @param {BendingLightModel} bendingLightModel
    * @protected
    */
