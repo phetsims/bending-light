@@ -10,6 +10,7 @@
 
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Utils from '../../../../scenery/js/util/Utils.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
@@ -48,7 +49,7 @@ class BendingLightModel {
     this.laserViewProperty = new Property( 'ray' ); // @public, Whether the laser is Ray or Wave mode // TODO: Enumeration
     this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
     this.isPlayingProperty = new Property( true );
-    this.speedProperty = new Property( 'normal' );
+    this.speedProperty = new Property( TimeSpeed.NORMAL );
     this.indexOfRefractionProperty = new Property( 1 );
     this.showNormalProperty = new Property( true );
     this.showAnglesProperty = new Property( false );

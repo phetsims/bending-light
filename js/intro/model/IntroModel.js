@@ -13,6 +13,7 @@ import Property from '../../../../axon/js/Property.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import bendingLight from '../../bendingLight.js';
@@ -401,7 +402,7 @@ class IntroModel extends BendingLightModel {
   updateSimulationTimeAndWaveShape( speed ) {
 
     // Update the time
-    this.time = this.time + ( speed === 'normal' ? 1E-16 : 0.5E-16 );
+    this.time = this.time + ( speed === TimeSpeed.NORMAL ? 1E-16 : 0.5E-16 );
 
     // set time for each ray
     this.rays.forEach( ray => ray.setTime( this.time ) );

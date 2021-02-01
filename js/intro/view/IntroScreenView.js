@@ -18,6 +18,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
+import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
@@ -36,7 +37,6 @@ import ToolIconListener from '../../common/view/ToolIconListener.js';
 import AngleIcon from './AngleIcon.js';
 import AngleNode from './AngleNode.js';
 import NormalLine from './NormalLine.js';
-import TimeControlNode from './TimeControlNode.js';
 import WaveCanvasNode from './WaveCanvasNode.js';
 import WaveWebGLNode from './WaveWebGLNode.js';
 
@@ -383,7 +383,17 @@ class IntroScreenView extends BendingLightScreenView {
     this.afterLightLayer2.addChild( resetAllButton );
 
     // add sim speed controls
-    this.timeControlNode = new TimeControlNode( introModel, this.updateWaveShape.bind( this ), {
+    this.timeControlNode = new TimeControlNode( introModel.isPlayingProperty, {
+      playPauseStepButtonOptions: {
+        stepForwardButtonOptions: {
+          listener: () => {
+            introModel.updateSimulationTimeAndWaveShape( 'normal' );
+            this.updateWaveShape();
+          }
+        }
+      },
+      speedRadioButtonGroupOnLeft: true,
+      timeSpeedProperty: introModel.speedProperty,
       left: checkboxPanel.right + 75,
       bottom: this.layoutBounds.maxY - 10
     } );
