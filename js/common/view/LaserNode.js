@@ -50,16 +50,19 @@ class LaserNode extends Node {
       getButtonLocation: bodyNode => bodyNode.rightCenter.blend( bodyNode.center, 0.5 )
     } );
 
-    const knobImage = new Image( knobImageData, { scale: 0.58, rightCenter: laserPointerNode.leftCenter } );
-    knobImage.touchArea = knobImage.localBounds.dilatedXY( 15, 27 ).shiftedX( -15 );
-    hasKnob && laserPointerNode.addChild( knobImage );
-    laserPointerNode.translate( laserPointerNode.width, laserPointerNode.height / 2 );
-    if ( !hasKnob ) {
-      laserPointerNode.bodyAndNozzleNode.touchArea = laserPointerNode.bodyAndNozzleNode.bounds.dilated( 8 ).shiftedX( -8 );
+    const knobImage = hasKnob ? new Image( knobImageData, { scale: 0.58, rightCenter: laserPointerNode.leftCenter } ) : null;
+    if ( knobImage ) {
+      knobImage.touchArea = knobImage.localBounds.dilatedXY( 15, 27 ).shiftedX( -15 );
+      hasKnob && laserPointerNode.addChild( knobImage );
+    }
+    else {
+      laserPointerNode.touchArea = laserPointerNode.bounds.dilated( 8 ).shiftedX( -8 );
     }
 
-    const translationTarget = hasKnob ? laserPointerNode.bodyAndNozzleNode : knobImage;
-    const rotationTarget = hasKnob ? knobImage : laserPointerNode.bodyAndNozzleNode;
+    laserPointerNode.translate( laserPointerNode.width, laserPointerNode.height / 2 );
+
+    const translationTarget = hasKnob ? laserPointerNode : knobImage;
+    const rotationTarget = hasKnob ? knobImage : laserPointerNode;
 
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker
@@ -96,7 +99,7 @@ class LaserNode extends Node {
     // add the drag region for translating the laser
     let start;
 
-    translationTarget.addInputListener( new SimpleDragHandler( {
+    translationTarget && translationTarget.addInputListener( new SimpleDragHandler( {
       start: event => {
         start = this.globalToParentPoint( event.pointer.point );
         showTranslationDragHandlesProperty.value = true;
@@ -138,7 +141,7 @@ class LaserNode extends Node {
     } ) );
 
     // Listeners to enable/disable the translation dragHandles
-    translationTarget.addInputListener( {
+    translationTarget && translationTarget.addInputListener( {
       enter: () => {
         showTranslationDragHandlesProperty.value = !showRotationDragHandlesProperty.value;
       },
