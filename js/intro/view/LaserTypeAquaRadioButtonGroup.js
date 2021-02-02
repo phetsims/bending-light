@@ -42,8 +42,15 @@ class LaserTypeAquaRadioButtonGroup extends VBox {
       createButtonTextNode( waveString ),
       radioButtonOptions
     );
+    const spacing = 10;
+    const dilation = spacing / 2;
+
+    // Use the same touch area width for each button, even if the texts are different widths
+    const union = rayButton.localBounds.union( waveButton.localBounds );
+    rayButton.touchArea = union.dilated( dilation );
+    waveButton.touchArea = union.dilated( dilation );
     super( {
-      spacing: 10,
+      spacing: spacing,
       align: 'left',
       children: [ rayButton, waveButton ]
     } );
