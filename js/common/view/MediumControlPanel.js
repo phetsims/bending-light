@@ -46,7 +46,7 @@ const INSET = 10;
 class MediumControlPanel extends Node {
 
   /**
-   * @param {BendingLightView} view - view of the simulation
+   * @param {BendingLightScreenView} view - view of the simulation
    * @param {MediumColorFactory} mediumColorFactory - for turning index of refraction into color
    * @param {Property.<Medium>} mediumProperty - specifies medium
    * @param {string} name - name of the medium material
