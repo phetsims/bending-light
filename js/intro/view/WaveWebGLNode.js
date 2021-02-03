@@ -18,7 +18,7 @@ class WaveWebGLNode extends WebGLNode {
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {ObservableArrayDef<LightRay>} rays - light rays
+   * @param {ObservableArrayDef.<LightRay>} rays - light rays
    */
   constructor( modelViewTransform, rays ) {
     super( WavePainter );
