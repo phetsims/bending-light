@@ -42,7 +42,7 @@ class Probe {
 
   /**
    * @public
-   * @param {Option<DataPoint>} sample
+   * @param {Option.<DataPoint>} sample
    */
   addSample( sample ) {
     this.seriesProperty.get().push( sample );
