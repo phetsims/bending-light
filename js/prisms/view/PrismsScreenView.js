@@ -8,6 +8,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
@@ -36,8 +37,9 @@ class PrismsScreenView extends BendingLightScreenView {
 
   /**
    * @param {PrismsModel} prismsModel - model of prisms screen
+   * @param {Object} [options]
    */
-  constructor( prismsModel ) {
+  constructor( prismsModel, options ) {
 
     super(
       prismsModel,
@@ -51,7 +53,8 @@ class PrismsScreenView extends BendingLightScreenView {
       // laserHasKnob
       true,
 
-      {
+      merge( {
+
         // center the play area horizontally in the space between the left side of the screen and the control panels on
         // the right, and move the laser to the left.
         horizontalPlayAreaOffset: 240,
@@ -73,7 +76,7 @@ class PrismsScreenView extends BendingLightScreenView {
             }
           } );
         }
-      }
+      }, options )
     );
 
     this.prismLayer = new Node( { layerSplit: true } );

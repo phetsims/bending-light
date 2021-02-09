@@ -10,6 +10,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import merge from '../../../../phet-core/js/merge.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
 import SimpleDragHandler from '../../../../scenery/js/input/SimpleDragHandler.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -34,10 +35,11 @@ class LaserNode extends Node {
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the laser may be dragged
    * @param {function} occlusionHandler - function that will move the laser out from behind a control panel if dropped
    *                                      there
+   * @param {Object} [options]
    */
   constructor( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
                clampDragAngle, translationRegion, rotationRegion, hasKnob, dragBoundsProperty,
-               occlusionHandler ) {
+               occlusionHandler, options ) {
 
     const laserPointerNode = new LaserPointerNode( laser.onProperty, {
       bodySize: new Dimension2( 70, 30 ),
@@ -67,11 +69,9 @@ class LaserNode extends Node {
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker
     const overCountProperty = new Property( 0 );
-    overCountProperty.link( overCount => {
-      showRotationDragHandlesProperty.value = overCount > 0;
-    } );
+    overCountProperty.link( overCount => showRotationDragHandlesProperty.set( overCount > 0 ) );
 
-    super( { cursor: 'pointer' } );
+    super( merge( { cursor: 'pointer' }, options ) );
 
     // @public (read-only), Used for radius and length of drag handlers
     this.laserImageWidth = laserPointerNode.width;
@@ -153,7 +153,7 @@ class LaserNode extends Node {
     rotationTarget.addInputListener( new SimpleDragHandler( {
       start: () => {
         showTranslationDragHandlesProperty.value = false;
-        overCountProperty.value = overCountProperty.value + 1;
+        overCountProperty.value++;
       },
       drag: event => {
         const coordinateFrame = this.parents[ 0 ];
@@ -179,17 +179,17 @@ class LaserNode extends Node {
         showRotationDragHandlesProperty.value = true;
       },
       end: () => {
-        overCountProperty.value = overCountProperty.value - 1;
+        overCountProperty.value--;
       }
     } ) );
 
     // Listeners to enable/disable the rotation dragHandles
     rotationTarget.addInputListener( {
       enter: () => {
-        overCountProperty.value = overCountProperty.value + 1;
+        overCountProperty.value++;
       },
       exit: () => {
-        overCountProperty.value = overCountProperty.value - 1;
+        overCountProperty.value--;
       }
     } );
 

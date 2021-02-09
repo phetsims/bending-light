@@ -45,7 +45,9 @@ class IntroScreen extends Screen {
         2, // indexOfRefractionDecimals
 
         // createLaserControlPanel
-        introModel => new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty ) ),
+        introModel => new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty ), {
+          tandem: tandem.createTandem( 'view' )
+        } ),
       options );
   }
 }

@@ -115,7 +115,9 @@ class BendingLightScreenView extends ScreenView {
       laserRotationRegion,
       laserHasKnob,
       this.visibleBoundsProperty,
-      this.occlusionHandler
+      this.occlusionHandler, {
+        tandem: options.tandem.createTandem( 'laserNode' )
+      }
     );
 
     // add laser node rotation and translation arrows in array, to move them to front of all other nodes in prism screen
