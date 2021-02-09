@@ -105,9 +105,17 @@ class BendingLightScreenView extends ScreenView {
     const showRotationDragHandlesProperty = new Property( false );
     const showTranslationDragHandlesProperty = new Property( false );
 
-    const laserNode = new LaserNode( this.modelViewTransform, bendingLightModel.laser, showRotationDragHandlesProperty,
-      showTranslationDragHandlesProperty, options.clampDragAngle, laserTranslationRegion, laserRotationRegion,
-      laserHasKnob, this.visibleBoundsProperty, this.occlusionHandler
+    const laserNode = new LaserNode(
+      this.modelViewTransform,
+      bendingLightModel.laser,
+      showRotationDragHandlesProperty,
+      showTranslationDragHandlesProperty,
+      options.clampDragAngle,
+      laserTranslationRegion,
+      laserRotationRegion,
+      laserHasKnob,
+      this.visibleBoundsProperty,
+      this.occlusionHandler
     );
 
     // add laser node rotation and translation arrows in array, to move them to front of all other nodes in prism screen
