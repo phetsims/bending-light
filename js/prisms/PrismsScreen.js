@@ -36,8 +36,10 @@ class PrismsScreen extends Screen {
     };
 
     super(
-      () => new PrismsModel(),
-      model => new PrismsScreenView( model ),
+      () => new PrismsModel( { tandem: options.tandem.createTandem( 'model' ) } ),
+      model => new PrismsScreenView( model, {
+        tandem: options.tandem.createTandem( 'view' )
+      } ),
       options );
   }
 }

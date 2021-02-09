@@ -7,6 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -99,7 +100,7 @@ class LaserNode extends Node {
     // add the drag region for translating the laser
     let start;
 
-    translationTarget && translationTarget.addInputListener( new SimpleDragHandler( {
+    const translationListener = new SimpleDragHandler( {
       start: event => {
         start = this.globalToParentPoint( event.pointer.point );
         showTranslationDragHandlesProperty.value = true;
@@ -138,19 +139,21 @@ class LaserNode extends Node {
         showTranslationDragHandlesProperty.value = false;
         occlusionHandler( this );
       }
-    } ) );
+    } );
+    translationTarget && translationTarget.addInputListener( translationListener );
 
     // Listeners to enable/disable the translation dragHandles
-    translationTarget && translationTarget.addInputListener( {
+    const translationOverListener = {
       enter: () => {
         showTranslationDragHandlesProperty.value = !showRotationDragHandlesProperty.value;
       },
       exit: () => {
         showTranslationDragHandlesProperty.value = false;
       }
-    } );
+    };
+    translationTarget && translationTarget.addInputListener( translationOverListener );
 
-    rotationTarget.addInputListener( new SimpleDragHandler( {
+    const rotationListener = new SimpleDragHandler( {
       start: () => {
         showTranslationDragHandlesProperty.value = false;
         overCountProperty.value++;
@@ -181,15 +184,48 @@ class LaserNode extends Node {
       end: () => {
         overCountProperty.value--;
       }
-    } ) );
+    } );
+    rotationTarget.addInputListener( rotationListener );
 
     // Listeners to enable/disable the rotation dragHandles
-    rotationTarget.addInputListener( {
+    const rotationOverListener = {
       enter: () => {
         overCountProperty.value++;
       },
       exit: () => {
         overCountProperty.value--;
+      }
+    };
+    rotationTarget.addInputListener( rotationOverListener );
+
+    const isRotationEnabledProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'isRotationEnabledProperty' )
+    } );
+    isRotationEnabledProperty.lazyLink( isEnabled => {
+      if ( isEnabled ) {
+        rotationTarget.addInputListener( rotationListener );
+        rotationTarget.addInputListener( rotationOverListener );
+      }
+      else {
+        rotationTarget.removeInputListener( rotationListener );
+        rotationTarget.removeInputListener( rotationOverListener );
+      }
+      if ( knobImage ) {
+        knobImage.visible = isEnabled;
+      }
+    } );
+
+    const isTranslationEnabledProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'isTranslationEnabledProperty' )
+    } );
+    isTranslationEnabledProperty.lazyLink( isEnabled => {
+      if ( isEnabled ) {
+        translationTarget.addInputListener( translationListener );
+        translationTarget.addInputListener( translationOverListener );
+      }
+      else {
+        translationTarget.removeInputListener( translationListener );
+        translationTarget.removeInputListener( translationOverListener );
       }
     } );
 
