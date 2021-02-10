@@ -64,7 +64,8 @@ class LaserNode extends Node {
 
     laserPointerNode.translate( laserPointerNode.width, laserPointerNode.height / 2 );
 
-    const translationTarget = hasKnob ? laserPointerNode : knobImage;
+    // If there is a knob ("Prisms" screen), it is used to rotate the laser.
+    // If there is no knob ("Intro" and "More Tools" screens), then the laser is rotated by dragging the laser itself.
     const rotationTarget = hasKnob ? knobImage : laserPointerNode;
 
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
@@ -100,8 +101,9 @@ class LaserNode extends Node {
     // add the drag region for translating the laser
     let start;
 
-    if ( translationTarget ) {
-
+    // On the "Prisms" screen, the laser can be translated by dragging the laser, and rotated by dragging the knob on
+    // the back of the laser.  This part of the code handles the translation.
+    if ( hasKnob ) {
       const translationListener = new SimpleDragHandler( {
         start: event => {
           start = this.globalToParentPoint( event.pointer.point );
@@ -142,7 +144,7 @@ class LaserNode extends Node {
           occlusionHandler( this );
         }
       } );
-      translationTarget.addInputListener( translationListener );
+      laserPointerNode.addInputListener( translationListener );
 
       // Listeners to enable/disable the translation dragHandles
       const translationOverListener = {
@@ -153,7 +155,7 @@ class LaserNode extends Node {
           showTranslationDragHandlesProperty.value = false;
         }
       };
-      translationTarget.addInputListener( translationOverListener );
+      laserPointerNode.addInputListener( translationOverListener );
 
       const isTranslationEnabledProperty = new BooleanProperty( true, {
         tandem: options.tandem.createTandem( 'isTranslationEnabledProperty' ),
@@ -162,12 +164,12 @@ class LaserNode extends Node {
       } );
       isTranslationEnabledProperty.lazyLink( isEnabled => {
         if ( isEnabled ) {
-          translationTarget.addInputListener( translationListener );
-          translationTarget.addInputListener( translationOverListener );
+          laserPointerNode.addInputListener( translationListener );
+          laserPointerNode.addInputListener( translationOverListener );
         }
         else {
-          translationTarget.removeInputListener( translationListener );
-          translationTarget.removeInputListener( translationOverListener );
+          laserPointerNode.removeInputListener( translationListener );
+          laserPointerNode.removeInputListener( translationOverListener );
         }
       } );
     }
