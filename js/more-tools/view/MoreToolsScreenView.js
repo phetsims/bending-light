@@ -11,6 +11,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Rectangle from '../../../../dot/js/Rectangle.js';
 import Shape from '../../../../kite/js/Shape.js';
+import merge from '../../../../phet-core/js/merge.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import bendingLight from '../../bendingLight.js';
@@ -28,8 +29,9 @@ class MoreToolsScreenView extends IntroScreenView {
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
+   * @param {Object} [options]
    */
-  constructor( moreToolsModel ) {
+  constructor( moreToolsModel, options ) {
 
     super( moreToolsModel,
       true, // hasMoreTools
@@ -43,10 +45,10 @@ class MoreToolsScreenView extends IntroScreenView {
           new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
           new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
         ]
-      } ), {
+      } ), merge( {
         verticalPlayAreaOffset: 0,
         horizontalPlayAreaOffset: 0
-      } );
+      }, options ) );
 
     this.moreToolsModel = moreToolsModel; // @public (read-only)
 

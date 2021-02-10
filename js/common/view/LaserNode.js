@@ -220,12 +220,12 @@ class LaserNode extends Node {
     } );
     isTranslationEnabledProperty.lazyLink( isEnabled => {
       if ( isEnabled ) {
-        translationTarget.addInputListener( translationListener );
-        translationTarget.addInputListener( translationOverListener );
+        translationTarget && translationTarget.addInputListener( translationListener );
+        translationTarget && translationTarget.addInputListener( translationOverListener );
       }
       else {
-        translationTarget.removeInputListener( translationListener );
-        translationTarget.removeInputListener( translationOverListener );
+        translationTarget && translationTarget.removeInputListener( translationListener );
+        translationTarget && translationTarget.removeInputListener( translationOverListener );
       }
     } );
 

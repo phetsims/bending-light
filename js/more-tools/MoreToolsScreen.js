@@ -34,7 +34,9 @@ class MoreToolsScreen extends Screen {
 
     super(
       () => new MoreToolsModel( tandem.createTandem( 'model' ) ),
-      model => new MoreToolsScreenView( model ),
+      model => new MoreToolsScreenView( model, {
+        tandem: options.tandem.createTandem( 'view' )
+      } ),
       options
     );
   }
