@@ -199,7 +199,11 @@ class LaserNode extends Node {
     rotationTarget.addInputListener( rotationOverListener );
 
     const isRotationEnabledProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'isRotationEnabledProperty' )
+      tandem: options.tandem.createTandem( 'isRotationEnabledProperty' ),
+      phetioDocumentation: 'This Property determines whether the laser can be rotated.  On the "Intro" and "More Tools" ' +
+                           'screens, a value of false renders the laser unmovable. On the "Prisms" screen, it hides ' +
+                           'the rotation knob on the back of the laser and makes it non-rotatable (though it may still ' +
+                           'be translatable).'
     } );
     isRotationEnabledProperty.lazyLink( isEnabled => {
       if ( isEnabled ) {
@@ -215,19 +219,24 @@ class LaserNode extends Node {
       }
     } );
 
-    const isTranslationEnabledProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'isTranslationEnabledProperty' )
-    } );
-    isTranslationEnabledProperty.lazyLink( isEnabled => {
-      if ( isEnabled ) {
-        translationTarget && translationTarget.addInputListener( translationListener );
-        translationTarget && translationTarget.addInputListener( translationOverListener );
-      }
-      else {
-        translationTarget && translationTarget.removeInputListener( translationListener );
-        translationTarget && translationTarget.removeInputListener( translationOverListener );
-      }
-    } );
+    // Only instrument for the Prisms screen where the laser can be translated.
+    if ( translationTarget ) {
+      const isTranslationEnabledProperty = new BooleanProperty( true, {
+        tandem: options.tandem.createTandem( 'isTranslationEnabledProperty' ),
+        phetioDocumentation: 'This Property determines whether the laser can be translated, in the "Prisms" screen only. ' +
+                             'A value of false means the laser cannot be translated, though it may still be rotatable.'
+      } );
+      isTranslationEnabledProperty.lazyLink( isEnabled => {
+        if ( isEnabled ) {
+          translationTarget && translationTarget.addInputListener( translationListener );
+          translationTarget && translationTarget.addInputListener( translationOverListener );
+        }
+        else {
+          translationTarget && translationTarget.removeInputListener( translationListener );
+          translationTarget && translationTarget.removeInputListener( translationOverListener );
+        }
+      } );
+    }
 
     // update the laser position
     laser.emissionPointProperty.link( newEmissionPoint => {
