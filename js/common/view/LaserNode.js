@@ -100,58 +100,77 @@ class LaserNode extends Node {
     // add the drag region for translating the laser
     let start;
 
-    const translationListener = new SimpleDragHandler( {
-      start: event => {
-        start = this.globalToParentPoint( event.pointer.point );
-        showTranslationDragHandlesProperty.value = true;
-      },
-      drag: event => {
+    if ( translationTarget ) {
 
-        const laserNodeDragBounds = dragBoundsProperty.value.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
-        const laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
+      const translationListener = new SimpleDragHandler( {
+        start: event => {
+          start = this.globalToParentPoint( event.pointer.point );
+          showTranslationDragHandlesProperty.value = true;
+        },
+        drag: event => {
 
-        const endDrag = this.globalToParentPoint( event.pointer.point );
-        const deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
-        const deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
+          const laserNodeDragBounds = dragBoundsProperty.value.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
+          const laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
 
-        // position of final emission point with out constraining to bounds
-        emissionPointEndPosition.setXY( laser.emissionPointProperty.value.x + deltaX, laser.emissionPointProperty.value.y + deltaY );
+          const endDrag = this.globalToParentPoint( event.pointer.point );
+          const deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
+          const deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
 
-        // position of final emission point with constraining to bounds
-        const emissionPointEndPositionInBounds = laserDragBoundsInModelValues.closestPointTo( emissionPointEndPosition );
+          // position of final emission point with out constraining to bounds
+          emissionPointEndPosition.setXY( laser.emissionPointProperty.value.x + deltaX, laser.emissionPointProperty.value.y + deltaY );
 
-        const translateX = emissionPointEndPositionInBounds.x - laser.emissionPointProperty.value.x;
-        const translateY = emissionPointEndPositionInBounds.y - laser.emissionPointProperty.value.y;
-        laser.translate( translateX, translateY );
+          // position of final emission point with constraining to bounds
+          const emissionPointEndPositionInBounds = laserDragBoundsInModelValues.closestPointTo( emissionPointEndPosition );
 
-        // Store the position of caught point after translating. Can be obtained by adding distance between emission
-        // point and drag point (end - emissionPointEndPosition) to emission point (emissionPointEndPositionInBounds)
-        // after translating.
-        const boundsDx = emissionPointEndPositionInBounds.x - emissionPointEndPosition.x;
-        const boundsDY = emissionPointEndPositionInBounds.y - emissionPointEndPosition.y;
-        endDrag.x = endDrag.x + modelViewTransform.modelToViewDeltaX( boundsDx );
-        endDrag.y = endDrag.y + modelViewTransform.modelToViewDeltaY( boundsDY );
+          const translateX = emissionPointEndPositionInBounds.x - laser.emissionPointProperty.value.x;
+          const translateY = emissionPointEndPositionInBounds.y - laser.emissionPointProperty.value.y;
+          laser.translate( translateX, translateY );
 
-        start = endDrag;
-        showTranslationDragHandlesProperty.value = true;
-      },
-      end: () => {
-        showTranslationDragHandlesProperty.value = false;
-        occlusionHandler( this );
-      }
-    } );
-    translationTarget && translationTarget.addInputListener( translationListener );
+          // Store the position of caught point after translating. Can be obtained by adding distance between emission
+          // point and drag point (end - emissionPointEndPosition) to emission point (emissionPointEndPositionInBounds)
+          // after translating.
+          const boundsDx = emissionPointEndPositionInBounds.x - emissionPointEndPosition.x;
+          const boundsDY = emissionPointEndPositionInBounds.y - emissionPointEndPosition.y;
+          endDrag.x = endDrag.x + modelViewTransform.modelToViewDeltaX( boundsDx );
+          endDrag.y = endDrag.y + modelViewTransform.modelToViewDeltaY( boundsDY );
 
-    // Listeners to enable/disable the translation dragHandles
-    const translationOverListener = {
-      enter: () => {
-        showTranslationDragHandlesProperty.value = !showRotationDragHandlesProperty.value;
-      },
-      exit: () => {
-        showTranslationDragHandlesProperty.value = false;
-      }
-    };
-    translationTarget && translationTarget.addInputListener( translationOverListener );
+          start = endDrag;
+          showTranslationDragHandlesProperty.value = true;
+        },
+        end: () => {
+          showTranslationDragHandlesProperty.value = false;
+          occlusionHandler( this );
+        }
+      } );
+      translationTarget.addInputListener( translationListener );
+
+      // Listeners to enable/disable the translation dragHandles
+      const translationOverListener = {
+        enter: () => {
+          showTranslationDragHandlesProperty.value = !showRotationDragHandlesProperty.value;
+        },
+        exit: () => {
+          showTranslationDragHandlesProperty.value = false;
+        }
+      };
+      translationTarget.addInputListener( translationOverListener );
+
+      const isTranslationEnabledProperty = new BooleanProperty( true, {
+        tandem: options.tandem.createTandem( 'isTranslationEnabledProperty' ),
+        phetioDocumentation: 'This Property determines whether the laser can be translated, in the "Prisms" screen only. ' +
+                             'A value of false means the laser cannot be translated, though it may still be rotatable.'
+      } );
+      isTranslationEnabledProperty.lazyLink( isEnabled => {
+        if ( isEnabled ) {
+          translationTarget.addInputListener( translationListener );
+          translationTarget.addInputListener( translationOverListener );
+        }
+        else {
+          translationTarget.removeInputListener( translationListener );
+          translationTarget.removeInputListener( translationOverListener );
+        }
+      } );
+    }
 
     const rotationListener = new SimpleDragHandler( {
       start: () => {
@@ -218,25 +237,6 @@ class LaserNode extends Node {
         knobImage.visible = isEnabled;
       }
     } );
-
-    // Only instrument for the Prisms screen where the laser can be translated.
-    if ( translationTarget ) {
-      const isTranslationEnabledProperty = new BooleanProperty( true, {
-        tandem: options.tandem.createTandem( 'isTranslationEnabledProperty' ),
-        phetioDocumentation: 'This Property determines whether the laser can be translated, in the "Prisms" screen only. ' +
-                             'A value of false means the laser cannot be translated, though it may still be rotatable.'
-      } );
-      isTranslationEnabledProperty.lazyLink( isEnabled => {
-        if ( isEnabled ) {
-          translationTarget && translationTarget.addInputListener( translationListener );
-          translationTarget && translationTarget.addInputListener( translationOverListener );
-        }
-        else {
-          translationTarget && translationTarget.removeInputListener( translationListener );
-          translationTarget && translationTarget.removeInputListener( translationOverListener );
-        }
-      } );
-    }
 
     // update the laser position
     laser.emissionPointProperty.link( newEmissionPoint => {
