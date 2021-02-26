@@ -33,9 +33,9 @@ class BendingLightScreenView extends ScreenView {
     options = merge( {
       occlusionHandler: () => {}, // {function} moves objects out from behind a control panel if dropped there
       ccwArrowNotAtMax: () => true, // {function} shows whether laser at min angle
-      clockwiseArrowNotAtMax: () => true,// {function} shows whether laser at max angle, In prisms tab
+      clockwiseArrowNotAtMax: () => true, // {function} shows whether laser at max angle, In prisms tab
       // laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
-      clampDragAngle: angle => angle,// {function} function that limits the angle of laser to its bounds
+      clampDragAngle: angle => angle, // {function} function that limits the angle of laser to its bounds
       horizontalPlayAreaOffset: 0, // {number} in stage coordinates, how far to shift the play area horizontally
       verticalPlayAreaOffset: 0 // {number} in stage coordinates, how far to shift the play area vertically.  In the
                                 // prisms screen, it is shifted up a bit to center the play area above the south control panel

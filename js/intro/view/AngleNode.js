@@ -83,7 +83,7 @@ class AngleNode extends Node {
 
       // defines ES5 getter/setter
       Object.defineProperty( panel, 'text', {
-        get: () => 'hello',// TODO: Is this correct?
+        get: () => 'hello', // TODO: Is this correct?
         set: value => { text.text = value; },
 
         // Make it configurable and enumerable so it's easy to override...
