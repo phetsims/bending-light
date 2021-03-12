@@ -212,7 +212,7 @@ class AngleNode extends Node {
         const refractedRayDegreesFromNormal = Utils.roundSymmetric(
           refractedAngleFromNormal * 180 / Math.PI * ROUNDING_FACTOR
         ) / ROUNDING_FACTOR;
-        const incomingReadoutText = incomingRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
+        const incomingReadoutText = `${incomingRayDegreesFromNormal.toFixed( NUM_DIGITS )}\u00B0`;
 
         const createDirectionVector = angle => Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT + 5, angle );
         const incomingReadoutDirection = createDirectionVector( -Math.PI / 2 - incomingAngleFromNormal / 2 );
@@ -233,7 +233,7 @@ class AngleNode extends Node {
 
         reflectedReadout.visible = showReflectedAngle;
 
-        const refractedReadoutText = refractedRayDegreesFromNormal.toFixed( NUM_DIGITS ) + '\u00B0';
+        const refractedReadoutText = `${refractedRayDegreesFromNormal.toFixed( NUM_DIGITS )}\u00B0`;
 
         // Total internal reflection, or not a significant refracted ray (light coming horizontally)
         const showLowerAngle = refractedRay.powerFraction >= 1E-6 && !isIncomingRayHorizontal;

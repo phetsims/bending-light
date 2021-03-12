@@ -57,12 +57,12 @@ class SingleColorLightCanvasNode extends CanvasNode {
       if ( ray.powerFraction > 1E-6 ) {
         context.beginPath();
 
-        context.strokeStyle = 'rgba(' +
-                              ray.color.getRed() + ',' +
-                              ray.color.getGreen() + ',' +
-                              ray.color.getBlue() + ',' +
-                              Math.sqrt( ray.powerFraction ) +
-                              ')';
+        context.strokeStyle = `rgba(${
+                              ray.color.getRed()},${
+                              ray.color.getGreen()},${
+                              ray.color.getBlue()},${
+                              Math.sqrt( ray.powerFraction )
+                              })`;
 
         context.moveTo(
           this.modelViewTransform.modelToViewX( ray.tail.x ),

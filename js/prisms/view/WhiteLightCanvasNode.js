@@ -90,11 +90,11 @@ class WhiteLightCanvasNode extends CanvasNode {
       // css color
       if ( a > 1E-5 ) {
         const c = VisibleColor.wavelengthToColor( wavelength );
-        context.strokeStyle = 'rgb(' +
-                              Utils.roundSymmetric( c.r * a / 0.9829313170995397 ) + ',' +
-                              Utils.roundSymmetric( c.g * a ) + ',' +
-                              Utils.roundSymmetric( c.b * a / 0.7144456644926587 ) +
-                              ')';
+        context.strokeStyle = `rgb(${
+                              Utils.roundSymmetric( c.r * a / 0.9829313170995397 )},${
+                              Utils.roundSymmetric( c.g * a )},${
+                              Utils.roundSymmetric( c.b * a / 0.7144456644926587 )
+                              })`;
         context.beginPath();
         context.moveTo( x1, y1 );
         context.lineTo( x2, y2 );
