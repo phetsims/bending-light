@@ -58,11 +58,11 @@ class SingleColorLightCanvasNode extends CanvasNode {
         context.beginPath();
 
         context.strokeStyle = `rgba(${
-                              ray.color.getRed()},${
-                              ray.color.getGreen()},${
-                              ray.color.getBlue()},${
-                              Math.sqrt( ray.powerFraction )
-                              })`;
+          ray.color.getRed()},${
+          ray.color.getGreen()},${
+          ray.color.getBlue()},${
+          Math.sqrt( ray.powerFraction )
+        })`;
 
         context.moveTo(
           this.modelViewTransform.modelToViewX( ray.tail.x ),
