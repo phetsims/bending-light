@@ -22,7 +22,7 @@ import LightRay from '../../common/model/LightRay.js';
 import Medium from '../../common/model/Medium.js';
 import MediumColorFactory from '../../common/model/MediumColorFactory.js';
 import Substance from '../../common/model/Substance.js';
-import Circle from './Circle.js';
+import BendingLightCircle from './BendingLightCircle.js';
 import ColoredRay from './ColoredRay.js';
 import Polygon from './Polygon.js';
 import Prism from './Prism.js';
@@ -140,7 +140,7 @@ class PrismsModel extends BendingLightModel {
     const radius = a / 2;
 
     // Continuous Circle
-    prismsTypes.push( new Prism( new Circle( new Vector2( 0, 0 ), radius ), 'circle' ) );
+    prismsTypes.push( new Prism( new BendingLightCircle( new Vector2( 0, 0 ), radius ), 'circle' ) );
 
     // SemiCircle
     prismsTypes.push( new Prism( new SemiCircle( 1, [

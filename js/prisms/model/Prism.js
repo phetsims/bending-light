@@ -15,7 +15,7 @@ import bendingLight from '../../bendingLight.js';
 class Prism {
 
   /**
-   * @param {Polygon|Circle|SemiCircle} shape
+   * @param {Polygon|BendingLightCircle|SemiCircle} shape
    * @param {string} typeName for keeping track of how many of each kind there are, to remove from toolbox
    */
   constructor( shape, typeName ) {

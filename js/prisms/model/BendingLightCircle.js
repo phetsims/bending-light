@@ -11,7 +11,7 @@ import Shape from '../../../../kite/js/Shape.js';
 import bendingLight from '../../bendingLight.js';
 import PrismIntersection from './PrismIntersection.js';
 
-class Circle {
+class BendingLightCircle {
 
   /**
    * @param {Vector2} center - center of the circle
@@ -30,10 +30,10 @@ class Circle {
    * @public
    * @param {number} deltaX - amount of space to be translate in x direction
    * @param {number} deltaY - amount of space to be translate in y direction
-   * @returns {Circle}
+   * @returns {BendingLightCircle}
    */
   getTranslatedInstance( deltaX, deltaY ) {
-    return new Circle( this.center.plusXY( deltaX, deltaY ), this.radius );
+    return new BendingLightCircle( this.center.plusXY( deltaX, deltaY ), this.radius );
   }
 
   /**
@@ -75,6 +75,6 @@ class Circle {
   }
 }
 
-bendingLight.register( 'Circle', Circle );
+bendingLight.register( 'BendingLightCircle', BendingLightCircle );
 
-export default Circle;
+export default BendingLightCircle;
