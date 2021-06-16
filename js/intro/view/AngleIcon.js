@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * The icon to be shown with the "Angles" checkbox.

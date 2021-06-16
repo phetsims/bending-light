@@ -1,4 +1,4 @@
-// Copyright 2015-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * In the intro screen, these radio buttons choose between "Ray" and "Wave" representations.

@@ -1,4 +1,4 @@
-// Copyright 2015-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * In order to support white light, we need to perform additive color mixing (not subtractive,

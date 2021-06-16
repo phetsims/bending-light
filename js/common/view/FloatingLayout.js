@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Floats the control panels and reset all buttons to the right to give a bit more room in the play area for

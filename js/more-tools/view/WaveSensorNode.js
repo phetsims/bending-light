@@ -1,4 +1,4 @@
-// Copyright 2015-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * View for the wave sensor, which shows 2 sensor probes and a chart area (the body)

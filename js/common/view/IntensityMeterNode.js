@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * View for the intensity meter, including its movable sensor and readout region (called the body).

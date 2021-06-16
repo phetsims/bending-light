@@ -1,4 +1,4 @@
-// Copyright 2015-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * Model for the "prisms" screen, in which the user can move the laser and many prisms.

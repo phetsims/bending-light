@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Listener for tool icons (in the toolbox) used for creating a node and forwarding events to its listener.

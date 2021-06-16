@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * WaveParticle is to simulate the wave transformation in Canvas mode.

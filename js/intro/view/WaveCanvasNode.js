@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * A Wave particle layer rendered on canvas.  On iPad3 using canvas (webgl=false), gradients are too expensive

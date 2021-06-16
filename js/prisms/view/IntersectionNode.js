@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Node that depicts a the normal vector at a light-ray / medium interface intersection.

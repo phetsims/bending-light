@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Model for the intensity meter, including the position of the sensor, body, the reading values, etc.

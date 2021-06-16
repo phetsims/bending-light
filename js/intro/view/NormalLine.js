@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * The normal line is a graphic that indicates the point of intersection of the light ray and the perpendicular angle at

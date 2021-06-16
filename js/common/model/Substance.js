@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".

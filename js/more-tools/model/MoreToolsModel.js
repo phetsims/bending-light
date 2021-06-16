@@ -1,4 +1,4 @@
-// Copyright 2015-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Model for the "more tools" screen, which adds a wave sensor and a velocity sensor.

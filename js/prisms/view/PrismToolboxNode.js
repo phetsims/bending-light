@@ -1,4 +1,4 @@
-// Copyright 2015-2021, University of Colorado Boulder
+[object Promise]
 
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.
