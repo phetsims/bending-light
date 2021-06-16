@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2015-2021, University of Colorado Boulder
 
 /**
  * Node for drawing the laser itself, including an on/off button and ability to rotate/translate.

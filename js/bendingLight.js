@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2016-2021, University of Colorado Boulder
 
 /**
  * Creates the namespace for this simulation.

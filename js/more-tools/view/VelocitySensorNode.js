@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2015-2021, University of Colorado Boulder
 
 /**
  * View for the Velocity Sensor tool. Measures the velocity at the sensor's tip and shows it in the display box. Also

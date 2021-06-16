@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2015-2021, University of Colorado Boulder
 /**
  * Graphic that draws a medium such as air, water, glass, etc.
  *

@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2015-2021, University of Colorado Boulder
 
 /**
  * Enum type pattern for the laser color, which may be white or a specific wavelength.

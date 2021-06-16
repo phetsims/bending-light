@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2015-2021, University of Colorado Boulder
 
 /**
  * Model for the "intro" Screen, which has an upper and lower medium, interfacing at the middle of the screen,

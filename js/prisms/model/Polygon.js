@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2015-2021, University of Colorado Boulder
 
 /**
  * Shape that comprises a prism. Immutable here but composed with a Property.<Polygon> in Prism for mutability.

@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2015-2021, University of Colorado Boulder
 
 /**
  * Models the intersection between a light ray and an interface, needed so we can optionally depict normals at each

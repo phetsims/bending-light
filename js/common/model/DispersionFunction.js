@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2015-2021, University of Colorado Boulder
 
 /**
  * Models dispersion functions for each material. Uses the actual dispersion equation for air (A) and the actual

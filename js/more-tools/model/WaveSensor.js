@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2015-2021, University of Colorado Boulder
 
 /**
  * Sensor for wave values, reads the wave amplitude as a function of time and position. Two probes can be used to
