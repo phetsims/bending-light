@@ -23,7 +23,8 @@
     "simulation": true,
     "phet-io": {
       "validation": false
-    }
+    },
+    "supportsOutputJS": true
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"
