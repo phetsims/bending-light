@@ -12,6 +12,7 @@ import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Line from '../../../../kite/js/segments/Line.js';
 import Shape from '../../../../kite/js/Shape.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 
@@ -20,7 +21,7 @@ import BendingLightConstants from '../BendingLightConstants.js';
  * If a vector is infinite, make it finite
  * @param vector
  */
-const makeFinite = vector => {
+const makeFinite = ( vector: Vector2 ) => {
   if ( !isFinite( vector.x ) ) {
     vector.x = 0;
   }
@@ -30,6 +31,26 @@ const makeFinite = vector => {
 };
 
 class LightRay {
+  extendBackwards: boolean;
+  color: any;
+  waveWidth: number;
+  trapeziumWidth: number;
+  tip: Vector2;
+  tail: Vector2;
+  indexOfRefraction: number;
+  wavelength: number;
+  wavelengthInVacuum: number;
+  powerFraction: number;
+  numWavelengthsPhaseOffset: number;
+  extend: boolean;
+  vectorForm: Vector2;
+  particles: any;
+  time: number;
+  rayType: string;
+  unitVector: Vector2;
+  waveShape: Shape | null;
+  clipRegionCorners: Vector2[] | null;
+  static RAY_WIDTH: number;
 
   /**
    * @param {number} trapeziumWidth - width of wave at intersection of mediums
@@ -47,9 +68,12 @@ class LightRay {
    * @param {string} laserView - specifies the laser view whether ray or wave mode
    * @param {string} rayType - for the intro model, 'incident' | 'reflected' | 'transmitted' | 'prism'
    */
-  constructor( trapeziumWidth, tail, tip, indexOfRefraction, wavelength, wavelengthInVacuum, powerFraction, color,
-               waveWidth, numWavelengthsPhaseOffset, extend, extendBackwards, laserView, rayType ) {
+  constructor( trapeziumWidth: number, tail: Vector2, tip: Vector2, indexOfRefraction: number, wavelength: number, wavelengthInVacuum: number, powerFraction: number, color: Color,
+               waveWidth: number, numWavelengthsPhaseOffset: number, extend: boolean, extendBackwards: boolean, laserView: string, rayType: string ) {
 
+
+    this.waveShape = null;
+    this.clipRegionCorners = null;
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
     // Light must be extended backwards for the transmitted wave shape to be correct
@@ -158,7 +182,7 @@ class LightRay {
    * @public
    * @param {number} time - simulation time
    */
-  setTime( time ) {
+  setTime( time: number ) {
     this.time = time;
   }
 
@@ -177,7 +201,7 @@ class LightRay {
    * @returns {Ray2}
    * @private
    */
-  createParallelRay( distance, rayType ) {
+  createParallelRay( distance: number, rayType: string ) {
     const perpendicular = Vector2.createPolar( distance, this.getAngle() + Math.PI / 2 );
     const t = rayType === 'incident' ? this.tip : this.tail;
     const tail = t.plus( perpendicular );
@@ -191,7 +215,7 @@ class LightRay {
    * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
    * @returns {Array}
    */
-  getIntersections( sensorRegion, rayType ) {
+  getIntersections( sensorRegion: Shape, rayType: string ) {
 
     if ( this.waveShape ) {
 
@@ -286,11 +310,12 @@ class LightRay {
    * @param {boolean} waveMode - specifies whether ray or wave mode
    * @returns {boolean}
    */
-  contains( position, waveMode ) {
-    if ( waveMode ) {
+  contains( position: Vector2, waveMode: boolean ) {
+    if ( waveMode && this.waveShape ) {
       return this.waveShape.containsPoint( position );
     }
     else {
+      // @ts-ignore
       return this.toLine().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;
     }
   }
@@ -333,7 +358,7 @@ class LightRay {
    * @param {number} distanceAlongRay - distance of a specific point from the start of the ray
    * @returns {number}
    */
-  getCosArg( distanceAlongRay ) {
+  getCosArg( distanceAlongRay: number ) {
     const w = this.getAngularFrequency();
     const k = 2 * Math.PI / this.wavelength;
     const x = distanceAlongRay;

@@ -6,6 +6,8 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Property from '../../../../axon/js/Property.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import bendingLight from '../../bendingLight.js';
@@ -16,7 +18,7 @@ class MediumNode extends Node {
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {Property.<Medium>} mediumProperty - specifies medium
    */
-  constructor( modelViewTransform, mediumProperty ) {
+  constructor( modelViewTransform: ModelViewTransform2, mediumProperty: Property ) {
     super( { pickable: false } ); // user can't interact with the medium except through control panels.
 
     // add the shape that paints the medium
@@ -28,6 +30,7 @@ class MediumNode extends Node {
 
     // Update whenever the medium changes
     mediumProperty.link( medium => {
+      // @ts-ignore
       mediumRectangleNode.fill = medium.color;
     } );
   }

@@ -9,9 +9,12 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import bendingLight from '../../bendingLight.js';
+import Laser from '../model/Laser.js';
 
 class TranslationDragHandle extends Node {
 
@@ -24,7 +27,7 @@ class TranslationDragHandle extends Node {
    * @param {number} laserImageWidth - width of the laser
    * @constructor
    */
-  constructor( modelViewTransform, laser, dx, dy, showDragHandlesProperty, laserImageWidth ) {
+  constructor( modelViewTransform: ModelViewTransform2, laser: Laser, dx: number, dy: number, showDragHandlesProperty: Property, laserImageWidth: number ) {
 
     super();
 
@@ -43,7 +46,7 @@ class TranslationDragHandle extends Node {
 
     // update the position when laser pivot or emission point change
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty, showDragHandlesProperty ],
-      ( laserPivot, laserEmission ) => {
+      ( laserPivot: Vector2, laserEmission: Vector2 ) => {
         if ( showDragHandlesProperty.get() ) {
           const laserAngle = -laser.getAngle();
           const magnitude = laserImageWidth * 0.35;

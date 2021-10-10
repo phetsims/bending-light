@@ -29,12 +29,20 @@ import BendingLightConstants from '../BendingLightConstants.js';
 import DispersionFunction from '../model/DispersionFunction.js';
 import Medium from '../model/Medium.js';
 import Substance from '../model/Substance.js';
+import BendingLightScreenView from './BendingLightScreenView.js';
+import MediumColorFactory from '../model/MediumColorFactory.js';
 
+// @ts-ignore
 const airString = bendingLightStrings.air;
+// @ts-ignore
 const customString = bendingLightStrings.custom;
+// @ts-ignore
 const glassString = bendingLightStrings.glass;
+// @ts-ignore
 const indexOfRefractionString = bendingLightStrings.indexOfRefraction;
+// @ts-ignore
 const unknownString = bendingLightStrings.unknown;
+// @ts-ignore
 const waterString = bendingLightStrings.water;
 
 // constants
@@ -44,6 +52,10 @@ const PLUS_MINUS_SPACING = 4;
 const INSET = 10;
 
 class MediumControlPanel extends Node {
+  mediumColorFactory: MediumColorFactory;
+  mediumProperty: Property;
+  laserWavelength: Property; // TODO: Rename to Property
+  mediumIndexProperty: Property;
 
   /**
    * @param {BendingLightScreenView} view - view of the simulation
@@ -55,8 +67,8 @@ class MediumControlPanel extends Node {
    * @param {number} decimalPlaces - decimalPlaces to show for index of refraction
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
-  constructor( view, mediumColorFactory, mediumProperty, name, textFieldVisible, laserWavelength,
-               decimalPlaces, options ) {
+  constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property, name: string, textFieldVisible: boolean, laserWavelength: Property,
+               decimalPlaces: number, options: any ) {
 
     super();
     this.mediumColorFactory = mediumColorFactory;
@@ -95,7 +107,7 @@ class MediumControlPanel extends Node {
 
     const textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
-    const createItem = item => {
+    const createItem = ( item: any ) => {
       const comboBoxTextWidth = textFieldVisible ? 130 : 75;
       const itemName = new Text( item.name, textOptionsOfComboBoxStrings );
       if ( itemName.width > comboBoxTextWidth ) {
@@ -146,6 +158,7 @@ class MediumControlPanel extends Node {
       items[ i ] = createItem( material );
     }
     // add a combo box
+    // @ts-ignore
     const materialComboBox = new ComboBox( items, comboBoxSubstanceProperty, view, {
       labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
@@ -333,12 +346,14 @@ class MediumControlPanel extends Node {
     } );
 
     // disable the plus button when wavelength is at max and minus button at min wavelength
-    this.mediumIndexProperty.link( indexOfRefraction => {
+    this.mediumIndexProperty.link( ( indexOfRefraction: number ) => {
       if ( custom ) {
         this.setCustomIndexOfRefraction( indexOfRefraction );
       }
-      plusButton.enabled = ( Utils.toFixed( indexOfRefraction, decimalPlaces ) < INDEX_OF_REFRACTION_MAX );
-      minusButton.enabled = ( Utils.toFixed( indexOfRefraction, decimalPlaces ) > INDEX_OF_REFRACTION_MIN );
+
+      // TODO: This changed from string comparison, is it correct?
+      plusButton.enabled = ( Utils.roundToInterval( indexOfRefraction, decimalPlaces ) < INDEX_OF_REFRACTION_MAX );
+      minusButton.enabled = ( Utils.roundToInterval( indexOfRefraction, decimalPlaces ) > INDEX_OF_REFRACTION_MIN );
     } );
   }
 
@@ -355,7 +370,7 @@ class MediumControlPanel extends Node {
    * @public
    * @param {number} indexOfRefraction - indexOfRefraction of medium
    */
-  setCustomIndexOfRefraction( indexOfRefraction ) {
+  setCustomIndexOfRefraction( indexOfRefraction: number ) {
 
     // have to pass the value through the dispersion function to account for the
     // current wavelength of the laser (since index of refraction is a function of wavelength)
@@ -371,7 +386,7 @@ class MediumControlPanel extends Node {
    * @public
    * @param {Substance} substance - specifies state of the medium
    */
-  setSubstance( substance ) {
+  setSubstance( substance: Substance ) {
     const color = this.mediumColorFactory.getColor( substance.indexOfRefractionForRedLight );
     this.setMedium( new Medium( this.mediumProperty.get().shape, substance, color ) );
   }
@@ -381,7 +396,7 @@ class MediumControlPanel extends Node {
    * @private
    * @param {Medium} medium - specifies medium
    */
-  setMedium( medium ) {
+  setMedium( medium: Medium ) {
     this.mediumProperty.set( medium );
   }
 }

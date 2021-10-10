@@ -20,6 +20,7 @@ import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHan
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
@@ -34,20 +35,33 @@ import IntensityMeterNode from '../../common/view/IntensityMeterNode.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import MediumNode from '../../common/view/MediumNode.js';
 import ToolIconListener from '../../common/view/ToolIconListener.js';
+import IntroModel from '../model/IntroModel.js';
 import AngleIcon from './AngleIcon.js';
 import AngleNode from './AngleNode.js';
 import NormalLine from './NormalLine.js';
 import WaveCanvasNode from './WaveCanvasNode.js';
 import WaveWebGLNode from './WaveWebGLNode.js';
+import BendingLightModel from '../../common/model/BendingLightModel.js';
 
+// @ts-ignore
 const anglesString = bendingLightStrings.angles;
+// @ts-ignore
 const materialString = bendingLightStrings.material;
+// @ts-ignore
 const normalLineString = bendingLightStrings.normalLine;
 
 // constants
 const INSET = 10;
 
 class IntroScreenView extends BendingLightScreenView {
+  introModel: IntroModel;
+  stepEmitter: Emitter;
+  topMediumControlPanel: MediumControlPanel;
+  bottomMediumControlPanel: MediumControlPanel;
+  dropInToolbox: ( node: Node, enabledProperty: Property ) => void;
+  bumpLeft: ( node: Node, positionProperty: Property ) => void;
+  toolbox: Panel;
+  timeControlNode: TimeControlNode;
 
   /**
    * @param {IntroModel} introModel - model of intro screen
@@ -56,7 +70,7 @@ class IntroScreenView extends BendingLightScreenView {
    * @param {function} createLaserControlPanel
    * @param {Object} [options]
    */
-  constructor( introModel, hasMoreTools, indexOfRefractionDecimals, createLaserControlPanel, options ) {
+  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number, createLaserControlPanel: any, options: object ) {
 
     options = merge( {
 
@@ -69,7 +83,7 @@ class IntroScreenView extends BendingLightScreenView {
        * @param {number} angle
        * @returns {number}
        */
-      clampDragAngle: angle => {
+      clampDragAngle: ( angle: number ) => {
         while ( angle < 0 ) { angle += Math.PI * 2; }
         return Utils.clamp( angle, Math.PI / 2, Math.PI );
       },
@@ -78,7 +92,7 @@ class IntroScreenView extends BendingLightScreenView {
        * @param {number} laserAngle
        * @returns {boolean}
        */
-      clockwiseArrowNotAtMax: laserAngle => {
+      clockwiseArrowNotAtMax: ( laserAngle: number ) => {
         if ( introModel.laserViewProperty.value === 'ray' ) {
           return laserAngle < Math.PI;
         }
@@ -91,7 +105,7 @@ class IntroScreenView extends BendingLightScreenView {
        * @param {number} laserAngle
        * @returns {boolean}
        */
-      ccwArrowNotAtMax: laserAngle => laserAngle > Math.PI / 2
+      ccwArrowNotAtMax: ( laserAngle: number ) => laserAngle > Math.PI / 2
     }, options );
 
     super(
@@ -102,7 +116,7 @@ class IntroScreenView extends BendingLightScreenView {
 
       // laserRotationRegion - In this screen, clicking anywhere on the laser (i.e. on its 'full' bounds)
       // translates it, so always return the 'full' region.
-      full => full,
+      ( full: boolean ) => full,
 
       // laserHasKnob
       false,
@@ -154,10 +168,10 @@ class IntroScreenView extends BendingLightScreenView {
     // be fine.
     this.beforeLightLayer.addChild( new Path( this.modelViewTransform.modelToViewShape( new Shape()
       .moveTo( -1, 0 )
-      .lineTo( 1, 0 ), {
+      .lineTo( 1, 0 ) ), {
       stroke: 'gray',
       pickable: false
-    } ) ) );
+    } ) );
 
     // show the normal line where the laser strikes the interface between mediums
     const normalLineHeight = stageHeight / 2;
@@ -176,7 +190,7 @@ class IntroScreenView extends BendingLightScreenView {
       this.modelViewTransform,
 
       // Method to add a step listener
-      stepCallback => this.stepEmitter.addListener( stepCallback )
+      ( stepCallback: any ) => this.stepEmitter.addListener( stepCallback )
     ) );
 
     introModel.showNormalProperty.linkAttribute( normalLine, 'visible' );
@@ -191,6 +205,8 @@ class IntroScreenView extends BendingLightScreenView {
       introModel.laser.colorProperty
     ], () => {
       for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
+
+        // @ts-ignore
         this.incidentWaveLayer.children[ k ].step();
       }
       this.incidentWaveLayer.setVisible( introModel.laser.onProperty.value && introModel.laserViewProperty.value === 'wave' );
@@ -265,7 +281,7 @@ class IntroScreenView extends BendingLightScreenView {
     const protractorPositionProperty = new Property( protractorPosition );
 
     // When a node is released, check if it is over the toolbox.  If so, drop it in.
-    const dropInToolbox = ( node, enabledProperty ) => {
+    const dropInToolbox = ( node: Node, enabledProperty: Property ) => {
       if ( node.getGlobalBounds().intersectsBounds( this.toolbox.getGlobalBounds() ) ) {
         enabledProperty.value = false;
       }
@@ -290,7 +306,7 @@ class IntroScreenView extends BendingLightScreenView {
     const modelViewTransform = this.modelViewTransform;
 
     // When a node is dropped behind a control panel, move it to the side so it won't be lost.
-    const bumpLeft = ( node, positionProperty ) => {
+    const bumpLeft = ( node: Node, positionProperty: Property ) => {
       while ( node.getGlobalBounds().intersectsBounds( topMediumControlPanel.getGlobalBounds() ) ||
               node.getGlobalBounds().intersectsBounds( bottomMediumControlPanel.getGlobalBounds() ) ) {
         positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
@@ -473,6 +489,8 @@ class IntroScreenView extends BendingLightScreenView {
   updateWaveShape() {
     if ( this.introModel.laserViewProperty.value === 'wave' ) {
       for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
+
+        // @ts-ignore
         this.incidentWaveLayer.children[ k ].step();
       }
     }
@@ -483,8 +501,8 @@ class IntroScreenView extends BendingLightScreenView {
    * @param {BendingLightModel} bendingLightModel
    * @private
    */
-  addLightNodes( bendingLightModel ) {
-    super.addLightNodes( bendingLightModel );
+  addLightNodes( bendingLightModel: BendingLightModel ) {
+    // super.addLightNodes( bendingLightModel );
 
     this.addChild( this.incidentWaveLayer );
 

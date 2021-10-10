@@ -12,17 +12,36 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import DispersionFunction from './DispersionFunction.js';
 
+// @ts-ignore
 const airString = bendingLightStrings.air;
+// @ts-ignore
 const diamondString = bendingLightStrings.diamond;
+// @ts-ignore
 const glassString = bendingLightStrings.glass;
+// @ts-ignore
 const mysteryAString = bendingLightStrings.mysteryA;
+// @ts-ignore
 const mysteryBString = bendingLightStrings.mysteryB;
+// @ts-ignore
 const waterString = bendingLightStrings.water;
 
 // constants
 const DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
 class Substance {
+  readonly dispersionFunction: DispersionFunction;
+  readonly mystery: boolean;
+  readonly indexOfRefractionForRedLight: number;
+  private readonly name: string;
+  readonly indexForRed: number;
+  private readonly custom: boolean;
+  static AIR: Substance;
+  static WATER: Substance;
+  static GLASS: Substance;
+  static DIAMOND: Substance;
+  static MYSTERY_A: Substance;
+  static MYSTERY_B: Substance;
+  static DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT: number;
 
   /**
    * @param {string} name - name of the medium
@@ -30,7 +49,7 @@ class Substance {
    * @param {boolean} mystery - true if medium state is mystery else other state
    * @param {boolean} custom - true if medium state is custom else other state
    */
-  constructor( name, indexForRed, mystery, custom ) {
+  constructor( name: string, indexForRed: number, mystery: boolean, custom: boolean ) {
     this.name = name; // @public (read-only)
     this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED ); // @public (read-only)
     this.mystery = mystery; // @public (read-only)

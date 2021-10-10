@@ -15,6 +15,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
@@ -33,13 +34,21 @@ const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 const BEAM_LENGTH = 1E-3;
 
 class IntroModel extends BendingLightModel {
+  topMediumProperty: Property;
+  bottomMediumProperty: Property;
+  time: number;
+  indexOfRefractionOfTopMediumProperty: DerivedProperty;
+  indexOfRefractionOfBottomMediumProperty: DerivedProperty;
+  intensityMeter: IntensityMeter;
+  tailVector: Vector2;
+  tipVector: Vector2;
 
   /**
    * @param {Substance} bottomSubstance - state of bottom medium
    * @param {boolean} horizontalPlayAreaOffset - specifies center alignment
    * @param {Tandem} tandem
    */
-  constructor( bottomSubstance, horizontalPlayAreaOffset, tandem ) {
+  constructor( bottomSubstance: Substance, horizontalPlayAreaOffset: boolean, tandem: Tandem ) {
 
     super( Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
 
@@ -69,7 +78,7 @@ class IntroModel extends BendingLightModel {
         this.topMediumProperty,
         this.laser.colorProperty
       ],
-      ( topMedium, color ) => topMedium.getIndexOfRefraction( color.wavelength ), {
+      ( topMedium: Medium, color: any ) => topMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfTopMediumProperty' ),
         phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
@@ -80,7 +89,7 @@ class IntroModel extends BendingLightModel {
         this.bottomMediumProperty,
         this.laser.colorProperty
       ],
-      ( bottomMedium, color ) => bottomMedium.getIndexOfRefraction( color.wavelength ), {
+      ( bottomMedium: Medium, color: any ) => bottomMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfBottomMediumProperty' ),
         phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
@@ -265,7 +274,7 @@ class IntroModel extends BendingLightModel {
    * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
    * @returns {boolean}
    */
-  addAndAbsorb( ray, rayType ) {
+  addAndAbsorb( ray: LightRay, rayType: 'incident' | 'transmitted' | 'reflected' ) {
     const angleOffset = rayType === 'incident' ? Math.PI : 0;
 
     // find intersection points with the intensity sensor
@@ -346,11 +355,11 @@ class IntroModel extends BendingLightModel {
    * @param {Vector2} position - position where the velocity to be determined
    * @returns {Vector2}
    */
-  getVelocity( position ) {
+  getVelocity( position: Vector2 ) {
     const laserView = this.laserViewProperty.value;
     for ( let i = 0; i < this.rays.length; i++ ) {
-      if ( this.rays.get( i ).contains( position, laserView === 'wave' ) ) {
-        return this.rays.get( i ).getVelocityVector();
+      if ( this.rays[ i ].contains( position, laserView === 'wave' ) ) {
+        return this.rays[ i ].getVelocityVector();
       }
     }
     return new Vector2( 0, 0 );
@@ -362,9 +371,9 @@ class IntroModel extends BendingLightModel {
    * @param {Vector2} position - position where the wave value to be determined
    * @returns {Object|null}- returns object of time and magnitude if point is on ray otherwise returns null
    */
-  getWaveValue( position ) {
+  getWaveValue( position: Vector2 ) {
     for ( let i = 0; i < this.rays.length; i++ ) {
-      const ray = this.rays.get( i );
+      const ray = this.rays[ i ];
       if ( ray.contains( position, this.laserViewProperty.value === 'wave' ) ) {
 
         // map power to displayed amplitude
@@ -399,9 +408,10 @@ class IntroModel extends BendingLightModel {
    * Update simulation time and wave propagation.
    * @public
    */
-  updateSimulationTimeAndWaveShape( speed ) {
+  updateSimulationTimeAndWaveShape( speed: any ) {
 
     // Update the time
+    // @ts-ignore
     this.time = this.time + ( speed === TimeSpeed.NORMAL ? 1E-16 : 0.5E-16 );
 
     // set time for each ray
@@ -423,7 +433,7 @@ class IntroModel extends BendingLightModel {
     let particleGradientColor;
     let j;
     for ( let k = 0; k < this.rays.length; k++ ) {
-      const lightRay = this.rays.get( k );
+      const lightRay = this.rays[ k ];
       const directionVector = lightRay.getUnitVector();
       const wavelength = lightRay.wavelength;
       const angle = lightRay.getAngle();
@@ -447,8 +457,8 @@ class IntroModel extends BendingLightModel {
       const distance = this.tipVector.distance( this.tailVector );
       const gapBetweenSuccessiveParticles = wavelength;
       particleColor = new Color( lightRay.color.getRed(), lightRay.color.getGreen(), lightRay.color.getBlue(),
-        Math.sqrt( lightRay.powerFraction ) ).toCSS();
-      particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.powerFraction ) ).toCSS();
+        Math.sqrt( lightRay.powerFraction ) );
+      particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.powerFraction ) );
 
       // calculate the number of particles that can fit in the distance
       const numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;
@@ -470,7 +480,7 @@ class IntroModel extends BendingLightModel {
   propagateParticles() {
 
     for ( let i = 0; i < this.rays.length; i++ ) {
-      const lightRay = this.rays.get( i );
+      const lightRay = this.rays[ i ];
       const wavelength = lightRay.wavelength;
       const directionVector = lightRay.getUnitVector();
       const waveParticles = lightRay.particles;

@@ -19,8 +19,12 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import knobImageData from '../../../images/knob_png.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Laser from '../model/Laser.js';
 
 class LaserNode extends Node {
+  laserImageWidth: number;
+  translateViewXY: ( x: number, y: number ) => void;
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
@@ -38,9 +42,9 @@ class LaserNode extends Node {
    *                                      there
    * @param {Object} [options]
    */
-  constructor( modelViewTransform, laser, showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
-               clampDragAngle, translationRegion, rotationRegion, hasKnob, dragBoundsProperty,
-               occlusionHandler, options ) {
+  constructor( modelViewTransform: ModelViewTransform2, laser: Laser, showRotationDragHandlesProperty: Property, showTranslationDragHandlesProperty: Property,
+               clampDragAngle: ( n: number ) => number, translationRegion: any, rotationRegion: any, hasKnob: boolean, dragBoundsProperty: Property,
+               occlusionHandler: any, options: any ) {
 
     const laserPointerNode = new LaserPointerNode( laser.onProperty, {
       bodySize: new Dimension2( 70, 30 ),
@@ -50,10 +54,15 @@ class LaserNode extends Node {
       buttonYMargin: 2,
       cornerRadius: 2,
       buttonTouchAreaDilation: 4,
-      getButtonLocation: bodyNode => bodyNode.rightCenter.blend( bodyNode.center, 0.5 )
-    } );
+      getButtonLocation: ( bodyNode: Node ) => bodyNode.rightCenter.blend( bodyNode.center, 0.5 )
+    } ) as Node;
 
-    const knobImage = hasKnob ? new Image( knobImageData, { scale: 0.58, rightCenter: laserPointerNode.leftCenter } ) : null;
+    const knobImage = hasKnob ? ( new Image( knobImageData, {
+      scale: 0.58,
+      rightCenter: laserPointerNode.leftCenter
+
+      // This will be resolved when Image is TypeScript
+    } ) as unknown as Node ) : null;
     if ( knobImage ) {
       knobImage.touchArea = knobImage.localBounds.dilatedXY( 15, 27 ).shiftedX( -15 );
       hasKnob && laserPointerNode.addChild( knobImage );
@@ -66,7 +75,7 @@ class LaserNode extends Node {
 
     // If there is a knob ("Prisms" screen), it is used to rotate the laser.
     // If there is no knob ("Intro" and "More Tools" screens), then the laser is rotated by dragging the laser itself.
-    const rotationTarget = hasKnob ? knobImage : laserPointerNode;
+    const rotationTarget = ( hasKnob ? knobImage : laserPointerNode ) as Node;
 
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker
@@ -99,45 +108,47 @@ class LaserNode extends Node {
     } );
 
     // add the drag region for translating the laser
-    let start;
+    let start: Vector2 | null;
 
     // On the "Prisms" screen, the laser can be translated by dragging the laser, and rotated by dragging the knob on
     // the back of the laser.  This part of the code handles the translation.
     if ( hasKnob ) {
       const translationListener = new SimpleDragHandler( {
-        start: event => {
+        start: ( event: any ) => {
           start = this.globalToParentPoint( event.pointer.point );
           showTranslationDragHandlesProperty.value = true;
         },
-        drag: event => {
+        drag: ( event: any ) => {
 
           const laserNodeDragBounds = dragBoundsProperty.value.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
           const laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
 
           const endDrag = this.globalToParentPoint( event.pointer.point );
-          const deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
-          const deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
+          if ( start ) {
+            const deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
+            const deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
 
-          // position of final emission point with out constraining to bounds
-          emissionPointEndPosition.setXY( laser.emissionPointProperty.value.x + deltaX, laser.emissionPointProperty.value.y + deltaY );
+            // position of final emission point with out constraining to bounds
+            emissionPointEndPosition.setXY( laser.emissionPointProperty.value.x + deltaX, laser.emissionPointProperty.value.y + deltaY );
 
-          // position of final emission point with constraining to bounds
-          const emissionPointEndPositionInBounds = laserDragBoundsInModelValues.closestPointTo( emissionPointEndPosition );
+            // position of final emission point with constraining to bounds
+            const emissionPointEndPositionInBounds = laserDragBoundsInModelValues.closestPointTo( emissionPointEndPosition );
 
-          const translateX = emissionPointEndPositionInBounds.x - laser.emissionPointProperty.value.x;
-          const translateY = emissionPointEndPositionInBounds.y - laser.emissionPointProperty.value.y;
-          laser.translate( translateX, translateY );
+            const translateX = emissionPointEndPositionInBounds.x - laser.emissionPointProperty.value.x;
+            const translateY = emissionPointEndPositionInBounds.y - laser.emissionPointProperty.value.y;
+            laser.translate( translateX, translateY );
 
-          // Store the position of caught point after translating. Can be obtained by adding distance between emission
-          // point and drag point (end - emissionPointEndPosition) to emission point (emissionPointEndPositionInBounds)
-          // after translating.
-          const boundsDx = emissionPointEndPositionInBounds.x - emissionPointEndPosition.x;
-          const boundsDY = emissionPointEndPositionInBounds.y - emissionPointEndPosition.y;
-          endDrag.x = endDrag.x + modelViewTransform.modelToViewDeltaX( boundsDx );
-          endDrag.y = endDrag.y + modelViewTransform.modelToViewDeltaY( boundsDY );
+            // Store the position of caught point after translating. Can be obtained by adding distance between emission
+            // point and drag point (end - emissionPointEndPosition) to emission point (emissionPointEndPositionInBounds)
+            // after translating.
+            const boundsDx = emissionPointEndPositionInBounds.x - emissionPointEndPosition.x;
+            const boundsDY = emissionPointEndPositionInBounds.y - emissionPointEndPosition.y;
+            endDrag.x = endDrag.x + modelViewTransform.modelToViewDeltaX( boundsDx );
+            endDrag.y = endDrag.y + modelViewTransform.modelToViewDeltaY( boundsDY );
 
-          start = endDrag;
-          showTranslationDragHandlesProperty.value = true;
+            start = endDrag;
+            showTranslationDragHandlesProperty.value = true;
+          }
         },
         end: () => {
           showTranslationDragHandlesProperty.value = false;
@@ -179,7 +190,7 @@ class LaserNode extends Node {
         showTranslationDragHandlesProperty.value = false;
         overCountProperty.value++;
       },
-      drag: event => {
+      drag: ( event: any ) => {
         const coordinateFrame = this.parents[ 0 ];
         const laserAnglebeforeRotate = laser.getAngle();
         const localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
@@ -257,7 +268,7 @@ class LaserNode extends Node {
      * @param {number} y
      * @public
      */
-    this.translateViewXY = ( x, y ) => {
+    this.translateViewXY = ( x: number, y: number ) => {
       const delta = modelViewTransform.viewToModelDeltaXY( x, y );
       laser.translate( delta.x, delta.y );
     };

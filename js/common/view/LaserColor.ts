@@ -11,11 +11,12 @@ import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import bendingLight from '../../bendingLight.js';
 
 class LaserColor {
+  private readonly wavelength: number;
 
   /**
    * @param {number} wavelength - wavelength (in meters) of the light
    */
-  constructor( wavelength ) {
+  constructor( wavelength: number ) {
     this.wavelength = wavelength; // @public
   }
 

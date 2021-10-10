@@ -15,12 +15,14 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 
 class DispersionFunction {
+  private readonly referenceIndexOfRefraction: number;
+  private readonly referenceWavelength: number;
 
   /**
    * @param {number} referenceIndexOfRefraction - IndexOfRefraction of medium
    * @param {number} wavelength - wavelength in meters
    */
-  constructor( referenceIndexOfRefraction, wavelength ) {
+  constructor( referenceIndexOfRefraction: number, wavelength: number ) {
     this.referenceIndexOfRefraction = referenceIndexOfRefraction; // @public (read-only)
     this.referenceWavelength = wavelength; // @public (read-only)
   }
@@ -31,7 +33,7 @@ class DispersionFunction {
    * @param {number} wavelength - wavelength in meters
    * @returns {number}
    */
-  getSellmeierValue( wavelength ) {
+  getSellmeierValue( wavelength: number ) {
     const L2 = wavelength * wavelength;
     const B1 = 1.03961212;
     const B2 = 0.231792344;
@@ -59,7 +61,7 @@ class DispersionFunction {
    * @returns {number}
    * @public
    */
-  getIndexOfRefraction( wavelength ) {
+  getIndexOfRefraction( wavelength: number ) {
 
     // get the reference values
     const nAirReference = this.getAirIndex( this.referenceWavelength );
@@ -82,7 +84,7 @@ class DispersionFunction {
    * @returns {number}
    * @private
    */
-  getAirIndex( wavelength ) {
+  getAirIndex( wavelength: number ) {
     return 1 +
            5792105E-8 / ( 238.0185 - Math.pow( wavelength * 1E6, -2 ) ) +
            167917E-8 / ( 57.362 - Math.pow( wavelength * 1E6, -2 ) );

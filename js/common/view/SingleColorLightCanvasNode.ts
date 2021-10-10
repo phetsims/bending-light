@@ -7,14 +7,18 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../model/LightRay.js';
 
 // constants
-const lineDash = [];
+const lineDash: number[] = [];
 
 class SingleColorLightCanvasNode extends CanvasNode {
+  private readonly modelViewTransform: ModelViewTransform2;
+  private readonly rays: LightRay[];
+  private readonly strokeWidth: number;
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -22,7 +26,7 @@ class SingleColorLightCanvasNode extends CanvasNode {
    * @param {number} stageHeight - height of the dev area
    * @param {ObservableArrayDef.<LightRay>} rays -
    */
-  constructor( modelViewTransform, stageWidth, stageHeight, rays ) {
+  constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, rays: LightRay[] ) {
 
     super( {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
@@ -40,7 +44,7 @@ class SingleColorLightCanvasNode extends CanvasNode {
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas( context ) {
+  paintCanvas( context: CanvasRenderingContext2D ) {
 
     context.save();
     context.lineWidth = this.strokeWidth;
@@ -51,7 +55,7 @@ class SingleColorLightCanvasNode extends CanvasNode {
     context.lineCap = 'round';
 
     for ( let i = 0; i < this.rays.length; i++ ) {
-      const ray = this.rays.get( i );
+      const ray = this.rays[ i ];
 
       // iPad3 shows a opacity=0 ray as opacity=1 for unknown reasons, so we simply omit those rays
       if ( ray.powerFraction > 1E-6 ) {

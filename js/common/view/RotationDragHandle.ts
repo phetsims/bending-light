@@ -10,10 +10,13 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import CurvedArrowShape from '../../../../scenery-phet/js/CurvedArrowShape.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import bendingLight from '../../bendingLight.js';
+import Laser from '../model/Laser.js';
 
 class RotationDragHandle extends Node {
 
@@ -28,8 +31,8 @@ class RotationDragHandle extends Node {
    * @param {number} rotationArrowAngleOffset - for unknown reasons the rotation arrows are off by PI/4 on the
    *                                            intro/more-tools screen, so account for that here.
    */
-  constructor( modelViewTransform, laser, deltaAngle, showDragHandlesProperty, notAtMax,
-               laserImageWidth, rotationArrowAngleOffset ) {
+  constructor( modelViewTransform: ModelViewTransform2, laser: Laser, deltaAngle: number, showDragHandlesProperty: Property, notAtMax: ( n: number ) => boolean,
+               laserImageWidth: number, rotationArrowAngleOffset: number ) {
 
     super();
 
@@ -39,7 +42,7 @@ class RotationDragHandle extends Node {
         laser.pivotProperty,
         showDragHandlesProperty
       ],
-      ( emissionPoint, pivot, showDragHandles ) => notAtMax( laser.getAngle() ) && showDragHandles
+      ( emissionPoint: Vector2, pivot: Vector2, showDragHandles: boolean ) => notAtMax( laser.getAngle() ) && showDragHandles
     );
 
     // Show the drag handle if the "show drag handles" is true and if the laser isn't already at the max angle.

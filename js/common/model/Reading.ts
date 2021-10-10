@@ -15,19 +15,22 @@ import bendingLight from '../../bendingLight.js';
 
 // strings
 const missString = MathSymbols.NO_VALUE;
+// @ts-ignore
 const pattern0ValuePercentString = bendingLightStrings.pattern_0value_percent;
 
 // constants
 const VALUE_DECIMALS = 2;
 
 class Reading {
+  readonly value: number;
+  static MISS: Reading;
 
   /**
    * A single reading for the intensity meter
    *
    * @param {string} value - the text to be shown on the intensity meter
    */
-  constructor( value ) {
+  constructor( value: number ) {
 
     // @public (read-only)
     this.value = value;
@@ -47,7 +50,7 @@ class Reading {
    * @param {number} value - value to be displayed on intensity meter
    * @returns {string}
    */
-  format( value ) {
+  format( value: number ) {
     return StringUtils.format( pattern0ValuePercentString, Utils.toFixed( value, VALUE_DECIMALS ) );
   }
 
@@ -62,6 +65,8 @@ class Reading {
 }
 
 Reading.MISS = {
+  value: 0,
+  format( value: number ) {return '';},
 
   /**
    * Get string to display on intensity sensor

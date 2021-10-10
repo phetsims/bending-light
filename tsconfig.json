@@ -1,10 +1,17 @@
 {
   "extends": "../chipper/tsconfig-core.json",
-  "references": [{"path":"../joist"}],
+  "references": [
+    {
+      "path": "../joist"
+    }
+  ],
   "include": [
     "js/**/*",
     "sounds/**/*",
     "mipmaps/**/*",
-    "images/**/*"
+    "images/**/*",
+    "../chipper/phet-types.d.ts",
+    "../chipper/node_modules/@types/lodash/index.d.ts",
+    "../chipper/node_modules/@types/qunit/index.d.ts"
   ]
 }

@@ -15,6 +15,7 @@ import Utils from '../../../../scenery/js/util/Utils.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import Laser from './Laser.js';
+import LightRay from './LightRay.js';
 import MediumColorFactory from './MediumColorFactory.js';
 
 // constants
@@ -23,18 +24,35 @@ const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
 // a good size for the units being used in the sim; used to determine the dimensions of various model objects
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
-class BendingLightModel {
+abstract class BendingLightModel {
+  readonly rays: LightRay[]; // Comes from ObservableArray
+  readonly mediumColorFactory: MediumColorFactory;
+  readonly modelWidth: number;
+  readonly modelHeight: number;
+  readonly allowWebGL: boolean;
+  readonly laserViewProperty: Property;
+  readonly wavelengthProperty: Property;
+  readonly speedProperty: Property;
+  private readonly indexOfRefractionProperty: Property;
+  readonly showNormalProperty: Property;
+  readonly isPlayingProperty: Property;
+  readonly showAnglesProperty: Property;
+  readonly laser: Laser;
+  static DEFAULT_LASER_DISTANCE_FROM_PIVOT: number;
+  rotationArrowAngleOffset: number | null;
 
   /**
    * @param {number} laserAngle - laser angle in radians
    * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
    * @param {number} laserDistanceFromPivot - distance of laser from pivot point
-   * @param {Object} [properties] - additional properties to add to the property set
    */
-  constructor( laserAngle, topLeftQuadrant, laserDistanceFromPivot, properties ) {
+  constructor( laserAngle: number, topLeftQuadrant: boolean, laserDistanceFromPivot: number ) {
 
     // @public (read-only)- list of rays in the model
     this.rays = createObservableArray();
+
+    // overriden in subtypes
+    this.rotationArrowAngleOffset = null;
 
     this.mediumColorFactory = new MediumColorFactory();
 
@@ -49,7 +67,7 @@ class BendingLightModel {
     this.laserViewProperty = new Property( 'ray' ); // @public, Whether the laser is Ray or Wave mode // TODO: Enumeration
     this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
     this.isPlayingProperty = new Property( true );
-    this.speedProperty = new Property( TimeSpeed.NORMAL );
+    this.speedProperty = new Property( 'normal' );
     this.indexOfRefractionProperty = new Property( 1 );
     this.showNormalProperty = new Property( true );
     this.showAnglesProperty = new Property( false );
@@ -63,8 +81,8 @@ class BendingLightModel {
    * @public
    * @param {LightRay} ray - model of light ray
    */
-  addRay( ray ) {
-    this.rays.add( ray );
+  addRay( ray: LightRay ) {
+    this.rays.push( ray );
   }
 
   /**
@@ -73,9 +91,9 @@ class BendingLightModel {
    */
   clearModel() {
     for ( let i = 0; i < this.rays.length; i++ ) {
-      this.rays.get( i ).particles.clear();
+      this.rays[ i ].particles.clear();
     }
-    this.rays.clear();
+    this.rays.length = 0;
   }
 
   /**
@@ -86,6 +104,8 @@ class BendingLightModel {
     this.clearModel();
     this.propagateRays();
   }
+
+  abstract propagateRays(): void;
 
   /**
    * @public
@@ -111,7 +131,7 @@ class BendingLightModel {
    * @param {number} cosTheta2 - cosine of reflected angle
    * @returns {number}
    */
-  static getReflectedPower( n1, n2, cosTheta1, cosTheta2 ) {
+  static getReflectedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ) {
     return Math.pow( ( n1 * cosTheta1 - n2 * cosTheta2 ) / ( n1 * cosTheta1 + n2 * cosTheta2 ), 2 );
   }
 
@@ -124,7 +144,7 @@ class BendingLightModel {
    * @param {number} cosTheta2 - cosine of transmitted angle
    * @returns {number}
    */
-  static getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ) {
+  static getTransmittedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ) {
     return 4 * n1 * n2 * cosTheta1 * cosTheta2 / ( Math.pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ) );
   }
 }

@@ -16,6 +16,11 @@ import bendingLight from '../../bendingLight.js';
 import Reading from './Reading.js';
 
 class IntensityMeter {
+  readonly readingProperty: Property;
+  readonly sensorPositionProperty: Vector2Property;
+  readonly bodyPositionProperty: Vector2Property;
+  private rayReadings: Reading[];
+  readonly enabledProperty: Property;
 
   /**
    * @param {number} sensorX - sensor x position in model coordinates
@@ -23,9 +28,9 @@ class IntensityMeter {
    * @param {number} bodyX - body x position in model coordinates
    * @param {number} bodyY - body y position in model coordinates
    */
-  constructor( sensorX, sensorY, bodyX, bodyY ) {
+  constructor( sensorX: number, sensorY: number, bodyX: number, bodyY: number ) {
 
-    this.readingProperty = new Property( Reading.MISS ); // @public, value to show on the body
+    this.readingProperty = new Property( 'miss' ); // @public, value to show on the body
     this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) ); // @public
     this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) ); // @public
     this.enabledProperty = new Property( false ); // @public, True if it is in the play area
@@ -74,7 +79,7 @@ class IntensityMeter {
    */
   clearRayReadings() {
     this.rayReadings = [];
-    this.readingProperty.set( Reading.MISS );
+    this.readingProperty.set( 'miss' );
   }
 
   /**
@@ -82,7 +87,7 @@ class IntensityMeter {
    * @public
    * @param {Reading} r - intensity of the wave or MISS
    */
-  addRayReading( r ) {
+  addRayReading( r: Reading ) {
     this.rayReadings.push( r );
     this.updateReading();
   }
@@ -94,7 +99,7 @@ class IntensityMeter {
   updateReading() {
 
     // enumerate the hits
-    const hits = [];
+    const hits: Reading[] = [];
     this.rayReadings.forEach( rayReading => {
       if ( rayReading.isHit() ) {
         hits.push( rayReading );
@@ -103,13 +108,13 @@ class IntensityMeter {
 
     // if not hits, say "MISS"
     if ( hits.length === 0 ) {
-      this.readingProperty.set( Reading.MISS );
+      this.readingProperty.set( 'miss' );
     }
     else {
 
       // otherwise, sum the intensities
       let total = 0.0;
-      hits.forEach( hit => {
+      hits.forEach( ( hit: Reading ) => {
         total += hit.value;
       } );
       this.readingProperty.set( new Reading( total ) );

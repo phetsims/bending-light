@@ -16,6 +16,15 @@ import BendingLightConstants from '../BendingLightConstants.js';
 import LaserColor from '../view/LaserColor.js';
 
 class Laser {
+  readonly topLeftQuadrant: boolean;
+  readonly onProperty: Property;
+  readonly waveProperty: Property;
+  readonly colorModeProperty: Property;
+  readonly emissionPointProperty: Vector2Property;
+  readonly colorProperty: DerivedProperty;
+  private readonly wavelengthProperty: Property;
+  private readonly directionUnitVector: Vector2;
+  readonly pivotProperty: Vector2Property;
 
   /**
    * @param {Property.<number>} wavelengthProperty - wavelength of light
@@ -23,7 +32,7 @@ class Laser {
    * @param {number} angle - laser angle
    * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
    */
-  constructor( wavelengthProperty, distanceFromPivot, angle, topLeftQuadrant ) {
+  constructor( wavelengthProperty: Property, distanceFromPivot: number, angle: number, topLeftQuadrant: boolean ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
     this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) ); // @public, point to be pivoted about, and at which the laser points
@@ -33,7 +42,7 @@ class Laser {
     this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
 
     // @public (read-only)
-    this.colorProperty = new DerivedProperty( [ wavelengthProperty ], wavelength => new LaserColor( wavelength ) );
+    this.colorProperty = new DerivedProperty( [ wavelengthProperty ], ( wavelength: number ) => new LaserColor( wavelength ) );
 
     // @public (read-only)
     this.wavelengthProperty = wavelengthProperty;
@@ -68,7 +77,7 @@ class Laser {
    * @param {number} deltaX - amount of space in x direction laser to be translated
    * @param {number} deltaY - amount of space in y direction laser to be translated
    */
-  translate( deltaX, deltaY ) {
+  translate( deltaX: number, deltaY: number ) {
 
     // Caution -- For reasons unknown to @samreid, if the order of the following instructions is switched, the
     // laser will rotate while being dragged, see #221
@@ -93,7 +102,7 @@ class Laser {
    * @param {number} angle - angle to be rotated
    * @public
    */
-  setAngle( angle ) {
+  setAngle( angle: number ) {
     const distFromPivot = this.pivotProperty.value.distance( this.emissionPointProperty.value );
     this.emissionPointProperty.value = new Vector2(
       distFromPivot * Math.cos( angle ) + this.pivotProperty.value.x,

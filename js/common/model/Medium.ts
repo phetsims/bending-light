@@ -7,19 +7,26 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Shape from '../../../../kite/js/Shape.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import VoidIO from '../../../../tandem/js/types/VoidIO.js';
 import bendingLight from '../../bendingLight.js';
+import Substance from './Substance.js';
 
 class Medium {
+  shape: Shape;
+  substance: Substance;
+  color: Color;
+  static MediumIO: IOType;
 
   /**
    * @param {Shape} shape - shape of the medium
    * @param {Substance} substance - state of the medium
    * @param {Color} color - color of the medium
    */
-  constructor( shape, substance, color ) {
+  constructor( shape: Shape, substance: Substance, color: Color ) {
 
     // immutable shape
     this.shape = shape; // @public (read-only)
@@ -33,7 +40,7 @@ class Medium {
    * @param {number} wavelength - wavelength of the medium
    * @returns {number}
    */
-  getIndexOfRefraction( wavelength ) {
+  getIndexOfRefraction( wavelength: number ) {
     return this.substance.dispersionFunction.getIndexOfRefraction( wavelength );
   }
 
@@ -55,7 +62,8 @@ Medium.MediumIO = new IOType( 'MediumIO', {
     setName: {
       returnType: VoidIO,
       parameterTypes: [ StringIO ],
-      implementation: text => {
+      implementation: ( text: string ) => {
+        // @ts-ignore
         this.name = text;
       },
       documentation: 'Set the name of the solute',
@@ -65,7 +73,8 @@ Medium.MediumIO = new IOType( 'MediumIO', {
     setFormula: {
       returnType: VoidIO,
       parameterTypes: [ StringIO ],
-      implementation: text => {
+      implementation: ( text: string ) => {
+        // @ts-ignore
         this.formula = text;
       },
       documentation: 'Set the formula of the solute',
@@ -74,7 +83,7 @@ Medium.MediumIO = new IOType( 'MediumIO', {
   },
 
   // TODO: This needs to be implemented
-  toStateObject( medium ) {
+  toStateObject( medium: Medium ) {
     return {};
   }
 } );

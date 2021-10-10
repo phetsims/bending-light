@@ -22,7 +22,10 @@ import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import NodeProperty from '../../../../scenery/js/util/NodeProperty.js';
 import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import IntensityMeter from '../model/IntensityMeter.js';
 
+// @ts-ignore
 const intensityString = bendingLightStrings.intensity;
 
 // constants
@@ -31,12 +34,19 @@ const bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 
 const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
 class IntensityMeterNode extends Node {
+  modelViewTransform: ModelViewTransform2;
+  probeNode: ProbeNode;
+  intensityMeter: IntensityMeter;
+  bodyNode: Node;
+  wireNode: WireNode;
+  syncModelFromView: () => void;
+
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
    * @param {Object} [options]
    */
-  constructor( modelViewTransform, intensityMeter, options ) {
+  constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, options?: any ) {
 
     super();
     this.modelViewTransform = modelViewTransform; // @public (read-only)
@@ -84,7 +94,7 @@ class IntensityMeterNode extends Node {
     }
 
     // Add the reading to the body node
-    const valueNode = new Text( intensityMeter.readingProperty.get().getString(), {
+    const valueNode = new Text( intensityMeter.readingProperty.get(), {
       font: new PhetFont( 25 ),
       fill: 'black',
       maxWidth: valueBackground.width * 0.85
@@ -101,18 +111,21 @@ class IntensityMeterNode extends Node {
 
     // displayed value
     intensityMeter.readingProperty.link( reading => {
-      valueNode.setText( reading.getString() );
+      valueNode.setText( reading );
       valueNode.center = valueBackground.center;
     } );
 
     // Connect the sensor to the body with a gray wire
-    const above = amount => position => position.plusXY( 0, -amount );
+    const above = ( amount: number ) => ( position: Vector2 ) => position.plusXY( 0, -amount );
 
+    // @ts-ignore
     const rightBottomProperty = new NodeProperty( this.bodyNode, this.bodyNode.boundsProperty, 'rightBottom' );
 
     // @private
     this.wireNode = new WireNode(
       new DerivedProperty( [ rightBottomProperty ], above( 12 ) ), bodyNormalProperty,
+
+      // @ts-ignore
       new NodeProperty( this.probeNode, this.probeNode.boundsProperty, 'centerBottom' ), sensorNormalProperty, {
         lineWidth: 3,
         stroke: 'gray'

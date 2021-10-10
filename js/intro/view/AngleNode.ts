@@ -11,12 +11,14 @@ import Property from '../../../../axon/js/Property.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
+import LightRay from '../../common/model/LightRay.js';
 
 // constants
 const CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
@@ -43,12 +45,12 @@ class AngleNode extends Node {
    * @param {ModelViewTransform2} modelViewTransform
    * @param {function} addStepListener -
    */
-  constructor( showAnglesProperty, laserOnProperty, showNormalProperty, rays, modelViewTransform,
-               addStepListener ) {
+  constructor( showAnglesProperty: Property, laserOnProperty: Property, showNormalProperty: Property, rays: LightRay[], modelViewTransform: ModelViewTransform2,
+               addStepListener: ( x: any ) => void ) {
     super();
 
     // Only show the AngleNode when it is selected via a checkbox and the laser is on
-    Property.multilink( [ showAnglesProperty, laserOnProperty ], ( showAngles, laserOn ) => {
+    Property.multilink( [ showAnglesProperty, laserOnProperty ], ( showAngles: boolean, laserOn: boolean ) => {
       this.visible = showAngles && laserOn;
     } );
 
@@ -82,6 +84,7 @@ class AngleNode extends Node {
       } );
 
       // defines ES5 getter/setter
+      // TODO: This should be improved
       Object.defineProperty( panel, 'text', {
         get: () => 'hello', // TODO: Is this correct?
         set: value => { text.text = value; },
@@ -107,7 +110,7 @@ class AngleNode extends Node {
     this.addChild( refractedReadout );
 
     // Helper function used to create the vertical line marker above and below the origin
-    const createLine = y => new Line(
+    const createLine = ( y: number ) => new Line(
       getOriginX(), getOriginY() + y - LINE_HEIGHT / 2,
       getOriginX(), getOriginY() + y + LINE_HEIGHT / 2, {
         stroke: 'black',
@@ -136,18 +139,21 @@ class AngleNode extends Node {
     const markDirty = () => {
       dirty = true;
     };
+
+    // @ts-ignore
     rays.addItemAddedListener( markDirty );
+    // @ts-ignore
     rays.addItemRemovedListener( markDirty );
 
     /**
-     * Select the ray of the given type 'incident' | 'reflected' | 'incident', or null if there isn't one of that type
+     * Select the ray of the given type 'incident' | 'reflected', or null if there isn't one of that type
      * @param type
      * @returns {LightRay}
      */
-    const getRay = type => {
+    const getRay = ( type: 'incident' | 'reflected' | 'transmitted' | null ) => { // TODO: enum
       let selected = null;
       for ( let i = 0; i < rays.length; i++ ) {
-        const ray = rays.get( i );
+        const ray = rays[ i ];
         if ( ray.rayType === type ) {
           assert && assert( selected === null, 'multiple rays of the same type' );
           selected = ray;
@@ -174,16 +180,17 @@ class AngleNode extends Node {
         const incomingAngleFromNormal = incomingRay.getAngle() + Math.PI / 2;
         const refractedAngleFromNormal = refractedRay.getAngle() + Math.PI / 2;
 
-        const getShape = ( angle, startAngle, endAngle, anticlockwise ) => angle >= 1E-6 ?
-                                                                           Shape.arc(
-                                                                             getOriginX(),
-                                                                             getOriginY(),
-                                                                             CIRCLE_RADIUS,
-                                                                             startAngle,
-                                                                             endAngle,
-                                                                             anticlockwise
-                                                                           ) :
-                                                                           null;
+        const getShape = ( angle: number, startAngle: number, endAngle: number, anticlockwise: boolean ) =>
+          angle >= 1E-6 ?
+          Shape.arc(
+            getOriginX(),
+            getOriginY(),
+            CIRCLE_RADIUS,
+            startAngle,
+            endAngle,
+            anticlockwise
+          ) :
+          null;
 
         // Only show the incident angle when the ray is coming in at a shallow angle, see #288
         const isIncomingRayHorizontal = Math.abs( incomingRay.getAngle() ) < 1E-6;
@@ -214,11 +221,12 @@ class AngleNode extends Node {
         ) / ROUNDING_FACTOR;
         const incomingReadoutText = `${Utils.toFixed( incomingRayDegreesFromNormal, NUM_DIGITS )}\u00B0`;
 
-        const createDirectionVector = angle => Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT + 5, angle );
+        const createDirectionVector = ( angle: number ) => Vector2.createPolar( CIRCLE_RADIUS + LINE_HEIGHT + 5, angle );
         const incomingReadoutDirection = createDirectionVector( -Math.PI / 2 - incomingAngleFromNormal / 2 );
         const reflectedReadoutDirection = createDirectionVector( -Math.PI / 2 + incomingAngleFromNormal / 2 );
         const refractedReadoutDirection = createDirectionVector( +Math.PI / 2 - refractedAngleFromNormal / 2 );
 
+        // @ts-ignore
         incomingReadout.text = incomingReadoutText;
 
         // When the angle becomes too small, pop the text out so that it won't be obscured by the ray
@@ -227,6 +235,7 @@ class AngleNode extends Node {
         incomingReadout.center = origin.plus( incomingReadoutDirection )
           .plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : -BUMP_TO_SIDE_DISTANCE, 0 );
 
+        // @ts-ignore
         reflectedReadout.text = incomingReadoutText; // It's the same
         reflectedReadout.center = origin.plus( reflectedReadoutDirection )
           .plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
@@ -242,6 +251,7 @@ class AngleNode extends Node {
         lowerArcPath.visible = showLowerAngle;
         lowerMark.visible = !showNormalProperty.value && showLowerAngle;
 
+        // @ts-ignore
         refractedReadout.text = refractedReadoutText;
         const bumpBottomReadout = refractedRayDegreesFromNormal >= angleThresholdToBumpToSide;
         refractedReadout.center = origin.plus( refractedReadoutDirection )

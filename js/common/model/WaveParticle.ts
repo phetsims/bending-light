@@ -8,9 +8,17 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 
 class WaveParticle {
+  private readonly position: Vector2;
+  private readonly width: number;
+  private readonly color: Color;
+  private readonly angle: number;
+  private readonly height: number;
+  private readonly particleGradientColor: Color;
 
   /**
    * @param {Vector2} position - position of wave particle
@@ -20,7 +28,7 @@ class WaveParticle {
    * @param {number} angle - angle of wave particle
    * @param {number} waveHeight - height of wave particle
    */
-  constructor( position, width, color, particleGradientColor, angle, waveHeight ) {
+  constructor( position: Vector2, width: number, color: Color, particleGradientColor: Color, angle: number, waveHeight: number ) {
     this.position = position; // @public
     this.width = width; // @public
     this.color = color; // @public
@@ -52,7 +60,7 @@ class WaveParticle {
    * @public
    * @param {number} x - x position in model values
    */
-  setX( x ) {
+  setX( x: number ) {
     this.position.x = x;
   }
 
@@ -60,7 +68,7 @@ class WaveParticle {
    * @public
    * @param {number} y - y position in model values
    */
-  setY( y ) {
+  setY( y: number ) {
     this.position.y = y;
   }
 }

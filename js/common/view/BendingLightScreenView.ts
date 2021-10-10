@@ -15,11 +15,25 @@ import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import bendingLight from '../../bendingLight.js';
+import BendingLightModel from '../model/BendingLightModel.js';
 import LaserNode from './LaserNode.js';
 import RotationDragHandle from './RotationDragHandle.js';
 import SingleColorLightCanvasNode from './SingleColorLightCanvasNode.js';
 
-class BendingLightScreenView extends ScreenView {
+abstract class BendingLightScreenView extends ScreenView {
+  protected readonly showProtractorProperty: Property;
+  readonly bendingLightModel: BendingLightModel;
+  protected readonly beforeLightLayer: Node;
+  protected readonly beforeLightLayer2: Node;
+  private readonly afterLightLayer: Node;
+  protected readonly afterLightLayer2: Node;
+  protected readonly afterLightLayer3: Node;
+  protected readonly mediumNode: Node;
+  readonly incidentWaveLayer: Node;
+  private readonly singleColorLightNode: SingleColorLightCanvasNode;
+  readonly laserViewLayer: Node;
+  private readonly occlusionHandler: () => void;
+  protected readonly modelViewTransform: ModelViewTransform2;
 
   /**
    * @param {BendingLightModel} bendingLightModel - main model of the simulations
@@ -28,14 +42,14 @@ class BendingLightScreenView extends ScreenView {
    * @param {boolean} laserHasKnob - laser image
    * @param {Object} [options]
    */
-  constructor( bendingLightModel, laserTranslationRegion, laserRotationRegion, laserHasKnob, options ) {
+  constructor( bendingLightModel: BendingLightModel, laserTranslationRegion: any, laserRotationRegion: any, laserHasKnob: boolean, options: any ) {
 
     options = merge( {
       occlusionHandler: () => {}, // {function} moves objects out from behind a control panel if dropped there
       ccwArrowNotAtMax: () => true, // {function} shows whether laser at min angle
       clockwiseArrowNotAtMax: () => true, // {function} shows whether laser at max angle, In prisms tab
       // laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
-      clampDragAngle: angle => angle, // {function} function that limits the angle of laser to its bounds
+      clampDragAngle: ( angle: number ) => angle, // {function} function that limits the angle of laser to its bounds
       horizontalPlayAreaOffset: 0, // {number} in stage coordinates, how far to shift the play area horizontally
       verticalPlayAreaOffset: 0 // {number} in stage coordinates, how far to shift the play area vertically.  In the
                                 // prisms screen, it is shifted up a bit to center the play area above the south control panel
@@ -143,7 +157,7 @@ class BendingLightScreenView extends ScreenView {
     } );
 
     Property.multilink( [ bendingLightModel.laser.colorModeProperty, bendingLightModel.laserViewProperty ],
-      ( colorMode, laserView ) => {
+      ( colorMode: 'white' | 'singleWavelength', laserView: 'ray' | 'wave' ) => { // TODO: enums
         this.singleColorLightNode.visible = laserView === 'ray' && colorMode !== 'white';
       }
     );
@@ -170,35 +184,39 @@ class BendingLightScreenView extends ScreenView {
    * @param {BendingLightModel} bendingLightModel
    * @protected
    */
-  addLightNodes( bendingLightModel ) {
-  }
+  abstract addLightNodes( bendingLightModel: BendingLightModel ): void;
 
   /**
-   * @param {boolean} showRotationDragHandlesProperty
-   * @param {boolean} showTranslationDragHandlesProperty
+   * @param {Property<boolean>} showRotationDragHandlesProperty
+   * @param {Property<boolean>} showTranslationDragHandlesProperty
    * @param {boolean}clockwiseArrowNotAtMax
    * @param {boolean} ccwArrowNotAtMax
    * @param {number} laserImageWidth
    * @protected
    */
-  addLaserHandles( showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
-                   clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
+  addLaserHandles( showRotationDragHandlesProperty: Property, showTranslationDragHandlesProperty: Property,
+                   clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ) {
     const bendingLightModel = this.bendingLightModel;
 
-    // Shows the direction in which laser can be rotated
-    // for laser left rotation
-    const leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
-      Math.PI / 23, showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58,
-      bendingLightModel.rotationArrowAngleOffset );
-    this.addChild( leftRotationDragHandle );
+    if ( typeof bendingLightModel.rotationArrowAngleOffset === 'number' ) {
+      // Shows the direction in which laser can be rotated
+      // for laser left rotation
+      const leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
+        Math.PI / 23, showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58,
+        bendingLightModel.rotationArrowAngleOffset );
+      this.addChild( leftRotationDragHandle );
 
-    // for laser right rotation
-    const rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
-      -Math.PI / 23,
-      showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58,
-      bendingLightModel.rotationArrowAngleOffset
-    );
-    this.addChild( rightRotationDragHandle );
+      // for laser right rotation
+      const rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
+        -Math.PI / 23,
+        showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58,
+        bendingLightModel.rotationArrowAngleOffset
+      );
+      this.addChild( rightRotationDragHandle );
+    }
+    else {
+      assert && assert( false, 'should have been a number' );
+    }
   }
 }
 

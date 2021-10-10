@@ -7,7 +7,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import ScreenView from '../../../../joist/js/ScreenView.js';
 import bendingLight from '../../bendingLight.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 
 // The fraction the objects can float out of the layout bounds
 const floatFraction = 0.3;
@@ -24,7 +26,7 @@ const FloatingLayout = {
    * @param {ScreenView} screenView
    * @param {Node[]} nodes
    */
-  floatRight: ( screenView, nodes ) => {
+  floatRight: ( screenView: ScreenView, nodes: Node[] ) => {
     screenView.visibleBoundsProperty.link( visibleBounds => {
 
       // Let the panels move to the right, but not too far
@@ -42,8 +44,7 @@ const FloatingLayout = {
    * @param {Node[]} nodes
    * @param {number} delta
    */
-  floatLeft: ( screenView, nodes, delta ) => {
-    delta = delta || 0;
+  floatLeft: ( screenView: ScreenView, nodes: Node[], delta: number = 0 ) => {
     screenView.visibleBoundsProperty.link( visibleBounds => {
 
       // Let the panels move to the left, but not too far
@@ -60,7 +61,7 @@ const FloatingLayout = {
    * @param {ScreenView} screenView
    * @param {Node[]} nodes
    */
-  floatTop: ( screenView, nodes ) => {
+  floatTop: ( screenView: ScreenView, nodes: Node[] ) => {
     screenView.visibleBoundsProperty.link( visibleBounds => {
 
       // Let the panels move to the top, but not too far
@@ -77,7 +78,7 @@ const FloatingLayout = {
    * @param {ScreenView} screenView
    * @param {Node[]} nodes
    */
-  floatBottom: ( screenView, nodes ) => {
+  floatBottom: ( screenView: ScreenView, nodes: Node[] ) => {
     screenView.visibleBoundsProperty.link( visibleBounds => {
 
       // Let the panels move to the bottom, but not too far
