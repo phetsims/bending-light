@@ -26,7 +26,7 @@ class Substance {
   readonly dispersionFunction: DispersionFunction;
   readonly mystery: boolean;
   readonly indexOfRefractionForRedLight: number;
-  private readonly name: string;
+  readonly name: string;
   readonly indexForRed: number;
   private readonly custom: boolean;
   static AIR: Substance;

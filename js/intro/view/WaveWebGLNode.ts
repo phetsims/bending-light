@@ -12,6 +12,7 @@ import ShaderProgram from '../../../../scenery/js/util/ShaderProgram.js';
 import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2';
 import LightRay from '../../common/model/LightRay.js';
+import Matrix from '../../../../dot/js/Matrix.js';
 
 const scratchFloatArray1 = new Float32Array( 9 );
 const scratchFloatArray2 = new Float32Array( 9 );
@@ -114,7 +115,7 @@ class WavePainter {
   /**
    * @public
    */
-  paint( modelViewMatrix: any, projectionMatrix: any ) {
+  paint( modelViewMatrix: Matrix, projectionMatrix: Matrix ) {
     const gl = this.gl;
     const shaderProgram = this.shaderProgram as ShaderProgram;
     const rays = this.node.rays;

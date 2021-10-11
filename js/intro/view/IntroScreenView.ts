@@ -69,7 +69,7 @@ class IntroScreenView extends BendingLightScreenView {
    * @param {function} createLaserControlPanel
    * @param {Object} [options]
    */
-  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number, createLaserControlPanel: any, options?: Partial<IntroScreenViewOptions> ) {
+  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number, createLaserControlPanel: ( model: BendingLightModel ) => Node, options?: Partial<IntroScreenViewOptions> ) {
 
     options = merge( {
 
@@ -182,7 +182,7 @@ class IntroScreenView extends BendingLightScreenView {
       this.modelViewTransform,
 
       // Method to add a step listener
-      ( stepCallback: any ) => this.stepEmitter.addListener( stepCallback )
+      ( stepCallback: () => void ) => this.stepEmitter.addListener( stepCallback )
     ) );
 
     introModel.showNormalProperty.linkAttribute( normalLine, 'visible' );
@@ -290,7 +290,7 @@ class IntroScreenView extends BendingLightScreenView {
       this.showProtractorProperty.value = true;
 
       // Center the protractor on the pointer
-      protractorPositionProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
+      protractorPositionProperty.value = protractorNode.globalToParentPoint( event.pointer.point as Vector2 );
     } ) );
 
     this.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
@@ -349,7 +349,7 @@ class IntroScreenView extends BendingLightScreenView {
       introModel.intensityMeter.enabledProperty.value = true;
 
       // Center the center-bottom of the body on the pointer
-      const bodyViewPosition = intensityMeterNode.bodyNode.globalToParentPoint( event.pointer.point )
+      const bodyViewPosition = intensityMeterNode.bodyNode.globalToParentPoint( event.pointer.point as Vector2 )
         .plusXY( -intensityMeterNode.bodyNode.width / 2, -intensityMeterNode.bodyNode.height + 5 );
       introModel.intensityMeter.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( bodyViewPosition );
       intensityMeterNode.resetRelativePositions();

@@ -47,7 +47,7 @@ class AngleNode extends Node {
    * @param {function} addStepListener -
    */
   constructor( showAnglesProperty: Property, laserOnProperty: Property, showNormalProperty: Property, rays: LightRay[], modelViewTransform: ModelViewTransform2,
-               addStepListener: ( x: any ) => void ) {
+               addStepListener: ( x: () => void ) => void ) {
     super();
 
     // Only show the AngleNode when it is selected via a checkbox and the laser is on

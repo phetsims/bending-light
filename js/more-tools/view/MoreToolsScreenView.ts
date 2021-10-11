@@ -24,6 +24,8 @@ import MoreToolsModel from '../model/MoreToolsModel.js';
 import VelocitySensorNode from './VelocitySensorNode.js';
 import WaveSensorNode from './WaveSensorNode.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import BendingLightModel from '../../common/model/BendingLightModel.js';
 
 // constants
 const arrowScale = 1.5E-14;
@@ -45,7 +47,7 @@ class MoreToolsScreenView extends IntroScreenView {
       3, // indexOfRefractionDecimals
 
       // createLaserControlPanel
-      ( model: MoreToolsModel ) => new VBox( {
+      ( model: BendingLightModel ) => new VBox( {
         spacing: 10,
         align: 'left',
         children: [
@@ -138,7 +140,7 @@ class MoreToolsScreenView extends IntroScreenView {
         waveSensor.enabledProperty.set( true );
 
         // Center the body label on the pointer
-        const pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point )
+        const pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point as Vector2)
           .plusXY( 0, -waveSensorNode.bodyNode.height / 2 + 5 );
         waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( pt );
         waveSensorNode.resetRelativePositions();
@@ -209,7 +211,7 @@ class MoreToolsScreenView extends IntroScreenView {
       this.moreToolsModel.velocitySensor.enabledProperty.value = true;
 
       // Center the protractor on the pointer
-      const viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point );
+      const viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point as Vector2);
       const velocitySensorModelPosition = this.modelViewTransform.viewToModelPosition( viewPosition );
       this.moreToolsModel.velocitySensor.positionProperty.set( velocitySensorModelPosition );
     } ) );

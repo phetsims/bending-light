@@ -20,6 +20,7 @@ import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
 import LaserTypeAquaRadioButtonGroup from './view/LaserTypeAquaRadioButtonGroup.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import BendingLightModel from '../common/model/BendingLightModel.js';
 
 const introString = bendingLightStrings.intro;
 
@@ -47,7 +48,7 @@ class IntroScreen extends Screen {
         2, // indexOfRefractionDecimals
 
         // createLaserControlPanel
-        ( introModel: IntroModel ) => new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty ), {
+        ( introModel: BendingLightModel ) => new LaserTypeAquaRadioButtonGroup( introModel.laserViewProperty ), {
           tandem: tandem.createTandem( 'view' )
         } ),
       options );

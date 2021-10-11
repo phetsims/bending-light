@@ -7,6 +7,7 @@
  */
 
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
+import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 import SimpleDragHandler from '../../../../scenery/js/input/SimpleDragHandler.js';
 import Trail from '../../../../scenery/js/util/Trail.js';
 import bendingLight from '../../bendingLight.js';
@@ -17,9 +18,9 @@ class ToolIconListener extends SimpleDragHandler {
    * @param {MovableDragHandler[]} components - the individual listeners that events should be forwarded to.
    * @param {function} init - called with (event) when the start drag occurs
    */
-  constructor( components: MovableDragHandler[], init: ( event: any ) => void ) {
+  constructor( components: MovableDragHandler[], init: ( event: SceneryEvent ) => void ) {
     super( {
-      start: ( event: any, trail: Trail ) => {
+      start: ( event: SceneryEvent, trail: Trail ) => {
         init( event );
 
         // Forward the event to the components
@@ -27,14 +28,14 @@ class ToolIconListener extends SimpleDragHandler {
           components[ i ].handleForwardedStartEvent( event, trail );
         }
       },
-      drag: ( event: any, trail: Trail ) => {
+      drag: ( event: SceneryEvent, trail: Trail ) => {
 
         // Forward the event to the components
         for ( let i = 0; i < components.length; i++ ) {
           components[ i ].handleForwardedDragEvent( event, trail );
         }
       },
-      end: ( event: any, trail: Trail ) => {
+      end: ( event: SceneryEvent, trail: Trail ) => {
 
         // Forward the event to the components
         for ( let i = 0; i < components.length; i++ ) {

@@ -110,7 +110,7 @@ class MediumControlPanel extends Node {
 
     const textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
-    const createItem = ( item: any ) => {
+    const createItem = ( item: Substance ) => {
       const comboBoxTextWidth = textFieldVisible ? 130 : 75;
       const itemName = new Text( item.name, textOptionsOfComboBoxStrings );
       if ( itemName.width > comboBoxTextWidth ) {
@@ -157,8 +157,7 @@ class MediumControlPanel extends Node {
     // items
     const items = [];
     for ( let i = 0; i < substances.length; i++ ) {
-      const material = substances[ i ];
-      items[ i ] = createItem( material );
+      items[ i ] = createItem( substances[ i ] );
     }
     // add a combo box
     // @ts-ignore

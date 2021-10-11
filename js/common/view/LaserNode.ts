@@ -22,6 +22,7 @@ import knobImageData from '../../../images/knob_png.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Laser from '../model/Laser.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 
 type LaserNodeOptions = {
   tandem: Tandem
@@ -46,7 +47,7 @@ class LaserNode extends Node {
    * @param {Object} [options?]
    */
   constructor( modelViewTransform: ModelViewTransform2, laser: Laser, showRotationDragHandlesProperty: Property, showTranslationDragHandlesProperty: Property,
-               clampDragAngle: ( n: number ) => number,  hasKnob: boolean, dragBoundsProperty: Property, occlusionHandler: any,
+               clampDragAngle: ( n: number ) => number, hasKnob: boolean, dragBoundsProperty: Property, occlusionHandler: ( laserNode: LaserNode ) => void,
                options?: Partial<LaserNodeOptions> ) {
 
     const filledOptions = merge( { tandem: Tandem.OPTIONAL }, options ) as LaserNodeOptions;
@@ -118,16 +119,16 @@ class LaserNode extends Node {
     // the back of the laser.  This part of the code handles the translation.
     if ( hasKnob ) {
       const translationListener = new SimpleDragHandler( {
-        start: ( event: any ) => {
-          start = this.globalToParentPoint( event.pointer.point );
+        start: ( event: SceneryEvent ) => {
+          start = this.globalToParentPoint( event.pointer.point as Vector2 );
           showTranslationDragHandlesProperty.value = true;
         },
-        drag: ( event: any ) => {
+        drag: ( event: SceneryEvent ) => {
 
           const laserNodeDragBounds = dragBoundsProperty.value.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
           const laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
 
-          const endDrag = this.globalToParentPoint( event.pointer.point );
+          const endDrag = this.globalToParentPoint( event.pointer.point as Vector2 );
           if ( start ) {
             const deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
             const deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
@@ -194,10 +195,10 @@ class LaserNode extends Node {
         showTranslationDragHandlesProperty.value = false;
         overCountProperty.value++;
       },
-      drag: ( event: any ) => {
+      drag: ( event: SceneryEvent ) => {
         const coordinateFrame = this.parents[ 0 ];
         const laserAnglebeforeRotate = laser.getAngle();
-        const localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
+        const localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point as Vector2 );
         const angle = Math.atan2( modelViewTransform.viewToModelY( localLaserPosition.y ) - laser.pivotProperty.value.y,
           modelViewTransform.viewToModelX( localLaserPosition.x ) - laser.pivotProperty.value.x );
         let laserAngleAfterClamp = clampDragAngle( angle );

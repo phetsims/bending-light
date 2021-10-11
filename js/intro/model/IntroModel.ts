@@ -26,6 +26,7 @@ import Medium from '../../common/model/Medium.js';
 import Reading from '../../common/model/Reading.js';
 import Substance from '../../common/model/Substance.js';
 import WaveParticle from '../../common/model/WaveParticle.js';
+import LaserColor from '../../common/view/LaserColor.js';
 
 // constants
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
@@ -78,7 +79,7 @@ class IntroModel extends BendingLightModel {
         this.topMediumProperty,
         this.laser.colorProperty
       ],
-      ( topMedium: Medium, color: any ) => topMedium.getIndexOfRefraction( color.wavelength ), {
+      ( topMedium: Medium, color: LaserColor ) => topMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfTopMediumProperty' ),
         phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
@@ -89,7 +90,7 @@ class IntroModel extends BendingLightModel {
         this.bottomMediumProperty,
         this.laser.colorProperty
       ],
-      ( bottomMedium: Medium, color: any ) => bottomMedium.getIndexOfRefraction( color.wavelength ), {
+      ( bottomMedium: Medium, color: LaserColor ) => bottomMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfBottomMediumProperty' ),
         phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
