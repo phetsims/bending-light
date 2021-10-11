@@ -42,6 +42,7 @@ import NormalLine from './NormalLine.js';
 import WaveCanvasNode from './WaveCanvasNode.js';
 import WaveWebGLNode from './WaveWebGLNode.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 
 const anglesString = bendingLightStrings.angles;
 const materialString = bendingLightStrings.material;
@@ -395,7 +396,9 @@ class IntroScreenView extends BendingLightScreenView {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
           listener: () => {
-            introModel.updateSimulationTimeAndWaveShape( 'normal' );
+
+            // @ts-ignore
+            introModel.updateSimulationTimeAndWaveShape( TimeSpeed.NORMAL );
             this.updateWaveShape();
           }
         }
