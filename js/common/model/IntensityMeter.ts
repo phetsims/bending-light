@@ -30,7 +30,7 @@ class IntensityMeter {
    */
   constructor( sensorX: number, sensorY: number, bodyX: number, bodyY: number ) {
 
-    this.readingProperty = new Property( 'miss' ); // @public, value to show on the body
+    this.readingProperty = new Property( Reading.MISS ); // @public, value to show on the body
     this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) ); // @public
     this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) ); // @public
     this.enabledProperty = new Property( false ); // @public, True if it is in the play area
@@ -79,7 +79,7 @@ class IntensityMeter {
    */
   clearRayReadings() {
     this.rayReadings = [];
-    this.readingProperty.set( 'miss' );
+    this.readingProperty.set( Reading.MISS );
   }
 
   /**
@@ -106,9 +106,9 @@ class IntensityMeter {
       }
     } );
 
-    // if not hits, say "MISS"
+    // if no hits, say "MISS"
     if ( hits.length === 0 ) {
-      this.readingProperty.set( 'miss' );
+      this.readingProperty.set( Reading.MISS );
     }
     else {
 

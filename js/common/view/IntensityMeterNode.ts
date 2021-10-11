@@ -95,7 +95,7 @@ class IntensityMeterNode extends Node {
     }
 
     // Add the reading to the body node
-    const valueNode = new Text( intensityMeter.readingProperty.get(), {
+    const valueNode = new Text( intensityMeter.readingProperty.get().getString(), {
       font: new PhetFont( 25 ),
       fill: 'black',
       maxWidth: valueBackground.width * 0.85
@@ -111,8 +111,8 @@ class IntensityMeterNode extends Node {
     titleNode.centerX = outerRectangle.centerX;
 
     // displayed value
-    intensityMeter.readingProperty.link( ( reading: Reading | string ) => {
-      valueNode.setText( typeof reading === 'string' ? reading : reading.getString() );
+    intensityMeter.readingProperty.link( ( reading: Reading ) => {
+      valueNode.setText( reading.getString() );
       valueNode.center = valueBackground.center;
     } );
 
