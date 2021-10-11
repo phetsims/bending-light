@@ -7,8 +7,11 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Property from '../../../../axon/js/Property.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import bendingLight from '../../bendingLight.js';
+import Intersection from '../model/Intersection.js';
 
 class IntersectionNode extends Line {
 
@@ -17,7 +20,7 @@ class IntersectionNode extends Line {
    * @param {Intersection} intersection - specifies details of intersection point and unit normal
    * @param {Property.<string|Color>} strokeProperty - the stroke to use for the intersection node
    */
-  constructor( modelViewTransform, intersection, strokeProperty ) {
+  constructor( modelViewTransform: ModelViewTransform2, intersection: Intersection, strokeProperty: Property ) {
 
     const centerX = modelViewTransform.modelToViewX( intersection.point.x );
     const centerY = modelViewTransform.modelToViewY( intersection.point.y );

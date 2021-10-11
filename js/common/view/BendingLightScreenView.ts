@@ -25,14 +25,14 @@ abstract class BendingLightScreenView extends ScreenView {
   readonly bendingLightModel: BendingLightModel;
   protected readonly beforeLightLayer: Node;
   protected readonly beforeLightLayer2: Node;
-  private readonly afterLightLayer: Node;
+  protected readonly afterLightLayer: Node;
   protected readonly afterLightLayer2: Node;
   protected readonly afterLightLayer3: Node;
   protected readonly mediumNode: Node;
   readonly incidentWaveLayer: Node;
   private readonly singleColorLightNode: SingleColorLightCanvasNode;
   readonly laserViewLayer: Node;
-  private readonly occlusionHandler: () => void;
+  readonly occlusionHandler: () => void;
   protected readonly modelViewTransform: ModelViewTransform2;
 
   /**

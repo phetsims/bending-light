@@ -7,8 +7,10 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import SimpleDragHandler from '../../../../scenery/js/input/SimpleDragHandler.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -17,8 +19,14 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import knobImage from '../../../images/knob_png.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
+import Prism from '../model/Prism.js';
+import PrismsModel from '../model/PrismsModel.js';
 
 class PrismNode extends Node {
+  movableDragHandler: DragListener;
+  updatePrismShape: () => void;
+  updatePrismColor: () => void;
+  translateViewXY: ( x: any, y: any ) => void;
 
   /**
    * @param {PrismsModel} prismsModel - main model
@@ -32,24 +40,24 @@ class PrismNode extends Node {
    * @param {boolean} isIcon - true if the prism node is being created to be shown as an icon in the toolbox
    *                         - false if the prism node will be dragged in the play area
    */
-  constructor( prismsModel, modelViewTransform, prism, prismToolboxNode, prismLayer, dragBoundsProperty,
-               occlusionHandler, isIcon ) {
+  constructor( prismsModel: PrismsModel, modelViewTransform: ModelViewTransform2, prism: Prism, prismToolboxNode: Node, prismLayer: Node, dragBoundsProperty: Property,
+               occlusionHandler: ( prismNode: PrismNode ) => void, isIcon: boolean ) {
 
     super( { cursor: 'pointer' } );
     const knobHeight = 15;
 
     // It looks like a box on the side of the prism
-    const knobNode = new Image( knobImage );
+    const knobNode = new Image( knobImage ) as unknown as Node;
     if ( prism.shapeProperty.get().getReferencePoint() ) {
       this.addChild( knobNode );
     }
 
     // Prism rotation with knob
-    let previousAngle;
+    let previousAngle: number;
     let prismCenterPoint;
     if ( !isIcon ) {
       knobNode.addInputListener( new SimpleDragHandler( {
-        start: event => {
+        start: ( event: any ) => {
           this.moveToFront();
           const start = knobNode.globalToParentPoint( event.pointer.point );
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
@@ -57,7 +65,7 @@ class PrismNode extends Node {
           const startY = modelViewTransform.viewToModelY( start.y );// model values
           previousAngle = Math.atan2( ( prismCenterPoint.y - startY ), ( prismCenterPoint.x - startX ) );
         },
-        drag: event => {
+        drag: ( event: any ) => {
           const end = knobNode.globalToParentPoint( event.pointer.point );
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const endX = modelViewTransform.viewToModelX( end.x );// model values
@@ -126,6 +134,8 @@ class PrismNode extends Node {
       if ( prismReferencePoint ) {
         const prismShapeCenter = prism.getTranslatedShape().getRotationCenter();
         knobNode.resetTransform();
+
+        // @ts-ignore
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
 
         const prismReferenceXPosition = modelViewTransform.modelToViewX( prismReferencePoint.x );
@@ -139,6 +149,8 @@ class PrismNode extends Node {
         knobCenterPoint.y = -knobNode.getHeight() / 2 - 8;
         knobNode.rotateAround( knobCenterPoint, angle );
         knobNode.setTranslation( prismReferenceXPosition, prismReferenceYPosition );
+
+        // @ts-ignore
         knobNode.translate( knobCenterPoint );
       }
     };
@@ -148,6 +160,8 @@ class PrismNode extends Node {
     // @public - used in PrismToolboxNode
     this.updatePrismColor = () => {
       const indexOfRefraction = prismsModel.prismMediumProperty.value.substance.indexOfRefractionForRedLight;
+
+      // @ts-ignore
       prismPathNode.fill = prismsModel.mediumColorFactory.getColor( indexOfRefraction )
         .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
     };

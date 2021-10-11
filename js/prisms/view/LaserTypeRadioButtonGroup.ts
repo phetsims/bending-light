@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
@@ -21,14 +22,14 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup {
    * @param {Property.<string>} radioButtonAdapterProperty TODO: Enumeration
    * @param {Object} [options]
    */
-  constructor( radioButtonAdapterProperty, options ) {
+  constructor( radioButtonAdapterProperty: Property, options?: any ) {
     const laserImageNode = new Image( laserImage, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )
-    } );
+    } ) as unknown as Node;
 
     const lineWidth = 37;
-    const redLineAt = y => new Line( 0, 0, lineWidth, 0, {
+    const redLineAt = ( y: number ) => new Line( 0, 0, lineWidth, 0, {
       stroke: 'red',
       lineWidth: 2,
       centerY: laserImageNode.centerY + y,

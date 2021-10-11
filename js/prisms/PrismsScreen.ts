@@ -10,25 +10,28 @@
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
+import Node from '../../../scenery/js/nodes/Node.js';
 import navbarIconImage from '../../mipmaps/Prisms_Screen_White_NavBar_png.js';
 import iconImage from '../../mipmaps/Prisms_Screen_White_png.js';
 import bendingLightStrings from '../bendingLightStrings.js';
 import bendingLight from '../bendingLight.js';
 import PrismsModel from './model/PrismsModel.js';
 import PrismsScreenView from './view/PrismsScreenView.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
+// @ts-ignore
 const prismsString = bendingLightStrings.prisms;
 
 class PrismsScreen extends Screen {
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
       name: prismsString,
-      homeScreenIcon: new ScreenIcon( new Image( iconImage ), {
+      homeScreenIcon: new ScreenIcon( new Image( iconImage ) as unknown as Node, {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
-      navigationBarIcon: new ScreenIcon( new Image( navbarIconImage ), {
+      navigationBarIcon: new ScreenIcon( new Image( navbarIconImage ) as unknown as Node, {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
@@ -36,8 +39,10 @@ class PrismsScreen extends Screen {
     };
 
     super(
-      () => new PrismsModel( { tandem: options.tandem.createTandem( 'model' ) } ),
-      model => new PrismsScreenView( model, {
+      () => new PrismsModel( {
+        tandem: options.tandem.createTandem( 'model' )
+      } ),
+      ( model: PrismsModel ) => new PrismsScreenView( model, {
         tandem: options.tandem.createTandem( 'view' )
       } ),
       options );

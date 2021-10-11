@@ -7,8 +7,10 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
@@ -23,19 +25,25 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 import bendingLight from '../../bendingLight.js';
 import bendingLightStrings from '../../bendingLightStrings.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
+import Prism from '../model/Prism.js';
+import PrismsModel from '../model/PrismsModel.js';
 import PrismNode from './PrismNode.js';
 
+// @ts-ignore
 const normalLineString = bendingLightStrings.normalLine;
+// @ts-ignore
 const objectsString = bendingLightStrings.objects;
+// @ts-ignore
 const protractorString = bendingLightStrings.protractor;
+// @ts-ignore
 const reflectionsString = bendingLightStrings.reflections;
-
 
 // constants
 const MAX_TEXT_WIDTH = 115;
 const MAX_PRISM_COUNT = 6; // for each type
 
 class PrismToolboxNode extends Node {
+  objectMediumControlPanel: MediumControlPanel;
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -46,8 +54,8 @@ class PrismToolboxNode extends Node {
    *                                    - control panel
    * @param {Object} [options] that can be passed on to the underlying node
    */
-  constructor( modelViewTransform, prismsModel, prismLayer, dragBoundsProperty, occlusionHandler,
-               options ) {
+  constructor( modelViewTransform: ModelViewTransform2, prismsModel: PrismsModel, prismLayer: Node, dragBoundsProperty: Property, occlusionHandler: () => void,
+               options?: any ) {
 
     super();
     const content = new HBox( {
@@ -56,19 +64,19 @@ class PrismToolboxNode extends Node {
     } );
 
     // Create prism icon
-    const createPrismIcon = prism => {
+    const createPrismIcon = ( prism: Prism ) => {
       const prismShape = prism.copy();
       return new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer,
         dragBoundsProperty, occlusionHandler, true );
     };
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
-    let prismNode;
+    let prismNode: PrismNode;
     prismsModel.getPrismPrototypes().forEach( prism => {
       const prismIcon = createPrismIcon( prism );
 
       const listener = () => {
-        const count = prismsModel.prisms.count( p => p.typeName === prism.typeName );
+        const count = prismsModel.prisms.count( ( p: Prism ) => p.typeName === prism.typeName );
         prismIcon.visible = count < MAX_PRISM_COUNT;
       };
       prismsModel.prisms.addItemAddedListener( listener );
@@ -86,7 +94,7 @@ class PrismToolboxNode extends Node {
       } );
 
       // Add drag listener for the prisms icon
-      const dragListener = DragListener.createForwardingListener( event => {
+      const dragListener = DragListener.createForwardingListener( ( event: any ) => {
 
         const start = this.globalToParentPoint( event.pointer.point );
         const prismShape = prism.copy();
@@ -102,6 +110,7 @@ class PrismToolboxNode extends Node {
         prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer, dragBoundsProperty, occlusionHandler, false );
         prismLayer.addChild( prismNode );
 
+        // @ts-ignore
         prismNode.movableDragHandler.press( event, prismNode );
       } );
       prismToolboxIconNode.addInputListener( dragListener );
@@ -114,6 +123,8 @@ class PrismToolboxNode extends Node {
 
     // Allow the user to control the type of material in the prisms
     const environmentMediumMaterialListParent = new Node();
+
+    // @ts-ignore
     const objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
       prismsModel.mediumColorFactory,
       prismsModel.prismMediumProperty,
@@ -152,12 +163,14 @@ class PrismToolboxNode extends Node {
     };
 
     // compute the maximum item width
-    const widestItem = _.maxBy( [ showReflections, showNormal, showProtractor ], item => item.label.width + ( ( item.icon ) ? item.icon.width : 0 ) );
+
+    // @ts-ignore
+    const widestItem: any = _.maxBy( [ showReflections, showNormal, showProtractor ], item => item.label.width + ( ( item.icon ) ? item.icon.width : 0 ) );
     const widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0 );
     const maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
 
     // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
-    const createItem = itemSpec => {
+    const createItem = ( itemSpec: any ) => {
       if ( itemSpec.icon ) {
         const textWidth = maxWidth - itemSpec.icon.width - 10;
         if ( itemSpec.label.width > textWidth ) {
@@ -196,6 +209,7 @@ class PrismToolboxNode extends Node {
       checkboxOptions
     );
 
+    // @ts-ignore
     const maxCheckboxWidth = _.maxBy( [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ],
       item => item.width
     ).width + 5;

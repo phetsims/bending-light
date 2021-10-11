@@ -14,14 +14,23 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
+import LightRay from '../../common/model/LightRay.js';
+import MediumColorFactory from '../../common/model/MediumColorFactory.js';
 
 class WhiteLightCanvasNode extends CanvasNode {
+  modelViewTransform: ModelViewTransform2;
+  whiteLightRays: LightRay[];
+  environmentMediumProperty: Property;
+  colorCSS: string | null;
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
@@ -31,12 +40,13 @@ class WhiteLightCanvasNode extends CanvasNode {
    * @param {Property.<Medium>} environmentMediumProperty
    * @param {MediumColorFactory} mediumColorFactory - for creating colors from index of refraction
    */
-  constructor( modelViewTransform, stageWidth, stageHeight, whiteLightRays,
-               environmentMediumProperty, mediumColorFactory ) {
+  constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, whiteLightRays: LightRay[],
+               environmentMediumProperty: Property, mediumColorFactory: MediumColorFactory ) {
 
     super( {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
     } );
+    this.colorCSS = null;
     this.invalidatePaint();
     this.modelViewTransform = modelViewTransform; // @private
     this.whiteLightRays = whiteLightRays; // @private
@@ -55,9 +65,11 @@ class WhiteLightCanvasNode extends CanvasNode {
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas( context ) {
+  paintCanvas( context: CanvasRenderingContext2D ) {
     context.lineWidth = 3;
     context.globalCompositeOperation = 'source-over';
+
+    // @ts-ignore
     context.fillStyle = this.colorCSS;
     context.save();
     context.setTransform( 1, 0, 0, 1, 0, 0 );
@@ -72,7 +84,7 @@ class WhiteLightCanvasNode extends CanvasNode {
     context.globalCompositeOperation = 'lighter';
 
     for ( let i = 0; i < this.whiteLightRays.length; i++ ) {
-      const lightRay = this.whiteLightRays.get( i ); // {LightRay}
+      const lightRay = this.whiteLightRays[ i ]; // {LightRay}
 
       const wavelength = Utils.roundSymmetric( lightRay.wavelengthInVacuum ); // convert back to (nm)
 
@@ -89,11 +101,14 @@ class WhiteLightCanvasNode extends CanvasNode {
       // skip alpha values that are just too light to see, which could also cause number format problems when creating
       // css color
       if ( a > 1E-5 ) {
-        const c = VisibleColor.wavelengthToColor( wavelength );
+        const c = VisibleColor.wavelengthToColor( wavelength ) as Color;
+        const r: number = c.r as number;
+        const g: number = c.g as number;
+        const b: number = c.b as number;
         context.strokeStyle = `rgb(${
-          Utils.roundSymmetric( c.r * a / 0.9829313170995397 )},${
-          Utils.roundSymmetric( c.g * a )},${
-          Utils.roundSymmetric( c.b * a / 0.7144456644926587 )
+          Utils.roundSymmetric( r * a / 0.9829313170995397 )},${
+          Utils.roundSymmetric( g * a )},${
+          Utils.roundSymmetric( b * a / 0.7144456644926587 )
         })`;
         context.beginPath();
         context.moveTo( x1, y1 );

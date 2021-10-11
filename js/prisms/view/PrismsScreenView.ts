@@ -8,6 +8,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
@@ -23,32 +24,40 @@ import FloatingLayout from '../../common/view/FloatingLayout.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import TranslationDragHandle from '../../common/view/TranslationDragHandle.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
+import Intersection from '../model/Intersection.js';
+import PrismsModel from '../model/PrismsModel.js';
 import IntersectionNode from './IntersectionNode.js';
 import LaserTypeRadioButtonGroup from './LaserTypeRadioButtonGroup.js';
 import PrismToolboxNode from './PrismToolboxNode.js';
 import WhiteLightCanvasNode from './WhiteLightCanvasNode.js';
+import BendingLightModel from '../../common/model/BendingLightModel.js';
 
 // constants
 const INSET = 10;
 
+// @ts-ignore
 const environmentString = bendingLightStrings.environment;
 
 class PrismsScreenView extends BendingLightScreenView {
+  prismLayer: Node;
+  prismsModel: PrismsModel;
+  resetPrismsView: () => void;
+  whiteLightNode: any;
 
   /**
    * @param {PrismsModel} prismsModel - model of prisms screen
    * @param {Object} [options]
    */
-  constructor( prismsModel, options ) {
+  constructor( prismsModel: PrismsModel, options?: any ) {
 
     super(
       prismsModel,
 
       // laserTranslationRegion - The protractor can be rotated by dragging it by its ring, translated by dragging the cross-bar
-      fullShape => fullShape,
+      ( fullShape: Shape ) => fullShape,
 
       // laserRotationRegion - Rotation if the user clicks top on the object
-      ( full, back ) => back,
+      ( full: Shape, back: Shape ) => back,
 
       // laserHasKnob
       true,
@@ -63,7 +72,7 @@ class PrismsScreenView extends BendingLightScreenView {
         verticalPlayAreaOffset: -43,
 
         // if the prism is dropped behind a control panel, bump it to the left.
-        occlusionHandler: node => {
+        occlusionHandler: ( node: Node ) => {
 
           const controlPanels = [
             laserControlPanel, // eslint-disable-line no-use-before-define
@@ -72,6 +81,8 @@ class PrismsScreenView extends BendingLightScreenView {
           ];
           controlPanels.forEach( controlPanel => {
             if ( controlPanel.globalBounds.containsPoint( node.globalBounds.center ) ) {
+
+              // @ts-ignore
               node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
             }
           } );
@@ -79,6 +90,7 @@ class PrismsScreenView extends BendingLightScreenView {
       }, options )
     );
 
+    // this.whiteLightNode = null;
     this.prismLayer = new Node( { layerSplit: true } );
     this.prismsModel = prismsModel;
 
@@ -90,6 +102,8 @@ class PrismsScreenView extends BendingLightScreenView {
       // This medium node only shows the color for monochromatic light
       const indexOfRefractionForRed = environmentMedium.substance.dispersionFunction.getIndexOfRefractionForRed();
       const color = prismsModel.mediumColorFactory.getColorAgainstWhite( indexOfRefractionForRed );
+
+      // @ts-ignore
       environmentMediumNodeForMonochromaticLight.fill = color;
     } );
 
@@ -99,6 +113,7 @@ class PrismsScreenView extends BendingLightScreenView {
     const indexOfRefractionDecimals = 2;
 
     // Add control panels for setting the index of refraction for each medium
+    // @ts-ignore
     const environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.mediumColorFactory, prismsModel.environmentMediumProperty,
       environmentString, false, prismsModel.wavelengthProperty,
       indexOfRefractionDecimals, {
@@ -109,7 +124,7 @@ class PrismsScreenView extends BendingLightScreenView {
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
 
-    const sliderEnabledProperty = new Property();
+    const sliderEnabledProperty = new Property( false );
 
     const radioButtonAdapterProperty = new Property( 'singleColor' );
     radioButtonAdapterProperty.link( radioButtonAdapterValue => {
@@ -139,7 +154,7 @@ class PrismsScreenView extends BendingLightScreenView {
     this.incidentWaveLayer.setVisible( false );
 
     // Optionally show the normal lines at each intersection
-    prismsModel.intersections.addItemAddedListener( addedIntersection => {
+    prismsModel.intersections.addItemAddedListener( ( addedIntersection: Intersection ) => {
       if ( prismsModel.showNormalsProperty.value ) {
         const node = new IntersectionNode(
           this.modelViewTransform,
@@ -148,7 +163,7 @@ class PrismsScreenView extends BendingLightScreenView {
         );
         this.addChild( node );
 
-        prismsModel.intersections.addItemRemovedListener( removedIntersection => {
+        prismsModel.intersections.addItemRemovedListener( ( removedIntersection: Intersection ) => {
           if ( removedIntersection === addedIntersection ) {
             node.dispose();
             this.removeChild( node );
@@ -181,7 +196,6 @@ class PrismsScreenView extends BendingLightScreenView {
     } );
 
     this.afterLightLayer2.addChild( resetAllButton );
-
     this.afterLightLayer.addChild( prismToolboxNode );
 
     // Add the protractor node
@@ -228,7 +242,7 @@ class PrismsScreenView extends BendingLightScreenView {
     } );
 
     this.visibleBoundsProperty.link( visibleBounds => {
-      this.whiteLightNode.setCanvasBounds( visibleBounds );
+      this.whiteLightNode && this.whiteLightNode.setCanvasBounds( visibleBounds );
       protractorNodeListener.setDragBounds( visibleBounds );
       environmentMediumNodeForMonochromaticLight.setRect( visibleBounds.x, visibleBounds.y, visibleBounds.width, visibleBounds.height );
     } );
@@ -275,7 +289,7 @@ class PrismsScreenView extends BendingLightScreenView {
    */
   updateWhiteLightNode() {
     if ( this.prismsModel.laser.colorModeProperty.value === 'white' && this.prismsModel.dirty ) {
-      this.whiteLightNode.step();
+      this.whiteLightNode && this.whiteLightNode.step();
       this.prismsModel.dirty = false;
     }
   }
@@ -286,7 +300,7 @@ class PrismsScreenView extends BendingLightScreenView {
    * is set in the subtype)
    * @protected
    */
-  addLightNodes( bendingLightModel ) {
+  addLightNodes( bendingLightModel: BendingLightModel ) {
 
     // TODO: assert bendingLightModel instanceof PrismsModel
     const stageWidth = this.layoutBounds.width;
@@ -298,6 +312,8 @@ class PrismsScreenView extends BendingLightScreenView {
       stageWidth,
       stageHeight,
       bendingLightModel.rays,
+
+      // @ts-ignore
       bendingLightModel.environmentMediumProperty,
       bendingLightModel.mediumColorFactory
     );
@@ -309,7 +325,8 @@ class PrismsScreenView extends BendingLightScreenView {
     // switch between light render for white vs nonwhite light
     bendingLightModel.laser.colorModeProperty.link( color => {
       const white = color === 'white';
-      this.whiteLightNode.setVisible( white );
+
+      this.whiteLightNode && this.whiteLightNode.setVisible( white );
     } );
   }
 
@@ -321,12 +338,14 @@ class PrismsScreenView extends BendingLightScreenView {
    * @param {number} laserImageWidth
    * @protected
    */
-  addLaserHandles( showRotationDragHandlesProperty, showTranslationDragHandlesProperty,
-                   clockwiseArrowNotAtMax, ccwArrowNotAtMax, laserImageWidth ) {
+  // @ts-ignore
+  addLaserHandles( showRotationDragHandlesProperty: Property, showTranslationDragHandlesProperty: Property,
+                   clockwiseArrowNotAtMax: Property, ccwArrowNotAtMax: Property, laserImageWidth: number ) {
     const bendingLightModel = this.bendingLightModel;
     super.addLaserHandles(
       showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty,
+      // @ts-ignore
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
       laserImageWidth
