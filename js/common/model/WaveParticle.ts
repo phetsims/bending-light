@@ -15,7 +15,7 @@ import bendingLight from '../../bendingLight.js';
 class WaveParticle {
   private readonly position: Vector2;
   private readonly width: number;
-  private readonly color: string;
+  readonly color: string;
   readonly angle: number;
   readonly height: number;
   readonly particleGradientColor: string;

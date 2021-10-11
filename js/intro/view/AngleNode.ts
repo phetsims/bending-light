@@ -46,7 +46,7 @@ class AngleNode extends Node {
    * @param {ModelViewTransform2} modelViewTransform
    * @param {function} addStepListener -
    */
-  constructor( showAnglesProperty: Property, laserOnProperty: Property, showNormalProperty: Property, rays: LightRay[], modelViewTransform: ModelViewTransform2,
+  constructor( showAnglesProperty: Property, laserOnProperty: Property, showNormalProperty: Property, rays: ObservableArray<LightRay>, modelViewTransform: ModelViewTransform2,
                addStepListener: ( x: () => void ) => void ) {
     super();
 
@@ -111,9 +111,7 @@ class AngleNode extends Node {
       dirty = true;
     };
 
-    // @ts-ignore
     rays.addItemAddedListener( markDirty );
-    // @ts-ignore
     rays.addItemRemovedListener( markDirty );
 
     /**

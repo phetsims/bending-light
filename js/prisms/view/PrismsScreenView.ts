@@ -304,8 +304,6 @@ class PrismsScreenView extends BendingLightScreenView {
       stageWidth,
       stageHeight,
       bendingLightModel.rays,
-
-      // @ts-ignore
       bendingLightModel.environmentMediumProperty,
       bendingLightModel.mediumColorFactory
     );

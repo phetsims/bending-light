@@ -25,7 +25,7 @@ const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
 abstract class BendingLightModel {
-  readonly rays: LightRay[]; // Comes from ObservableArray
+  readonly rays: ObservableArray<LightRay>;
   mediumColorFactory: MediumColorFactory;
   readonly modelWidth: number;
   readonly modelHeight: number;
@@ -97,8 +97,6 @@ abstract class BendingLightModel {
    */
   clearModel() {
     for ( let i = 0; i < this.rays.length; i++ ) {
-
-      // @ts-ignore createObservableArray
       this.rays[ i ].particles.clear();
     }
     this.rays.length = 0;

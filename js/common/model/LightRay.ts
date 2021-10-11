@@ -45,7 +45,7 @@ class LightRay {
   numWavelengthsPhaseOffset: number;
   extend: boolean;
   vectorForm: Vector2;
-  particles: WaveParticle[];
+  particles: ObservableArray<WaveParticle>;
   time: number;
   rayType: string;
   unitVector: Vector2;
