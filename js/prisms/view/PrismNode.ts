@@ -11,6 +11,7 @@ import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 import SimpleDragHandler from '../../../../scenery/js/input/SimpleDragHandler.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -26,7 +27,7 @@ class PrismNode extends Node {
   dragListener: DragListener;
   updatePrismShape: () => void;
   updatePrismColor: () => void;
-  translateViewXY: ( x: any, y: any ) => void;
+  translateViewXY: ( x: number, y: number ) => void;
 
   /**
    * @param {PrismsModel} prismsModel - main model
@@ -57,16 +58,16 @@ class PrismNode extends Node {
     let prismCenterPoint;
     if ( !isIcon ) {
       knobNode.addInputListener( new SimpleDragHandler( {
-        start: ( event: any ) => {
+        start: ( event: SceneryEvent ) => {
           this.moveToFront();
-          const start = knobNode.globalToParentPoint( event.pointer.point );
+          const start = knobNode.globalToParentPoint( event.pointer.point as Vector2);
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const startX = modelViewTransform.viewToModelX( start.x );// model values
           const startY = modelViewTransform.viewToModelY( start.y );// model values
           previousAngle = Math.atan2( ( prismCenterPoint.y - startY ), ( prismCenterPoint.x - startX ) );
         },
-        drag: ( event: any ) => {
-          const end = knobNode.globalToParentPoint( event.pointer.point );
+        drag: ( event: SceneryEvent ) => {
+          const end = knobNode.globalToParentPoint( event.pointer.point as Vector2);
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const endX = modelViewTransform.viewToModelX( end.x );// model values
           const endY = modelViewTransform.viewToModelY( end.y );// model values

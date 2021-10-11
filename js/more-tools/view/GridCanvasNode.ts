@@ -16,7 +16,7 @@ import bendingLight from '../../bendingLight.js';
 class GridCanvasNode extends CanvasNode {
   modelViewTransformProperty: Property;
   strokeDash: number[];
-  gridLines: any;
+  gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>;
 
   /**
    * @param {ObservableArrayDef.<[]>} gridLines - contains details of each grid line
@@ -24,7 +24,7 @@ class GridCanvasNode extends CanvasNode {
    * @param {array.<number>} strokeDash
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
-  constructor( gridLines: any, modelViewTransformProperty: Property, strokeDash: number[], options?: Partial<NodeOptions> ) {
+  constructor( gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>, modelViewTransformProperty: Property, strokeDash: number[], options?: Partial<NodeOptions> ) {
 
     super( options );
     this.gridLines = gridLines; // @private
@@ -42,7 +42,7 @@ class GridCanvasNode extends CanvasNode {
     context.save();
     for ( let i = 0; i < this.gridLines.length; i++ ) {
       context.beginPath();
-      const gridLine = this.gridLines.get( i );
+      const gridLine = this.gridLines[ i ];
       const modelViewTransform = this.modelViewTransformProperty.get();
       context.moveTo(
         modelViewTransform.modelToViewX( gridLine.x1 ),

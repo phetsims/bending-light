@@ -13,58 +13,21 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 import DataPoint from './DataPoint.js';
-
-class Probe {
-  readonly seriesProperty: Property;
-  readonly positionProperty: Vector2Property;
-
-  /**
-   * Model for a probe, including its position and recorded data series
-   *
-   * @param {number} x - x position of probe
-   * @param {number} y - y position of probe
-   */
-  constructor( x: number, y: number ) {
-
-    // @public, array of data points
-    this.seriesProperty = new Property( [] );
-
-    // @public, position of a probe
-    this.positionProperty = new Vector2Property( new Vector2( x, y ) );
-  }
-
-  /**
-   * Resets the model.
-   * @public
-   */
-  reset() {
-    this.seriesProperty.reset();
-    this.positionProperty.reset();
-  }
-
-  /**
-   * @public
-   * @param {DataPoint} sample
-   */
-  addSample( sample: DataPoint ) {
-    this.seriesProperty.get().push( sample );
-    this.seriesProperty.notifyListenersStatic();
-  }
-}
+import Probe from './Probe.js';
 
 class WaveSensor {
   probe1: Probe;
   probe2: Probe;
   bodyPositionProperty: Vector2Property;
   enabledProperty: Property;
-  probe1Value: any;
-  probe2Value: any;
+  probe1Value: ( position: Vector2 ) => { time: number, magnitude: number } | null;
+  probe2Value: ( position: Vector2 ) => { time: number, magnitude: number } | null;
 
   /**
    * @param {function} probe1Value - function for getting data from a probe at the specified point
    * @param {function} probe2Value - function for getting data from a probe at the specified point
    */
-  constructor( probe1Value: any, probe2Value: any ) {
+  constructor( probe1Value: ( position: Vector2 ) => { time: number, magnitude: number } | null, probe2Value: ( position: Vector2 ) => { time: number, magnitude: number } | null ) {
 
     // Set the relative position of the probes and body in model coordinates (SI). These values for initial probe and
     // body positions were obtained by printing out actual values at runtime, then dragging the objects to a good
@@ -86,7 +49,12 @@ class WaveSensor {
 
   // @public - create a copy for use in toolbox icons, etc.
   copy() {
-    const waveSensor = new WaveSensor( 0, 0 );
+    const waveSensor = new WaveSensor( v => {return { time: 0, magnitude: 0 };}, v => {
+      return {
+        time: 0,
+        magnitude: 0
+      };
+    } );
     waveSensor.bodyPositionProperty.value = this.bodyPositionProperty.value;
     waveSensor.probe1.positionProperty.value = this.probe1.positionProperty.value;
     waveSensor.probe2.positionProperty.value = this.probe2.positionProperty.value;
@@ -110,12 +78,12 @@ class WaveSensor {
    * @param {Probe} probe
    * @param {function} probeValue - function for getting data from a probe at the specified point
    */
-  updateProbeSample( probe: Probe, probeValue: any ) {
+  updateProbeSample( probe: Probe, probeValue: ( position: Vector2 ) => { time: number, magnitude: number } | null ) {
 
     // Read the value from the probe function. May be None if not intersecting a light ray
-    const value = probeValue( probe.positionProperty.get() );
-    if ( value ) {
-      probe.addSample( new DataPoint( value.time, value.magnitude ) );
+    const result = probeValue( probe.positionProperty.get() );
+    if ( result ) {
+      probe.addSample( new DataPoint( result.time, result.magnitude ) );
     }
   }
 

@@ -34,8 +34,8 @@ const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
 const CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
 class PrismsModel extends BendingLightModel {
-  prisms: any;
-  intersections: any;
+  prisms: ObservableArray<Prism>;
+  intersections: ObservableArray<Intersection>;
   manyRaysProperty: Property;
   showReflectionsProperty: Property;
   showNormalsProperty: Property;
@@ -262,7 +262,7 @@ class PrismsModel extends BendingLightModel {
   isLaserInPrism() {
     const emissionPoint = this.laser.emissionPointProperty.value;
     for ( let i = 0; i < this.prisms.length; i++ ) {
-      if ( this.prisms.get( i ).contains( emissionPoint ) ) {
+      if ( this.prisms[ i ].contains( emissionPoint ) ) {
         return true;
       }
     }

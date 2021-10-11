@@ -372,7 +372,7 @@ class IntroModel extends BendingLightModel {
    * @param {Vector2} position - position where the wave value to be determined
    * @returns {Object|null}- returns object of time and magnitude if point is on ray otherwise returns null
    */
-  getWaveValue( position: Vector2 ) {
+  getWaveValue( position: Vector2 ): { time: number, magnitude: number } | null {
     for ( let i = 0; i < this.rays.length; i++ ) {
       const ray = this.rays[ i ];
       if ( ray.contains( position, this.laserViewProperty.value === 'wave' ) ) {

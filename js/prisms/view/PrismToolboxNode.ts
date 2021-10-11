@@ -9,10 +9,12 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
+import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import HStrut from '../../../../scenery/js/nodes/HStrut.js';
@@ -90,9 +92,9 @@ class PrismToolboxNode extends Node {
       } );
 
       // Add drag listener for the prisms icon
-      const dragListener = DragListener.createForwardingListener( ( event: any ) => {
+      const dragListener = DragListener.createForwardingListener( ( event: SceneryEvent ) => {
 
-        const start = this.globalToParentPoint( event.pointer.point );
+        const start = this.globalToParentPoint( event.pointer.point as Vector2 );
         const prismShape = prism.copy();
         prismShape.translate(
           modelViewTransform.viewToModelX( start.x ),
@@ -149,8 +151,8 @@ class PrismToolboxNode extends Node {
 
     // itemSpec describes the pieces that make up an item in the control panel,
     // conforms to the contract: { label: {Node}, icon: {Node} (optional) }
-    const showReflections = { label: new Text( reflectionsString, textOptions ) };
-    const showNormal = { label: new Text( normalLineString, textOptions ) };
+    const showReflections = { label: new Text( reflectionsString, textOptions ), icon: null };
+    const showNormal = { label: new Text( normalLineString, textOptions ), icon: null };
     const showProtractor = {
       label: new Text( protractorString, textOptions ),
       icon: ProtractorNode.createIcon( {
@@ -161,12 +163,12 @@ class PrismToolboxNode extends Node {
     // compute the maximum item width
 
     // @ts-ignore
-    const widestItem: any = _.maxBy( [ showReflections, showNormal, showProtractor ], item => item.label.width + ( ( item.icon ) ? item.icon.width : 0 ) );
+    const widestItem: { label: Node, icon: Node | null } = _.maxBy( [ showReflections, showNormal, showProtractor ], item => item.label.width + ( ( item.icon ) ? item.icon.width : 0 ) );
     const widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0 );
     const maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
 
     // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
-    const createItem = ( itemSpec: any ) => {
+    const createItem = ( itemSpec: { label: Node, icon: Node | null } ) => {
       if ( itemSpec.icon ) {
         const textWidth = maxWidth - itemSpec.icon.width - 10;
         if ( itemSpec.label.width > textWidth ) {

@@ -27,7 +27,7 @@ class PrismIntersection {
    * @param {ColoredRay} coloredRay - light ray intersecting the prism
    * @public
    */
-  static getIntersections( edges: Line[], arc: any | null, center: Vector2, coloredRay: ColoredRay ) {
+  static getIntersections( edges: Line[], arc: Arc | Shape | null, center: Vector2, coloredRay: ColoredRay ) {
     const intersections = [];
     let intersection;
     let unitNormal;

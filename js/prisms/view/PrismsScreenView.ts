@@ -41,7 +41,7 @@ class PrismsScreenView extends BendingLightScreenView {
   prismLayer: Node;
   prismsModel: PrismsModel;
   resetPrismsView: () => void;
-  whiteLightNode: any;
+  whiteLightNode: WhiteLightCanvasNode | null;
 
   /**
    * @param {PrismsModel} prismsModel - model of prisms screen
@@ -83,7 +83,7 @@ class PrismsScreenView extends BendingLightScreenView {
       }, options )
     );
 
-    // this.whiteLightNode = null;
+    this.whiteLightNode = null;
     this.prismLayer = new Node( { layerSplit: true } );
     this.prismsModel = prismsModel;
 

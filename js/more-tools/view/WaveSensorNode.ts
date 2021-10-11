@@ -27,6 +27,7 @@ import Series from '../model/Series.js';
 import ChartNode from './ChartNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import WaveSensor from '../model/WaveSensor.js';
+import Probe from '../model/Probe.js';
 
 const timeString = bendingLightStrings.time;
 
@@ -45,7 +46,7 @@ class ProbeNodeWrapper extends Node {
    * @param {string} color
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    */
-  constructor( probe: any, color: string, modelViewTransform: ModelViewTransform2 ) {
+  constructor( probe: Probe, color: string, modelViewTransform: ModelViewTransform2 ) {
 
     super( { cursor: 'pointer' } );
 
