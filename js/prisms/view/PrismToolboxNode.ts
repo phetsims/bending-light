@@ -55,7 +55,7 @@ class PrismToolboxNode extends Node {
    * @param {Object} [options] that can be passed on to the underlying node
    */
   constructor( modelViewTransform: ModelViewTransform2, prismsModel: PrismsModel, prismLayer: Node, dragBoundsProperty: Property, occlusionHandler: () => void,
-               options?: any ) {
+               options?: Partial<NodeOptions> ) {
 
     super();
     const content = new HBox( {

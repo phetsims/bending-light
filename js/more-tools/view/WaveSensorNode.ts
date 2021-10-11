@@ -93,7 +93,7 @@ class WaveSensorNode extends Node {
    * @param {WaveSensor} waveSensor - model for the wave sensor
    * @param {Object} [options]
    */
-  constructor( modelViewTransform: ModelViewTransform2, waveSensor: WaveSensor, options?: any ) {
+  constructor( modelViewTransform: ModelViewTransform2, waveSensor: WaveSensor, options?: Partial<NodeOptions> ) {
 
     super( { cursor: 'pointer' } );
 

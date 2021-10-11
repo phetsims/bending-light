@@ -46,7 +46,7 @@ class IntensityMeterNode extends Node {
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
    * @param {Object} [options]
    */
-  constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, options?: any ) {
+  constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, options?: Partial<NodeOptions> ) {
 
     super();
     this.modelViewTransform = modelViewTransform; // @public (read-only)

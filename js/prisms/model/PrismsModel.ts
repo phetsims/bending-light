@@ -45,7 +45,7 @@ class PrismsModel extends BendingLightModel {
   intersectionStrokeProperty: Property;
   dirty: boolean;
 
-  constructor( options?: any ) {
+  constructor( options?: Partial<NodeOptions> ) {
 
     super( Math.PI, false, 1E-16 );
 

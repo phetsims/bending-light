@@ -48,7 +48,7 @@ class PrismsScreenView extends BendingLightScreenView {
    * @param {PrismsModel} prismsModel - model of prisms screen
    * @param {Object} [options]
    */
-  constructor( prismsModel: PrismsModel, options?: any ) {
+  constructor( prismsModel: PrismsModel, options?: Partial<NodeOptions> ) {
 
     super(
       prismsModel,

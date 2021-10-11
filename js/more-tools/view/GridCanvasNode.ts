@@ -24,7 +24,7 @@ class GridCanvasNode extends CanvasNode {
    * @param {array.<number>} strokeDash
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
-  constructor( gridLines: any, modelViewTransformProperty: Property, strokeDash: number[], options?: any ) {
+  constructor( gridLines: any, modelViewTransformProperty: Property, strokeDash: number[], options?: Partial<NodeOptions> ) {
 
     super( options );
     this.gridLines = gridLines; // @private

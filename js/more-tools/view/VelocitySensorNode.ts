@@ -50,7 +50,7 @@ class VelocitySensorNode extends Node {
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
    * @param {Object} [options]
    */
-  constructor( modelViewTransform: ModelViewTransform2, velocitySensor: VelocitySensor, arrowScale: number, options?: any ) {
+  constructor( modelViewTransform: ModelViewTransform2, velocitySensor: VelocitySensor, arrowScale: number, options?: Partial<NodeOptions> ) {
 
     super( {
       cursor: 'pointer',
