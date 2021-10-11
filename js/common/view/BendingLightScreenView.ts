@@ -104,8 +104,8 @@ abstract class BendingLightScreenView extends ScreenView {
     );
 
     // layering
-    this.addChild( this.beforeLightLayer2 );
     this.addChild( this.beforeLightLayer );
+    this.addChild( this.beforeLightLayer2 );
     this.addLightNodes( bendingLightModel ); // Nodes specific to that view
     this.addChild( this.singleColorLightNode );
     this.addChild( this.afterLightLayer );
