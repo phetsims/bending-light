@@ -351,9 +351,9 @@ class MediumControlPanel extends Node {
         this.setCustomIndexOfRefraction( indexOfRefraction );
       }
 
-      // TODO: This changed from string comparison, is it correct?
-      plusButton.enabled = ( Utils.roundToInterval( indexOfRefraction, decimalPlaces ) < INDEX_OF_REFRACTION_MAX );
-      minusButton.enabled = ( Utils.roundToInterval( indexOfRefraction, decimalPlaces ) > INDEX_OF_REFRACTION_MIN );
+      const slack = Math.pow( 10, -decimalPlaces );
+      plusButton.enabled = ( indexOfRefraction < INDEX_OF_REFRACTION_MAX - slack / 2 );
+      minusButton.enabled = ( indexOfRefraction > INDEX_OF_REFRACTION_MIN + slack / 2 );
     } );
   }
 
