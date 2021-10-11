@@ -19,6 +19,8 @@ import BendingLightModel from '../model/BendingLightModel.js';
 import LaserNode from './LaserNode.js';
 import RotationDragHandle from './RotationDragHandle.js';
 import SingleColorLightCanvasNode from './SingleColorLightCanvasNode.js';
+import ColorModeEnum from '../model/ColorModeEnum.js';
+import LaserViewEnum from '../model/LaserViewEnum.js';
 
 abstract class BendingLightScreenView extends ScreenView {
   protected readonly showProtractorProperty: Property;
@@ -157,7 +159,7 @@ abstract class BendingLightScreenView extends ScreenView {
     } );
 
     Property.multilink( [ bendingLightModel.laser.colorModeProperty, bendingLightModel.laserViewProperty ],
-      ( colorMode: 'white' | 'singleWavelength', laserView: 'ray' | 'wave' ) => { // TODO: enums
+      ( colorMode: ColorModeEnum, laserView: LaserViewEnum ) => {
         this.singleColorLightNode.visible = laserView === 'ray' && colorMode !== 'white';
       }
     );

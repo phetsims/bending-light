@@ -22,8 +22,6 @@ class MediumColorFactory {
   constructor() {
     this.lightTypeProperty = new Property( 'singleColor' ); // could also be 'white'
 
-    // TODO: Move to prototype
-
     /**
      * Maps index of refraction to color using linear functions
      * @public

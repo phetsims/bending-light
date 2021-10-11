@@ -52,10 +52,10 @@ const PLUS_MINUS_SPACING = 4;
 const INSET = 10;
 
 class MediumControlPanel extends Node {
-  mediumColorFactory: MediumColorFactory;
-  mediumProperty: Property;
-  laserWavelength: Property; // TODO: Rename to Property
-  mediumIndexProperty: Property;
+  private readonly mediumColorFactory: MediumColorFactory;
+  private readonly mediumProperty: Property;
+  private readonly laserWavelengthProperty: Property;
+  private readonly mediumIndexProperty: Property;
 
   /**
    * @param {BendingLightScreenView} view - view of the simulation
@@ -82,7 +82,7 @@ class MediumControlPanel extends Node {
       comboBoxListPosition: 'above'
     }, options );
     this.mediumProperty = mediumProperty; // @private, the medium to observe
-    this.laserWavelength = laserWavelength; // @private
+    this.laserWavelengthProperty = laserWavelength; // @private
     const initialSubstance = mediumProperty.get().substance;
 
     // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
@@ -317,7 +317,7 @@ class MediumControlPanel extends Node {
       resize: false // Don't resize when the slider knob encroaches on the right border
     } );
     this.addChild( mediumPanel );
-    Property.multilink( [ mediumProperty, this.laserWavelength ],
+    Property.multilink( [ mediumProperty, this.laserWavelengthProperty ],
       () => {
         custom = mediumProperty.get().substance.custom;
         indexOfRefractionValueText.text = Utils.toFixed(
@@ -374,7 +374,7 @@ class MediumControlPanel extends Node {
 
     // have to pass the value through the dispersion function to account for the
     // current wavelength of the laser (since index of refraction is a function of wavelength)
-    const dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelength.get() );
+    const dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelengthProperty.get() );
     this.setMedium( new Medium( this.mediumProperty.get().shape,
       new Substance( customString, indexOfRefraction, false, true ),
       this.mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )

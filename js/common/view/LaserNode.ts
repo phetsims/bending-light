@@ -24,7 +24,8 @@ import Laser from '../model/Laser.js';
 
 class LaserNode extends Node {
   laserImageWidth: number;
-  translateViewXY: ( x: number, y: number ) => void;
+  private readonly laser: Laser;
+  private readonly modelViewTransform: ModelViewTransform2;
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
@@ -260,19 +261,21 @@ class LaserNode extends Node {
       this.translate( 0, -lightImageHeight / 2 );
     } );
 
-    // TODO: Move to prototype?
-    /**
-     * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
-     * model
-     * @param {number} x
-     * @param {number} y
-     * @public
-     */
-    this.translateViewXY = ( x: number, y: number ) => {
-      const delta = modelViewTransform.viewToModelDeltaXY( x, y );
-      laser.translate( delta.x, delta.y );
-    };
+    this.laser = laser;
+    this.modelViewTransform = modelViewTransform;
   }
+
+  /**
+   * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
+   * model
+   * @param {number} x
+   * @param {number} y
+   * @public
+   */
+  translateViewXY( x: number, y: number ) {
+    const delta = this.modelViewTransform.viewToModelDeltaXY( x, y );
+    this.laser.translate( delta.x, delta.y );
+  };
 }
 
 bendingLight.register( 'LaserNode', LaserNode );
