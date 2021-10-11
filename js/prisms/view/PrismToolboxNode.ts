@@ -111,7 +111,7 @@ class PrismToolboxNode extends Node {
         prismLayer.addChild( prismNode );
 
         // @ts-ignore
-        prismNode.movableDragHandler.press( event, prismNode );
+        prismNode.dragListener.press( event, prismNode );
       } );
       prismToolboxIconNode.addInputListener( dragListener );
 

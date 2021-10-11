@@ -23,7 +23,7 @@ import Prism from '../model/Prism.js';
 import PrismsModel from '../model/PrismsModel.js';
 
 class PrismNode extends Node {
-  movableDragHandler: DragListener;
+  dragListener: DragListener;
   updatePrismShape: () => void;
   updatePrismColor: () => void;
   translateViewXY: ( x: any, y: any ) => void;
@@ -94,7 +94,7 @@ class PrismNode extends Node {
       prism.translate( inBounds.x - center.x, inBounds.y - center.y );
     } );
 
-    this.movableDragHandler = new DragListener( { // TODO: Rename, see https://github.com/phetsims/bending-light/issues/372
+    this.dragListener = new DragListener( {
       useParentOffset: true,
       positionProperty: prism.positionProperty,
 
@@ -117,7 +117,7 @@ class PrismNode extends Node {
     } );
 
     if ( !isIcon ) {
-      prismPathNode.addInputListener( this.movableDragHandler );
+      prismPathNode.addInputListener( this.dragListener );
     }
 
     const knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
