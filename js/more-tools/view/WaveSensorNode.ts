@@ -28,7 +28,6 @@ import ChartNode from './ChartNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import WaveSensor from '../model/WaveSensor.js';
 
-// @ts-ignore
 const timeString = bendingLightStrings.time;
 
 // constants

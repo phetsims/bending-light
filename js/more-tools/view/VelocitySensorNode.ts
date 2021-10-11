@@ -31,11 +31,8 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import VelocitySensor from '../model/VelocitySensor.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 
-// @ts-ignore
 const speedString = bendingLightStrings.speed;
-// @ts-ignore
 const unknownVelocityString = bendingLightStrings.unknownVelocity;
-// @ts-ignore
 const velocityPatternString = bendingLightStrings.velocityPattern;
 
 class VelocitySensorNode extends Node {

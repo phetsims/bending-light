@@ -12,17 +12,11 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import DispersionFunction from './DispersionFunction.js';
 
-// @ts-ignore
 const airString = bendingLightStrings.air;
-// @ts-ignore
 const diamondString = bendingLightStrings.diamond;
-// @ts-ignore
 const glassString = bendingLightStrings.glass;
-// @ts-ignore
 const mysteryAString = bendingLightStrings.mysteryA;
-// @ts-ignore
 const mysteryBString = bendingLightStrings.mysteryB;
-// @ts-ignore
 const waterString = bendingLightStrings.water;
 
 // constants

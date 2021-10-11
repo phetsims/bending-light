@@ -21,7 +21,6 @@ import IntroScreenView from './view/IntroScreenView.js';
 import LaserTypeAquaRadioButtonGroup from './view/LaserTypeAquaRadioButtonGroup.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-// @ts-ignore
 const introString = bendingLightStrings.intro;
 
 class IntroScreen extends Screen {

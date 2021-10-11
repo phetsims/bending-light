@@ -43,11 +43,8 @@ import WaveCanvasNode from './WaveCanvasNode.js';
 import WaveWebGLNode from './WaveWebGLNode.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 
-// @ts-ignore
 const anglesString = bendingLightStrings.angles;
-// @ts-ignore
 const materialString = bendingLightStrings.material;
-// @ts-ignore
 const normalLineString = bendingLightStrings.normalLine;
 
 // constants

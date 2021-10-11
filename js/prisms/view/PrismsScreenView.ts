@@ -35,7 +35,6 @@ import BendingLightModel from '../../common/model/BendingLightModel.js';
 // constants
 const INSET = 10;
 
-// @ts-ignore
 const environmentString = bendingLightStrings.environment;
 
 class PrismsScreenView extends BendingLightScreenView {

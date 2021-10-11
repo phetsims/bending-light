@@ -20,9 +20,7 @@ import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 
-// @ts-ignore
 const unitsNmString = bendingLightStrings.units_nm;
-// @ts-ignore
 const wavelengthPatternString = bendingLightStrings.wavelengthPattern;
 
 // constants

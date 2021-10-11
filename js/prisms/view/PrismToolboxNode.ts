@@ -29,13 +29,9 @@ import Prism from '../model/Prism.js';
 import PrismsModel from '../model/PrismsModel.js';
 import PrismNode from './PrismNode.js';
 
-// @ts-ignore
 const normalLineString = bendingLightStrings.normalLine;
-// @ts-ignore
 const objectsString = bendingLightStrings.objects;
-// @ts-ignore
 const protractorString = bendingLightStrings.protractor;
-// @ts-ignore
 const reflectionsString = bendingLightStrings.reflections;
 
 // constants

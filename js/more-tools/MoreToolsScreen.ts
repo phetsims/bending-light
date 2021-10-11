@@ -18,7 +18,6 @@ import MoreToolsModel from './model/MoreToolsModel.js';
 import MoreToolsScreenView from './view/MoreToolsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-// @ts-ignore
 const moreToolsString = bendingLightStrings.moreTools;
 
 class MoreToolsScreen extends Screen {

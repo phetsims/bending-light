@@ -15,7 +15,6 @@ import bendingLight from '../../bendingLight.js';
 
 // strings
 const missString = MathSymbols.NO_VALUE;
-// @ts-ignore
 const pattern0ValuePercentString = bendingLightStrings.pattern_0value_percent;
 
 // constants

@@ -19,7 +19,6 @@ import PrismsModel from './model/PrismsModel.js';
 import PrismsScreenView from './view/PrismsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-// @ts-ignore
 const prismsString = bendingLightStrings.prisms;
 
 class PrismsScreen extends Screen {

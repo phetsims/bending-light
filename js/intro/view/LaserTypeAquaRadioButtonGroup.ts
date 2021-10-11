@@ -14,9 +14,7 @@ import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import Property from '../../../../axon/js/Property.js';
 
-// @ts-ignore
 const rayString = bendingLightStrings.ray;
-// @ts-ignore
 const waveString = bendingLightStrings.wave;
 
 class LaserTypeAquaRadioButtonGroup extends VBox {

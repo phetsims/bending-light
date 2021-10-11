@@ -26,7 +26,6 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import IntensityMeter from '../model/IntensityMeter.js';
 import Reading from '../model/Reading.js';
 
-// @ts-ignore
 const intensityString = bendingLightStrings.intensity;
 
 // constants

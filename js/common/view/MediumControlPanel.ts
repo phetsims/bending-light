@@ -32,17 +32,11 @@ import Substance from '../model/Substance.js';
 import BendingLightScreenView from './BendingLightScreenView.js';
 import MediumColorFactory from '../model/MediumColorFactory.js';
 
-// @ts-ignore
 const airString = bendingLightStrings.air;
-// @ts-ignore
 const customString = bendingLightStrings.custom;
-// @ts-ignore
 const glassString = bendingLightStrings.glass;
-// @ts-ignore
 const indexOfRefractionString = bendingLightStrings.indexOfRefraction;
-// @ts-ignore
 const unknownString = bendingLightStrings.unknown;
-// @ts-ignore
 const waterString = bendingLightStrings.water;
 
 // constants
