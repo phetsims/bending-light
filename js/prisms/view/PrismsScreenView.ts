@@ -52,12 +52,6 @@ class PrismsScreenView extends BendingLightScreenView {
     super(
       prismsModel,
 
-      // laserTranslationRegion - The protractor can be rotated by dragging it by its ring, translated by dragging the cross-bar
-      ( fullShape: Shape ) => fullShape,
-
-      // laserRotationRegion - Rotation if the user clicks top on the object
-      ( full: Shape, back: Shape ) => back,
-
       // laserHasKnob
       true,
 

@@ -38,19 +38,16 @@ class LaserNode extends Node {
    * @param {Property.<boolean>} showRotationDragHandlesProperty - to show laser node rotate arrows
    * @param {Property.<boolean>} showTranslationDragHandlesProperty - to show laser node drag arrows
    * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
-   * @param {function} translationRegion - select from the entire region and front region which should be used for
    *                                       translating the laser
-   * @param {function} rotationRegion - select from the entire region and back region which should be used for rotating
-   *                                       the laser
    * @param {boolean} hasKnob - true if the laser should be shown with a knob
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the laser may be dragged
    * @param {function} occlusionHandler - function that will move the laser out from behind a control panel if dropped
    *                                      there
-   * @param {Object} [options]
+   * @param {Object} [options?]
    */
   constructor( modelViewTransform: ModelViewTransform2, laser: Laser, showRotationDragHandlesProperty: Property, showTranslationDragHandlesProperty: Property,
-               clampDragAngle: ( n: number ) => number, translationRegion: any, rotationRegion: any, hasKnob: boolean, dragBoundsProperty: Property,
-               occlusionHandler: any, options?: Partial<LaserNodeOptions> ) {
+               clampDragAngle: ( n: number ) => number,  hasKnob: boolean, dragBoundsProperty: Property, occlusionHandler: any,
+               options?: Partial<LaserNodeOptions> ) {
 
     const filledOptions = merge( { tandem: Tandem.OPTIONAL }, options ) as LaserNodeOptions;
     const laserPointerNode = new LaserPointerNode( laser.onProperty, {

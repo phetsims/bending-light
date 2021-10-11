@@ -110,13 +110,6 @@ class IntroScreenView extends BendingLightScreenView {
     super(
       introModel,
 
-      // laserTranslationRegion - The Protractor shouldn't be rotatable in this screen
-      () => Shape.rect( 0, 0, 0, 0 ),
-
-      // laserRotationRegion - In this screen, clicking anywhere on the laser (i.e. on its 'full' bounds)
-      // translates it, so always return the 'full' region.
-      ( full: boolean ) => full,
-
       // laserHasKnob
       false,
       options

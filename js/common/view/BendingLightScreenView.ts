@@ -52,12 +52,10 @@ abstract class BendingLightScreenView extends ScreenView {
 
   /**
    * @param {BendingLightModel} bendingLightModel - main model of the simulations
-   * @param {function} laserTranslationRegion - region that defines laser translation
-   * @param {function} laserRotationRegion - region that defines laser rotation
    * @param {boolean} laserHasKnob - laser image
    * @param {Object} [options]
    */
-  constructor( bendingLightModel: BendingLightModel, laserTranslationRegion: any, laserRotationRegion: any, laserHasKnob: boolean, options?: Partial<BendingLightScreenViewOptions> ) {
+  constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, options?: Partial<BendingLightScreenViewOptions> ) {
 
     options = merge( {
       occlusionHandler: () => {}, // {function} moves objects out from behind a control panel if dropped there
@@ -141,8 +139,6 @@ abstract class BendingLightScreenView extends ScreenView {
       showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty,
       filledOptions.clampDragAngle,
-      laserTranslationRegion,
-      laserRotationRegion,
       laserHasKnob,
       this.visibleBoundsProperty,
       this.occlusionHandler, {
