@@ -7,10 +7,16 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Ray2 from '../../../../dot/js/Ray2.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 
 class ColoredRay {
+  readonly ray: Ray2;
+  readonly power: number;
+  readonly wavelength: number;
+  readonly mediumIndexOfRefraction: number;
+  readonly frequency: number;
 
   /**
    * @param {Ray2} ray - tail and direction
@@ -19,7 +25,7 @@ class ColoredRay {
    * @param {number} mediumIndexOfRefraction - index of refraction of medium
    * @param {number} frequency - frequency of ray
    */
-  constructor( ray, power, wavelength, mediumIndexOfRefraction, frequency ) {
+  constructor( ray: Ray2, power: number, wavelength: number, mediumIndexOfRefraction: number, frequency: number ) {
 
     assert && assert( !isNaN( ray.direction.magnitude ), 'direction unit vector should have a numeric magnitude' );
 

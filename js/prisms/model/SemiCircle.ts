@@ -7,20 +7,28 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Arc from '../../../../kite/js/segments/Arc.js';
 import Line from '../../../../kite/js/segments/Line.js';
 import Shape from '../../../../kite/js/Shape.js';
 import bendingLight from '../../bendingLight.js';
 import PrismIntersection from './PrismIntersection.js';
+import ColoredRay from './ColoredRay.js';
 
 class SemiCircle {
+  points: Vector2[];
+  referencePointIndex: number;
+  radius: number;
+  center: Vector2;
+  centroid: Vector2;
+  shape: Shape;
 
   /**
    * @param {number} referencePointIndex - is used as the drag handle corner for rotation
    * @param {array.<Vector2>} points - corner points
    * @param {number} radius - radius of semicircle
    */
-  constructor( referencePointIndex, points, radius ) {
+  constructor( referencePointIndex: number, points: Vector2[], radius: number ) {
 
     this.points = points; // @private
 
@@ -45,7 +53,7 @@ class SemiCircle {
    * @param {number} i - index of point
    * @returns {Vector2}
    */
-  getPoint( i ) {
+  getPoint( i: number ) {
     return this.points[ i ];
   }
 
@@ -56,7 +64,7 @@ class SemiCircle {
    * @param {number} deltaY - distance in y direction to be translated
    * @returns {SemiCircle}
    */
-  getTranslatedInstance( deltaX, deltaY ) {
+  getTranslatedInstance( deltaX: number, deltaY: number ) {
 
     const newPoints = [];
     for ( let j = 0; j < this.points.length; j++ ) {
@@ -76,7 +84,7 @@ class SemiCircle {
    * @param {Vector2} rotationPoint - point around which semicircle to be rotated
    * @returns {SemiCircle}
    */
-  getRotatedInstance( angle, rotationPoint ) {
+  getRotatedInstance( angle: number, rotationPoint: Vector2 ) {
     const newPoints = [];
     for ( let k = 0; k < this.points.length; k++ ) {
       const vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
@@ -96,7 +104,7 @@ class SemiCircle {
    * @param {Vector2} point
    * @returns {boolean}
    */
-  containsPoint( point ) {
+  containsPoint( point: Vector2 ) {
     return this.shape.containsPoint( point );
   }
 
@@ -125,7 +133,7 @@ class SemiCircle {
    * @param {ColoredRay} ray - model of the ray
    * @returns {array.<Intersection>}
    */
-  getIntersections( ray ) {
+  getIntersections( ray: ColoredRay ) {
     const segment = new Line( this.points[ 0 ], this.points[ 1 ] );
     const startAngle = Math.atan2( this.points[ 1 ].y - this.center.y, this.points[ 1 ].x - this.center.x );
     const arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );

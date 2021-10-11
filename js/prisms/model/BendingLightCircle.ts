@@ -7,17 +7,23 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import bendingLight from '../../bendingLight.js';
+import ColoredRay from './ColoredRay.js';
 import PrismIntersection from './PrismIntersection.js';
 
 class BendingLightCircle {
+  center: Vector2;
+  centroid: Vector2;
+  radius: number;
+  shape: Shape;
 
   /**
    * @param {Vector2} center - center of the circle
    * @param {number} radius - radius of the circle
    */
-  constructor( center, radius ) {
+  constructor( center: Vector2, radius: number ) {
 
     this.center = center; // @public (read-only)
     this.centroid = center; // @public (read-only)
@@ -32,7 +38,7 @@ class BendingLightCircle {
    * @param {number} deltaY - amount of space to be translate in y direction
    * @returns {BendingLightCircle}
    */
-  getTranslatedInstance( deltaX, deltaY ) {
+  getTranslatedInstance( deltaX: number, deltaY: number ) {
     return new BendingLightCircle( this.center.plusXY( deltaX, deltaY ), this.radius );
   }
 
@@ -42,7 +48,7 @@ class BendingLightCircle {
    * @param {ColoredRay} ray - model of the ray
    * @returns {Array}
    */
-  getIntersections( ray ) {
+  getIntersections( ray: ColoredRay ) {
     return PrismIntersection.getIntersections( [], this.shape, this.center, ray );
   }
 
@@ -70,7 +76,7 @@ class BendingLightCircle {
    * @param {Vector2} point
    * @returns {boolean}
    */
-  containsPoint( point ) {
+  containsPoint( point: Vector2 ) {
     return point.distance( this.center ) <= this.radius;
   }
 }

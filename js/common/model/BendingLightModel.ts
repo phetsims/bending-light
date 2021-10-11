@@ -26,7 +26,7 @@ const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
 abstract class BendingLightModel {
   readonly rays: LightRay[]; // Comes from ObservableArray
-  readonly mediumColorFactory: MediumColorFactory;
+  mediumColorFactory: MediumColorFactory;
   readonly modelWidth: number;
   readonly modelHeight: number;
   readonly allowWebGL: boolean;

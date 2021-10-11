@@ -24,6 +24,7 @@ import MediumColorFactory from '../../common/model/MediumColorFactory.js';
 import Substance from '../../common/model/Substance.js';
 import BendingLightCircle from './BendingLightCircle.js';
 import ColoredRay from './ColoredRay.js';
+import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import Prism from './Prism.js';
 import SemiCircle from './SemiCircle.js';
@@ -33,6 +34,17 @@ const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
 const CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
 class PrismsModel extends BendingLightModel {
+  prisms: any;
+  intersections: any;
+  manyRaysProperty: Property;
+  showReflectionsProperty: Property;
+  showNormalsProperty: Property;
+  showProtractorProperty: Property;
+  environmentMediumProperty: Property;
+  prismMediumProperty: Property;
+  intersectionStrokeProperty: Property;
+  dirty: boolean;
+
   constructor() {
 
     super( Math.PI, false, 1E-16 );
@@ -163,7 +175,7 @@ class PrismsModel extends BendingLightModel {
    * @public
    * @param {Prism} prism
    */
-  addPrism( prism ) {
+  addPrism( prism: Prism ) {
     this.prisms.add( prism );
   }
 
@@ -172,7 +184,7 @@ class PrismsModel extends BendingLightModel {
    * @public
    * @param {Prism} prism
    */
-  removePrism( prism ) {
+  removePrism( prism: Prism ) {
     this.prisms.remove( prism );
     this.updateModel();
   }
@@ -184,7 +196,7 @@ class PrismsModel extends BendingLightModel {
    * @param {number} power - amount of power this light has
    * @param {boolean} laserInPrism - specifies whether laser in prism
    */
-  propagate( ray, power, laserInPrism ) {
+  propagate( ray: Ray2, power: number, laserInPrism: boolean ) {
 
     // Determines whether to use white light or single color light
     let mediumIndexOfRefraction;
@@ -266,7 +278,7 @@ class PrismsModel extends BendingLightModel {
    * @param {boolean} showIntersection - true if the intersection should be shown.  True for single rays and for
    *                                     extrema of white light wavelengths
    */
-  propagateTheRay( incidentRay, count, showIntersection ) {
+  propagateTheRay( incidentRay: ColoredRay, count: number, showIntersection: boolean ) {
     let rayColor;
     let rayVisibleColor;
     const waveWidth = CHARACTERISTIC_LENGTH * 5;
@@ -291,7 +303,7 @@ class PrismsModel extends BendingLightModel {
       const pointOnOtherSide = ( incidentRay.directionUnitVector.times( 1E-12 ) ).add( intersection.point );
       let outputInsidePrism = false;
       const lightRayAfterIntersectionInRay2Form = new Ray2( pointOnOtherSide, incidentRay.directionUnitVector );
-      this.prisms.forEach( prism => {
+      this.prisms.forEach( ( prism: Prism ) => {
         const intersection = prism.getTranslatedShape().shape.intersection( lightRayAfterIntersectionInRay2Form );
         if ( intersection.length % 2 === 1 ) {
           outputInsidePrism = true;
@@ -353,7 +365,7 @@ class PrismsModel extends BendingLightModel {
       }
       this.propagateTheRay( refracted, count + 1, showIntersection );
       rayColor = new Color( 0, 0, 0, 0 );
-      rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
+      rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ) as Color;
       rayColor.set( rayVisibleColor.getRed(), rayVisibleColor.getGreen(), rayVisibleColor.getBlue(),
         rayVisibleColor.getAlpha() );
 
@@ -376,7 +388,7 @@ class PrismsModel extends BendingLightModel {
     }
     else {
       rayColor = new Color( 0, 0, 0, 0 );
-      rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
+      rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ) as Color;
       rayColor.set( rayVisibleColor.getRed(), rayVisibleColor.getGreen(), rayVisibleColor.getBlue(),
         rayVisibleColor.getAlpha() );
 
@@ -409,10 +421,10 @@ class PrismsModel extends BendingLightModel {
    * @param {ObservableArrayDef.<Prism>} prisms
    * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
    */
-  getIntersection( incidentRay, prisms ) {
-    let allIntersections = [];
+  getIntersection( incidentRay: ColoredRay, prisms: Prism[] ) {
+    let allIntersections: Intersection[] = [];
     prisms.forEach( prism => {
-      prism.getIntersections( incidentRay ).forEach( intersection => allIntersections.push( intersection ) );
+      prism.getIntersections( incidentRay ).forEach( ( intersection: Intersection ) => allIntersections.push( intersection ) );
     } );
 
     // Get the closest one (which would be hit first)

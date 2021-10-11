@@ -13,15 +13,22 @@ import Line from '../../../../kite/js/segments/Line.js';
 import Shape from '../../../../kite/js/Shape.js';
 import bendingLight from '../../bendingLight.js';
 import PrismIntersection from './PrismIntersection.js';
+import ColoredRay from './ColoredRay.js';
 
 class Polygon {
+  private readonly points: Vector2[];
+  private readonly referencePointIndex: number;
+  private readonly radius: number;
+  private readonly centroid: Vector2;
+  private readonly shape: Shape;
+  private readonly center: Vector2 | null;
 
   /**
    * @param {number} referencePointIndex - index of reference point
-   * @param {array.<Vector2>} points - array of corner points
+   * @param {Vector2[]} points - array of corner points
    * @param {number} radius - radius is 0 for polygon or radius for diverging lens
    */
-  constructor( referencePointIndex, points, radius ) {
+  constructor( referencePointIndex: number, points: Vector2[], radius: number ) {
 
     this.points = points; // @private
 
@@ -62,7 +69,7 @@ class Polygon {
    * @param {number} i - index of point
    * @returns {Vector2}
    */
-  getPoint( i ) {
+  getPoint( i: number ) {
     return this.points[ i ];
   }
 
@@ -73,7 +80,7 @@ class Polygon {
    * @param {number} deltaY - distance in y direction to be translated
    * @returns {Polygon}
    */
-  getTranslatedInstance( deltaX, deltaY ) {
+  getTranslatedInstance( deltaX: number, deltaY: number ) {
 
     const newPoints = [];
     for ( let j = 0; j < this.points.length; j++ ) {
@@ -93,7 +100,7 @@ class Polygon {
    * @param {Vector2} rotationPoint - point around which polygon to be rotated
    * @returns {Polygon}
    */
-  getRotatedInstance( angle, rotationPoint ) {
+  getRotatedInstance( angle: number, rotationPoint: Vector2 ) {
     const newPoints = [];
     for ( let k = 0; k < this.points.length; k++ ) {
       const vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
@@ -113,7 +120,7 @@ class Polygon {
    * @param {Vector2} point
    * @returns {boolean}
    */
-  containsPoint( point ) {
+  containsPoint( point: Vector2 ) {
     return this.shape.containsPoint( point );
   }
 
@@ -142,7 +149,7 @@ class Polygon {
    * @param {array.<Vector2>} p - array of corner points
    * @returns {Vector2}
    */
-  getCentroid( p ) {
+  getCentroid( p: Vector2[] ) {
     let cx = 0;
     let cy = 0;
     for ( let i = 0; i < p.length; i++ ) {
@@ -165,7 +172,7 @@ class Polygon {
    * @param {Array.<Vector2>} p - array of corner points
    * @returns {number}
    */
-  getArea( p ) {
+  getArea( p: Vector2[] ) {
     let a = 0;
     for ( let i = 0; i < p.length; i++ ) {
       const j = ( i + 1 ) % p.length;
@@ -182,13 +189,13 @@ class Polygon {
    * @param {ColoredRay} ray - model of the ray
    * @returns {Array}
    */
-  getIntersections( ray ) {
+  getIntersections( ray: ColoredRay ) {
     let arc = null;
-    if ( this.radius !== 0 ) {
+    if ( this.radius !== 0 && this.center ) {
       const startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
       arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
     }
-    return PrismIntersection.getIntersections( this.getEdges(), arc, this.center, ray );
+    return PrismIntersection.getIntersections( this.getEdges(), arc, this.center as Vector2, ray );
   }
 
   /**

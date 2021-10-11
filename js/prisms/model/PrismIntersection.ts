@@ -7,7 +7,12 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Arc from '../../../../kite/js/segments/Arc.js';
+import Line from '../../../../kite/js/segments/Line.js';
+import Shape from '../../../../kite/js/Shape.js';
 import bendingLight from '../../bendingLight.js';
+import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 
 class PrismIntersection {
@@ -22,7 +27,7 @@ class PrismIntersection {
    * @param {ColoredRay} coloredRay - light ray intersecting the prism
    * @public
    */
-  static getIntersections( edges, arc, center, coloredRay ) {
+  static getIntersections( edges: Line[], arc: any | null, center: Vector2, coloredRay: ColoredRay ) {
     const intersections = [];
     let intersection;
     let unitNormal;
