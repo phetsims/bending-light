@@ -10,7 +10,7 @@
 import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Rectangle2 from '../../../../dot/js/Rectangle.js'; // eslint-disable-line require-statement-match
+import Rectangle from '../../../../dot/js/Rectangle.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
@@ -50,6 +50,8 @@ const normalLineString = bendingLightStrings.normalLine;
 // constants
 const INSET = 10;
 
+type IntroScreenViewOptions = {};
+
 class IntroScreenView extends BendingLightScreenView {
   introModel: IntroModel;
   stepEmitter: Emitter;
@@ -67,7 +69,7 @@ class IntroScreenView extends BendingLightScreenView {
    * @param {function} createLaserControlPanel
    * @param {Object} [options]
    */
-  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number, createLaserControlPanel: any, options: object ) {
+  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number, createLaserControlPanel: any, options?: Partial<IntroScreenViewOptions> ) {
 
     options = merge( {
 
@@ -437,7 +439,7 @@ class IntroScreenView extends BendingLightScreenView {
 
       // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node
       // will remain in bounds
-      const viewDragBounds = new Rectangle2(
+      const viewDragBounds = new Rectangle(
         visibleBounds.left - intensityMeterNode.bodyNode.bounds.width / 2,
         visibleBounds.top - intensityMeterNode.bodyNode.bounds.height / 2,
         visibleBounds.width,
@@ -463,7 +465,7 @@ class IntroScreenView extends BendingLightScreenView {
    * @returns {Node[]}
    * @protected
    */
-  getAdditionalToolIcons():Node[] {
+  getAdditionalToolIcons(): Node[] {
     return [];
   }
 

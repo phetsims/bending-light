@@ -21,6 +21,19 @@ import RotationDragHandle from './RotationDragHandle.js';
 import SingleColorLightCanvasNode from './SingleColorLightCanvasNode.js';
 import ColorModeEnum from '../model/ColorModeEnum.js';
 import LaserViewEnum from '../model/LaserViewEnum.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+
+type BendingLightScreenViewOptions = {
+  occlusionHandler: () => void,
+  horizontalPlayAreaOffset: number,
+  verticalPlayAreaOffset: number,
+  clampDragAngle: ( angle: number ) => number,
+  ccwArrowNotAtMax: () => boolean,
+  clockwiseArrowNotAtMax: () => boolean
+
+  // From parent classes
+  tandem: Tandem
+};
 
 abstract class BendingLightScreenView extends ScreenView {
   protected readonly showProtractorProperty: Property;
@@ -44,7 +57,7 @@ abstract class BendingLightScreenView extends ScreenView {
    * @param {boolean} laserHasKnob - laser image
    * @param {Object} [options]
    */
-  constructor( bendingLightModel: BendingLightModel, laserTranslationRegion: any, laserRotationRegion: any, laserHasKnob: boolean, options: any ) {
+  constructor( bendingLightModel: BendingLightModel, laserTranslationRegion: any, laserRotationRegion: any, laserHasKnob: boolean, options?: Partial<BendingLightScreenViewOptions> ) {
 
     options = merge( {
       occlusionHandler: () => {}, // {function} moves objects out from behind a control panel if dropped there
@@ -56,10 +69,11 @@ abstract class BendingLightScreenView extends ScreenView {
       verticalPlayAreaOffset: 0 // {number} in stage coordinates, how far to shift the play area vertically.  In the
                                 // prisms screen, it is shifted up a bit to center the play area above the south control panel
     }, options );
+    const filledOptions = options as BendingLightScreenViewOptions;
 
     super( { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
-    this.occlusionHandler = options.occlusionHandler;
+    this.occlusionHandler = filledOptions.occlusionHandler;
     this.bendingLightModel = bendingLightModel;
 
     this.showProtractorProperty = new Property( false ); // @public (read-only)
@@ -89,7 +103,7 @@ abstract class BendingLightScreenView extends ScreenView {
     // @public (read-only)
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       new Vector2( 0, 0 ),
-      new Vector2( 388 - options.horizontalPlayAreaOffset, stageHeight / 2 + options.verticalPlayAreaOffset ),
+      new Vector2( 388 - filledOptions.horizontalPlayAreaOffset, stageHeight / 2 + filledOptions.verticalPlayAreaOffset ),
       scale
     );
 
@@ -126,13 +140,13 @@ abstract class BendingLightScreenView extends ScreenView {
       bendingLightModel.laser,
       showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty,
-      options.clampDragAngle,
+      filledOptions.clampDragAngle,
       laserTranslationRegion,
       laserRotationRegion,
       laserHasKnob,
       this.visibleBoundsProperty,
       this.occlusionHandler, {
-        tandem: options.tandem.createTandem( 'laserNode' )
+        tandem: filledOptions.tandem.createTandem( 'laserNode' )
       }
     );
 
@@ -140,8 +154,8 @@ abstract class BendingLightScreenView extends ScreenView {
     this.addLaserHandles(
       showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty,
-      options.clockwiseArrowNotAtMax,
-      options.ccwArrowNotAtMax,
+      filledOptions.clockwiseArrowNotAtMax,
+      filledOptions.ccwArrowNotAtMax,
       laserNode.laserImageWidth
     );
 

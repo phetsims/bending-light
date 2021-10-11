@@ -28,6 +28,8 @@ import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 // constants
 const arrowScale = 1.5E-14;
 
+type MoreToolsScreenViewOptions = {};
+
 class MoreToolsScreenView extends IntroScreenView {
   moreToolsModel: MoreToolsModel;
   waveSensorNode: WaveSensorNode | null;
@@ -36,7 +38,7 @@ class MoreToolsScreenView extends IntroScreenView {
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
    * @param {Object} [options]
    */
-  constructor( moreToolsModel: MoreToolsModel, options?: any ) {
+  constructor( moreToolsModel: MoreToolsModel, options?: Partial<MoreToolsScreenViewOptions> ) {
 
     super( moreToolsModel,
       true, // hasMoreTools

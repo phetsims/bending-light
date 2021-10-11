@@ -45,6 +45,12 @@ const INDEX_OF_REFRACTION_MAX = 1.6;
 const PLUS_MINUS_SPACING = 4;
 const INSET = 10;
 
+type MediumControlPanelOptions = {
+  comboBoxListPosition: number,
+  yMargin: number,
+  lineWidth: number
+};
+
 class MediumControlPanel extends Node {
   private readonly mediumColorFactory: MediumColorFactory;
   private readonly mediumProperty: Property;
@@ -62,7 +68,7 @@ class MediumControlPanel extends Node {
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
   constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property, name: string, textFieldVisible: boolean, laserWavelength: Property,
-               decimalPlaces: number, options: any ) {
+               decimalPlaces: number, options?: Partial<MediumControlPanelOptions> ) {
 
     super();
     this.mediumColorFactory = mediumColorFactory;
@@ -75,6 +81,9 @@ class MediumControlPanel extends Node {
       lineWidth: 1.5,
       comboBoxListPosition: 'above'
     }, options );
+
+    const filledOptions = options as MediumControlPanelOptions;
+
     this.mediumProperty = mediumProperty; // @private, the medium to observe
     this.laserWavelengthProperty = laserWavelength; // @private
     const initialSubstance = mediumProperty.get().substance;
@@ -155,7 +164,7 @@ class MediumControlPanel extends Node {
     // @ts-ignore
     const materialComboBox = new ComboBox( items, comboBoxSubstanceProperty, view, {
       labelNode: materialTitle,
-      listPosition: options.comboBoxListPosition,
+      listPosition: filledOptions.comboBoxListPosition,
       xMargin: 7,
       yMargin: 4,
       arrowHeight: 6,
@@ -305,9 +314,9 @@ class MediumControlPanel extends Node {
       stroke: '#696969',
       xMargin: 13.5, // Adjusted manually so that the panels will align in English and the slider knob won't go outside
                      // the panel
-      yMargin: options.yMargin,
+      yMargin: filledOptions.yMargin,
       cornerRadius: 5,
-      lineWidth: options.lineWidth,
+      lineWidth: filledOptions.lineWidth,
       resize: false // Don't resize when the slider knob encroaches on the right border
     } );
     this.addChild( mediumPanel );
