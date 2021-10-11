@@ -20,6 +20,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
+import AngleTextView from './AngleTextView.js';
 
 // constants
 const CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
@@ -27,7 +28,6 @@ const LINE_HEIGHT = 13;
 const NUM_DIGITS = 1; // number of digits in the text readouts
 const ROUNDING_FACTOR = 10; // Round to the nearest tenth
 const BUMP_TO_SIDE_DISTANCE = 38; // How far to move the text to the side if it was in the way of the rays
-const TEXT_COLOR = 'black'; // The gray from the phet-io logo, which works well against black and white
 
 // When there is total internal reflection, treat it as if it is a powerless ray for simplicity
 // Also used if there is no reflected ray
@@ -68,46 +68,16 @@ class AngleNode extends Node {
     const lowerArcPath = createArcPath();
     this.addChild( lowerArcPath );
 
-    const createText = () => {
-      const text = new Text( '', { fontSize: 12, fill: TEXT_COLOR } );
-      const panel = new Panel( text, {
-        fill: 'white',
-        opacity: 0.75,
-        stroke: null,
-        lineWidth: 0, // width of the background border
-        xMargin: 3,
-        yMargin: 3,
-        cornerRadius: 6, // radius of the rounded corners on the background
-        resize: true, // dynamically resize when content bounds change
-        backgroundPickable: false,
-        align: 'center', // {string} horizontal of content in the pane, left|center|right
-        minWidth: 0 // minimum width of the panel
-      } );
-
-      // defines ES5 getter/setter
-      // TODO: This should be improved
-      Object.defineProperty( panel, 'text', {
-        get: () => 'hello', // TODO: Is this correct?
-        set: value => { text.text = value; },
-
-        // Make it configurable and enumerable so it's easy to override...
-        configurable: true,
-        enumerable: true
-      } );
-
-      return panel;
-    };
-
     // Readout for the angle for the incoming light ray
-    const incomingReadout = createText();
+    const incomingReadout = new AngleTextView();
     this.addChild( incomingReadout );
 
     // Readout for the angle for the reflected light ray, which will always read the same value as the
     // incoming light ray for physics reasons.
-    const reflectedReadout = createText();
+    const reflectedReadout = new AngleTextView();
     this.addChild( reflectedReadout );
 
-    const refractedReadout = createText();
+    const refractedReadout = new AngleTextView();
     this.addChild( refractedReadout );
 
     // Helper function used to create the vertical line marker above and below the origin
@@ -227,8 +197,7 @@ class AngleNode extends Node {
         const reflectedReadoutDirection = createDirectionVector( -Math.PI / 2 + incomingAngleFromNormal / 2 );
         const refractedReadoutDirection = createDirectionVector( +Math.PI / 2 - refractedAngleFromNormal / 2 );
 
-        // @ts-ignore
-        incomingReadout.text = incomingReadoutText;
+        incomingReadout.setAngleText( incomingReadoutText );
 
         // When the angle becomes too small, pop the text out so that it won't be obscured by the ray
         const angleThresholdToBumpToSide = 30; // degrees
@@ -236,8 +205,7 @@ class AngleNode extends Node {
         incomingReadout.center = origin.plus( incomingReadoutDirection )
           .plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : -BUMP_TO_SIDE_DISTANCE, 0 );
 
-        // @ts-ignore
-        reflectedReadout.text = incomingReadoutText; // It's the same
+        reflectedReadout.setAngleText( incomingReadoutText ); // It's the same
         reflectedReadout.center = origin.plus( reflectedReadoutDirection )
           .plusXY( incomingRayDegreesFromNormal >= angleThresholdToBumpToSide ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
 
@@ -252,8 +220,7 @@ class AngleNode extends Node {
         lowerArcPath.visible = showLowerAngle;
         lowerMark.visible = !showNormalProperty.value && showLowerAngle;
 
-        // @ts-ignore
-        refractedReadout.text = refractedReadoutText;
+        refractedReadout.setAngleText( refractedReadoutText );
         const bumpBottomReadout = refractedRayDegreesFromNormal >= angleThresholdToBumpToSide;
         refractedReadout.center = origin.plus( refractedReadoutDirection )
           .plusXY( bumpBottomReadout ? 0 : +BUMP_TO_SIDE_DISTANCE, 0 );
