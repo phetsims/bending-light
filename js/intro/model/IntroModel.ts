@@ -429,8 +429,8 @@ class IntroModel extends BendingLightModel {
    */
   createInitialParticles() {
 
-    let particleColor;
-    let particleGradientColor;
+    let particleColor: string;
+    let particleGradientColor: string;
     let j;
     for ( let k = 0; k < this.rays.length; k++ ) {
       const lightRay = this.rays[ k ];
@@ -457,8 +457,8 @@ class IntroModel extends BendingLightModel {
       const distance = this.tipVector.distance( this.tailVector );
       const gapBetweenSuccessiveParticles = wavelength;
       particleColor = new Color( lightRay.color.getRed(), lightRay.color.getGreen(), lightRay.color.getBlue(),
-        Math.sqrt( lightRay.powerFraction ) );
-      particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.powerFraction ) );
+        Math.sqrt( lightRay.powerFraction ) ).toCSS();
+      particleGradientColor = new Color( 0, 0, 0, Math.sqrt( lightRay.powerFraction ) ).toCSS();
 
       // calculate the number of particles that can fit in the distance
       const numberOfParticles = Math.min( Math.ceil( distance / gapBetweenSuccessiveParticles ), 150 ) + 1;
@@ -510,7 +510,7 @@ class IntroModel extends BendingLightModel {
 
       // Changing the wave particle position within the wave particle phase
       for ( let j = 0; j < waveParticles.length; j++ ) {
-        const particle = waveParticles[j];
+        const particle = waveParticles[ j ];
         particle.setX( tailX + ( directionVector.x * ( ( j * wavelength ) + phaseDiff ) ) );
         particle.setY( tailY + ( directionVector.y * ( ( j * wavelength ) + phaseDiff ) ) );
       }

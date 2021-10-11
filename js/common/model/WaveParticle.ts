@@ -15,10 +15,10 @@ import bendingLight from '../../bendingLight.js';
 class WaveParticle {
   private readonly position: Vector2;
   private readonly width: number;
-  private readonly color: Color;
+  private readonly color: string;
   readonly angle: number;
   readonly height: number;
-  readonly particleGradientColor: Color;
+  readonly particleGradientColor: string;
 
   /**
    * @param {Vector2} position - position of wave particle
@@ -28,7 +28,7 @@ class WaveParticle {
    * @param {number} angle - angle of wave particle
    * @param {number} waveHeight - height of wave particle
    */
-  constructor( position: Vector2, width: number, color: Color, particleGradientColor: Color, angle: number, waveHeight: number ) {
+  constructor( position: Vector2, width: number, color: string, particleGradientColor: string, angle: number, waveHeight: number ) {
     this.position = position; // @public
     this.width = width; // @public
     this.color = color; // @public
