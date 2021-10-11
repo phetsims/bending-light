@@ -27,12 +27,22 @@ import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import VelocitySensor from '../model/VelocitySensor.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
+// @ts-ignore
 const speedString = bendingLightStrings.speed;
+// @ts-ignore
 const unknownVelocityString = bendingLightStrings.unknownVelocity;
+// @ts-ignore
 const velocityPatternString = bendingLightStrings.velocityPattern;
 
 class VelocitySensorNode extends Node {
+  modelViewTransform: ModelViewTransform2;
+  velocitySensor: VelocitySensor;
+  bodyNode: Node;
+  arrowShape: Path;
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
@@ -40,7 +50,7 @@ class VelocitySensorNode extends Node {
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
    * @param {Object} [options]
    */
-  constructor( modelViewTransform, velocitySensor, arrowScale, options ) {
+  constructor( modelViewTransform: ModelViewTransform2, velocitySensor: VelocitySensor, arrowScale: number, options?: any ) {
 
     super( {
       cursor: 'pointer',
@@ -152,7 +162,7 @@ class VelocitySensorNode extends Node {
 
     // Update the text when the value or units changes.
     Property.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty ],
-      velocity => {
+      ( velocity: Vector2 ) => {
 
         // add '?' for null velocity
         if ( velocity.magnitude === 0 ) {
@@ -167,6 +177,7 @@ class VelocitySensorNode extends Node {
       } );
 
     // Overall scaling, vestigial
+    // @ts-ignore
     this.bodyNode.setScaleMagnitude( 0.7 );
 
     this.mutate( options );

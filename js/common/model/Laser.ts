@@ -22,7 +22,7 @@ class Laser {
   readonly colorModeProperty: Property;
   readonly emissionPointProperty: Vector2Property;
   readonly colorProperty: DerivedProperty;
-  private readonly wavelengthProperty: Property;
+  readonly wavelengthProperty: Property;
   private readonly directionUnitVector: Vector2;
   readonly pivotProperty: Vector2Property;
 

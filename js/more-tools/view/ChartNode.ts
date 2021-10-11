@@ -13,6 +13,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import bendingLight from '../../bendingLight.js';
+import Series from '../model/Series.js';
 import GridCanvasNode from './GridCanvasNode.js';
 import SeriesCanvasNode from './SeriesCanvasNode.js';
 
@@ -30,7 +31,7 @@ class SeriesNode extends Node {
    *                                                                      frames
    * @param {Bounds2} chartBounds - bounds of the chart node
    */
-  constructor( series, modelViewTransformProperty, chartBounds ) {
+  constructor( series: Series, modelViewTransformProperty: Property, chartBounds: Bounds2 ) {
 
     super();
 
@@ -50,12 +51,18 @@ class SeriesNode extends Node {
 }
 
 class ChartNode extends Node {
+  chartBounds: Bounds2;
+  seriesArray: Series[];
+  timeWidth: number;
+  modelViewTransformProperty: Property;
+  gridLines: any;
+  gridCanvasNode: GridCanvasNode;
 
   /**
    * @param {Bounds2} chartBounds - bounds of the chart node
-   * @param {array.<Series>} seriesArray - series of data points
+   * @param {Series[]} seriesArray - series of data points
    */
-  constructor( chartBounds, seriesArray ) {
+  constructor( chartBounds: Bounds2, seriesArray: Series[] ) {
 
     super();
     this.chartBounds = chartBounds; // @public (read-only)
@@ -83,7 +90,7 @@ class ChartNode extends Node {
    * @public
    * @param {number} time - simulation time
    */
-  step( time ) {
+  step( time: number ) {
     this.simulationTimeChanged( time );
   }
 
@@ -92,7 +99,7 @@ class ChartNode extends Node {
    * @private
    * @param {number} time - simulation time
    */
-  simulationTimeChanged( time ) {
+  simulationTimeChanged( time: number ) {
 
     // Update the mapping from model to chart
     const minTime = time - this.timeWidth;
@@ -135,7 +142,7 @@ class ChartNode extends Node {
    * @param {number} time - simulation time
    * @returns {number}
    */
-  getDelta( verticalGridLineSpacing, time ) {
+  getDelta( verticalGridLineSpacing: number, time: number ) {
     const totalNumPeriods = time / verticalGridLineSpacing;
 
     // for computing the phase so we make the right number of grid lines, just keep the fractional part
@@ -147,7 +154,7 @@ class ChartNode extends Node {
    * @private
    * @param {number} x - x coordinate of vertical grid lines
    */
-  addVerticalLine( x ) {
+  addVerticalLine( x: number ) {
 
     // -1 to +1 is far enough since in model coordinates
     this.gridLines.push( {

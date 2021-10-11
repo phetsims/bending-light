@@ -466,7 +466,7 @@ class IntroScreenView extends BendingLightScreenView {
    * @returns {Node[]}
    * @protected
    */
-  getAdditionalToolIcons() {
+  getAdditionalToolIcons():Node[] {
     return [];
   }
 

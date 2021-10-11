@@ -7,10 +7,14 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 
 class SeriesCanvasNode extends CanvasNode {
+  seriesProperty: Property;
+  modelViewTransformProperty: Property;
+  color: string;
 
   /**
    * @param {Property.<[]>} seriesProperty - contains data points of series
@@ -19,7 +23,7 @@ class SeriesCanvasNode extends CanvasNode {
    * @param {string} color - color of the series
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
-  constructor( seriesProperty, modelViewTransformProperty, color, options ) {
+  constructor( seriesProperty: Property, modelViewTransformProperty: Property, color: string, options?: any ) {
 
     super( options );
     this.seriesProperty = seriesProperty; // @private
@@ -32,7 +36,7 @@ class SeriesCanvasNode extends CanvasNode {
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas( context ) {
+  paintCanvas( context: CanvasRenderingContext2D ) {
     let moved = false;
 
     context.beginPath();

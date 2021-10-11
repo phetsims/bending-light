@@ -9,17 +9,21 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
+import LightRay from '../../common/model/LightRay.js';
 
 class WaveCanvasNode extends CanvasNode {
+  private readonly lightRays: LightRay[];
+  private readonly modelViewTransform: ModelViewTransform2;
 
   /**
    * @param {ObservableArrayDef.<LightRay>} lightRays - the light rays from the model
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
-  constructor( lightRays, modelViewTransform, options ) {
+  constructor( lightRays: LightRay[], modelViewTransform: ModelViewTransform2, options?: any ) {
 
     super( options );
     this.lightRays = lightRays;
@@ -31,30 +35,33 @@ class WaveCanvasNode extends CanvasNode {
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas( context ) {
+  paintCanvas( context: CanvasRenderingContext2D ) {
 
     // Render the incident ray last so that it will overlap the reflected ray completely
     for ( let k = this.lightRays.length - 1; k >= 0; k-- ) {
-      const ray = this.lightRays.get( k );
+      const ray = this.lightRays[ k ];
 
       if ( ray.particles.length > 0 ) {
 
         // Each ray has its own clipping and rotation, so store the untransformed state before manipulation
         context.save();
 
-        // Each ray has its own shape, which is used as a clipping region.
-        context.beginPath();
-        context.moveTo(
-          this.modelViewTransform.modelToViewX( ray.clipRegionCorners[ 0 ].x ),
-          this.modelViewTransform.modelToViewY( ray.clipRegionCorners[ 0 ].y )
-        );
-        for ( let m = 1; m <= 3; m++ ) {
-          context.lineTo(
-            this.modelViewTransform.modelToViewX( ray.clipRegionCorners[ m ].x ),
-            this.modelViewTransform.modelToViewY( ray.clipRegionCorners[ m ].y )
+        if ( ray.clipRegionCorners ) {
+
+          // Each ray has its own shape, which is used as a clipping region.
+          context.beginPath();
+          context.moveTo(
+            this.modelViewTransform.modelToViewX( ray.clipRegionCorners[ 0 ].x ),
+            this.modelViewTransform.modelToViewY( ray.clipRegionCorners[ 0 ].y )
           );
+          for ( let m = 1; m <= 3; m++ ) {
+            context.lineTo(
+              this.modelViewTransform.modelToViewX( ray.clipRegionCorners[ m ].x ),
+              this.modelViewTransform.modelToViewY( ray.clipRegionCorners[ m ].y )
+            );
+          }
+          context.clip();
         }
-        context.clip();
 
         const particle = ray.particles.get( 0 );
 

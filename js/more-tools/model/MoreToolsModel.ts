@@ -8,6 +8,8 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import bendingLight from '../../bendingLight.js';
 import Substance from '../../common/model/Substance.js';
 import IntroModel from '../../intro/model/IntroModel.js';
@@ -15,18 +17,20 @@ import VelocitySensor from './VelocitySensor.js';
 import WaveSensor from './WaveSensor.js';
 
 class MoreToolsModel extends IntroModel {
+  readonly velocitySensor: VelocitySensor;
+  readonly waveSensor: WaveSensor;
 
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     // On this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent
     // bend
     super( Substance.GLASS, false, tandem );
 
     this.velocitySensor = new VelocitySensor(); // @public (read-only)
-    const waveValueGetter = position => this.getWaveValue( position );
+    const waveValueGetter = ( position: Vector2 ) => this.getWaveValue( position );
 
     // @public (read-only)
     this.waveSensor = new WaveSensor( waveValueGetter, waveValueGetter );

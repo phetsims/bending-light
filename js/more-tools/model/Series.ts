@@ -7,15 +7,19 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Property from '../../../../axon/js/Property.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 
 class Series {
+  readonly seriesProperty: Property;
+  readonly color: Color;
 
   /**
    * @param {Property.<[]>} seriesProperty - contains data points of series
    * @param {Color} color - color of series
    */
-  constructor( seriesProperty, color ) {
+  constructor( seriesProperty: Property, color: Color ) {
 
     // @public (read-only)
     this.seriesProperty = seriesProperty;
@@ -29,7 +33,7 @@ class Series {
    * @param {number} minTime - minimum time to be displayed on chart node
    * @public
    */
-  keepLastSamples( minTime ) {
+  keepLastSamples( minTime: number ) {
     let startIndex = 0;
     if ( this.seriesProperty.get().length ) {
 

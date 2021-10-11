@@ -25,7 +25,10 @@ import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import Series from '../model/Series.js';
 import ChartNode from './ChartNode.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import WaveSensor from '../model/WaveSensor.js';
 
+// @ts-ignore
 const timeString = bendingLightStrings.time;
 
 // constants
@@ -34,6 +37,7 @@ const bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 
 const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
 class ProbeNodeWrapper extends Node {
+  syncModelFromView: () => void;
 
   /**
    * View for rendering a probe that can be used to sense wave values
@@ -42,7 +46,7 @@ class ProbeNodeWrapper extends Node {
    * @param {string} color
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    */
-  constructor( probe, color, modelViewTransform ) {
+  constructor( probe: any, color: string, modelViewTransform: ModelViewTransform2 ) {
 
     super( { cursor: 'pointer' } );
 
@@ -63,7 +67,7 @@ class ProbeNodeWrapper extends Node {
     } ) );
 
     // Probe position
-    probe.positionProperty.link( position => {
+    probe.positionProperty.link( ( position: Vector2 ) => {
       this.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
@@ -74,13 +78,22 @@ class ProbeNodeWrapper extends Node {
 }
 
 class WaveSensorNode extends Node {
+  modelViewTransform: ModelViewTransform2;
+  waveSensor: WaveSensor;
+  bodyNode: Node;
+  chartNode: ChartNode;
+  probe1Node: ProbeNodeWrapper;
+  probe2Node: ProbeNodeWrapper;
+  wire1Node: WireNode;
+  wire2Node: WireNode;
+  syncModelFromView: () => void;
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor
    * @param {Object} [options]
    */
-  constructor( modelViewTransform, waveSensor, options ) {
+  constructor( modelViewTransform: ModelViewTransform2, waveSensor: WaveSensor, options?: any ) {
 
     super( { cursor: 'pointer' } );
 
@@ -148,17 +161,20 @@ class WaveSensorNode extends Node {
     this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform ); // @public (read-only)
 
     // Connect the sensor to the body with a gray wire
-    const above = amount => {
+    const above = ( amount: number ) => {
 
       // Nudge behind the body a so there is no gap
-      return position => position.plusXY( -2, -amount );
+      return ( position: Vector2 ) => position.plusXY( -2, -amount );
     };
 
+    // @ts-ignore
     const rightBottomProperty = new NodeProperty( this.bodyNode, this.bodyNode.boundsProperty, 'rightBottom' );
 
     // @private
     this.wire1Node = new WireNode(
       new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ), bodyNormalProperty,
+
+      // @ts-ignore
       new NodeProperty( this.probe1Node, this.probe1Node.boundsProperty, 'centerBottom' ), sensorNormalProperty, {
         lineWidth: 3,
         stroke: darkProbeColor.toCSS()
@@ -167,6 +183,8 @@ class WaveSensorNode extends Node {
 
     this.wire2Node = new WireNode(
       new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ), bodyNormalProperty,
+
+      // @ts-ignore
       new NodeProperty( this.probe2Node, this.probe2Node.boundsProperty, 'centerBottom' ), sensorNormalProperty, {
         lineWidth: 3,
         stroke: lightProbeColor.toCSS()

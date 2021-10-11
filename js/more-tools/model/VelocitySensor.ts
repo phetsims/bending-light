@@ -14,6 +14,11 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 
 class VelocitySensor {
+  readonly positionProperty: Vector2Property;
+  readonly valueProperty: Vector2Property;
+  readonly enabledProperty: Property;
+  readonly isArrowVisibleProperty: DerivedProperty;
+
   constructor() {
 
     // @public position of the sensor. Sampled by running the sim with a console.log statement
@@ -26,7 +31,7 @@ class VelocitySensor {
     this.enabledProperty = new Property( false );
 
     // shows the visibility of arrows
-    this.isArrowVisibleProperty = new DerivedProperty( [ this.valueProperty ], value => value.magnitude > 0 );
+    this.isArrowVisibleProperty = new DerivedProperty( [ this.valueProperty ], ( value: Vector2 ) => value.magnitude > 0 );
   }
 
   /**
@@ -53,7 +58,7 @@ class VelocitySensor {
    * @public
    * @param {Vector2} delta - amount of space to be translated
    */
-  translate( delta ) {
+  translate( delta: Vector2 ) {
     this.positionProperty.set( this.positionProperty.value.plus( delta ) );
   }
 }

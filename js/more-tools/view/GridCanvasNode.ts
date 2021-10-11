@@ -9,10 +9,14 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 
 class GridCanvasNode extends CanvasNode {
+  modelViewTransformProperty: Property;
+  strokeDash: number[];
+  gridLines: any;
 
   /**
    * @param {ObservableArrayDef.<[]>} gridLines - contains details of each grid line
@@ -20,7 +24,7 @@ class GridCanvasNode extends CanvasNode {
    * @param {array.<number>} strokeDash
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
-  constructor( gridLines, modelViewTransformProperty, strokeDash, options ) {
+  constructor( gridLines: any, modelViewTransformProperty: Property, strokeDash: number[], options?: any ) {
 
     super( options );
     this.gridLines = gridLines; // @private
@@ -33,7 +37,7 @@ class GridCanvasNode extends CanvasNode {
    * @protected
    * @param {CanvasRenderingContext2D} context
    */
-  paintCanvas( context ) {
+  paintCanvas( context: CanvasRenderingContext2D ) {
 
     context.save();
     for ( let i = 0; i < this.gridLines.length; i++ ) {

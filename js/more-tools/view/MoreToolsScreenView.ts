@@ -10,6 +10,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Rectangle from '../../../../dot/js/Rectangle.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
@@ -19,6 +20,7 @@ import ToolIconListener from '../../common/view/ToolIconListener.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
 import IntroScreenView from '../../intro/view/IntroScreenView.js';
 import LaserTypeAquaRadioButtonGroup from '../../intro/view/LaserTypeAquaRadioButtonGroup.js';
+import MoreToolsModel from '../model/MoreToolsModel.js';
 import VelocitySensorNode from './VelocitySensorNode.js';
 import WaveSensorNode from './WaveSensorNode.js';
 
@@ -26,19 +28,21 @@ import WaveSensorNode from './WaveSensorNode.js';
 const arrowScale = 1.5E-14;
 
 class MoreToolsScreenView extends IntroScreenView {
+  moreToolsModel: MoreToolsModel;
+  waveSensorNode: WaveSensorNode | null;
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
    * @param {Object} [options]
    */
-  constructor( moreToolsModel, options ) {
+  constructor( moreToolsModel: MoreToolsModel, options?: any ) {
 
     super( moreToolsModel,
       true, // hasMoreTools
       3, // indexOfRefractionDecimals
 
       // createLaserControlPanel
-      model => new VBox( {
+      ( model: MoreToolsModel ) => new VBox( {
         spacing: 10,
         align: 'left',
         children: [
@@ -50,11 +54,12 @@ class MoreToolsScreenView extends IntroScreenView {
         horizontalPlayAreaOffset: 0
       }, options ) );
 
+    this.waveSensorNode = null;
     this.moreToolsModel = moreToolsModel; // @public (read-only)
 
     // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
-      ( laserView, isWaveSensorEnabled ) => {
+      ( laserView: 'wave', isWaveSensorEnabled: boolean ) => { // TODO: enum
         this.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
       } );
   }
@@ -66,7 +71,7 @@ class MoreToolsScreenView extends IntroScreenView {
   getWaveSensorIcon() {
     const modelViewTransform = this.modelViewTransform;
 
-    const waveSensor = this.bendingLightModel.waveSensor;
+    const waveSensor = ( this.bendingLightModel as MoreToolsModel ).waveSensor;
     const waveSensorIcon = new WaveSensorNode(
       this.modelViewTransform,
       waveSensor.copy(), {
@@ -82,14 +87,14 @@ class MoreToolsScreenView extends IntroScreenView {
       waveSensor
     );
     const waveSensorNode = this.waveSensorNode;
-    waveSensor.enabledProperty.link( enabled => {
+    waveSensor.enabledProperty.link( ( enabled: boolean ) => {
       waveSensorIcon.visible = !enabled;
       waveSensorNode.visible = enabled;
     } );
 
     const dropInToolbox = this.dropInToolbox;
 
-    const createMovableDragHandler = ( node, positionProperty, enabledProperty ) => {
+    const createMovableDragHandler = ( node: Node, positionProperty: Property, enabledProperty: Property ) => {
       return new MovableDragHandler( positionProperty, {
         modelViewTransform: modelViewTransform,
         endDrag: () => {
@@ -157,7 +162,7 @@ class MoreToolsScreenView extends IntroScreenView {
    * @private
    */
   getVelocitySensorIcon() {
-    const moreToolsModel = this.bendingLightModel;
+    const moreToolsModel = this.bendingLightModel as MoreToolsModel;
     const velocitySensorToolboxScale = 1.2;
     const velocitySensorIconNode = new VelocitySensorNode(
       this.modelViewTransform,
@@ -235,7 +240,7 @@ class MoreToolsScreenView extends IntroScreenView {
    */
   updateWaveShape() {
     super.updateWaveShape();
-    if ( this.waveSensorNode.waveSensor.enabledProperty.get() ) {
+    if ( this.waveSensorNode && this.waveSensorNode.waveSensor.enabledProperty.get() ) {
       this.waveSensorNode.waveSensor.step();
       this.waveSensorNode.chartNode.step( this.moreToolsModel.time );
     }

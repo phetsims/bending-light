@@ -15,6 +15,8 @@ import bendingLight from '../../bendingLight.js';
 import DataPoint from './DataPoint.js';
 
 class Probe {
+  readonly seriesProperty: Property;
+  readonly positionProperty: Vector2Property;
 
   /**
    * Model for a probe, including its position and recorded data series
@@ -22,7 +24,7 @@ class Probe {
    * @param {number} x - x position of probe
    * @param {number} y - y position of probe
    */
-  constructor( x, y ) {
+  constructor( x: number, y: number ) {
 
     // @public, array of data points
     this.seriesProperty = new Property( [] );
@@ -42,21 +44,27 @@ class Probe {
 
   /**
    * @public
-   * @param {Option.<DataPoint>} sample
+   * @param {DataPoint} sample
    */
-  addSample( sample ) {
+  addSample( sample: DataPoint ) {
     this.seriesProperty.get().push( sample );
     this.seriesProperty.notifyListenersStatic();
   }
 }
 
 class WaveSensor {
+  probe1: Probe;
+  probe2: Probe;
+  bodyPositionProperty: Vector2Property;
+  enabledProperty: Property;
+  probe1Value: any;
+  probe2Value: any;
 
   /**
    * @param {function} probe1Value - function for getting data from a probe at the specified point
    * @param {function} probe2Value - function for getting data from a probe at the specified point
    */
-  constructor( probe1Value, probe2Value ) {
+  constructor( probe1Value: any, probe2Value: any ) {
 
     // Set the relative position of the probes and body in model coordinates (SI). These values for initial probe and
     // body positions were obtained by printing out actual values at runtime, then dragging the objects to a good
@@ -102,7 +110,7 @@ class WaveSensor {
    * @param {Probe} probe
    * @param {function} probeValue - function for getting data from a probe at the specified point
    */
-  updateProbeSample( probe, probeValue ) {
+  updateProbeSample( probe: Probe, probeValue: any ) {
 
     // Read the value from the probe function. May be None if not intersecting a light ray
     const value = probeValue( probe.positionProperty.get() );

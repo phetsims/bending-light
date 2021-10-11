@@ -16,14 +16,18 @@ import bendingLightStrings from '../bendingLightStrings.js';
 import bendingLight from '../bendingLight.js';
 import MoreToolsModel from './model/MoreToolsModel.js';
 import MoreToolsScreenView from './view/MoreToolsScreenView.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
+// @ts-ignore
 const moreToolsString = bendingLightStrings.moreTools;
 
 class MoreToolsScreen extends Screen {
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
       name: moreToolsString,
+
+      // @ts-ignore
       homeScreenIcon: new ScreenIcon( new Image( iconImage ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
@@ -34,7 +38,7 @@ class MoreToolsScreen extends Screen {
 
     super(
       () => new MoreToolsModel( tandem.createTandem( 'model' ) ),
-      model => new MoreToolsScreenView( model, {
+      ( model: MoreToolsModel ) => new MoreToolsScreenView( model, {
         tandem: options.tandem.createTandem( 'view' )
       } ),
       options
