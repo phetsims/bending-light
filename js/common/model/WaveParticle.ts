@@ -16,9 +16,9 @@ class WaveParticle {
   private readonly position: Vector2;
   private readonly width: number;
   private readonly color: Color;
-  private readonly angle: number;
-  private readonly height: number;
-  private readonly particleGradientColor: Color;
+  readonly angle: number;
+  readonly height: number;
+  readonly particleGradientColor: Color;
 
   /**
    * @param {Vector2} position - position of wave particle

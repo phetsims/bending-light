@@ -165,8 +165,11 @@ class WavePainter {
         );
 
         // light ray color
+        // @ts-ignore
         const red = lightRay.color.r / 255;
+        // @ts-ignore
         const green = lightRay.color.g / 255;
+        // @ts-ignore
         const blue = lightRay.color.b / 255;
 
         gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );

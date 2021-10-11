@@ -63,7 +63,7 @@ class WaveCanvasNode extends CanvasNode {
           context.clip();
         }
 
-        const particle = ray.particles.get( 0 );
+        const particle = ray.particles[ 0 ];
 
         // Set the origin at the beginning of the particle
         context.translate(
@@ -78,10 +78,12 @@ class WaveCanvasNode extends CanvasNode {
         const wavelength = this.modelViewTransform.modelToViewDeltaX( particle.height );
 
         // Fill the background with the dark color, in the entire clip area
+        // @ts-ignore
         context.fillStyle = particle.particleGradientColor;
         context.fillRect( -1000, -1000, 2000, 2000 );
 
         // Set up the color for the wave crests
+        // @ts-ignore
         context.fillStyle = particle.color;
 
         // Render each crest, but we don't need as many wavelengths for the incoming light

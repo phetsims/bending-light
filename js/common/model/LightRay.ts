@@ -15,6 +15,7 @@ import Shape from '../../../../kite/js/Shape.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
+import WaveParticle from './WaveParticle.js';
 
 // constants
 /**
@@ -32,7 +33,7 @@ const makeFinite = ( vector: Vector2 ) => {
 
 class LightRay {
   extendBackwards: boolean;
-  color: any;
+  color: Color;
   waveWidth: number;
   trapeziumWidth: number;
   tip: Vector2;
@@ -44,7 +45,7 @@ class LightRay {
   numWavelengthsPhaseOffset: number;
   extend: boolean;
   vectorForm: Vector2;
-  particles: any;
+  particles: WaveParticle[];
   time: number;
   rayType: string;
   unitVector: Vector2;

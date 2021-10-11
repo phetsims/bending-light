@@ -91,6 +91,8 @@ abstract class BendingLightModel {
    */
   clearModel() {
     for ( let i = 0; i < this.rays.length; i++ ) {
+
+      // @ts-ignore createObservableArray
       this.rays[ i ].particles.clear();
     }
     this.rays.length = 0;

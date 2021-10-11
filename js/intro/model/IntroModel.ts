@@ -510,7 +510,7 @@ class IntroModel extends BendingLightModel {
 
       // Changing the wave particle position within the wave particle phase
       for ( let j = 0; j < waveParticles.length; j++ ) {
-        const particle = waveParticles.get( j );
+        const particle = waveParticles[j];
         particle.setX( tailX + ( directionVector.x * ( ( j * wavelength ) + phaseDiff ) ) );
         particle.setY( tailY + ( directionVector.y * ( ( j * wavelength ) + phaseDiff ) ) );
       }
