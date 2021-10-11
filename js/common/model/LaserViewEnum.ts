@@ -1,3 +1,3 @@
 // Copyright 2021, University of Colorado Boulder
-type ColorModeEnum = 'ray' | 'wave';
-export default ColorModeEnum;
+type LaserViewEnum = 'ray' | 'wave';
+export default LaserViewEnum;

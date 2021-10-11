@@ -19,6 +19,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
+import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 
 // constants
 const CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
@@ -150,7 +151,7 @@ class AngleNode extends Node {
      * @param type
      * @returns {LightRay}
      */
-    const getRay = ( type: 'incident' | 'reflected' | 'transmitted' | null ) => { // TODO: enum
+    const getRay = ( type: RayTypeEnum | null ) => {
       let selected = null;
       for ( let i = 0; i < rays.length; i++ ) {
         const ray = rays[ i ];
