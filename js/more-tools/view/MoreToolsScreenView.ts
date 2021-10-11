@@ -23,6 +23,7 @@ import LaserTypeAquaRadioButtonGroup from '../../intro/view/LaserTypeAquaRadioBu
 import MoreToolsModel from '../model/MoreToolsModel.js';
 import VelocitySensorNode from './VelocitySensorNode.js';
 import WaveSensorNode from './WaveSensorNode.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
 // constants
 const arrowScale = 1.5E-14;
@@ -59,7 +60,7 @@ class MoreToolsScreenView extends IntroScreenView {
 
     // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
-      ( laserView: 'wave', isWaveSensorEnabled: boolean ) => { // TODO: enum
+      ( laserView: LaserViewEnum, isWaveSensorEnabled: boolean ) => {
         this.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
       } );
   }

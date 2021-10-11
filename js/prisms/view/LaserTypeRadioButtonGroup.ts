@@ -19,7 +19,7 @@ import bendingLight from '../../bendingLight.js';
 class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
-   * @param {Property.<string>} radioButtonAdapterProperty TODO: Enumeration
+   * @param {Property.<LaserViewEnum>} radioButtonAdapterProperty
    * @param {Object} [options]
    */
   constructor( radioButtonAdapterProperty: Property, options?: Partial<NodeOptions> ) {

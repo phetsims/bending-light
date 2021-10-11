@@ -300,9 +300,8 @@ class PrismsScreenView extends BendingLightScreenView {
    * is set in the subtype)
    * @protected
    */
-  addLightNodes( bendingLightModel: BendingLightModel ) {
+  addLightNodes( bendingLightModel: PrismsModel ) {
 
-    // TODO: assert bendingLightModel instanceof PrismsModel
     const stageWidth = this.layoutBounds.width;
     const stageHeight = this.layoutBounds.height;
 
