@@ -135,7 +135,7 @@ class VelocitySensorNode extends Node {
     } );
     this.bodyNode.addChild( this.arrowShape );
 
-    velocitySensor.valueProperty.link( velocity => {
+    velocitySensor.valueProperty.link( ( velocity: Vector2) => {
 
       const positionX = modelViewTransform.modelToViewDeltaX( velocity.x ) * arrowScale;
       const positionY = modelViewTransform.modelToViewDeltaY( velocity.y ) * arrowScale;
@@ -151,7 +151,7 @@ class VelocitySensorNode extends Node {
     velocitySensor.isArrowVisibleProperty.linkAttribute( this.arrowShape, 'visible' );
 
     // update the velocity node position
-    velocitySensor.positionProperty.link( position => {
+    velocitySensor.positionProperty.link( ( position: Vector2) => {
       const velocitySensorXPosition = modelViewTransform.modelToViewX( position.x );
       const velocitySensorYPosition = modelViewTransform.modelToViewY( position.y );
       this.setTranslation( velocitySensorXPosition, velocitySensorYPosition );

@@ -17,6 +17,7 @@ import BendingLightConstants from '../BendingLightConstants.js';
 import Laser from './Laser.js';
 import LightRay from './LightRay.js';
 import MediumColorFactory from './MediumColorFactory.js';
+import LaserViewEnum from './LaserViewEnum.js';
 
 // constants
 const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
@@ -30,13 +31,13 @@ abstract class BendingLightModel {
   readonly modelWidth: number;
   readonly modelHeight: number;
   readonly allowWebGL: boolean;
-  readonly laserViewProperty: Property;
-  readonly wavelengthProperty: Property;
-  readonly speedProperty: Property;
-  private readonly indexOfRefractionProperty: Property;
-  readonly showNormalProperty: Property;
-  readonly isPlayingProperty: Property;
-  readonly showAnglesProperty: Property;
+  readonly laserViewProperty: Property<LaserViewEnum>;
+  readonly wavelengthProperty: Property<number>;
+  readonly speedProperty: Property<any>;
+  private readonly indexOfRefractionProperty: Property<number>;
+  readonly showNormalProperty: Property<boolean>;
+  readonly isPlayingProperty: Property<boolean>;
+  readonly showAnglesProperty: Property<boolean>;
   readonly laser: Laser;
   static DEFAULT_LASER_DISTANCE_FROM_PIVOT: number;
   rotationArrowAngleOffset: number | null;
@@ -64,9 +65,10 @@ abstract class BendingLightModel {
     this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
 
     // @public, Whether the laser is Ray or Wave mode
-    this.laserViewProperty = new Property( 'ray', {
+    this.laserViewProperty = new Property<LaserViewEnum>( 'ray', {
       validValues: [ 'wave', 'ray' ]
     } );
+
     this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
     this.isPlayingProperty = new Property( true );
 

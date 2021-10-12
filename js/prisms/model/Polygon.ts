@@ -19,8 +19,8 @@ class Polygon {
   private readonly points: Vector2[];
   private readonly referencePointIndex: number;
   private readonly radius: number;
-  private readonly centroid: Vector2;
-  private readonly shape: Shape;
+  readonly centroid: Vector2;
+  readonly shape: Shape;
   private readonly center: Vector2 | null;
 
   /**

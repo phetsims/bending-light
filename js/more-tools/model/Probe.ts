@@ -6,7 +6,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import DataPoint from './DataPoint.js';
 
 class Probe {
-  readonly seriesProperty: Property;
+  readonly seriesProperty: Property<Array<DataPoint>>;
   readonly positionProperty: Vector2Property;
 
   /**

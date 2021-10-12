@@ -27,7 +27,7 @@ class TranslationDragHandle extends Node {
    * @param {number} laserImageWidth - width of the laser
    * @constructor
    */
-  constructor( modelViewTransform: ModelViewTransform2, laser: Laser, dx: number, dy: number, showDragHandlesProperty: Property, laserImageWidth: number ) {
+  constructor( modelViewTransform: ModelViewTransform2, laser: Laser, dx: number, dy: number, showDragHandlesProperty: Property<boolean>, laserImageWidth: number ) {
 
     super();
 

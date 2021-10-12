@@ -195,7 +195,7 @@ class WaveSensorNode extends Node {
     this.addChild( this.wire2Node );
 
     // Synchronize the body position with the model (centered on the model point)
-    waveSensor.bodyPositionProperty.link( position => {
+    waveSensor.bodyPositionProperty.link( ( position: Vector2 ) => {
       this.bodyNode.center = modelViewTransform.modelToViewPosition( position );
     } );
 

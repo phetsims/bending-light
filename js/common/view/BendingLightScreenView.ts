@@ -22,6 +22,7 @@ import SingleColorLightCanvasNode from './SingleColorLightCanvasNode.js';
 import ColorModeEnum from '../model/ColorModeEnum.js';
 import LaserViewEnum from '../model/LaserViewEnum.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type BendingLightScreenViewOptions = {
   occlusionHandler: () => void,
@@ -36,7 +37,7 @@ type BendingLightScreenViewOptions = {
 };
 
 abstract class BendingLightScreenView extends ScreenView {
-  protected readonly showProtractorProperty: Property;
+  protected readonly showProtractorProperty: Property<boolean>;
   readonly bendingLightModel: BendingLightModel;
   protected readonly beforeLightLayer: Node;
   protected readonly beforeLightLayer2: Node;
@@ -130,8 +131,8 @@ abstract class BendingLightScreenView extends ScreenView {
     this.addChild( this.laserViewLayer );
 
     // add rotation for the laser that show if/when the laser can be rotated about its pivot
-    const showRotationDragHandlesProperty = new Property( false );
-    const showTranslationDragHandlesProperty = new Property( false );
+    const showRotationDragHandlesProperty = new BooleanProperty( false );
+    const showTranslationDragHandlesProperty = new BooleanProperty( false );
 
     const laserNode = new LaserNode(
       this.modelViewTransform,
@@ -164,7 +165,7 @@ abstract class BendingLightScreenView extends ScreenView {
     this.addChild( this.afterLightLayer3 );
 
     // switches between ray and wave
-    bendingLightModel.laserViewProperty.link( laserView => {
+    bendingLightModel.laserViewProperty.link( ( laserView: LaserViewEnum ) => {
       bendingLightModel.laser.waveProperty.value = ( laserView === 'wave' );
     } );
 
@@ -174,7 +175,7 @@ abstract class BendingLightScreenView extends ScreenView {
       }
     );
 
-    this.visibleBoundsProperty.link( visibleBounds => this.singleColorLightNode.setCanvasBounds( visibleBounds ) );
+    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => this.singleColorLightNode.setCanvasBounds( visibleBounds ) );
   }
 
   /**
@@ -206,7 +207,7 @@ abstract class BendingLightScreenView extends ScreenView {
    * @param {number} laserImageWidth
    * @protected
    */
-  addLaserHandles( showRotationDragHandlesProperty: Property, showTranslationDragHandlesProperty: Property,
+  addLaserHandles( showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
                    clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ) {
     const bendingLightModel = this.bendingLightModel;
 

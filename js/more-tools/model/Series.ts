@@ -10,16 +10,17 @@
 import Property from '../../../../axon/js/Property.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
+import DataPoint from './DataPoint.js';
 
 class Series {
-  readonly seriesProperty: Property;
+  readonly seriesProperty: Property<DataPoint[]>;
   readonly color: Color;
 
   /**
    * @param {Property.<[]>} seriesProperty - contains data points of series
    * @param {Color} color - color of series
    */
-  constructor( seriesProperty: Property, color: Color ) {
+  constructor( seriesProperty: Property<DataPoint[]>, color: Color ) {
 
     // @public (read-only)
     this.seriesProperty = seriesProperty;

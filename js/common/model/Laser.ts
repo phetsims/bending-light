@@ -7,6 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -14,15 +15,16 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import LaserColor from '../view/LaserColor.js';
+import ColorModeEnum from './ColorModeEnum.js';
 
 class Laser {
   readonly topLeftQuadrant: boolean;
-  readonly onProperty: Property;
-  readonly waveProperty: Property;
-  readonly colorModeProperty: Property;
+  readonly onProperty: Property<boolean>;
+  readonly waveProperty: Property<boolean>;
+  readonly colorModeProperty: Property<'white' | 'singleColor'>;
   readonly emissionPointProperty: Vector2Property;
   readonly colorProperty: DerivedProperty;
-  readonly wavelengthProperty: Property;
+  readonly wavelengthProperty: Property<number>;
   private readonly directionUnitVector: Vector2;
   readonly pivotProperty: Vector2Property;
 
@@ -32,13 +34,13 @@ class Laser {
    * @param {number} angle - laser angle
    * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
    */
-  constructor( wavelengthProperty: Property, distanceFromPivot: number, angle: number, topLeftQuadrant: boolean ) {
+  constructor( wavelengthProperty: Property<number>, distanceFromPivot: number, angle: number, topLeftQuadrant: boolean ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
     this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) ); // @public, point to be pivoted about, and at which the laser points
-    this.onProperty = new Property( false ); // @public, true if the laser is activated and emitting light
-    this.waveProperty = new Property( false ); // @public
-    this.colorModeProperty = new Property( 'singleColor' ); // @public
+    this.onProperty = new BooleanProperty( false ); // @public, true if the laser is activated and emitting light
+    this.waveProperty = new BooleanProperty( false ); // @public
+    this.colorModeProperty = new Property<'white' | 'singleColor'>( 'singleColor' ); // @public
     this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
 
     // @public (read-only)

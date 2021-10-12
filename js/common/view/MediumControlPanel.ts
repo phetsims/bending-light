@@ -53,9 +53,9 @@ type MediumControlPanelOptions = {
 
 class MediumControlPanel extends Node {
   private readonly mediumColorFactory: MediumColorFactory;
-  private readonly mediumProperty: Property;
-  private readonly laserWavelengthProperty: Property;
-  private readonly mediumIndexProperty: Property;
+  private readonly mediumProperty: Property<Medium>;
+  private readonly laserWavelengthProperty: Property<number>;
+  private readonly mediumIndexProperty: Property<number>;
 
   /**
    * @param {BendingLightScreenView} view - view of the simulation
@@ -67,7 +67,7 @@ class MediumControlPanel extends Node {
    * @param {number} decimalPlaces - decimalPlaces to show for index of refraction
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
-  constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property, name: string, textFieldVisible: boolean, laserWavelength: Property,
+  constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>, name: string, textFieldVisible: boolean, laserWavelength: Property<number>,
                decimalPlaces: number, options?: Partial<MediumControlPanelOptions> ) {
 
     super();
@@ -336,7 +336,7 @@ class MediumControlPanel extends Node {
       }
       updateComboBox();
     } );
-    comboBoxSubstanceProperty.link( selected => {
+    comboBoxSubstanceProperty.link( ( selected: Substance ) => {
       if ( !selected.custom ) {
         this.setSubstance( selected );
       }

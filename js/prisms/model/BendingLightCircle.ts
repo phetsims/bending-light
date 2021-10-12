@@ -14,10 +14,10 @@ import ColoredRay from './ColoredRay.js';
 import PrismIntersection from './PrismIntersection.js';
 
 class BendingLightCircle {
-  center: Vector2;
-  centroid: Vector2;
-  radius: number;
-  shape: Shape;
+  readonly center: Vector2;
+  readonly centroid: Vector2;
+  readonly radius: number;
+  readonly shape: Shape;
 
   /**
    * @param {Vector2} center - center of the circle
@@ -40,6 +40,10 @@ class BendingLightCircle {
    */
   getTranslatedInstance( deltaX: number, deltaY: number ) {
     return new BendingLightCircle( this.center.plusXY( deltaX, deltaY ), this.radius );
+  }
+
+  getRotatedInstance( angle: number, rotationCenter: Vector2 ) {
+    return this;
   }
 
   /**

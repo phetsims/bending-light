@@ -23,6 +23,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Laser from '../model/Laser.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type LaserNodeOptions = {
   tandem: Tandem
@@ -46,8 +47,8 @@ class LaserNode extends Node {
    *                                      there
    * @param {Object} [options?]
    */
-  constructor( modelViewTransform: ModelViewTransform2, laser: Laser, showRotationDragHandlesProperty: Property, showTranslationDragHandlesProperty: Property,
-               clampDragAngle: ( n: number ) => number, hasKnob: boolean, dragBoundsProperty: Property, occlusionHandler: ( laserNode: LaserNode ) => void,
+  constructor( modelViewTransform: ModelViewTransform2, laser: Laser, showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
+               clampDragAngle: ( n: number ) => number, hasKnob: boolean, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( laserNode: LaserNode ) => void,
                options?: Partial<LaserNodeOptions> ) {
 
     const filledOptions = merge( { tandem: Tandem.OPTIONAL }, options ) as LaserNodeOptions;
@@ -84,8 +85,8 @@ class LaserNode extends Node {
 
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker
-    const overCountProperty = new Property( 0 );
-    overCountProperty.link( overCount => showRotationDragHandlesProperty.set( overCount > 0 ) );
+    const overCountProperty = new Property<number>( 0 );
+    overCountProperty.link( ( overCount: number ) => showRotationDragHandlesProperty.set( overCount > 0 ) );
 
     super( merge( { cursor: 'pointer' }, options ) );
 
@@ -103,7 +104,7 @@ class LaserNode extends Node {
     const emissionPointEndPosition = new Vector2( 0, 0 );
 
     // When the window reshapes, make sure the laser remains in the play area
-    dragBoundsProperty.link( dragBounds => {
+    dragBoundsProperty.link( ( dragBounds: Bounds2 ) => {
       const center = laser.emissionPointProperty.value;
       const eroded = dragBounds.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
 
@@ -178,7 +179,7 @@ class LaserNode extends Node {
         phetioDocumentation: 'This Property determines whether the laser can be translated, in the "Prisms" screen only. ' +
                              'A value of false means the laser cannot be translated, though it may still be rotatable.'
       } );
-      isTranslationEnabledProperty.lazyLink( isEnabled => {
+      isTranslationEnabledProperty.lazyLink( ( isEnabled: boolean ) => {
         if ( isEnabled ) {
           laserPointerNode.addInputListener( translationListener );
           laserPointerNode.addInputListener( translationOverListener );
@@ -242,7 +243,7 @@ class LaserNode extends Node {
                            'the rotation knob on the back of the laser and makes it non-rotatable (though it may still ' +
                            'be translatable).'
     } );
-    isRotationEnabledProperty.lazyLink( isEnabled => {
+    isRotationEnabledProperty.lazyLink( ( isEnabled: boolean ) => {
       if ( isEnabled ) {
         rotationTarget.addInputListener( rotationListener );
         rotationTarget.addInputListener( rotationOverListener );
@@ -257,7 +258,7 @@ class LaserNode extends Node {
     } );
 
     // update the laser position
-    laser.emissionPointProperty.link( newEmissionPoint => {
+    laser.emissionPointProperty.link( ( newEmissionPoint: Vector2 ) => {
       const emissionPointX = modelViewTransform.modelToViewX( newEmissionPoint.x );
       const emissionPointY = modelViewTransform.modelToViewY( newEmissionPoint.y );
       this.setTranslation( emissionPointX, emissionPointY );

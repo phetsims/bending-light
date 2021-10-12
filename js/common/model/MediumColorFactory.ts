@@ -15,7 +15,7 @@ import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
 
 class MediumColorFactory {
-  lightTypeProperty: Property;
+  lightTypeProperty: Property<'singleColor' | 'white'>; // TODO: Single wavelength or single color???
   getColorAgainstWhite: ( indexForRed: number ) => Color;
   getColorAgainstBlack: ( indexForRed: number ) => Color;
 
@@ -81,7 +81,7 @@ const colorBlend = ( a: Color, b: Color, ratio: number ): Color => {
   );
 };
 
-const createProfile = ( AIR_COLOR:Color, WATER_COLOR:Color, GLASS_COLOR:Color, DIAMOND_COLOR:Color ) => ( indexForRed: number) => {
+const createProfile = ( AIR_COLOR: Color, WATER_COLOR: Color, GLASS_COLOR: Color, DIAMOND_COLOR: Color ) => ( indexForRed: number ) => {
 
   // precompute to improve readability below
   const waterIndexForRed = Substance.WATER.indexOfRefractionForRedLight;

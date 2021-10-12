@@ -10,8 +10,8 @@
 import bendingLight from '../../bendingLight.js';
 
 class DataPoint {
-  private readonly time: number;
-  private readonly value: number;
+  readonly time: number;
+  readonly value: number;
 
   /**
    * @param {number} time - time of simulation

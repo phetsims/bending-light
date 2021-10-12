@@ -46,7 +46,7 @@ class AngleNode extends Node {
    * @param {ModelViewTransform2} modelViewTransform
    * @param {function} addStepListener -
    */
-  constructor( showAnglesProperty: Property, laserOnProperty: Property, showNormalProperty: Property, rays: ObservableArray<LightRay>, modelViewTransform: ModelViewTransform2,
+  constructor( showAnglesProperty: Property<boolean>, laserOnProperty: Property<boolean>, showNormalProperty: Property<boolean>, rays: ObservableArray<LightRay>, modelViewTransform: ModelViewTransform2,
                addStepListener: ( x: () => void ) => void ) {
     super();
 
@@ -95,7 +95,7 @@ class AngleNode extends Node {
     // Only redraw when necessary to improve performance.
     let dirty = true;
 
-    showNormalProperty.link( showNormal => {
+    showNormalProperty.link( ( showNormal: boolean) => {
 
       // Only show the top marker when the normal is not shown, since they would interfere if both shown together
       upperMark.visible = !showNormal;

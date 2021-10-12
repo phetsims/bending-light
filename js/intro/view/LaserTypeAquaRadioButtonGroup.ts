@@ -13,6 +13,7 @@ import AquaRadioButton from '../../../../sun/js/AquaRadioButton.js';
 import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import Property from '../../../../axon/js/Property.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
 const rayString = bendingLightStrings.ray;
 const waveString = bendingLightStrings.wave;
@@ -22,7 +23,7 @@ class LaserTypeAquaRadioButtonGroup extends VBox {
   /**
    * @param laserTypeProperty 'ray' or 'wave'
    */
-  constructor( laserTypeProperty: Property ) {
+  constructor( laserTypeProperty: Property<LaserViewEnum> ) {
     const radioButtonOptions = {
       radius: 6,
       font: new PhetFont( 12 )

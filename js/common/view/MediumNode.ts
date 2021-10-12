@@ -11,6 +11,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import bendingLight from '../../bendingLight.js';
+import Medium from '../model/Medium.js';
 
 class MediumNode extends Node {
 
@@ -18,7 +19,7 @@ class MediumNode extends Node {
    * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
    * @param {Property.<Medium>} mediumProperty - specifies medium
    */
-  constructor( modelViewTransform: ModelViewTransform2, mediumProperty: Property ) {
+  constructor( modelViewTransform: ModelViewTransform2, mediumProperty: Property<Medium> ) {
     super( { pickable: false } ); // user can't interact with the medium except through control panels.
 
     // add the shape that paints the medium
@@ -29,7 +30,7 @@ class MediumNode extends Node {
     this.addChild( mediumRectangleNode );
 
     // Update whenever the medium changes
-    mediumProperty.link( medium => {
+    mediumProperty.link( (medium:Medium) => {
       // @ts-ignore
       mediumRectangleNode.fill = medium.color;
     } );

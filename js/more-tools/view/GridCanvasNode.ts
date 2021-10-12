@@ -12,9 +12,10 @@
 import Property from '../../../../axon/js/Property.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2';
 
 class GridCanvasNode extends CanvasNode {
-  modelViewTransformProperty: Property;
+  modelViewTransformProperty: Property<ModelViewTransform2>;
   strokeDash: number[];
   gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>;
 
@@ -24,7 +25,7 @@ class GridCanvasNode extends CanvasNode {
    * @param {array.<number>} strokeDash
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
-  constructor( gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>, modelViewTransformProperty: Property, strokeDash: number[], options?: Partial<NodeOptions> ) {
+  constructor( gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>, modelViewTransformProperty: Property<ModelViewTransform2>, strokeDash: number[], options?: Partial<NodeOptions> ) {
 
     super( options );
     this.gridLines = gridLines; // @private

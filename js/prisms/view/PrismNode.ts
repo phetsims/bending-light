@@ -8,6 +8,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -41,7 +42,7 @@ class PrismNode extends Node {
    * @param {boolean} isIcon - true if the prism node is being created to be shown as an icon in the toolbox
    *                         - false if the prism node will be dragged in the play area
    */
-  constructor( prismsModel: PrismsModel, modelViewTransform: ModelViewTransform2, prism: Prism, prismToolboxNode: Node, prismLayer: Node, dragBoundsProperty: Property,
+  constructor( prismsModel: PrismsModel, modelViewTransform: ModelViewTransform2, prism: Prism, prismToolboxNode: Node, prismLayer: Node, dragBoundsProperty: Property<Bounds2>,
                occlusionHandler: ( prismNode: PrismNode ) => void, isIcon: boolean ) {
 
     super( { cursor: 'pointer' } );
@@ -60,14 +61,14 @@ class PrismNode extends Node {
       knobNode.addInputListener( new SimpleDragHandler( {
         start: ( event: SceneryEvent ) => {
           this.moveToFront();
-          const start = knobNode.globalToParentPoint( event.pointer.point as Vector2);
+          const start = knobNode.globalToParentPoint( event.pointer.point as Vector2 );
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const startX = modelViewTransform.viewToModelX( start.x );// model values
           const startY = modelViewTransform.viewToModelY( start.y );// model values
           previousAngle = Math.atan2( ( prismCenterPoint.y - startY ), ( prismCenterPoint.x - startX ) );
         },
         drag: ( event: SceneryEvent ) => {
-          const end = knobNode.globalToParentPoint( event.pointer.point as Vector2);
+          const end = knobNode.globalToParentPoint( event.pointer.point as Vector2 );
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const endX = modelViewTransform.viewToModelX( end.x );// model values
           const endY = modelViewTransform.viewToModelY( end.y );// model values
@@ -89,7 +90,7 @@ class PrismNode extends Node {
 
     // When the window reshapes, make sure no prism is left outside of the play area
     // TODO: Broken, see https://github.com/phetsims/bending-light/issues/372
-    dragBoundsProperty.link( dragBounds => {
+    dragBoundsProperty.link( ( dragBounds: Bounds2 ) => {
       const center = prism.shapeProperty.get().centroid;
       const inBounds = modelViewTransform.viewToModelBounds( dragBounds ).getClosestPoint( center.x, center.y );
       prism.translate( inBounds.x - center.x, inBounds.y - center.y );

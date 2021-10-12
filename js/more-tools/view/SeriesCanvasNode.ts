@@ -10,10 +10,12 @@
 import Property from '../../../../axon/js/Property.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
+import DataPoint from '../model/DataPoint.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2';
 
 class SeriesCanvasNode extends CanvasNode {
-  seriesProperty: Property;
-  modelViewTransformProperty: Property;
+  seriesProperty: Property<DataPoint[]>;
+  modelViewTransformProperty: Property<ModelViewTransform2>;
   color: string;
 
   /**
@@ -23,7 +25,7 @@ class SeriesCanvasNode extends CanvasNode {
    * @param {string} color - color of the series
    * @param {Object} [options] - options that can be passed on to the underlying node
    */
-  constructor( seriesProperty: Property, modelViewTransformProperty: Property, color: string, options?: Partial<NodeOptions> ) {
+  constructor( seriesProperty: Property<DataPoint[]>, modelViewTransformProperty: Property<ModelViewTransform2>, color: string, options?: Partial<NodeOptions> ) {
 
     super( options );
     this.seriesProperty = seriesProperty; // @private

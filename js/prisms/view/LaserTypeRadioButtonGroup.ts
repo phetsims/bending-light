@@ -15,6 +15,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import laserImage from '../../../images/laser_png.js';
 import bendingLight from '../../bendingLight.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
 class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 
@@ -22,7 +23,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup {
    * @param {Property.<LaserViewEnum>} radioButtonAdapterProperty
    * @param {Object} [options]
    */
-  constructor( radioButtonAdapterProperty: Property, options?: Partial<NodeOptions> ) {
+  constructor( radioButtonAdapterProperty: Property<'white'|'singleColor'|'singleColor5x'>, options?: Partial<NodeOptions> ) {
     const laserImageNode = new Image( laserImage, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )

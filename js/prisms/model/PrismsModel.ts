@@ -34,15 +34,15 @@ const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
 const CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
 class PrismsModel extends BendingLightModel {
-  prisms: ObservableArray<Prism>;
-  intersections: ObservableArray<Intersection>;
-  manyRaysProperty: Property;
-  showReflectionsProperty: Property;
-  showNormalsProperty: Property;
-  showProtractorProperty: Property;
-  environmentMediumProperty: Property;
-  prismMediumProperty: Property;
-  intersectionStrokeProperty: Property;
+  readonly prisms: ObservableArray<Prism>;
+  readonly intersections: ObservableArray<Intersection>;
+  readonly manyRaysProperty: Property<number>;
+  readonly showReflectionsProperty: Property<boolean>;
+  readonly showNormalsProperty: Property<boolean>;
+  readonly showProtractorProperty: Property<boolean>;
+  readonly environmentMediumProperty: Property<Medium>;
+  readonly prismMediumProperty: Property<Medium>;
+  readonly intersectionStrokeProperty: Property<string>;
   dirty: boolean;
 
   constructor( options?: Partial<NodeOptions> ) {
@@ -55,7 +55,6 @@ class PrismsModel extends BendingLightModel {
     this.intersections = createObservableArray();
 
     this.mediumColorFactory = new MediumColorFactory();
-
 
     // Show multiple beams to help show how lenses work
     this.manyRaysProperty = new Property( 1 );
@@ -72,7 +71,7 @@ class PrismsModel extends BendingLightModel {
     this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ), { reentrant: true } );
 
     this.intersectionStrokeProperty = new Property( 'black' );
-    this.laser.colorModeProperty.link( colorMode => {
+    this.laser.colorModeProperty.link( ( colorMode: 'white' | 'singleColor' ) => {
       this.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
     } );
     Property.multilink( [

@@ -24,12 +24,13 @@ import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import LightRay from '../../common/model/LightRay.js';
+import Medium from '../../common/model/Medium.js';
 import MediumColorFactory from '../../common/model/MediumColorFactory.js';
 
 class WhiteLightCanvasNode extends CanvasNode {
   modelViewTransform: ModelViewTransform2;
   whiteLightRays: LightRay[];
-  environmentMediumProperty: Property;
+  environmentMediumProperty: Property<Medium>;
   colorCSS: string | null;
 
   /**
@@ -41,7 +42,7 @@ class WhiteLightCanvasNode extends CanvasNode {
    * @param {MediumColorFactory} mediumColorFactory - for creating colors from index of refraction
    */
   constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, whiteLightRays: LightRay[],
-               environmentMediumProperty: Property, mediumColorFactory: MediumColorFactory ) {
+               environmentMediumProperty: Property<Medium>, mediumColorFactory: MediumColorFactory ) {
 
     super( {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )

@@ -31,7 +31,7 @@ class SeriesNode extends Node {
    *                                                                      frames
    * @param {Bounds2} chartBounds - bounds of the chart node
    */
-  constructor( series: Series, modelViewTransformProperty: Property, chartBounds: Bounds2 ) {
+  constructor( series: Series, modelViewTransformProperty: Property<ModelViewTransform2>, chartBounds: Bounds2 ) {
 
     super();
 
@@ -54,7 +54,7 @@ class ChartNode extends Node {
   chartBounds: Bounds2;
   seriesArray: Series[];
   timeWidth: number;
-  modelViewTransformProperty: Property;
+  modelViewTransformProperty: Property<ModelViewTransform2>;
   gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>;
   gridCanvasNode: GridCanvasNode;
 

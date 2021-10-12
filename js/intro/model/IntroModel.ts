@@ -35,8 +35,8 @@ const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 const BEAM_LENGTH = 1E-3;
 
 class IntroModel extends BendingLightModel {
-  topMediumProperty: Property;
-  bottomMediumProperty: Property;
+  topMediumProperty: Property<Medium>;
+  bottomMediumProperty: Property<Medium>;
   time: number;
   indexOfRefractionOfTopMediumProperty: DerivedProperty;
   indexOfRefractionOfBottomMediumProperty: DerivedProperty;

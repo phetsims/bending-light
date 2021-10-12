@@ -31,6 +31,11 @@ import LaserTypeRadioButtonGroup from './LaserTypeRadioButtonGroup.js';
 import PrismToolboxNode from './PrismToolboxNode.js';
 import WhiteLightCanvasNode from './WhiteLightCanvasNode.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
+import Medium from '../../common/model/Medium.js';
 
 // constants
 const INSET = 10;
@@ -41,7 +46,9 @@ class PrismsScreenView extends BendingLightScreenView {
   prismLayer: Node;
   prismsModel: PrismsModel;
   resetPrismsView: () => void;
-  whiteLightNode: WhiteLightCanvasNode | null;
+
+  // @ts-ignore assigned in the supercall which calls addLightNodes
+  whiteLightNode: WhiteLightCanvasNode;
 
   /**
    * @param {PrismsModel} prismsModel - model of prisms screen
@@ -83,14 +90,13 @@ class PrismsScreenView extends BendingLightScreenView {
       }, options )
     );
 
-    this.whiteLightNode = null;
     this.prismLayer = new Node( { layerSplit: true } );
     this.prismsModel = prismsModel;
 
     // Node for the environment that spans the screen (only for monochromatic light, the white light background
     // is rendered as opaque in the white light node for blending purposes)
     const environmentMediumNodeForMonochromaticLight = new Rectangle( 0, 0, 0, 0 );
-    prismsModel.environmentMediumProperty.link( environmentMedium => {
+    prismsModel.environmentMediumProperty.link( ( environmentMedium: Medium ) => {
 
       // This medium node only shows the color for monochromatic light
       const indexOfRefractionForRed = environmentMedium.substance.dispersionFunction.getIndexOfRefractionForRed();
@@ -117,10 +123,10 @@ class PrismsScreenView extends BendingLightScreenView {
       this.layoutBounds.right - 2 * INSET - environmentMediumControlPanel.width, this.layoutBounds.top + 15 );
     this.afterLightLayer2.addChild( environmentMediumControlPanel );
 
-    const sliderEnabledProperty = new Property( false );
+    const sliderEnabledProperty = new BooleanProperty( false );
 
-    const radioButtonAdapterProperty = new Property( 'singleColor' );
-    radioButtonAdapterProperty.link( radioButtonAdapterValue => {
+    const radioButtonAdapterProperty = new Property<'white' | 'singleColor' | 'singleColor5x'>( 'singleColor' );
+    radioButtonAdapterProperty.link( ( radioButtonAdapterValue: 'white' | 'singleColor' | 'singleColor5x' ) => {
       prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === 'white' ? 'white' :
                                                   'singleColor';
       prismsModel.manyRaysProperty.value = radioButtonAdapterValue === 'singleColor5x' ? 5 : 1;
@@ -196,7 +202,7 @@ class PrismsScreenView extends BendingLightScreenView {
       rotatable: true,
       scale: 0.46
     } );
-    const protractorPositionProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
+    const protractorPositionProperty = new Property<Vector2>( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
 
     const protractorNodeListener = new MovableDragHandler( protractorPositionProperty, {
       targetNode: protractorNode,
@@ -213,7 +219,7 @@ class PrismsScreenView extends BendingLightScreenView {
     } );
     protractorNode.addInputListener( protractorNodeListener );
 
-    protractorPositionProperty.link( protractorPosition => {
+    protractorPositionProperty.link( ( protractorPosition: Vector2 ) => {
       protractorNode.center = protractorPosition;
     } );
 
@@ -229,12 +235,12 @@ class PrismsScreenView extends BendingLightScreenView {
     FloatingLayout.floatBottom( this, [ prismToolboxNode, resetAllButton ] );
     FloatingLayout.floatTop( this, [ environmentMediumControlPanel ] );
 
-    this.visibleBoundsProperty.link( visibleBounds => {
+    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
       laserTypeRadioButtonGroup.top = environmentMediumControlPanel.bottom + 15;
       laserControlPanel.top = laserTypeRadioButtonGroup.bottom + 15;
     } );
 
-    this.visibleBoundsProperty.link( visibleBounds => {
+    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
       this.whiteLightNode && this.whiteLightNode.setCanvasBounds( visibleBounds );
       protractorNodeListener.setDragBounds( visibleBounds );
       environmentMediumNodeForMonochromaticLight.setRect( visibleBounds.x, visibleBounds.y, visibleBounds.width, visibleBounds.height );
@@ -247,18 +253,15 @@ class PrismsScreenView extends BendingLightScreenView {
 
     // Add a thin gray line to separate the navigation bar when the environmentMediumNode is black
     const navigationBarSeparator = new Rectangle( 0, 0, 100, 100, { fill: '#999999', pickable: false } );
-    this.visibleBoundsProperty.link( visibleBounds => {
+    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
       const rectHeight = 2;
       navigationBarSeparator.setRect( visibleBounds.x, visibleBounds.y + visibleBounds.height - rectHeight, visibleBounds.width, rectHeight );
     } );
-    prismsModel.laser.colorModeProperty.link( color => {
+    prismsModel.laser.colorModeProperty.link( ( color: 'white' | 'singleColor' ) => {
       navigationBarSeparator.visible = color === 'white';
+      prismsModel.mediumColorFactory.lightTypeProperty.value = color;
     } );
     this.addChild( navigationBarSeparator );
-
-    prismsModel.laser.colorModeProperty.link( colorMode => {
-      prismsModel.mediumColorFactory.lightTypeProperty.value = colorMode;
-    } );
   }
 
   /**
@@ -280,7 +283,7 @@ class PrismsScreenView extends BendingLightScreenView {
   /**
    * @private, for internal use only.
    */
-  updateWhiteLightNode() {
+  private updateWhiteLightNode() {
     if ( this.prismsModel.laser.colorModeProperty.value === 'white' && this.prismsModel.dirty ) {
       this.whiteLightNode && this.whiteLightNode.step();
       this.prismsModel.dirty = false;
@@ -298,7 +301,6 @@ class PrismsScreenView extends BendingLightScreenView {
     const stageWidth = this.layoutBounds.width;
     const stageHeight = this.layoutBounds.height;
 
-    // const bendingLightModel = this.bendingLightModel;
     this.whiteLightNode = new WhiteLightCanvasNode(
       this.modelViewTransform,
       stageWidth,
@@ -308,15 +310,17 @@ class PrismsScreenView extends BendingLightScreenView {
       bendingLightModel.mediumColorFactory
     );
     this.whiteLightNode.setExcludeInvisible( true );
+    console.log( this );
+    console.log( this.whiteLightNode );
 
     // Since the light canvas is opaque, it must be placed behind the control panels.
     this.addChild( this.whiteLightNode );
 
     // switch between light render for white vs nonwhite light
-    bendingLightModel.laser.colorModeProperty.link( color => {
-      const white = color === 'white';
-
-      this.whiteLightNode && this.whiteLightNode.setVisible( white );
+    bendingLightModel.laser.colorModeProperty.link( ( color: 'white' | 'singleColor' ) => {
+      console.log( this );
+      console.log( this.whiteLightNode );
+      this.whiteLightNode && this.whiteLightNode.setVisible( color === 'white' );
     } );
   }
 
@@ -330,7 +334,7 @@ class PrismsScreenView extends BendingLightScreenView {
    */
   // @ts-ignore
   addLaserHandles( showRotationDragHandlesProperty: Property, showTranslationDragHandlesProperty: Property,
-                   clockwiseArrowNotAtMax: Property, ccwArrowNotAtMax: Property, laserImageWidth: number ) {
+                   clockwiseArrowNotAtMax: Property<boolean>, ccwArrowNotAtMax: Property<boolean>, laserImageWidth: number ) {
     const bendingLightModel = this.bendingLightModel;
     super.addLaserHandles(
       showRotationDragHandlesProperty,

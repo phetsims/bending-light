@@ -26,6 +26,7 @@ import WaveSensorNode from './WaveSensorNode.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // constants
 const arrowScale = 1.5E-14;
@@ -99,7 +100,7 @@ class MoreToolsScreenView extends IntroScreenView {
 
     const dropInToolbox = this.dropInToolbox;
 
-    const createMovableDragHandler = ( node: Node, positionProperty: Property, enabledProperty: Property ) => {
+    const createMovableDragHandler = ( node: Node, positionProperty: Property<Vector2>, enabledProperty: Property<boolean> ) => {
       return new MovableDragHandler( positionProperty, {
         modelViewTransform: modelViewTransform,
         endDrag: () => {
@@ -140,7 +141,7 @@ class MoreToolsScreenView extends IntroScreenView {
         waveSensor.enabledProperty.set( true );
 
         // Center the body label on the pointer
-        const pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point as Vector2)
+        const pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point as Vector2 )
           .plusXY( 0, -waveSensorNode.bodyNode.height / 2 + 5 );
         waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( pt );
         waveSensorNode.resetRelativePositions();
@@ -148,7 +149,7 @@ class MoreToolsScreenView extends IntroScreenView {
       } )
     );
 
-    this.visibleBoundsProperty.link( visibleBounds => {
+    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
 
       // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
       // node will remain in bounds
@@ -186,7 +187,7 @@ class MoreToolsScreenView extends IntroScreenView {
         scale: 2
       }
     );
-    moreToolsModel.velocitySensor.enabledProperty.link( enabled => {
+    moreToolsModel.velocitySensor.enabledProperty.link( ( enabled: boolean) => {
       velocitySensorIconNode.visible = !enabled;
       velocitySensorNode.visible = enabled;
     } );
@@ -211,12 +212,12 @@ class MoreToolsScreenView extends IntroScreenView {
       this.moreToolsModel.velocitySensor.enabledProperty.value = true;
 
       // Center the protractor on the pointer
-      const viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point as Vector2);
+      const viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point as Vector2 );
       const velocitySensorModelPosition = this.modelViewTransform.viewToModelPosition( viewPosition );
       this.moreToolsModel.velocitySensor.positionProperty.set( velocitySensorModelPosition );
     } ) );
 
-    this.visibleBoundsProperty.link( visibleBounds => {
+    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
 
       // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
       // node will remain in bounds

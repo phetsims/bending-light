@@ -20,7 +20,7 @@ class IntersectionNode extends Line {
    * @param {Intersection} intersection - specifies details of intersection point and unit normal
    * @param {Property.<string|Color>} strokeProperty - the stroke to use for the intersection node
    */
-  constructor( modelViewTransform: ModelViewTransform2, intersection: Intersection, strokeProperty: Property ) {
+  constructor( modelViewTransform: ModelViewTransform2, intersection: Intersection, strokeProperty: Property<string> ) {
 
     const centerX = modelViewTransform.modelToViewX( intersection.point.x );
     const centerY = modelViewTransform.modelToViewY( intersection.point.y );

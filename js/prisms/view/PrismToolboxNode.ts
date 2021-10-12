@@ -52,7 +52,7 @@ class PrismToolboxNode extends Node {
    *                                    - control panel
    * @param {Object} [options] that can be passed on to the underlying node
    */
-  constructor( modelViewTransform: ModelViewTransform2, prismsModel: PrismsModel, prismLayer: Node, dragBoundsProperty: Property, occlusionHandler: () => void,
+  constructor( modelViewTransform: ModelViewTransform2, prismsModel: PrismsModel, prismLayer: Node, dragBoundsProperty: Property<Bounds2>, occlusionHandler: () => void,
                options?: Partial<NodeOptions> ) {
 
     super();

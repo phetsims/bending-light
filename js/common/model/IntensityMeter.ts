@@ -16,11 +16,11 @@ import bendingLight from '../../bendingLight.js';
 import Reading from './Reading.js';
 
 class IntensityMeter {
-  readonly readingProperty: Property;
+  readonly readingProperty: Property<Reading>;
   readonly sensorPositionProperty: Vector2Property;
   readonly bodyPositionProperty: Vector2Property;
   private rayReadings: Reading[];
-  readonly enabledProperty: Property;
+  readonly enabledProperty: Property<boolean>;
 
   /**
    * @param {number} sensorX - sensor x position in model coordinates

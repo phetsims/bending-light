@@ -132,11 +132,11 @@ class IntensityMeterNode extends Node {
       }
     );
 
-    intensityMeter.sensorPositionProperty.link( sensorPosition => {
+    intensityMeter.sensorPositionProperty.link( ( sensorPosition: Vector2 ) => {
       this.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
     } );
 
-    intensityMeter.bodyPositionProperty.link( bodyPosition => {
+    intensityMeter.bodyPositionProperty.link( ( bodyPosition: Vector2 ) => {
       this.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
     } );
 

@@ -28,7 +28,7 @@ class Substance {
   readonly indexOfRefractionForRedLight: number;
   readonly name: string;
   readonly indexForRed: number;
-  private readonly custom: boolean;
+  readonly custom: boolean;
   static AIR: Substance;
   static WATER: Substance;
   static GLASS: Substance;

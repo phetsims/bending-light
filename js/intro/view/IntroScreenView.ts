@@ -43,6 +43,7 @@ import WaveCanvasNode from './WaveCanvasNode.js';
 import WaveWebGLNode from './WaveWebGLNode.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
 const anglesString = bendingLightStrings.angles;
 const materialString = bendingLightStrings.material;
@@ -58,8 +59,8 @@ class IntroScreenView extends BendingLightScreenView {
   stepEmitter: Emitter;
   topMediumControlPanel: MediumControlPanel;
   bottomMediumControlPanel: MediumControlPanel;
-  dropInToolbox: ( node: Node, enabledProperty: Property ) => void;
-  bumpLeft: ( node: Node, positionProperty: Property ) => void;
+  dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
+  bumpLeft: ( node: Node, positionProperty: Property<Vector2> ) => void;
   toolbox: Panel;
   timeControlNode: TimeControlNode;
 
@@ -263,7 +264,7 @@ class IntroScreenView extends BendingLightScreenView {
     } );
     protractorNodeIcon.mouseArea = Shape.bounds( protractorNodeIcon.localBounds );
     protractorNodeIcon.touchArea = Shape.bounds( protractorNodeIcon.localBounds );
-    this.showProtractorProperty.link( showProtractor => {
+    this.showProtractorProperty.link( ( showProtractor: boolean ) => {
       protractorNodeIcon.visible = !showProtractor;
     } );
 
@@ -274,7 +275,7 @@ class IntroScreenView extends BendingLightScreenView {
     const protractorPositionProperty = new Property( protractorPosition );
 
     // When a node is released, check if it is over the toolbox.  If so, drop it in.
-    const dropInToolbox = ( node: Node, enabledProperty: Property ) => {
+    const dropInToolbox = ( node: Node, enabledProperty: Property<boolean> ) => {
       if ( node.getGlobalBounds().intersectsBounds( this.toolbox.getGlobalBounds() ) ) {
         enabledProperty.value = false;
       }
@@ -299,14 +300,14 @@ class IntroScreenView extends BendingLightScreenView {
     const modelViewTransform = this.modelViewTransform;
 
     // When a node is dropped behind a control panel, move it to the side so it won't be lost.
-    const bumpLeft = ( node: Node, positionProperty: Property ) => {
+    const bumpLeft = ( node: Node, positionProperty: Property<Vector2> ) => {
       while ( node.getGlobalBounds().intersectsBounds( topMediumControlPanel.getGlobalBounds() ) ||
               node.getGlobalBounds().intersectsBounds( bottomMediumControlPanel.getGlobalBounds() ) ) {
         positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
       }
     };
 
-    protractorPositionProperty.link( protractorPosition => {
+    protractorPositionProperty.link( ( protractorPosition: Vector2 ) => {
       protractorNode.center = protractorPosition;
     } );
 
@@ -321,7 +322,7 @@ class IntroScreenView extends BendingLightScreenView {
     intensityMeterNodeIcon.touchArea = Shape.bounds( intensityMeterNodeIcon.localBounds );
 
     const intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
-    introModel.intensityMeter.enabledProperty.link( enabled => {
+    introModel.intensityMeter.enabledProperty.link( ( enabled: boolean ) => {
       intensityMeterNode.visible = enabled;
       intensityMeterNodeIcon.visible = !enabled;
     } );
@@ -413,7 +414,7 @@ class IntroScreenView extends BendingLightScreenView {
     if ( !hasMoreTools ) {
 
       // show play pause and step buttons only in wave view
-      introModel.laserViewProperty.link( laserType => this.timeControlNode.setVisible( laserType === 'wave' ) );
+      introModel.laserViewProperty.link( ( laserType: LaserViewEnum ) => this.timeControlNode.setVisible( laserType === 'wave' ) );
     }
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
@@ -429,7 +430,7 @@ class IntroScreenView extends BendingLightScreenView {
       this.toolbox.bottom = checkboxPanel.top - 10;
     } );
 
-    this.visibleBoundsProperty.link( visibleBounds => {
+    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
       protractorNodeListener.setDragBounds( visibleBounds );
       probeListener.setDragBounds( modelViewTransform.viewToModelBounds( visibleBounds ) );
 
@@ -497,7 +498,6 @@ class IntroScreenView extends BendingLightScreenView {
    * @private
    */
   addLightNodes( bendingLightModel: BendingLightModel ) {
-    // super.addLightNodes( bendingLightModel );
 
     this.addChild( this.incidentWaveLayer );
 
@@ -511,7 +511,7 @@ class IntroScreenView extends BendingLightScreenView {
         canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
       } );
       this.incidentWaveLayer.addChild( waveCanvasNode );
-      this.visibleBoundsProperty.link( visibleBounds => {
+      this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
         waveCanvasNode.setCanvasBounds( visibleBounds );
       } );
     }
