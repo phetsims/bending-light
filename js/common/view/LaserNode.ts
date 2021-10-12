@@ -85,7 +85,7 @@ class LaserNode extends Node {
 
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker
-    const overCountProperty = new Property<number>( 0 );
+    const overCountProperty = new Property( 0 );
     overCountProperty.link( ( overCount: number ) => showRotationDragHandlesProperty.set( overCount > 0 ) );
 
     super( merge( { cursor: 'pointer' }, options ) );

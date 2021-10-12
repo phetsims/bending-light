@@ -65,7 +65,7 @@ abstract class BendingLightModel {
     this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
 
     // @public, Whether the laser is Ray or Wave mode
-    this.laserViewProperty = new Property<LaserViewEnum>( 'ray', {
+    this.laserViewProperty = new Property( 'ray', {
       validValues: [ 'wave', 'ray' ]
     } );
 

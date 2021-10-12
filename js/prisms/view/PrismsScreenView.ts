@@ -203,7 +203,7 @@ class PrismsScreenView extends BendingLightScreenView {
       rotatable: true,
       scale: 0.46
     } );
-    const protractorPositionProperty = new Property<Vector2>( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
+    const protractorPositionProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
 
     const protractorNodeListener = new MovableDragHandler( protractorPositionProperty, {
       targetNode: protractorNode,
