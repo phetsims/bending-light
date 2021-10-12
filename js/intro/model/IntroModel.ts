@@ -27,6 +27,7 @@ import Reading from '../../common/model/Reading.js';
 import Substance from '../../common/model/Substance.js';
 import WaveParticle from '../../common/model/WaveParticle.js';
 import LaserColor from '../../common/view/LaserColor.js';
+import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 
 // constants
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
@@ -275,7 +276,7 @@ class IntroModel extends BendingLightModel {
    * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
    * @returns {boolean}
    */
-  addAndAbsorb( ray: LightRay, rayType: 'incident' | 'transmitted' | 'reflected' ) {
+  addAndAbsorb( ray: LightRay, rayType: RayTypeEnum ) {
     const angleOffset = rayType === 'incident' ? Math.PI : 0;
 
     // find intersection points with the intensity sensor

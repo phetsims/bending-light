@@ -28,6 +28,7 @@ import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import Prism from './Prism.js';
 import SemiCircle from './SemiCircle.js';
+import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 
 // constants
 const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
@@ -71,7 +72,7 @@ class PrismsModel extends BendingLightModel {
     this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ), { reentrant: true } );
 
     this.intersectionStrokeProperty = new Property( 'black' );
-    this.laser.colorModeProperty.link( ( colorMode: 'white' | 'singleColor' ) => {
+    this.laser.colorModeProperty.link( ( colorMode: ColorModeEnum ) => {
       this.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
     } );
     Property.multilink( [

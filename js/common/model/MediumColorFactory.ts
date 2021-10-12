@@ -13,9 +13,10 @@ import Utils from '../../../../dot/js/Utils.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
+import ColorModeEnum from './ColorModeEnum.js';
 
 class MediumColorFactory {
-  lightTypeProperty: Property<'singleColor' | 'white'>; // TODO: Single wavelength or single color???
+  lightTypeProperty: Property<ColorModeEnum>;
   getColorAgainstWhite: ( indexForRed: number ) => Color;
   getColorAgainstBlack: ( indexForRed: number ) => Color;
 

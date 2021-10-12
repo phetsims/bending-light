@@ -36,6 +36,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Medium from '../../common/model/Medium.js';
+import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 
 // constants
 const INSET = 10;
@@ -257,7 +258,7 @@ class PrismsScreenView extends BendingLightScreenView {
       const rectHeight = 2;
       navigationBarSeparator.setRect( visibleBounds.x, visibleBounds.y + visibleBounds.height - rectHeight, visibleBounds.width, rectHeight );
     } );
-    prismsModel.laser.colorModeProperty.link( ( color: 'white' | 'singleColor' ) => {
+    prismsModel.laser.colorModeProperty.link( ( color: ColorModeEnum ) => {
       navigationBarSeparator.visible = color === 'white';
       prismsModel.mediumColorFactory.lightTypeProperty.value = color;
     } );
@@ -317,9 +318,7 @@ class PrismsScreenView extends BendingLightScreenView {
     this.addChild( this.whiteLightNode );
 
     // switch between light render for white vs nonwhite light
-    bendingLightModel.laser.colorModeProperty.link( ( color: 'white' | 'singleColor' ) => {
-      console.log( this );
-      console.log( this.whiteLightNode );
+    bendingLightModel.laser.colorModeProperty.link( ( color: ColorModeEnum ) => {
       this.whiteLightNode && this.whiteLightNode.setVisible( color === 'white' );
     } );
   }
