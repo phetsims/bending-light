@@ -56,7 +56,7 @@ type IntroScreenViewOptions = {};
 
 class IntroScreenView extends BendingLightScreenView {
   introModel: IntroModel;
-  stepEmitter: Emitter;
+  stepEmitter: Emitter<[]>;
   topMediumControlPanel: MediumControlPanel;
   bottomMediumControlPanel: MediumControlPanel;
   dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
@@ -127,7 +127,7 @@ class IntroScreenView extends BendingLightScreenView {
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
 
     // @private {Emitter}
-    this.stepEmitter = new Emitter();
+    this.stepEmitter = new Emitter<[]>();
 
     // add control panels for setting the index of refraction for each medium
     const topMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
