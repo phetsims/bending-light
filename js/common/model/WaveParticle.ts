@@ -23,8 +23,8 @@ class WaveParticle {
   /**
    * @param {Vector2} position - position of wave particle
    * @param {number} width - width of wave particle
-   * @param {Color} color - color of wave particle
-   * @param {Color} particleGradientColor
+   * @param {string} color - color of wave particle
+   * @param {string} particleGradientColor
    * @param {number} angle - angle of wave particle
    * @param {number} waveHeight - height of wave particle
    */
