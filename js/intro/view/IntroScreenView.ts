@@ -508,6 +508,8 @@ class IntroScreenView extends BendingLightScreenView {
     }
     else {
       const waveCanvasNode = new WaveCanvasNode( this.bendingLightModel.rays, this.modelViewTransform, {
+
+        // @ts-ignore
         canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
       } );
       this.incidentWaveLayer.addChild( waveCanvasNode );

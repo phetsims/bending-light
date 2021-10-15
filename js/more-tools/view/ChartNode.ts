@@ -40,6 +40,8 @@ class SeriesNode extends Node {
       series.seriesProperty,
       modelViewTransformProperty,
       series.color.toCSS(), {
+
+        // @ts-ignore
         canvasBounds: chartBounds
       }
     );
@@ -78,6 +80,8 @@ class ChartNode extends Node {
     // Add grid to the chart
     this.gridLines = createObservableArray(); // @public (read-only)
     this.gridCanvasNode = new GridCanvasNode( this.gridLines, this.modelViewTransformProperty, [ DASH_ON, DASH_OFF ], {
+
+      // @ts-ignore
       canvasBounds: chartBounds
     } );
     this.addChild( this.gridCanvasNode );
