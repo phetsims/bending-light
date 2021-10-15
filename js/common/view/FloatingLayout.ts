@@ -45,7 +45,7 @@ const FloatingLayout = {
    * @param {Node[]} nodes
    * @param {number} delta
    */
-  floatLeft: ( screenView: ScreenView, nodes: Node[], delta: number = 0 ) => {
+  floatLeft: ( screenView: ScreenView, nodes: Node[], delta = 0 ) => {
     screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
 
       // Let the panels move to the left, but not too far
