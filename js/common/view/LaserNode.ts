@@ -280,7 +280,7 @@ class LaserNode extends Node {
   translateViewXY( x: number, y: number ) {
     const delta = this.modelViewTransform.viewToModelDeltaXY( x, y );
     this.laser.translate( delta.x, delta.y );
-  };
+  }
 }
 
 bendingLight.register( 'LaserNode', LaserNode );

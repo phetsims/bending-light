@@ -15,7 +15,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import laserImage from '../../../images/laser_png.js';
 import bendingLight from '../../bendingLight.js';
-import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
 class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 

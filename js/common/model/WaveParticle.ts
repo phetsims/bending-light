@@ -9,7 +9,6 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 
 class WaveParticle {

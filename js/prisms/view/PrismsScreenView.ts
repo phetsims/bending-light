@@ -8,7 +8,6 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
@@ -30,11 +29,9 @@ import IntersectionNode from './IntersectionNode.js';
 import LaserTypeRadioButtonGroup from './LaserTypeRadioButtonGroup.js';
 import PrismToolboxNode from './PrismToolboxNode.js';
 import WhiteLightCanvasNode from './WhiteLightCanvasNode.js';
-import BendingLightModel from '../../common/model/BendingLightModel.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Medium from '../../common/model/Medium.js';
 import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 

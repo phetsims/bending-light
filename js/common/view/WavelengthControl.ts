@@ -124,7 +124,7 @@ class WavelengthControl extends Node {
       this.opacity = enabled ? 1 : 0.4;
     } );
 
-    wavelengthPropertyNM.link( ( wavelength: number) => {
+    wavelengthPropertyNM.link( ( wavelength: number ) => {
 
       // set the laser wavelength according to the slider wavelength
       wavelengthProperty.set( wavelength / 1E9 );

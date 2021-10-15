@@ -52,7 +52,7 @@ abstract class BendingLightModel {
     // @public (read-only)- list of rays in the model
     this.rays = createObservableArray();
 
-    // overriden in subtypes
+    // overridden in subtypes
     this.rotationArrowAngleOffset = null;
 
     this.mediumColorFactory = new MediumColorFactory();

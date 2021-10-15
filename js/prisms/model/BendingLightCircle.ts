@@ -42,6 +42,7 @@ class BendingLightCircle {
     return new BendingLightCircle( this.center.plusXY( deltaX, deltaY ), this.radius );
   }
 
+  // @public
   getRotatedInstance( angle: number, rotationCenter: Vector2 ) {
     return this;
   }

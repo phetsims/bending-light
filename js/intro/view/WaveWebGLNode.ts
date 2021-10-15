@@ -10,7 +10,7 @@
 import WebGLNode from '../../../../scenery/js/nodes/WebGLNode.js';
 import ShaderProgram from '../../../../scenery/js/util/ShaderProgram.js';
 import bendingLight from '../../bendingLight.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import LightRay from '../../common/model/LightRay.js';
 import Matrix from '../../../../dot/js/Matrix.js';
 

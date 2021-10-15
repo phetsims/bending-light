@@ -10,7 +10,6 @@
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import Shape from '../../../../kite/js/Shape.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightCircle from './BendingLightCircle.js';
 import ColoredRay from './ColoredRay.js';

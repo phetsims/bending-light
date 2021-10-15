@@ -15,8 +15,6 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
-import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
@@ -95,7 +93,7 @@ class AngleNode extends Node {
     // Only redraw when necessary to improve performance.
     let dirty = true;
 
-    showNormalProperty.link( ( showNormal: boolean) => {
+    showNormalProperty.link( ( showNormal: boolean ) => {
 
       // Only show the top marker when the normal is not shown, since they would interfere if both shown together
       upperMark.visible = !showNormal;

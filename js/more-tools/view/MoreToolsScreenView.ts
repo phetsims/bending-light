@@ -187,7 +187,7 @@ class MoreToolsScreenView extends IntroScreenView {
         scale: 2
       }
     );
-    moreToolsModel.velocitySensor.enabledProperty.link( ( enabled: boolean) => {
+    moreToolsModel.velocitySensor.enabledProperty.link( ( enabled: boolean ) => {
       velocitySensorIconNode.visible = !enabled;
       velocitySensorNode.visible = enabled;
     } );
