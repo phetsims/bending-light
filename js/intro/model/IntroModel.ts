@@ -39,8 +39,8 @@ class IntroModel extends BendingLightModel {
   topMediumProperty: Property<Medium>;
   bottomMediumProperty: Property<Medium>;
   time: number;
-  indexOfRefractionOfTopMediumProperty: DerivedProperty;
-  indexOfRefractionOfBottomMediumProperty: DerivedProperty;
+  indexOfRefractionOfTopMediumProperty: DerivedProperty<number>;
+  indexOfRefractionOfBottomMediumProperty: DerivedProperty<number>;
   intensityMeter: IntensityMeter;
   tailVector: Vector2;
   tipVector: Vector2;
