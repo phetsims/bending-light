@@ -22,7 +22,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup {
    * @param {Property.<LaserViewEnum>} radioButtonAdapterProperty
    * @param {Object} [providedOptions]
    */
-  constructor( radioButtonAdapterProperty: Property<'white'|'singleColor'|'singleColor5x'>, providedOptions?: Partial<NodeOptions> ) {
+  constructor( radioButtonAdapterProperty: Property<'white' | 'singleColor' | 'singleColor5x'>, providedOptions?: NodeOptions ) {
     const laserImageNode = new Image( laserImage, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )

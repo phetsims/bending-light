@@ -54,7 +54,7 @@ abstract class BendingLightScreenView extends ScreenView {
    * @param {boolean} laserHasKnob - laser image
    * @param {Object} [providedOptions]
    */
-  constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, providedOptions?: Partial<BendingLightScreenViewOptions> ) {
+  constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, providedOptions?: BendingLightScreenViewOptions ) {
 
     const options = merge( {
       occlusionHandler: () => {}, // {function} moves objects out from behind a control panel if dropped there
@@ -231,5 +231,5 @@ abstract class BendingLightScreenView extends ScreenView {
 }
 
 bendingLight.register( 'BendingLightScreenView', BendingLightScreenView );
-
+export { BendingLightScreenViewOptions };
 export default BendingLightScreenView;

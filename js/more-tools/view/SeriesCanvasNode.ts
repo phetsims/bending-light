@@ -25,7 +25,8 @@ class SeriesCanvasNode extends CanvasNode {
    * @param {string} color - color of the series
    * @param {Object} [providedOptions] - options that can be passed on to the underlying node
    */
-  constructor( seriesProperty: Property<DataPoint[]>, modelViewTransformProperty: Property<ModelViewTransform2>, color: string, providedOptions?: Partial<NodeOptions> ) {
+  constructor( seriesProperty: Property<DataPoint[]>, modelViewTransformProperty: Property<ModelViewTransform2>,
+               color: string, providedOptions?: NodeOptions ) {
 
     super( providedOptions );
     this.seriesProperty = seriesProperty; // @private

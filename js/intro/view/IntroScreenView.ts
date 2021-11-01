@@ -29,7 +29,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 import bendingLightStrings from '../../bendingLightStrings.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
-import BendingLightScreenView from '../../common/view/BendingLightScreenView.js';
+import BendingLightScreenView, { BendingLightScreenViewOptions } from '../../common/view/BendingLightScreenView.js';
 import FloatingLayout from '../../common/view/FloatingLayout.js';
 import IntensityMeterNode from '../../common/view/IntensityMeterNode.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
@@ -52,7 +52,7 @@ const normalLineString = bendingLightStrings.normalLine;
 // constants
 const INSET = 10;
 
-type IntroScreenViewOptions = {};
+type IntroScreenViewOptions = {} & BendingLightScreenViewOptions;
 
 class IntroScreenView extends BendingLightScreenView {
   introModel: IntroModel;
@@ -71,9 +71,10 @@ class IntroScreenView extends BendingLightScreenView {
    * @param {function} createLaserControlPanel
    * @param {Object} [providedOptions]
    */
-  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number, createLaserControlPanel: ( model: BendingLightModel ) => Node, providedOptions?: Partial<IntroScreenViewOptions> ) {
+  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number,
+               createLaserControlPanel: ( model: BendingLightModel ) => Node, providedOptions?: IntroScreenViewOptions ) {
 
-    providedOptions = merge( {
+    const options = merge( {
 
       // in the Intro screen, it is shifted 102 to the left since there is extra room above the protractor toolbox
       // for the laser to traverse to.
@@ -114,7 +115,7 @@ class IntroScreenView extends BendingLightScreenView {
 
       // laserHasKnob
       false,
-      providedOptions
+      options
     );
 
     this.introModel = introModel; // @public (read-only)
@@ -522,4 +523,5 @@ class IntroScreenView extends BendingLightScreenView {
 
 bendingLight.register( 'IntroScreenView', IntroScreenView );
 
+export { IntroScreenViewOptions };
 export default IntroScreenView;

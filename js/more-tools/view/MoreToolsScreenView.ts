@@ -18,7 +18,7 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import bendingLight from '../../bendingLight.js';
 import ToolIconListener from '../../common/view/ToolIconListener.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
-import IntroScreenView from '../../intro/view/IntroScreenView.js';
+import IntroScreenView, { IntroScreenViewOptions } from '../../intro/view/IntroScreenView.js';
 import LaserTypeAquaRadioButtonGroup from '../../intro/view/LaserTypeAquaRadioButtonGroup.js';
 import MoreToolsModel from '../model/MoreToolsModel.js';
 import VelocitySensorNode from './VelocitySensorNode.js';
@@ -31,7 +31,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 // constants
 const arrowScale = 1.5E-14;
 
-type MoreToolsScreenViewOptions = {};
+type MoreToolsScreenViewOptions = {} & IntroScreenViewOptions;
 
 class MoreToolsScreenView extends IntroScreenView {
   moreToolsModel: MoreToolsModel;
@@ -41,7 +41,7 @@ class MoreToolsScreenView extends IntroScreenView {
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
    * @param {Object} [providedOptions]
    */
-  constructor( moreToolsModel: MoreToolsModel, providedOptions?: Partial<MoreToolsScreenViewOptions> ) {
+  constructor( moreToolsModel: MoreToolsModel, providedOptions?: MoreToolsScreenViewOptions ) {
 
     super( moreToolsModel,
       true, // hasMoreTools

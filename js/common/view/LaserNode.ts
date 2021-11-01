@@ -25,9 +25,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 
-type LaserNodeOptions = {
-  tandem: Tandem
-};
+type LaserNodeOptions = {} & PhetioObjectOptions;
 
 class LaserNode extends Node {
   laserImageWidth: number;
@@ -49,9 +47,9 @@ class LaserNode extends Node {
    */
   constructor( modelViewTransform: ModelViewTransform2, laser: Laser, showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
                clampDragAngle: ( n: number ) => number, hasKnob: boolean, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( laserNode: LaserNode ) => void,
-               providedOptions?: Partial<LaserNodeOptions> ) {
+               providedOptions?: LaserNodeOptions ) {
 
-    const filledOptions = merge( { tandem: Tandem.OPTIONAL }, providedOptions ) as LaserNodeOptions;
+    const options = merge( { tandem: Tandem.OPTIONAL }, providedOptions ) as Pick<LaserNodeOptions, 'tandem'>;
     const laserPointerNode = new LaserPointerNode( laser.onProperty, {
       bodySize: new Dimension2( 70, 30 ),
       nozzleSize: new Dimension2( 10, 25 ),
@@ -175,7 +173,7 @@ class LaserNode extends Node {
       laserPointerNode.addInputListener( translationOverListener );
 
       const isTranslationEnabledProperty = new BooleanProperty( true, {
-        tandem: filledOptions.tandem.createTandem( 'isTranslationEnabledProperty' ),
+        tandem: options.tandem.createTandem( 'isTranslationEnabledProperty' ),
         phetioDocumentation: 'This Property determines whether the laser can be translated, in the "Prisms" screen only. ' +
                              'A value of false means the laser cannot be translated, though it may still be rotatable.'
       } );
@@ -237,7 +235,7 @@ class LaserNode extends Node {
     rotationTarget.addInputListener( rotationOverListener );
 
     const isRotationEnabledProperty = new BooleanProperty( true, {
-      tandem: filledOptions.tandem.createTandem( 'isRotationEnabledProperty' ),
+      tandem: options.tandem.createTandem( 'isRotationEnabledProperty' ),
       phetioDocumentation: 'This Property determines whether the laser can be rotated.  On the "Intro" and "More Tools" ' +
                            'screens, a value of false renders the laser unmovable. On the "Prisms" screen, it hides ' +
                            'the rotation knob on the back of the laser and makes it non-rotatable (though it may still ' +

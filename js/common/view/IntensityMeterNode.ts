@@ -33,6 +33,8 @@ const NORMAL_DISTANCE = 25;
 const bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 ) );
 const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
+type IntensityMeterNodeOptions = {} & NodeOptions;
+
 class IntensityMeterNode extends Node {
   modelViewTransform: ModelViewTransform2;
   probeNode: ProbeNode;
@@ -46,7 +48,7 @@ class IntensityMeterNode extends Node {
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
    * @param {Object} [providedOptions]
    */
-  constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, providedOptions?: Partial<NodeOptions> ) {
+  constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, providedOptions?: IntensityMeterNodeOptions ) {
 
     super();
     this.modelViewTransform = modelViewTransform; // @public (read-only)
