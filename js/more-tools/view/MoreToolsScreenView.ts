@@ -39,9 +39,9 @@ class MoreToolsScreenView extends IntroScreenView {
 
   /**
    * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
-  constructor( moreToolsModel: MoreToolsModel, options?: Partial<MoreToolsScreenViewOptions> ) {
+  constructor( moreToolsModel: MoreToolsModel, providedOptions?: Partial<MoreToolsScreenViewOptions> ) {
 
     super( moreToolsModel,
       true, // hasMoreTools
@@ -58,7 +58,7 @@ class MoreToolsScreenView extends IntroScreenView {
       } ), merge( {
         verticalPlayAreaOffset: 0,
         horizontalPlayAreaOffset: 0
-      }, options ) );
+      }, providedOptions ) );
 
     this.waveSensorNode = null;
     this.moreToolsModel = moreToolsModel; // @public (read-only)

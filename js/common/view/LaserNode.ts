@@ -45,13 +45,13 @@ class LaserNode extends Node {
    * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the laser may be dragged
    * @param {function} occlusionHandler - function that will move the laser out from behind a control panel if dropped
    *                                      there
-   * @param {Object} [options?]
+   * @param {Object} [providedOptions?]
    */
   constructor( modelViewTransform: ModelViewTransform2, laser: Laser, showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
                clampDragAngle: ( n: number ) => number, hasKnob: boolean, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( laserNode: LaserNode ) => void,
-               options?: Partial<LaserNodeOptions> ) {
+               providedOptions?: Partial<LaserNodeOptions> ) {
 
-    const filledOptions = merge( { tandem: Tandem.OPTIONAL }, options ) as LaserNodeOptions;
+    const filledOptions = merge( { tandem: Tandem.OPTIONAL }, providedOptions ) as LaserNodeOptions;
     const laserPointerNode = new LaserPointerNode( laser.onProperty, {
       bodySize: new Dimension2( 70, 30 ),
       nozzleSize: new Dimension2( 10, 25 ),
@@ -88,7 +88,7 @@ class LaserNode extends Node {
     const overCountProperty = new Property( 0 );
     overCountProperty.link( ( overCount: number ) => showRotationDragHandlesProperty.set( overCount > 0 ) );
 
-    super( merge( { cursor: 'pointer' }, options ) );
+    super( merge( { cursor: 'pointer' }, providedOptions ) );
 
     // @public (read-only), Used for radius and length of drag handlers
     this.laserImageWidth = laserPointerNode.width;

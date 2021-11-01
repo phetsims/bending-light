@@ -21,20 +21,18 @@ import RotationDragHandle from './RotationDragHandle.js';
 import SingleColorLightCanvasNode from './SingleColorLightCanvasNode.js';
 import ColorModeEnum from '../model/ColorModeEnum.js';
 import LaserViewEnum from '../model/LaserViewEnum.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
-type BendingLightScreenViewOptions = {
-  occlusionHandler: () => void,
-  horizontalPlayAreaOffset: number,
-  verticalPlayAreaOffset: number,
-  clampDragAngle: ( angle: number ) => number,
-  ccwArrowNotAtMax: () => boolean,
-  clockwiseArrowNotAtMax: () => boolean
-
-  // From parent classes
-  tandem: Tandem
+type BendingLightScreenViewImplementationOptions = {
+  occlusionHandler?: () => void,
+  horizontalPlayAreaOffset?: number,
+  verticalPlayAreaOffset?: number,
+  clampDragAngle?: ( angle: number ) => number,
+  ccwArrowNotAtMax?: () => boolean,
+  clockwiseArrowNotAtMax?: () => boolean
 };
+
+type BendingLightScreenViewOptions = BendingLightScreenViewImplementationOptions & PhetioObjectOptions;
 
 abstract class BendingLightScreenView extends ScreenView {
   protected readonly showProtractorProperty: Property<boolean>;
@@ -54,11 +52,11 @@ abstract class BendingLightScreenView extends ScreenView {
   /**
    * @param {BendingLightModel} bendingLightModel - main model of the simulations
    * @param {boolean} laserHasKnob - laser image
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
-  constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, options?: Partial<BendingLightScreenViewOptions> ) {
+  constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, providedOptions?: Partial<BendingLightScreenViewOptions> ) {
 
-    options = merge( {
+    const options = merge( {
       occlusionHandler: () => {}, // {function} moves objects out from behind a control panel if dropped there
       ccwArrowNotAtMax: () => true, // {function} shows whether laser at min angle
       clockwiseArrowNotAtMax: () => true, // {function} shows whether laser at max angle, In prisms tab
@@ -67,12 +65,11 @@ abstract class BendingLightScreenView extends ScreenView {
       horizontalPlayAreaOffset: 0, // {number} in stage coordinates, how far to shift the play area horizontally
       verticalPlayAreaOffset: 0 // {number} in stage coordinates, how far to shift the play area vertically.  In the
                                 // prisms screen, it is shifted up a bit to center the play area above the south control panel
-    }, options );
-    const filledOptions = options as BendingLightScreenViewOptions;
+    }, providedOptions ) as Required<BendingLightScreenViewImplementationOptions & Pick<PhetioObjectOptions, 'tandem'>>;
 
     super( { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
 
-    this.occlusionHandler = filledOptions.occlusionHandler;
+    this.occlusionHandler = options.occlusionHandler;
     this.bendingLightModel = bendingLightModel;
 
     this.showProtractorProperty = new Property( false ); // @public (read-only)
@@ -102,7 +99,7 @@ abstract class BendingLightScreenView extends ScreenView {
     // @public (read-only)
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       new Vector2( 0, 0 ),
-      new Vector2( 388 - filledOptions.horizontalPlayAreaOffset, stageHeight / 2 + filledOptions.verticalPlayAreaOffset ),
+      new Vector2( 388 - options.horizontalPlayAreaOffset, stageHeight / 2 + options.verticalPlayAreaOffset ),
       scale
     );
 
@@ -139,11 +136,11 @@ abstract class BendingLightScreenView extends ScreenView {
       bendingLightModel.laser,
       showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty,
-      filledOptions.clampDragAngle,
+      options.clampDragAngle,
       laserHasKnob,
       this.visibleBoundsProperty,
       this.occlusionHandler, {
-        tandem: filledOptions.tandem.createTandem( 'laserNode' )
+        tandem: options.tandem.createTandem( 'laserNode' )
       }
     );
 
@@ -151,8 +148,8 @@ abstract class BendingLightScreenView extends ScreenView {
     this.addLaserHandles(
       showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty,
-      filledOptions.clockwiseArrowNotAtMax,
-      filledOptions.ccwArrowNotAtMax,
+      options.clockwiseArrowNotAtMax,
+      options.ccwArrowNotAtMax,
       laserNode.laserImageWidth
     );
 

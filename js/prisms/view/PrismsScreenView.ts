@@ -50,9 +50,9 @@ class PrismsScreenView extends BendingLightScreenView {
 
   /**
    * @param {PrismsModel} prismsModel - model of prisms screen
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
-  constructor( prismsModel: PrismsModel, options?: Partial<NodeOptions> ) {
+  constructor( prismsModel: PrismsModel, providedOptions?: Partial<NodeOptions> ) {
 
     super(
       prismsModel,
@@ -85,7 +85,7 @@ class PrismsScreenView extends BendingLightScreenView {
             }
           } );
         }
-      }, options )
+      }, providedOptions )
     );
 
     this.prismLayer = new Node( { layerSplit: true } );

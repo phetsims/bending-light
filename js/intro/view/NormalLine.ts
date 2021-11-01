@@ -18,16 +18,16 @@ class NormalLine extends Node {
   /**
    * @param {number} height - height of normal
    * @param {number[]} lineDash
-   * @param {Object} [options] - options that can be passed on to the underlying node
+   * @param {Object} [providedOptions] - options that can be passed on to the underlying node
    */
-  constructor( height: number, lineDash: number[], options?: Partial<NodeOptions> ) {
+  constructor( height: number, lineDash: number[], providedOptions?: Partial<NodeOptions> ) {
     super();
 
     this.addChild( new Path( Shape.lineSegment( 0, 0, 0, height ), {
       stroke: 'black',
       lineDash: lineDash
     } ) );
-    this.mutate( options );
+    this.mutate( providedOptions );
   }
 }
 

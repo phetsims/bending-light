@@ -50,10 +50,10 @@ class PrismToolboxNode extends Node {
    * @param {Property.<Bounds2>} dragBoundsProperty - Bounds of prisms screen.
    * @param {function} occlusionHandler - function that takes one node as a parameter and updates it if occluded by a
    *                                    - control panel
-   * @param {Object} [options] that can be passed on to the underlying node
+   * @param {Object} [providedOptions] that can be passed on to the underlying node
    */
   constructor( modelViewTransform: ModelViewTransform2, prismsModel: PrismsModel, prismLayer: Node, dragBoundsProperty: Property<Bounds2>, occlusionHandler: () => void,
-               options?: Partial<NodeOptions> ) {
+               providedOptions?: Partial<NodeOptions> ) {
 
     super();
     const content = new HBox( {
@@ -257,7 +257,7 @@ class PrismToolboxNode extends Node {
     this.addChild( environmentMediumMaterialListParent );
     content.centerX = background.centerX;
     content.centerY = background.centerY;
-    this.mutate( options );
+    this.mutate( providedOptions );
   }
 }
 

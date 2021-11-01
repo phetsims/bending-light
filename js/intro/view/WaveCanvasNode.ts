@@ -21,11 +21,11 @@ class WaveCanvasNode extends CanvasNode {
   /**
    * @param {ObservableArrayDef.<LightRay>} lightRays - the light rays from the model
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {Object} [options] - options that can be passed on to the underlying node
+   * @param {Object} [providedOptions] - options that can be passed on to the underlying node
    */
-  constructor( lightRays: LightRay[], modelViewTransform: ModelViewTransform2, options?: Partial<NodeOptions> ) {
+  constructor( lightRays: LightRay[], modelViewTransform: ModelViewTransform2, providedOptions?: Partial<NodeOptions> ) {
 
-    super( options );
+    super( providedOptions );
     this.lightRays = lightRays;
     this.modelViewTransform = modelViewTransform; // @public (read-only)
   }

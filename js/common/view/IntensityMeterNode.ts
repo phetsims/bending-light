@@ -44,9 +44,9 @@ class IntensityMeterNode extends Node {
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {IntensityMeter} intensityMeter - model for the intensity meter
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
-  constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, options?: Partial<NodeOptions> ) {
+  constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, providedOptions?: Partial<NodeOptions> ) {
 
     super();
     this.modelViewTransform = modelViewTransform; // @public (read-only)
@@ -158,7 +158,7 @@ class IntensityMeterNode extends Node {
       intensityMeter.bodyPositionProperty.value = bodyPosition;
     };
 
-    this.mutate( options );
+    this.mutate( providedOptions );
 
     this.resetRelativePositions();
     this.syncModelFromView();

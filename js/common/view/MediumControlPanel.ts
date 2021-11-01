@@ -65,24 +65,24 @@ class MediumControlPanel extends Node {
    * @param {boolean} textFieldVisible - whether to display index of refraction value
    * @param {number} laserWavelength - wavelength of laser
    * @param {number} decimalPlaces - decimalPlaces to show for index of refraction
-   * @param {Object} [options] - options that can be passed on to the underlying node
+   * @param {Object} [providedOptions] - options that can be passed on to the underlying node
    */
   constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>, name: string, textFieldVisible: boolean, laserWavelength: Property<number>,
-               decimalPlaces: number, options?: Partial<MediumControlPanelOptions> ) {
+               decimalPlaces: number, providedOptions?: Partial<MediumControlPanelOptions> ) {
 
     super();
     this.mediumColorFactory = mediumColorFactory;
 
-    options = merge( {
+    providedOptions = merge( {
       xMargin: 10,
       yMargin: 10,
       fill: '#f2fa6a',
       stroke: '#696969',
       lineWidth: 1.5,
       comboBoxListPosition: 'above'
-    }, options );
+    }, providedOptions );
 
-    const filledOptions = options as MediumControlPanelOptions;
+    const filledOptions = providedOptions as MediumControlPanelOptions;
 
     this.mediumProperty = mediumProperty; // @private, the medium to observe
     this.laserWavelengthProperty = laserWavelength; // @private

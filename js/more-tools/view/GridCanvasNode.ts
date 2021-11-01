@@ -23,11 +23,11 @@ class GridCanvasNode extends CanvasNode {
    * @param {ObservableArrayDef.<[]>} gridLines - contains details of each grid line
    * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinates
    * @param {array.<number>} strokeDash
-   * @param {Object} [options] - options that can be passed on to the underlying node
+   * @param {Object} [providedOptions] - options that can be passed on to the underlying node
    */
-  constructor( gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>, modelViewTransformProperty: Property<ModelViewTransform2>, strokeDash: number[], options?: Partial<NodeOptions> ) {
+  constructor( gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>, modelViewTransformProperty: Property<ModelViewTransform2>, strokeDash: number[], providedOptions?: Partial<NodeOptions> ) {
 
-    super( options );
+    super( providedOptions );
     this.gridLines = gridLines; // @private
     this.modelViewTransformProperty = modelViewTransformProperty; // @private
     this.strokeDash = strokeDash; // @private

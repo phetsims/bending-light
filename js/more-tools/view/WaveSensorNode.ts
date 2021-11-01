@@ -91,9 +91,9 @@ class WaveSensorNode extends Node {
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {WaveSensor} waveSensor - model for the wave sensor
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
-  constructor( modelViewTransform: ModelViewTransform2, waveSensor: WaveSensor, options?: Partial<NodeOptions> ) {
+  constructor( modelViewTransform: ModelViewTransform2, waveSensor: WaveSensor, providedOptions?: Partial<NodeOptions> ) {
 
     super( { cursor: 'pointer' } );
 
@@ -211,7 +211,7 @@ class WaveSensorNode extends Node {
 
     this.resetRelativePositions();
 
-    this.mutate( options );
+    this.mutate( providedOptions );
   }
 
   /**

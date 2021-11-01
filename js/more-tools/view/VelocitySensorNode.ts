@@ -45,9 +45,9 @@ class VelocitySensorNode extends Node {
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
    * @param {VelocitySensor} velocitySensor - model for the velocity sensor
    * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
-  constructor( modelViewTransform: ModelViewTransform2, velocitySensor: VelocitySensor, arrowScale: number, options?: Partial<NodeOptions> ) {
+  constructor( modelViewTransform: ModelViewTransform2, velocitySensor: VelocitySensor, arrowScale: number, providedOptions?: Partial<NodeOptions> ) {
 
     super( {
       cursor: 'pointer',
@@ -177,7 +177,7 @@ class VelocitySensorNode extends Node {
     // @ts-ignore
     this.bodyNode.setScaleMagnitude( 0.7 );
 
-    this.mutate( options );
+    this.mutate( providedOptions );
   }
 }
 

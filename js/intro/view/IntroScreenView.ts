@@ -69,11 +69,11 @@ class IntroScreenView extends BendingLightScreenView {
    * @param {boolean} hasMoreTools - whether contain more tools
    * @param {number} indexOfRefractionDecimals - decimalPlaces to show for index of refraction
    * @param {function} createLaserControlPanel
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
-  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number, createLaserControlPanel: ( model: BendingLightModel ) => Node, options?: Partial<IntroScreenViewOptions> ) {
+  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number, createLaserControlPanel: ( model: BendingLightModel ) => Node, providedOptions?: Partial<IntroScreenViewOptions> ) {
 
-    options = merge( {
+    providedOptions = merge( {
 
       // in the Intro screen, it is shifted 102 to the left since there is extra room above the protractor toolbox
       // for the laser to traverse to.
@@ -107,14 +107,14 @@ class IntroScreenView extends BendingLightScreenView {
        * @returns {boolean}
        */
       ccwArrowNotAtMax: ( laserAngle: number ) => laserAngle > Math.PI / 2
-    }, options );
+    }, providedOptions );
 
     super(
       introModel,
 
       // laserHasKnob
       false,
-      options
+      providedOptions
     );
 
     this.introModel = introModel; // @public (read-only)
