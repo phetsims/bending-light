@@ -53,7 +53,7 @@ class MoreToolsScreenView extends IntroScreenView {
         align: 'left',
         children: [
           new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
-          new WavelengthControl( model.wavelengthProperty, new Property( true ), 120 )
+          new WavelengthControl( model.wavelengthProperty, new Property<boolean>( true ), 120 )
         ]
       } ), merge( {
         verticalPlayAreaOffset: 0,

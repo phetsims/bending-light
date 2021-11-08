@@ -28,7 +28,7 @@ class VelocitySensor {
     this.valueProperty = new Vector2Property( new Vector2( 0, 0 ) );
 
     // @public, True if it is in the play area
-    this.enabledProperty = new Property( false );
+    this.enabledProperty = new Property<boolean>( false );
 
     // shows the visibility of arrows
     this.isArrowVisibleProperty = new DerivedProperty( [ this.valueProperty ], ( value: Vector2 ) => value.magnitude > 0 );

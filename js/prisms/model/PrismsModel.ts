@@ -61,9 +61,9 @@ class PrismsModel extends BendingLightModel {
     this.manyRaysProperty = new Property( 1 );
 
     // If false, will hide non TIR reflections
-    this.showReflectionsProperty = new Property( false );
-    this.showNormalsProperty = new Property( false );
-    this.showProtractorProperty = new Property( false );// @public
+    this.showReflectionsProperty = new Property<boolean>( false );
+    this.showNormalsProperty = new Property<boolean>( false );
+    this.showProtractorProperty = new Property<boolean>( false );// @public
 
     // Environment the laser is in
     this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );

@@ -20,7 +20,7 @@ class MediumColorFactory {
   getColorAgainstBlack: ( indexForRed: number ) => Color;
 
   constructor() {
-    this.lightTypeProperty = new Property( 'singleColor' ); // could also be 'white'
+    this.lightTypeProperty = new Property<ColorModeEnum>( 'singleColor' ); // could also be 'white'
 
     /**
      * Maps index of refraction to color using linear functions

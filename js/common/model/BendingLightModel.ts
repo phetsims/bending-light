@@ -65,20 +65,20 @@ abstract class BendingLightModel {
     this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
 
     // @public, Whether the laser is Ray or Wave mode
-    this.laserViewProperty = new Property( 'ray', {
+    this.laserViewProperty = new Property<LaserViewEnum>( 'ray', {
       validValues: [ 'wave', 'ray' ]
     } );
 
     this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
-    this.isPlayingProperty = new Property( true );
+    this.isPlayingProperty = new Property<boolean>( true );
 
     // @ts-ignore
     this.speedProperty = new Property( TimeSpeed.NORMAL, {
       validValues: TimeSpeed.VALUES
     } );
     this.indexOfRefractionProperty = new Property( 1 );
-    this.showNormalProperty = new Property( true );
-    this.showAnglesProperty = new Property( false );
+    this.showNormalProperty = new Property<boolean>( true );
+    this.showAnglesProperty = new Property<boolean>( false );
 
     // @public (read-only)- the laser
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );

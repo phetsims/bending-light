@@ -40,7 +40,7 @@ class WaveSensor {
 
     // @public
     // in the play area
-    this.enabledProperty = new Property( false );
+    this.enabledProperty = new Property<boolean>( false );
 
     // Function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;

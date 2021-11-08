@@ -33,7 +33,7 @@ class IntensityMeter {
     this.readingProperty = new Property( Reading.MISS ); // @public, value to show on the body
     this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) ); // @public
     this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) ); // @public
-    this.enabledProperty = new Property( false ); // @public, True if it is in the play area
+    this.enabledProperty = new Property<boolean>( false ); // @public, True if it is in the play area
 
     // @public (read-only), accumulation of readings
     this.rayReadings = [];

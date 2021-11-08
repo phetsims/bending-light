@@ -40,7 +40,7 @@ class Laser {
     this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) ); // @public, point to be pivoted about, and at which the laser points
     this.onProperty = new BooleanProperty( false ); // @public, true if the laser is activated and emitting light
     this.waveProperty = new BooleanProperty( false ); // @public
-    this.colorModeProperty = new Property( 'singleColor' ); // @public
+    this.colorModeProperty = new Property<ColorModeEnum>( 'singleColor' ); // @public
     this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
 
     // @public (read-only)
