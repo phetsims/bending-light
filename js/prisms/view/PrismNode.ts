@@ -90,7 +90,7 @@ class PrismNode extends Node {
 
     // When the window reshapes, make sure no prism is left outside of the play area
     // TODO: Broken, see https://github.com/phetsims/bending-light/issues/372
-    dragBoundsProperty.link( ( dragBounds: Bounds2 ) => {
+    dragBoundsProperty.link( dragBounds => {
       const center = prism.shapeProperty.get().centroid;
       const inBounds = modelViewTransform.viewToModelBounds( dragBounds ).getClosestPoint( center.x, center.y );
       prism.translate( inBounds.x - center.x, inBounds.y - center.y );

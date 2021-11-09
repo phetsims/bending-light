@@ -17,8 +17,8 @@ import Reading from './Reading.js';
 
 class IntensityMeter {
   readonly readingProperty: Property<Reading>;
-  readonly sensorPositionProperty: Vector2Property;
-  readonly bodyPositionProperty: Vector2Property;
+  readonly sensorPositionProperty: Property<Vector2>;
+  readonly bodyPositionProperty: Property<Vector2>;
   private rayReadings: Reading[];
   readonly enabledProperty: Property<boolean>;
 

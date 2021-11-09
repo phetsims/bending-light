@@ -14,8 +14,8 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 
 class VelocitySensor {
-  readonly positionProperty: Vector2Property;
-  readonly valueProperty: Vector2Property;
+  readonly positionProperty: Property<Vector2>;
+  readonly valueProperty: Property<Vector2>;
   readonly enabledProperty: Property<boolean>;
   readonly isArrowVisibleProperty: DerivedProperty<boolean>;
 

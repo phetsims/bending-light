@@ -162,7 +162,7 @@ abstract class BendingLightScreenView extends ScreenView {
     this.addChild( this.afterLightLayer3 );
 
     // switches between ray and wave
-    bendingLightModel.laserViewProperty.link( ( laserView: LaserViewEnum ) => {
+    bendingLightModel.laserViewProperty.link( laserView => {
       bendingLightModel.laser.waveProperty.value = ( laserView === 'wave' );
     } );
 

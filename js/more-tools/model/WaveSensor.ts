@@ -18,7 +18,7 @@ import Probe from './Probe.js';
 class WaveSensor {
   probe1: Probe;
   probe2: Probe;
-  bodyPositionProperty: Vector2Property;
+  bodyPositionProperty: Property<Vector2>;
   enabledProperty: Property<boolean>;
   probe1Value: ( position: Vector2 ) => { time: number, magnitude: number } | null;
   probe2Value: ( position: Vector2 ) => { time: number, magnitude: number } | null;

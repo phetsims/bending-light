@@ -24,7 +24,6 @@ import bendingLightStrings from '../../bendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import IntensityMeter from '../model/IntensityMeter.js';
-import Reading from '../model/Reading.js';
 
 const intensityString = bendingLightStrings.intensity;
 
@@ -112,7 +111,7 @@ class IntensityMeterNode extends Node {
     titleNode.centerX = outerRectangle.centerX;
 
     // displayed value
-    intensityMeter.readingProperty.link( ( reading: Reading ) => {
+    intensityMeter.readingProperty.link( reading => {
       valueNode.setText( reading.getString() );
       valueNode.center = valueBackground.center;
     } );
@@ -134,11 +133,11 @@ class IntensityMeterNode extends Node {
       }
     );
 
-    intensityMeter.sensorPositionProperty.link( ( sensorPosition: Vector2 ) => {
+    intensityMeter.sensorPositionProperty.link( sensorPosition => {
       this.probeNode.translation = modelViewTransform.modelToViewPosition( sensorPosition );
     } );
 
-    intensityMeter.bodyPositionProperty.link( ( bodyPosition: Vector2 ) => {
+    intensityMeter.bodyPositionProperty.link( bodyPosition => {
       this.bodyNode.translation = modelViewTransform.modelToViewPosition( bodyPosition );
     } );
 

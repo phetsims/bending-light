@@ -7,7 +7,7 @@ import DataPoint from './DataPoint.js';
 
 class Probe {
   readonly seriesProperty: Property<Array<DataPoint>>;
-  readonly positionProperty: Vector2Property;
+  readonly positionProperty: Property<Vector2>;
 
   /**
    * Model for a probe, including its position and recorded data series

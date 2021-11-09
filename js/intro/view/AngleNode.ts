@@ -93,7 +93,7 @@ class AngleNode extends Node {
     // Only redraw when necessary to improve performance.
     let dirty = true;
 
-    showNormalProperty.link( ( showNormal: boolean ) => {
+    showNormalProperty.link( showNormal => {
 
       // Only show the top marker when the normal is not shown, since they would interfere if both shown together
       upperMark.visible = !showNormal;

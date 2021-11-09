@@ -67,7 +67,7 @@ class ProbeNodeWrapper extends Node {
     } ) );
 
     // Probe position
-    probe.positionProperty.link( ( position: Vector2 ) => {
+    probe.positionProperty.link( position => {
       this.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
@@ -195,7 +195,7 @@ class WaveSensorNode extends Node {
     this.addChild( this.wire2Node );
 
     // Synchronize the body position with the model (centered on the model point)
-    waveSensor.bodyPositionProperty.link( ( position: Vector2 ) => {
+    waveSensor.bodyPositionProperty.link( position => {
       this.bodyNode.center = modelViewTransform.modelToViewPosition( position );
     } );
 

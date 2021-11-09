@@ -126,7 +126,7 @@ class MediumControlPanel extends Node {
       Substance.MYSTERY_B,
       customState
     ];
-    const comboBoxSubstanceProperty = new Property( initialSubstance );
+    const comboBoxSubstanceProperty = new Property<Substance>( initialSubstance );
 
     // update combo box
     const updateComboBox = () => {
@@ -334,7 +334,7 @@ class MediumControlPanel extends Node {
       }
       updateComboBox();
     } );
-    comboBoxSubstanceProperty.link( ( selected: Substance ) => {
+    comboBoxSubstanceProperty.link( selected => {
       if ( !selected.custom ) {
         this.setSubstance( selected );
       }
@@ -346,7 +346,7 @@ class MediumControlPanel extends Node {
     } );
 
     // disable the plus button when wavelength is at max and minus button at min wavelength
-    this.mediumIndexProperty.link( ( indexOfRefraction: number ) => {
+    this.mediumIndexProperty.link( indexOfRefraction => {
       if ( custom ) {
         this.setCustomIndexOfRefraction( indexOfRefraction );
       }

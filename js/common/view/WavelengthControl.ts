@@ -34,9 +34,9 @@ class WavelengthControl extends Node {
    * @param {number} trackWidth
    */
   constructor( wavelengthProperty: Property<number>, enabledProperty: Property<boolean>, trackWidth: number ) {
-    const wavelengthPropertyNM = new Property( wavelengthProperty.value * 1E9, { reentrant: true } );
+    const wavelengthPropertyNM = new Property<number>( wavelengthProperty.value * 1E9, { reentrant: true } );
 
-    wavelengthProperty.link( ( wavelength: number ) => {
+    wavelengthProperty.link( wavelength => {
       wavelengthPropertyNM.value = wavelength * 1E9;
     } );
     // Add WavelengthSlider node
@@ -83,7 +83,7 @@ class WavelengthControl extends Node {
     } );
 
     // disable the minus button at minimum wavelength and plus button at max wavelength
-    wavelengthPropertyNM.link( ( wavelength: number ) => {
+    wavelengthPropertyNM.link( wavelength => {
       plusButton.enabled = ( wavelength < BendingLightConstants.LASER_MAX_WAVELENGTH );
       minusButton.enabled = ( wavelength > VisibleColor.MIN_WAVELENGTH );
     } );
@@ -117,14 +117,14 @@ class WavelengthControl extends Node {
         wavelengthSlider
       ]
     } );
-    enabledProperty.link( ( enabled: boolean ) => {
+    enabledProperty.link( enabled => {
 
       // set the opacity when not selected
       this.setPickable( enabled );
       this.opacity = enabled ? 1 : 0.4;
     } );
 
-    wavelengthPropertyNM.link( ( wavelength: number ) => {
+    wavelengthPropertyNM.link( wavelength => {
 
       // set the laser wavelength according to the slider wavelength
       wavelengthProperty.set( wavelength / 1E9 );

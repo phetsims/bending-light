@@ -83,8 +83,8 @@ class LaserNode extends Node {
 
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker
-    const overCountProperty = new Property( 0 );
-    overCountProperty.link( ( overCount: number ) => showRotationDragHandlesProperty.set( overCount > 0 ) );
+    const overCountProperty = new Property<number>( 0 );
+    overCountProperty.link( overCount => showRotationDragHandlesProperty.set( overCount > 0 ) );
 
     super( merge( { cursor: 'pointer' }, providedOptions ) );
 
@@ -102,7 +102,7 @@ class LaserNode extends Node {
     const emissionPointEndPosition = new Vector2( 0, 0 );
 
     // When the window reshapes, make sure the laser remains in the play area
-    dragBoundsProperty.link( ( dragBounds: Bounds2 ) => {
+    dragBoundsProperty.link( dragBounds => {
       const center = laser.emissionPointProperty.value;
       const eroded = dragBounds.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
 
@@ -256,7 +256,7 @@ class LaserNode extends Node {
     } );
 
     // update the laser position
-    laser.emissionPointProperty.link( ( newEmissionPoint: Vector2 ) => {
+    laser.emissionPointProperty.link( newEmissionPoint => {
       const emissionPointX = modelViewTransform.modelToViewX( newEmissionPoint.x );
       const emissionPointY = modelViewTransform.modelToViewY( newEmissionPoint.y );
       this.setTranslation( emissionPointX, emissionPointY );

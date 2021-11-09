@@ -43,7 +43,6 @@ import WaveCanvasNode from './WaveCanvasNode.js';
 import WaveWebGLNode from './WaveWebGLNode.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
-import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
 const anglesString = bendingLightStrings.angles;
 const materialString = bendingLightStrings.material;
@@ -265,7 +264,7 @@ class IntroScreenView extends BendingLightScreenView {
     } );
     protractorNodeIcon.mouseArea = Shape.bounds( protractorNodeIcon.localBounds );
     protractorNodeIcon.touchArea = Shape.bounds( protractorNodeIcon.localBounds );
-    this.showProtractorProperty.link( ( showProtractor: boolean ) => {
+    this.showProtractorProperty.link( showProtractor => {
       protractorNodeIcon.visible = !showProtractor;
     } );
 
@@ -308,7 +307,7 @@ class IntroScreenView extends BendingLightScreenView {
       }
     };
 
-    protractorPositionProperty.link( ( protractorPosition: Vector2 ) => {
+    protractorPositionProperty.link( protractorPosition => {
       protractorNode.center = protractorPosition;
     } );
 
@@ -323,7 +322,7 @@ class IntroScreenView extends BendingLightScreenView {
     intensityMeterNodeIcon.touchArea = Shape.bounds( intensityMeterNodeIcon.localBounds );
 
     const intensityMeterNode = new IntensityMeterNode( this.modelViewTransform, introModel.intensityMeter );
-    introModel.intensityMeter.enabledProperty.link( ( enabled: boolean ) => {
+    introModel.intensityMeter.enabledProperty.link( enabled => {
       intensityMeterNode.visible = enabled;
       intensityMeterNodeIcon.visible = !enabled;
     } );
@@ -415,7 +414,7 @@ class IntroScreenView extends BendingLightScreenView {
     if ( !hasMoreTools ) {
 
       // show play pause and step buttons only in wave view
-      introModel.laserViewProperty.link( ( laserType: LaserViewEnum ) => this.timeControlNode.setVisible( laserType === 'wave' ) );
+      introModel.laserViewProperty.link( laserType => this.timeControlNode.setVisible( laserType === 'wave' ) );
     }
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );

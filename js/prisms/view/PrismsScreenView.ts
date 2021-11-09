@@ -32,8 +32,6 @@ import WhiteLightCanvasNode from './WhiteLightCanvasNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Medium from '../../common/model/Medium.js';
-import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 
 // constants
 const INSET = 10;
@@ -94,7 +92,7 @@ class PrismsScreenView extends BendingLightScreenView {
     // Node for the environment that spans the screen (only for monochromatic light, the white light background
     // is rendered as opaque in the white light node for blending purposes)
     const environmentMediumNodeForMonochromaticLight = new Rectangle( 0, 0, 0, 0 );
-    prismsModel.environmentMediumProperty.link( ( environmentMedium: Medium ) => {
+    prismsModel.environmentMediumProperty.link( environmentMedium => {
 
       // This medium node only shows the color for monochromatic light
       const indexOfRefractionForRed = environmentMedium.substance.dispersionFunction.getIndexOfRefractionForRed();
@@ -124,7 +122,7 @@ class PrismsScreenView extends BendingLightScreenView {
     const sliderEnabledProperty = new BooleanProperty( false );
 
     const radioButtonAdapterProperty = new Property<'white' | 'singleColor' | 'singleColor5x'>( 'singleColor' );
-    radioButtonAdapterProperty.link( ( radioButtonAdapterValue: 'white' | 'singleColor' | 'singleColor5x' ) => {
+    radioButtonAdapterProperty.link( radioButtonAdapterValue => {
       prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === 'white' ? 'white' :
                                                   'singleColor';
       prismsModel.manyRaysProperty.value = radioButtonAdapterValue === 'singleColor5x' ? 5 : 1;
@@ -200,7 +198,7 @@ class PrismsScreenView extends BendingLightScreenView {
       rotatable: true,
       scale: 0.46
     } );
-    const protractorPositionProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
+    const protractorPositionProperty = new Property<Vector2>( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
 
     const protractorNodeListener = new MovableDragHandler( protractorPositionProperty, {
       targetNode: protractorNode,
@@ -217,7 +215,7 @@ class PrismsScreenView extends BendingLightScreenView {
     } );
     protractorNode.addInputListener( protractorNodeListener );
 
-    protractorPositionProperty.link( ( protractorPosition: Vector2 ) => {
+    protractorPositionProperty.link( protractorPosition => {
       protractorNode.center = protractorPosition;
     } );
 
@@ -255,7 +253,7 @@ class PrismsScreenView extends BendingLightScreenView {
       const rectHeight = 2;
       navigationBarSeparator.setRect( visibleBounds.x, visibleBounds.y + visibleBounds.height - rectHeight, visibleBounds.width, rectHeight );
     } );
-    prismsModel.laser.colorModeProperty.link( ( color: ColorModeEnum ) => {
+    prismsModel.laser.colorModeProperty.link( color => {
       navigationBarSeparator.visible = color === 'white';
       prismsModel.mediumColorFactory.lightTypeProperty.value = color;
     } );
@@ -315,7 +313,7 @@ class PrismsScreenView extends BendingLightScreenView {
     this.addChild( this.whiteLightNode );
 
     // switch between light render for white vs nonwhite light
-    bendingLightModel.laser.colorModeProperty.link( ( color: ColorModeEnum ) => {
+    bendingLightModel.laser.colorModeProperty.link( color => {
       this.whiteLightNode && this.whiteLightNode.setVisible( color === 'white' );
     } );
   }

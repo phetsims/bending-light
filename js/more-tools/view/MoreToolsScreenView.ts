@@ -93,7 +93,7 @@ class MoreToolsScreenView extends IntroScreenView {
       waveSensor
     );
     const waveSensorNode = this.waveSensorNode;
-    waveSensor.enabledProperty.link( ( enabled: boolean ) => {
+    waveSensor.enabledProperty.link( enabled => {
       waveSensorIcon.visible = !enabled;
       waveSensorNode.visible = enabled;
     } );
@@ -187,7 +187,7 @@ class MoreToolsScreenView extends IntroScreenView {
         scale: 2
       }
     );
-    moreToolsModel.velocitySensor.enabledProperty.link( ( enabled: boolean ) => {
+    moreToolsModel.velocitySensor.enabledProperty.link( enabled => {
       velocitySensorIconNode.visible = !enabled;
       velocitySensorNode.visible = enabled;
     } );
