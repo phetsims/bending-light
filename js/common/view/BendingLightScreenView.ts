@@ -72,7 +72,7 @@ abstract class BendingLightScreenView extends ScreenView {
     this.occlusionHandler = options.occlusionHandler;
     this.bendingLightModel = bendingLightModel;
 
-    this.showProtractorProperty = new Property<boolean>( false ); // @public (read-only)
+    this.showProtractorProperty = new BooleanProperty( false ); // @public (read-only)
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
     // suggested this layering order:

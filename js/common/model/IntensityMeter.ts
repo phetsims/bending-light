@@ -14,13 +14,14 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Shape from '../../../../kite/js/Shape.js';
 import bendingLight from '../../bendingLight.js';
 import Reading from './Reading.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 class IntensityMeter {
   readonly readingProperty: Property<Reading>;
   readonly sensorPositionProperty: Property<Vector2>;
   readonly bodyPositionProperty: Property<Vector2>;
   private rayReadings: Reading[];
-  readonly enabledProperty: Property<boolean>;
+  readonly enabledProperty: BooleanProperty;
 
   /**
    * @param {number} sensorX - sensor x position in model coordinates
@@ -33,7 +34,7 @@ class IntensityMeter {
     this.readingProperty = new Property( Reading.MISS ); // @public, value to show on the body
     this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) ); // @public
     this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) ); // @public
-    this.enabledProperty = new Property<boolean>( false ); // @public, True if it is in the play area
+    this.enabledProperty = new BooleanProperty( false ); // @public, True if it is in the play area
 
     // @public (read-only), accumulation of readings
     this.rayReadings = [];

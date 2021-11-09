@@ -7,6 +7,7 @@
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -28,7 +29,7 @@ class VelocitySensor {
     this.valueProperty = new Vector2Property( new Vector2( 0, 0 ) );
 
     // @public, True if it is in the play area
-    this.enabledProperty = new Property<boolean>( false );
+    this.enabledProperty = new BooleanProperty( false );
 
     // shows the visibility of arrows
     this.isArrowVisibleProperty = new DerivedProperty( [ this.valueProperty ], ( value: Vector2 ) => value.magnitude > 0 );

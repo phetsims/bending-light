@@ -8,6 +8,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -40,7 +41,7 @@ class WaveSensor {
 
     // @public
     // in the play area
-    this.enabledProperty = new Property<boolean>( false );
+    this.enabledProperty = new BooleanProperty( false );
 
     // Function for getting data from a probe at the specified point
     this.probe1Value = probe1Value;

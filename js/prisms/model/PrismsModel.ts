@@ -7,6 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
@@ -60,9 +61,9 @@ class PrismsModel extends BendingLightModel {
     this.manyRaysProperty = new Property( 1 );
 
     // If false, will hide non TIR reflections
-    this.showReflectionsProperty = new Property<boolean>( false );
-    this.showNormalsProperty = new Property<boolean>( false );
-    this.showProtractorProperty = new Property<boolean>( false );// @public
+    this.showReflectionsProperty = new BooleanProperty( false );
+    this.showNormalsProperty = new BooleanProperty( false );
+    this.showProtractorProperty = new BooleanProperty( false );// @public
 
     // Environment the laser is in
     this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );

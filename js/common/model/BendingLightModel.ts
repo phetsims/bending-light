@@ -18,6 +18,7 @@ import Laser from './Laser.js';
 import LightRay from './LightRay.js';
 import MediumColorFactory from './MediumColorFactory.js';
 import LaserViewEnum from './LaserViewEnum.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
 const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
@@ -70,15 +71,15 @@ abstract class BendingLightModel {
     } );
 
     this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
-    this.isPlayingProperty = new Property<boolean>( true );
+    this.isPlayingProperty = new BooleanProperty( true );
 
     // @ts-ignore
     this.speedProperty = new Property( TimeSpeed.NORMAL, {
       validValues: TimeSpeed.VALUES
     } );
     this.indexOfRefractionProperty = new Property( 1 );
-    this.showNormalProperty = new Property<boolean>( true );
-    this.showAnglesProperty = new Property<boolean>( false );
+    this.showNormalProperty = new BooleanProperty( true );
+    this.showAnglesProperty = new BooleanProperty( false );
 
     // @public (read-only)- the laser
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );

@@ -30,7 +30,6 @@ import LaserTypeRadioButtonGroup from './LaserTypeRadioButtonGroup.js';
 import PrismToolboxNode from './PrismToolboxNode.js';
 import WhiteLightCanvasNode from './WhiteLightCanvasNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // constants
@@ -198,7 +197,7 @@ class PrismsScreenView extends BendingLightScreenView {
       rotatable: true,
       scale: 0.46
     } );
-    const protractorPositionProperty = new Property<Vector2>( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
+    const protractorPositionProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
 
     const protractorNodeListener = new MovableDragHandler( protractorPositionProperty, {
       targetNode: protractorNode,
