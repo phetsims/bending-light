@@ -16,7 +16,7 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import laserImage from '../../../images/laser_png.js';
 import bendingLight from '../../bendingLight.js';
 
-class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup {
+class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<'white' | 'singleColor' | 'singleColor5x'> {
 
   /**
    * @param {Property.<LaserViewEnum>} radioButtonAdapterProperty
