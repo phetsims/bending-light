@@ -10,7 +10,6 @@
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
-import Node from '../../../scenery/js/nodes/Node.js';
 import navbarIconImage from '../../mipmaps/Prisms_Screen_White_NavBar_png.js';
 import iconImage from '../../mipmaps/Prisms_Screen_White_png.js';
 import bendingLightStrings from '../bendingLightStrings.js';
@@ -26,11 +25,11 @@ class PrismsScreen extends Screen {
 
     const options = {
       name: prismsString,
-      homeScreenIcon: new ScreenIcon( new Image( iconImage ) as unknown as Node, {
+      homeScreenIcon: new ScreenIcon( new Image( iconImage ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
-      navigationBarIcon: new ScreenIcon( new Image( navbarIconImage ) as unknown as Node, {
+      navigationBarIcon: new ScreenIcon( new Image( navbarIconImage ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),

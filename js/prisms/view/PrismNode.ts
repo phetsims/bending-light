@@ -49,7 +49,7 @@ class PrismNode extends Node {
     const knobHeight = 15;
 
     // It looks like a box on the side of the prism
-    const knobNode = new Image( knobImage ) as unknown as Node;
+    const knobNode = new Image( knobImage );
     if ( prism.shapeProperty.get().getReferencePoint() ) {
       this.addChild( knobNode );
     }

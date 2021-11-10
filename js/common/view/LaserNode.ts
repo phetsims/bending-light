@@ -66,7 +66,7 @@ class LaserNode extends Node {
       rightCenter: laserPointerNode.leftCenter
 
       // This will be resolved when Image is TypeScript
-    } ) as unknown as Node ) : null;
+    } ) ) : null;
     if ( knobImage ) {
       knobImage.touchArea = knobImage.localBounds.dilatedXY( 15, 27 ).shiftedX( -15 );
       hasKnob && laserPointerNode.addChild( knobImage );

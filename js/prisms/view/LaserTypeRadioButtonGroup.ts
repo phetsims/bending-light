@@ -26,7 +26,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup {
     const laserImageNode = new Image( laserImage, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )
-    } ) as unknown as Node;
+    } );
 
     const lineWidth = 37;
     const redLineAt = ( y: number ) => new Line( 0, 0, lineWidth, 0, {
