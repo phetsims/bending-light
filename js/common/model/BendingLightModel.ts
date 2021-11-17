@@ -40,13 +40,14 @@ abstract class BendingLightModel {
   readonly isPlayingProperty: Property<boolean>;
   readonly showAnglesProperty: Property<boolean>;
   readonly laser: Laser;
-  static DEFAULT_LASER_DISTANCE_FROM_PIVOT: number;
   rotationArrowAngleOffset: number | null;
 
+  static readonly DEFAULT_LASER_DISTANCE_FROM_PIVOT: number = DEFAULT_LASER_DISTANCE_FROM_PIVOT;
+
   /**
-   * @param {number} laserAngle - laser angle in radians
-   * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
-   * @param {number} laserDistanceFromPivot - distance of laser from pivot point
+   * @param laserAngle - laser angle in radians
+   * @param topLeftQuadrant - specifies whether laser in topLeftQuadrant
+   * @param laserDistanceFromPivot - distance of laser from pivot point, in view coordinates
    */
   constructor( laserAngle: number, topLeftQuadrant: boolean, laserDistanceFromPivot: number ) {
 
@@ -85,19 +86,12 @@ abstract class BendingLightModel {
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }
 
-  /**
-   * Adds a ray to the model
-   * @public
-   * @param {LightRay} ray - model of light ray
-   */
+  // Adds a ray to the model
   addRay( ray: LightRay ) {
     this.rays.push( ray );
   }
 
-  /**
-   * clear the model in preparation for another ray propagation update phase
-   * @public
-   */
+  // Clear the model in preparation for another ray propagation update phase
   clearModel() {
     for ( let i = 0; i < this.rays.length; i++ ) {
       this.rays[ i ].particles.clear();
@@ -105,10 +99,7 @@ abstract class BendingLightModel {
     this.rays.length = 0;
   }
 
-  /**
-   * update the model by clearing the rays, then recreating them
-   * @public
-   */
+  // Update the model by clearing the rays, then recreating them
   updateModel() {
     this.clearModel();
     this.propagateRays();
@@ -116,10 +107,6 @@ abstract class BendingLightModel {
 
   abstract propagateRays(): void;
 
-  /**
-   * @public
-   * @override
-   */
   reset() {
     this.laserViewProperty.reset();
     this.wavelengthProperty.reset();
@@ -133,33 +120,26 @@ abstract class BendingLightModel {
 
   /**
    * Get the fraction of power reflected from the medium
-   * @public
-   * @param {number} n1 - index of refraction of first medium
-   * @param {number} n2 - index of refraction of second medium
-   * @param {number} cosTheta1 - cosine of incident angle
-   * @param {number} cosTheta2 - cosine of reflected angle
-   * @returns {number}
+   * @param n1 - index of refraction of first medium
+   * @param n2 - index of refraction of second medium
+   * @param cosTheta1 - cosine of incident angle
+   * @param cosTheta2 - cosine of reflected angle
    */
-  static getReflectedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ) {
+  static getReflectedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
     return Math.pow( ( n1 * cosTheta1 - n2 * cosTheta2 ) / ( n1 * cosTheta1 + n2 * cosTheta2 ), 2 );
   }
 
   /**
    * Get the fraction of power transmitted through the medium
-   * @public
-   * @param {number} n1 - index of refraction of first medium
-   * @param {number} n2 - index of refraction of second medium
-   * @param {number} cosTheta1 - cosine of incident angle
-   * @param {number} cosTheta2 - cosine of transmitted angle
-   * @returns {number}
+   * @param n1 - index of refraction of first medium
+   * @param n2 - index of refraction of second medium
+   * @param cosTheta1 - cosine of incident angle
+   * @param cosTheta2 - cosine of transmitted angle
    */
-  static getTransmittedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ) {
+  static getTransmittedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
     return 4 * n1 * n2 * cosTheta1 * cosTheta2 / ( Math.pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ) );
   }
 }
-
-// @public (read-only)
-BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT = DEFAULT_LASER_DISTANCE_FROM_PIVOT;
 
 bendingLight.register( 'BendingLightModel', BendingLightModel );
 
