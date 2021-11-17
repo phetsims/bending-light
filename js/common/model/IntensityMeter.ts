@@ -20,14 +20,14 @@ class IntensityMeter {
   readonly readingProperty: Property<Reading>;
   readonly sensorPositionProperty: Property<Vector2>;
   readonly bodyPositionProperty: Property<Vector2>;
-  private rayReadings: Reading[];
+  private rayReadings: Reading[] = []; // accumulation of readings
   readonly enabledProperty: BooleanProperty;
 
   /**
-   * @param {number} sensorX - sensor x position in model coordinates
-   * @param {number} sensorY - sensor y position in model coordinates
-   * @param {number} bodyX - body x position in model coordinates
-   * @param {number} bodyY - body y position in model coordinates
+   * @param sensorX - sensor x position in model coordinates
+   * @param sensorY - sensor y position in model coordinates
+   * @param bodyX - body x position in model coordinates
+   * @param bodyY - body y position in model coordinates
    */
   constructor( sensorX: number, sensorY: number, bodyX: number, bodyY: number ) {
 
@@ -35,15 +35,9 @@ class IntensityMeter {
     this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) ); // @public
     this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) ); // @public
     this.enabledProperty = new BooleanProperty( false ); // @public, True if it is in the play area
-
-    // @public (read-only), accumulation of readings
-    this.rayReadings = [];
   }
 
-  /**
-   * Restore the initial values.
-   * @public
-   */
+  // Restore the initial values.
   reset() {
     this.readingProperty.reset();
     this.sensorPositionProperty.reset();
@@ -52,7 +46,7 @@ class IntensityMeter {
     this.rayReadings.length = 0;
   }
 
-  // @public - Copy the model for reuse in the toolbox node.
+  // Copy the model for reuse in the toolbox node.
   copy() {
     return new IntensityMeter(
       this.sensorPositionProperty.get().x,
@@ -62,22 +56,14 @@ class IntensityMeter {
     );
   }
 
-  /**
-   * @public
-   * @returns {Shape}
-   */
-  getSensorShape() {
+  getSensorShape(): Shape {
 
     // fine tuned to match the given image
     const radius = 1E-6;
     return new Shape().arcPoint( this.sensorPositionProperty.get(), radius, 0, Math.PI * 2, false );
   }
 
-  /**
-   * Should be called before a model update so that values from last computation don't leak over into the next
-   * summation.
-   * @public
-   */
+  // Should be called before a model update so that values from last computation don't leak over into the next sum.
   clearRayReadings() {
     this.rayReadings = [];
     this.readingProperty.set( Reading.MISS );
@@ -85,19 +71,15 @@ class IntensityMeter {
 
   /**
    * Add a new reading to the accumulator and update the readout
-   * @public
-   * @param {Reading} r - intensity of the wave or MISS
+   * @param reading - intensity of the wave or MISS
    */
-  addRayReading( r: Reading ) {
-    this.rayReadings.push( r );
+  addRayReading( reading: Reading ) {
+    this.rayReadings.push( reading );
     this.updateReading();
   }
 
-  /**
-   * Update the body text based on the accumulated Reading values
-   * @private
-   */
-  updateReading() {
+  // Update the body text based on the accumulated Reading values
+  private updateReading() {
 
     // enumerate the hits
     const hits: Reading[] = [];

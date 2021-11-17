@@ -19,38 +19,37 @@ import ColorModeEnum from './ColorModeEnum.js';
 
 class Laser {
   readonly topLeftQuadrant: boolean;
+
+  // true if the laser is activated and emitting light
   readonly onProperty: Property<boolean>;
   readonly waveProperty: Property<boolean>;
   readonly colorModeProperty: Property<ColorModeEnum>;
   readonly emissionPointProperty: Property<Vector2>;
   readonly colorProperty: DerivedProperty<LaserColor>;
   readonly wavelengthProperty: Property<number>;
-  private readonly directionUnitVector: Vector2;
+
+  // laser direction vector
+  private readonly directionUnitVector: Vector2 = new Vector2( 0, 0 );
+
+  // point to be pivoted about, and at which the laser points
   readonly pivotProperty: Vector2Property;
 
   /**
-   * @param {Property.<number>} wavelengthProperty - wavelength of light
-   * @param {number} distanceFromPivot - distance from laser pivot point
-   * @param {number} angle - laser angle
-   * @param {boolean} topLeftQuadrant - specifies whether laser in topLeftQuadrant
+   * @param wavelengthProperty - wavelength of light
+   * @param distanceFromPivot - distance from laser pivot point
+   * @param angle - laser angle
+   * @param topLeftQuadrant - specifies whether laser in topLeftQuadrant
    */
   constructor( wavelengthProperty: Property<number>, distanceFromPivot: number, angle: number, topLeftQuadrant: boolean ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
-    this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) ); // @public, point to be pivoted about, and at which the laser points
-    this.onProperty = new BooleanProperty( false ); // @public, true if the laser is activated and emitting light
-    this.waveProperty = new BooleanProperty( false ); // @public
-    this.colorModeProperty = new Property<ColorModeEnum>( 'singleColor' ); // @public
+    this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) );
+    this.onProperty = new BooleanProperty( false );
+    this.waveProperty = new BooleanProperty( false );
+    this.colorModeProperty = new Property<ColorModeEnum>( 'singleColor' );
     this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
-
-    // @public (read-only)
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], ( wavelength: number ) => new LaserColor( wavelength ) );
-
-    // @public (read-only)
     this.wavelengthProperty = wavelengthProperty;
-
-    // laser direction vector
-    this.directionUnitVector = new Vector2( 0, 0 ); // @private, for internal use only.
 
     this.waveProperty.link( () => {
 
@@ -61,10 +60,7 @@ class Laser {
     } );
   }
 
-  /**
-   * Restore to initial values.
-   * @public
-   */
+  // Restore to initial values.
   reset() {
     this.pivotProperty.reset();
     this.onProperty.reset();
@@ -75,9 +71,8 @@ class Laser {
 
   /**
    * Translate the laser in model
-   * @public
-   * @param {number} deltaX - amount of space in x direction laser to be translated
-   * @param {number} deltaY - amount of space in y direction laser to be translated
+   * @param deltaX - amount of space in x direction laser to be translated
+   * @param deltaY - amount of space in y direction laser to be translated
    */
   translate( deltaX: number, deltaY: number ) {
 
@@ -89,10 +84,8 @@ class Laser {
 
   /**
    * Determines the unit vector of light ray
-   * @public
-   * @returns {Vector2}
    */
-  getDirectionUnitVector() {
+  getDirectionUnitVector(): Vector2 {
     const magnitude = this.pivotProperty.value.distance( this.emissionPointProperty.value );
     this.directionUnitVector.x = ( this.pivotProperty.value.x - this.emissionPointProperty.value.x ) / magnitude;
     this.directionUnitVector.y = ( this.pivotProperty.value.y - this.emissionPointProperty.value.y ) / magnitude;
@@ -101,8 +94,7 @@ class Laser {
 
   /**
    * Rotate about the fixed pivot
-   * @param {number} angle - angle to be rotated
-   * @public
+   * @param angle - angle to be rotated
    */
   setAngle( angle: number ) {
     const distFromPivot = this.pivotProperty.value.distance( this.emissionPointProperty.value );
@@ -114,37 +106,29 @@ class Laser {
 
   /**
    * Determines the angle of the laser
-   * @returns {number}
-   * @public
    */
-  getAngle() {
+  getAngle(): number {
     return this.getDirectionUnitVector().angle + Math.PI;
   }
 
   /**
    * Determines the distance of laser from pivot point
-   * @returns {number}
-   * @public
    */
-  getDistanceFromPivot() {
+  getDistanceFromPivot(): number {
     return this.pivotProperty.value.distance( this.emissionPointProperty.value );
   }
 
   /**
    * Determines the wavelength of the laser
-   * @returns {number}
-   * @public
    */
-  getWavelength() {
+  getWavelength(): number {
     return this.colorProperty.get().wavelength;
   }
 
   /**
    * Determines the wavelength of the laser
-   * @returns {number}
-   * @public
    */
-  getFrequency() {
+  getFrequency(): number {
     return BendingLightConstants.SPEED_OF_LIGHT / this.getWavelength();
   }
 }

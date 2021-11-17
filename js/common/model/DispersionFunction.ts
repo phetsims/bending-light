@@ -19,21 +19,19 @@ class DispersionFunction {
   private readonly referenceWavelength: number;
 
   /**
-   * @param {number} referenceIndexOfRefraction - IndexOfRefraction of medium
-   * @param {number} wavelength - wavelength in meters
+   * @param referenceIndexOfRefraction - IndexOfRefraction of medium
+   * @param wavelength - wavelength in meters
    */
   constructor( referenceIndexOfRefraction: number, wavelength: number ) {
-    this.referenceIndexOfRefraction = referenceIndexOfRefraction; // @public (read-only)
-    this.referenceWavelength = wavelength; // @public (read-only)
+    this.referenceIndexOfRefraction = referenceIndexOfRefraction;
+    this.referenceWavelength = wavelength;
   }
 
   /**
    * See http://en.wikipedia.org/wiki/Sellmeier_equation
-   * @public
-   * @param {number} wavelength - wavelength in meters
-   * @returns {number}
+   * @param wavelength - wavelength in meters
    */
-  getSellmeierValue( wavelength: number ) {
+  getSellmeierValue( wavelength: number ): number {
     const L2 = wavelength * wavelength;
     const B1 = 1.03961212;
     const B2 = 0.231792344;
@@ -46,22 +44,16 @@ class DispersionFunction {
     return Math.sqrt( 1 + B1 * L2 / ( L2 - C1 ) + B2 * L2 / ( L2 - C2 ) + B3 * L2 / ( L2 - C3 ) );
   }
 
-  /**
-   * Determines the index of refraction for the WAVELENGTH_RED
-   * @returns {number}
-   * @public
-   */
-  getIndexOfRefractionForRed() {
+  // Determines the index of refraction for the WAVELENGTH_RED
+  getIndexOfRefractionForRed(): number {
     return this.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
   }
 
   /**
    * See class-level documentation for an explanation of this algorithm
-   * @param {number} wavelength - wavelength in meters
-   * @returns {number}
-   * @public
+   * @param wavelength - wavelength in meters
    */
-  getIndexOfRefraction( wavelength: number ) {
+  getIndexOfRefraction( wavelength: number ): number {
 
     // get the reference values
     const nAirReference = this.getAirIndex( this.referenceWavelength );
@@ -80,11 +72,9 @@ class DispersionFunction {
 
   /**
    * See http://refractiveindex.info/?group=GASES&material=Air
-   * @param {number} wavelength - wavelength in meters
-   * @returns {number}
-   * @private
+   * @param wavelength - wavelength in meters
    */
-  getAirIndex( wavelength: number ) {
+  private getAirIndex( wavelength: number ): number {
     return 1 +
            5792105E-8 / ( 238.0185 - Math.pow( wavelength * 1E6, -2 ) ) +
            167917E-8 / ( 57.362 - Math.pow( wavelength * 1E6, -2 ) );

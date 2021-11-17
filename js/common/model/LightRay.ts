@@ -32,60 +32,65 @@ const makeFinite = ( vector: Vector2 ) => {
 };
 
 class LightRay {
-  extendBackwards: boolean;
-  color: Color;
-  waveWidth: number;
-  trapeziumWidth: number;
-  tip: Vector2;
-  tail: Vector2;
+  readonly extendBackwards: boolean;
+  readonly color: Color;
+  readonly waveWidth: number;
+  readonly trapeziumWidth: number;
+
+  // Directionality is important for propagation
+  readonly tip: Vector2;
+  readonly tail: Vector2;
+
   indexOfRefraction: number;
   wavelength: number;
   wavelengthInVacuum: number;
   powerFraction: number;
   numWavelengthsPhaseOffset: number;
   extend: boolean;
-  vectorForm: Vector2;
-  particles: ObservableArray<WaveParticle>;
-  time: number;
+
+  // for internal use only. Clients should use toVector()
+  private unitVector: Vector2 = new Vector2( 0, 0 );
+  private vectorForm: Vector2 = new Vector2( 0, 0 );
+
+  // wave particles
+  particles: ObservableArray<WaveParticle> = createObservableArray();
+
+  // time used in wave sensor node
+  time: number = 0;
   rayType: string;
-  unitVector: Vector2;
-  waveShape: Shape | null;
-  clipRegionCorners: Vector2[] | null;
+
+
+  waveShape: Shape | null = null;
+  clipRegionCorners: Vector2[] | null = null;
   static RAY_WIDTH: number;
 
   /**
-   * @param {number} trapeziumWidth - width of wave at intersection of mediums
-   * @param {Vector2} tail - tail position of light ray
-   * @param {Vector2} tip - tip position of light ray
-   * @param {number} indexOfRefraction - The index of refraction of the medium the light ray inhabits
-   * @param {number} wavelength - wavelength in meters
-   * @param {number} wavelengthInVacuum - wavelength in nm (in a vacuum, not in the current medium)
-   * @param {number} powerFraction - amount of power this light has (full strength is 1.0)
-   * @param {Color} color - color of light ray
-   * @param {number} waveWidth - width of the wave
-   * @param {number} numWavelengthsPhaseOffset - indicates how many wavelengths have passed before this light ray begins
-   * @param {boolean} extend - indicates whether to extend it at tip of the wave
-   * @param {boolean} extendBackwards - indicates whether to extend backwards it at tail of the wave
-   * @param {string} laserView - specifies the laser view whether ray or wave mode
-   * @param {string} rayType - for the intro model, 'incident' | 'reflected' | 'transmitted' | 'prism'
+   * @param trapeziumWidth - width of wave at intersection of mediums
+   * @param tail - tail position of light ray
+   * @param tip - tip position of light ray
+   * @param indexOfRefraction - The index of refraction of the medium the light ray inhabits
+   * @param wavelength - wavelength in meters
+   * @param wavelengthInVacuum - wavelength in nm (in a vacuum, not in the current medium)
+   * @param powerFraction - amount of power this light has (full strength is 1.0)
+   * @param color - color of light ray
+   * @param waveWidth - width of the wave
+   * @param numWavelengthsPhaseOffset - indicates how many wavelengths have passed before this light ray begins
+   * @param extend - indicates whether to extend it at tip of the wave
+   * @param extendBackwards - indicates whether to extend backwards it at tail of the wave
+   * @param laserView - specifies the laser view whether ray or wave mode
+   * @param rayType - for the intro model, 'incident' | 'reflected' | 'transmitted' | 'prism'
    */
   constructor( trapeziumWidth: number, tail: Vector2, tip: Vector2, indexOfRefraction: number, wavelength: number, wavelengthInVacuum: number, powerFraction: number, color: Color,
                waveWidth: number, numWavelengthsPhaseOffset: number, extend: boolean, extendBackwards: boolean, laserView: string, rayType: string ) {
 
-
-    this.waveShape = null;
-    this.clipRegionCorners = null;
-
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
     // Light must be extended backwards for the transmitted wave shape to be correct
-    this.extendBackwards = extendBackwards; // @public (read-only)
-    this.color = color; // @public (read-only)
-    this.waveWidth = waveWidth; //@public (read-only)
-    this.trapeziumWidth = trapeziumWidth; // @public (read-only)
-
-    // Directionality is important for propagation
-    this.tip = tip; // @public (read-only)
-    this.tail = tail; // @public (read-only)
+    this.extendBackwards = extendBackwards;
+    this.color = color;
+    this.waveWidth = waveWidth;
+    this.trapeziumWidth = trapeziumWidth;
+    this.tip = tip;
+    this.tail = tail;
 
     // The index of refraction of the medium the light ray inhabits
     this.indexOfRefraction = indexOfRefraction; // @public (read-only)
@@ -103,16 +108,6 @@ class LightRay {
     // has to be an integral number of wavelength so that the phases work out correctly,
     // turing this up too high past 1E6 causes things not to render properly
     this.extend = extend; // @public (read-only)
-
-    // @private, for internal use only. Clients should use toVector()
-    this.vectorForm = new Vector2( 0, 0 );
-    this.unitVector = new Vector2( 0, 0 );
-
-    // wave particles
-    this.particles = createObservableArray(); // @public (read-only)
-
-    // time used in wave sensor node
-    this.time = 0; // @public (read-only)
 
     // @public (read-only) Keep track of the type of light ray for use in AngleNode
     this.rayType = rayType;
