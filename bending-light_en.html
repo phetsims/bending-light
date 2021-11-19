@@ -29,7 +29,11 @@
         "url": "https://github.com/phetsims/bending-light.git"
       },
       "devDependencies": {
-        "grunt": "~1.4.0"
+        "@typescript-eslint/eslint-plugin": "^5.0.0",
+        "@typescript-eslint/parser": "^5.0.0",
+        "eslint": "^8.0.1",
+        "grunt": "~1.4.0",
+        "typescript": "^4.4.4"
       },
       "phet": {
         "requirejsNamespace": "BENDING_LIGHT",
@@ -46,8 +50,7 @@
         "phet-io": {
           "validation": false
         },
-        "supportsOutputJS": true,
-        "typescript": true
+        "supportsOutputJS": true
       },
       "eslintConfig": {
         "extends": "../chipper/eslint/sim_eslintrc.js"
