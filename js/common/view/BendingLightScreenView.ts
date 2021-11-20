@@ -22,6 +22,7 @@ import SingleColorLightCanvasNode from './SingleColorLightCanvasNode.js';
 import ColorModeEnum from '../model/ColorModeEnum.js';
 import LaserViewEnum from '../model/LaserViewEnum.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 
 type BendingLightScreenViewImplementationOptions = {
   occlusionHandler?: () => void,

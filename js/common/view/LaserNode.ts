@@ -24,8 +24,11 @@ import Laser from '../model/Laser.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 
-type LaserNodeOptions = {} & PhetioObjectOptions;
+type LaserNodeOptions = {
+  tandem: Tandem
+} & PhetioObjectOptions;
 
 class LaserNode extends Node {
   laserImageWidth: number;
