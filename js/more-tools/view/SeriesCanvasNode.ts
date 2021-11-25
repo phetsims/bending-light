@@ -12,6 +12,7 @@ import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 import DataPoint from '../model/DataPoint.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
 class SeriesCanvasNode extends CanvasNode {
   seriesProperty: Property<DataPoint[]>;

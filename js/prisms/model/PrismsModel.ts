@@ -29,6 +29,7 @@ import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import Prism from './Prism.js';
 import SemiCircle from './SemiCircle.js';
+import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
 // constants
 const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;

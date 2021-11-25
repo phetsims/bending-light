@@ -303,6 +303,7 @@ class MediumControlPanel extends Node {
     // add all the nodes to mediumPanelNode
     const mediumPanelNode = new Node( {
       children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
+      // @ts-ignore TODO: Spacing isn't on Node
       spacing: 10
     } );
 

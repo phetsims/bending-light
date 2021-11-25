@@ -15,7 +15,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ProbeNode from '../../../../scenery-phet/js/ProbeNode.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';

@@ -13,6 +13,7 @@ import Property from '../../../../axon/js/Property.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
 class GridCanvasNode extends CanvasNode {
   modelViewTransformProperty: Property<ModelViewTransform2>;

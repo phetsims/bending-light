@@ -13,6 +13,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
+import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
 class WaveCanvasNode extends CanvasNode {
   private readonly lightRays: LightRay[];
