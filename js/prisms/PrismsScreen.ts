@@ -9,7 +9,7 @@
 
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import Image from '../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../scenery/js/imports.js';
 import navbarIconImage from '../../mipmaps/Prisms_Screen_White_NavBar_png.js';
 import iconImage from '../../mipmaps/Prisms_Screen_White_png.js';
 import bendingLightStrings from '../bendingLightStrings.js';

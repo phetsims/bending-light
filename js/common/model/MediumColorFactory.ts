@@ -9,7 +9,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Utils from '../../../../dot/js/Utils.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
 import ColorModeEnum from './ColorModeEnum.js';

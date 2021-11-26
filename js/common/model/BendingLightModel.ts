@@ -11,7 +11,7 @@
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
-import Utils from '../../../../scenery/js/util/Utils.js';
+import { Utils } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import Laser from './Laser.js';

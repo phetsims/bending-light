@@ -10,7 +10,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
+import { CanvasNode } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';

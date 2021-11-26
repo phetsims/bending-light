@@ -9,7 +9,7 @@
 
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import bendingLight from '../../bendingLight.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // The fraction the objects can float out of the layout bounds

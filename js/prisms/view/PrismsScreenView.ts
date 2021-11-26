@@ -13,8 +13,8 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import VBox from '../../../../scenery/js/nodes/VBox.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 import bendingLightStrings from '../../bendingLightStrings.js';

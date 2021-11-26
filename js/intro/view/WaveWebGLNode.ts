@@ -7,8 +7,8 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import WebGLNode from '../../../../scenery/js/nodes/WebGLNode.js';
-import ShaderProgram from '../../../../scenery/js/util/ShaderProgram.js';
+import { WebGLNode } from '../../../../scenery/js/imports.js';
+import { ShaderProgram } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import LightRay from '../../common/model/LightRay.js';

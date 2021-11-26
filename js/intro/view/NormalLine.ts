@@ -10,7 +10,7 @@
 
 import Shape from '../../../../kite/js/Shape.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
+import { Path } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 
 class NormalLine extends Node {

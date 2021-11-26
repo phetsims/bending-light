@@ -8,10 +8,10 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
-import Line from '../../../../scenery/js/nodes/Line.js';
+import { Image } from '../../../../scenery/js/imports.js';
+import { Line } from '../../../../scenery/js/imports.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import laserImage from '../../../images/laser_png.js';
 import bendingLight from '../../bendingLight.js';

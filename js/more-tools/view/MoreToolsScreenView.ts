@@ -10,11 +10,11 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Rectangle from '../../../../dot/js/Rectangle.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
-import VBox from '../../../../scenery/js/nodes/VBox.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import ToolIconListener from '../../common/view/ToolIconListener.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
