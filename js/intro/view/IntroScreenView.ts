@@ -522,5 +522,5 @@ class IntroScreenView extends BendingLightScreenView {
 
 bendingLight.register( 'IntroScreenView', IntroScreenView );
 
-export { IntroScreenViewOptions };
+export type { IntroScreenViewOptions };
 export default IntroScreenView;

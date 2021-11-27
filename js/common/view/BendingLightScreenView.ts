@@ -232,5 +232,5 @@ abstract class BendingLightScreenView extends ScreenView {
 }
 
 bendingLight.register( 'BendingLightScreenView', BendingLightScreenView );
-export { BendingLightScreenViewOptions };
+export type { BendingLightScreenViewOptions };
 export default BendingLightScreenView;
