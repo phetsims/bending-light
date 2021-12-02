@@ -15,7 +15,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Color, NodeOptions } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
@@ -29,7 +29,6 @@ import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import Prism from './Prism.js';
 import SemiCircle from './SemiCircle.js';
-import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
 // constants
 const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
