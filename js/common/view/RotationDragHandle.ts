@@ -75,7 +75,7 @@ class RotationDragHandle extends Node {
     dragArrow.setShape( counterClockwiseDragArrow );
 
     // Update the shape when the laser moves
-    Property.multilink( [ laser.emissionPointProperty, showDragHandlesProperty ], () => {
+    Property.multilink<any[]>( [ laser.emissionPointProperty, showDragHandlesProperty ], () => {
       if ( showDragHandlesProperty.get() ) {
         const dragArrowX = modelViewTransform.modelToViewX( laser.pivotProperty.value.x );
         const dragArrowY = modelViewTransform.modelToViewY( laser.pivotProperty.value.y );

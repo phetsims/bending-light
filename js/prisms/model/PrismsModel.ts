@@ -75,7 +75,7 @@ class PrismsModel extends BendingLightModel {
     this.laser.colorModeProperty.link( colorMode => {
       this.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
     } );
-    Property.multilink( [
+    Property.multilink<any[]>( [
       this.manyRaysProperty,
       this.environmentMediumProperty,
       this.showReflectionsProperty,

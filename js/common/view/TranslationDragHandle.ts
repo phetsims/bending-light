@@ -46,7 +46,7 @@ class TranslationDragHandle extends Node {
 
     // update the position when laser pivot or emission point change
     Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty, showDragHandlesProperty ],
-      ( laserPivot: Vector2, laserEmission: Vector2 ) => {
+      ( laserPivot: Vector2, laserEmission: Vector2, showDragHandles: boolean ) => {
         if ( showDragHandlesProperty.get() ) {
           const laserAngle = -laser.getAngle();
           const magnitude = laserImageWidth * 0.35;

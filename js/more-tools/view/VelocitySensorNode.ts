@@ -154,7 +154,7 @@ class VelocitySensorNode extends Node {
 
     // Update the text when the value or units changes.
     Property.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty ],
-      ( velocity: Vector2 ) => {
+      ( velocity: Vector2, position: Vector2 ) => {
 
         // add '?' for null velocity
         if ( velocity.magnitude === 0 ) {

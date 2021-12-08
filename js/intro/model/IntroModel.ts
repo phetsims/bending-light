@@ -28,6 +28,7 @@ import Substance from '../../common/model/Substance.js';
 import WaveParticle from '../../common/model/WaveParticle.js';
 import LaserColor from '../../common/view/LaserColor.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
@@ -39,8 +40,8 @@ class IntroModel extends BendingLightModel {
   topMediumProperty: Property<Medium>;
   bottomMediumProperty: Property<Medium>;
   time: number;
-  indexOfRefractionOfTopMediumProperty: DerivedProperty<number>;
-  indexOfRefractionOfBottomMediumProperty: DerivedProperty<number>;
+  indexOfRefractionOfTopMediumProperty: IReadOnlyProperty<number>;
+  indexOfRefractionOfBottomMediumProperty: IReadOnlyProperty<number>;
   intensityMeter: IntensityMeter;
   tailVector: Vector2;
   tipVector: Vector2;
@@ -104,7 +105,7 @@ class IntroModel extends BendingLightModel {
       -this.modelHeight * 0.312
     );
 
-    Property.multilink( [
+    Property.multilink<any[]>( [
       this.laserViewProperty,
       this.laser.onProperty,
       this.intensityMeter.sensorPositionProperty,

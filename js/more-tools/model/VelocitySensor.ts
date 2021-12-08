@@ -9,6 +9,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -18,7 +19,7 @@ class VelocitySensor {
   readonly positionProperty: Property<Vector2>;
   readonly valueProperty: Property<Vector2>;
   readonly enabledProperty: Property<boolean>;
-  readonly isArrowVisibleProperty: DerivedProperty<boolean>;
+  readonly isArrowVisibleProperty: IReadOnlyProperty<boolean>;
 
   constructor() {
 

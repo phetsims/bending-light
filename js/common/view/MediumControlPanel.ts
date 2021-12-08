@@ -318,7 +318,7 @@ class MediumControlPanel extends Node {
       resize: false // Don't resize when the slider knob encroaches on the right border
     } );
     this.addChild( mediumPanel );
-    Property.multilink( [ mediumProperty, this.laserWavelengthProperty ],
+    Property.multilink<any[]>( [ mediumProperty, this.laserWavelengthProperty ],
       () => {
         custom = mediumProperty.get().substance.custom;
         indexOfRefractionValueText.text = Utils.toFixed(
