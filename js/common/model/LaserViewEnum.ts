@@ -3,5 +3,7 @@
 /**
  * @author Sam Reid (PhET Interactive Simulations)
  */
-type LaserViewEnum = 'ray' | 'wave';
+const LaserViewEnumValues = [ 'ray', 'wave' ] as const;
+type LaserViewEnum = typeof LaserViewEnumValues[number];
 export default LaserViewEnum;
+export { LaserViewEnumValues };

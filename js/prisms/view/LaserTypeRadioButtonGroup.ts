@@ -12,14 +12,15 @@ import { Image, Line, Node, NodeOptions, Rectangle } from '../../../../scenery/j
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import laserImage from '../../../images/laser_png.js';
 import bendingLight from '../../bendingLight.js';
+import LightType from '../model/LightType.js';
 
-class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<'white' | 'singleColor' | 'singleColor5x'> {
+class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
 
   /**
    * @param {Property.<LaserViewEnum>} radioButtonAdapterProperty
    * @param {Object} [providedOptions]
    */
-  constructor( radioButtonAdapterProperty: Property<'white' | 'singleColor' | 'singleColor5x'>, providedOptions?: NodeOptions ) {
+  constructor( radioButtonAdapterProperty: Property<LightType>, providedOptions?: NodeOptions ) {
     const laserImageNode = new Image( laserImage, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )

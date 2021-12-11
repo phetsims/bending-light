@@ -30,6 +30,8 @@ import PrismToolboxNode from './PrismToolboxNode.js';
 import WhiteLightCanvasNode from './WhiteLightCanvasNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { LightTypeValues } from '../model/LightType.js';
+import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
 
 // constants
 const INSET = 10;
@@ -119,7 +121,7 @@ class PrismsScreenView extends BendingLightScreenView {
 
     const sliderEnabledProperty = new BooleanProperty( false );
 
-    const radioButtonAdapterProperty = new Property<'white' | 'singleColor' | 'singleColor5x'>( 'singleColor' );
+    const radioButtonAdapterProperty = new StringEnumerationProperty( LightTypeValues, 'singleColor' );
     radioButtonAdapterProperty.link( radioButtonAdapterValue => {
       prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === 'white' ? 'white' :
                                                   'singleColor';
@@ -304,8 +306,6 @@ class PrismsScreenView extends BendingLightScreenView {
       bendingLightModel.mediumColorFactory
     );
     this.whiteLightNode.setExcludeInvisible( true );
-    console.log( this );
-    console.log( this.whiteLightNode );
 
     // Since the light canvas is opaque, it must be placed behind the control panels.
     this.addChild( this.whiteLightNode );

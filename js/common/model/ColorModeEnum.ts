@@ -2,6 +2,7 @@
 /**
  * @author Sam Reid (PhET Interactive Simulations)
  */
-
-type ColorModeEnum = 'white' | 'singleColor';
+const ColorModeEnumValues = [ 'white', 'singleColor' ];
+type ColorModeEnum = typeof ColorModeEnumValues[number];
 export default ColorModeEnum;
+export { ColorModeEnumValues };

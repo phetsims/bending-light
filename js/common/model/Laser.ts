@@ -11,12 +11,13 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import LaserColor from '../view/LaserColor.js';
-import ColorModeEnum from './ColorModeEnum.js';
+import ColorModeEnum, { ColorModeEnumValues } from './ColorModeEnum.js';
 
 class Laser {
   readonly topLeftQuadrant: boolean;
@@ -47,7 +48,7 @@ class Laser {
     this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) );
     this.onProperty = new BooleanProperty( false );
     this.waveProperty = new BooleanProperty( false );
-    this.colorModeProperty = new Property<ColorModeEnum>( 'singleColor' );
+    this.colorModeProperty = new StringEnumerationProperty( ColorModeEnumValues, 'singleColor' );
     this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], ( wavelength: number ) => new LaserColor( wavelength ) );
     this.wavelengthProperty = wavelengthProperty;
