@@ -10,7 +10,7 @@ import Property from '../../../../axon/js/Property.js';
 import Shape from '../../../../kite/js/Shape.js';
 import { Image, Line, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import laserImage from '../../../images/laser_png.js';
+import laser_png from '../../../images/laser_png.js';
 import bendingLight from '../../bendingLight.js';
 import LightType from '../model/LightType.js';
 
@@ -21,7 +21,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
    * @param {Object} [providedOptions]
    */
   constructor( radioButtonAdapterProperty: Property<LightType>, providedOptions?: NodeOptions ) {
-    const laserImageNode = new Image( laserImage, {
+    const laserImageNode = new Image( laser_png, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )
     } );

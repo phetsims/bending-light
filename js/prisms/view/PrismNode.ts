@@ -18,7 +18,7 @@ import { DragListener } from '../../../../scenery/js/imports.js';
 import { Image } from '../../../../scenery/js/imports.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import { Path } from '../../../../scenery/js/imports.js';
-import knobImage from '../../../images/knob_png.js';
+import knob_png from '../../../images/knob_png.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import Prism from '../model/Prism.js';
@@ -49,7 +49,7 @@ class PrismNode extends Node {
     const knobHeight = 15;
 
     // It looks like a box on the side of the prism
-    const knobNode = new Image( knobImage );
+    const knobNode = new Image( knob_png );
     if ( prism.shapeProperty.get().getReferencePoint() ) {
       this.addChild( knobNode );
     }

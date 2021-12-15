@@ -1,5 +1,5 @@
 {
-  "Intro_Screen.png": {
+  "introScreen.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amy Rouinfar"
   },
-  "More_Tools_Screen.png": {
+  "moreToolsScreen.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -15,7 +15,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amy Rouinfar"
   },
-  "Prisms_Screen_White.png": {
+  "prismsScreenWhite.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],
@@ -23,7 +23,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amy Rouinfar"
   },
-  "Prisms_Screen_White_NavBar.png": {
+  "prismsScreenWhiteNavBar.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
     ],

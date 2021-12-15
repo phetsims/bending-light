@@ -11,7 +11,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
-import icon from '../../mipmaps/Intro_Screen_png.js';
+import introScreen_png from '../../mipmaps/introScreen_png.js';
 import bendingLightStrings from '../bendingLightStrings.js';
 import bendingLight from '../bendingLight.js';
 import Substance from '../common/model/Substance.js';
@@ -32,7 +32,7 @@ class IntroScreen extends Screen {
 
     const options = {
       name: introString,
-      homeScreenIcon: new ScreenIcon( new Image( icon ), {
+      homeScreenIcon: new ScreenIcon( new Image( introScreen_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),

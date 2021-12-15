@@ -18,7 +18,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import { Image } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
-import knobImageData from '../../../images/knob_png.js';
+import knob_png from '../../../images/knob_png.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Laser from '../model/Laser.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -64,7 +64,7 @@ class LaserNode extends Node {
       getButtonLocation: ( bodyNode: Node ) => bodyNode.rightCenter.blend( bodyNode.center, 0.5 )
     } ) as Node;
 
-    const knobImage = hasKnob ? ( new Image( knobImageData, {
+    const knobImage = hasKnob ? ( new Image( knob_png, {
       scale: 0.58,
       rightCenter: laserPointerNode.leftCenter
 
