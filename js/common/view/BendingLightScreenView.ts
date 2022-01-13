@@ -25,7 +25,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 
 type BendingLightScreenViewImplementationOptions = {
-  occlusionHandler?: () => void,
+  occlusionHandler?: ( node: Node ) => void,
   horizontalPlayAreaOffset?: number,
   verticalPlayAreaOffset?: number,
   clampDragAngle?: ( angle: number ) => number,
@@ -47,7 +47,7 @@ abstract class BendingLightScreenView extends ScreenView {
   readonly incidentWaveLayer: Node;
   private readonly singleColorLightNode: SingleColorLightCanvasNode;
   readonly laserViewLayer: Node;
-  readonly occlusionHandler: () => void;
+  readonly occlusionHandler: ( n: Node ) => void;
   protected readonly modelViewTransform: ModelViewTransform2;
 
   /**
@@ -58,7 +58,7 @@ abstract class BendingLightScreenView extends ScreenView {
   constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, providedOptions?: BendingLightScreenViewOptions ) {
 
     const options = merge( {
-      occlusionHandler: () => {}, // {function} moves objects out from behind a control panel if dropped there
+      occlusionHandler: ( n: Node ) => {}, // {function} moves objects out from behind a control panel if dropped there
       ccwArrowNotAtMax: () => true, // {function} shows whether laser at min angle
       clockwiseArrowNotAtMax: () => true, // {function} shows whether laser at max angle, In prisms tab
       // laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
