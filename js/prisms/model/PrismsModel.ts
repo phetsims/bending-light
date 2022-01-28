@@ -29,6 +29,7 @@ import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import Prism from './Prism.js';
 import SemiCircle from './SemiCircle.js';
+import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 
 // constants
 const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
@@ -73,7 +74,7 @@ class PrismsModel extends BendingLightModel {
 
     this.intersectionStrokeProperty = new Property( 'black' );
     this.laser.colorModeProperty.link( colorMode => {
-      this.intersectionStrokeProperty.value = colorMode === 'white' ? 'white' : 'black';
+      this.intersectionStrokeProperty.value = colorMode === ColorModeEnum.WHITE ? 'white' : 'black';
     } );
     Property.multilink<any[]>( [
       this.manyRaysProperty,
@@ -200,7 +201,7 @@ class PrismsModel extends BendingLightModel {
 
     // Determines whether to use white light or single color light
     let mediumIndexOfRefraction;
-    if ( this.laser.colorModeProperty.value === 'white' ) {
+    if ( this.laser.colorModeProperty.value === ColorModeEnum.WHITE ) {
       // This number is the number of (equally spaced wavelength) rays to show in a white beam. More rays looks
       // better but is more computationally intensive.
       const wavelengths = BendingLightConstants.WHITE_LIGHT_WAVELENGTHS;

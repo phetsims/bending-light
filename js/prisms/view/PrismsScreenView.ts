@@ -30,8 +30,9 @@ import PrismToolboxNode from './PrismToolboxNode.js';
 import WhiteLightCanvasNode from './WhiteLightCanvasNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { LightTypeValues } from '../model/LightType.js';
-import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import ColorModeEnum from '../../common/model/ColorModeEnum.js';
+import LightType from '../model/LightType.js';
 
 // constants
 const INSET = 10;
@@ -121,12 +122,12 @@ class PrismsScreenView extends BendingLightScreenView {
 
     const sliderEnabledProperty = new BooleanProperty( false );
 
-    const radioButtonAdapterProperty = new StringEnumerationProperty( LightTypeValues, 'singleColor' );
+    const radioButtonAdapterProperty = new EnumerationProperty( LightType.SINGLE_COLOR );
     radioButtonAdapterProperty.link( radioButtonAdapterValue => {
-      prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === 'white' ? 'white' :
-                                                  'singleColor';
-      prismsModel.manyRaysProperty.value = radioButtonAdapterValue === 'singleColor5x' ? 5 : 1;
-      sliderEnabledProperty.value = radioButtonAdapterValue !== 'white';
+      prismsModel.laser.colorModeProperty.value = radioButtonAdapterValue === LightType.WHITE ? ColorModeEnum.WHITE :
+                                                  ColorModeEnum.SINGLE_COLOR;
+      prismsModel.manyRaysProperty.value = radioButtonAdapterValue === LightType.SINGLE_COLOR_5X ? 5 : 1;
+      sliderEnabledProperty.value = radioButtonAdapterValue !== LightType.WHITE;
     } );
 
     const laserTypeRadioButtonGroup = new LaserTypeRadioButtonGroup( radioButtonAdapterProperty );
@@ -254,7 +255,7 @@ class PrismsScreenView extends BendingLightScreenView {
       navigationBarSeparator.setRect( visibleBounds.x, visibleBounds.y + visibleBounds.height - rectHeight, visibleBounds.width, rectHeight );
     } );
     prismsModel.laser.colorModeProperty.link( color => {
-      navigationBarSeparator.visible = color === 'white';
+      navigationBarSeparator.visible = color === ColorModeEnum.WHITE;
       prismsModel.mediumColorFactory.lightTypeProperty.value = color;
     } );
     this.addChild( navigationBarSeparator );
@@ -280,7 +281,7 @@ class PrismsScreenView extends BendingLightScreenView {
    * @private, for internal use only.
    */
   private updateWhiteLightNode() {
-    if ( this.prismsModel.laser.colorModeProperty.value === 'white' && this.prismsModel.dirty ) {
+    if ( this.prismsModel.laser.colorModeProperty.value === ColorModeEnum.WHITE && this.prismsModel.dirty ) {
       this.whiteLightNode && this.whiteLightNode.step();
       this.prismsModel.dirty = false;
     }
@@ -312,7 +313,7 @@ class PrismsScreenView extends BendingLightScreenView {
 
     // switch between light render for white vs nonwhite light
     bendingLightModel.laser.colorModeProperty.link( color => {
-      this.whiteLightNode && this.whiteLightNode.setVisible( color === 'white' );
+      this.whiteLightNode && this.whiteLightNode.setVisible( color === ColorModeEnum.WHITE );
     } );
   }
 

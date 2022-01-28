@@ -12,8 +12,8 @@ import Utils from '../../../../dot/js/Utils.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
-import ColorModeEnum, { ColorModeEnumValues } from './ColorModeEnum.js';
-import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
+import ColorModeEnum from './ColorModeEnum.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 class MediumColorFactory {
   lightTypeProperty: Property<ColorModeEnum>;
@@ -21,7 +21,7 @@ class MediumColorFactory {
   getColorAgainstBlack: ( indexForRed: number ) => Color;
 
   constructor() {
-    this.lightTypeProperty = new StringEnumerationProperty( ColorModeEnumValues, 'singleColor' ); // could also be 'white'
+    this.lightTypeProperty = new EnumerationProperty( ColorModeEnum.SINGLE_COLOR );
 
     /**
      * Maps index of refraction to color using linear functions
@@ -50,7 +50,7 @@ class MediumColorFactory {
    * @public
    */
   getColor( indexForRed: number ) {
-    return this.lightTypeProperty.value === 'singleColor' ?
+    return this.lightTypeProperty.value === ColorModeEnum.SINGLE_COLOR ?
            this.getColorAgainstWhite( indexForRed ) :
            this.getColorAgainstBlack( indexForRed );
   }

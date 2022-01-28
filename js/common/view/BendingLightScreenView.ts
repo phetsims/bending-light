@@ -169,7 +169,7 @@ abstract class BendingLightScreenView extends ScreenView {
 
     Property.multilink( [ bendingLightModel.laser.colorModeProperty, bendingLightModel.laserViewProperty ],
       ( colorMode: ColorModeEnum, laserView: LaserViewEnum ) => {
-        this.singleColorLightNode.visible = laserView === LaserViewEnum.RAY && colorMode !== 'white';
+        this.singleColorLightNode.visible = laserView === LaserViewEnum.RAY && colorMode !== ColorModeEnum.WHITE;
       }
     );
 

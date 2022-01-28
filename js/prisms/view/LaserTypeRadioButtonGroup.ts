@@ -38,7 +38,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
     const padding = 2;// vertical padding above the laser in the white light radio button
     const overallScale = 0.875;
     super( radioButtonAdapterProperty, [ {
-      value: 'singleColor',
+      value: LightType.SINGLE_COLOR,
       node: new Node( {
         scale: overallScale,
         children: [
@@ -47,7 +47,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
         ]
       } )
     }, {
-      value: 'singleColor5x',
+      value: LightType.SINGLE_COLOR_5X,
       node: new Node( {
         scale: overallScale,
         children: [
@@ -60,7 +60,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
         ]
       } )
     }, {
-      value: 'white',
+      value: LightType.WHITE,
       node: new Node( {
         scale: overallScale,
         children: [
