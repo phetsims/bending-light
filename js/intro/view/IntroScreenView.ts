@@ -43,6 +43,7 @@ import WaveCanvasNode from './WaveCanvasNode.js';
 import WaveWebGLNode from './WaveWebGLNode.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
 const anglesString = bendingLightStrings.angles;
 const materialString = bendingLightStrings.material;
@@ -94,7 +95,7 @@ class IntroScreenView extends BendingLightScreenView {
        * @returns {boolean}
        */
       clockwiseArrowNotAtMax: ( laserAngle: number ) => {
-        if ( introModel.laserViewProperty.value === 'ray' ) {
+        if ( introModel.laserViewProperty.value === LaserViewEnum.RAY ) {
           return laserAngle < Math.PI;
         }
         else {
@@ -203,7 +204,7 @@ class IntroScreenView extends BendingLightScreenView {
         // @ts-ignore
         this.incidentWaveLayer.children[ k ].step();
       }
-      this.incidentWaveLayer.setVisible( introModel.laser.onProperty.value && introModel.laserViewProperty.value === 'wave' );
+      this.incidentWaveLayer.setVisible( introModel.laser.onProperty.value && introModel.laserViewProperty.value === LaserViewEnum.WAVE );
     } );
 
     // add laser view panel
@@ -414,7 +415,7 @@ class IntroScreenView extends BendingLightScreenView {
     if ( !hasMoreTools ) {
 
       // show play pause and step buttons only in wave view
-      introModel.laserViewProperty.link( laserType => this.timeControlNode.setVisible( laserType === 'wave' ) );
+      introModel.laserViewProperty.link( laserType => this.timeControlNode.setVisible( laserType === LaserViewEnum.WAVE ) );
     }
 
     FloatingLayout.floatRight( this, [ topMediumControlPanel, bottomMediumControlPanel, resetAllButton ] );
@@ -483,7 +484,7 @@ class IntroScreenView extends BendingLightScreenView {
    * @public
    */
   updateWaveShape() {
-    if ( this.introModel.laserViewProperty.value === 'wave' ) {
+    if ( this.introModel.laserViewProperty.value === LaserViewEnum.WAVE ) {
       for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
 
         // @ts-ignore

@@ -29,6 +29,7 @@ import WaveParticle from '../../common/model/WaveParticle.js';
 import LaserColor from '../../common/view/LaserColor.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
 // constants
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
@@ -119,7 +120,7 @@ class IntroModel extends BendingLightModel {
       // clear the accumulator in the intensity meter so it can sum up the newly created rays
       this.intensityMeter.clearRayReadings();
       this.updateModel();
-      if ( this.laserViewProperty.value === 'wave' && this.laser.onProperty.value ) {
+      if ( this.laserViewProperty.value === LaserViewEnum.WAVE && this.laser.onProperty.value ) {
         if ( !this.allowWebGL ) {
           this.createInitialParticles();
         }
@@ -361,7 +362,7 @@ class IntroModel extends BendingLightModel {
   getVelocity( position: Vector2 ) {
     const laserView = this.laserViewProperty.value;
     for ( let i = 0; i < this.rays.length; i++ ) {
-      if ( this.rays[ i ].contains( position, laserView === 'wave' ) ) {
+      if ( this.rays[ i ].contains( position, laserView === LaserViewEnum.WAVE ) ) {
         return this.rays[ i ].getVelocityVector();
       }
     }
@@ -377,7 +378,7 @@ class IntroModel extends BendingLightModel {
   getWaveValue( position: Vector2 ): { time: number, magnitude: number } | null {
     for ( let i = 0; i < this.rays.length; i++ ) {
       const ray = this.rays[ i ];
-      if ( ray.contains( position, this.laserViewProperty.value === 'wave' ) ) {
+      if ( ray.contains( position, this.laserViewProperty.value === LaserViewEnum.WAVE ) ) {
 
         // map power to displayed amplitude
         const amplitude = Math.sqrt( ray.powerFraction );
@@ -419,7 +420,7 @@ class IntroModel extends BendingLightModel {
 
     // set time for each ray
     this.rays.forEach( ray => ray.setTime( this.time ) );
-    if ( this.laser.onProperty.value && this.laserViewProperty.value === 'wave' ) {
+    if ( this.laser.onProperty.value && this.laserViewProperty.value === LaserViewEnum.WAVE ) {
       if ( !this.allowWebGL ) {
         this.propagateParticles();
       }

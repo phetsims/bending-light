@@ -66,7 +66,7 @@ class MoreToolsScreenView extends IntroScreenView {
     // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       ( laserView: LaserViewEnum, isWaveSensorEnabled: boolean ) => {
-        this.timeControlNode.visible = isWaveSensorEnabled || laserView === 'wave';
+        this.timeControlNode.visible = isWaveSensorEnabled || laserView === LaserViewEnum.WAVE;
       } );
   }
 

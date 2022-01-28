@@ -16,6 +16,7 @@ import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import WaveParticle from './WaveParticle.js';
+import LaserViewEnum from './LaserViewEnum.js';
 
 // constants
 /**
@@ -81,7 +82,7 @@ class LightRay {
    * @param rayType - for the intro model, 'incident' | 'reflected' | 'transmitted' | 'prism'
    */
   constructor( trapeziumWidth: number, tail: Vector2, tip: Vector2, indexOfRefraction: number, wavelength: number, wavelengthInVacuum: number, powerFraction: number, color: Color,
-               waveWidth: number, numWavelengthsPhaseOffset: number, extend: boolean, extendBackwards: boolean, laserView: string, rayType: string ) {
+               waveWidth: number, numWavelengthsPhaseOffset: number, extend: boolean, extendBackwards: boolean, laserView: LaserViewEnum, rayType: string ) {
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
     // Light must be extended backwards for the transmitted wave shape to be correct
@@ -112,7 +113,7 @@ class LightRay {
     // @public (read-only) Keep track of the type of light ray for use in AngleNode
     this.rayType = rayType;
 
-    if ( laserView === 'wave' ) {
+    if ( laserView === LaserViewEnum.WAVE ) {
 
       // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
       // angle of tail is Math.PI/2 for transmitted and reflected rays.

@@ -1,9 +1,17 @@
 // Copyright 2021, University of Colorado Boulder
 
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import bendingLight from '../../bendingLight.js';
+
 /**
  * @author Sam Reid (PhET Interactive Simulations)
  */
-const LaserViewEnumValues = [ 'ray', 'wave' ] as const;
-type LaserViewEnum = typeof LaserViewEnumValues[number];
+class LaserViewEnum extends EnumerationValue {
+  static RAY = new LaserViewEnum();
+  static WAVE = new LaserViewEnum();
+  static enumeration = new Enumeration( LaserViewEnum );
+}
+
+bendingLight.register( 'LaserViewEnum', LaserViewEnum );
 export default LaserViewEnum;
-export { LaserViewEnumValues };

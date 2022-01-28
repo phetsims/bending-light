@@ -10,7 +10,7 @@
 
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
-import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import { Utils } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
@@ -18,7 +18,7 @@ import BendingLightConstants from '../BendingLightConstants.js';
 import Laser from './Laser.js';
 import LightRay from './LightRay.js';
 import MediumColorFactory from './MediumColorFactory.js';
-import LaserViewEnum, { LaserViewEnumValues } from './LaserViewEnum.js';
+import LaserViewEnum from './LaserViewEnum.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
@@ -68,7 +68,7 @@ abstract class BendingLightModel {
     this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
 
     // @public, Whether the laser is Ray or Wave mode
-    this.laserViewProperty = new StringEnumerationProperty( LaserViewEnumValues, 'ray' );
+    this.laserViewProperty = new EnumerationProperty( LaserViewEnum.RAY );
 
     this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
     this.isPlayingProperty = new BooleanProperty( true );

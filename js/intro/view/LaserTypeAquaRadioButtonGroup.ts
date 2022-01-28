@@ -20,9 +20,6 @@ const waveString = bendingLightStrings.wave;
 
 class LaserTypeAquaRadioButtonGroup extends VBox {
 
-  /**
-   * @param laserTypeProperty 'ray' or 'wave'
-   */
   constructor( laserTypeProperty: Property<LaserViewEnum> ) {
     const radioButtonOptions = {
       radius: 6,
@@ -34,13 +31,13 @@ class LaserTypeAquaRadioButtonGroup extends VBox {
     } );
     const rayButton = new AquaRadioButton(
       laserTypeProperty,
-      'ray',
+      LaserViewEnum.RAY,
       createButtonTextNode( rayString ),
       radioButtonOptions
     );
     const waveButton = new AquaRadioButton(
       laserTypeProperty,
-      'wave',
+      LaserViewEnum.WAVE,
       createButtonTextNode( waveString ),
       radioButtonOptions
     );
