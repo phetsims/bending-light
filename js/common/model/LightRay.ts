@@ -1,4 +1,4 @@
-// Copyright 2015-2021, University of Colorado Boulder
+// Copyright 2015-2022, University of Colorado Boulder
 
 /**
  * A LightRay models one straight segment of a beam (completely within a single medium), with a specific wavelength.
