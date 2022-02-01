@@ -7,12 +7,11 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import { WebGLNode } from '../../../../scenery/js/imports.js';
-import { ShaderProgram } from '../../../../scenery/js/imports.js';
+import { ShaderProgram, WebGLNode } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import LightRay from '../../common/model/LightRay.js';
-import Matrix from '../../../../dot/js/Matrix.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
 
 const scratchFloatArray1 = new Float32Array( 9 );
 const scratchFloatArray2 = new Float32Array( 9 );
@@ -46,10 +45,10 @@ class WavePainter {
   vertexBuffer: WebGLBuffer | null;
 
   /**
-   * @param {WebGL2RenderingContext} gl
+   * @param {WebGLRenderingContext} gl
    * @param {WaveWebGLNode} node
    */
-  constructor( gl: WebGL2RenderingContext, node: WaveWebGLNode ) {
+  constructor( gl: WebGLRenderingContext, node: WaveWebGLNode ) {
     this.gl = gl;
     this.node = node;
 
@@ -115,7 +114,7 @@ class WavePainter {
   /**
    * @public
    */
-  paint( modelViewMatrix: Matrix, projectionMatrix: Matrix ) {
+  paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): 1 {
     const gl = this.gl;
     const shaderProgram = this.shaderProgram as ShaderProgram;
     const rays = this.node.rays;
