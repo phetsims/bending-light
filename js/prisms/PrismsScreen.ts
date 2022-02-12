@@ -20,7 +20,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 const prismsString = bendingLightStrings.prisms;
 
-class PrismsScreen extends Screen {
+class PrismsScreen extends Screen<PrismsModel, PrismsScreenView> {
   constructor( tandem: Tandem ) {
 
     const options = {
@@ -40,7 +40,7 @@ class PrismsScreen extends Screen {
       () => new PrismsModel( {
         tandem: options.tandem.createTandem( 'model' )
       } ),
-      ( model: PrismsModel ) => new PrismsScreenView( model, {
+      model => new PrismsScreenView( model, {
         tandem: options.tandem.createTandem( 'view' )
       } ),
       options );

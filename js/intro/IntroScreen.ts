@@ -23,7 +23,7 @@ import BendingLightModel from '../common/model/BendingLightModel.js';
 
 const introString = bendingLightStrings.intro;
 
-class IntroScreen extends Screen {
+class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
   /**
    * @param {Tandem} tandem
@@ -42,7 +42,7 @@ class IntroScreen extends Screen {
 
     super(
       () => new IntroModel( Substance.WATER, true, tandem.createTandem( 'model' ) ),
-      ( model: IntroModel ) => new IntroScreenView( model,
+      model => new IntroScreenView( model,
         false, // hasMoreTools
         2, // indexOfRefractionDecimals
 
