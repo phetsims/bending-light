@@ -10,8 +10,8 @@
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Line from '../../../../kite/js/segments/Line.js';
-import Shape from '../../../../kite/js/Shape.js';
+import { Line } from '../../../../kite/js/imports.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';

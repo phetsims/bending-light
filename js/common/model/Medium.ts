@@ -7,7 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import Shape from '../../../../kite/js/Shape.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';

@@ -8,7 +8,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import Shape from '../../../../kite/js/Shape.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import { Node, NodeOptions, Path } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 

@@ -8,9 +8,7 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Arc from '../../../../kite/js/segments/Arc.js';
-import Line from '../../../../kite/js/segments/Line.js';
-import Shape from '../../../../kite/js/Shape.js';
+import { Arc, Line, Shape } from '../../../../kite/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import PrismIntersection from './PrismIntersection.js';
 import ColoredRay from './ColoredRay.js';
