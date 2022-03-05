@@ -269,7 +269,7 @@ class MediumControlPanel extends Node {
     // add slider for index of refraction
     const indexOfRefractionSlider = new HSlider( this.mediumIndexProperty,
       new Range( INDEX_OF_REFRACTION_MIN, INDEX_OF_REFRACTION_MAX ), {
-        trackFill: 'white',
+        trackFillEnabled: 'white',
         trackSize: new Dimension2( sliderWidth, 1 ),
         thumbSize: new Dimension2( 10, 20 ),
         thumbTouchAreaYDilation: 8, // So it will not overlap the tweaker buttons
