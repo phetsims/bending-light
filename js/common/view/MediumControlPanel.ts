@@ -19,7 +19,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
-import ComboBox from '../../../../sun/js/ComboBox.js';
+import ComboBox, { ComboBoxListPosition } from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
@@ -46,7 +46,7 @@ const PLUS_MINUS_SPACING = 4;
 const INSET = 10;
 
 type MediumControlPanelOptions = {
-  comboBoxListPosition?: number,
+  comboBoxListPosition?: ComboBoxListPosition,
   yMargin?: number,
   lineWidth?: number
 };
@@ -164,7 +164,8 @@ class MediumControlPanel extends Node {
       listPosition: options.comboBoxListPosition,
       xMargin: 7,
       yMargin: 4,
-      arrowHeight: 6,
+      // TODO: arrowHeight doesn't exist in ComboBox, should we add that feature?
+      // arrowHeight: 6,
       cornerRadius: 3
     } );
 
