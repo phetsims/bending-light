@@ -7,7 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import createObservableArray from '../../../../axon/js/createObservableArray.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Line } from '../../../../kite/js/imports.js';

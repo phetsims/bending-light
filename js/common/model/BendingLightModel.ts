@@ -8,7 +8,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import createObservableArray from '../../../../axon/js/createObservableArray.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';

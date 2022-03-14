@@ -12,6 +12,7 @@ import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import LightRay from '../../common/model/LightRay.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 
 const scratchFloatArray1 = new Float32Array( 9 );
 const scratchFloatArray2 = new Float32Array( 9 );
