@@ -27,7 +27,7 @@ const MAX_ANGLE_IN_WAVE_MODE = 3.0194;
 
 // CIE 1931 2-angle tristimulus values, from http://cvrl.ioo.ucl.ac.uk/cmfs.htm. Maps wavelength (in nm) to an
 // X,Y,Z value in the XYZ color space.
-const XYZ: { [ key: number ]: { x: number, y: number, z: number } } = {
+const XYZ: { [ key: number ]: { x: number; y: number; z: number } } = {
   360: { x: 0.0001299, y: 0.000003917, z: 0.0006061 },
   365: { x: 0.0002321, y: 0.000006965, z: 0.001086 },
   370: { x: 0.0004149, y: 0.00001239, z: 0.001946 },

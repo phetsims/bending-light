@@ -18,7 +18,7 @@ import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 class GridCanvasNode extends CanvasNode {
   modelViewTransformProperty: Property<ModelViewTransform2>;
   strokeDash: number[];
-  gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>;
+  gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>;
 
   /**
    * @param {ObservableArrayDef.<[]>} gridLines - contains details of each grid line
@@ -26,7 +26,7 @@ class GridCanvasNode extends CanvasNode {
    * @param {array.<number>} strokeDash
    * @param {Object} [providedOptions] - options that can be passed on to the underlying node
    */
-  constructor( gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>,
+  constructor( gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>,
                modelViewTransformProperty: Property<ModelViewTransform2>, strokeDash: number[], providedOptions?: NodeOptions ) {
 
     super( providedOptions );

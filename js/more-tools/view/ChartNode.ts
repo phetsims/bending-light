@@ -57,7 +57,7 @@ class ChartNode extends Node {
   seriesArray: Series[];
   timeWidth: number;
   modelViewTransformProperty: Property<ModelViewTransform2>;
-  gridLines: ObservableArray<{ x1: number, y1: number, x2: number, y2: number, lineDashOffset: number }>;
+  gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>;
   gridCanvasNode: GridCanvasNode;
 
   /**

@@ -25,12 +25,12 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 
 type BendingLightScreenViewImplementationOptions = {
-  occlusionHandler?: ( node: Node ) => void,
-  horizontalPlayAreaOffset?: number,
-  verticalPlayAreaOffset?: number,
-  clampDragAngle?: ( angle: number ) => number,
-  ccwArrowNotAtMax?: () => boolean,
-  clockwiseArrowNotAtMax?: () => boolean
+  occlusionHandler?: ( node: Node ) => void;
+  horizontalPlayAreaOffset?: number;
+  verticalPlayAreaOffset?: number;
+  clampDragAngle?: ( angle: number ) => number;
+  ccwArrowNotAtMax?: () => boolean;
+  clockwiseArrowNotAtMax?: () => boolean;
 };
 
 type BendingLightScreenViewOptions = BendingLightScreenViewImplementationOptions & PhetioObjectOptions;

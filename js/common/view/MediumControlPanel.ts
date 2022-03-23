@@ -46,9 +46,9 @@ const PLUS_MINUS_SPACING = 4;
 const INSET = 10;
 
 type MediumControlPanelOptions = {
-  comboBoxListPosition?: ComboBoxListPosition,
-  yMargin?: number,
-  lineWidth?: number
+  comboBoxListPosition?: ComboBoxListPosition;
+  yMargin?: number;
+  lineWidth?: number;
 };
 
 class MediumControlPanel extends Node {

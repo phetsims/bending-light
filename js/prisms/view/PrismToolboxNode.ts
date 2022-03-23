@@ -155,12 +155,12 @@ class PrismToolboxNode extends Node {
     // compute the maximum item width
 
     // @ts-ignore
-    const widestItem: { label: Node, icon: Node | null } = _.maxBy( [ showReflections, showNormal, showProtractor ], item => item.label.width + ( ( item.icon ) ? item.icon.width : 0 ) );
+    const widestItem: { label: Node; icon: Node | null } = _.maxBy( [ showReflections, showNormal, showProtractor ], item => item.label.width + ( ( item.icon ) ? item.icon.width : 0 ) );
     const widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0 );
     const maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
 
     // pad inserts a spacing node (HStrut) so that the text, space and image together occupy a certain fixed width.
-    const createItem = ( itemSpec: { label: Node, icon: Node | null } ) => {
+    const createItem = ( itemSpec: { label: Node; icon: Node | null } ) => {
       if ( itemSpec.icon ) {
         const textWidth = maxWidth - itemSpec.icon.width - 10;
         if ( itemSpec.label.width > textWidth ) {

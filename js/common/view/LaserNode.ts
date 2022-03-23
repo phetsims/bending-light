@@ -27,7 +27,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 
 type LaserNodeOptions = {
-  tandem: Tandem
+  tandem: Tandem;
 } & PhetioObjectOptions;
 
 class LaserNode extends Node {

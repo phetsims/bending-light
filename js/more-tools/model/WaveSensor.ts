@@ -21,14 +21,14 @@ class WaveSensor {
   probe2: Probe;
   bodyPositionProperty: Property<Vector2>;
   enabledProperty: Property<boolean>;
-  probe1Value: ( position: Vector2 ) => { time: number, magnitude: number } | null;
-  probe2Value: ( position: Vector2 ) => { time: number, magnitude: number } | null;
+  probe1Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
+  probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
 
   /**
    * @param {function} probe1Value - function for getting data from a probe at the specified point
    * @param {function} probe2Value - function for getting data from a probe at the specified point
    */
-  constructor( probe1Value: ( position: Vector2 ) => { time: number, magnitude: number } | null, probe2Value: ( position: Vector2 ) => { time: number, magnitude: number } | null ) {
+  constructor( probe1Value: ( position: Vector2 ) => { time: number; magnitude: number } | null, probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null ) {
 
     // Set the relative position of the probes and body in model coordinates (SI). These values for initial probe and
     // body positions were obtained by printing out actual values at runtime, then dragging the objects to a good
@@ -79,7 +79,7 @@ class WaveSensor {
    * @param {Probe} probe
    * @param {function} probeValue - function for getting data from a probe at the specified point
    */
-  updateProbeSample( probe: Probe, probeValue: ( position: Vector2 ) => { time: number, magnitude: number } | null ) {
+  updateProbeSample( probe: Probe, probeValue: ( position: Vector2 ) => { time: number; magnitude: number } | null ) {
 
     // Read the value from the probe function. May be None if not intersecting a light ray
     const result = probeValue( probe.positionProperty.get() );
