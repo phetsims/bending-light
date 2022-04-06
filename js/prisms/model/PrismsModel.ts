@@ -103,9 +103,8 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * @public
-   * @override
    */
-  reset() {
+  override reset() {
     super.reset();
     this.prisms.clear();
     this.manyRaysProperty.reset();

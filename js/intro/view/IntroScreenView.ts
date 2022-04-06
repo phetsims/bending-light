@@ -451,7 +451,7 @@ class IntroScreenView extends BendingLightScreenView {
   /**
    * @public - restore initial conditions
    */
-  reset() {
+  override reset() {
     super.reset();
     this.introModel.reset();
     this.topMediumControlPanel.reset();
@@ -471,7 +471,7 @@ class IntroScreenView extends BendingLightScreenView {
    * Called by the animation loop.
    * @protected
    */
-  step() {
+  override step() {
     this.stepEmitter.emit();
     super.step();
     if ( this.introModel.isPlayingProperty.value ) {

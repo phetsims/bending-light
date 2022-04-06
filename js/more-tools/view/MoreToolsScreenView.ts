@@ -233,7 +233,7 @@ class MoreToolsScreenView extends IntroScreenView {
    * @returns {Node[]}
    * @protected
    */
-  getAdditionalToolIcons() {
+  override getAdditionalToolIcons() {
     return [
       this.getVelocitySensorIcon(),
       this.getWaveSensorIcon()
@@ -244,7 +244,7 @@ class MoreToolsScreenView extends IntroScreenView {
    * Update chart node and wave.
    * @protected
    */
-  updateWaveShape() {
+  override updateWaveShape() {
     super.updateWaveShape();
     if ( this.waveSensorNode && this.waveSensorNode.waveSensor.enabledProperty.get() ) {
       this.waveSensorNode.waveSensor.step();

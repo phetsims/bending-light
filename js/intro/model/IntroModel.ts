@@ -344,9 +344,8 @@ class IntroModel extends BendingLightModel {
 
   /**
    * @public
-   * @override
    */
-  reset() {
+  override reset() {
     super.reset();
     this.topMediumProperty.reset();
     this.bottomMediumProperty.reset();

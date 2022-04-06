@@ -264,7 +264,7 @@ class PrismsScreenView extends BendingLightScreenView {
   /**
    * @public
    */
-  reset() {
+  override reset() {
     this.prismLayer.removeAllChildren();
     this.resetPrismsView();
   }
@@ -272,7 +272,7 @@ class PrismsScreenView extends BendingLightScreenView {
   /**
    * @protected
    */
-  step() {
+  override step() {
     super.step();
     this.updateWhiteLightNode();
   }

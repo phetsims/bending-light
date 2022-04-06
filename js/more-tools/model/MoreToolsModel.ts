@@ -54,7 +54,7 @@ class MoreToolsModel extends IntroModel {
   /**
    * @public
    */
-  reset() {
+  override reset() {
     super.reset();
     this.velocitySensor.reset();
     this.waveSensor.reset();
