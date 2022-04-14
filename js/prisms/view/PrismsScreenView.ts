@@ -12,12 +12,11 @@ import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
-import { Rectangle, Node, NodeOptions } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 import bendingLightStrings from '../../bendingLightStrings.js';
-import BendingLightScreenView from '../../common/view/BendingLightScreenView.js';
+import BendingLightScreenView, { BendingLightScreenViewOptions } from '../../common/view/BendingLightScreenView.js';
 import FloatingLayout from '../../common/view/FloatingLayout.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import TranslationDragHandle from '../../common/view/TranslationDragHandle.js';
@@ -39,6 +38,8 @@ const INSET = 10;
 
 const environmentString = bendingLightStrings.environment;
 
+type PrismsScreenViewOptions = {} & BendingLightScreenViewOptions;
+
 class PrismsScreenView extends BendingLightScreenView {
   prismLayer: Node;
   prismsModel: PrismsModel;
@@ -51,7 +52,7 @@ class PrismsScreenView extends BendingLightScreenView {
    * @param {PrismsModel} prismsModel - model of prisms screen
    * @param {Object} [providedOptions]
    */
-  constructor( prismsModel: PrismsModel, providedOptions?: Partial<NodeOptions> ) {
+  constructor( prismsModel: PrismsModel, providedOptions?: PrismsScreenViewOptions ) {
 
     super(
       prismsModel,

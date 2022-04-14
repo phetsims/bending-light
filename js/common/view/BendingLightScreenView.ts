@@ -10,8 +10,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import ScreenView from '../../../../joist/js/ScreenView.js';
-import merge from '../../../../phet-core/js/merge.js';
+import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
@@ -22,9 +21,9 @@ import SingleColorLightCanvasNode from './SingleColorLightCanvasNode.js';
 import ColorModeEnum from '../model/ColorModeEnum.js';
 import LaserViewEnum from '../model/LaserViewEnum.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-type BendingLightScreenViewImplementationOptions = {
+type SelfOptions = {
   occlusionHandler?: ( node: Node ) => void;
   horizontalPlayAreaOffset?: number;
   verticalPlayAreaOffset?: number;
@@ -32,8 +31,7 @@ type BendingLightScreenViewImplementationOptions = {
   ccwArrowNotAtMax?: () => boolean;
   clockwiseArrowNotAtMax?: () => boolean;
 };
-
-type BendingLightScreenViewOptions = BendingLightScreenViewImplementationOptions & PhetioObjectOptions;
+type BendingLightScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 abstract class BendingLightScreenView extends ScreenView {
   protected readonly showProtractorProperty: Property<boolean>;
@@ -57,7 +55,7 @@ abstract class BendingLightScreenView extends ScreenView {
    */
   constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, providedOptions?: BendingLightScreenViewOptions ) {
 
-    const options = merge( {
+    const options = optionize<BendingLightScreenViewOptions, SelfOptions, ScreenViewOptions>( {
       occlusionHandler: ( n: Node ) => {}, // {function} moves objects out from behind a control panel if dropped there
       ccwArrowNotAtMax: () => true, // {function} shows whether laser at min angle
       clockwiseArrowNotAtMax: () => true, // {function} shows whether laser at max angle, In prisms tab
@@ -66,9 +64,12 @@ abstract class BendingLightScreenView extends ScreenView {
       horizontalPlayAreaOffset: 0, // {number} in stage coordinates, how far to shift the play area horizontally
       verticalPlayAreaOffset: 0 // {number} in stage coordinates, how far to shift the play area vertically.  In the
                                 // prisms screen, it is shifted up a bit to center the play area above the south control panel
-    }, providedOptions ) as Required<BendingLightScreenViewImplementationOptions & Pick<PhetioObjectOptions, 'tandem'>>;
+    }, providedOptions );
 
-    super( { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
+    super( {
+      layoutBounds: new Bounds2( 0, 0, 834, 504 ),
+      tandem: options.tandem
+    } );
 
     this.occlusionHandler = options.occlusionHandler;
     this.bendingLightModel = bendingLightModel;
