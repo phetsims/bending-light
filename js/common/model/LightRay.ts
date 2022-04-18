@@ -57,7 +57,7 @@ class LightRay {
   particles: ObservableArray<WaveParticle> = createObservableArray();
 
   // time used in wave sensor node
-  time: number = 0;
+  time = 0;
   rayType: string;
 
 
