@@ -398,8 +398,6 @@ class IntroScreenView extends BendingLightScreenView {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
           listener: () => {
-
-            // @ts-ignore
             introModel.updateSimulationTimeAndWaveShape( TimeSpeed.NORMAL );
             this.updateWaveShape();
           }

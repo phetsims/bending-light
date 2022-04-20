@@ -414,7 +414,6 @@ class IntroModel extends BendingLightModel {
   updateSimulationTimeAndWaveShape( speed: any ) {
 
     // Update the time
-    // @ts-ignore
     this.time = this.time + ( speed === TimeSpeed.NORMAL ? 1E-16 : 0.5E-16 );
 
     // set time for each ray

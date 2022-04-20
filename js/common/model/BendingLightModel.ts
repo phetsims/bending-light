@@ -72,11 +72,7 @@ abstract class BendingLightModel {
 
     this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
     this.isPlayingProperty = new BooleanProperty( true );
-
-    // @ts-ignore
-    this.speedProperty = new Property( TimeSpeed.NORMAL, {
-      validValues: TimeSpeed.VALUES
-    } );
+    this.speedProperty = new EnumerationProperty( TimeSpeed.NORMAL );
     this.indexOfRefractionProperty = new Property( 1 );
     this.showNormalProperty = new BooleanProperty( true );
     this.showAnglesProperty = new BooleanProperty( false );
