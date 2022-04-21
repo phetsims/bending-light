@@ -27,12 +27,11 @@ class WaveWebGLNode extends WebGLNode {
    */
   constructor( modelViewTransform: ModelViewTransform2, rays: ObservableArray<LightRay> ) {
     super( WavePainter );
-    this.modelViewTransform = modelViewTransform; // @public (read-only)
+    this.modelViewTransform = modelViewTransform; // (read-only)
     this.rays = rays; // @private
   }
 
   /**
-   * @public
    */
   step() {
     this.invalidatePaint();
@@ -113,7 +112,6 @@ class WavePainter {
   }
 
   /**
-   * @public
    */
   paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): 1 {
     const gl = this.gl;
@@ -208,7 +206,6 @@ class WavePainter {
   }
 
   /**
-   * @public
    */
   dispose() {
     this.shaderProgram.dispose();

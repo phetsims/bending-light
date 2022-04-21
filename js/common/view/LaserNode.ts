@@ -91,7 +91,7 @@ class LaserNode extends Node {
 
     super( merge( { cursor: 'pointer' }, providedOptions ) );
 
-    // @public (read-only), Used for radius and length of drag handlers
+    // (read-only), Used for radius and length of drag handlers
     this.laserImageWidth = laserPointerNode.width;
 
     // add laser image
@@ -276,7 +276,6 @@ class LaserNode extends Node {
    * model
    * @param {number} x
    * @param {number} y
-   * @public
    */
   translateViewXY( x: number, y: number ) {
     const delta = this.modelViewTransform.viewToModelDeltaXY( x, y );

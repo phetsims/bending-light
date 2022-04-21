@@ -25,15 +25,14 @@ class BendingLightCircle {
    */
   constructor( center: Vector2, radius: number ) {
 
-    this.center = center; // @public (read-only)
-    this.centroid = center; // @public (read-only)
-    this.radius = radius; // @public (read-only)
-    this.shape = Shape.circle( this.center.x, this.center.y, this.radius ); // @public (read-only)
+    this.center = center; // (read-only)
+    this.centroid = center; // (read-only)
+    this.radius = radius; // (read-only)
+    this.shape = Shape.circle( this.center.x, this.center.y, this.radius ); // (read-only)
   }
 
   /**
    * Create a new Circle translated by the specified amount
-   * @public
    * @param {number} deltaX - amount of space to be translate in x direction
    * @param {number} deltaY - amount of space to be translate in y direction
    * @returns {BendingLightCircle}
@@ -42,14 +41,12 @@ class BendingLightCircle {
     return new BendingLightCircle( this.center.plusXY( deltaX, deltaY ), this.radius );
   }
 
-  // @public
   getRotatedInstance( angle: number, rotationCenter: Vector2 ) {
     return this;
   }
 
   /**
    * Finds the intersections between the edges of the circle and the specified ray
-   * @public
    * @param {ColoredRay} ray - model of the ray
    * @returns {Array}
    */
@@ -59,7 +56,6 @@ class BendingLightCircle {
 
   /**
    * Computes the centroid of the corner points
-   * @public
    * @returns {Vector2}
    */
   getRotationCenter() {
@@ -68,7 +64,6 @@ class BendingLightCircle {
 
   /**
    * Signify that the circle can't be rotated
-   * @public
    * @returns {null}
    */
   getReferencePoint() {
@@ -77,7 +72,6 @@ class BendingLightCircle {
 
   /**
    * Determines whether shape contains given point or not
-   * @public
    * @param {Vector2} point
    * @returns {boolean}
    */

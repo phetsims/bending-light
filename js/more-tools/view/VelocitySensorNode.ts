@@ -49,8 +49,8 @@ class VelocitySensorNode extends Node {
       pickable: true
     } );
 
-    this.modelViewTransform = modelViewTransform; // @public (read-only)
-    this.velocitySensor = velocitySensor; // @public (read-only)
+    this.modelViewTransform = modelViewTransform; // (read-only)
+    this.velocitySensor = velocitySensor; // (read-only)
 
     const rectangleWidth = 54;
     const rectangleHeight = 37;

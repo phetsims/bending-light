@@ -27,19 +27,17 @@ class Prism {
    */
   constructor( shape: Polygon | BendingLightCircle | SemiCircle, typeName: string ) {
 
-    // @public
     this.shapeProperty = new Property( shape );
 
-    // @public - overall translation
+    // overall translation
     this.positionProperty = new Vector2Property( new Vector2( 0, 0 ) );
 
-    // @public (read-only)
+    // (read-only)
     this.typeName = typeName;
   }
 
   /**
    * Translate prism by the specified amount
-   * @public
    * @param {number} deltaX - amount of space in x direction the prism to be translated
    * @param {number} deltaY - amount of space in y direction the prism to be translated
    */
@@ -54,7 +52,6 @@ class Prism {
 
   /**
    * Compute the intersections of the specified ray with this polygon's edges
-   * @public
    * @param {ColoredRay} incidentRay - model of the ray
    * @returns {Array}
    */
@@ -64,7 +61,6 @@ class Prism {
 
   /**
    * Determines whether shape contains given point or not
-   * @public
    * @param {Vector2} point
    * @returns {boolean}
    */
@@ -74,7 +70,6 @@ class Prism {
 
   /**
    * Creates a copy of the prism
-   * @public
    * @returns {Prism}
    */
   copy() {
@@ -83,7 +78,6 @@ class Prism {
 
   /**
    * Rotate prism by the specified angle
-   * @public
    * @param {number} deltaAngle - angle to be rotated
    */
   rotate( deltaAngle: number ) {

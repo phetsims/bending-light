@@ -19,10 +19,10 @@ class DataPoint {
    */
   constructor( time: number, value: number ) {
 
-    // @public (read-only)
+    // (read-only)
     this.time = time;
 
-    // @public (read-only)
+    // (read-only)
     this.value = value;
   }
 }

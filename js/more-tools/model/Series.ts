@@ -22,17 +22,16 @@ class Series {
    */
   constructor( seriesProperty: Property<DataPoint[]>, color: Color ) {
 
-    // @public (read-only)
+    // (read-only)
     this.seriesProperty = seriesProperty;
 
-    // @public (read-only)
+    // (read-only)
     this.color = color;
   }
 
   /**
    * Discard early samples that have gone out of range
    * @param {number} minTime - minimum time to be displayed on chart node
-   * @public
    */
   keepLastSamples( minTime: number ) {
     let startIndex = 0;

@@ -46,7 +46,7 @@ class IntensityMeterNode extends Node {
   constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, providedOptions?: IntensityMeterNodeOptions ) {
 
     super();
-    this.modelViewTransform = modelViewTransform; // @public (read-only)
+    this.modelViewTransform = modelViewTransform; // (read-only)
     this.intensityMeter = intensityMeter;
 
     this.probeNode = new ProbeNode( { cursor: 'pointer', scale: 0.6 } );
@@ -143,7 +143,7 @@ class IntensityMeterNode extends Node {
     this.addChild( this.bodyNode );
 
     /**
-     * @public - when the nodes are positioned by moving the node itself (for view layout), synchonize the model
+     * when the nodes are positioned by moving the node itself (for view layout), synchonize the model
      * Without this, when the body node is bumped out of the medium panels, it would have the wrong model position and
      * hence
      */
@@ -162,7 +162,6 @@ class IntensityMeterNode extends Node {
   }
 
   /**
-   * @public
    */
   resetRelativePositions() {
     this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );

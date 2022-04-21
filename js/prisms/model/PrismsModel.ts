@@ -51,9 +51,9 @@ class PrismsModel extends BendingLightModel {
 
     super( Math.PI, false, 1E-16 );
 
-    this.prisms = createObservableArray(); // @public (read-only)
+    this.prisms = createObservableArray(); // (read-only)
 
-    // @public (read-only) - List of intersections, which can be shown graphically
+    // (read-only) - List of intersections, which can be shown graphically
     this.intersections = createObservableArray();
 
     this.mediumColorFactory = new MediumColorFactory();
@@ -64,7 +64,7 @@ class PrismsModel extends BendingLightModel {
     // If false, will hide non TIR reflections
     this.showReflectionsProperty = new BooleanProperty( false );
     this.showNormalsProperty = new BooleanProperty( false );
-    this.showProtractorProperty = new BooleanProperty( false );// @public
+    this.showProtractorProperty = new BooleanProperty( false );
 
     // Environment the laser is in
     this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );
@@ -95,14 +95,12 @@ class PrismsModel extends BendingLightModel {
     } );
 
     // coalesce repeat updates so work is not duplicated in white light node.
-    this.dirty = true; // @public
+    this.dirty = true;
 
-    // @public
     this.rotationArrowAngleOffset = 0;
   }
 
   /**
-   * @public
    */
   override reset() {
     super.reset();
@@ -117,7 +115,6 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * List of prism prototypes that can be created in the sim
-   * @public
    * @returns {Array}
    */
   getPrismPrototypes() {
@@ -172,7 +169,6 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * Adds a prism to the model.
-   * @public
    * @param {Prism} prism
    */
   addPrism( prism: Prism ) {
@@ -181,7 +177,6 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * Removes a prism from the model
-   * @public
    * @param {Prism} prism
    */
   removePrism( prism: Prism ) {
@@ -229,7 +224,6 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * Algorithm that computes the trajectories of the rays throughout the system
-   * @public
    */
   propagateRays() {
 
@@ -256,7 +250,6 @@ class PrismsModel extends BendingLightModel {
   /**
    * Determine if the laser beam originates within a prism for purpose of determining what index of refraction to use
    * initially
-   * @public
    * @returns {boolean}
    */
   isLaserInPrism() {
@@ -433,7 +426,6 @@ class PrismsModel extends BendingLightModel {
   }
 
   /**
-   * @public
    */
   clear() {
     this.intersections.clear();

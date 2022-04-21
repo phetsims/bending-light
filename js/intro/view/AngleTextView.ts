@@ -29,7 +29,6 @@ class AngleTextView extends Panel {
     this.textNode = textNode;
   }
 
-  // @public
   setAngleText( text: string ) {
     this.textNode.setText( text );
   }

@@ -17,16 +17,15 @@ class Probe {
    */
   constructor( x: number, y: number ) {
 
-    // @public, array of data points
+    // array of data points
     this.seriesProperty = new Property<Array<DataPoint>>( [] );
 
-    // @public, position of a probe
+    // position of a probe
     this.positionProperty = new Vector2Property( new Vector2( x, y ) );
   }
 
   /**
    * Resets the model.
-   * @public
    */
   reset() {
     this.seriesProperty.reset();
@@ -34,7 +33,6 @@ class Probe {
   }
 
   /**
-   * @public
    * @param {DataPoint} sample
    */
   addSample( sample: DataPoint ) {

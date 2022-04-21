@@ -67,18 +67,18 @@ class ChartNode extends Node {
   constructor( chartBounds: Bounds2, seriesArray: Series[] ) {
 
     super();
-    this.chartBounds = chartBounds; // @public (read-only)
-    this.seriesArray = seriesArray; // @public (read-only)
+    this.chartBounds = chartBounds; // (read-only)
+    this.seriesArray = seriesArray; // (read-only)
 
-    // @public read-only
+    // read-only
     // Amount of time to show on the horizontal axis of the chart
-    this.timeWidth = 72E-16; // @public (read-only)
+    this.timeWidth = 72E-16; // (read-only)
 
     // Mapping from model (SI) to chart coordinates
     this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping( new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
     // Add grid to the chart
-    this.gridLines = createObservableArray(); // @public (read-only)
+    this.gridLines = createObservableArray(); // (read-only)
     this.gridCanvasNode = new GridCanvasNode( this.gridLines, this.modelViewTransformProperty, [ DASH_ON, DASH_OFF ], {
 
       // @ts-ignore
@@ -91,7 +91,6 @@ class ChartNode extends Node {
   }
 
   /**
-   * @public
    * @param {number} time - simulation time
    */
   step( time: number ) {

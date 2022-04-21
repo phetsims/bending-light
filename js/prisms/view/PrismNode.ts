@@ -124,7 +124,7 @@ class PrismNode extends Node {
 
     const knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
 
-    // @public - also used in PrismToolboxNode
+    // also used in PrismToolboxNode
     this.updatePrismShape = () => {
       prismsModel.clear();
       prismsModel.updateModel();
@@ -159,7 +159,7 @@ class PrismNode extends Node {
     prism.shapeProperty.link( this.updatePrismShape );
     prism.positionProperty.link( this.updatePrismShape );
 
-    // @public - used in PrismToolboxNode
+    // used in PrismToolboxNode
     this.updatePrismColor = () => {
       const indexOfRefraction = prismsModel.prismMediumProperty.value.substance.indexOfRefractionForRedLight;
 
@@ -176,8 +176,7 @@ class PrismNode extends Node {
      * model
      * @param {number} x
      * @param {number} y
-     * @public
-     */
+       */
     this.translateViewXY = ( x, y ) => {
       const delta = modelViewTransform.viewToModelDeltaXY( x, y );
       prism.translate( delta.x, delta.y );

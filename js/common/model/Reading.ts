@@ -31,13 +31,12 @@ class Reading {
    */
   constructor( value: number ) {
 
-    // @public (read-only)
+    // (read-only)
     this.value = value;
   }
 
   /**
    * Get string to display on intensity sensor
-   * @public
    * @returns {string}
    */
   getString() {
@@ -45,7 +44,6 @@ class Reading {
   }
 
   /**
-   * @public
    * @param {number} value - value to be displayed on intensity meter
    * @returns {string}
    */
@@ -55,7 +53,6 @@ class Reading {
 
   /**
    * Determines whether ray hit the intensity sensor or not
-   * @public
    * @returns {boolean}
    */
   isHit() {
@@ -69,7 +66,6 @@ Reading.MISS = {
 
   /**
    * Get string to display on intensity sensor
-   * @public
    * @returns {string}
    */
   getString: () => missString,

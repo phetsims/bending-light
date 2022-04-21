@@ -34,12 +34,12 @@ class Polygon {
     this.referencePointIndex = referencePointIndex; // @private
     this.radius = radius; // @private
 
-    // @public (read-only), Centroid of the shape
+    // (read-only), Centroid of the shape
     this.centroid = this.getCentroid( this.points );
 
     // Creates a shape
-    this.shape = new Shape(); // @public (read-only)
-    this.center = null; // @public (read-only)
+    this.shape = new Shape(); // (read-only)
+    this.center = null; // (read-only)
 
     // radius is 0 for polygon
     if ( this.radius === 0 ) {
@@ -63,7 +63,6 @@ class Polygon {
 
   /**
    * Get the specified corner point
-   * @public
    * @param {number} i - index of point
    * @returns {Vector2}
    */
@@ -73,7 +72,6 @@ class Polygon {
 
   /**
    * Create a new Polygon translated by the specified amount
-   * @public
    * @param {number} deltaX - distance in x direction to be translated
    * @param {number} deltaY - distance in y direction to be translated
    * @returns {Polygon}
@@ -93,7 +91,6 @@ class Polygon {
 
   /**
    * Gets a rotated copy of this polygon
-   * @public
    * @param {number} angle - angle to be rotated
    * @param {Vector2} rotationPoint - point around which polygon to be rotated
    * @returns {Polygon}
@@ -114,7 +111,6 @@ class Polygon {
 
   /**
    * Determines whether shape contains given point or not
-   * @public
    * @param {Vector2} point
    * @returns {boolean}
    */
@@ -124,7 +120,6 @@ class Polygon {
 
   /**
    * Just use the 0th point for the reference point for rotation drag handles
-   * @public
    * @returns {Vector2}
    */
   getReferencePoint() {
@@ -134,7 +129,6 @@ class Polygon {
   /**
    * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
    * "mass")
-   * @public
    * @returns {Vector2}
    */
   getRotationCenter() {
@@ -143,7 +137,6 @@ class Polygon {
 
   /**
    * Centroid of the polygon
-   * @public
    * @param {array.<Vector2>} p - array of corner points
    * @returns {Vector2}
    */
@@ -183,7 +176,6 @@ class Polygon {
 
   /**
    * Compute the intersections of the specified ray with this polygon's edges
-   * @public
    * @param {ColoredRay} ray - model of the ray
    * @returns {Array}
    */

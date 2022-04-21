@@ -61,7 +61,7 @@ class MoreToolsScreenView extends IntroScreenView {
       }, providedOptions ) );
 
     this.waveSensorNode = null;
-    this.moreToolsModel = moreToolsModel; // @public (read-only)
+    this.moreToolsModel = moreToolsModel; // (read-only)
 
     // updates the visibility of speed controls
     Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
@@ -72,7 +72,6 @@ class MoreToolsScreenView extends IntroScreenView {
 
   /**
    * @returns {WaveSensorNode}
-   * @public
    */
   getWaveSensorIcon() {
     const modelViewTransform = this.modelViewTransform;
@@ -87,7 +86,7 @@ class MoreToolsScreenView extends IntroScreenView {
     waveSensorIcon.mouseArea = Shape.bounds( waveSensorIcon.localBounds );
     waveSensorIcon.touchArea = Shape.bounds( waveSensorIcon.localBounds );
 
-    // @public (read-only)
+    // (read-only)
     this.waveSensorNode = new WaveSensorNode(
       this.modelViewTransform,
       waveSensor

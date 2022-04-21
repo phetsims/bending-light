@@ -44,12 +44,12 @@ class Substance {
    * @param {boolean} custom - true if medium state is custom else other state
    */
   constructor( name: string, indexForRed: number, mystery: boolean, custom: boolean ) {
-    this.name = name; // @public (read-only)
-    this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED ); // @public (read-only)
-    this.mystery = mystery; // @public (read-only)
-    this.custom = custom; // @public (read-only)
+    this.name = name; // (read-only)
+    this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED ); // (read-only)
+    this.mystery = mystery; // (read-only)
+    this.custom = custom; // (read-only)
     this.indexOfRefractionForRedLight = this.dispersionFunction.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
-    this.indexForRed = indexForRed; // @public (read-only)
+    this.indexForRed = indexForRed; // (read-only)
   }
 }
 

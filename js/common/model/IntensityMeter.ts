@@ -31,10 +31,10 @@ class IntensityMeter {
    */
   constructor( sensorX: number, sensorY: number, bodyX: number, bodyY: number ) {
 
-    this.readingProperty = new Property( Reading.MISS ); // @public, value to show on the body
-    this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) ); // @public
-    this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) ); // @public
-    this.enabledProperty = new BooleanProperty( false ); // @public, True if it is in the play area
+    this.readingProperty = new Property( Reading.MISS ); // value to show on the body
+    this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) );
+    this.bodyPositionProperty = new Vector2Property( new Vector2( bodyX, bodyY ) );
+    this.enabledProperty = new BooleanProperty( false ); // True if it is in the play area
   }
 
   // Restore the initial values.

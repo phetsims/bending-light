@@ -20,25 +20,24 @@ class WaveParticle {
   readonly particleGradientColor: string;
 
   /**
-   * @param {Vector2} position - position of wave particle
-   * @param {number} width - width of wave particle
-   * @param {string} color - color of wave particle
-   * @param {string} particleGradientColor
-   * @param {number} angle - angle of wave particle
-   * @param {number} waveHeight - height of wave particle
+   * @param position - position of wave particle
+   * @param width - width of wave particle
+   * @param color - color of wave particle
+   * @param particleGradientColor
+   * @param angle - angle of wave particle
+   * @param waveHeight - height of wave particle
    */
   constructor( position: Vector2, width: number, color: string, particleGradientColor: string, angle: number, waveHeight: number ) {
-    this.position = position; // @public
-    this.width = width; // @public
-    this.color = color; // @public
-    this.angle = angle; // @public
-    this.height = waveHeight; // @public
-    this.particleGradientColor = particleGradientColor; // @public
+    this.position = position;
+    this.width = width;
+    this.color = color;
+    this.angle = angle;
+    this.height = waveHeight;
+    this.particleGradientColor = particleGradientColor;
   }
 
   /**
    * get particle x position
-   * @public
    * @returns {number}
    */
   getX() {
@@ -47,7 +46,6 @@ class WaveParticle {
 
   /**
    * get particle Y position
-   * @public
    * @returns {number}
    */
   getY() {
@@ -56,7 +54,6 @@ class WaveParticle {
 
   /**
    * Set the particle x position
-   * @public
    * @param {number} x - x position in model values
    */
   setX( x: number ) {
@@ -64,7 +61,6 @@ class WaveParticle {
   }
 
   /**
-   * @public
    * @param {number} y - y position in model values
    */
   setY( y: number ) {

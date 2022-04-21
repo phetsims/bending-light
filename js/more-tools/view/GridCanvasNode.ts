@@ -65,7 +65,6 @@ class GridCanvasNode extends CanvasNode {
   }
 
   /**
-   * @public
    */
   step() {
     this.invalidatePaint();

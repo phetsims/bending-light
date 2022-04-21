@@ -74,10 +74,10 @@ class IntroModel extends BendingLightModel {
       tandem: tandem.createTandem( 'bottomMediumProperty' ),
       phetioType: Property.PropertyIO( Medium.MediumIO )
     } );
-    this.time = 0; // @public
+    this.time = 0;
 
     // Update the top medium index of refraction when top medium change
-    // @public (read-only)
+    // (read-only)
     this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [
         this.topMediumProperty,
         this.laser.colorProperty
@@ -88,7 +88,7 @@ class IntroModel extends BendingLightModel {
       } );
 
     // Update the bottom medium index of refraction when bottom medium change
-    // @public (read-only)
+    // (read-only)
     this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [
         this.bottomMediumProperty,
         this.laser.colorProperty
@@ -98,7 +98,7 @@ class IntroModel extends BendingLightModel {
         phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
 
-    // @public (read-only)-model components
+    // (read-only)-model components
     this.intensityMeter = new IntensityMeter(
       -this.modelWidth * ( horizontalPlayAreaOffset ? 0.34 : 0.48 ),
       -this.modelHeight * 0.285,
@@ -134,14 +134,12 @@ class IntroModel extends BendingLightModel {
     // light ray tip position
     this.tipVector = new Vector2( 0, 0 ); // @private, for internal use only
 
-    // @public
     this.rotationArrowAngleOffset = -Math.PI / 4;
   }
 
   /**
    * Light rays were cleared from model before propagateRays was called, this creates them according to the laser and
    * mediums
-   * @public
    */
   propagateRays() {
     if ( this.laser.onProperty.value ) {
@@ -343,7 +341,6 @@ class IntroModel extends BendingLightModel {
   }
 
   /**
-   * @public
    */
   override reset() {
     super.reset();
@@ -354,7 +351,6 @@ class IntroModel extends BendingLightModel {
 
   /**
    * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
-   * @public
    * @param {Vector2} position - position where the velocity to be determined
    * @returns {Vector2}
    */
@@ -370,7 +366,6 @@ class IntroModel extends BendingLightModel {
 
   /**
    * Determine the wave value of the topmost light ray at the specified position, or None if none exists
-   * @public
    * @param {Vector2} position - position where the wave value to be determined
    * @returns {Object|null}- returns object of time and magnitude if point is on ray otherwise returns null
    */
@@ -409,7 +404,6 @@ class IntroModel extends BendingLightModel {
 
   /**
    * Update simulation time and wave propagation.
-   * @public
    */
   updateSimulationTimeAndWaveShape( speed: any ) {
 

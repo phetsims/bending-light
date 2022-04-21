@@ -29,14 +29,13 @@ class Medium {
   constructor( shape: Shape, substance: Substance, color: Color ) {
 
     // immutable shape
-    this.shape = shape; // @public (read-only)
-    this.substance = substance; // @public (read-only)
-    this.color = color; // @public (read-only), color is based on the index of refraction at red wavelength
+    this.shape = shape; // (read-only)
+    this.substance = substance; // (read-only)
+    this.color = color; // (read-only), color is based on the index of refraction at red wavelength
   }
 
   /**
    * Determines the index of refraction of medium
-   * @public
    * @param {number} wavelength - wavelength of the medium
    * @returns {number}
    */
@@ -46,7 +45,6 @@ class Medium {
 
   /**
    * Determines whether the medium is mystery or not
-   * @public
    * @returns {boolean}
    */
   isMystery() {

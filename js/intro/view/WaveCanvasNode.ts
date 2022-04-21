@@ -27,7 +27,7 @@ class WaveCanvasNode extends CanvasNode {
 
     super( providedOptions );
     this.lightRays = lightRays;
-    this.modelViewTransform = modelViewTransform; // @public (read-only)
+    this.modelViewTransform = modelViewTransform; // (read-only)
   }
 
   /**
@@ -98,7 +98,6 @@ class WaveCanvasNode extends CanvasNode {
   }
 
   /**
-   * @public
    */
   step() {
     this.invalidatePaint();

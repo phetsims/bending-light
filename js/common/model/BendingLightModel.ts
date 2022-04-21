@@ -52,7 +52,7 @@ abstract class BendingLightModel {
    */
   constructor( laserAngle: number, topLeftQuadrant: boolean, laserDistanceFromPivot: number ) {
 
-    // @public (read-only)- list of rays in the model
+    // (read-only)- list of rays in the model
     this.rays = createObservableArray();
 
     // overridden in subtypes
@@ -61,13 +61,13 @@ abstract class BendingLightModel {
     this.mediumColorFactory = new MediumColorFactory();
 
     // dimensions of the model, guaranteed to be shown in entirety on the stage
-    this.modelWidth = CHARACTERISTIC_LENGTH * 62; // @public (read-only)
-    this.modelHeight = this.modelWidth * 0.7; // @public (read-only)
+    this.modelWidth = CHARACTERISTIC_LENGTH * 62;
+    this.modelHeight = this.modelWidth * 0.7;
 
     // Check to see if WebGL was prevented by a query parameter
-    this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // @public (read-only)
+    this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // (read-only)
 
-    // @public, Whether the laser is Ray or Wave mode
+    // Whether the laser is Ray or Wave mode
     this.laserViewProperty = new EnumerationProperty( LaserViewEnum.RAY );
 
     this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
@@ -77,7 +77,7 @@ abstract class BendingLightModel {
     this.showNormalProperty = new BooleanProperty( true );
     this.showAnglesProperty = new BooleanProperty( false );
 
-    // @public (read-only)- the laser
+    // (read-only)- the laser
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }
 

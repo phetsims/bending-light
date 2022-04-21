@@ -22,10 +22,10 @@ class Intersection {
   constructor( unitNormal: Vector2, point: Vector2 ) {
 
     // Unit normal at the meeting between two interfaces where the light ray has struck
-    this.unitNormal = unitNormal; // @public (read-only)
+    this.unitNormal = unitNormal; // (read-only)
 
     // The point where the light ray struck
-    this.point = point; // @public (read-only)
+    this.point = point; // (read-only)
   }
 }
 

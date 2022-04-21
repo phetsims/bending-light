@@ -29,10 +29,10 @@ class MoreToolsModel extends IntroModel {
     // bend
     super( Substance.GLASS, false, tandem );
 
-    this.velocitySensor = new VelocitySensor(); // @public (read-only)
+    this.velocitySensor = new VelocitySensor(); // (read-only)
     const waveValueGetter = ( position: Vector2 ) => this.getWaveValue( position );
 
-    // @public (read-only)
+    // (read-only)
     this.waveSensor = new WaveSensor( waveValueGetter, waveValueGetter );
 
     // Update the velocity sensor value when anything relevant in the model changes
@@ -52,7 +52,6 @@ class MoreToolsModel extends IntroModel {
   }
 
   /**
-   * @public
    */
   override reset() {
     super.reset();

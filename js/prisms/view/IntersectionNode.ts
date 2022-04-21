@@ -43,7 +43,7 @@ class IntersectionNode extends Line {
 
     const handle = strokeProperty.linkAttribute( this, 'stroke' );
 
-    // @public - dispose of the IntersectionNode, getting rid of the attached listeners
+    // dispose of the IntersectionNode, getting rid of the attached listeners
     this.dispose = () => strokeProperty.unlink( handle );
   }
 }

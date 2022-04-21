@@ -360,7 +360,6 @@ class MediumControlPanel extends Node {
   }
 
   /**
-   * @public
    */
   reset() {
     this.mediumIndexProperty.reset();
@@ -369,7 +368,6 @@ class MediumControlPanel extends Node {
   /**
    * Called when the user enters a new index of refraction (with text box or slider),
    * updates the model with the specified value
-   * @public
    * @param {number} indexOfRefraction - indexOfRefraction of medium
    */
   setCustomIndexOfRefraction( indexOfRefraction: number ) {
@@ -385,7 +383,6 @@ class MediumControlPanel extends Node {
 
   /**
    * Update the medium state from the combo box
-   * @public
    * @param {Substance} substance - specifies state of the medium
    */
   setSubstance( substance: Substance ) {

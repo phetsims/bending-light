@@ -121,7 +121,6 @@ class WhiteLightCanvasNode extends CanvasNode {
   }
 
   /**
-   * @public
    */
   step() {
     this.invalidatePaint();

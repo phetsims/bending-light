@@ -68,7 +68,6 @@ class SeriesCanvasNode extends CanvasNode {
   }
 
   /**
-   * @public
    */
   step() {
     this.invalidatePaint();

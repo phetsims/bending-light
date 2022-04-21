@@ -23,7 +23,6 @@ const FloatingLayout = {
 
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
-   * @public
    * @param {ScreenView} screenView
    * @param {Node[]} nodes
    */
@@ -40,7 +39,6 @@ const FloatingLayout = {
 
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
-   * @public
    * @param {ScreenView} screenView
    * @param {Node[]} nodes
    * @param {number} delta
@@ -58,7 +56,6 @@ const FloatingLayout = {
 
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
-   * @public
    * @param {ScreenView} screenView
    * @param {Node[]} nodes
    */
@@ -75,7 +72,6 @@ const FloatingLayout = {
 
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
-   * @public
    * @param {ScreenView} screenView
    * @param {Node[]} nodes
    */

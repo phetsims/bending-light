@@ -23,13 +23,13 @@ class VelocitySensor {
 
   constructor() {
 
-    // @public position of the sensor. Sampled by running the sim with a console.log statement
+    // position of the sensor. Sampled by running the sim with a console.log statement
     this.positionProperty = new Vector2Property( new Vector2( -0.00002051402284781722, -0.0000025716197470420186 ) );
 
-    // @public, velocity as measured by the sensor
+    // velocity as measured by the sensor
     this.valueProperty = new Vector2Property( new Vector2( 0, 0 ) );
 
-    // @public, True if it is in the play area
+    // True if it is in the play area
     this.enabledProperty = new BooleanProperty( false );
 
     // shows the visibility of arrows
@@ -38,7 +38,6 @@ class VelocitySensor {
 
   /**
    * Restore the initial values.
-   * @public
    */
   reset() {
     this.positionProperty.reset();
@@ -46,7 +45,7 @@ class VelocitySensor {
     this.enabledProperty.reset();
   }
 
-  // @public Make a copy for use in the toolbox icon
+  // Make a copy for use in the toolbox icon
   copy() {
     const velocitySensor = new VelocitySensor();
     velocitySensor.positionProperty.value = this.positionProperty.value.copy();
@@ -57,7 +56,6 @@ class VelocitySensor {
 
   /**
    * Translate the velocity sensor in model
-   * @public
    * @param {Vector2} delta - amount of space to be translated
    */
   translate( delta: Vector2 ) {

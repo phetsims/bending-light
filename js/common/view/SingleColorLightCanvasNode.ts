@@ -92,7 +92,6 @@ class SingleColorLightCanvasNode extends CanvasNode {
   }
 
   /**
-   * @public
    */
   step() {
     this.invalidatePaint();

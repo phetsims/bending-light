@@ -49,7 +49,9 @@ class Laser {
     this.onProperty = new BooleanProperty( false );
     this.waveProperty = new BooleanProperty( false );
     this.colorModeProperty = new EnumerationProperty( ColorModeEnum.SINGLE_COLOR );
-    this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) ); // @public model the point where light comes out of the laser where the light comes from
+
+    // model the point where light comes out of the laser where the light comes from
+    this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) );
     this.colorProperty = new DerivedProperty( [ wavelengthProperty ], ( wavelength: number ) => new LaserColor( wavelength ) );
     this.wavelengthProperty = wavelengthProperty;
 

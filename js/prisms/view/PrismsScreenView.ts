@@ -263,7 +263,6 @@ class PrismsScreenView extends BendingLightScreenView {
   }
 
   /**
-   * @public
    */
   override reset() {
     this.prismLayer.removeAllChildren();

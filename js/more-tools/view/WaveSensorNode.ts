@@ -96,8 +96,8 @@ class WaveSensorNode extends Node {
     const darkProbeColor = new Color( 88, 89, 91 );
     const lightProbeColor = new Color( 147, 149, 152 );
 
-    this.modelViewTransform = modelViewTransform; // @public (read-only)
-    this.waveSensor = waveSensor; // @public (read-only)
+    this.modelViewTransform = modelViewTransform; // (read-only)
+    this.waveSensor = waveSensor; // (read-only)
 
     // Add body node
     const rectangleWidth = 135;
@@ -152,8 +152,8 @@ class WaveSensorNode extends Node {
     this.bodyNode.addChild( this.chartNode );
 
     // Create the probes
-    this.probe1Node = new ProbeNodeWrapper( waveSensor.probe1, '#5c5d5f', modelViewTransform ); // @public (read-only)
-    this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform ); // @public (read-only)
+    this.probe1Node = new ProbeNodeWrapper( waveSensor.probe1, '#5c5d5f', modelViewTransform ); // (read-only)
+    this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform ); // (read-only)
 
     // Connect the sensor to the body with a gray wire
     const above = ( amount: number ) => {
@@ -210,7 +210,6 @@ class WaveSensorNode extends Node {
   }
 
   /**
-   * @public
    */
   resetRelativePositions() {
     this.probe1Node.center = this.bodyNode.center.plusXY( 110, 12 );

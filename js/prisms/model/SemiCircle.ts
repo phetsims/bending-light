@@ -35,13 +35,13 @@ class SemiCircle {
     // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex; // @private
     this.radius = radius; // @private
-    this.center = this.points[ 0 ].plus( this.points[ 1 ] ).multiplyScalar( 0.5 ); // @public (read-only)
+    this.center = this.points[ 0 ].plus( this.points[ 1 ] ).multiplyScalar( 0.5 ); // (read-only)
     this.centroid = this.center;
 
     // Creates a shape
     const startAngle = Math.atan2( this.center.y - this.points[ 1 ].y, this.center.x - this.points[ 1 ].x );
 
-    // @public (read-only) - the shape of the semi-circle
+    // (read-only) - the shape of the semi-circle
     this.shape = new Shape()
       .ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, false )
       .close();
@@ -49,7 +49,6 @@ class SemiCircle {
 
   /**
    * Get the specified corner point
-   * @public
    * @param {number} i - index of point
    * @returns {Vector2}
    */
@@ -59,7 +58,6 @@ class SemiCircle {
 
   /**
    * Create a new SemiCircle translated by the specified amount
-   * @public
    * @param {number} deltaX - distance in x direction to be translated
    * @param {number} deltaY - distance in y direction to be translated
    * @returns {SemiCircle}
@@ -79,7 +77,6 @@ class SemiCircle {
 
   /**
    * Gets a rotated copy of this SemiCircle
-   * @public
    * @param {number} angle - angle to be rotated
    * @param {Vector2} rotationPoint - point around which semicircle to be rotated
    * @returns {SemiCircle}
@@ -100,7 +97,6 @@ class SemiCircle {
 
   /**
    * Determines whether shape contains given point or not
-   * @public
    * @param {Vector2} point
    * @returns {boolean}
    */
@@ -110,7 +106,6 @@ class SemiCircle {
 
   /**
    * Just use the 0th point for the reference point for rotation drag handles
-   * @public
    * @returns {Vector2}
    */
   getReferencePoint() {
@@ -120,7 +115,6 @@ class SemiCircle {
   /**
    * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
    * "mass")
-   * @public
    * @returns {Vector2}
    */
   getRotationCenter() {
@@ -129,7 +123,6 @@ class SemiCircle {
 
   /**
    * Compute the intersections of the specified ray with this polygon's edges
-   * @public
    * @param {ColoredRay} ray - model of the ray
    * @returns {array.<Intersection>}
    */

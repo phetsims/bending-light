@@ -94,23 +94,23 @@ class LightRay {
     this.tail = tail;
 
     // The index of refraction of the medium the light ray inhabits
-    this.indexOfRefraction = indexOfRefraction; // @public (read-only)
-    this.wavelength = wavelength; // @public (read-only), wavelength in meters
+    this.indexOfRefraction = indexOfRefraction; // (read-only)
+    this.wavelength = wavelength; // (read-only), wavelength in meters
     assert && assert( wavelengthInVacuum >= 300 && wavelengthInVacuum <= 900 );
-    this.wavelengthInVacuum = wavelengthInVacuum; // @public (read-only), wavelength in nm
+    this.wavelengthInVacuum = wavelengthInVacuum; // (read-only), wavelength in nm
 
     // Amount of power this light has (full strength is 1.0)
-    this.powerFraction = powerFraction; // @public (read-only)
+    this.powerFraction = powerFraction; // (read-only)
 
     // This number indicates how many wavelengths have passed before this light ray begins.
     // It is zero for the light coming out of the laser.
-    this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset; // @public (read-only)
+    this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset; // (read-only)
 
     // has to be an integral number of wavelength so that the phases work out correctly,
     // turing this up too high past 1E6 causes things not to render properly
-    this.extend = extend; // @public (read-only)
+    this.extend = extend; // (read-only)
 
-    // @public (read-only) Keep track of the type of light ray for use in AngleNode
+    // (read-only) Keep track of the type of light ray for use in AngleNode
     this.rayType = rayType;
 
     if ( laserView === LaserViewEnum.WAVE ) {
@@ -156,7 +156,7 @@ class LightRay {
       makeFinite( tipPoint1XY );
       makeFinite( tipPoint2XY );
 
-      // @public (read-only)
+      // (read-only)
       this.waveShape = new Shape()
         .moveToPoint( tailPoint1XY )
         .lineToPoint( tailPoint2XY )
@@ -164,7 +164,7 @@ class LightRay {
         .lineToPoint( tipPoint2XY )
         .close();
 
-      // @public (read-only), for drawing the clipping shape
+      // (read-only), for drawing the clipping shape
       this.clipRegionCorners = [
         new Vector2( tailPoint1XY.x, tailPoint1XY.y ),
         new Vector2( tailPoint2XY.x, tailPoint2XY.y ),
@@ -176,7 +176,6 @@ class LightRay {
 
   /**
    * Update the time, so it can update the phase of the wave graphic
-   * @public
    * @param {number} time - simulation time
    */
   setTime( time: number ) {
@@ -185,7 +184,6 @@ class LightRay {
 
   /**
    * Determines the speed of the light ray
-   * @public
    * @returns {number}
    */
   getSpeed() {
@@ -207,7 +205,6 @@ class LightRay {
 
   /**
    * Check to see if this light ray hits the specified sensor region
-   * @public
    * @param {Shape} sensorRegion - sensor region of intensity meter
    * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
    * @returns {Array}
@@ -244,7 +241,6 @@ class LightRay {
   }
 
   /**
-   * @public
    * @returns {Line}
    */
   toLine() {
@@ -253,7 +249,6 @@ class LightRay {
 
   /**
    * Determines length of light ray
-   * @public
    * @returns {number}
    */
   getLength() {
@@ -261,7 +256,6 @@ class LightRay {
   }
 
   /**
-   * @public
    * @returns {Vector2}
    */
   toVector() {
@@ -272,7 +266,6 @@ class LightRay {
 
   /**
    * Determines the unit vector of light ray
-   * @public
    * @returns {Vector2}
    */
   getUnitVector() {
@@ -284,7 +277,6 @@ class LightRay {
 
   /**
    * Determines the angle of light ray
-   * @public
    * @returns {number}
    */
   getAngle() {
@@ -292,7 +284,6 @@ class LightRay {
   }
 
   /**
-   * @public
    * @returns {number}
    */
   getNumberOfWavelengths() {
@@ -302,7 +293,6 @@ class LightRay {
   /**
    * Determine if the light ray contains the specified position,
    * accounting for whether it is shown as a thin light ray or wide wave
-   * @public
    * @param {Vector2} position
    * @param {boolean} waveMode - specifies whether ray or wave mode
    * @returns {boolean}
@@ -318,7 +308,6 @@ class LightRay {
   }
 
   /**
-   * @public
    * @returns {Vector2}
    */
   getVelocityVector() {
@@ -326,7 +315,6 @@ class LightRay {
   }
 
   /**
-   * @public
    * @returns {number}
    */
   getFrequency() {
@@ -334,7 +322,6 @@ class LightRay {
   }
 
   /**
-   * @public
    * @returns {number}
    */
   getAngularFrequency() {
@@ -342,7 +329,6 @@ class LightRay {
   }
 
   /**
-   * @public
    * @returns {number}
    */
   getPhaseOffset() {
@@ -351,7 +337,6 @@ class LightRay {
 
   /**
    * Get the total argument to the cosine for the wave function(k * x - omega * t + phase)
-   * @public
    * @param {number} distanceAlongRay - distance of a specific point from the start of the ray
    * @returns {number}
    */

@@ -19,11 +19,7 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { HBox } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
@@ -118,7 +114,7 @@ class IntroScreenView extends BendingLightScreenView {
       options
     );
 
-    this.introModel = introModel; // @public (read-only)
+    this.introModel = introModel; // (read-only)
 
     const stageWidth = this.layoutBounds.width;
     const stageHeight = this.layoutBounds.height;
@@ -447,7 +443,7 @@ class IntroScreenView extends BendingLightScreenView {
   }
 
   /**
-   * @public - restore initial conditions
+   * restore initial conditions
    */
   override reset() {
     super.reset();
@@ -479,7 +475,6 @@ class IntroScreenView extends BendingLightScreenView {
 
   /**
    * Update wave shape.
-   * @public
    */
   updateWaveShape() {
     if ( this.introModel.laserViewProperty.value === LaserViewEnum.WAVE ) {

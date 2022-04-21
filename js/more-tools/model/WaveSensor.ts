@@ -36,10 +36,8 @@ class WaveSensor {
     this.probe1 = new Probe( -0.00001932, -0.0000052 );
     this.probe2 = new Probe( -0.0000198, -0.0000062 );
 
-    // @public
     this.bodyPositionProperty = new Vector2Property( new Vector2( -0.0000172, -0.00000605 ) );
 
-    // @public
     // in the play area
     this.enabledProperty = new BooleanProperty( false );
 
@@ -48,7 +46,7 @@ class WaveSensor {
     this.probe2Value = probe2Value;
   }
 
-  // @public - create a copy for use in toolbox icons, etc.
+  // create a copy for use in toolbox icons, etc.
   copy() {
     const waveSensor = new WaveSensor( v => {return { time: 0, magnitude: 0 };}, v => {
       return {
@@ -62,7 +60,6 @@ class WaveSensor {
     return waveSensor;
   }
 
-  // @public
   step() {
     this.simulationTimeChanged();
   }
@@ -89,7 +86,6 @@ class WaveSensor {
   }
 
   /**
-   * @public
    */
   reset() {
     this.bodyPositionProperty.reset();
