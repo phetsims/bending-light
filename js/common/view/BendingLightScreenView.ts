@@ -185,7 +185,7 @@ abstract class BendingLightScreenView extends ScreenView {
   }
 
   // @protected - intended to be overridden by subclasses
-  step() {
+  override step() {
     if ( this.singleColorLightNode.visible ) {
       this.singleColorLightNode.step();
     }
