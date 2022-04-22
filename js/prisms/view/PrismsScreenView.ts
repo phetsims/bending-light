@@ -7,6 +7,10 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+
+// Disable for the whole file https://github.com/phetsims/chipper/issues/1237
+/* eslint-disable no-protected-jsdoc */
+
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -269,9 +273,6 @@ class PrismsScreenView extends BendingLightScreenView {
     this.resetPrismsView();
   }
 
-  /**
-   * @protected
-   */
   override step() {
     super.step();
     this.updateWhiteLightNode();
@@ -291,9 +292,8 @@ class PrismsScreenView extends BendingLightScreenView {
    * Add the screen-specific light nodes
    * @param {BendingLightModel} bendingLightModel - passed because this is called during construction (before this.model
    * is set in the subtype)
-   * @protected
    */
-  addLightNodes( bendingLightModel: PrismsModel ) {
+  protected addLightNodes( bendingLightModel: PrismsModel ) {
 
     const stageWidth = this.layoutBounds.width;
     const stageHeight = this.layoutBounds.height;
@@ -326,8 +326,8 @@ class PrismsScreenView extends BendingLightScreenView {
    * @protected
    */
   // @ts-ignore
-  addLaserHandles( showRotationDragHandlesProperty: Property, showTranslationDragHandlesProperty: Property,
-                   clockwiseArrowNotAtMax: Property<boolean>, ccwArrowNotAtMax: Property<boolean>, laserImageWidth: number ) {
+  addLaserHandles( showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
+                             clockwiseArrowNotAtMax: Property<boolean>, ccwArrowNotAtMax: Property<boolean>, laserImageWidth: number ) {
     const bendingLightModel = this.bendingLightModel;
     super.addLaserHandles(
       showRotationDragHandlesProperty,

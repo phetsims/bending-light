@@ -10,11 +10,10 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Rectangle from '../../../../dot/js/Rectangle.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Node, VBox } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
-import { VBox } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import ToolIconListener from '../../common/view/ToolIconListener.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
@@ -230,9 +229,8 @@ class MoreToolsScreenView extends IntroScreenView {
 
   /**
    * @returns {Node[]}
-   * @protected
    */
-  override getAdditionalToolIcons() {
+  protected override getAdditionalToolIcons() {
     return [
       this.getVelocitySensorIcon(),
       this.getWaveSensorIcon()
@@ -241,9 +239,8 @@ class MoreToolsScreenView extends IntroScreenView {
 
   /**
    * Update chart node and wave.
-   * @protected
    */
-  override updateWaveShape() {
+  protected override updateWaveShape() {
     super.updateWaveShape();
     if ( this.waveSensorNode && this.waveSensorNode.waveSensor.enabledProperty.get() ) {
       this.waveSensorNode.waveSensor.step();

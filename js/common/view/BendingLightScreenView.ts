@@ -183,7 +183,7 @@ abstract class BendingLightScreenView extends ScreenView {
     this.showProtractorProperty.reset();
   }
 
-  // @protected - intended to be overridden by subclasses
+  // intended to be overridden by subclasses
   override step() {
     if ( this.singleColorLightNode.visible ) {
       this.singleColorLightNode.step();
@@ -193,9 +193,8 @@ abstract class BendingLightScreenView extends ScreenView {
   /**
    * overridden for IntroScreenView to add the wave nodes
    * @param {BendingLightModel} bendingLightModel
-   * @protected
    */
-  abstract addLightNodes( bendingLightModel: BendingLightModel ): void;
+  protected abstract addLightNodes( bendingLightModel: BendingLightModel ): void;
 
   /**
    * @param {Property<boolean>} showRotationDragHandlesProperty
@@ -203,10 +202,9 @@ abstract class BendingLightScreenView extends ScreenView {
    * @param {boolean}clockwiseArrowNotAtMax
    * @param {boolean} ccwArrowNotAtMax
    * @param {number} laserImageWidth
-   * @protected
    */
-  addLaserHandles( showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
-                   clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ) {
+  protected addLaserHandles( showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
+                             clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ) {
     const bendingLightModel = this.bendingLightModel;
 
     if ( typeof bendingLightModel.rotationArrowAngleOffset === 'number' ) {

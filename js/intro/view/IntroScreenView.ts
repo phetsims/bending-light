@@ -53,10 +53,10 @@ type IntroScreenViewOptions = {} & BendingLightScreenViewOptions;
 class IntroScreenView extends BendingLightScreenView {
   introModel: IntroModel;
   stepEmitter: Emitter<[]>;
-  topMediumControlPanel: MediumControlPanel;
-  bottomMediumControlPanel: MediumControlPanel;
+  protected topMediumControlPanel: MediumControlPanel;
+  protected bottomMediumControlPanel: MediumControlPanel;
   dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
-  bumpLeft: ( node: Node, positionProperty: Property<Vector2> ) => void;
+  protected bumpLeft: ( node: Node, positionProperty: Property<Vector2> ) => void;
   toolbox: Panel;
   timeControlNode: TimeControlNode;
 
@@ -136,7 +136,6 @@ class IntroScreenView extends BendingLightScreenView {
       stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - topMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) - 2 * INSET - topMediumControlPanel.getHeight() + 4 );
 
-    // @protected
     this.topMediumControlPanel = topMediumControlPanel;
 
     this.afterLightLayer3.addChild( topMediumControlPanel );
@@ -151,7 +150,6 @@ class IntroScreenView extends BendingLightScreenView {
       stageWidth - topMediumControlPanel.getWidth() - 2 * INSET - bottomMediumControlPanelXOffset,
       this.modelViewTransform.modelToViewY( 0 ) + 2 * INSET + 1 );
 
-    // @protected
     this.bottomMediumControlPanel = bottomMediumControlPanel;
     this.afterLightLayer3.addChild( bottomMediumControlPanel );
 
@@ -355,7 +353,7 @@ class IntroScreenView extends BendingLightScreenView {
       intensityMeterNode.syncModelFromView();
     } ) );
 
-    // @protected for subclass usage in MoreToolsScreenView
+    // for subclass usage in MoreToolsScreenView
     this.bumpLeft = bumpLeft;
 
     let toolboxNodes = [
@@ -455,15 +453,13 @@ class IntroScreenView extends BendingLightScreenView {
   /**
    * Allow subclasses to provide more tools
    * @returns {Node[]}
-   * @protected
    */
-  getAdditionalToolIcons(): Node[] {
+  protected getAdditionalToolIcons(): Node[] {
     return [];
   }
 
   /**
    * Called by the animation loop.
-   * @protected
    */
   override step() {
     this.stepEmitter.emit();
@@ -476,7 +472,7 @@ class IntroScreenView extends BendingLightScreenView {
   /**
    * Update wave shape.
    */
-  updateWaveShape() {
+  protected updateWaveShape() {
     if ( this.introModel.laserViewProperty.value === LaserViewEnum.WAVE ) {
       for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
 

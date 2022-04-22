@@ -32,7 +32,6 @@ class WaveCanvasNode extends CanvasNode {
 
   /**
    * Paints the particles on the canvas node.
-   * @protected
    * @param {CanvasRenderingContext2D} context
    */
   paintCanvas( context: CanvasRenderingContext2D ) {
