@@ -8,9 +8,6 @@
  */
 
 
-// Disable for the whole file https://github.com/phetsims/chipper/issues/1237
-/* eslint-disable no-protected-jsdoc */
-
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -317,17 +314,8 @@ class PrismsScreenView extends BendingLightScreenView {
     } );
   }
 
-  /**
-   * @param {boolean} showRotationDragHandlesProperty
-   * @param {boolean} showTranslationDragHandlesProperty
-   * @param {boolean} clockwiseArrowNotAtMax
-   * @param {boolean} ccwArrowNotAtMax
-   * @param {number} laserImageWidth
-   * @protected
-   */
-  // @ts-ignore
-  addLaserHandles( showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
-                             clockwiseArrowNotAtMax: Property<boolean>, ccwArrowNotAtMax: Property<boolean>, laserImageWidth: number ) {
+  protected override addLaserHandles( showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
+                                      clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ) {
     const bendingLightModel = this.bendingLightModel;
     super.addLaserHandles(
       showRotationDragHandlesProperty,
