@@ -36,7 +36,6 @@ class SeriesCanvasNode extends CanvasNode {
 
   /**
    * Paints the series points on the canvas node.
-   * @param {CanvasRenderingContext2D} context
    */
   paintCanvas( context: CanvasRenderingContext2D ) {
     let moved = false;

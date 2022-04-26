@@ -41,7 +41,6 @@ class SingleColorLightCanvasNode extends CanvasNode {
 
   /**
    * Paints the particles on the canvas node.
-   * @param {CanvasRenderingContext2D} context
    */
   paintCanvas( context: CanvasRenderingContext2D ) {
 

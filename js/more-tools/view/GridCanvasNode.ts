@@ -37,7 +37,6 @@ class GridCanvasNode extends CanvasNode {
 
   /**
    * Paints the grid lines on the canvas node.
-   * @param {CanvasRenderingContext2D} context
    */
   paintCanvas( context: CanvasRenderingContext2D ) {
 
