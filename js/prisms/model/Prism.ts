@@ -13,6 +13,7 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightCircle from './BendingLightCircle.js';
 import ColoredRay from './ColoredRay.js';
+import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import SemiCircle from './SemiCircle.js';
 
@@ -41,12 +42,12 @@ class Prism {
    * @param {number} deltaX - amount of space in x direction the prism to be translated
    * @param {number} deltaY - amount of space in y direction the prism to be translated
    */
-  translate( deltaX: number, deltaY: number ) {
+  translate( deltaX: number, deltaY: number ): void {
     this.positionProperty.value = this.positionProperty.value.plusXY( deltaX, deltaY );
   }
 
   // @private
-  getTranslatedShape() {
+  getTranslatedShape(): Polygon | BendingLightCircle | SemiCircle {
     return this.shapeProperty.value.getTranslatedInstance( this.positionProperty.value.x, this.positionProperty.value.y );
   }
 
@@ -55,7 +56,7 @@ class Prism {
    * @param {ColoredRay} incidentRay - model of the ray
    * @returns {Array}
    */
-  getIntersections( incidentRay: ColoredRay ) {
+  getIntersections( incidentRay: ColoredRay ): Intersection[] {
     return this.getTranslatedShape().getIntersections( incidentRay );
   }
 
@@ -64,7 +65,7 @@ class Prism {
    * @param {Vector2} point
    * @returns {boolean}
    */
-  contains( point: Vector2 ) {
+  contains( point: Vector2 ): boolean {
     return this.getTranslatedShape().containsPoint( point );
   }
 
@@ -72,7 +73,7 @@ class Prism {
    * Creates a copy of the prism
    * @returns {Prism}
    */
-  copy() {
+  copy(): Prism {
     return new Prism( this.shapeProperty.get(), this.typeName );
   }
 
@@ -80,7 +81,7 @@ class Prism {
    * Rotate prism by the specified angle
    * @param {number} deltaAngle - angle to be rotated
    */
-  rotate( deltaAngle: number ) {
+  rotate( deltaAngle: number ): void {
     this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle, this.shapeProperty.get().getRotationCenter() ) );
   }
 }

@@ -443,7 +443,7 @@ class IntroScreenView extends BendingLightScreenView {
   /**
    * restore initial conditions
    */
-  override reset() {
+  override reset(): void {
     super.reset();
     this.introModel.reset();
     this.topMediumControlPanel.reset();
@@ -461,7 +461,7 @@ class IntroScreenView extends BendingLightScreenView {
   /**
    * Called by the animation loop.
    */
-  override step() {
+  override step(): void {
     this.stepEmitter.emit();
     super.step();
     if ( this.introModel.isPlayingProperty.value ) {
@@ -472,7 +472,7 @@ class IntroScreenView extends BendingLightScreenView {
   /**
    * Update wave shape.
    */
-  protected updateWaveShape() {
+  protected updateWaveShape(): void {
     if ( this.introModel.laserViewProperty.value === LaserViewEnum.WAVE ) {
       for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
 
@@ -487,7 +487,7 @@ class IntroScreenView extends BendingLightScreenView {
    * @param {BendingLightModel} bendingLightModel
    * @private
    */
-  addLightNodes( bendingLightModel: BendingLightModel ) {
+  addLightNodes( bendingLightModel: BendingLightModel ): void {
 
     this.addChild( this.incidentWaveLayer );
 

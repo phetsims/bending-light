@@ -39,7 +39,7 @@ class Reading {
    * Get string to display on intensity sensor
    * @returns {string}
    */
-  getString() {
+  getString(): string {
     return this.format( this.value * 100 );
   }
 
@@ -47,7 +47,7 @@ class Reading {
    * @param {number} value - value to be displayed on intensity meter
    * @returns {string}
    */
-  format( value: number ) {
+  format( value: number ): string {
     return StringUtils.format( pattern0ValuePercentString, Utils.toFixed( value, VALUE_DECIMALS ) );
   }
 
@@ -55,7 +55,7 @@ class Reading {
    * Determines whether ray hit the intensity sensor or not
    * @returns {boolean}
    */
-  isHit() {
+  isHit(): boolean {
     return true;
   }
 }

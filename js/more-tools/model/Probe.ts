@@ -27,7 +27,7 @@ class Probe {
   /**
    * Resets the model.
    */
-  reset() {
+  reset(): void {
     this.seriesProperty.reset();
     this.positionProperty.reset();
   }
@@ -35,7 +35,7 @@ class Probe {
   /**
    * @param {DataPoint} sample
    */
-  addSample( sample: DataPoint ) {
+  addSample( sample: DataPoint ): void {
     this.seriesProperty.get().push( sample );
     this.seriesProperty.notifyListenersStatic();
   }

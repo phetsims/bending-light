@@ -265,12 +265,12 @@ class PrismsScreenView extends BendingLightScreenView {
 
   /**
    */
-  override reset() {
+  override reset(): void {
     this.prismLayer.removeAllChildren();
     this.resetPrismsView();
   }
 
-  override step() {
+  override step(): void {
     super.step();
     this.updateWhiteLightNode();
   }
@@ -278,7 +278,7 @@ class PrismsScreenView extends BendingLightScreenView {
   /**
    * @private, for internal use only.
    */
-  private updateWhiteLightNode() {
+  private updateWhiteLightNode(): void {
     if ( this.prismsModel.laser.colorModeProperty.value === ColorModeEnum.WHITE && this.prismsModel.dirty ) {
       this.whiteLightNode && this.whiteLightNode.step();
       this.prismsModel.dirty = false;
@@ -290,7 +290,7 @@ class PrismsScreenView extends BendingLightScreenView {
    * @param {BendingLightModel} bendingLightModel - passed because this is called during construction (before this.model
    * is set in the subtype)
    */
-  protected addLightNodes( bendingLightModel: PrismsModel ) {
+  protected addLightNodes( bendingLightModel: PrismsModel ): void {
 
     const stageWidth = this.layoutBounds.width;
     const stageHeight = this.layoutBounds.height;
@@ -315,7 +315,7 @@ class PrismsScreenView extends BendingLightScreenView {
   }
 
   protected override addLaserHandles( showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
-                                      clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ) {
+                                      clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ): void {
     const bendingLightModel = this.bendingLightModel;
     super.addLaserHandles(
       showRotationDragHandlesProperty,

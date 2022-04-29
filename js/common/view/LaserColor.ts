@@ -8,6 +8,7 @@
  */
 
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 
 class LaserColor {
@@ -24,7 +25,7 @@ class LaserColor {
    * Determine the color of the light.
    * @returns {Color}
    */
-  getColor() {
+  getColor(): Color {
     return VisibleColor.wavelengthToColor( this.wavelength * 1E9 ); // convert to nanometers
   }
 }

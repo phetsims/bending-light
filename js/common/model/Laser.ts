@@ -65,7 +65,7 @@ class Laser {
   }
 
   // Restore to initial values.
-  reset() {
+  reset(): void {
     this.pivotProperty.reset();
     this.onProperty.reset();
     this.waveProperty.reset();
@@ -78,7 +78,7 @@ class Laser {
    * @param deltaX - amount of space in x direction laser to be translated
    * @param deltaY - amount of space in y direction laser to be translated
    */
-  translate( deltaX: number, deltaY: number ) {
+  translate( deltaX: number, deltaY: number ): void {
 
     // Caution -- For reasons unknown to @samreid, if the order of the following instructions is switched, the
     // laser will rotate while being dragged, see #221
@@ -100,7 +100,7 @@ class Laser {
    * Rotate about the fixed pivot
    * @param angle - angle to be rotated
    */
-  setAngle( angle: number ) {
+  setAngle( angle: number ): void {
     const distFromPivot = this.pivotProperty.value.distance( this.emissionPointProperty.value );
     this.emissionPointProperty.value = new Vector2(
       distFromPivot * Math.cos( angle ) + this.pivotProperty.value.x,

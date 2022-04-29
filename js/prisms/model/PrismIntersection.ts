@@ -26,7 +26,7 @@ class PrismIntersection {
    * @param {Vector2} center - center of the arc if prism contains arc otherwise null
    * @param {ColoredRay} coloredRay - light ray intersecting the prism
    */
-  static getIntersections( edges: Line[], arc: Arc | Shape | null, center: Vector2, coloredRay: ColoredRay ) {
+  static getIntersections( edges: Line[], arc: Arc | Shape | null, center: Vector2, coloredRay: ColoredRay ): Intersection[] {
     const intersections = [];
     let intersection;
     let unitNormal;

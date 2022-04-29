@@ -17,6 +17,7 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import WaveParticle from './WaveParticle.js';
 import LaserViewEnum from './LaserViewEnum.js';
+import Intersection from '../../prisms/model/Intersection.js';
 
 // constants
 /**
@@ -178,7 +179,7 @@ class LightRay {
    * Update the time, so it can update the phase of the wave graphic
    * @param {number} time - simulation time
    */
-  setTime( time: number ) {
+  setTime( time: number ): void {
     this.time = time;
   }
 
@@ -186,7 +187,7 @@ class LightRay {
    * Determines the speed of the light ray
    * @returns {number}
    */
-  getSpeed() {
+  getSpeed(): number {
     return BendingLightConstants.SPEED_OF_LIGHT / this.indexOfRefraction;
   }
 
@@ -196,7 +197,7 @@ class LightRay {
    * @returns {Ray2}
    * @private
    */
-  createParallelRay( distance: number, rayType: string ) {
+  createParallelRay( distance: number, rayType: string ): Ray2 {
     const perpendicular = Vector2.createPolar( distance, this.getAngle() + Math.PI / 2 );
     const t = rayType === 'incident' ? this.tip : this.tail;
     const tail = t.plus( perpendicular );
@@ -209,7 +210,7 @@ class LightRay {
    * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
    * @returns {Array}
    */
-  getIntersections( sensorRegion: Shape, rayType: string ) {
+  getIntersections( sensorRegion: Shape, rayType: string ): Intersection[] {
 
     if ( this.waveShape ) {
 
@@ -243,7 +244,7 @@ class LightRay {
   /**
    * @returns {Line}
    */
-  toLine() {
+  toLine(): Line {
     return new Line( this.tail, this.tip );
   }
 
@@ -251,14 +252,14 @@ class LightRay {
    * Determines length of light ray
    * @returns {number}
    */
-  getLength() {
+  getLength(): number {
     return this.tip.distance( this.tail );
   }
 
   /**
    * @returns {Vector2}
    */
-  toVector() {
+  toVector(): Vector2 {
     this.vectorForm.x = this.tip.x - this.tail.x;
     this.vectorForm.y = this.tip.y - this.tail.y;
     return this.vectorForm;
@@ -268,7 +269,7 @@ class LightRay {
    * Determines the unit vector of light ray
    * @returns {Vector2}
    */
-  getUnitVector() {
+  getUnitVector(): Vector2 {
     const magnitude = this.tip.distance( this.tail );
     this.unitVector.x = ( this.tip.x - this.tail.x ) / magnitude;
     this.unitVector.y = ( this.tip.y - this.tail.y ) / magnitude;
@@ -279,14 +280,14 @@ class LightRay {
    * Determines the angle of light ray
    * @returns {number}
    */
-  getAngle() {
+  getAngle(): number {
     return Math.atan2( this.tip.y - this.tail.y, this.tip.x - this.tail.x );
   }
 
   /**
    * @returns {number}
    */
-  getNumberOfWavelengths() {
+  getNumberOfWavelengths(): number {
     return this.getLength() / this.wavelength;
   }
 
@@ -297,7 +298,7 @@ class LightRay {
    * @param {boolean} waveMode - specifies whether ray or wave mode
    * @returns {boolean}
    */
-  contains( position: Vector2, waveMode: boolean ) {
+  contains( position: Vector2, waveMode: boolean ): boolean {
     if ( waveMode && this.waveShape ) {
       return this.waveShape.containsPoint( position );
     }
@@ -310,28 +311,28 @@ class LightRay {
   /**
    * @returns {Vector2}
    */
-  getVelocityVector() {
+  getVelocityVector(): Vector2 {
     return this.tip.minus( this.tail ).normalize().multiplyScalar( this.getSpeed() );
   }
 
   /**
    * @returns {number}
    */
-  getFrequency() {
+  getFrequency(): number {
     return this.getSpeed() / this.wavelength;
   }
 
   /**
    * @returns {number}
    */
-  getAngularFrequency() {
+  getAngularFrequency(): number {
     return this.getFrequency() * Math.PI * 2;
   }
 
   /**
    * @returns {number}
    */
-  getPhaseOffset() {
+  getPhaseOffset(): number {
     return this.getAngularFrequency() * this.time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
   }
 
@@ -340,7 +341,7 @@ class LightRay {
    * @param {number} distanceAlongRay - distance of a specific point from the start of the ray
    * @returns {number}
    */
-  getCosArg( distanceAlongRay: number ) {
+  getCosArg( distanceAlongRay: number ): number {
     const w = this.getAngularFrequency();
     const k = 2 * Math.PI / this.wavelength;
     const x = distanceAlongRay;

@@ -33,7 +33,7 @@ class WaveCanvasNode extends CanvasNode {
   /**
    * Paints the particles on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ) {
+  paintCanvas( context: CanvasRenderingContext2D ): void {
 
     // Render the incident ray last so that it will overlap the reflected ray completely
     for ( let k = this.lightRays.length - 1; k >= 0; k-- ) {
@@ -97,7 +97,7 @@ class WaveCanvasNode extends CanvasNode {
 
   /**
    */
-  step() {
+  step(): void {
     this.invalidatePaint();
   }
 }

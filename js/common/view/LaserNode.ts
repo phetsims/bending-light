@@ -277,7 +277,7 @@ class LaserNode extends Node {
    * @param {number} x
    * @param {number} y
    */
-  translateViewXY( x: number, y: number ) {
+  translateViewXY( x: number, y: number ): void {
     const delta = this.modelViewTransform.viewToModelDeltaXY( x, y );
     this.laser.translate( delta.x, delta.y );
   }

@@ -37,7 +37,7 @@ class SeriesCanvasNode extends CanvasNode {
   /**
    * Paints the series points on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ) {
+  paintCanvas( context: CanvasRenderingContext2D ): void {
     let moved = false;
 
     context.beginPath();
@@ -67,7 +67,7 @@ class SeriesCanvasNode extends CanvasNode {
 
   /**
    */
-  step() {
+  step(): void {
     this.invalidatePaint();
   }
 }

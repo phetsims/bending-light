@@ -102,7 +102,7 @@ class PrismsModel extends BendingLightModel {
 
   /**
    */
-  override reset() {
+  override reset(): void {
     super.reset();
     this.prisms.clear();
     this.manyRaysProperty.reset();
@@ -117,7 +117,7 @@ class PrismsModel extends BendingLightModel {
    * List of prism prototypes that can be created in the sim
    * @returns {Array}
    */
-  getPrismPrototypes() {
+  getPrismPrototypes(): Prism[] {
     const prismsTypes = [];
 
     // characteristic length scale
@@ -171,7 +171,7 @@ class PrismsModel extends BendingLightModel {
    * Adds a prism to the model.
    * @param {Prism} prism
    */
-  addPrism( prism: Prism ) {
+  addPrism( prism: Prism ): void {
     this.prisms.add( prism );
   }
 
@@ -179,7 +179,7 @@ class PrismsModel extends BendingLightModel {
    * Removes a prism from the model
    * @param {Prism} prism
    */
-  removePrism( prism: Prism ) {
+  removePrism( prism: Prism ): void {
     this.prisms.remove( prism );
     this.updateModel();
   }
@@ -191,7 +191,7 @@ class PrismsModel extends BendingLightModel {
    * @param {number} power - amount of power this light has
    * @param {boolean} laserInPrism - specifies whether laser in prism
    */
-  propagate( ray: Ray2, power: number, laserInPrism: boolean ) {
+  propagate( ray: Ray2, power: number, laserInPrism: boolean ): void {
 
     // Determines whether to use white light or single color light
     let mediumIndexOfRefraction;
@@ -225,7 +225,7 @@ class PrismsModel extends BendingLightModel {
   /**
    * Algorithm that computes the trajectories of the rays throughout the system
    */
-  propagateRays() {
+  propagateRays(): void {
 
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
@@ -252,7 +252,7 @@ class PrismsModel extends BendingLightModel {
    * initially
    * @returns {boolean}
    */
-  isLaserInPrism() {
+  isLaserInPrism(): boolean {
     const emissionPoint = this.laser.emissionPointProperty.value;
     for ( let i = 0; i < this.prisms.length; i++ ) {
       if ( this.prisms[ i ].contains( emissionPoint ) ) {
@@ -271,7 +271,7 @@ class PrismsModel extends BendingLightModel {
    * @param {boolean} showIntersection - true if the intersection should be shown.  True for single rays and for
    *                                     extrema of white light wavelengths
    */
-  propagateTheRay( incidentRay: ColoredRay, count: number, showIntersection: boolean ) {
+  propagateTheRay( incidentRay: ColoredRay, count: number, showIntersection: boolean ): void {
     let rayColor;
     let rayVisibleColor;
     const waveWidth = CHARACTERISTIC_LENGTH * 5;
@@ -414,7 +414,7 @@ class PrismsModel extends BendingLightModel {
    * @param {ObservableArrayDef.<Prism>} prisms
    * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
    */
-  getIntersection( incidentRay: ColoredRay, prisms: Prism[] ) {
+  getIntersection( incidentRay: ColoredRay, prisms: Prism[] ): Intersection | null {
     let allIntersections: Intersection[] = [];
     prisms.forEach( prism => {
       prism.getIntersections( incidentRay ).forEach( ( intersection: Intersection ) => allIntersections.push( intersection ) );
@@ -427,7 +427,7 @@ class PrismsModel extends BendingLightModel {
 
   /**
    */
-  clear() {
+  clear(): void {
     this.intersections.clear();
   }
 }

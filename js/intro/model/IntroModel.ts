@@ -141,7 +141,7 @@ class IntroModel extends BendingLightModel {
    * Light rays were cleared from model before propagateRays was called, this creates them according to the laser and
    * mediums
    */
-  propagateRays() {
+  propagateRays(): void {
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
 
@@ -276,7 +276,7 @@ class IntroModel extends BendingLightModel {
    * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
    * @returns {boolean}
    */
-  addAndAbsorb( ray: LightRay, rayType: RayTypeEnum ) {
+  addAndAbsorb( ray: LightRay, rayType: RayTypeEnum ): boolean {
     const angleOffset = rayType === 'incident' ? Math.PI : 0;
 
     // find intersection points with the intensity sensor
@@ -342,7 +342,7 @@ class IntroModel extends BendingLightModel {
 
   /**
    */
-  override reset() {
+  override reset(): void {
     super.reset();
     this.topMediumProperty.reset();
     this.bottomMediumProperty.reset();
@@ -354,7 +354,7 @@ class IntroModel extends BendingLightModel {
    * @param {Vector2} position - position where the velocity to be determined
    * @returns {Vector2}
    */
-  getVelocity( position: Vector2 ) {
+  getVelocity( position: Vector2 ): Vector2 {
     const laserView = this.laserViewProperty.value;
     for ( let i = 0; i < this.rays.length; i++ ) {
       if ( this.rays[ i ].contains( position, laserView === LaserViewEnum.WAVE ) ) {
@@ -394,7 +394,7 @@ class IntroModel extends BendingLightModel {
   /**
    * Called by the animation loop.
    */
-  protected step() {
+  protected step(): void {
 
     if ( this.isPlayingProperty.value ) {
       this.updateSimulationTimeAndWaveShape( this.speedProperty.value );
@@ -404,7 +404,7 @@ class IntroModel extends BendingLightModel {
   /**
    * Update simulation time and wave propagation.
    */
-  updateSimulationTimeAndWaveShape( speed: any ) {
+  updateSimulationTimeAndWaveShape( speed: any ): void {
 
     // Update the time
     this.time = this.time + ( speed === TimeSpeed.NORMAL ? 1E-16 : 0.5E-16 );
@@ -422,7 +422,7 @@ class IntroModel extends BendingLightModel {
    * create the particles between light ray tail and and tip
    * @private
    */
-  createInitialParticles() {
+  createInitialParticles(): void {
 
     let particleColor: string;
     let particleGradientColor: string;
@@ -472,7 +472,7 @@ class IntroModel extends BendingLightModel {
    * Propagate the particles
    * @private
    */
-  propagateParticles() {
+  propagateParticles(): void {
 
     for ( let i = 0; i < this.rays.length; i++ ) {
       const lightRay = this.rays[ i ];

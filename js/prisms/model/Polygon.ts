@@ -12,6 +12,7 @@ import { Arc, Line, Shape } from '../../../../kite/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import PrismIntersection from './PrismIntersection.js';
 import ColoredRay from './ColoredRay.js';
+import Intersection from './Intersection.js';
 
 class Polygon {
   private readonly points: Vector2[];
@@ -66,7 +67,7 @@ class Polygon {
    * @param {number} i - index of point
    * @returns {Vector2}
    */
-  getPoint( i: number ) {
+  getPoint( i: number ): Vector2 {
     return this.points[ i ];
   }
 
@@ -76,7 +77,7 @@ class Polygon {
    * @param {number} deltaY - distance in y direction to be translated
    * @returns {Polygon}
    */
-  getTranslatedInstance( deltaX: number, deltaY: number ) {
+  getTranslatedInstance( deltaX: number, deltaY: number ): Polygon {
 
     const newPoints = [];
     for ( let j = 0; j < this.points.length; j++ ) {
@@ -95,7 +96,7 @@ class Polygon {
    * @param {Vector2} rotationPoint - point around which polygon to be rotated
    * @returns {Polygon}
    */
-  getRotatedInstance( angle: number, rotationPoint: Vector2 ) {
+  getRotatedInstance( angle: number, rotationPoint: Vector2 ): Polygon {
     const newPoints = [];
     for ( let k = 0; k < this.points.length; k++ ) {
       const vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
@@ -114,7 +115,7 @@ class Polygon {
    * @param {Vector2} point
    * @returns {boolean}
    */
-  containsPoint( point: Vector2 ) {
+  containsPoint( point: Vector2 ): boolean {
     return this.shape.containsPoint( point );
   }
 
@@ -122,7 +123,7 @@ class Polygon {
    * Just use the 0th point for the reference point for rotation drag handles
    * @returns {Vector2}
    */
-  getReferencePoint() {
+  getReferencePoint(): Vector2 {
     return this.getPoint( this.referencePointIndex );
   }
 
@@ -131,7 +132,7 @@ class Polygon {
    * "mass")
    * @returns {Vector2}
    */
-  getRotationCenter() {
+  getRotationCenter(): Vector2 {
     return this.centroid;
   }
 
@@ -140,7 +141,7 @@ class Polygon {
    * @param {array.<Vector2>} p - array of corner points
    * @returns {Vector2}
    */
-  getCentroid( p: Vector2[] ) {
+  getCentroid( p: Vector2[] ): Vector2 {
     let cx = 0;
     let cy = 0;
     for ( let i = 0; i < p.length; i++ ) {
@@ -163,7 +164,7 @@ class Polygon {
    * @param {Array.<Vector2>} p - array of corner points
    * @returns {number}
    */
-  getArea( p: Vector2[] ) {
+  getArea( p: Vector2[] ): number {
     let a = 0;
     for ( let i = 0; i < p.length; i++ ) {
       const j = ( i + 1 ) % p.length;
@@ -179,7 +180,7 @@ class Polygon {
    * @param {ColoredRay} ray - model of the ray
    * @returns {Array}
    */
-  getIntersections( ray: ColoredRay ) {
+  getIntersections( ray: ColoredRay ): Intersection[] {
     let arc = null;
     if ( this.radius !== 0 && this.center ) {
       const startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
@@ -193,7 +194,7 @@ class Polygon {
    * @private
    * @returns {Array}
    */
-  getEdges() {
+  getEdges(): Line[] {
     const lineSegments = [];
     for ( let i = 0; i < this.points.length - 1; i++ ) {
       lineSegments.push( new Line( this.points[ i ], this.points[ i + 1 ] ) );

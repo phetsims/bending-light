@@ -163,7 +163,7 @@ class IntensityMeterNode extends Node {
 
   /**
    */
-  resetRelativePositions() {
+  resetRelativePositions(): void {
     this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );
   }
 }

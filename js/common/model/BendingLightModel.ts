@@ -82,12 +82,12 @@ abstract class BendingLightModel {
   }
 
   // Adds a ray to the model
-  addRay( ray: LightRay ) {
+  addRay( ray: LightRay ): void {
     this.rays.push( ray );
   }
 
   // Clear the model in preparation for another ray propagation update phase
-  clearModel() {
+  clearModel(): void {
     for ( let i = 0; i < this.rays.length; i++ ) {
       this.rays[ i ].particles.clear();
     }
@@ -95,14 +95,14 @@ abstract class BendingLightModel {
   }
 
   // Update the model by clearing the rays, then recreating them
-  updateModel() {
+  updateModel(): void {
     this.clearModel();
     this.propagateRays();
   }
 
   abstract propagateRays(): void;
 
-  reset() {
+  reset(): void {
     this.laserViewProperty.reset();
     this.wavelengthProperty.reset();
     this.isPlayingProperty.reset();

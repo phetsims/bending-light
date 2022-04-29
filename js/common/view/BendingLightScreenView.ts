@@ -179,12 +179,12 @@ abstract class BendingLightScreenView extends ScreenView {
 
   /**
    */
-  reset() {
+  reset(): void {
     this.showProtractorProperty.reset();
   }
 
   // intended to be overridden by subclasses
-  override step() {
+  override step(): void {
     if ( this.singleColorLightNode.visible ) {
       this.singleColorLightNode.step();
     }
@@ -204,7 +204,7 @@ abstract class BendingLightScreenView extends ScreenView {
    * @param {number} laserImageWidth
    */
   protected addLaserHandles( showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
-                             clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ) {
+                             clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ): void {
     const bendingLightModel = this.bendingLightModel;
 
     if ( typeof bendingLightModel.rotationArrowAngleOffset === 'number' ) {

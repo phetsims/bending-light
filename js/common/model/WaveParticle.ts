@@ -40,7 +40,7 @@ class WaveParticle {
    * get particle x position
    * @returns {number}
    */
-  getX() {
+  getX(): number {
     return this.position.x;
   }
 
@@ -48,7 +48,7 @@ class WaveParticle {
    * get particle Y position
    * @returns {number}
    */
-  getY() {
+  getY(): number {
     return this.position.y;
   }
 
@@ -56,14 +56,14 @@ class WaveParticle {
    * Set the particle x position
    * @param {number} x - x position in model values
    */
-  setX( x: number ) {
+  setX( x: number ): void {
     this.position.x = x;
   }
 
   /**
    * @param {number} y - y position in model values
    */
-  setY( y: number ) {
+  setY( y: number ): void {
     this.position.y = y;
   }
 }

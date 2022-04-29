@@ -38,7 +38,7 @@ class IntensityMeter {
   }
 
   // Restore the initial values.
-  reset() {
+  reset(): void {
     this.readingProperty.reset();
     this.sensorPositionProperty.reset();
     this.bodyPositionProperty.reset();
@@ -47,7 +47,7 @@ class IntensityMeter {
   }
 
   // Copy the model for reuse in the toolbox node.
-  copy() {
+  copy(): IntensityMeter {
     return new IntensityMeter(
       this.sensorPositionProperty.get().x,
       this.sensorPositionProperty.get().y,
@@ -64,7 +64,7 @@ class IntensityMeter {
   }
 
   // Should be called before a model update so that values from last computation don't leak over into the next sum.
-  clearRayReadings() {
+  clearRayReadings(): void {
     this.rayReadings = [];
     this.readingProperty.set( Reading.MISS );
   }
@@ -73,13 +73,13 @@ class IntensityMeter {
    * Add a new reading to the accumulator and update the readout
    * @param reading - intensity of the wave or MISS
    */
-  addRayReading( reading: Reading ) {
+  addRayReading( reading: Reading ): void {
     this.rayReadings.push( reading );
     this.updateReading();
   }
 
   // Update the body text based on the accumulated Reading values
-  private updateReading() {
+  private updateReading(): void {
 
     // enumerate the hits
     const hits: Reading[] = [];

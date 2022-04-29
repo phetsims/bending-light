@@ -38,7 +38,7 @@ class GridCanvasNode extends CanvasNode {
   /**
    * Paints the grid lines on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ) {
+  paintCanvas( context: CanvasRenderingContext2D ): void {
 
     context.save();
     for ( let i = 0; i < this.gridLines.length; i++ ) {
@@ -64,7 +64,7 @@ class GridCanvasNode extends CanvasNode {
 
   /**
    */
-  step() {
+  step(): void {
     this.invalidatePaint();
   }
 }

@@ -211,7 +211,7 @@ class WaveSensorNode extends Node {
 
   /**
    */
-  resetRelativePositions() {
+  resetRelativePositions(): void {
     this.probe1Node.center = this.bodyNode.center.plusXY( 110, 12 );
     this.probe2Node.center = this.probe1Node.center.plusXY( -25, -37 );
     this.syncModelFromView();

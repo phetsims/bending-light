@@ -47,7 +47,7 @@ class WaveSensor {
   }
 
   // create a copy for use in toolbox icons, etc.
-  copy() {
+  copy(): WaveSensor {
     const waveSensor = new WaveSensor( v => {return { time: 0, magnitude: 0 };}, v => {
       return {
         time: 0,
@@ -60,12 +60,12 @@ class WaveSensor {
     return waveSensor;
   }
 
-  step() {
+  step(): void {
     this.simulationTimeChanged();
   }
 
   // @private - Read samples from the probes when the simulation time changes
-  simulationTimeChanged() {
+  simulationTimeChanged(): void {
     this.updateProbeSample( this.probe1, this.probe1Value );
     this.updateProbeSample( this.probe2, this.probe2Value );
   }
@@ -76,7 +76,7 @@ class WaveSensor {
    * @param {Probe} probe
    * @param {function} probeValue - function for getting data from a probe at the specified point
    */
-  updateProbeSample( probe: Probe, probeValue: ( position: Vector2 ) => { time: number; magnitude: number } | null ) {
+  updateProbeSample( probe: Probe, probeValue: ( position: Vector2 ) => { time: number; magnitude: number } | null ): void {
 
     // Read the value from the probe function. May be None if not intersecting a light ray
     const result = probeValue( probe.positionProperty.get() );
@@ -87,7 +87,7 @@ class WaveSensor {
 
   /**
    */
-  reset() {
+  reset(): void {
     this.bodyPositionProperty.reset();
     this.enabledProperty.reset();
     this.probe1.reset();

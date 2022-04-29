@@ -11,6 +11,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import ColoredRay from './ColoredRay.js';
+import Intersection from './Intersection.js';
 import PrismIntersection from './PrismIntersection.js';
 
 class BendingLightCircle {
@@ -37,11 +38,11 @@ class BendingLightCircle {
    * @param {number} deltaY - amount of space to be translate in y direction
    * @returns {BendingLightCircle}
    */
-  getTranslatedInstance( deltaX: number, deltaY: number ) {
+  getTranslatedInstance( deltaX: number, deltaY: number ): BendingLightCircle {
     return new BendingLightCircle( this.center.plusXY( deltaX, deltaY ), this.radius );
   }
 
-  getRotatedInstance( angle: number, rotationCenter: Vector2 ) {
+  getRotatedInstance( angle: number, rotationCenter: Vector2 ): this {
     return this;
   }
 
@@ -50,7 +51,7 @@ class BendingLightCircle {
    * @param {ColoredRay} ray - model of the ray
    * @returns {Array}
    */
-  getIntersections( ray: ColoredRay ) {
+  getIntersections( ray: ColoredRay ): Intersection[] {
     return PrismIntersection.getIntersections( [], this.shape, this.center, ray );
   }
 
@@ -58,7 +59,7 @@ class BendingLightCircle {
    * Computes the centroid of the corner points
    * @returns {Vector2}
    */
-  getRotationCenter() {
+  getRotationCenter(): Vector2 {
     return this.center;
   }
 
@@ -66,7 +67,7 @@ class BendingLightCircle {
    * Signify that the circle can't be rotated
    * @returns {null}
    */
-  getReferencePoint() {
+  getReferencePoint(): null {
     return null;
   }
 
@@ -75,7 +76,7 @@ class BendingLightCircle {
    * @param {Vector2} point
    * @returns {boolean}
    */
-  containsPoint( point: Vector2 ) {
+  containsPoint( point: Vector2 ): boolean {
     return point.distance( this.center ) <= this.radius;
   }
 }

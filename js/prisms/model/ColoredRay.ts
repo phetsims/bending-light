@@ -53,7 +53,7 @@ class ColoredRay {
    * Gets the wavelength for this ray if it wasn't inside a medium
    * @returns {number}
    */
-  getBaseWavelength() {
+  getBaseWavelength(): number {
     return BendingLightConstants.SPEED_OF_LIGHT / this.frequency;
   }
 }

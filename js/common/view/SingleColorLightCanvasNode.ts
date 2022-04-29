@@ -42,7 +42,7 @@ class SingleColorLightCanvasNode extends CanvasNode {
   /**
    * Paints the particles on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ) {
+  paintCanvas( context: CanvasRenderingContext2D ): void {
 
     context.save();
     context.lineWidth = this.strokeWidth;
@@ -91,7 +91,7 @@ class SingleColorLightCanvasNode extends CanvasNode {
 
   /**
    */
-  step() {
+  step(): void {
     this.invalidatePaint();
   }
 }

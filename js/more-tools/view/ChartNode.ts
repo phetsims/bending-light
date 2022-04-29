@@ -93,7 +93,7 @@ class ChartNode extends Node {
   /**
    * @param {number} time - simulation time
    */
-  step( time: number ) {
+  step( time: number ): void {
     this.simulationTimeChanged( time );
   }
 
@@ -102,7 +102,7 @@ class ChartNode extends Node {
    * @private
    * @param {number} time - simulation time
    */
-  simulationTimeChanged( time: number ) {
+  simulationTimeChanged( time: number ): void {
 
     // Update the mapping from model to chart
     const minTime = time - this.timeWidth;
@@ -145,7 +145,7 @@ class ChartNode extends Node {
    * @param {number} time - simulation time
    * @returns {number}
    */
-  getDelta( verticalGridLineSpacing: number, time: number ) {
+  getDelta( verticalGridLineSpacing: number, time: number ): number {
     const totalNumPeriods = time / verticalGridLineSpacing;
 
     // for computing the phase so we make the right number of grid lines, just keep the fractional part
@@ -157,7 +157,7 @@ class ChartNode extends Node {
    * @private
    * @param {number} x - x coordinate of vertical grid lines
    */
-  addVerticalLine( x: number ) {
+  addVerticalLine( x: number ): void {
 
     // -1 to +1 is far enough since in model coordinates
     this.gridLines.push( {

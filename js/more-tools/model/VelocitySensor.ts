@@ -39,14 +39,14 @@ class VelocitySensor {
   /**
    * Restore the initial values.
    */
-  reset() {
+  reset(): void {
     this.positionProperty.reset();
     this.valueProperty.reset();
     this.enabledProperty.reset();
   }
 
   // Make a copy for use in the toolbox icon
-  copy() {
+  copy(): VelocitySensor {
     const velocitySensor = new VelocitySensor();
     velocitySensor.positionProperty.value = this.positionProperty.value.copy();
     velocitySensor.valueProperty.value = this.valueProperty.value.copy();
@@ -58,7 +58,7 @@ class VelocitySensor {
    * Translate the velocity sensor in model
    * @param {Vector2} delta - amount of space to be translated
    */
-  translate( delta: Vector2 ) {
+  translate( delta: Vector2 ): void {
     this.positionProperty.set( this.positionProperty.value.plus( delta ) );
   }
 }

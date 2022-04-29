@@ -72,7 +72,7 @@ class MoreToolsScreenView extends IntroScreenView {
   /**
    * @returns {WaveSensorNode}
    */
-  getWaveSensorIcon() {
+  getWaveSensorIcon(): WaveSensorNode {
     const modelViewTransform = this.modelViewTransform;
 
     const waveSensor = ( this.bendingLightModel as MoreToolsModel ).waveSensor;
@@ -165,7 +165,7 @@ class MoreToolsScreenView extends IntroScreenView {
    * @returns {VelocitySensorNode}
    * @private
    */
-  getVelocitySensorIcon() {
+  getVelocitySensorIcon(): VelocitySensorNode {
     const moreToolsModel = this.bendingLightModel as MoreToolsModel;
     const velocitySensorToolboxScale = 1.2;
     const velocitySensorIconNode = new VelocitySensorNode(
@@ -230,7 +230,7 @@ class MoreToolsScreenView extends IntroScreenView {
   /**
    * @returns {Node[]}
    */
-  protected override getAdditionalToolIcons() {
+  protected override getAdditionalToolIcons(): ( WaveSensorNode | VelocitySensorNode )[] {
     return [
       this.getVelocitySensorIcon(),
       this.getWaveSensorIcon()
@@ -240,7 +240,7 @@ class MoreToolsScreenView extends IntroScreenView {
   /**
    * Update chart node and wave.
    */
-  protected override updateWaveShape() {
+  protected override updateWaveShape(): void {
     super.updateWaveShape();
     if ( this.waveSensorNode && this.waveSensorNode.waveSensor.enabledProperty.get() ) {
       this.waveSensorNode.waveSensor.step();

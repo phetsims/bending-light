@@ -64,7 +64,7 @@ class WhiteLightCanvasNode extends CanvasNode {
   /**
    * Paints the particles on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ) {
+  paintCanvas( context: CanvasRenderingContext2D ): void {
     context.lineWidth = 3;
     context.globalCompositeOperation = 'source-over';
 
@@ -120,7 +120,7 @@ class WhiteLightCanvasNode extends CanvasNode {
 
   /**
    */
-  step() {
+  step(): void {
     this.invalidatePaint();
   }
 }

@@ -361,7 +361,7 @@ class MediumControlPanel extends Node {
 
   /**
    */
-  reset() {
+  reset(): void {
     this.mediumIndexProperty.reset();
   }
 
@@ -370,7 +370,7 @@ class MediumControlPanel extends Node {
    * updates the model with the specified value
    * @param {number} indexOfRefraction - indexOfRefraction of medium
    */
-  setCustomIndexOfRefraction( indexOfRefraction: number ) {
+  setCustomIndexOfRefraction( indexOfRefraction: number ): void {
 
     // have to pass the value through the dispersion function to account for the
     // current wavelength of the laser (since index of refraction is a function of wavelength)
@@ -385,7 +385,7 @@ class MediumControlPanel extends Node {
    * Update the medium state from the combo box
    * @param {Substance} substance - specifies state of the medium
    */
-  setSubstance( substance: Substance ) {
+  setSubstance( substance: Substance ): void {
     const color = this.mediumColorFactory.getColor( substance.indexOfRefractionForRedLight );
     this.setMedium( new Medium( this.mediumProperty.get().shape, substance, color ) );
   }
@@ -395,7 +395,7 @@ class MediumControlPanel extends Node {
    * @private
    * @param {Medium} medium - specifies medium
    */
-  setMedium( medium: Medium ) {
+  setMedium( medium: Medium ): void {
     this.mediumProperty.set( medium );
   }
 }

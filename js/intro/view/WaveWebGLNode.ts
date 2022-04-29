@@ -33,7 +33,7 @@ class WaveWebGLNode extends WebGLNode {
 
   /**
    */
-  step() {
+  step(): void {
     this.invalidatePaint();
   }
 }
@@ -207,7 +207,7 @@ class WavePainter {
 
   /**
    */
-  dispose() {
+  dispose(): void {
     this.shaderProgram.dispose();
     this.gl.deleteBuffer( this.vertexBuffer );
   }

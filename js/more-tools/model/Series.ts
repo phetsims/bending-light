@@ -33,7 +33,7 @@ class Series {
    * Discard early samples that have gone out of range
    * @param {number} minTime - minimum time to be displayed on chart node
    */
-  keepLastSamples( minTime: number ) {
+  keepLastSamples( minTime: number ): void {
     let startIndex = 0;
     if ( this.seriesProperty.get().length ) {
 
