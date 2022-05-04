@@ -295,7 +295,8 @@ class IntroModel extends BendingLightModel {
         x = intersects[ 0 ].point.x;
         y = intersects[ 0 ].point.y;
       }
-      if ( intersects.length === 2 ) {
+      else {
+        assert && assert( intersects.length === 2 );
         x = ( intersects[ 0 ].point.x + intersects[ 1 ].point.x ) / 2;
         y = ( intersects[ 0 ].point.y + intersects[ 1 ].point.y ) / 2;
       }
