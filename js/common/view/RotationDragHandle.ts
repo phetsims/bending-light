@@ -10,7 +10,6 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import CurvedArrowShape from '../../../../scenery-phet/js/CurvedArrowShape.js';
 import { Node } from '../../../../scenery/js/imports.js';
@@ -42,7 +41,7 @@ class RotationDragHandle extends Node {
         laser.pivotProperty,
         showDragHandlesProperty
       ],
-      ( emissionPoint: Vector2, pivot: Vector2, showDragHandles: boolean ) => notAtMax( laser.getAngle() ) && showDragHandles
+      ( emissionPoint, pivot, showDragHandles ) => notAtMax( laser.getAngle() ) && showDragHandles
     );
 
     // Show the drag handle if the "show drag handles" is true and if the laser isn't already at the max angle.

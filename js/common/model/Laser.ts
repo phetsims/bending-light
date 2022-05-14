@@ -52,7 +52,7 @@ class Laser {
 
     // model the point where light comes out of the laser where the light comes from
     this.emissionPointProperty = new Vector2Property( Vector2.createPolar( distanceFromPivot, angle ) );
-    this.colorProperty = new DerivedProperty( [ wavelengthProperty ], ( wavelength: number ) => new LaserColor( wavelength ) );
+    this.colorProperty = new DerivedProperty( [ wavelengthProperty ], wavelength => new LaserColor( wavelength ) );
     this.wavelengthProperty = wavelengthProperty;
 
     this.waveProperty.link( () => {

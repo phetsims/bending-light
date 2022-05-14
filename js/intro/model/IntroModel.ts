@@ -26,7 +26,6 @@ import Medium from '../../common/model/Medium.js';
 import Reading from '../../common/model/Reading.js';
 import Substance from '../../common/model/Substance.js';
 import WaveParticle from '../../common/model/WaveParticle.js';
-import LaserColor from '../../common/view/LaserColor.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
@@ -82,7 +81,7 @@ class IntroModel extends BendingLightModel {
         this.topMediumProperty,
         this.laser.colorProperty
       ],
-      ( topMedium: Medium, color: LaserColor ) => topMedium.getIndexOfRefraction( color.wavelength ), {
+      ( topMedium, color ) => topMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfTopMediumProperty' ),
         phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
@@ -93,7 +92,7 @@ class IntroModel extends BendingLightModel {
         this.bottomMediumProperty,
         this.laser.colorProperty
       ],
-      ( bottomMedium: Medium, color: LaserColor ) => bottomMedium.getIndexOfRefraction( color.wavelength ), {
+      ( bottomMedium, color ) => bottomMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfBottomMediumProperty' ),
         phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
