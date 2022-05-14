@@ -36,7 +36,7 @@ class MoreToolsModel extends IntroModel {
     this.waveSensor = new WaveSensor( waveValueGetter, waveValueGetter );
 
     // Update the velocity sensor value when anything relevant in the model changes
-    Property.multilink<any[]>( [
+    Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
       this.velocitySensor.positionProperty,

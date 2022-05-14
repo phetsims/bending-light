@@ -50,7 +50,7 @@ class AngleNode extends Node {
     super();
 
     // Only show the AngleNode when it is selected via a checkbox and the laser is on
-    Property.multilink( [ showAnglesProperty, laserOnProperty ], ( showAngles: boolean, laserOn: boolean ) => {
+    Property.multilink( [ showAnglesProperty, laserOnProperty ], ( showAngles, laserOn ) => {
       this.visible = showAngles && laserOn;
     } );
 

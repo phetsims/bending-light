@@ -24,7 +24,6 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import VelocitySensor from '../model/VelocitySensor.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 
 const speedString = bendingLightStrings.speed;
 const unknownVelocityString = bendingLightStrings.unknownVelocity;
@@ -154,7 +153,7 @@ class VelocitySensorNode extends Node {
 
     // Update the text when the value or units changes.
     Property.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty ],
-      ( velocity: Vector2, position: Vector2 ) => {
+      ( velocity, position ) => {
 
         // add '?' for null velocity
         if ( velocity.magnitude === 0 ) {

@@ -184,7 +184,7 @@ class IntroScreenView extends BendingLightScreenView {
 
     introModel.showNormalProperty.linkAttribute( normalLine, 'visible' );
 
-    Property.multilink<any[]>( [
+    Property.multilink( [
       introModel.laserViewProperty,
       introModel.laser.onProperty,
       introModel.intensityMeter.sensorPositionProperty,

@@ -106,7 +106,7 @@ class IntroModel extends BendingLightModel {
       -this.modelHeight * 0.312
     );
 
-    Property.multilink<any[]>( [
+    Property.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
       this.intensityMeter.sensorPositionProperty,
