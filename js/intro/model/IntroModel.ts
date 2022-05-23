@@ -29,6 +29,7 @@ import WaveParticle from '../../common/model/WaveParticle.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
@@ -105,7 +106,7 @@ class IntroModel extends BendingLightModel {
       -this.modelHeight * 0.312
     );
 
-    Property.multilink( [
+    Multilink.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
       this.intensityMeter.sensorPositionProperty,

@@ -31,6 +31,7 @@ import Medium from '../model/Medium.js';
 import Substance from '../model/Substance.js';
 import BendingLightScreenView from './BendingLightScreenView.js';
 import MediumColorFactory from '../model/MediumColorFactory.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 const airString = bendingLightStrings.air;
 const customString = bendingLightStrings.custom;
@@ -319,7 +320,7 @@ class MediumControlPanel extends Node {
       resize: false // Don't resize when the slider knob encroaches on the right border
     } );
     this.addChild( mediumPanel );
-    Property.multilink( [ mediumProperty, this.laserWavelengthProperty ],
+    Multilink.multilink( [ mediumProperty, this.laserWavelengthProperty ],
       () => {
         custom = mediumProperty.get().substance.custom;
         indexOfRefractionValueText.text = Utils.toFixed(

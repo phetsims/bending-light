@@ -30,6 +30,7 @@ import Polygon from './Polygon.js';
 import Prism from './Prism.js';
 import SemiCircle from './SemiCircle.js';
 import ColorModeEnum from '../../common/model/ColorModeEnum.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
@@ -76,7 +77,7 @@ class PrismsModel extends BendingLightModel {
     this.laser.colorModeProperty.link( colorMode => {
       this.intersectionStrokeProperty.value = colorMode === ColorModeEnum.WHITE ? 'white' : 'black';
     } );
-    Property.multilink( [
+    Multilink.multilink( [
       this.manyRaysProperty,
       this.environmentMediumProperty,
       this.showReflectionsProperty,

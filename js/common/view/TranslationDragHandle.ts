@@ -8,6 +8,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -44,7 +45,7 @@ class TranslationDragHandle extends Node {
     arrowNode.setTailAndTip( -dx, -dy, +dx, +dy );
 
     // update the position when laser pivot or emission point change
-    Property.multilink( [ laser.pivotProperty, laser.emissionPointProperty, showDragHandlesProperty ],
+    Multilink.multilink( [ laser.pivotProperty, laser.emissionPointProperty, showDragHandlesProperty ],
       ( laserPivot, laserEmission, showDragHandles ) => {
         if ( showDragHandlesProperty.get() ) {
           const laserAngle = -laser.getAngle();

@@ -40,6 +40,7 @@ import WaveWebGLNode from './WaveWebGLNode.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 const anglesString = bendingLightStrings.angles;
 const materialString = bendingLightStrings.material;
@@ -184,7 +185,7 @@ class IntroScreenView extends BendingLightScreenView {
 
     introModel.showNormalProperty.linkAttribute( normalLine, 'visible' );
 
-    Property.multilink( [
+    Multilink.multilink( [
       introModel.laserViewProperty,
       introModel.laser.onProperty,
       introModel.intensityMeter.sensorPositionProperty,

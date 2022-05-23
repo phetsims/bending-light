@@ -26,6 +26,7 @@ import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const arrowScale = 1.5E-14;
@@ -63,7 +64,7 @@ class MoreToolsScreenView extends IntroScreenView {
     this.moreToolsModel = moreToolsModel; // (read-only)
 
     // updates the visibility of speed controls
-    Property.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
+    Multilink.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
       ( laserView, isWaveSensorEnabled ) => {
         this.timeControlNode.visible = isWaveSensorEnabled || laserView === LaserViewEnum.WAVE;
       } );

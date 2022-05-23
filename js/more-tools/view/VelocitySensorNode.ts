@@ -10,7 +10,6 @@
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
 
-import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { Shape } from '../../../../kite/js/imports.js';
@@ -24,6 +23,7 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import VelocitySensor from '../model/VelocitySensor.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 const speedString = bendingLightStrings.speed;
 const unknownVelocityString = bendingLightStrings.unknownVelocity;
@@ -152,7 +152,7 @@ class VelocitySensorNode extends Node {
     } );
 
     // Update the text when the value or units changes.
-    Property.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty ],
+    Multilink.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty ],
       ( velocity, position ) => {
 
         // add '?' for null velocity

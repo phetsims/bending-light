@@ -22,6 +22,7 @@ import ColorModeEnum from '../model/ColorModeEnum.js';
 import LaserViewEnum from '../model/LaserViewEnum.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
   occlusionHandler?: ( node: Node ) => void;
@@ -168,7 +169,7 @@ abstract class BendingLightScreenView extends ScreenView {
       bendingLightModel.laser.waveProperty.value = ( laserView === LaserViewEnum.WAVE );
     } );
 
-    Property.multilink( [ bendingLightModel.laser.colorModeProperty, bendingLightModel.laserViewProperty ],
+    Multilink.multilink( [ bendingLightModel.laser.colorModeProperty, bendingLightModel.laserViewProperty ],
       ( colorMode, laserView ) => {
         this.singleColorLightNode.visible = laserView === LaserViewEnum.RAY && colorMode !== ColorModeEnum.WHITE;
       }

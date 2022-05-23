@@ -8,6 +8,7 @@
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -50,7 +51,7 @@ class AngleNode extends Node {
     super();
 
     // Only show the AngleNode when it is selected via a checkbox and the laser is on
-    Property.multilink( [ showAnglesProperty, laserOnProperty ], ( showAngles, laserOn ) => {
+    Multilink.multilink( [ showAnglesProperty, laserOnProperty ], ( showAngles, laserOn ) => {
       this.visible = showAngles && laserOn;
     } );
 

@@ -9,6 +9,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import CurvedArrowShape from '../../../../scenery-phet/js/CurvedArrowShape.js';
@@ -74,7 +75,7 @@ class RotationDragHandle extends Node {
     dragArrow.setShape( counterClockwiseDragArrow );
 
     // Update the shape when the laser moves
-    Property.multilink( [ laser.emissionPointProperty, showDragHandlesProperty ], () => {
+    Multilink.multilink( [ laser.emissionPointProperty, showDragHandlesProperty ], () => {
       if ( showDragHandlesProperty.get() ) {
         const dragArrowX = modelViewTransform.modelToViewX( laser.pivotProperty.value.x );
         const dragArrowY = modelViewTransform.modelToViewY( laser.pivotProperty.value.y );

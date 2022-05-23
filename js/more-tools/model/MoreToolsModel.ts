@@ -7,7 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import bendingLight from '../../bendingLight.js';
@@ -36,7 +36,7 @@ class MoreToolsModel extends IntroModel {
     this.waveSensor = new WaveSensor( waveValueGetter, waveValueGetter );
 
     // Update the velocity sensor value when anything relevant in the model changes
-    Property.multilink( [
+    Multilink.multilink( [
       this.laserViewProperty,
       this.laser.onProperty,
       this.velocitySensor.positionProperty,
