@@ -23,8 +23,6 @@ const FloatingLayout = {
 
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
-   * @param {ScreenView} screenView
-   * @param {Node[]} nodes
    */
   floatRight: ( screenView: ScreenView, nodes: Node[] ) => {
     screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
@@ -39,9 +37,6 @@ const FloatingLayout = {
 
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
-   * @param {ScreenView} screenView
-   * @param {Node[]} nodes
-   * @param {number} delta
    */
   floatLeft: ( screenView: ScreenView, nodes: Node[], delta = 0 ) => {
     screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
@@ -56,8 +51,6 @@ const FloatingLayout = {
 
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
-   * @param {ScreenView} screenView
-   * @param {Node[]} nodes
    */
   floatTop: ( screenView: ScreenView, nodes: Node[] ) => {
     screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
@@ -72,8 +65,6 @@ const FloatingLayout = {
 
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
-   * @param {ScreenView} screenView
-   * @param {Node[]} nodes
    */
   floatBottom: ( screenView: ScreenView, nodes: Node[] ) => {
     screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {

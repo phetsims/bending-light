@@ -37,9 +37,9 @@ class ProbeNodeWrapper extends Node {
   /**
    * View for rendering a probe that can be used to sense wave values
    *
-   * @param {Probe} probe - probe containing position and recorded data series
-   * @param {string} color
-   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
+   * @param probe - probe containing position and recorded data series
+   * @param color
+   * @param modelViewTransform - Transform between model and view coordinate frames
    */
   constructor( probe: Probe, color: string, modelViewTransform: ModelViewTransform2 ) {
 
@@ -84,9 +84,9 @@ class WaveSensorNode extends Node {
   syncModelFromView: () => void;
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {WaveSensor} waveSensor - model for the wave sensor
-   * @param {Object} [providedOptions]
+   * @param modelViewTransform - Transform between model and view coordinate frames
+   * @param waveSensor - model for the wave sensor
+   * @param [providedOptions]
    */
   constructor( modelViewTransform: ModelViewTransform2, waveSensor: WaveSensor, providedOptions?: NodeOptions ) {
 

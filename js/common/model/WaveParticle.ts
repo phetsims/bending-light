@@ -52,14 +52,14 @@ class WaveParticle {
 
   /**
    * Set the particle x position
-   * @param {number} x - x position in model values
+   * @param x - x position in model values
    */
   setX( x: number ): void {
     this.position.x = x;
   }
 
   /**
-   * @param {number} y - y position in model values
+   * @param y - y position in model values
    */
   setY( y: number ): void {
     this.position.y = y;

@@ -36,10 +36,10 @@ class VelocitySensorNode extends Node {
   arrowShape: Path;
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {VelocitySensor} velocitySensor - model for the velocity sensor
-   * @param {number} arrowScale - scale to be applied for the velocity value to display as arrow
-   * @param {Object} [providedOptions]
+   * @param modelViewTransform - Transform between model and view coordinate frames
+   * @param velocitySensor - model for the velocity sensor
+   * @param arrowScale - scale to be applied for the velocity value to display as arrow
+   * @param [providedOptions]
    */
   constructor( modelViewTransform: ModelViewTransform2, velocitySensor: VelocitySensor, arrowScale: number, providedOptions?: NodeOptions ) {
 

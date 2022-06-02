@@ -62,11 +62,11 @@ class IntroScreenView extends BendingLightScreenView {
   timeControlNode: TimeControlNode;
 
   /**
-   * @param {IntroModel} introModel - model of intro screen
-   * @param {boolean} hasMoreTools - whether contain more tools
-   * @param {number} indexOfRefractionDecimals - decimalPlaces to show for index of refraction
-   * @param {function} createLaserControlPanel
-   * @param {Object} [providedOptions]
+   * @param introModel - model of intro screen
+   * @param hasMoreTools - whether contain more tools
+   * @param indexOfRefractionDecimals - decimalPlaces to show for index of refraction
+   * @param createLaserControlPanel
+   * @param [providedOptions]
    */
   constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number,
                createLaserControlPanel: ( model: BendingLightModel ) => Node, providedOptions?: IntroScreenViewOptions ) {
@@ -79,7 +79,6 @@ class IntroScreenView extends BendingLightScreenView {
 
       /**
        * Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
-       * @param {number} angle
        */
       clampDragAngle: ( angle: number ) => {
         while ( angle < 0 ) { angle += Math.PI * 2; }
@@ -87,7 +86,6 @@ class IntroScreenView extends BendingLightScreenView {
       },
       /**
        * Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
-       * @param {number} laserAngle
        */
       clockwiseArrowNotAtMax: ( laserAngle: number ) => {
         if ( introModel.laserViewProperty.value === LaserViewEnum.RAY ) {
@@ -99,7 +97,6 @@ class IntroScreenView extends BendingLightScreenView {
       },
       /**
        * indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
-       * @param {number} laserAngle
        */
       ccwArrowNotAtMax: ( laserAngle: number ) => laserAngle > Math.PI / 2
     }, providedOptions );
@@ -480,7 +477,6 @@ class IntroScreenView extends BendingLightScreenView {
 
   /**
    * Add light representations which are specific to this view.  In this case it is the wave representation.
-   * @param {BendingLightModel} bendingLightModel
    */
   protected override addLightNodes( bendingLightModel: BendingLightModel ): void {
 

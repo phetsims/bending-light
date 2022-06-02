@@ -21,14 +21,14 @@ import Laser from '../model/Laser.js';
 class RotationDragHandle extends Node {
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {Laser} laser - model of laser
-   * @param {number} deltaAngle - deltaAngle in radians
-   * @param {Property.<boolean>} showDragHandlesProperty - determines whether to show arrows
-   * @param {function} notAtMax - function that determines whether the laser is already at the max angle (if at the max
+   * @param modelViewTransform - Transform between model and view coordinate frames
+   * @param laser - model of laser
+   * @param deltaAngle - deltaAngle in radians
+   * @param showDragHandlesProperty - determines whether to show arrows
+   * @param notAtMax - function that determines whether the laser is already at the max angle (if at the max
    * angle then that drag handle disappears)
-   * @param {number} laserImageWidth - width of the laser
-   * @param {number} rotationArrowAngleOffset - for unknown reasons the rotation arrows are off by PI/4 on the
+   * @param laserImageWidth - width of the laser
+   * @param rotationArrowAngleOffset - for unknown reasons the rotation arrows are off by PI/4 on the
    *                                            intro/more-tools screen, so account for that here.
    */
   constructor( modelViewTransform: ModelViewTransform2, laser: Laser, deltaAngle: number, showDragHandlesProperty: Property<boolean>, notAtMax: ( n: number ) => boolean,

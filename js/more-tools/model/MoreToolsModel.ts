@@ -20,9 +20,6 @@ class MoreToolsModel extends IntroModel {
   readonly velocitySensor: VelocitySensor;
   readonly waveSensor: WaveSensor;
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     // On this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent

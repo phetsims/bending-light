@@ -50,8 +50,8 @@ class PrismsScreenView extends BendingLightScreenView {
   whiteLightNode: WhiteLightCanvasNode;
 
   /**
-   * @param {PrismsModel} prismsModel - model of prisms screen
-   * @param {Object} [providedOptions]
+   * @param prismsModel - model of prisms screen
+   * @param [providedOptions]
    */
   constructor( prismsModel: PrismsModel, providedOptions?: PrismsScreenViewOptions ) {
 
@@ -284,7 +284,7 @@ class PrismsScreenView extends BendingLightScreenView {
 
   /**
    * Add the screen-specific light nodes
-   * @param {BendingLightModel} bendingLightModel - passed because this is called during construction (before this.model
+   * @param bendingLightModel - passed because this is called during construction (before this.model
    * is set in the subtype)
    */
   protected addLightNodes( bendingLightModel: PrismsModel ): void {

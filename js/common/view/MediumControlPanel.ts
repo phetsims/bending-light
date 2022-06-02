@@ -59,14 +59,14 @@ class MediumControlPanel extends Node {
   private readonly mediumIndexProperty: Property<number>;
 
   /**
-   * @param {BendingLightScreenView} view - view of the simulation
-   * @param {MediumColorFactory} mediumColorFactory - for turning index of refraction into color
-   * @param {Property.<Medium>} mediumProperty - specifies medium
-   * @param {string} name - name of the medium material
-   * @param {boolean} textFieldVisible - whether to display index of refraction value
-   * @param {number} laserWavelength - wavelength of laser
-   * @param {number} decimalPlaces - decimalPlaces to show for index of refraction
-   * @param {Object} [providedOptions] - options that can be passed on to the underlying node
+   * @param view - view of the simulation
+   * @param mediumColorFactory - for turning index of refraction into color
+   * @param mediumProperty - specifies medium
+   * @param name - name of the medium material
+   * @param textFieldVisible - whether to display index of refraction value
+   * @param laserWavelength - wavelength of laser
+   * @param decimalPlaces - decimalPlaces to show for index of refraction
+   * @param [providedOptions] - options that can be passed on to the underlying node
    */
   constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>, name: string, textFieldVisible: boolean, laserWavelength: Property<number>,
                decimalPlaces: number, providedOptions?: MediumControlPanelOptions ) {
@@ -369,7 +369,7 @@ class MediumControlPanel extends Node {
   /**
    * Called when the user enters a new index of refraction (with text box or slider),
    * updates the model with the specified value
-   * @param {number} indexOfRefraction - indexOfRefraction of medium
+   * @param indexOfRefraction - indexOfRefraction of medium
    */
   setCustomIndexOfRefraction( indexOfRefraction: number ): void {
 
@@ -384,7 +384,7 @@ class MediumControlPanel extends Node {
 
   /**
    * Update the medium state from the combo box
-   * @param {Substance} substance - specifies state of the medium
+   * @param substance - specifies state of the medium
    */
   setSubstance( substance: Substance ): void {
     const color = this.mediumColorFactory.getColor( substance.indexOfRefractionForRedLight );
@@ -393,7 +393,7 @@ class MediumControlPanel extends Node {
 
   /**
    * Update the medium
-   * @param {Medium} medium - specifies medium
+   * @param medium - specifies medium
    */
   private setMedium( medium: Medium ): void {
     this.mediumProperty.set( medium );

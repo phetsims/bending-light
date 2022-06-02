@@ -169,7 +169,6 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * Adds a prism to the model.
-   * @param {Prism} prism
    */
   addPrism( prism: Prism ): void {
     this.prisms.add( prism );
@@ -177,7 +176,6 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * Removes a prism from the model
-   * @param {Prism} prism
    */
   removePrism( prism: Prism ): void {
     this.prisms.remove( prism );
@@ -186,9 +184,9 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * Determines whether white light or single color light
-   * @param {Ray2} ray - tail and direction for light
-   * @param {number} power - amount of power this light has
-   * @param {boolean} laserInPrism - specifies whether laser in prism
+   * @param ray - tail and direction for light
+   * @param power - amount of power this light has
+   * @param laserInPrism - specifies whether laser in prism
    */
   private propagate( ray: Ray2, power: number, laserInPrism: boolean ): void {
 
@@ -263,9 +261,9 @@ class PrismsModel extends BendingLightModel {
   /**
    * Recursive algorithm to compute the pattern of rays in the system. This is the main computation of this model,
    * rays are cleared beforehand and this algorithm adds them as it goes
-   * @param {ColoredRay} incidentRay - model of the ray
-   * @param {number} count - number of rays
-   * @param {boolean} showIntersection - true if the intersection should be shown.  True for single rays and for
+   * @param incidentRay - model of the ray
+   * @param count - number of rays
+   * @param showIntersection - true if the intersection should be shown.  True for single rays and for
    *                                     extrema of white light wavelengths
    */
   private propagateTheRay( incidentRay: ColoredRay, count: number, showIntersection: boolean ): void {

@@ -25,9 +25,6 @@ const introString = bendingLightStrings.intro;
 
 class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     const options = {

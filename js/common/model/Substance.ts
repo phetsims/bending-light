@@ -38,10 +38,10 @@ class Substance {
   static DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT: number;
 
   /**
-   * @param {string} name - name of the medium
-   * @param {number} indexForRed - index of refraction of medium
-   * @param {boolean} mystery - true if medium state is mystery else other state
-   * @param {boolean} custom - true if medium state is custom else other state
+   * @param name - name of the medium
+   * @param indexForRed - index of refraction of medium
+   * @param mystery - true if medium state is mystery else other state
+   * @param custom - true if medium state is custom else other state
    */
   constructor( name: string, indexForRed: number, mystery: boolean, custom: boolean ) {
     this.name = name; // (read-only)

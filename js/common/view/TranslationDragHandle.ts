@@ -19,12 +19,12 @@ import Laser from '../model/Laser.js';
 class TranslationDragHandle extends Node {
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinate frames
-   * @param {Laser} laser - model of laser
-   * @param {number} dx - length of horizontal arrow
-   * @param {number} dy - length of vertical arrow
-   * @param {Property.<boolean>} showDragHandlesProperty - determines whether to show arrows
-   * @param {number} laserImageWidth - width of the laser
+   * @param modelViewTransform - converts between model and view co-ordinate frames
+   * @param laser - model of laser
+   * @param dx - length of horizontal arrow
+   * @param dy - length of vertical arrow
+   * @param showDragHandlesProperty - determines whether to show arrows
+   * @param laserImageWidth - width of the laser
    * @constructor
    */
   constructor( modelViewTransform: ModelViewTransform2, laser: Laser, dx: number, dy: number, showDragHandlesProperty: Property<boolean>, laserImageWidth: number ) {

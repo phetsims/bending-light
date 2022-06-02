@@ -15,7 +15,7 @@ class LaserColor {
   readonly wavelength: number;
 
   /**
-   * @param {number} wavelength - wavelength (in meters) of the light
+   * @param wavelength - wavelength (in meters) of the light
    */
   constructor( wavelength: number ) {
     this.wavelength = wavelength;

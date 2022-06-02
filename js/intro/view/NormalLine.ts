@@ -15,9 +15,9 @@ import bendingLight from '../../bendingLight.js';
 class NormalLine extends Node {
 
   /**
-   * @param {number} height - height of normal
-   * @param {number[]} lineDash
-   * @param {Object} [providedOptions] - options that can be passed on to the underlying node
+   * @param height - height of normal
+   * @param lineDash
+   * @param [providedOptions] - options that can be passed on to the underlying node
    */
   constructor( height: number, lineDash: number[], providedOptions?: NodeOptions ) {
     super();

@@ -16,8 +16,8 @@ class Intersection {
   readonly point: Vector2;
 
   /**
-   * @param {Vector2} unitNormal - unit normal at the intersection of light ray
-   * @param {Vector2} point - point where the light ray intersects
+   * @param unitNormal - unit normal at the intersection of light ray
+   * @param point - point where the light ray intersects
    */
   constructor( unitNormal: Vector2, point: Vector2 ) {
 

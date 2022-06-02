@@ -31,15 +31,15 @@ class PrismNode extends Node {
   translateViewXY: ( x: number, y: number ) => void;
 
   /**
-   * @param {PrismsModel} prismsModel - main model
-   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {Prism} prism
-   * @param {Node} prismToolboxNode
-   * @param {Node} prismLayer - layer consisting of prisms in play area
-   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the prism may be dragged
-   * @param {function} occlusionHandler - function that takes a node and updates it if it would be occluded by a control
+   * @param prismsModel - main model
+   * @param modelViewTransform - converts between model and view co-ordinates
+   * @param prism
+   * @param prismToolboxNode
+   * @param prismLayer - layer consisting of prisms in play area
+   * @param dragBoundsProperty - bounds that define where the prism may be dragged
+   * @param occlusionHandler - function that takes a node and updates it if it would be occluded by a control
    *                                    - panel
-   * @param {boolean} isIcon - true if the prism node is being created to be shown as an icon in the toolbox
+   * @param isIcon - true if the prism node is being created to be shown as an icon in the toolbox
    *                         - false if the prism node will be dragged in the play area
    */
   constructor( prismsModel: PrismsModel, modelViewTransform: ModelViewTransform2, prism: Prism, prismToolboxNode: Node, prismLayer: Node, dragBoundsProperty: Property<Bounds2>,
@@ -174,8 +174,6 @@ class PrismNode extends Node {
     /**
      * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
      * model
-     * @param {number} x
-     * @param {number} y
        */
     this.translateViewXY = ( x, y ) => {
       const delta = modelViewTransform.viewToModelDeltaXY( x, y );

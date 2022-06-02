@@ -17,8 +17,8 @@ import LightType from '../model/LightType.js';
 class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
 
   /**
-   * @param {Property.<LaserViewEnum>} radioButtonAdapterProperty
-   * @param {Object} [providedOptions]
+   * @param radioButtonAdapterProperty
+   * @param [providedOptions]
    */
   constructor( radioButtonAdapterProperty: Property<LightType>, providedOptions?: NodeOptions ) {
     const laserImageNode = new Image( laser_png, {

@@ -19,11 +19,11 @@ class SeriesCanvasNode extends CanvasNode {
   private readonly color: string;
 
   /**
-   * @param {Property.<[]>} seriesProperty - contains data points of series
-   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate
+   * @param seriesProperty - contains data points of series
+   * @param modelViewTransformProperty - Transform between model and view coordinate
    *                                                                      frames
-   * @param {string} color - color of the series
-   * @param {Object} [providedOptions] - options that can be passed on to the underlying node
+   * @param color - color of the series
+   * @param [providedOptions] - options that can be passed on to the underlying node
    */
   constructor( seriesProperty: Property<DataPoint[]>, modelViewTransformProperty: Property<ModelViewTransform2>,
                color: string, providedOptions?: NodeOptions ) {

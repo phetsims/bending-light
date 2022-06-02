@@ -21,10 +21,10 @@ class PrismIntersection {
   }
 
   /**
-   * @param {array.<Line>} edges - edges of the prism, or an empty array for a circle
-   * @param {Shape} arc - arc of the prism
-   * @param {Vector2} center - center of the arc if prism contains arc otherwise null
-   * @param {ColoredRay} coloredRay - light ray intersecting the prism
+   * @param edges - edges of the prism, or an empty array for a circle
+   * @param arc - arc of the prism
+   * @param center - center of the arc if prism contains arc otherwise null
+   * @param coloredRay - light ray intersecting the prism
    */
   static getIntersections( edges: Line[], arc: Arc | Shape | null, center: Vector2, coloredRay: ColoredRay ): Intersection[] {
     const intersections = [];

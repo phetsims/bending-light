@@ -20,9 +20,9 @@ import LaserViewEnum from './LaserViewEnum.js';
 import Intersection from '../../prisms/model/Intersection.js';
 
 // constants
+
 /**
  * If a vector is infinite, make it finite
- * @param vector
  */
 const makeFinite = ( vector: Vector2 ) => {
   if ( !isFinite( vector.x ) ) {
@@ -177,7 +177,7 @@ class LightRay {
 
   /**
    * Update the time, so it can update the phase of the wave graphic
-   * @param {number} time - simulation time
+   * @param time - simulation time
    */
   setTime( time: number ): void {
     this.time = time;
@@ -190,10 +190,6 @@ class LightRay {
     return BendingLightConstants.SPEED_OF_LIGHT / this.indexOfRefraction;
   }
 
-  /**
-   * @param {number} distance
-   * @param {string} rayType
-   */
   private createParallelRay( distance: number, rayType: string ): Ray2 {
     const perpendicular = Vector2.createPolar( distance, this.getAngle() + Math.PI / 2 );
     const t = rayType === 'incident' ? this.tip : this.tail;
@@ -203,8 +199,8 @@ class LightRay {
 
   /**
    * Check to see if this light ray hits the specified sensor region
-   * @param {Shape} sensorRegion - sensor region of intensity meter
-   * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
+   * @param sensorRegion - sensor region of intensity meter
+   * @param rayType - 'incident', 'transmitted' or 'reflected'
    */
   getIntersections( sensorRegion: Shape, rayType: string ): Intersection[] {
 
@@ -278,8 +274,8 @@ class LightRay {
   /**
    * Determine if the light ray contains the specified position,
    * accounting for whether it is shown as a thin light ray or wide wave
-   * @param {Vector2} position
-   * @param {boolean} waveMode - specifies whether ray or wave mode
+   * @param position
+   * @param waveMode - specifies whether ray or wave mode
    */
   contains( position: Vector2, waveMode: boolean ): boolean {
     if ( waveMode && this.waveShape ) {
@@ -309,7 +305,7 @@ class LightRay {
 
   /**
    * Get the total argument to the cosine for the wave function(k * x - omega * t + phase)
-   * @param {number} distanceAlongRay - distance of a specific point from the start of the ray
+   * @param distanceAlongRay - distance of a specific point from the start of the ray
    */
   getCosArg( distanceAlongRay: number ): number {
     const w = this.getAngularFrequency();

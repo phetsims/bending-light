@@ -15,8 +15,8 @@ import bendingLight from '../../bendingLight.js';
 class ToolIconListener extends SimpleDragHandler {
 
   /**
-   * @param {MovableDragHandler[]} components - the individual listeners that events should be forwarded to.
-   * @param {function} init - called with (event) when the start drag occurs
+   * @param components - the individual listeners that events should be forwarded to.
+   * @param init - called with (event) when the start drag occurs
    */
   constructor( components: MovableDragHandler[], init: ( event: SceneryEvent ) => void ) {
     super( {

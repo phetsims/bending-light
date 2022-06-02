@@ -22,9 +22,9 @@ class Medium {
   static MediumIO: IOType;
 
   /**
-   * @param {Shape} shape - shape of the medium
-   * @param {Substance} substance - state of the medium
-   * @param {Color} color - color of the medium
+   * @param shape - shape of the medium
+   * @param substance - state of the medium
+   * @param color - color of the medium
    */
   constructor( shape: Shape, substance: Substance, color: Color ) {
 
@@ -36,7 +36,7 @@ class Medium {
 
   /**
    * Determines the index of refraction of medium
-   * @param {number} wavelength - wavelength of the medium
+   * @param wavelength - wavelength of the medium
    */
   getIndexOfRefraction( wavelength: number ): number {
     return this.substance.dispersionFunction.getIndexOfRefraction( wavelength );

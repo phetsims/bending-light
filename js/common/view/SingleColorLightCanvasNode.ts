@@ -21,10 +21,10 @@ class SingleColorLightCanvasNode extends CanvasNode {
   private readonly strokeWidth: number;
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {number} stageWidth - width of the dev area
-   * @param {number} stageHeight - height of the dev area
-   * @param {ObservableArrayDef.<LightRay>} rays -
+   * @param modelViewTransform - converts between model and view co-ordinates
+   * @param stageWidth - width of the dev area
+   * @param stageHeight - height of the dev area
+   * @param rays -
    */
   constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, rays: LightRay[] ) {
 

@@ -23,8 +23,8 @@ class Prism {
   typeName: string;
 
   /**
-   * @param {Polygon|BendingLightCircle|SemiCircle} shape
-   * @param {string} typeName for keeping track of how many of each kind there are, to remove from toolbox
+   * @param shape
+   * @param typeName for keeping track of how many of each kind there are, to remove from toolbox
    */
   constructor( shape: Polygon | BendingLightCircle | SemiCircle, typeName: string ) {
 
@@ -39,8 +39,8 @@ class Prism {
 
   /**
    * Translate prism by the specified amount
-   * @param {number} deltaX - amount of space in x direction the prism to be translated
-   * @param {number} deltaY - amount of space in y direction the prism to be translated
+   * @param deltaX - amount of space in x direction the prism to be translated
+   * @param deltaY - amount of space in y direction the prism to be translated
    */
   translate( deltaX: number, deltaY: number ): void {
     this.positionProperty.value = this.positionProperty.value.plusXY( deltaX, deltaY );
@@ -52,7 +52,7 @@ class Prism {
 
   /**
    * Compute the intersections of the specified ray with this polygon's edges
-   * @param {ColoredRay} incidentRay - model of the ray
+   * @param incidentRay - model of the ray
    */
   getIntersections( incidentRay: ColoredRay ): Intersection[] {
     return this.getTranslatedShape().getIntersections( incidentRay );
@@ -60,7 +60,6 @@ class Prism {
 
   /**
    * Determines whether shape contains given point or not
-   * @param {Vector2} point
    */
   contains( point: Vector2 ): boolean {
     return this.getTranslatedShape().containsPoint( point );
@@ -75,7 +74,7 @@ class Prism {
 
   /**
    * Rotate prism by the specified angle
-   * @param {number} deltaAngle - angle to be rotated
+   * @param deltaAngle - angle to be rotated
    */
   rotate( deltaAngle: number ): void {
     this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle, this.shapeProperty.get().getRotationCenter() ) );

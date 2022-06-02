@@ -16,9 +16,9 @@ import Intersection from '../model/Intersection.js';
 class IntersectionNode extends Line {
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {Intersection} intersection - specifies details of intersection point and unit normal
-   * @param {Property.<string|Color>} strokeProperty - the stroke to use for the intersection node
+   * @param modelViewTransform - Transform between model and view coordinate frames
+   * @param intersection - specifies details of intersection point and unit normal
+   * @param strokeProperty - the stroke to use for the intersection node
    */
   constructor( modelViewTransform: ModelViewTransform2, intersection: Intersection, strokeProperty: Property<string> ) {
 

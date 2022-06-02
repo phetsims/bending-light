@@ -19,11 +19,11 @@ class ColoredRay {
   readonly frequency: number;
 
   /**
-   * @param {Ray2} ray - tail and direction
-   * @param {number} power - power of the ray
-   * @param {number} wavelength - wavelength of ray
-   * @param {number} mediumIndexOfRefraction - index of refraction of medium
-   * @param {number} frequency - frequency of ray
+   * @param ray - tail and direction
+   * @param power - power of the ray
+   * @param wavelength - wavelength of ray
+   * @param mediumIndexOfRefraction - index of refraction of medium
+   * @param frequency - frequency of ray
    */
   constructor( ray: Ray2, power: number, wavelength: number, mediumIndexOfRefraction: number, frequency: number ) {
 

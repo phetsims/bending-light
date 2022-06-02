@@ -12,8 +12,8 @@ class Probe {
   /**
    * Model for a probe, including its position and recorded data series
    *
-   * @param {number} x - x position of probe
-   * @param {number} y - y position of probe
+   * @param x - x position of probe
+   * @param y - y position of probe
    */
   constructor( x: number, y: number ) {
 
@@ -32,9 +32,6 @@ class Probe {
     this.positionProperty.reset();
   }
 
-  /**
-   * @param {DataPoint} sample
-   */
   addSample( sample: DataPoint ): void {
     this.seriesProperty.get().push( sample );
     this.seriesProperty.notifyListenersStatic();

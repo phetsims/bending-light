@@ -26,10 +26,10 @@ class SeriesNode extends Node {
   /**
    * Node for drawing the series of points.
    *
-   * @param {Series} series - series of data points
-   * @param {Property.<ModelViewTransform2>} modelViewTransformProperty - Transform between model and view coordinate
+   * @param series - series of data points
+   * @param modelViewTransformProperty - Transform between model and view coordinate
    *                                                                      frames
-   * @param {Bounds2} chartBounds - bounds of the chart node
+   * @param chartBounds - bounds of the chart node
    */
   constructor( series: Series, modelViewTransformProperty: Property<ModelViewTransform2>, chartBounds: Bounds2 ) {
 
@@ -61,8 +61,8 @@ class ChartNode extends Node {
   gridCanvasNode: GridCanvasNode;
 
   /**
-   * @param {Bounds2} chartBounds - bounds of the chart node
-   * @param {Series[]} seriesArray - series of data points
+   * @param chartBounds - bounds of the chart node
+   * @param seriesArray - series of data points
    */
   constructor( chartBounds: Bounds2, seriesArray: Series[] ) {
 
@@ -91,7 +91,7 @@ class ChartNode extends Node {
   }
 
   /**
-   * @param {number} time - simulation time
+   * @param time - simulation time
    */
   step( time: number ): void {
     this.simulationTimeChanged( time );
@@ -99,7 +99,7 @@ class ChartNode extends Node {
 
   /**
    * Move over the view port as time passes
-   * @param {number} time - simulation time
+   * @param time - simulation time
    */
   private simulationTimeChanged( time: number ): void {
 
@@ -139,8 +139,8 @@ class ChartNode extends Node {
 
   /**
    * Compute the phase offset so that grid lines appear to be moving at the right speed
-   * @param {number} verticalGridLineSpacing - space between vertical grid lines
-   * @param {number} time - simulation time
+   * @param verticalGridLineSpacing - space between vertical grid lines
+   * @param time - simulation time
    */
   private getDelta( verticalGridLineSpacing: number, time: number ): number {
     const totalNumPeriods = time / verticalGridLineSpacing;
@@ -151,7 +151,7 @@ class ChartNode extends Node {
 
   /**
    * Adds vertical lines to the grid
-   * @param {number} x - x coordinate of vertical grid lines
+   * @param x - x coordinate of vertical grid lines
    */
   private addVerticalLine( x: number ): void {
 

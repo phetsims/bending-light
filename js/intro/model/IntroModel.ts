@@ -48,9 +48,9 @@ class IntroModel extends BendingLightModel {
   private tipVector: Vector2;
 
   /**
-   * @param {Substance} bottomSubstance - state of bottom medium
-   * @param {boolean} horizontalPlayAreaOffset - specifies center alignment
-   * @param {Tandem} tandem
+   * @param bottomSubstance - state of bottom medium
+   * @param horizontalPlayAreaOffset - specifies center alignment
+   * @param tandem
    */
   constructor( bottomSubstance: Substance, horizontalPlayAreaOffset: boolean, tandem: Tandem ) {
 
@@ -271,8 +271,8 @@ class IntroModel extends BendingLightModel {
   /**
    * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
    * If the intensity meter misses the ray, the original ray is added.
-   * @param {LightRay} ray - model of light ray
-   * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
+   * @param ray - model of light ray
+   * @param rayType - 'incident', 'transmitted' or 'reflected'
    */
   private addAndAbsorb( ray: LightRay, rayType: RayTypeEnum ): boolean {
     const angleOffset = rayType === 'incident' ? Math.PI : 0;
@@ -350,7 +350,7 @@ class IntroModel extends BendingLightModel {
 
   /**
    * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
-   * @param {Vector2} position - position where the velocity to be determined
+   * @param position - position where the velocity to be determined
    */
   getVelocity( position: Vector2 ): Vector2 {
     const laserView = this.laserViewProperty.value;

@@ -38,8 +38,8 @@ class MoreToolsScreenView extends IntroScreenView {
   waveSensorNode: WaveSensorNode | null;
 
   /**
-   * @param {MoreToolsModel} moreToolsModel - model of the more tools screen
-   * @param {Object} [providedOptions]
+   * @param moreToolsModel - model of the more tools screen
+   * @param [providedOptions]
    */
   constructor( moreToolsModel: MoreToolsModel, providedOptions?: MoreToolsScreenViewOptions ) {
 

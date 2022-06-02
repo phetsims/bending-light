@@ -25,8 +25,8 @@ class WaveSensor {
   probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
 
   /**
-   * @param {function} probe1Value - function for getting data from a probe at the specified point
-   * @param {function} probe2Value - function for getting data from a probe at the specified point
+   * @param probe1Value - function for getting data from a probe at the specified point
+   * @param probe2Value - function for getting data from a probe at the specified point
    */
   constructor( probe1Value: ( position: Vector2 ) => { time: number; magnitude: number } | null, probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null ) {
 
@@ -72,8 +72,8 @@ class WaveSensor {
 
   /**
    * Read the value from the probe function. May be None if not intersecting a light ray
-   * @param {Probe} probe
-   * @param {function} probeValue - function for getting data from a probe at the specified point
+   * @param probe
+   * @param probeValue - function for getting data from a probe at the specified point
    */
   private updateProbeSample( probe: Probe, probeValue: ( position: Vector2 ) => { time: number; magnitude: number } | null ): void {
 

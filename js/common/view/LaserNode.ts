@@ -36,17 +36,17 @@ class LaserNode extends Node {
   private readonly modelViewTransform: ModelViewTransform2;
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {Laser} laser - model for the laser
-   * @param {Property.<boolean>} showRotationDragHandlesProperty - to show laser node rotate arrows
-   * @param {Property.<boolean>} showTranslationDragHandlesProperty - to show laser node drag arrows
-   * @param {function} clampDragAngle - function that limits the angle of laser to its bounds
+   * @param modelViewTransform - Transform between model and view coordinate frames
+   * @param laser - model for the laser
+   * @param showRotationDragHandlesProperty - to show laser node rotate arrows
+   * @param showTranslationDragHandlesProperty - to show laser node drag arrows
+   * @param clampDragAngle - function that limits the angle of laser to its bounds
    *                                       translating the laser
-   * @param {boolean} hasKnob - true if the laser should be shown with a knob
-   * @param {Property.<Bounds2>} dragBoundsProperty - bounds that define where the laser may be dragged
-   * @param {function} occlusionHandler - function that will move the laser out from behind a control panel if dropped
+   * @param hasKnob - true if the laser should be shown with a knob
+   * @param dragBoundsProperty - bounds that define where the laser may be dragged
+   * @param occlusionHandler - function that will move the laser out from behind a control panel if dropped
    *                                      there
-   * @param {Object} [providedOptions?]
+   * @param [providedOptions?]
    */
   constructor( modelViewTransform: ModelViewTransform2, laser: Laser, showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
                clampDragAngle: ( n: number ) => number, hasKnob: boolean, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( laserNode: LaserNode ) => void,
@@ -274,8 +274,6 @@ class LaserNode extends Node {
   /**
    * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
    * model
-   * @param {number} x
-   * @param {number} y
    */
   translateViewXY( x: number, y: number ): void {
     const delta = this.modelViewTransform.viewToModelDeltaXY( x, y );

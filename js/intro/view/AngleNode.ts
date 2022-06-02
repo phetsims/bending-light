@@ -39,12 +39,12 @@ const MOCK_ZERO_RAY = {
 class AngleNode extends Node {
 
   /**
-   * @param {Property.<boolean>} showAnglesProperty -
-   * @param {Property.<boolean>} laserOnProperty -
-   * @param {Property.<boolean>} showNormalProperty -
-   * @param {ObservableArrayDef} rays -
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {function} addStepListener -
+   * @param showAnglesProperty -
+   * @param laserOnProperty -
+   * @param showNormalProperty -
+   * @param rays -
+   * @param modelViewTransform
+   * @param addStepListener -
    */
   constructor( showAnglesProperty: Property<boolean>, laserOnProperty: Property<boolean>, showNormalProperty: Property<boolean>, rays: ObservableArray<LightRay>, modelViewTransform: ModelViewTransform2,
                addStepListener: ( x: () => void ) => void ) {
@@ -116,7 +116,6 @@ class AngleNode extends Node {
 
     /**
      * Select the ray of the given type 'incident' | 'reflected', or null if there isn't one of that type
-     * @param type
      */
     const getRay = ( type: RayTypeEnum | null ) => {
       let selected = null;

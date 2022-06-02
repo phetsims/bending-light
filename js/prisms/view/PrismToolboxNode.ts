@@ -36,13 +36,13 @@ class PrismToolboxNode extends Node {
   objectMediumControlPanel: MediumControlPanel;
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {PrismsModel} prismsModel - model of the prism screen
-   * @param {Node} prismLayer - layer in which prisms are present when in play area
-   * @param {Property.<Bounds2>} dragBoundsProperty - Bounds of prisms screen.
-   * @param {function} occlusionHandler - function that takes one node as a parameter and updates it if occluded by a
+   * @param modelViewTransform - converts between model and view co-ordinates
+   * @param prismsModel - model of the prism screen
+   * @param prismLayer - layer in which prisms are present when in play area
+   * @param dragBoundsProperty - Bounds of prisms screen.
+   * @param occlusionHandler - function that takes one node as a parameter and updates it if occluded by a
    *                                    - control panel
-   * @param {Object} [providedOptions] that can be passed on to the underlying node
+   * @param [providedOptions] that can be passed on to the underlying node
    */
   constructor( modelViewTransform: ModelViewTransform2, prismsModel: PrismsModel, prismLayer: Node, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( n: Node ) => void,
                providedOptions?: Partial<NodeOptions> ) {

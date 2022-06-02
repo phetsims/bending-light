@@ -28,11 +28,6 @@ const PLUS_MINUS_SPACING = 4;
 
 class WavelengthControl extends Node {
 
-  /**
-   * @param {Property.<number>} wavelengthProperty
-   * @param {Property.<boolean>} enabledProperty
-   * @param {number} trackWidth
-   */
   constructor( wavelengthProperty: Property<number>, enabledProperty: Property<boolean>, trackWidth: number ) {
     const wavelengthPropertyNM = new Property<number>( wavelengthProperty.value * 1E9, { reentrant: true } );
 

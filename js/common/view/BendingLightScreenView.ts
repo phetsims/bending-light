@@ -50,9 +50,9 @@ abstract class BendingLightScreenView extends ScreenView {
   protected readonly modelViewTransform: ModelViewTransform2;
 
   /**
-   * @param {BendingLightModel} bendingLightModel - main model of the simulations
-   * @param {boolean} laserHasKnob - laser image
-   * @param {Object} [providedOptions]
+   * @param bendingLightModel - main model of the simulations
+   * @param laserHasKnob - laser image
+   * @param [providedOptions]
    */
   constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, providedOptions?: BendingLightScreenViewOptions ) {
 
@@ -193,17 +193,9 @@ abstract class BendingLightScreenView extends ScreenView {
 
   /**
    * overridden for IntroScreenView to add the wave nodes
-   * @param {BendingLightModel} bendingLightModel
    */
   protected abstract addLightNodes( bendingLightModel: BendingLightModel ): void;
 
-  /**
-   * @param {Property<boolean>} showRotationDragHandlesProperty
-   * @param {Property<boolean>} showTranslationDragHandlesProperty
-   * @param {boolean}clockwiseArrowNotAtMax
-   * @param {boolean} ccwArrowNotAtMax
-   * @param {number} laserImageWidth
-   */
   protected addLaserHandles( showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
                              clockwiseArrowNotAtMax: ( n: number ) => boolean, ccwArrowNotAtMax: ( n: number ) => boolean, laserImageWidth: number ): void {
     const bendingLightModel = this.bendingLightModel;

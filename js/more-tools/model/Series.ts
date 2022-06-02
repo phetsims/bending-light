@@ -17,8 +17,8 @@ class Series {
   readonly color: Color;
 
   /**
-   * @param {Property.<[]>} seriesProperty - contains data points of series
-   * @param {Color} color - color of series
+   * @param seriesProperty - contains data points of series
+   * @param color - color of series
    */
   constructor( seriesProperty: Property<DataPoint[]>, color: Color ) {
 
@@ -31,7 +31,7 @@ class Series {
 
   /**
    * Discard early samples that have gone out of range
-   * @param {number} minTime - minimum time to be displayed on chart node
+   * @param minTime - minimum time to be displayed on chart node
    */
   keepLastSamples( minTime: number ): void {
     let startIndex = 0;

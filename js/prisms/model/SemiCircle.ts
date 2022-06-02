@@ -25,9 +25,9 @@ class SemiCircle {
   shape: Shape;
 
   /**
-   * @param {number} referencePointIndex - is used as the drag handle corner for rotation
-   * @param {array.<Vector2>} points - corner points
-   * @param {number} radius - radius of semicircle
+   * @param referencePointIndex - is used as the drag handle corner for rotation
+   * @param points - corner points
+   * @param radius - radius of semicircle
    */
   constructor( referencePointIndex: number, points: Vector2[], radius: number ) {
 
@@ -50,7 +50,7 @@ class SemiCircle {
 
   /**
    * Get the specified corner point
-   * @param {number} i - index of point
+   * @param i - index of point
    */
   getPoint( i: number ): Vector2 {
     return this.points[ i ];
@@ -58,8 +58,8 @@ class SemiCircle {
 
   /**
    * Create a new SemiCircle translated by the specified amount
-   * @param {number} deltaX - distance in x direction to be translated
-   * @param {number} deltaY - distance in y direction to be translated
+   * @param deltaX - distance in x direction to be translated
+   * @param deltaY - distance in y direction to be translated
    */
   getTranslatedInstance( deltaX: number, deltaY: number ): SemiCircle {
 
@@ -76,8 +76,8 @@ class SemiCircle {
 
   /**
    * Gets a rotated copy of this SemiCircle
-   * @param {number} angle - angle to be rotated
-   * @param {Vector2} rotationPoint - point around which semicircle to be rotated
+   * @param angle - angle to be rotated
+   * @param rotationPoint - point around which semicircle to be rotated
    */
   getRotatedInstance( angle: number, rotationPoint: Vector2 ): SemiCircle {
     const newPoints = [];
@@ -95,7 +95,6 @@ class SemiCircle {
 
   /**
    * Determines whether shape contains given point or not
-   * @param {Vector2} point
    */
   containsPoint( point: Vector2 ): boolean {
     return this.shape.containsPoint( point );
@@ -118,7 +117,7 @@ class SemiCircle {
 
   /**
    * Compute the intersections of the specified ray with this polygon's edges
-   * @param {ColoredRay} ray - model of the ray
+   * @param ray - model of the ray
    */
   getIntersections( ray: ColoredRay ): Intersection[] {
     const segment = new Line( this.points[ 0 ], this.points[ 1 ] );

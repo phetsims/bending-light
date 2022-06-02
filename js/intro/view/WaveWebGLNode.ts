@@ -22,8 +22,8 @@ class WaveWebGLNode extends WebGLNode {
   readonly rays: ObservableArray<LightRay>; // public only for access by WavePainter
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {ObservableArrayDef.<LightRay>} rays - light rays
+   * @param modelViewTransform - Transform between model and view coordinate frames
+   * @param rays - light rays
    */
   constructor( modelViewTransform: ModelViewTransform2, rays: ObservableArray<LightRay> ) {
     super( WavePainter );
@@ -44,10 +44,6 @@ class WavePainter {
   shaderProgram: ShaderProgram;
   vertexBuffer: WebGLBuffer | null;
 
-  /**
-   * @param {WebGLRenderingContext} gl
-   * @param {WaveWebGLNode} node
-   */
   constructor( gl: WebGLRenderingContext, node: WaveWebGLNode ) {
     this.gl = gl;
     this.node = node;

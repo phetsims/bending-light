@@ -27,7 +27,7 @@ class Reading {
   /**
    * A single reading for the intensity meter
    *
-   * @param {string} value - the text to be shown on the intensity meter
+   * @param value - the text to be shown on the intensity meter
    */
   constructor( value: number ) {
 
@@ -43,7 +43,7 @@ class Reading {
   }
 
   /**
-   * @param {number} value - value to be displayed on intensity meter
+   * @param value - value to be displayed on intensity meter
    */
   format( value: number ): string {
     return StringUtils.format( pattern0ValuePercentString, Utils.toFixed( value, VALUE_DECIMALS ) );

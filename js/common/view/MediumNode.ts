@@ -16,8 +16,8 @@ import Medium from '../model/Medium.js';
 class MediumNode extends Node {
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {Property.<Medium>} mediumProperty - specifies medium
+   * @param modelViewTransform - converts between model and view co-ordinates
+   * @param mediumProperty - specifies medium
    */
   constructor( modelViewTransform: ModelViewTransform2, mediumProperty: Property<Medium> ) {
     super( { pickable: false } ); // user can't interact with the medium except through control panels.

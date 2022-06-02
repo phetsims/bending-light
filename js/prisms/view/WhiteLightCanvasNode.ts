@@ -34,12 +34,12 @@ class WhiteLightCanvasNode extends CanvasNode {
   colorCSS: string | null;
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - converts between model and view co-ordinates
-   * @param {number} stageWidth - width of the dev area
-   * @param {number} stageHeight - height of the dev area
-   * @param {ObservableArrayDef} whiteLightRays - array of white light rays
-   * @param {Property.<Medium>} environmentMediumProperty
-   * @param {MediumColorFactory} mediumColorFactory - for creating colors from index of refraction
+   * @param modelViewTransform - converts between model and view co-ordinates
+   * @param stageWidth - width of the dev area
+   * @param stageHeight - height of the dev area
+   * @param whiteLightRays - array of white light rays
+   * @param environmentMediumProperty
+   * @param mediumColorFactory - for creating colors from index of refraction
    */
   constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, whiteLightRays: LightRay[],
                environmentMediumProperty: Property<Medium>, mediumColorFactory: MediumColorFactory ) {

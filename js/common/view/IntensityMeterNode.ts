@@ -39,9 +39,9 @@ class IntensityMeterNode extends Node {
   syncModelFromView: () => void;
 
   /**
-   * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
-   * @param {IntensityMeter} intensityMeter - model for the intensity meter
-   * @param {Object} [providedOptions]
+   * @param modelViewTransform - Transform between model and view coordinate frames
+   * @param intensityMeter - model for the intensity meter
+   * @param [providedOptions]
    */
   constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, providedOptions?: IntensityMeterNodeOptions ) {
 

@@ -14,8 +14,8 @@ class DataPoint {
   readonly value: number;
 
   /**
-   * @param {number} time - time of simulation
-   * @param {number} value - amplitude at particular time
+   * @param time - time of simulation
+   * @param value - amplitude at particular time
    */
   constructor( time: number, value: number ) {
 

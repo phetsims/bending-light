@@ -56,7 +56,7 @@ class VelocitySensor {
 
   /**
    * Translate the velocity sensor in model
-   * @param {Vector2} delta - amount of space to be translated
+   * @param delta - amount of space to be translated
    */
   translate( delta: Vector2 ): void {
     this.positionProperty.set( this.positionProperty.value.plus( delta ) );
