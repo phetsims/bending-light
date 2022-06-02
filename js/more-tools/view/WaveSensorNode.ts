@@ -79,8 +79,8 @@ class WaveSensorNode extends Node {
   chartNode: ChartNode;
   probe1Node: ProbeNodeWrapper;
   probe2Node: ProbeNodeWrapper;
-  wire1Node: WireNode;
-  wire2Node: WireNode;
+  private readonly wire1Node: WireNode;
+  private readonly wire2Node: WireNode;
   syncModelFromView: () => void;
 
   /**
@@ -165,7 +165,6 @@ class WaveSensorNode extends Node {
     // @ts-ignore
     const rightBottomProperty = new NodeProperty( this.bodyNode, this.bodyNode.boundsProperty, 'rightBottom' );
 
-    // @private
     this.wire1Node = new WireNode(
       new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ), bodyNormalProperty,
 

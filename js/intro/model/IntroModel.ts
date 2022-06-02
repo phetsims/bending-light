@@ -44,8 +44,8 @@ class IntroModel extends BendingLightModel {
   indexOfRefractionOfTopMediumProperty: IReadOnlyProperty<number>;
   indexOfRefractionOfBottomMediumProperty: IReadOnlyProperty<number>;
   intensityMeter: IntensityMeter;
-  tailVector: Vector2;
-  tipVector: Vector2;
+  private tailVector: Vector2;
+  private tipVector: Vector2;
 
   /**
    * @param {Substance} bottomSubstance - state of bottom medium
@@ -129,10 +129,10 @@ class IntroModel extends BendingLightModel {
 
     // Note: vectors that are used in step function are created here to reduce Vector2 allocations
     // light ray tail position
-    this.tailVector = new Vector2( 0, 0 ); // @private, for internal use only
+    this.tailVector = new Vector2( 0, 0 );
 
     // light ray tip position
-    this.tipVector = new Vector2( 0, 0 ); // @private, for internal use only
+    this.tipVector = new Vector2( 0, 0 );
 
     this.rotationArrowAngleOffset = -Math.PI / 4;
   }
@@ -271,12 +271,11 @@ class IntroModel extends BendingLightModel {
   /**
    * Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
    * If the intensity meter misses the ray, the original ray is added.
-   * @private
    * @param {LightRay} ray - model of light ray
    * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
    * @returns {boolean}
    */
-  addAndAbsorb( ray: LightRay, rayType: RayTypeEnum ): boolean {
+  private addAndAbsorb( ray: LightRay, rayType: RayTypeEnum ): boolean {
     const angleOffset = rayType === 'incident' ? Math.PI : 0;
 
     // find intersection points with the intensity sensor
@@ -421,9 +420,8 @@ class IntroModel extends BendingLightModel {
 
   /**
    * create the particles between light ray tail and and tip
-   * @private
    */
-  createInitialParticles(): void {
+  private createInitialParticles(): void {
 
     let particleColor: string;
     let particleGradientColor: string;
@@ -471,9 +469,8 @@ class IntroModel extends BendingLightModel {
 
   /**
    * Propagate the particles
-   * @private
    */
-  propagateParticles(): void {
+  private propagateParticles(): void {
 
     for ( let i = 0; i < this.rays.length; i++ ) {
       const lightRay = this.rays[ i ];

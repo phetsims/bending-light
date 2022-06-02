@@ -64,19 +64,18 @@ class WaveSensor {
     this.simulationTimeChanged();
   }
 
-  // @private - Read samples from the probes when the simulation time changes
-  simulationTimeChanged(): void {
+  // Read samples from the probes when the simulation time changes
+  private simulationTimeChanged(): void {
     this.updateProbeSample( this.probe1, this.probe1Value );
     this.updateProbeSample( this.probe2, this.probe2Value );
   }
 
   /**
    * Read the value from the probe function. May be None if not intersecting a light ray
-   * @private
    * @param {Probe} probe
    * @param {function} probeValue - function for getting data from a probe at the specified point
    */
-  updateProbeSample( probe: Probe, probeValue: ( position: Vector2 ) => { time: number; magnitude: number } | null ): void {
+  private updateProbeSample( probe: Probe, probeValue: ( position: Vector2 ) => { time: number; magnitude: number } | null ): void {
 
     // Read the value from the probe function. May be None if not intersecting a light ray
     const result = probeValue( probe.positionProperty.get() );

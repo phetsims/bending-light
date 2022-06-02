@@ -162,11 +162,7 @@ class MoreToolsScreenView extends IntroScreenView {
     return waveSensorIcon;
   }
 
-  /**
-   * @returns {VelocitySensorNode}
-   * @private
-   */
-  getVelocitySensorIcon(): VelocitySensorNode {
+  private getVelocitySensorIcon(): VelocitySensorNode {
     const moreToolsModel = this.bendingLightModel as MoreToolsModel;
     const velocitySensorToolboxScale = 1.2;
     const velocitySensorIconNode = new VelocitySensorNode(

@@ -35,7 +35,7 @@ class IntensityMeterNode extends Node {
   probeNode: ProbeNode;
   intensityMeter: IntensityMeter;
   bodyNode: Node;
-  wireNode: WireNode;
+  private wireNode: WireNode;
   syncModelFromView: () => void;
 
   /**
@@ -118,7 +118,6 @@ class IntensityMeterNode extends Node {
     // @ts-ignore
     const rightBottomProperty = new NodeProperty( this.bodyNode, this.bodyNode.boundsProperty, 'rightBottom' );
 
-    // @private
     this.wireNode = new WireNode(
       new DerivedProperty( [ rightBottomProperty ], above( 12 ) ), bodyNormalProperty,
 

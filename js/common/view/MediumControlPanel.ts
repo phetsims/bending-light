@@ -83,8 +83,8 @@ class MediumControlPanel extends Node {
       comboBoxListPosition: 'above'
     }, providedOptions ) as MediumControlPanelOptions;
 
-    this.mediumProperty = mediumProperty; // @private, the medium to observe
-    this.laserWavelengthProperty = laserWavelength; // @private
+    this.mediumProperty = mediumProperty;
+    this.laserWavelengthProperty = laserWavelength;
     const initialSubstance = mediumProperty.get().substance;
 
     // store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
@@ -393,10 +393,9 @@ class MediumControlPanel extends Node {
 
   /**
    * Update the medium
-   * @private
    * @param {Medium} medium - specifies medium
    */
-  setMedium( medium: Medium ): void {
+  private setMedium( medium: Medium ): void {
     this.mediumProperty.set( medium );
   }
 }

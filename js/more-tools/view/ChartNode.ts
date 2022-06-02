@@ -99,10 +99,9 @@ class ChartNode extends Node {
 
   /**
    * Move over the view port as time passes
-   * @private
    * @param {number} time - simulation time
    */
-  simulationTimeChanged( time: number ): void {
+  private simulationTimeChanged( time: number ): void {
 
     // Update the mapping from model to chart
     const minTime = time - this.timeWidth;
@@ -140,12 +139,11 @@ class ChartNode extends Node {
 
   /**
    * Compute the phase offset so that grid lines appear to be moving at the right speed
-   * @private
    * @param {number} verticalGridLineSpacing - space between vertical grid lines
    * @param {number} time - simulation time
    * @returns {number}
    */
-  getDelta( verticalGridLineSpacing: number, time: number ): number {
+  private getDelta( verticalGridLineSpacing: number, time: number ): number {
     const totalNumPeriods = time / verticalGridLineSpacing;
 
     // for computing the phase so we make the right number of grid lines, just keep the fractional part
@@ -154,10 +152,9 @@ class ChartNode extends Node {
 
   /**
    * Adds vertical lines to the grid
-   * @private
    * @param {number} x - x coordinate of vertical grid lines
    */
-  addVerticalLine( x: number ): void {
+  private addVerticalLine( x: number ): void {
 
     // -1 to +1 is far enough since in model coordinates
     this.gridLines.push( {

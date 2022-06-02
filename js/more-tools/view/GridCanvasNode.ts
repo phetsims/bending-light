@@ -16,9 +16,9 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 
 class GridCanvasNode extends CanvasNode {
-  modelViewTransformProperty: Property<ModelViewTransform2>;
-  strokeDash: number[];
-  gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>;
+  private readonly modelViewTransformProperty: Property<ModelViewTransform2>;
+  private readonly strokeDash: number[];
+  private readonly gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>;
 
   /**
    * @param {ObservableArrayDef.<[]>} gridLines - contains details of each grid line
@@ -30,9 +30,9 @@ class GridCanvasNode extends CanvasNode {
                modelViewTransformProperty: Property<ModelViewTransform2>, strokeDash: number[], providedOptions?: NodeOptions ) {
 
     super( providedOptions );
-    this.gridLines = gridLines; // @private
-    this.modelViewTransformProperty = modelViewTransformProperty; // @private
-    this.strokeDash = strokeDash; // @private
+    this.gridLines = gridLines;
+    this.modelViewTransformProperty = modelViewTransformProperty;
+    this.strokeDash = strokeDash;
   }
 
   /**

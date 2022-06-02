@@ -17,9 +17,9 @@ import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 
 class SemiCircle {
-  points: Vector2[];
-  referencePointIndex: number;
-  radius: number;
+  private readonly points: Vector2[];
+  private readonly referencePointIndex: number;
+  private readonly radius: number;
   center: Vector2;
   centroid: Vector2;
   shape: Shape;
@@ -31,11 +31,11 @@ class SemiCircle {
    */
   constructor( referencePointIndex: number, points: Vector2[], radius: number ) {
 
-    this.points = points; // @private
+    this.points = points;
 
     // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
-    this.referencePointIndex = referencePointIndex; // @private
-    this.radius = radius; // @private
+    this.referencePointIndex = referencePointIndex;
+    this.radius = radius;
     this.center = this.points[ 0 ].plus( this.points[ 1 ] ).multiplyScalar( 0.5 ); // (read-only)
     this.centroid = this.center;
 

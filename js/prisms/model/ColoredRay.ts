@@ -29,7 +29,6 @@ class ColoredRay {
 
     assert && assert( !isNaN( ray.direction.magnitude ), 'direction unit vector should have a numeric magnitude' );
 
-    // @private, read only.
     this.ray = ray;
 
     // Power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction

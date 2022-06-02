@@ -14,9 +14,9 @@ import DataPoint from '../model/DataPoint.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
 class SeriesCanvasNode extends CanvasNode {
-  seriesProperty: Property<DataPoint[]>;
-  modelViewTransformProperty: Property<ModelViewTransform2>;
-  color: string;
+  private readonly seriesProperty: Property<DataPoint[]>;
+  private readonly modelViewTransformProperty: Property<ModelViewTransform2>;
+  private readonly color: string;
 
   /**
    * @param {Property.<[]>} seriesProperty - contains data points of series
@@ -29,9 +29,9 @@ class SeriesCanvasNode extends CanvasNode {
                color: string, providedOptions?: NodeOptions ) {
 
     super( providedOptions );
-    this.seriesProperty = seriesProperty; // @private
-    this.modelViewTransformProperty = modelViewTransformProperty; // @private
-    this.color = color; // @private
+    this.seriesProperty = seriesProperty;
+    this.modelViewTransformProperty = modelViewTransformProperty;
+    this.color = color;
   }
 
   /**

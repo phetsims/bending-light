@@ -46,7 +46,6 @@ class Prism {
     this.positionProperty.value = this.positionProperty.value.plusXY( deltaX, deltaY );
   }
 
-  // @private
   getTranslatedShape(): Polygon | BendingLightCircle | SemiCircle {
     return this.shapeProperty.value.getTranslatedInstance( this.positionProperty.value.x, this.positionProperty.value.y );
   }

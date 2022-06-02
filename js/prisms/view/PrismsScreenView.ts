@@ -275,9 +275,6 @@ class PrismsScreenView extends BendingLightScreenView {
     this.updateWhiteLightNode();
   }
 
-  /**
-   * @private, for internal use only.
-   */
   private updateWhiteLightNode(): void {
     if ( this.prismsModel.laser.colorModeProperty.value === ColorModeEnum.WHITE && this.prismsModel.dirty ) {
       this.whiteLightNode && this.whiteLightNode.step();

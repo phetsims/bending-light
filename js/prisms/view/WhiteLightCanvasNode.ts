@@ -28,8 +28,8 @@ import Medium from '../../common/model/Medium.js';
 import MediumColorFactory from '../../common/model/MediumColorFactory.js';
 
 class WhiteLightCanvasNode extends CanvasNode {
-  modelViewTransform: ModelViewTransform2;
-  whiteLightRays: LightRay[];
+  private readonly modelViewTransform: ModelViewTransform2;
+  private readonly whiteLightRays: LightRay[];
   environmentMediumProperty: Property<Medium>;
   colorCSS: string | null;
 
@@ -49,8 +49,8 @@ class WhiteLightCanvasNode extends CanvasNode {
     } );
     this.colorCSS = null;
     this.invalidatePaint();
-    this.modelViewTransform = modelViewTransform; // @private
-    this.whiteLightRays = whiteLightRays; // @private
+    this.modelViewTransform = modelViewTransform;
+    this.whiteLightRays = whiteLightRays;
     this.environmentMediumProperty = environmentMediumProperty;
     const update = () => {
       const a = environmentMediumProperty.value.substance.indexOfRefractionForRedLight;

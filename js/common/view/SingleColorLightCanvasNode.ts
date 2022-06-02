@@ -31,7 +31,7 @@ class SingleColorLightCanvasNode extends CanvasNode {
     super( {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
     } );
-    this.modelViewTransform = modelViewTransform; // @private
+    this.modelViewTransform = modelViewTransform;
 
     this.rays = rays;
     this.invalidatePaint();

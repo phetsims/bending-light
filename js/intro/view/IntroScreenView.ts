@@ -53,7 +53,7 @@ type IntroScreenViewOptions = {} & BendingLightScreenViewOptions;
 
 class IntroScreenView extends BendingLightScreenView {
   introModel: IntroModel;
-  stepEmitter: Emitter<[]>;
+  private stepEmitter: Emitter<[]>;
   protected topMediumControlPanel: MediumControlPanel;
   protected bottomMediumControlPanel: MediumControlPanel;
   dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
@@ -124,7 +124,6 @@ class IntroScreenView extends BendingLightScreenView {
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.topMediumProperty ) );
     this.mediumNode.addChild( new MediumNode( this.modelViewTransform, introModel.bottomMediumProperty ) );
 
-    // @private {Emitter}
     this.stepEmitter = new Emitter<[]>();
 
     // add control panels for setting the index of refraction for each medium
@@ -486,9 +485,8 @@ class IntroScreenView extends BendingLightScreenView {
   /**
    * Add light representations which are specific to this view.  In this case it is the wave representation.
    * @param {BendingLightModel} bendingLightModel
-   * @private
    */
-  addLightNodes( bendingLightModel: BendingLightModel ): void {
+  protected override addLightNodes( bendingLightModel: BendingLightModel ): void {
 
     this.addChild( this.incidentWaveLayer );
 

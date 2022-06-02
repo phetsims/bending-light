@@ -187,12 +187,11 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * Determines whether white light or single color light
-   * @private
    * @param {Ray2} ray - tail and direction for light
    * @param {number} power - amount of power this light has
    * @param {boolean} laserInPrism - specifies whether laser in prism
    */
-  propagate( ray: Ray2, power: number, laserInPrism: boolean ): void {
+  private propagate( ray: Ray2, power: number, laserInPrism: boolean ): void {
 
     // Determines whether to use white light or single color light
     let mediumIndexOfRefraction;
@@ -266,13 +265,12 @@ class PrismsModel extends BendingLightModel {
   /**
    * Recursive algorithm to compute the pattern of rays in the system. This is the main computation of this model,
    * rays are cleared beforehand and this algorithm adds them as it goes
-   * @private
    * @param {ColoredRay} incidentRay - model of the ray
    * @param {number} count - number of rays
    * @param {boolean} showIntersection - true if the intersection should be shown.  True for single rays and for
    *                                     extrema of white light wavelengths
    */
-  propagateTheRay( incidentRay: ColoredRay, count: number, showIntersection: boolean ): void {
+  private propagateTheRay( incidentRay: ColoredRay, count: number, showIntersection: boolean ): void {
     let rayColor;
     let rayVisibleColor;
     const waveWidth = CHARACTERISTIC_LENGTH * 5;
@@ -410,12 +408,11 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * Find the nearest intersection between a light ray and the set of prisms in the play area
-   * @private
    * @param {ColoredRay} incidentRay - model of the ray
    * @param {ObservableArrayDef.<Prism>} prisms
    * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
    */
-  getIntersection( incidentRay: ColoredRay, prisms: Prism[] ): Intersection | null {
+  private getIntersection( incidentRay: ColoredRay, prisms: Prism[] ): Intersection | null {
     let allIntersections: Intersection[] = [];
     prisms.forEach( prism => {
       prism.getIntersections( incidentRay ).forEach( ( intersection: Intersection ) => allIntersections.push( intersection ) );

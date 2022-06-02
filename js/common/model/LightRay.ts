@@ -195,9 +195,8 @@ class LightRay {
    * @param {number} distance
    * @param {string} rayType
    * @returns {Ray2}
-   * @private
    */
-  createParallelRay( distance: number, rayType: string ): Ray2 {
+  private createParallelRay( distance: number, rayType: string ): Ray2 {
     const perpendicular = Vector2.createPolar( distance, this.getAngle() + Math.PI / 2 );
     const t = rayType === 'incident' ? this.tip : this.tail;
     const tail = t.plus( perpendicular );

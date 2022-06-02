@@ -19,7 +19,7 @@ const scratchFloatArray2 = new Float32Array( 9 );
 
 class WaveWebGLNode extends WebGLNode {
   readonly modelViewTransform: ModelViewTransform2;
-  readonly rays: ObservableArray<LightRay>;
+  readonly rays: ObservableArray<LightRay>; // public only for access by WavePainter
 
   /**
    * @param {ModelViewTransform2} modelViewTransform - Transform between model and view coordinate frames
@@ -27,8 +27,8 @@ class WaveWebGLNode extends WebGLNode {
    */
   constructor( modelViewTransform: ModelViewTransform2, rays: ObservableArray<LightRay> ) {
     super( WavePainter );
-    this.modelViewTransform = modelViewTransform; // (read-only)
-    this.rays = rays; // @private
+    this.modelViewTransform = modelViewTransform;
+    this.rays = rays;
   }
 
   /**

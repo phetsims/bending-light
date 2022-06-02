@@ -29,11 +29,11 @@ class Polygon {
    */
   constructor( referencePointIndex: number, points: Vector2[], radius: number ) {
 
-    this.points = points; // @private
+    this.points = points;
 
     // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
-    this.referencePointIndex = referencePointIndex; // @private
-    this.radius = radius; // @private
+    this.referencePointIndex = referencePointIndex;
+    this.radius = radius;
 
     // (read-only), Centroid of the shape
     this.centroid = this.getCentroid( this.points );
@@ -160,11 +160,10 @@ class Polygon {
   /**
    * Computes the area of a polygon using the algorithm described at http://www.mathopenref.com/coordpolygonarea2.html
    * Used to compute the centroid for a lens so it can be rotated about its center.
-   * @private
    * @param {Array.<Vector2>} p - array of corner points
    * @returns {number}
    */
-  getArea( p: Vector2[] ): number {
+  private getArea( p: Vector2[] ): number {
     let a = 0;
     for ( let i = 0; i < p.length; i++ ) {
       const j = ( i + 1 ) % p.length;
@@ -191,10 +190,8 @@ class Polygon {
 
   /**
    * List all bounding edges in the polygon
-   * @private
-   * @returns {Array}
    */
-  getEdges(): Line[] {
+  private getEdges(): Line[] {
     const lineSegments = [];
     for ( let i = 0; i < this.points.length - 1; i++ ) {
       lineSegments.push( new Line( this.points[ i ], this.points[ i + 1 ] ) );

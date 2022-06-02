@@ -32,7 +32,7 @@ const velocityPatternString = bendingLightStrings.velocityPattern;
 class VelocitySensorNode extends Node {
   modelViewTransform: ModelViewTransform2;
   velocitySensor: VelocitySensor;
-  bodyNode: Node;
+  private readonly bodyNode: Node;
   arrowShape: Path;
 
   /**
@@ -53,7 +53,7 @@ class VelocitySensorNode extends Node {
 
     const rectangleWidth = 54;
     const rectangleHeight = 37;
-    this.bodyNode = new Node(); // @private
+    this.bodyNode = new Node();
 
     const triangleHeight = 15;
     const triangleWidth = 8;
