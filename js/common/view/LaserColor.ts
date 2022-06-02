@@ -23,7 +23,6 @@ class LaserColor {
 
   /**
    * Determine the color of the light.
-   * @returns {Color}
    */
   getColor(): Color {
     return VisibleColor.wavelengthToColor( this.wavelength * 1E9 ); // convert to nanometers

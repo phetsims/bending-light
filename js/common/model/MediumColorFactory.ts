@@ -26,7 +26,6 @@ class MediumColorFactory {
     /**
      * Maps index of refraction to color using linear functions
      * @param {number} indexForRed
-     * @returns {Color}
      */
     this.getColorAgainstWhite = createProfile(
       new Color( 255, 255, 255 ),
@@ -45,7 +44,6 @@ class MediumColorFactory {
 
   /**
    * @param {number} indexForRed
-   * @returns {Color}
    */
   getColor( indexForRed: number ): Color {
     return this.lightTypeProperty.value === ColorModeEnum.SINGLE_COLOR ?
@@ -57,7 +55,6 @@ class MediumColorFactory {
 /**
  * Make sure light doesn't go outside of the 0..255 bounds
  * @param {number} value
- * @returns {number}
  */
 const clamp = ( value: number ) => Utils.clamp( value, 0, 255 );
 
@@ -66,7 +63,6 @@ const clamp = ( value: number ) => Utils.clamp( value, 0, 255 );
  * @param {Color} a
  * @param {Color} b
  * @param {number} ratio
- * @returns {Color}
  */
 const colorBlend = ( a: Color, b: Color, ratio: number ): Color => {
   const reduction = ( 1 - ratio );

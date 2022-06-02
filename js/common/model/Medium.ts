@@ -37,7 +37,6 @@ class Medium {
   /**
    * Determines the index of refraction of medium
    * @param {number} wavelength - wavelength of the medium
-   * @returns {number}
    */
   getIndexOfRefraction( wavelength: number ): number {
     return this.substance.dispersionFunction.getIndexOfRefraction( wavelength );
@@ -45,7 +44,6 @@ class Medium {
 
   /**
    * Determines whether the medium is mystery or not
-   * @returns {boolean}
    */
   isMystery(): boolean {
     return this.substance.mystery;

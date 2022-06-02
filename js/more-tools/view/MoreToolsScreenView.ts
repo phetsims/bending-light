@@ -70,9 +70,6 @@ class MoreToolsScreenView extends IntroScreenView {
       } );
   }
 
-  /**
-   * @returns {WaveSensorNode}
-   */
   getWaveSensorIcon(): WaveSensorNode {
     const modelViewTransform = this.modelViewTransform;
 
@@ -224,9 +221,6 @@ class MoreToolsScreenView extends IntroScreenView {
     return velocitySensorIconNode;
   }
 
-  /**
-   * @returns {Node[]}
-   */
   protected override getAdditionalToolIcons(): ( WaveSensorNode | VelocitySensorNode )[] {
     return [
       this.getVelocitySensorIcon(),

@@ -273,7 +273,6 @@ class IntroModel extends BendingLightModel {
    * If the intensity meter misses the ray, the original ray is added.
    * @param {LightRay} ray - model of light ray
    * @param {string} rayType - 'incident', 'transmitted' or 'reflected'
-   * @returns {boolean}
    */
   private addAndAbsorb( ray: LightRay, rayType: RayTypeEnum ): boolean {
     const angleOffset = rayType === 'incident' ? Math.PI : 0;
@@ -352,7 +351,6 @@ class IntroModel extends BendingLightModel {
   /**
    * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
    * @param {Vector2} position - position where the velocity to be determined
-   * @returns {Vector2}
    */
   getVelocity( position: Vector2 ): Vector2 {
     const laserView = this.laserViewProperty.value;
@@ -366,8 +364,8 @@ class IntroModel extends BendingLightModel {
 
   /**
    * Determine the wave value of the topmost light ray at the specified position, or None if none exists
-   * @param {Vector2} position - position where the wave value to be determined
-   * @returns {Object|null}- returns object of time and magnitude if point is on ray otherwise returns null
+   * @param position - position where the wave value to be determined
+   * @returns - returns object of time and magnitude if point is on ray otherwise returns null
    */
   getWaveValue( position: Vector2 ): { time: number; magnitude: number } | null {
     for ( let i = 0; i < this.rays.length; i++ ) {

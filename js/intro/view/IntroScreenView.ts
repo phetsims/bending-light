@@ -80,7 +80,6 @@ class IntroScreenView extends BendingLightScreenView {
       /**
        * Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
        * @param {number} angle
-       * @returns {number}
        */
       clampDragAngle: ( angle: number ) => {
         while ( angle < 0 ) { angle += Math.PI * 2; }
@@ -89,7 +88,6 @@ class IntroScreenView extends BendingLightScreenView {
       /**
        * Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
        * @param {number} laserAngle
-       * @returns {boolean}
        */
       clockwiseArrowNotAtMax: ( laserAngle: number ) => {
         if ( introModel.laserViewProperty.value === LaserViewEnum.RAY ) {
@@ -102,7 +100,6 @@ class IntroScreenView extends BendingLightScreenView {
       /**
        * indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
        * @param {number} laserAngle
-       * @returns {boolean}
        */
       ccwArrowNotAtMax: ( laserAngle: number ) => laserAngle > Math.PI / 2
     }, providedOptions );
@@ -452,7 +449,6 @@ class IntroScreenView extends BendingLightScreenView {
 
   /**
    * Allow subclasses to provide more tools
-   * @returns {Node[]}
    */
   protected getAdditionalToolIcons(): Node[] {
     return [];

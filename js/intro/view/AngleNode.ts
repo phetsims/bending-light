@@ -117,7 +117,6 @@ class AngleNode extends Node {
     /**
      * Select the ray of the given type 'incident' | 'reflected', or null if there isn't one of that type
      * @param type
-     * @returns {LightRay}
      */
     const getRay = ( type: RayTypeEnum | null ) => {
       let selected = null;

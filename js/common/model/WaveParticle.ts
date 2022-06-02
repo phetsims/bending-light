@@ -38,7 +38,6 @@ class WaveParticle {
 
   /**
    * get particle x position
-   * @returns {number}
    */
   getX(): number {
     return this.position.x;
@@ -46,7 +45,6 @@ class WaveParticle {
 
   /**
    * get particle Y position
-   * @returns {number}
    */
   getY(): number {
     return this.position.y;

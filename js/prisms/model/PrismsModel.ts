@@ -116,7 +116,6 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * List of prism prototypes that can be created in the sim
-   * @returns {Array}
    */
   getPrismPrototypes(): Prism[] {
     const prismsTypes = [];
@@ -250,7 +249,6 @@ class PrismsModel extends BendingLightModel {
   /**
    * Determine if the laser beam originates within a prism for purpose of determining what index of refraction to use
    * initially
-   * @returns {boolean}
    */
   isLaserInPrism(): boolean {
     const emissionPoint = this.laser.emissionPointProperty.value;
@@ -408,9 +406,9 @@ class PrismsModel extends BendingLightModel {
 
   /**
    * Find the nearest intersection between a light ray and the set of prisms in the play area
-   * @param {ColoredRay} incidentRay - model of the ray
-   * @param {ObservableArrayDef.<Prism>} prisms
-   * @returns {Intersection|null} - returns the intersection if one was found or null if no intersections
+   * @param incidentRay - model of the ray
+   * @param prisms
+   * @returns - returns the intersection if one was found or null if no intersections
    */
   private getIntersection( incidentRay: ColoredRay, prisms: Prism[] ): Intersection | null {
     let allIntersections: Intersection[] = [];

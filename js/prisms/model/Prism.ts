@@ -53,7 +53,6 @@ class Prism {
   /**
    * Compute the intersections of the specified ray with this polygon's edges
    * @param {ColoredRay} incidentRay - model of the ray
-   * @returns {Array}
    */
   getIntersections( incidentRay: ColoredRay ): Intersection[] {
     return this.getTranslatedShape().getIntersections( incidentRay );
@@ -62,7 +61,6 @@ class Prism {
   /**
    * Determines whether shape contains given point or not
    * @param {Vector2} point
-   * @returns {boolean}
    */
   contains( point: Vector2 ): boolean {
     return this.getTranslatedShape().containsPoint( point );
@@ -70,7 +68,6 @@ class Prism {
 
   /**
    * Creates a copy of the prism
-   * @returns {Prism}
    */
   copy(): Prism {
     return new Prism( this.shapeProperty.get(), this.typeName );

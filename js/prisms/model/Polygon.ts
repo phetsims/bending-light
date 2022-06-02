@@ -65,7 +65,6 @@ class Polygon {
   /**
    * Get the specified corner point
    * @param {number} i - index of point
-   * @returns {Vector2}
    */
   getPoint( i: number ): Vector2 {
     return this.points[ i ];
@@ -75,7 +74,6 @@ class Polygon {
    * Create a new Polygon translated by the specified amount
    * @param {number} deltaX - distance in x direction to be translated
    * @param {number} deltaY - distance in y direction to be translated
-   * @returns {Polygon}
    */
   getTranslatedInstance( deltaX: number, deltaY: number ): Polygon {
 
@@ -94,7 +92,6 @@ class Polygon {
    * Gets a rotated copy of this polygon
    * @param {number} angle - angle to be rotated
    * @param {Vector2} rotationPoint - point around which polygon to be rotated
-   * @returns {Polygon}
    */
   getRotatedInstance( angle: number, rotationPoint: Vector2 ): Polygon {
     const newPoints = [];
@@ -113,7 +110,6 @@ class Polygon {
   /**
    * Determines whether shape contains given point or not
    * @param {Vector2} point
-   * @returns {boolean}
    */
   containsPoint( point: Vector2 ): boolean {
     return this.shape.containsPoint( point );
@@ -121,7 +117,6 @@ class Polygon {
 
   /**
    * Just use the 0th point for the reference point for rotation drag handles
-   * @returns {Vector2}
    */
   getReferencePoint(): Vector2 {
     return this.getPoint( this.referencePointIndex );
@@ -130,7 +125,6 @@ class Polygon {
   /**
    * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
    * "mass")
-   * @returns {Vector2}
    */
   getRotationCenter(): Vector2 {
     return this.centroid;
@@ -139,7 +133,6 @@ class Polygon {
   /**
    * Centroid of the polygon
    * @param {array.<Vector2>} p - array of corner points
-   * @returns {Vector2}
    */
   getCentroid( p: Vector2[] ): Vector2 {
     let cx = 0;
@@ -161,7 +154,6 @@ class Polygon {
    * Computes the area of a polygon using the algorithm described at http://www.mathopenref.com/coordpolygonarea2.html
    * Used to compute the centroid for a lens so it can be rotated about its center.
    * @param {Array.<Vector2>} p - array of corner points
-   * @returns {number}
    */
   private getArea( p: Vector2[] ): number {
     let a = 0;
@@ -177,7 +169,6 @@ class Polygon {
   /**
    * Compute the intersections of the specified ray with this polygon's edges
    * @param {ColoredRay} ray - model of the ray
-   * @returns {Array}
    */
   getIntersections( ray: ColoredRay ): Intersection[] {
     let arc = null;

@@ -141,7 +141,6 @@ class ChartNode extends Node {
    * Compute the phase offset so that grid lines appear to be moving at the right speed
    * @param {number} verticalGridLineSpacing - space between vertical grid lines
    * @param {number} time - simulation time
-   * @returns {number}
    */
   private getDelta( verticalGridLineSpacing: number, time: number ): number {
     const totalNumPeriods = time / verticalGridLineSpacing;

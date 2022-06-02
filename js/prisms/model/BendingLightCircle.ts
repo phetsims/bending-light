@@ -36,7 +36,6 @@ class BendingLightCircle {
    * Create a new Circle translated by the specified amount
    * @param {number} deltaX - amount of space to be translate in x direction
    * @param {number} deltaY - amount of space to be translate in y direction
-   * @returns {BendingLightCircle}
    */
   getTranslatedInstance( deltaX: number, deltaY: number ): BendingLightCircle {
     return new BendingLightCircle( this.center.plusXY( deltaX, deltaY ), this.radius );
@@ -49,7 +48,6 @@ class BendingLightCircle {
   /**
    * Finds the intersections between the edges of the circle and the specified ray
    * @param {ColoredRay} ray - model of the ray
-   * @returns {Array}
    */
   getIntersections( ray: ColoredRay ): Intersection[] {
     return PrismIntersection.getIntersections( [], this.shape, this.center, ray );
@@ -57,7 +55,6 @@ class BendingLightCircle {
 
   /**
    * Computes the centroid of the corner points
-   * @returns {Vector2}
    */
   getRotationCenter(): Vector2 {
     return this.center;
@@ -65,7 +62,6 @@ class BendingLightCircle {
 
   /**
    * Signify that the circle can't be rotated
-   * @returns {null}
    */
   getReferencePoint(): null {
     return null;
@@ -74,7 +70,6 @@ class BendingLightCircle {
   /**
    * Determines whether shape contains given point or not
    * @param {Vector2} point
-   * @returns {boolean}
    */
   containsPoint( point: Vector2 ): boolean {
     return point.distance( this.center ) <= this.radius;

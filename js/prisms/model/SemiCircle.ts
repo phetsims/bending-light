@@ -51,7 +51,6 @@ class SemiCircle {
   /**
    * Get the specified corner point
    * @param {number} i - index of point
-   * @returns {Vector2}
    */
   getPoint( i: number ): Vector2 {
     return this.points[ i ];
@@ -61,7 +60,6 @@ class SemiCircle {
    * Create a new SemiCircle translated by the specified amount
    * @param {number} deltaX - distance in x direction to be translated
    * @param {number} deltaY - distance in y direction to be translated
-   * @returns {SemiCircle}
    */
   getTranslatedInstance( deltaX: number, deltaY: number ): SemiCircle {
 
@@ -80,7 +78,6 @@ class SemiCircle {
    * Gets a rotated copy of this SemiCircle
    * @param {number} angle - angle to be rotated
    * @param {Vector2} rotationPoint - point around which semicircle to be rotated
-   * @returns {SemiCircle}
    */
   getRotatedInstance( angle: number, rotationPoint: Vector2 ): SemiCircle {
     const newPoints = [];
@@ -99,7 +96,6 @@ class SemiCircle {
   /**
    * Determines whether shape contains given point or not
    * @param {Vector2} point
-   * @returns {boolean}
    */
   containsPoint( point: Vector2 ): boolean {
     return this.shape.containsPoint( point );
@@ -107,7 +103,6 @@ class SemiCircle {
 
   /**
    * Just use the 0th point for the reference point for rotation drag handles
-   * @returns {Vector2}
    */
   getReferencePoint(): Vector2 {
     return this.getPoint( this.referencePointIndex );
@@ -116,7 +111,6 @@ class SemiCircle {
   /**
    * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
    * "mass")
-   * @returns {Vector2}
    */
   getRotationCenter(): Vector2 {
     return this.center;
@@ -125,7 +119,6 @@ class SemiCircle {
   /**
    * Compute the intersections of the specified ray with this polygon's edges
    * @param {ColoredRay} ray - model of the ray
-   * @returns {array.<Intersection>}
    */
   getIntersections( ray: ColoredRay ): Intersection[] {
     const segment = new Line( this.points[ 0 ], this.points[ 1 ] );
