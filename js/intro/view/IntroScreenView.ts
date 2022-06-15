@@ -49,7 +49,7 @@ const normalLineString = bendingLightStrings.normalLine;
 // constants
 const INSET = 10;
 
-type IntroScreenViewOptions = {} & BendingLightScreenViewOptions;
+type IntroScreenViewOptions = BendingLightScreenViewOptions;
 
 class IntroScreenView extends BendingLightScreenView {
   introModel: IntroModel;

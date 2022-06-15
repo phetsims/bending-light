@@ -39,7 +39,7 @@ const INSET = 10;
 
 const environmentString = bendingLightStrings.environment;
 
-type PrismsScreenViewOptions = {} & BendingLightScreenViewOptions;
+type PrismsScreenViewOptions = BendingLightScreenViewOptions;
 
 class PrismsScreenView extends BendingLightScreenView {
   prismLayer: Node;

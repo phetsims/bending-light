@@ -31,7 +31,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 // constants
 const arrowScale = 1.5E-14;
 
-type MoreToolsScreenViewOptions = {} & IntroScreenViewOptions;
+type MoreToolsScreenViewOptions = IntroScreenViewOptions;
 
 class MoreToolsScreenView extends IntroScreenView {
   moreToolsModel: MoreToolsModel;

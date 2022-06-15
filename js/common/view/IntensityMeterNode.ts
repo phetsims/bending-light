@@ -28,7 +28,7 @@ const NORMAL_DISTANCE = 25;
 const bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 ) );
 const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
-type IntensityMeterNodeOptions = {} & NodeOptions;
+type IntensityMeterNodeOptions = NodeOptions;
 
 class IntensityMeterNode extends Node {
   modelViewTransform: ModelViewTransform2;
