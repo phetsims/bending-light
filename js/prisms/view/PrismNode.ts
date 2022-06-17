@@ -78,7 +78,7 @@ class PrismNode extends Node {
         },
 
         // A Prism cannot be put back into the toolbox by rotating it.
-        end: () => {}
+        end: _.noop
       } ) );
       knobNode.touchArea = Shape.circle( 0, 10, 40 );
     }

@@ -57,7 +57,7 @@ abstract class BendingLightScreenView extends ScreenView {
   constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, providedOptions?: BendingLightScreenViewOptions ) {
 
     const options = optionize<BendingLightScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-      occlusionHandler: ( n: Node ) => {}, // {function} moves objects out from behind a control panel if dropped there
+      occlusionHandler: _.noop, // {function} moves objects out from behind a control panel if dropped there
       ccwArrowNotAtMax: () => true, // {function} shows whether laser at min angle
       clockwiseArrowNotAtMax: () => true, // {function} shows whether laser at max angle, In prisms tab
       // laser node can rotate 360 degrees.so arrows showing all the times when laser node rotate
