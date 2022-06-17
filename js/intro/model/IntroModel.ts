@@ -402,7 +402,7 @@ class IntroModel extends BendingLightModel {
   /**
    * Update simulation time and wave propagation.
    */
-  updateSimulationTimeAndWaveShape( speed: any ): void {
+  updateSimulationTimeAndWaveShape( speed: TimeSpeed ): void {
 
     // Update the time
     this.time = this.time + ( speed === TimeSpeed.NORMAL ? 1E-16 : 0.5E-16 );

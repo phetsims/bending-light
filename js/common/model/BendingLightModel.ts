@@ -35,7 +35,7 @@ abstract class BendingLightModel {
   readonly allowWebGL: boolean;
   readonly laserViewProperty: Property<LaserViewEnum>;
   readonly wavelengthProperty: Property<number>;
-  readonly speedProperty: Property<any>;
+  readonly speedProperty: EnumerationProperty<TimeSpeed>;
   private readonly indexOfRefractionProperty: Property<number>;
   readonly showNormalProperty: Property<boolean>;
   readonly isPlayingProperty: Property<boolean>;
