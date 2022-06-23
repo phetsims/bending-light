@@ -183,21 +183,9 @@ class PrismToolboxNode extends Node {
     };
 
     // add checkboxes for reflections, normal and protractor
-    const showReflectionsCheckbox = new Checkbox(
-      createItem( showReflections ),
-      prismsModel.showReflectionsProperty,
-      checkboxOptions
-    );
-    const showNormalCheckbox = new Checkbox(
-      createItem( showNormal ),
-      prismsModel.showNormalsProperty,
-      checkboxOptions
-    );
-    const showProtractorCheckbox = new Checkbox(
-      createItem( showProtractor ),
-      prismsModel.showProtractorProperty,
-      checkboxOptions
-    );
+    const showReflectionsCheckbox = new Checkbox( prismsModel.showReflectionsProperty, createItem( showReflections ), checkboxOptions );
+    const showNormalCheckbox = new Checkbox( prismsModel.showNormalsProperty, createItem( showNormal ), checkboxOptions );
+    const showProtractorCheckbox = new Checkbox( prismsModel.showProtractorProperty, createItem( showProtractor ), checkboxOptions );
 
     // @ts-ignore
     const maxCheckboxWidth = _.maxBy( [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ],

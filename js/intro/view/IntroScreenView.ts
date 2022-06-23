@@ -217,22 +217,22 @@ class IntroScreenView extends BendingLightScreenView {
 
     // add normal checkbox
     const normalIcon = new NormalLine( 17, [ 4, 3 ] );
-    const normalCheckbox = new Checkbox( new HBox( {
+    const normalCheckbox = new Checkbox( introModel.showNormalProperty, new HBox( {
       children: [
         normalText, normalIcon
       ], spacing: 12
-    } ), introModel.showNormalProperty, {
+    } ), {
       boxWidth: 15,
       spacing: 5
     } );
 
     // add angle checkbox
     const angleIcon = new AngleIcon();
-    const angleCheckbox = new Checkbox( new HBox( {
+    const angleCheckbox = new Checkbox( introModel.showAnglesProperty, new HBox( {
       children: [
         angleText, angleIcon
       ], spacing: 12
-    } ), introModel.showAnglesProperty, {
+    } ), {
       boxWidth: 15,
       spacing: 5
     } );
