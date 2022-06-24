@@ -160,7 +160,7 @@ class MediumControlPanel extends Node {
     }
     // add a combo box
     // @ts-ignore
-    const materialComboBox = new ComboBox( items, comboBoxSubstanceProperty, view, {
+    const materialComboBox = new ComboBox( comboBoxSubstanceProperty, items, view, {
       labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
       xMargin: 7,
