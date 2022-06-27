@@ -20,7 +20,6 @@ import { Rectangle } from '../../../../scenery/js/imports.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import ComboBox, { ComboBoxListPosition } from '../../../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLightStrings from '../../bendingLightStrings.js';
@@ -115,9 +114,9 @@ class MediumControlPanel extends Node {
       if ( itemName.width > comboBoxTextWidth ) {
         itemName.scale( comboBoxTextWidth / itemName.width );
       }
-
-      return new ComboBoxItem( itemName, item );
+      return { value: item, node: itemName };
     };
+
     // states to choose from (and indicate) in the combo box
     const substances = [
       Substance.AIR,
