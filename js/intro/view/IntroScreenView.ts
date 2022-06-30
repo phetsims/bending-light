@@ -257,7 +257,8 @@ class IntroScreenView extends BendingLightScreenView {
       protractorNodeIcon.visible = !showProtractor;
     } );
 
-    const protractorNode = new ProtractorNode( this.showProtractorProperty, {
+    const protractorNode = new ProtractorNode( {
+      visibleProperty: this.showProtractorProperty,
       scale: 0.8
     } );
     const protractorPosition = new Vector2( protractorNode.centerX, protractorNode.centerY );
