@@ -34,37 +34,36 @@ const makeFinite = ( vector: Vector2 ) => {
 };
 
 class LightRay {
-  readonly extendBackwards: boolean;
-  readonly color: Color;
-  readonly waveWidth: number;
-  readonly trapeziumWidth: number;
+  public readonly extendBackwards: boolean;
+  public readonly color: Color;
+  public readonly waveWidth: number;
+  public readonly trapeziumWidth: number;
 
   // Directionality is important for propagation
-  readonly tip: Vector2;
-  readonly tail: Vector2;
+  public readonly tip: Vector2;
+  public readonly tail: Vector2;
 
-  indexOfRefraction: number;
-  wavelength: number;
-  wavelengthInVacuum: number;
-  powerFraction: number;
-  numWavelengthsPhaseOffset: number;
-  extend: boolean;
+  public readonly indexOfRefraction: number;
+  public readonly wavelength: number;
+  public readonly wavelengthInVacuum: number;
+  public readonly powerFraction: number;
+  public readonly numWavelengthsPhaseOffset: number;
+  private readonly extend: boolean;
 
   // for internal use only. Clients should use toVector()
-  private unitVector: Vector2 = new Vector2( 0, 0 );
-  private vectorForm: Vector2 = new Vector2( 0, 0 );
+  private readonly unitVector: Vector2 = new Vector2( 0, 0 );
+  private readonly vectorForm: Vector2 = new Vector2( 0, 0 );
 
   // wave particles
-  particles: ObservableArray<WaveParticle> = createObservableArray();
+  public readonly particles: ObservableArray<WaveParticle> = createObservableArray();
 
   // time used in wave sensor node
-  time = 0;
-  rayType: string;
+  public time = 0;
+  public readonly rayType: string;
 
-
-  waveShape: Shape | null = null;
-  clipRegionCorners: Vector2[] | null = null;
-  static RAY_WIDTH: number;
+  public readonly waveShape: Shape | null = null;
+  public readonly clipRegionCorners: Vector2[] | null = null;
+  public static readonly RAY_WIDTH = 1.5992063492063494E-7;
 
   /**
    * @param trapeziumWidth - width of wave at intersection of mediums
@@ -82,7 +81,7 @@ class LightRay {
    * @param laserView - specifies the laser view whether ray or wave mode
    * @param rayType - for the intro model, 'incident' | 'reflected' | 'transmitted' | 'prism'
    */
-  constructor( trapeziumWidth: number, tail: Vector2, tip: Vector2, indexOfRefraction: number, wavelength: number, wavelengthInVacuum: number, powerFraction: number, color: Color,
+  public constructor( trapeziumWidth: number, tail: Vector2, tip: Vector2, indexOfRefraction: number, wavelength: number, wavelengthInVacuum: number, powerFraction: number, color: Color,
                waveWidth: number, numWavelengthsPhaseOffset: number, extend: boolean, extendBackwards: boolean, laserView: LaserViewEnum, rayType: string ) {
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
@@ -179,14 +178,14 @@ class LightRay {
    * Update the time, so it can update the phase of the wave graphic
    * @param time - simulation time
    */
-  setTime( time: number ): void {
+  public setTime( time: number ): void {
     this.time = time;
   }
 
   /**
    * Determines the speed of the light ray
    */
-  getSpeed(): number {
+  private getSpeed(): number {
     return BendingLightConstants.SPEED_OF_LIGHT / this.indexOfRefraction;
   }
 
@@ -202,7 +201,7 @@ class LightRay {
    * @param sensorRegion - sensor region of intensity meter
    * @param rayType - 'incident', 'transmitted' or 'reflected'
    */
-  getIntersections( sensorRegion: Shape, rayType: string ): Intersection[] {
+  public getIntersections( sensorRegion: Shape, rayType: string ): Intersection[] {
 
     if ( this.waveShape ) {
 
@@ -233,18 +232,18 @@ class LightRay {
     }
   }
 
-  toLine(): Line {
+  private toLine(): Line {
     return new Line( this.tail, this.tip );
   }
 
   /**
    * Determines length of light ray
    */
-  getLength(): number {
+  public getLength(): number {
     return this.tip.distance( this.tail );
   }
 
-  toVector(): Vector2 {
+  public toVector(): Vector2 {
     this.vectorForm.x = this.tip.x - this.tail.x;
     this.vectorForm.y = this.tip.y - this.tail.y;
     return this.vectorForm;
@@ -253,7 +252,7 @@ class LightRay {
   /**
    * Determines the unit vector of light ray
    */
-  getUnitVector(): Vector2 {
+  public getUnitVector(): Vector2 {
     const magnitude = this.tip.distance( this.tail );
     this.unitVector.x = ( this.tip.x - this.tail.x ) / magnitude;
     this.unitVector.y = ( this.tip.y - this.tail.y ) / magnitude;
@@ -263,11 +262,11 @@ class LightRay {
   /**
    * Determines the angle of light ray
    */
-  getAngle(): number {
+  public getAngle(): number {
     return Math.atan2( this.tip.y - this.tail.y, this.tip.x - this.tail.x );
   }
 
-  getNumberOfWavelengths(): number {
+  public getNumberOfWavelengths(): number {
     return this.getLength() / this.wavelength;
   }
 
@@ -277,7 +276,7 @@ class LightRay {
    * @param position
    * @param waveMode - specifies whether ray or wave mode
    */
-  contains( position: Vector2, waveMode: boolean ): boolean {
+  public contains( position: Vector2, waveMode: boolean ): boolean {
     if ( waveMode && this.waveShape ) {
       return this.waveShape.containsPoint( position );
     }
@@ -287,19 +286,19 @@ class LightRay {
     }
   }
 
-  getVelocityVector(): Vector2 {
+  public getVelocityVector(): Vector2 {
     return this.tip.minus( this.tail ).normalize().multiplyScalar( this.getSpeed() );
   }
 
-  getFrequency(): number {
+  private getFrequency(): number {
     return this.getSpeed() / this.wavelength;
   }
 
-  getAngularFrequency(): number {
+  private getAngularFrequency(): number {
     return this.getFrequency() * Math.PI * 2;
   }
 
-  getPhaseOffset(): number {
+  public getPhaseOffset(): number {
     return this.getAngularFrequency() * this.time - 2 * Math.PI * this.numWavelengthsPhaseOffset;
   }
 
@@ -307,7 +306,7 @@ class LightRay {
    * Get the total argument to the cosine for the wave function(k * x - omega * t + phase)
    * @param distanceAlongRay - distance of a specific point from the start of the ray
    */
-  getCosArg( distanceAlongRay: number ): number {
+  public getCosArg( distanceAlongRay: number ): number {
     const w = this.getAngularFrequency();
     const k = 2 * Math.PI / this.wavelength;
     const x = distanceAlongRay;
@@ -315,8 +314,6 @@ class LightRay {
     return k * x - w * t + 2 * Math.PI * this.numWavelengthsPhaseOffset;
   }
 }
-
-LightRay.RAY_WIDTH = 1.5992063492063494E-7;
 
 bendingLight.register( 'LightRay', LightRay );
 

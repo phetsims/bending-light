@@ -28,7 +28,7 @@ const PLUS_MINUS_SPACING = 4;
 
 class WavelengthControl extends Node {
 
-  constructor( wavelengthProperty: Property<number>, enabledProperty: Property<boolean>, trackWidth: number ) {
+  public constructor( wavelengthProperty: Property<number>, enabledProperty: Property<boolean>, trackWidth: number ) {
     const wavelengthPropertyNM = new Property<number>( wavelengthProperty.value * 1E9, { reentrant: true } );
 
     wavelengthProperty.link( wavelength => {

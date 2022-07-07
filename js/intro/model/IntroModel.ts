@@ -38,12 +38,12 @@ const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 const BEAM_LENGTH = 1E-3;
 
 class IntroModel extends BendingLightModel {
-  topMediumProperty: Property<Medium>;
-  bottomMediumProperty: Property<Medium>;
-  time: number;
-  indexOfRefractionOfTopMediumProperty: IReadOnlyProperty<number>;
-  indexOfRefractionOfBottomMediumProperty: IReadOnlyProperty<number>;
-  intensityMeter: IntensityMeter;
+  public topMediumProperty: Property<Medium>;
+  public bottomMediumProperty: Property<Medium>;
+  public time: number;
+  private indexOfRefractionOfTopMediumProperty: IReadOnlyProperty<number>;
+  private indexOfRefractionOfBottomMediumProperty: IReadOnlyProperty<number>;
+  public intensityMeter: IntensityMeter;
   private tailVector: Vector2;
   private tipVector: Vector2;
 
@@ -52,7 +52,7 @@ class IntroModel extends BendingLightModel {
    * @param horizontalPlayAreaOffset - specifies center alignment
    * @param tandem
    */
-  constructor( bottomSubstance: Substance, horizontalPlayAreaOffset: boolean, tandem: Tandem ) {
+  public constructor( bottomSubstance: Substance, horizontalPlayAreaOffset: boolean, tandem: Tandem ) {
 
     super( Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
 
@@ -141,7 +141,7 @@ class IntroModel extends BendingLightModel {
    * Light rays were cleared from model before propagateRays was called, this creates them according to the laser and
    * mediums
    */
-  propagateRays(): void {
+  public propagateRays(): void {
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
 
@@ -339,9 +339,7 @@ class IntroModel extends BendingLightModel {
     return rayAbsorbed;
   }
 
-  /**
-   */
-  override reset(): void {
+  public override reset(): void {
     super.reset();
     this.topMediumProperty.reset();
     this.bottomMediumProperty.reset();
@@ -352,7 +350,7 @@ class IntroModel extends BendingLightModel {
    * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
    * @param position - position where the velocity to be determined
    */
-  getVelocity( position: Vector2 ): Vector2 {
+  public getVelocity( position: Vector2 ): Vector2 {
     const laserView = this.laserViewProperty.value;
     for ( let i = 0; i < this.rays.length; i++ ) {
       if ( this.rays[ i ].contains( position, laserView === LaserViewEnum.WAVE ) ) {
@@ -367,7 +365,7 @@ class IntroModel extends BendingLightModel {
    * @param position - position where the wave value to be determined
    * @returns - returns object of time and magnitude if point is on ray otherwise returns null
    */
-  getWaveValue( position: Vector2 ): { time: number; magnitude: number } | null {
+  protected getWaveValue( position: Vector2 ): { time: number; magnitude: number } | null {
     for ( let i = 0; i < this.rays.length; i++ ) {
       const ray = this.rays[ i ];
       if ( ray.contains( position, this.laserViewProperty.value === LaserViewEnum.WAVE ) ) {
@@ -402,7 +400,7 @@ class IntroModel extends BendingLightModel {
   /**
    * Update simulation time and wave propagation.
    */
-  updateSimulationTimeAndWaveShape( speed: TimeSpeed ): void {
+  public updateSimulationTimeAndWaveShape( speed: TimeSpeed ): void {
 
     // Update the time
     this.time = this.time + ( speed === TimeSpeed.NORMAL ? 1E-16 : 0.5E-16 );

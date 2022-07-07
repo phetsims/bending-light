@@ -9,7 +9,7 @@ import Panel from '../../../../sun/js/Panel.js';
 class AngleTextView extends Panel {
   private readonly textNode: Text;
 
-  constructor() {
+  public constructor() {
     const textNode = new Text( '', { fontSize: 12, fill: 'black' } );
 
     super( textNode, {
@@ -29,7 +29,7 @@ class AngleTextView extends Panel {
     this.textNode = textNode;
   }
 
-  setAngleText( text: string ): void {
+  public setAngleText( text: string ): void {
     this.textNode.setText( text );
   }
 }

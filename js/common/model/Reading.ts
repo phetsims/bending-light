@@ -21,15 +21,15 @@ const pattern0ValuePercentString = bendingLightStrings.pattern_0value_percent;
 const VALUE_DECIMALS = 2;
 
 class Reading {
-  readonly value: number;
-  static MISS: Reading;
+  public readonly value: number;
+  public static MISS: Reading;
 
   /**
    * A single reading for the intensity meter
    *
    * @param value - the text to be shown on the intensity meter
    */
-  constructor( value: number ) {
+  public constructor( value: number ) {
 
     // (read-only)
     this.value = value;
@@ -38,21 +38,21 @@ class Reading {
   /**
    * Get string to display on intensity sensor
    */
-  getString(): string {
+  public getString(): string {
     return this.format( this.value * 100 );
   }
 
   /**
    * @param value - value to be displayed on intensity meter
    */
-  format( value: number ): string {
+  public format( value: number ): string {
     return StringUtils.format( pattern0ValuePercentString, Utils.toFixed( value, VALUE_DECIMALS ) );
   }
 
   /**
    * Determines whether ray hit the intensity sensor or not
    */
-  isHit(): boolean {
+  public isHit(): boolean {
     return true;
   }
 }

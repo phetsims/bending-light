@@ -36,17 +36,17 @@ type BendingLightScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 abstract class BendingLightScreenView extends ScreenView {
   protected readonly showProtractorProperty: Property<boolean>;
-  readonly bendingLightModel: BendingLightModel;
+  protected readonly bendingLightModel: BendingLightModel;
   protected readonly beforeLightLayer: Node;
   protected readonly beforeLightLayer2: Node;
   protected readonly afterLightLayer: Node;
   protected readonly afterLightLayer2: Node;
   protected readonly afterLightLayer3: Node;
   protected readonly mediumNode: Node;
-  readonly incidentWaveLayer: Node;
+  protected readonly incidentWaveLayer: Node;
   private readonly singleColorLightNode: SingleColorLightCanvasNode;
-  readonly laserViewLayer: Node;
-  readonly occlusionHandler: ( n: Node ) => void;
+  protected readonly laserViewLayer: Node;
+  protected readonly occlusionHandler: ( n: Node ) => void;
   protected readonly modelViewTransform: ModelViewTransform2;
 
   /**
@@ -54,7 +54,7 @@ abstract class BendingLightScreenView extends ScreenView {
    * @param laserHasKnob - laser image
    * @param [providedOptions]
    */
-  constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, providedOptions?: BendingLightScreenViewOptions ) {
+  public constructor( bendingLightModel: BendingLightModel, laserHasKnob: boolean, providedOptions?: BendingLightScreenViewOptions ) {
 
     const options = optionize<BendingLightScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       occlusionHandler: _.noop, // {function} moves objects out from behind a control panel if dropped there
@@ -180,12 +180,12 @@ abstract class BendingLightScreenView extends ScreenView {
 
   /**
    */
-  reset(): void {
+  public reset(): void {
     this.showProtractorProperty.reset();
   }
 
   // intended to be overridden by subclasses
-  override step(): void {
+  public override step(): void {
     if ( this.singleColorLightNode.visible ) {
       this.singleColorLightNode.step();
     }

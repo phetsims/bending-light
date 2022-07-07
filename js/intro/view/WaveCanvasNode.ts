@@ -23,7 +23,7 @@ class WaveCanvasNode extends CanvasNode {
    * @param modelViewTransform - Transform between model and view coordinate frames
    * @param [providedOptions] - options that can be passed on to the underlying node
    */
-  constructor( lightRays: LightRay[], modelViewTransform: ModelViewTransform2, providedOptions?: NodeOptions ) {
+  public constructor( lightRays: LightRay[], modelViewTransform: ModelViewTransform2, providedOptions?: NodeOptions ) {
 
     super( providedOptions );
     this.lightRays = lightRays;
@@ -33,7 +33,7 @@ class WaveCanvasNode extends CanvasNode {
   /**
    * Paints the particles on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ): void {
+  public paintCanvas( context: CanvasRenderingContext2D ): void {
 
     // Render the incident ray last so that it will overlap the reflected ray completely
     for ( let k = this.lightRays.length - 1; k >= 0; k-- ) {
@@ -97,7 +97,7 @@ class WaveCanvasNode extends CanvasNode {
 
   /**
    */
-  step(): void {
+  public step(): void {
     this.invalidatePaint();
   }
 }

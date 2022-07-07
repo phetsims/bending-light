@@ -16,7 +16,7 @@ import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 
 class PrismIntersection {
-  constructor() {
+  private constructor() {
     assert && assert( false, 'should not be instantiated' );
   }
 
@@ -26,7 +26,7 @@ class PrismIntersection {
    * @param center - center of the arc if prism contains arc otherwise null
    * @param coloredRay - light ray intersecting the prism
    */
-  static getIntersections( edges: Line[], arc: Arc | Shape | null, center: Vector2, coloredRay: ColoredRay ): Intersection[] {
+  public static getIntersections( edges: Line[], arc: Arc | Shape | null, center: Vector2, coloredRay: ColoredRay ): Intersection[] {
     const intersections = [];
     let intersection;
     let unitNormal;

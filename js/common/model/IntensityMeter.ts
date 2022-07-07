@@ -17,11 +17,11 @@ import Reading from './Reading.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 class IntensityMeter {
-  readonly readingProperty: Property<Reading>;
-  readonly sensorPositionProperty: Property<Vector2>;
-  readonly bodyPositionProperty: Property<Vector2>;
+  public readonly readingProperty: Property<Reading>;
+  public readonly sensorPositionProperty: Property<Vector2>;
+  public readonly bodyPositionProperty: Property<Vector2>;
   private rayReadings: Reading[] = []; // accumulation of readings
-  readonly enabledProperty: BooleanProperty;
+  public readonly enabledProperty: BooleanProperty;
 
   /**
    * @param sensorX - sensor x position in model coordinates
@@ -29,7 +29,7 @@ class IntensityMeter {
    * @param bodyX - body x position in model coordinates
    * @param bodyY - body y position in model coordinates
    */
-  constructor( sensorX: number, sensorY: number, bodyX: number, bodyY: number ) {
+  public constructor( sensorX: number, sensorY: number, bodyX: number, bodyY: number ) {
 
     this.readingProperty = new Property( Reading.MISS ); // value to show on the body
     this.sensorPositionProperty = new Vector2Property( new Vector2( sensorX, sensorY ) );
@@ -38,7 +38,7 @@ class IntensityMeter {
   }
 
   // Restore the initial values.
-  reset(): void {
+  public reset(): void {
     this.readingProperty.reset();
     this.sensorPositionProperty.reset();
     this.bodyPositionProperty.reset();
@@ -47,7 +47,7 @@ class IntensityMeter {
   }
 
   // Copy the model for reuse in the toolbox node.
-  copy(): IntensityMeter {
+  public copy(): IntensityMeter {
     return new IntensityMeter(
       this.sensorPositionProperty.get().x,
       this.sensorPositionProperty.get().y,
@@ -56,7 +56,7 @@ class IntensityMeter {
     );
   }
 
-  getSensorShape(): Shape {
+  public getSensorShape(): Shape {
 
     // fine tuned to match the given image
     const radius = 1E-6;
@@ -64,7 +64,7 @@ class IntensityMeter {
   }
 
   // Should be called before a model update so that values from last computation don't leak over into the next sum.
-  clearRayReadings(): void {
+  public clearRayReadings(): void {
     this.rayReadings = [];
     this.readingProperty.set( Reading.MISS );
   }
@@ -73,7 +73,7 @@ class IntensityMeter {
    * Add a new reading to the accumulator and update the readout
    * @param reading - intensity of the wave or MISS
    */
-  addRayReading( reading: Reading ): void {
+  public addRayReading( reading: Reading ): void {
     this.rayReadings.push( reading );
     this.updateReading();
   }

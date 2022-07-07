@@ -25,7 +25,7 @@ class SeriesCanvasNode extends CanvasNode {
    * @param color - color of the series
    * @param [providedOptions] - options that can be passed on to the underlying node
    */
-  constructor( seriesProperty: Property<DataPoint[]>, modelViewTransformProperty: Property<ModelViewTransform2>,
+  public constructor( seriesProperty: Property<DataPoint[]>, modelViewTransformProperty: Property<ModelViewTransform2>,
                color: string, providedOptions?: NodeOptions ) {
 
     super( providedOptions );
@@ -37,7 +37,7 @@ class SeriesCanvasNode extends CanvasNode {
   /**
    * Paints the series points on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ): void {
+  public paintCanvas( context: CanvasRenderingContext2D ): void {
     let moved = false;
 
     context.beginPath();
@@ -67,7 +67,7 @@ class SeriesCanvasNode extends CanvasNode {
 
   /**
    */
-  step(): void {
+  public step(): void {
     this.invalidatePaint();
   }
 }

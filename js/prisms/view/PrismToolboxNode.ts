@@ -33,7 +33,7 @@ const MAX_TEXT_WIDTH = 115;
 const MAX_PRISM_COUNT = 6; // for each type
 
 class PrismToolboxNode extends Node {
-  objectMediumControlPanel: MediumControlPanel;
+  public readonly objectMediumControlPanel: MediumControlPanel;
 
   /**
    * @param modelViewTransform - converts between model and view co-ordinates
@@ -44,7 +44,7 @@ class PrismToolboxNode extends Node {
    *                                    - control panel
    * @param [providedOptions] that can be passed on to the underlying node
    */
-  constructor( modelViewTransform: ModelViewTransform2, prismsModel: PrismsModel, prismLayer: Node, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( n: Node ) => void,
+  public constructor( modelViewTransform: ModelViewTransform2, prismsModel: PrismsModel, prismLayer: Node, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( n: Node ) => void,
                providedOptions?: Partial<NodeOptions> ) {
 
     super();

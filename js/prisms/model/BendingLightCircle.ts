@@ -15,16 +15,16 @@ import Intersection from './Intersection.js';
 import PrismIntersection from './PrismIntersection.js';
 
 class BendingLightCircle {
-  readonly center: Vector2;
-  readonly centroid: Vector2;
-  readonly radius: number;
-  readonly shape: Shape;
+  private readonly center: Vector2;
+  public readonly centroid: Vector2;
+  private readonly radius: number;
+  public readonly shape: Shape;
 
   /**
    * @param center - center of the circle
    * @param radius - radius of the circle
    */
-  constructor( center: Vector2, radius: number ) {
+  public constructor( center: Vector2, radius: number ) {
 
     this.center = center; // (read-only)
     this.centroid = center; // (read-only)
@@ -37,11 +37,11 @@ class BendingLightCircle {
    * @param deltaX - amount of space to be translate in x direction
    * @param deltaY - amount of space to be translate in y direction
    */
-  getTranslatedInstance( deltaX: number, deltaY: number ): BendingLightCircle {
+  public getTranslatedInstance( deltaX: number, deltaY: number ): BendingLightCircle {
     return new BendingLightCircle( this.center.plusXY( deltaX, deltaY ), this.radius );
   }
 
-  getRotatedInstance( angle: number, rotationCenter: Vector2 ): this {
+  public getRotatedInstance( angle: number, rotationCenter: Vector2 ): this {
     return this;
   }
 
@@ -49,28 +49,28 @@ class BendingLightCircle {
    * Finds the intersections between the edges of the circle and the specified ray
    * @param ray - model of the ray
    */
-  getIntersections( ray: ColoredRay ): Intersection[] {
+  public getIntersections( ray: ColoredRay ): Intersection[] {
     return PrismIntersection.getIntersections( [], this.shape, this.center, ray );
   }
 
   /**
    * Computes the centroid of the corner points
    */
-  getRotationCenter(): Vector2 {
+  public getRotationCenter(): Vector2 {
     return this.center;
   }
 
   /**
    * Signify that the circle can't be rotated
    */
-  getReferencePoint(): null {
+  public getReferencePoint(): null {
     return null;
   }
 
   /**
    * Determines whether shape contains given point or not
    */
-  containsPoint( point: Vector2 ): boolean {
+  public containsPoint( point: Vector2 ): boolean {
     return point.distance( this.center ) <= this.radius;
   }
 }

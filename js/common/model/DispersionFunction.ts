@@ -22,7 +22,7 @@ class DispersionFunction {
    * @param referenceIndexOfRefraction - IndexOfRefraction of medium
    * @param wavelength - wavelength in meters
    */
-  constructor( referenceIndexOfRefraction: number, wavelength: number ) {
+  public constructor( referenceIndexOfRefraction: number, wavelength: number ) {
     this.referenceIndexOfRefraction = referenceIndexOfRefraction;
     this.referenceWavelength = wavelength;
   }
@@ -31,7 +31,7 @@ class DispersionFunction {
    * See http://en.wikipedia.org/wiki/Sellmeier_equation
    * @param wavelength - wavelength in meters
    */
-  getSellmeierValue( wavelength: number ): number {
+  private getSellmeierValue( wavelength: number ): number {
     const L2 = wavelength * wavelength;
     const B1 = 1.03961212;
     const B2 = 0.231792344;
@@ -45,7 +45,7 @@ class DispersionFunction {
   }
 
   // Determines the index of refraction for the WAVELENGTH_RED
-  getIndexOfRefractionForRed(): number {
+  public getIndexOfRefractionForRed(): number {
     return this.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
   }
 
@@ -53,7 +53,7 @@ class DispersionFunction {
    * See class-level documentation for an explanation of this algorithm
    * @param wavelength - wavelength in meters
    */
-  getIndexOfRefraction( wavelength: number ): number {
+  public getIndexOfRefraction( wavelength: number ): number {
 
     // get the reference values
     const nAirReference = this.getAirIndex( this.referenceWavelength );

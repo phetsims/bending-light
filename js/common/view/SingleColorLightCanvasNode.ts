@@ -26,7 +26,7 @@ class SingleColorLightCanvasNode extends CanvasNode {
    * @param stageHeight - height of the dev area
    * @param rays -
    */
-  constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, rays: LightRay[] ) {
+  public constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, rays: LightRay[] ) {
 
     super( {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
@@ -42,7 +42,7 @@ class SingleColorLightCanvasNode extends CanvasNode {
   /**
    * Paints the particles on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ): void {
+  public paintCanvas( context: CanvasRenderingContext2D ): void {
 
     context.save();
     context.lineWidth = this.strokeWidth;
@@ -89,9 +89,7 @@ class SingleColorLightCanvasNode extends CanvasNode {
     // );
   }
 
-  /**
-   */
-  step(): void {
+  public step(): void {
     this.invalidatePaint();
   }
 }

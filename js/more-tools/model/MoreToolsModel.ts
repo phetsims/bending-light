@@ -17,10 +17,10 @@ import VelocitySensor from './VelocitySensor.js';
 import WaveSensor from './WaveSensor.js';
 
 class MoreToolsModel extends IntroModel {
-  readonly velocitySensor: VelocitySensor;
-  readonly waveSensor: WaveSensor;
+  public readonly velocitySensor: VelocitySensor;
+  public readonly waveSensor: WaveSensor;
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     // On this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent
     // bend
@@ -50,7 +50,7 @@ class MoreToolsModel extends IntroModel {
 
   /**
    */
-  override reset(): void {
+  public override reset(): void {
     super.reset();
     this.velocitySensor.reset();
     this.waveSensor.reset();

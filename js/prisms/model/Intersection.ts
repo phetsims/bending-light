@@ -12,14 +12,14 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import bendingLight from '../../bendingLight.js';
 
 class Intersection {
-  readonly unitNormal: Vector2;
-  readonly point: Vector2;
+  public readonly unitNormal: Vector2;
+  public readonly point: Vector2;
 
   /**
    * @param unitNormal - unit normal at the intersection of light ray
    * @param point - point where the light ray intersects
    */
-  constructor( unitNormal: Vector2, point: Vector2 ) {
+  public constructor( unitNormal: Vector2, point: Vector2 ) {
 
     // Unit normal at the meeting between two interfaces where the light ray has struck
     this.unitNormal = unitNormal; // (read-only)

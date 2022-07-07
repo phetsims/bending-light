@@ -18,15 +18,15 @@ import Polygon from './Polygon.js';
 import SemiCircle from './SemiCircle.js';
 
 class Prism {
-  shapeProperty: Property<Polygon | BendingLightCircle | SemiCircle>;
-  positionProperty: Vector2Property;
-  typeName: string;
+  public readonly shapeProperty: Property<Polygon | BendingLightCircle | SemiCircle>;
+  public readonly positionProperty: Vector2Property;
+  public readonly typeName: string;
 
   /**
    * @param shape
    * @param typeName for keeping track of how many of each kind there are, to remove from toolbox
    */
-  constructor( shape: Polygon | BendingLightCircle | SemiCircle, typeName: string ) {
+  public constructor( shape: Polygon | BendingLightCircle | SemiCircle, typeName: string ) {
 
     this.shapeProperty = new Property( shape );
 
@@ -42,11 +42,11 @@ class Prism {
    * @param deltaX - amount of space in x direction the prism to be translated
    * @param deltaY - amount of space in y direction the prism to be translated
    */
-  translate( deltaX: number, deltaY: number ): void {
+  public translate( deltaX: number, deltaY: number ): void {
     this.positionProperty.value = this.positionProperty.value.plusXY( deltaX, deltaY );
   }
 
-  getTranslatedShape(): Polygon | BendingLightCircle | SemiCircle {
+  public getTranslatedShape(): Polygon | BendingLightCircle | SemiCircle {
     return this.shapeProperty.value.getTranslatedInstance( this.positionProperty.value.x, this.positionProperty.value.y );
   }
 
@@ -54,21 +54,21 @@ class Prism {
    * Compute the intersections of the specified ray with this polygon's edges
    * @param incidentRay - model of the ray
    */
-  getIntersections( incidentRay: ColoredRay ): Intersection[] {
+  public getIntersections( incidentRay: ColoredRay ): Intersection[] {
     return this.getTranslatedShape().getIntersections( incidentRay );
   }
 
   /**
    * Determines whether shape contains given point or not
    */
-  contains( point: Vector2 ): boolean {
+  public contains( point: Vector2 ): boolean {
     return this.getTranslatedShape().containsPoint( point );
   }
 
   /**
    * Creates a copy of the prism
    */
-  copy(): Prism {
+  public copy(): Prism {
     return new Prism( this.shapeProperty.get(), this.typeName );
   }
 
@@ -76,7 +76,7 @@ class Prism {
    * Rotate prism by the specified angle
    * @param deltaAngle - angle to be rotated
    */
-  rotate( deltaAngle: number ): void {
+  public rotate( deltaAngle: number ): void {
     this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle, this.shapeProperty.get().getRotationCenter() ) );
   }
 }

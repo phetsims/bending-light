@@ -42,18 +42,18 @@ const environmentString = bendingLightStrings.environment;
 type PrismsScreenViewOptions = BendingLightScreenViewOptions;
 
 class PrismsScreenView extends BendingLightScreenView {
-  prismLayer: Node;
-  prismsModel: PrismsModel;
-  resetPrismsView: () => void;
+  private prismLayer: Node;
+  private prismsModel: PrismsModel;
+  private resetPrismsView: () => void;
 
   // @ts-ignore assigned in the supercall which calls addLightNodes
-  whiteLightNode: WhiteLightCanvasNode;
+  private whiteLightNode: WhiteLightCanvasNode;
 
   /**
    * @param prismsModel - model of prisms screen
    * @param [providedOptions]
    */
-  constructor( prismsModel: PrismsModel, providedOptions?: PrismsScreenViewOptions ) {
+  public constructor( prismsModel: PrismsModel, providedOptions?: PrismsScreenViewOptions ) {
 
     super(
       prismsModel,
@@ -264,14 +264,12 @@ class PrismsScreenView extends BendingLightScreenView {
     this.addChild( navigationBarSeparator );
   }
 
-  /**
-   */
-  override reset(): void {
+  public override reset(): void {
     this.prismLayer.removeAllChildren();
     this.resetPrismsView();
   }
 
-  override step(): void {
+  public override step(): void {
     super.step();
     this.updateWhiteLightNode();
   }

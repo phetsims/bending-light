@@ -21,7 +21,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 const moreToolsString = bendingLightStrings.moreTools;
 
 class MoreToolsScreen extends Screen<MoreToolsModel, MoreToolsScreenView> {
-  constructor( tandem: Tandem ) {
+  private constructor( tandem: Tandem ) {
 
     const options = {
       name: moreToolsString,

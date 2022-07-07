@@ -18,7 +18,7 @@ class ToolIconListener extends SimpleDragHandler {
    * @param components - the individual listeners that events should be forwarded to.
    * @param init - called with (event) when the start drag occurs
    */
-  constructor( components: MovableDragHandler[], init: ( event: SceneryEvent ) => void ) {
+  public constructor( components: MovableDragHandler[], init: ( event: SceneryEvent ) => void ) {
     super( {
       start: ( event: SceneryEvent, trail: Trail ) => {
         init( event );

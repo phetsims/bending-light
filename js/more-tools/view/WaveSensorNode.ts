@@ -32,7 +32,7 @@ const bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 
 const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
 class ProbeNodeWrapper extends Node {
-  syncModelFromView: () => void;
+  public syncModelFromView: () => void;
 
   /**
    * View for rendering a probe that can be used to sense wave values
@@ -41,7 +41,7 @@ class ProbeNodeWrapper extends Node {
    * @param color
    * @param modelViewTransform - Transform between model and view coordinate frames
    */
-  constructor( probe: Probe, color: string, modelViewTransform: ModelViewTransform2 ) {
+  public constructor( probe: Probe, color: string, modelViewTransform: ModelViewTransform2 ) {
 
     super( { cursor: 'pointer' } );
 
@@ -73,22 +73,22 @@ class ProbeNodeWrapper extends Node {
 }
 
 class WaveSensorNode extends Node {
-  modelViewTransform: ModelViewTransform2;
-  waveSensor: WaveSensor;
-  bodyNode: Node;
-  chartNode: ChartNode;
-  probe1Node: ProbeNodeWrapper;
-  probe2Node: ProbeNodeWrapper;
+  private modelViewTransform: ModelViewTransform2;
+  public waveSensor: WaveSensor;
+  public bodyNode: Node;
+  public chartNode: ChartNode;
+  public probe1Node: ProbeNodeWrapper;
+  public probe2Node: ProbeNodeWrapper;
   private readonly wire1Node: WireNode;
   private readonly wire2Node: WireNode;
-  syncModelFromView: () => void;
+  public syncModelFromView: () => void;
 
   /**
    * @param modelViewTransform - Transform between model and view coordinate frames
    * @param waveSensor - model for the wave sensor
    * @param [providedOptions]
    */
-  constructor( modelViewTransform: ModelViewTransform2, waveSensor: WaveSensor, providedOptions?: NodeOptions ) {
+  public constructor( modelViewTransform: ModelViewTransform2, waveSensor: WaveSensor, providedOptions?: NodeOptions ) {
 
     super( { cursor: 'pointer' } );
 
@@ -210,7 +210,7 @@ class WaveSensorNode extends Node {
 
   /**
    */
-  resetRelativePositions(): void {
+  public resetRelativePositions(): void {
     this.probe1Node.center = this.bodyNode.center.plusXY( 110, 12 );
     this.probe2Node.center = this.probe1Node.center.plusXY( -25, -37 );
     this.syncModelFromView();

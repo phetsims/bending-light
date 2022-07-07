@@ -12,11 +12,11 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 
 class ColoredRay {
-  readonly ray: Ray2;
-  readonly power: number;
-  readonly wavelength: number;
-  readonly mediumIndexOfRefraction: number;
-  readonly frequency: number;
+  public readonly ray: Ray2;
+  public readonly power: number;
+  public readonly wavelength: number;
+  public readonly mediumIndexOfRefraction: number;
+  public readonly frequency: number;
 
   /**
    * @param ray - tail and direction
@@ -25,7 +25,7 @@ class ColoredRay {
    * @param mediumIndexOfRefraction - index of refraction of medium
    * @param frequency - frequency of ray
    */
-  constructor( ray: Ray2, power: number, wavelength: number, mediumIndexOfRefraction: number, frequency: number ) {
+  public constructor( ray: Ray2, power: number, wavelength: number, mediumIndexOfRefraction: number, frequency: number ) {
 
     assert && assert( !isNaN( ray.direction.magnitude ), 'direction unit vector should have a numeric magnitude' );
 
@@ -40,18 +40,18 @@ class ColoredRay {
     this.frequency = frequency; // (read-only)
   }
 
-  get tail() {
+  public get tail() {
     return this.ray.position;
   }
 
-  get directionUnitVector() {
+  public get directionUnitVector() {
     return this.ray.direction;
   }
 
   /**
    * Gets the wavelength for this ray if it wasn't inside a medium
    */
-  getBaseWavelength(): number {
+  public getBaseWavelength(): number {
     return BendingLightConstants.SPEED_OF_LIGHT / this.frequency;
   }
 }

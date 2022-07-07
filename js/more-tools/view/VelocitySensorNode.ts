@@ -30,10 +30,10 @@ const unknownVelocityString = bendingLightStrings.unknownVelocity;
 const velocityPatternString = bendingLightStrings.velocityPattern;
 
 class VelocitySensorNode extends Node {
-  modelViewTransform: ModelViewTransform2;
-  velocitySensor: VelocitySensor;
+  private modelViewTransform: ModelViewTransform2;
+  private velocitySensor: VelocitySensor;
   private readonly bodyNode: Node;
-  arrowShape: Path;
+  private arrowShape: Path;
 
   /**
    * @param modelViewTransform - Transform between model and view coordinate frames
@@ -41,7 +41,7 @@ class VelocitySensorNode extends Node {
    * @param arrowScale - scale to be applied for the velocity value to display as arrow
    * @param [providedOptions]
    */
-  constructor( modelViewTransform: ModelViewTransform2, velocitySensor: VelocitySensor, arrowScale: number, providedOptions?: NodeOptions ) {
+  public constructor( modelViewTransform: ModelViewTransform2, velocitySensor: VelocitySensor, arrowScale: number, providedOptions?: NodeOptions ) {
 
     super( {
       cursor: 'pointer',

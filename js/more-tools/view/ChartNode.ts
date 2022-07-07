@@ -31,7 +31,7 @@ class SeriesNode extends Node {
    *                                                                      frames
    * @param chartBounds - bounds of the chart node
    */
-  constructor( series: Series, modelViewTransformProperty: Property<ModelViewTransform2>, chartBounds: Bounds2 ) {
+  public constructor( series: Series, modelViewTransformProperty: Property<ModelViewTransform2>, chartBounds: Bounds2 ) {
 
     super();
 
@@ -53,18 +53,18 @@ class SeriesNode extends Node {
 }
 
 class ChartNode extends Node {
-  chartBounds: Bounds2;
-  seriesArray: Series[];
-  timeWidth: number;
-  modelViewTransformProperty: Property<ModelViewTransform2>;
-  gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>;
-  gridCanvasNode: GridCanvasNode;
+  private chartBounds: Bounds2;
+  private seriesArray: Series[];
+  private timeWidth: number;
+  private modelViewTransformProperty: Property<ModelViewTransform2>;
+  private gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>;
+  private gridCanvasNode: GridCanvasNode;
 
   /**
    * @param chartBounds - bounds of the chart node
    * @param seriesArray - series of data points
    */
-  constructor( chartBounds: Bounds2, seriesArray: Series[] ) {
+  public constructor( chartBounds: Bounds2, seriesArray: Series[] ) {
 
     super();
     this.chartBounds = chartBounds; // (read-only)
@@ -93,7 +93,7 @@ class ChartNode extends Node {
   /**
    * @param time - simulation time
    */
-  step( time: number ): void {
+  public step( time: number ): void {
     this.simulationTimeChanged( time );
   }
 

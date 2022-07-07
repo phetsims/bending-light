@@ -13,14 +13,14 @@ import bendingLight from '../../bendingLight.js';
 import DataPoint from './DataPoint.js';
 
 class Series {
-  readonly seriesProperty: Property<DataPoint[]>;
-  readonly color: Color;
+  public readonly seriesProperty: Property<DataPoint[]>;
+  public readonly color: Color;
 
   /**
    * @param seriesProperty - contains data points of series
    * @param color - color of series
    */
-  constructor( seriesProperty: Property<DataPoint[]>, color: Color ) {
+  public constructor( seriesProperty: Property<DataPoint[]>, color: Color ) {
 
     // (read-only)
     this.seriesProperty = seriesProperty;
@@ -33,7 +33,7 @@ class Series {
    * Discard early samples that have gone out of range
    * @param minTime - minimum time to be displayed on chart node
    */
-  keepLastSamples( minTime: number ): void {
+  public keepLastSamples( minTime: number ): void {
     let startIndex = 0;
     if ( this.seriesProperty.get().length ) {
 

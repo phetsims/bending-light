@@ -31,7 +31,7 @@ class RotationDragHandle extends Node {
    * @param rotationArrowAngleOffset - for unknown reasons the rotation arrows are off by PI/4 on the
    *                                            intro/more-tools screen, so account for that here.
    */
-  constructor( modelViewTransform: ModelViewTransform2, laser: Laser, deltaAngle: number, showDragHandlesProperty: Property<boolean>, notAtMax: ( n: number ) => boolean,
+  public constructor( modelViewTransform: ModelViewTransform2, laser: Laser, deltaAngle: number, showDragHandlesProperty: Property<boolean>, notAtMax: ( n: number ) => boolean,
                laserImageWidth: number, rotationArrowAngleOffset: number ) {
 
     super();

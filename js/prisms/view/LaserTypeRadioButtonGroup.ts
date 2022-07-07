@@ -20,7 +20,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
    * @param radioButtonAdapterProperty
    * @param [providedOptions]
    */
-  constructor( radioButtonAdapterProperty: Property<LightType>, providedOptions?: NodeOptions ) {
+  public constructor( radioButtonAdapterProperty: Property<LightType>, providedOptions?: NodeOptions ) {
     const laserImageNode = new Image( laser_png, {
       scale: 0.6,
       clipArea: Shape.rectangle( 100, 0, 44, 100 )

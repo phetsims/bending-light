@@ -31,19 +31,19 @@ const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANC
 type IntensityMeterNodeOptions = NodeOptions;
 
 class IntensityMeterNode extends Node {
-  modelViewTransform: ModelViewTransform2;
-  probeNode: ProbeNode;
-  intensityMeter: IntensityMeter;
-  bodyNode: Node;
+  private modelViewTransform: ModelViewTransform2;
+  public probeNode: ProbeNode;
+  private intensityMeter: IntensityMeter;
+  public bodyNode: Node;
   private wireNode: WireNode;
-  syncModelFromView: () => void;
+  public syncModelFromView: () => void;
 
   /**
    * @param modelViewTransform - Transform between model and view coordinate frames
    * @param intensityMeter - model for the intensity meter
    * @param [providedOptions]
    */
-  constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, providedOptions?: IntensityMeterNodeOptions ) {
+  public constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, providedOptions?: IntensityMeterNodeOptions ) {
 
     super();
     this.modelViewTransform = modelViewTransform; // (read-only)
@@ -160,9 +160,7 @@ class IntensityMeterNode extends Node {
     this.syncModelFromView();
   }
 
-  /**
-   */
-  resetRelativePositions(): void {
+  public resetRelativePositions(): void {
     this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );
   }
 }

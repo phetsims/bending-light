@@ -46,7 +46,7 @@ class AngleNode extends Node {
    * @param modelViewTransform
    * @param addStepListener -
    */
-  constructor( showAnglesProperty: Property<boolean>, laserOnProperty: Property<boolean>, showNormalProperty: Property<boolean>, rays: ObservableArray<LightRay>, modelViewTransform: ModelViewTransform2,
+  public constructor( showAnglesProperty: Property<boolean>, laserOnProperty: Property<boolean>, showNormalProperty: Property<boolean>, rays: ObservableArray<LightRay>, modelViewTransform: ModelViewTransform2,
                addStepListener: ( x: () => void ) => void ) {
     super();
 

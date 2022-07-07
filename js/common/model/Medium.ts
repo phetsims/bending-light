@@ -16,17 +16,17 @@ import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
 
 class Medium {
-  shape: Shape;
-  substance: Substance;
-  color: Color;
-  static MediumIO: IOType;
+  public shape: Shape;
+  public substance: Substance;
+  public color: Color;
+  public static MediumIO: IOType;
 
   /**
    * @param shape - shape of the medium
    * @param substance - state of the medium
    * @param color - color of the medium
    */
-  constructor( shape: Shape, substance: Substance, color: Color ) {
+  public constructor( shape: Shape, substance: Substance, color: Color ) {
 
     // immutable shape
     this.shape = shape; // (read-only)
@@ -38,14 +38,14 @@ class Medium {
    * Determines the index of refraction of medium
    * @param wavelength - wavelength of the medium
    */
-  getIndexOfRefraction( wavelength: number ): number {
+  public getIndexOfRefraction( wavelength: number ): number {
     return this.substance.dispersionFunction.getIndexOfRefraction( wavelength );
   }
 
   /**
    * Determines whether the medium is mystery or not
    */
-  isMystery(): boolean {
+  public isMystery(): boolean {
     return this.substance.mystery;
   }
 }

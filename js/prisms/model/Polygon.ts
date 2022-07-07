@@ -18,8 +18,8 @@ class Polygon {
   private readonly points: Vector2[];
   private readonly referencePointIndex: number;
   private readonly radius: number;
-  readonly centroid: Vector2;
-  readonly shape: Shape;
+  public readonly centroid: Vector2;
+  public readonly shape: Shape;
   private readonly center: Vector2 | null;
 
   /**
@@ -27,7 +27,7 @@ class Polygon {
    * @param points - array of corner points
    * @param radius - radius is 0 for polygon or radius for diverging lens
    */
-  constructor( referencePointIndex: number, points: Vector2[], radius: number ) {
+  public constructor( referencePointIndex: number, points: Vector2[], radius: number ) {
 
     this.points = points;
 
@@ -66,7 +66,7 @@ class Polygon {
    * Get the specified corner point
    * @param i - index of point
    */
-  getPoint( i: number ): Vector2 {
+  private getPoint( i: number ): Vector2 {
     return this.points[ i ];
   }
 
@@ -75,7 +75,7 @@ class Polygon {
    * @param deltaX - distance in x direction to be translated
    * @param deltaY - distance in y direction to be translated
    */
-  getTranslatedInstance( deltaX: number, deltaY: number ): Polygon {
+  public getTranslatedInstance( deltaX: number, deltaY: number ): Polygon {
 
     const newPoints = [];
     for ( let j = 0; j < this.points.length; j++ ) {
@@ -93,7 +93,7 @@ class Polygon {
    * @param angle - angle to be rotated
    * @param rotationPoint - point around which polygon to be rotated
    */
-  getRotatedInstance( angle: number, rotationPoint: Vector2 ): Polygon {
+  public getRotatedInstance( angle: number, rotationPoint: Vector2 ): Polygon {
     const newPoints = [];
     for ( let k = 0; k < this.points.length; k++ ) {
       const vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
@@ -110,14 +110,14 @@ class Polygon {
   /**
    * Determines whether shape contains given point or not
    */
-  containsPoint( point: Vector2 ): boolean {
+  public containsPoint( point: Vector2 ): boolean {
     return this.shape.containsPoint( point );
   }
 
   /**
    * Just use the 0th point for the reference point for rotation drag handles
    */
-  getReferencePoint(): Vector2 {
+  public getReferencePoint(): Vector2 {
     return this.getPoint( this.referencePointIndex );
   }
 
@@ -125,7 +125,7 @@ class Polygon {
    * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
    * "mass")
    */
-  getRotationCenter(): Vector2 {
+  public getRotationCenter(): Vector2 {
     return this.centroid;
   }
 
@@ -133,7 +133,7 @@ class Polygon {
    * Centroid of the polygon
    * @param p - array of corner points
    */
-  getCentroid( p: Vector2[] ): Vector2 {
+  private getCentroid( p: Vector2[] ): Vector2 {
     let cx = 0;
     let cy = 0;
     for ( let i = 0; i < p.length; i++ ) {
@@ -169,7 +169,7 @@ class Polygon {
    * Compute the intersections of the specified ray with this polygon's edges
    * @param ray - model of the ray
    */
-  getIntersections( ray: ColoredRay ): Intersection[] {
+  public getIntersections( ray: ColoredRay ): Intersection[] {
     let arc = null;
     if ( this.radius !== 0 && this.center ) {
       const startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );

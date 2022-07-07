@@ -25,9 +25,8 @@ class TranslationDragHandle extends Node {
    * @param dy - length of vertical arrow
    * @param showDragHandlesProperty - determines whether to show arrows
    * @param laserImageWidth - width of the laser
-   * @constructor
    */
-  constructor( modelViewTransform: ModelViewTransform2, laser: Laser, dx: number, dy: number, showDragHandlesProperty: Property<boolean>, laserImageWidth: number ) {
+  public constructor( modelViewTransform: ModelViewTransform2, laser: Laser, dx: number, dy: number, showDragHandlesProperty: Property<boolean>, laserImageWidth: number ) {
 
     super();
 

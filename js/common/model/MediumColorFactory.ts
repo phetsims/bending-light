@@ -16,11 +16,11 @@ import ColorModeEnum from './ColorModeEnum.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 class MediumColorFactory {
-  lightTypeProperty: Property<ColorModeEnum>;
-  getColorAgainstWhite: ( indexForRed: number ) => Color;
-  getColorAgainstBlack: ( indexForRed: number ) => Color;
+  public lightTypeProperty: Property<ColorModeEnum>;
+  public getColorAgainstWhite: ( indexForRed: number ) => Color;
+  private getColorAgainstBlack: ( indexForRed: number ) => Color;
 
-  constructor() {
+  public constructor() {
     this.lightTypeProperty = new EnumerationProperty( ColorModeEnum.SINGLE_COLOR );
 
     /**
@@ -41,7 +41,7 @@ class MediumColorFactory {
     );
   }
 
-  getColor( indexForRed: number ): Color {
+  public getColor( indexForRed: number ): Color {
     return this.lightTypeProperty.value === ColorModeEnum.SINGLE_COLOR ?
            this.getColorAgainstWhite( indexForRed ) :
            this.getColorAgainstBlack( indexForRed );

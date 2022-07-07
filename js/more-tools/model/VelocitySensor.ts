@@ -16,12 +16,12 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 
 class VelocitySensor {
-  readonly positionProperty: Property<Vector2>;
-  readonly valueProperty: Property<Vector2>;
-  readonly enabledProperty: Property<boolean>;
-  readonly isArrowVisibleProperty: IReadOnlyProperty<boolean>;
+  public readonly positionProperty: Property<Vector2>;
+  public readonly valueProperty: Property<Vector2>;
+  public readonly enabledProperty: Property<boolean>;
+  public readonly isArrowVisibleProperty: IReadOnlyProperty<boolean>;
 
-  constructor() {
+  public constructor() {
 
     // position of the sensor. Sampled by running the sim with a console.log statement
     this.positionProperty = new Vector2Property( new Vector2( -0.00002051402284781722, -0.0000025716197470420186 ) );
@@ -39,14 +39,14 @@ class VelocitySensor {
   /**
    * Restore the initial values.
    */
-  reset(): void {
+  public reset(): void {
     this.positionProperty.reset();
     this.valueProperty.reset();
     this.enabledProperty.reset();
   }
 
   // Make a copy for use in the toolbox icon
-  copy(): VelocitySensor {
+  public copy(): VelocitySensor {
     const velocitySensor = new VelocitySensor();
     velocitySensor.positionProperty.value = this.positionProperty.value.copy();
     velocitySensor.valueProperty.value = this.valueProperty.value.copy();
@@ -58,7 +58,7 @@ class VelocitySensor {
    * Translate the velocity sensor in model
    * @param delta - amount of space to be translated
    */
-  translate( delta: Vector2 ): void {
+  private translate( delta: Vector2 ): void {
     this.positionProperty.set( this.positionProperty.value.plus( delta ) );
   }
 }

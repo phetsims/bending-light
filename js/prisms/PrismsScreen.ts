@@ -21,7 +21,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 const prismsString = bendingLightStrings.prisms;
 
 class PrismsScreen extends Screen<PrismsModel, PrismsScreenView> {
-  constructor( tandem: Tandem ) {
+  private constructor( tandem: Tandem ) {
 
     const options = {
       name: prismsString,

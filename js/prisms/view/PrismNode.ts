@@ -25,10 +25,10 @@ import Prism from '../model/Prism.js';
 import PrismsModel from '../model/PrismsModel.js';
 
 class PrismNode extends Node {
-  dragListener: DragListener;
-  updatePrismShape: () => void;
-  updatePrismColor: () => void;
-  translateViewXY: ( x: number, y: number ) => void;
+  private dragListener: DragListener;
+  private updatePrismShape: () => void;
+  private updatePrismColor: () => void;
+  private translateViewXY: ( x: number, y: number ) => void;
 
   /**
    * @param prismsModel - main model
@@ -42,7 +42,7 @@ class PrismNode extends Node {
    * @param isIcon - true if the prism node is being created to be shown as an icon in the toolbox
    *                         - false if the prism node will be dragged in the play area
    */
-  constructor( prismsModel: PrismsModel, modelViewTransform: ModelViewTransform2, prism: Prism, prismToolboxNode: Node, prismLayer: Node, dragBoundsProperty: Property<Bounds2>,
+  public constructor( prismsModel: PrismsModel, modelViewTransform: ModelViewTransform2, prism: Prism, prismToolboxNode: Node, prismLayer: Node, dragBoundsProperty: Property<Bounds2>,
                occlusionHandler: ( prismNode: PrismNode ) => void, isIcon: boolean ) {
 
     super( { cursor: 'pointer' } );

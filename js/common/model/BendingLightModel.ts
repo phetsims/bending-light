@@ -28,29 +28,29 @@ const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
 abstract class BendingLightModel {
-  readonly rays: ObservableArray<LightRay>;
-  mediumColorFactory: MediumColorFactory;
-  readonly modelWidth: number;
-  readonly modelHeight: number;
-  readonly allowWebGL: boolean;
-  readonly laserViewProperty: Property<LaserViewEnum>;
-  readonly wavelengthProperty: Property<number>;
-  readonly speedProperty: EnumerationProperty<TimeSpeed>;
+  public readonly rays: ObservableArray<LightRay>;
+  public mediumColorFactory: MediumColorFactory;
+  protected readonly modelWidth: number;
+  public readonly modelHeight: number;
+  public readonly allowWebGL: boolean;
+  public readonly laserViewProperty: Property<LaserViewEnum>;
+  public readonly wavelengthProperty: Property<number>;
+  public readonly speedProperty: EnumerationProperty<TimeSpeed>;
   private readonly indexOfRefractionProperty: Property<number>;
-  readonly showNormalProperty: Property<boolean>;
-  readonly isPlayingProperty: Property<boolean>;
-  readonly showAnglesProperty: Property<boolean>;
-  readonly laser: Laser;
-  rotationArrowAngleOffset: number | null;
+  public readonly showNormalProperty: Property<boolean>;
+  public readonly isPlayingProperty: Property<boolean>;
+  public readonly showAnglesProperty: Property<boolean>;
+  public readonly laser: Laser;
+  public rotationArrowAngleOffset: number | null;
 
-  static readonly DEFAULT_LASER_DISTANCE_FROM_PIVOT: number = DEFAULT_LASER_DISTANCE_FROM_PIVOT;
+  public static readonly DEFAULT_LASER_DISTANCE_FROM_PIVOT: number = DEFAULT_LASER_DISTANCE_FROM_PIVOT;
 
   /**
    * @param laserAngle - laser angle in radians
    * @param topLeftQuadrant - specifies whether laser in topLeftQuadrant
    * @param laserDistanceFromPivot - distance of laser from pivot point, in view coordinates
    */
-  constructor( laserAngle: number, topLeftQuadrant: boolean, laserDistanceFromPivot: number ) {
+  public constructor( laserAngle: number, topLeftQuadrant: boolean, laserDistanceFromPivot: number ) {
 
     // (read-only)- list of rays in the model
     this.rays = createObservableArray();
@@ -82,12 +82,12 @@ abstract class BendingLightModel {
   }
 
   // Adds a ray to the model
-  addRay( ray: LightRay ): void {
+  public addRay( ray: LightRay ): void {
     this.rays.push( ray );
   }
 
   // Clear the model in preparation for another ray propagation update phase
-  clearModel(): void {
+  private clearModel(): void {
     for ( let i = 0; i < this.rays.length; i++ ) {
       this.rays[ i ].particles.clear();
     }
@@ -95,14 +95,14 @@ abstract class BendingLightModel {
   }
 
   // Update the model by clearing the rays, then recreating them
-  updateModel(): void {
+  public updateModel(): void {
     this.clearModel();
     this.propagateRays();
   }
 
-  abstract propagateRays(): void;
+  protected abstract propagateRays(): void;
 
-  reset(): void {
+  public reset(): void {
     this.laserViewProperty.reset();
     this.wavelengthProperty.reset();
     this.isPlayingProperty.reset();
@@ -120,7 +120,7 @@ abstract class BendingLightModel {
    * @param cosTheta1 - cosine of incident angle
    * @param cosTheta2 - cosine of reflected angle
    */
-  static getReflectedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
+  public static getReflectedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
     return Math.pow( ( n1 * cosTheta1 - n2 * cosTheta2 ) / ( n1 * cosTheta1 + n2 * cosTheta2 ), 2 );
   }
 
@@ -131,7 +131,7 @@ abstract class BendingLightModel {
    * @param cosTheta1 - cosine of incident angle
    * @param cosTheta2 - cosine of transmitted angle
    */
-  static getTransmittedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
+  public static getTransmittedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
     return 4 * n1 * n2 * cosTheta1 * cosTheta2 / ( Math.pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ) );
   }
 }

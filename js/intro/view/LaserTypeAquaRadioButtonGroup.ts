@@ -20,7 +20,7 @@ const waveString = bendingLightStrings.wave;
 
 class LaserTypeAquaRadioButtonGroup extends VBox {
 
-  constructor( laserTypeProperty: Property<LaserViewEnum> ) {
+  public constructor( laserTypeProperty: Property<LaserViewEnum> ) {
     const radioButtonOptions = {
       radius: 6,
       font: new PhetFont( 12 )

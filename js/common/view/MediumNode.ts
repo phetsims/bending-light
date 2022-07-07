@@ -19,7 +19,7 @@ class MediumNode extends Node {
    * @param modelViewTransform - converts between model and view co-ordinates
    * @param mediumProperty - specifies medium
    */
-  constructor( modelViewTransform: ModelViewTransform2, mediumProperty: Property<Medium> ) {
+  public constructor( modelViewTransform: ModelViewTransform2, mediumProperty: Property<Medium> ) {
     super( { pickable: false } ); // user can't interact with the medium except through control panels.
 
     // add the shape that paints the medium

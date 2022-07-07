@@ -20,16 +20,16 @@ class SemiCircle {
   private readonly points: Vector2[];
   private readonly referencePointIndex: number;
   private readonly radius: number;
-  center: Vector2;
-  centroid: Vector2;
-  shape: Shape;
+  private center: Vector2;
+  public centroid: Vector2;
+  public shape: Shape;
 
   /**
    * @param referencePointIndex - is used as the drag handle corner for rotation
    * @param points - corner points
    * @param radius - radius of semicircle
    */
-  constructor( referencePointIndex: number, points: Vector2[], radius: number ) {
+  public constructor( referencePointIndex: number, points: Vector2[], radius: number ) {
 
     this.points = points;
 
@@ -52,7 +52,7 @@ class SemiCircle {
    * Get the specified corner point
    * @param i - index of point
    */
-  getPoint( i: number ): Vector2 {
+  private getPoint( i: number ): Vector2 {
     return this.points[ i ];
   }
 
@@ -61,7 +61,7 @@ class SemiCircle {
    * @param deltaX - distance in x direction to be translated
    * @param deltaY - distance in y direction to be translated
    */
-  getTranslatedInstance( deltaX: number, deltaY: number ): SemiCircle {
+  public getTranslatedInstance( deltaX: number, deltaY: number ): SemiCircle {
 
     const newPoints = [];
     for ( let j = 0; j < this.points.length; j++ ) {
@@ -79,7 +79,7 @@ class SemiCircle {
    * @param angle - angle to be rotated
    * @param rotationPoint - point around which semicircle to be rotated
    */
-  getRotatedInstance( angle: number, rotationPoint: Vector2 ): SemiCircle {
+  public getRotatedInstance( angle: number, rotationPoint: Vector2 ): SemiCircle {
     const newPoints = [];
     for ( let k = 0; k < this.points.length; k++ ) {
       const vectorAboutCentroid = this.points[ k ].subtract( rotationPoint );
@@ -96,14 +96,14 @@ class SemiCircle {
   /**
    * Determines whether shape contains given point or not
    */
-  containsPoint( point: Vector2 ): boolean {
+  public containsPoint( point: Vector2 ): boolean {
     return this.shape.containsPoint( point );
   }
 
   /**
    * Just use the 0th point for the reference point for rotation drag handles
    */
-  getReferencePoint(): Vector2 {
+  public getReferencePoint(): Vector2 {
     return this.getPoint( this.referencePointIndex );
   }
 
@@ -111,7 +111,7 @@ class SemiCircle {
    * Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal
    * "mass")
    */
-  getRotationCenter(): Vector2 {
+  public getRotationCenter(): Vector2 {
     return this.center;
   }
 
@@ -119,7 +119,7 @@ class SemiCircle {
    * Compute the intersections of the specified ray with this polygon's edges
    * @param ray - model of the ray
    */
-  getIntersections( ray: ColoredRay ): Intersection[] {
+  public getIntersections( ray: ColoredRay ): Intersection[] {
     const segment = new Line( this.points[ 0 ], this.points[ 1 ] );
     const startAngle = Math.atan2( this.points[ 1 ].y - this.center.y, this.points[ 1 ].x - this.center.x );
     const arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );

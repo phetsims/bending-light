@@ -37,18 +37,18 @@ const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
 const CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
 class PrismsModel extends BendingLightModel {
-  readonly prisms: ObservableArray<Prism>;
-  readonly intersections: ObservableArray<Intersection>;
-  readonly manyRaysProperty: Property<number>;
-  readonly showReflectionsProperty: Property<boolean>;
-  readonly showNormalsProperty: Property<boolean>;
-  readonly showProtractorProperty: Property<boolean>;
-  readonly environmentMediumProperty: Property<Medium>;
-  readonly prismMediumProperty: Property<Medium>;
-  readonly intersectionStrokeProperty: Property<string>;
-  dirty: boolean;
+  public readonly prisms: ObservableArray<Prism>;
+  public readonly intersections: ObservableArray<Intersection>;
+  public readonly manyRaysProperty: Property<number>;
+  public readonly showReflectionsProperty: Property<boolean>;
+  public readonly showNormalsProperty: Property<boolean>;
+  public readonly showProtractorProperty: Property<boolean>;
+  public readonly environmentMediumProperty: Property<Medium>;
+  public readonly prismMediumProperty: Property<Medium>;
+  public readonly intersectionStrokeProperty: Property<string>;
+  public dirty: boolean;
 
-  constructor( providedOptions?: NodeOptions ) {
+  public constructor( providedOptions?: NodeOptions ) {
 
     super( Math.PI, false, 1E-16 );
 
@@ -101,9 +101,7 @@ class PrismsModel extends BendingLightModel {
     this.rotationArrowAngleOffset = 0;
   }
 
-  /**
-   */
-  override reset(): void {
+  public override reset(): void {
     super.reset();
     this.prisms.clear();
     this.manyRaysProperty.reset();
@@ -117,7 +115,7 @@ class PrismsModel extends BendingLightModel {
   /**
    * List of prism prototypes that can be created in the sim
    */
-  getPrismPrototypes(): Prism[] {
+  public getPrismPrototypes(): Prism[] {
     const prismsTypes = [];
 
     // characteristic length scale
@@ -170,14 +168,14 @@ class PrismsModel extends BendingLightModel {
   /**
    * Adds a prism to the model.
    */
-  addPrism( prism: Prism ): void {
+  public addPrism( prism: Prism ): void {
     this.prisms.add( prism );
   }
 
   /**
    * Removes a prism from the model
    */
-  removePrism( prism: Prism ): void {
+  public removePrism( prism: Prism ): void {
     this.prisms.remove( prism );
     this.updateModel();
   }
@@ -222,7 +220,7 @@ class PrismsModel extends BendingLightModel {
   /**
    * Algorithm that computes the trajectories of the rays throughout the system
    */
-  propagateRays(): void {
+  public propagateRays(): void {
 
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
@@ -248,7 +246,7 @@ class PrismsModel extends BendingLightModel {
    * Determine if the laser beam originates within a prism for purpose of determining what index of refraction to use
    * initially
    */
-  isLaserInPrism(): boolean {
+  private isLaserInPrism(): boolean {
     const emissionPoint = this.laser.emissionPointProperty.value;
     for ( let i = 0; i < this.prisms.length; i++ ) {
       if ( this.prisms[ i ].contains( emissionPoint ) ) {
@@ -421,7 +419,7 @@ class PrismsModel extends BendingLightModel {
 
   /**
    */
-  clear(): void {
+  public clear(): void {
     this.intersections.clear();
   }
 }

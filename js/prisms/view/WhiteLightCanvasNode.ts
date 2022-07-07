@@ -30,8 +30,8 @@ import MediumColorFactory from '../../common/model/MediumColorFactory.js';
 class WhiteLightCanvasNode extends CanvasNode {
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly whiteLightRays: LightRay[];
-  environmentMediumProperty: Property<Medium>;
-  colorCSS: string | null;
+  private environmentMediumProperty: Property<Medium>;
+  private colorCSS: string | null;
 
   /**
    * @param modelViewTransform - converts between model and view co-ordinates
@@ -41,7 +41,7 @@ class WhiteLightCanvasNode extends CanvasNode {
    * @param environmentMediumProperty
    * @param mediumColorFactory - for creating colors from index of refraction
    */
-  constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, whiteLightRays: LightRay[],
+  public constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, whiteLightRays: LightRay[],
                environmentMediumProperty: Property<Medium>, mediumColorFactory: MediumColorFactory ) {
 
     super( {
@@ -64,7 +64,7 @@ class WhiteLightCanvasNode extends CanvasNode {
   /**
    * Paints the particles on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ): void {
+  public paintCanvas( context: CanvasRenderingContext2D ): void {
     context.lineWidth = 3;
     context.globalCompositeOperation = 'source-over';
 
@@ -118,9 +118,7 @@ class WhiteLightCanvasNode extends CanvasNode {
     context.restore();
   }
 
-  /**
-   */
-  step(): void {
+  public step(): void {
     this.invalidatePaint();
   }
 }

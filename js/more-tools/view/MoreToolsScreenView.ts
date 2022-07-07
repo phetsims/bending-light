@@ -34,14 +34,14 @@ const arrowScale = 1.5E-14;
 type MoreToolsScreenViewOptions = IntroScreenViewOptions;
 
 class MoreToolsScreenView extends IntroScreenView {
-  moreToolsModel: MoreToolsModel;
-  waveSensorNode: WaveSensorNode | null;
+  private moreToolsModel: MoreToolsModel;
+  private waveSensorNode: WaveSensorNode | null;
 
   /**
    * @param moreToolsModel - model of the more tools screen
    * @param [providedOptions]
    */
-  constructor( moreToolsModel: MoreToolsModel, providedOptions?: MoreToolsScreenViewOptions ) {
+  public constructor( moreToolsModel: MoreToolsModel, providedOptions?: MoreToolsScreenViewOptions ) {
 
     super( moreToolsModel,
       true, // hasMoreTools
@@ -70,7 +70,7 @@ class MoreToolsScreenView extends IntroScreenView {
       } );
   }
 
-  getWaveSensorIcon(): WaveSensorNode {
+  private getWaveSensorIcon(): WaveSensorNode {
     const modelViewTransform = this.modelViewTransform;
 
     const waveSensor = ( this.bendingLightModel as MoreToolsModel ).waveSensor;

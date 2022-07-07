@@ -17,18 +17,18 @@ import DataPoint from './DataPoint.js';
 import Probe from './Probe.js';
 
 class WaveSensor {
-  probe1: Probe;
-  probe2: Probe;
-  bodyPositionProperty: Property<Vector2>;
-  enabledProperty: Property<boolean>;
-  probe1Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
-  probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
+  public probe1: Probe;
+  public probe2: Probe;
+  public bodyPositionProperty: Property<Vector2>;
+  public enabledProperty: Property<boolean>;
+  private probe1Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
+  private probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
 
   /**
    * @param probe1Value - function for getting data from a probe at the specified point
    * @param probe2Value - function for getting data from a probe at the specified point
    */
-  constructor( probe1Value: ( position: Vector2 ) => { time: number; magnitude: number } | null, probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null ) {
+  public constructor( probe1Value: ( position: Vector2 ) => { time: number; magnitude: number } | null, probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null ) {
 
     // Set the relative position of the probes and body in model coordinates (SI). These values for initial probe and
     // body positions were obtained by printing out actual values at runtime, then dragging the objects to a good
@@ -47,7 +47,7 @@ class WaveSensor {
   }
 
   // create a copy for use in toolbox icons, etc.
-  copy(): WaveSensor {
+  public copy(): WaveSensor {
     const waveSensor = new WaveSensor( v => {return { time: 0, magnitude: 0 };}, v => {
       return {
         time: 0,
@@ -60,7 +60,7 @@ class WaveSensor {
     return waveSensor;
   }
 
-  step(): void {
+  public step(): void {
     this.simulationTimeChanged();
   }
 
@@ -86,7 +86,7 @@ class WaveSensor {
 
   /**
    */
-  reset(): void {
+  public reset(): void {
     this.bodyPositionProperty.reset();
     this.enabledProperty.reset();
     this.probe1.reset();

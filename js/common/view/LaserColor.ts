@@ -12,19 +12,19 @@ import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 
 class LaserColor {
-  readonly wavelength: number;
+  public readonly wavelength: number;
 
   /**
    * @param wavelength - wavelength (in meters) of the light
    */
-  constructor( wavelength: number ) {
+  public constructor( wavelength: number ) {
     this.wavelength = wavelength;
   }
 
   /**
    * Determine the color of the light.
    */
-  getColor(): Color {
+  public getColor(): Color {
     return VisibleColor.wavelengthToColor( this.wavelength * 1E9 ); // convert to nanometers
   }
 }

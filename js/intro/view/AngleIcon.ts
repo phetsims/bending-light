@@ -13,7 +13,7 @@ import bendingLight from '../../bendingLight.js';
 
 class AngleIcon extends Node {
 
-  constructor() {
+  public constructor() {
     super();
 
     const edgeLength = 15;

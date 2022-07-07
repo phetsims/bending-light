@@ -52,14 +52,14 @@ const INSET = 10;
 type IntroScreenViewOptions = BendingLightScreenViewOptions;
 
 class IntroScreenView extends BendingLightScreenView {
-  introModel: IntroModel;
+  private introModel: IntroModel;
   private stepEmitter: Emitter<[]>;
   protected topMediumControlPanel: MediumControlPanel;
   protected bottomMediumControlPanel: MediumControlPanel;
-  dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
+  protected dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
   protected bumpLeft: ( node: Node, positionProperty: Property<Vector2> ) => void;
-  toolbox: Panel;
-  timeControlNode: TimeControlNode;
+  private toolbox: Panel;
+  protected timeControlNode: TimeControlNode;
 
   /**
    * @param introModel - model of intro screen
@@ -68,7 +68,7 @@ class IntroScreenView extends BendingLightScreenView {
    * @param createLaserControlPanel
    * @param [providedOptions]
    */
-  constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number,
+  public constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number,
                createLaserControlPanel: ( model: BendingLightModel ) => Node, providedOptions?: IntroScreenViewOptions ) {
 
     const options = merge( {
@@ -438,7 +438,7 @@ class IntroScreenView extends BendingLightScreenView {
   /**
    * restore initial conditions
    */
-  override reset(): void {
+  public override reset(): void {
     super.reset();
     this.introModel.reset();
     this.topMediumControlPanel.reset();
@@ -455,7 +455,7 @@ class IntroScreenView extends BendingLightScreenView {
   /**
    * Called by the animation loop.
    */
-  override step(): void {
+  public override step(): void {
     this.stepEmitter.emit();
     super.step();
     if ( this.introModel.isPlayingProperty.value ) {

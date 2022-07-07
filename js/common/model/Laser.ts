@@ -20,21 +20,21 @@ import LaserColor from '../view/LaserColor.js';
 import ColorModeEnum from './ColorModeEnum.js';
 
 class Laser {
-  readonly topLeftQuadrant: boolean;
+  public readonly topLeftQuadrant: boolean;
 
   // true if the laser is activated and emitting light
-  readonly onProperty: Property<boolean>;
-  readonly waveProperty: Property<boolean>;
-  readonly colorModeProperty: EnumerationProperty<ColorModeEnum>;
-  readonly emissionPointProperty: Property<Vector2>;
-  readonly colorProperty: IReadOnlyProperty<LaserColor>;
-  readonly wavelengthProperty: Property<number>;
+  public readonly onProperty: Property<boolean>;
+  public readonly waveProperty: Property<boolean>;
+  public readonly colorModeProperty: EnumerationProperty<ColorModeEnum>;
+  public readonly emissionPointProperty: Property<Vector2>;
+  public readonly colorProperty: IReadOnlyProperty<LaserColor>;
+  public readonly wavelengthProperty: Property<number>;
 
   // laser direction vector
   private readonly directionUnitVector: Vector2 = new Vector2( 0, 0 );
 
   // point to be pivoted about, and at which the laser points
-  readonly pivotProperty: Vector2Property;
+  public readonly pivotProperty: Vector2Property;
 
   /**
    * @param wavelengthProperty - wavelength of light
@@ -42,7 +42,7 @@ class Laser {
    * @param angle - laser angle
    * @param topLeftQuadrant - specifies whether laser in topLeftQuadrant
    */
-  constructor( wavelengthProperty: Property<number>, distanceFromPivot: number, angle: number, topLeftQuadrant: boolean ) {
+  public constructor( wavelengthProperty: Property<number>, distanceFromPivot: number, angle: number, topLeftQuadrant: boolean ) {
 
     this.topLeftQuadrant = topLeftQuadrant;
     this.pivotProperty = new Vector2Property( new Vector2( 0, 0 ) );
@@ -65,7 +65,7 @@ class Laser {
   }
 
   // Restore to initial values.
-  reset(): void {
+  public reset(): void {
     this.pivotProperty.reset();
     this.onProperty.reset();
     this.waveProperty.reset();
@@ -78,7 +78,7 @@ class Laser {
    * @param deltaX - amount of space in x direction laser to be translated
    * @param deltaY - amount of space in y direction laser to be translated
    */
-  translate( deltaX: number, deltaY: number ): void {
+  public translate( deltaX: number, deltaY: number ): void {
 
     // Caution -- For reasons unknown to @samreid, if the order of the following instructions is switched, the
     // laser will rotate while being dragged, see #221
@@ -89,7 +89,7 @@ class Laser {
   /**
    * Determines the unit vector of light ray
    */
-  getDirectionUnitVector(): Vector2 {
+  public getDirectionUnitVector(): Vector2 {
     const magnitude = this.pivotProperty.value.distance( this.emissionPointProperty.value );
     this.directionUnitVector.x = ( this.pivotProperty.value.x - this.emissionPointProperty.value.x ) / magnitude;
     this.directionUnitVector.y = ( this.pivotProperty.value.y - this.emissionPointProperty.value.y ) / magnitude;
@@ -100,7 +100,7 @@ class Laser {
    * Rotate about the fixed pivot
    * @param angle - angle to be rotated
    */
-  setAngle( angle: number ): void {
+  public setAngle( angle: number ): void {
     const distFromPivot = this.pivotProperty.value.distance( this.emissionPointProperty.value );
     this.emissionPointProperty.value = new Vector2(
       distFromPivot * Math.cos( angle ) + this.pivotProperty.value.x,
@@ -111,28 +111,28 @@ class Laser {
   /**
    * Determines the angle of the laser
    */
-  getAngle(): number {
+  public getAngle(): number {
     return this.getDirectionUnitVector().angle + Math.PI;
   }
 
   /**
    * Determines the distance of laser from pivot point
    */
-  getDistanceFromPivot(): number {
+  public getDistanceFromPivot(): number {
     return this.pivotProperty.value.distance( this.emissionPointProperty.value );
   }
 
   /**
    * Determines the wavelength of the laser
    */
-  getWavelength(): number {
+  public getWavelength(): number {
     return this.colorProperty.get().wavelength;
   }
 
   /**
    * Determines the wavelength of the laser
    */
-  getFrequency(): number {
+  public getFrequency(): number {
     return BendingLightConstants.SPEED_OF_LIGHT / this.getWavelength();
   }
 }

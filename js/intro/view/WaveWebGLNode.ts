@@ -18,14 +18,14 @@ const scratchFloatArray1 = new Float32Array( 9 );
 const scratchFloatArray2 = new Float32Array( 9 );
 
 class WaveWebGLNode extends WebGLNode {
-  readonly modelViewTransform: ModelViewTransform2;
-  readonly rays: ObservableArray<LightRay>; // public only for access by WavePainter
+  public readonly modelViewTransform: ModelViewTransform2;
+  public readonly rays: ObservableArray<LightRay>; // public only for access by WavePainter
 
   /**
    * @param modelViewTransform - Transform between model and view coordinate frames
    * @param rays - light rays
    */
-  constructor( modelViewTransform: ModelViewTransform2, rays: ObservableArray<LightRay> ) {
+  public constructor( modelViewTransform: ModelViewTransform2, rays: ObservableArray<LightRay> ) {
     super( WavePainter );
     this.modelViewTransform = modelViewTransform;
     this.rays = rays;
@@ -33,7 +33,7 @@ class WaveWebGLNode extends WebGLNode {
 
   /**
    */
-  step(): void {
+  public step(): void {
     this.invalidatePaint();
   }
 }
@@ -41,10 +41,10 @@ class WaveWebGLNode extends WebGLNode {
 class WavePainter {
   private readonly gl: WebGLRenderingContext;
   private readonly node: WaveWebGLNode;
-  shaderProgram: ShaderProgram;
-  vertexBuffer: WebGLBuffer | null;
+  private shaderProgram: ShaderProgram;
+  private vertexBuffer: WebGLBuffer | null;
 
-  constructor( gl: WebGLRenderingContext, node: WaveWebGLNode ) {
+  public constructor( gl: WebGLRenderingContext, node: WaveWebGLNode ) {
     this.gl = gl;
     this.node = node;
 
@@ -107,9 +107,7 @@ class WavePainter {
     this.vertexBuffer = gl.createBuffer();
   }
 
-  /**
-   */
-  paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): 1 {
+  public paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): 1 {
     const gl = this.gl;
     const shaderProgram = this.shaderProgram as ShaderProgram;
     const rays = this.node.rays;
@@ -201,9 +199,7 @@ class WavePainter {
     return WebGLNode.PAINTED_SOMETHING;
   }
 
-  /**
-   */
-  dispose(): void {
+  public dispose(): void {
     this.shaderProgram.dispose();
     this.gl.deleteBuffer( this.vertexBuffer );
   }

@@ -14,10 +14,10 @@ import bendingLight from '../../bendingLight.js';
 class WaveParticle {
   private readonly position: Vector2;
   private readonly width: number;
-  readonly color: string;
-  readonly angle: number;
-  readonly height: number;
-  readonly particleGradientColor: string;
+  public readonly color: string;
+  public readonly angle: number;
+  public readonly height: number;
+  public readonly particleGradientColor: string;
 
   /**
    * @param position - position of wave particle
@@ -27,7 +27,7 @@ class WaveParticle {
    * @param angle - angle of wave particle
    * @param waveHeight - height of wave particle
    */
-  constructor( position: Vector2, width: number, color: string, particleGradientColor: string, angle: number, waveHeight: number ) {
+  public constructor( position: Vector2, width: number, color: string, particleGradientColor: string, angle: number, waveHeight: number ) {
     this.position = position;
     this.width = width;
     this.color = color;
@@ -39,14 +39,14 @@ class WaveParticle {
   /**
    * get particle x position
    */
-  getX(): number {
+  public getX(): number {
     return this.position.x;
   }
 
   /**
    * get particle Y position
    */
-  getY(): number {
+  public getY(): number {
     return this.position.y;
   }
 
@@ -54,14 +54,14 @@ class WaveParticle {
    * Set the particle x position
    * @param x - x position in model values
    */
-  setX( x: number ): void {
+  public setX( x: number ): void {
     this.position.x = x;
   }
 
   /**
    * @param y - y position in model values
    */
-  setY( y: number ): void {
+  public setY( y: number ): void {
     this.position.y = y;
   }
 }

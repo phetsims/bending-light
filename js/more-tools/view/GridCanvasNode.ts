@@ -26,7 +26,7 @@ class GridCanvasNode extends CanvasNode {
    * @param strokeDash
    * @param [providedOptions] - options that can be passed on to the underlying node
    */
-  constructor( gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>,
+  public constructor( gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>,
                modelViewTransformProperty: Property<ModelViewTransform2>, strokeDash: number[], providedOptions?: NodeOptions ) {
 
     super( providedOptions );
@@ -38,7 +38,7 @@ class GridCanvasNode extends CanvasNode {
   /**
    * Paints the grid lines on the canvas node.
    */
-  paintCanvas( context: CanvasRenderingContext2D ): void {
+  public paintCanvas( context: CanvasRenderingContext2D ): void {
 
     context.save();
     for ( let i = 0; i < this.gridLines.length; i++ ) {
@@ -64,7 +64,7 @@ class GridCanvasNode extends CanvasNode {
 
   /**
    */
-  step(): void {
+  public step(): void {
     this.invalidatePaint();
   }
 }

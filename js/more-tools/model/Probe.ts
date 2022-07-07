@@ -6,8 +6,8 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import DataPoint from './DataPoint.js';
 
 class Probe {
-  readonly seriesProperty: Property<Array<DataPoint>>;
-  readonly positionProperty: Property<Vector2>;
+  public readonly seriesProperty: Property<Array<DataPoint>>;
+  public readonly positionProperty: Property<Vector2>;
 
   /**
    * Model for a probe, including its position and recorded data series
@@ -15,7 +15,7 @@ class Probe {
    * @param x - x position of probe
    * @param y - y position of probe
    */
-  constructor( x: number, y: number ) {
+  public constructor( x: number, y: number ) {
 
     // array of data points
     this.seriesProperty = new Property<Array<DataPoint>>( [] );
@@ -27,12 +27,12 @@ class Probe {
   /**
    * Resets the model.
    */
-  reset(): void {
+  public reset(): void {
     this.seriesProperty.reset();
     this.positionProperty.reset();
   }
 
-  addSample( sample: DataPoint ): void {
+  public addSample( sample: DataPoint ): void {
     this.seriesProperty.get().push( sample );
     this.seriesProperty.notifyListenersStatic();
   }

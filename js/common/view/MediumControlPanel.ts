@@ -67,7 +67,7 @@ class MediumControlPanel extends Node {
    * @param decimalPlaces - decimalPlaces to show for index of refraction
    * @param [providedOptions] - options that can be passed on to the underlying node
    */
-  constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>, name: string, textFieldVisible: boolean, laserWavelength: Property<number>,
+  public constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>, name: string, textFieldVisible: boolean, laserWavelength: Property<number>,
                decimalPlaces: number, providedOptions?: MediumControlPanelOptions ) {
 
     super();
@@ -361,7 +361,7 @@ class MediumControlPanel extends Node {
 
   /**
    */
-  reset(): void {
+  public reset(): void {
     this.mediumIndexProperty.reset();
   }
 
@@ -370,7 +370,7 @@ class MediumControlPanel extends Node {
    * updates the model with the specified value
    * @param indexOfRefraction - indexOfRefraction of medium
    */
-  setCustomIndexOfRefraction( indexOfRefraction: number ): void {
+  private setCustomIndexOfRefraction( indexOfRefraction: number ): void {
 
     // have to pass the value through the dispersion function to account for the
     // current wavelength of the laser (since index of refraction is a function of wavelength)
@@ -385,7 +385,7 @@ class MediumControlPanel extends Node {
    * Update the medium state from the combo box
    * @param substance - specifies state of the medium
    */
-  setSubstance( substance: Substance ): void {
+  private setSubstance( substance: Substance ): void {
     const color = this.mediumColorFactory.getColor( substance.indexOfRefractionForRedLight );
     this.setMedium( new Medium( this.mediumProperty.get().shape, substance, color ) );
   }
