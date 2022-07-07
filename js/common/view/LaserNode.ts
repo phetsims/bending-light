@@ -25,10 +25,13 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import { SceneryEvent } from '../../../../scenery/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
-type LaserNodeOptions = {
-  tandem: Tandem;
-} & PhetioObjectOptions;
+type SelfOptions = EmptyObjectType;
+type ParentOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
+type LaserNodeOptions = SelfOptions & ParentOptions;
 
 class LaserNode extends Node {
   public laserImageWidth: number;
@@ -49,10 +52,12 @@ class LaserNode extends Node {
    * @param [providedOptions?]
    */
   public constructor( modelViewTransform: ModelViewTransform2, laser: Laser, showRotationDragHandlesProperty: Property<boolean>, showTranslationDragHandlesProperty: Property<boolean>,
-               clampDragAngle: ( n: number ) => number, hasKnob: boolean, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( laserNode: LaserNode ) => void,
-               providedOptions?: LaserNodeOptions ) {
+                      clampDragAngle: ( n: number ) => number, hasKnob: boolean, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( laserNode: LaserNode ) => void,
+                      providedOptions?: LaserNodeOptions ) {
 
-    const options = merge( { tandem: Tandem.OPTIONAL }, providedOptions ) as Pick<LaserNodeOptions, 'tandem'>;
+    const options = optionize<LaserNodeOptions, SelfOptions, ParentOptions>()( {
+      tandem: Tandem.OPTIONAL
+    }, providedOptions );
     const laserPointerNode = new LaserPointerNode( laser.onProperty, {
       bodySize: new Dimension2( 70, 30 ),
       nozzleSize: new Dimension2( 10, 25 ),
