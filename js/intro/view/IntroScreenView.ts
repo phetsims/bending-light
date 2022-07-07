@@ -14,7 +14,6 @@ import Rectangle from '../../../../dot/js/Rectangle.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
@@ -41,6 +40,8 @@ import BendingLightModel from '../../common/model/BendingLightModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 const anglesString = bendingLightStrings.angles;
 const materialString = bendingLightStrings.material;
@@ -49,7 +50,9 @@ const normalLineString = bendingLightStrings.normalLine;
 // constants
 const INSET = 10;
 
-type IntroScreenViewOptions = BendingLightScreenViewOptions;
+type SelfOptions = EmptyObjectType;
+type ParentOptions = BendingLightScreenViewOptions;
+type IntroScreenViewOptions = SelfOptions & ParentOptions;
 
 class IntroScreenView extends BendingLightScreenView {
   private introModel: IntroModel;
@@ -69,9 +72,9 @@ class IntroScreenView extends BendingLightScreenView {
    * @param [providedOptions]
    */
   public constructor( introModel: IntroModel, hasMoreTools: boolean, indexOfRefractionDecimals: number,
-               createLaserControlPanel: ( model: BendingLightModel ) => Node, providedOptions?: IntroScreenViewOptions ) {
+                      createLaserControlPanel: ( model: BendingLightModel ) => Node, providedOptions?: IntroScreenViewOptions ) {
 
-    const options = merge( {
+    const options = optionize<IntroScreenViewOptions, SelfOptions, ParentOptions>()( {
 
       // in the Intro screen, it is shifted 102 to the left since there is extra room above the protractor toolbox
       // for the laser to traverse to.

@@ -13,9 +13,8 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
@@ -31,6 +30,7 @@ import Substance from '../model/Substance.js';
 import BendingLightScreenView from './BendingLightScreenView.js';
 import MediumColorFactory from '../model/MediumColorFactory.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 const airString = bendingLightStrings.air;
 const customString = bendingLightStrings.custom;
@@ -45,11 +45,16 @@ const INDEX_OF_REFRACTION_MAX = 1.6;
 const PLUS_MINUS_SPACING = 4;
 const INSET = 10;
 
-type MediumControlPanelOptions = {
+type SelfOptions = {
   comboBoxListPosition?: ComboBoxListPosition;
+  xMargin?: number;
   yMargin?: number;
   lineWidth?: number;
+  fill?: string;
+  stroke?: string;
 };
+
+type MediumControlPanelOptions = SelfOptions & NodeOptions;
 
 class MediumControlPanel extends Node {
   private readonly mediumColorFactory: MediumColorFactory;
@@ -68,12 +73,12 @@ class MediumControlPanel extends Node {
    * @param [providedOptions] - options that can be passed on to the underlying node
    */
   public constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>, name: string, textFieldVisible: boolean, laserWavelength: Property<number>,
-               decimalPlaces: number, providedOptions?: MediumControlPanelOptions ) {
+                      decimalPlaces: number, providedOptions?: MediumControlPanelOptions ) {
 
     super();
     this.mediumColorFactory = mediumColorFactory;
 
-    const options = merge( {
+    const options = optionize<MediumControlPanelOptions, SelfOptions, NodeOptions>()( {
       xMargin: 10,
       yMargin: 10,
       fill: '#f2fa6a',

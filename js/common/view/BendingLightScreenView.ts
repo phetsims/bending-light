@@ -29,8 +29,8 @@ type SelfOptions = {
   horizontalPlayAreaOffset?: number;
   verticalPlayAreaOffset?: number;
   clampDragAngle?: ( angle: number ) => number;
-  ccwArrowNotAtMax?: () => boolean;
-  clockwiseArrowNotAtMax?: () => boolean;
+  ccwArrowNotAtMax?: ( angle: number ) => boolean;
+  clockwiseArrowNotAtMax?: ( angle: number ) => boolean;
 };
 type BendingLightScreenViewOptions = SelfOptions & ScreenViewOptions;
 
