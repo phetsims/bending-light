@@ -27,7 +27,7 @@ const MAX_ANGLE_IN_WAVE_MODE = 3.0194;
 
 // CIE 1931 2-angle tristimulus values, from http://cvrl.ioo.ucl.ac.uk/cmfs.htm. Maps wavelength (in nm) to an
 // X,Y,Z value in the XYZ color space.
-const XYZ: { [ key: number ]: { x: number; y: number; z: number } } = {
+const XYZ: Record<number, { x: number; y: number; z: number }> = {
   360: { x: 0.0001299, y: 0.000003917, z: 0.0006061 },
   365: { x: 0.0002321, y: 0.000006965, z: 0.001086 },
   370: { x: 0.0004149, y: 0.00001239, z: 0.001946 },
@@ -128,7 +128,7 @@ const XYZ: { [ key: number ]: { x: number; y: number; z: number } } = {
 // CIE Standard Illuminant D65 relative spectral power distribution (e.g. white light wavelength distribution)
 // From http://www.cie.co.at/publ/abst/datatables15_2004/sid65.txt, with wavelength < 360 removed to match our XYZ
 // table. The relative values between wavelengths are what is important here.
-const D65: { [ key: number ]: number } = {
+const D65: Record<number, number> = {
   360: 46.6383,
   365: 49.3637,
   370: 52.0891,
@@ -228,10 +228,10 @@ const D65: { [ key: number ]: number } = {
 
 // {Object} - Maps wavelength (nm) to {Vector3} XYZ colorspace values multiplied times the D65 intensity. Combines
 //            the D65 and XYZ responses, so it contains "how bright in XYZ" each wavelength will be for white light.
-const XYZ_INTENSITIES: { [ key: number ]: Vector3 } = {};
+const XYZ_INTENSITIES: Record<number, Vector3> = {};
 
 // Cache the magnitudes as well so they don't need to be computed many times during each draw
-const XYZ_INTENSITIES_MAGNITUDE: { [ key: number ]: number } = {};
+const XYZ_INTENSITIES_MAGNITUDE: Record<number, number> = {};
 
 for ( const wavelength in XYZ ) {
   const intensity = D65[ wavelength ];
@@ -261,7 +261,7 @@ const MAX_XYZ_INTENSITY = ( () => {
 //            that each XYZ value is in the range [0,1]. Multiplying any entry componentwise with MAX_XYZ_INTENSITY
 //            will result in the original XYZ_INTENSITIES value.
 const NORMALIZED_XYZ_INTENSITIES = ( () => {
-  const result: { [ key: number ]: Vector3 } = {};
+  const result: Record<number, Vector3> = {};
 
   for ( const wavelength in XYZ_INTENSITIES ) {
     const xyz = XYZ_INTENSITIES[ wavelength ];
