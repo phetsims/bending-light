@@ -137,7 +137,7 @@ class MoreToolsScreenView extends IntroScreenView {
         waveSensor.enabledProperty.set( true );
 
         // Center the body label on the pointer
-        const pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point as Vector2 )
+        const pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point )
           .plusXY( 0, -waveSensorNode.bodyNode.height / 2 + 5 );
         waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( pt );
         waveSensorNode.resetRelativePositions();
@@ -204,7 +204,7 @@ class MoreToolsScreenView extends IntroScreenView {
       this.moreToolsModel.velocitySensor.enabledProperty.value = true;
 
       // Center the protractor on the pointer
-      const viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point as Vector2 );
+      const viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point );
       const velocitySensorModelPosition = this.modelViewTransform.viewToModelPosition( viewPosition );
       this.moreToolsModel.velocitySensor.positionProperty.set( velocitySensorModelPosition );
     } ) );

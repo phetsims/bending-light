@@ -127,7 +127,7 @@ class LaserNode extends Node {
     if ( hasKnob ) {
       const translationListener = new SimpleDragHandler( {
         start: ( event: SceneryEvent ) => {
-          start = this.globalToParentPoint( event.pointer.point as Vector2 );
+          start = this.globalToParentPoint( event.pointer.point );
           showTranslationDragHandlesProperty.value = true;
         },
         drag: ( event: SceneryEvent ) => {
@@ -135,7 +135,7 @@ class LaserNode extends Node {
           const laserNodeDragBounds = dragBoundsProperty.value.erodedXY( lightImageHeight / 2, lightImageHeight / 2 );
           const laserDragBoundsInModelValues = modelViewTransform.viewToModelBounds( laserNodeDragBounds );
 
-          const endDrag = this.globalToParentPoint( event.pointer.point as Vector2 );
+          const endDrag = this.globalToParentPoint( event.pointer.point );
           if ( start ) {
             const deltaX = modelViewTransform.viewToModelDeltaX( endDrag.x - start.x );
             const deltaY = modelViewTransform.viewToModelDeltaY( endDrag.y - start.y );
@@ -205,7 +205,7 @@ class LaserNode extends Node {
       drag: ( event: SceneryEvent ) => {
         const coordinateFrame = this.parents[ 0 ];
         const laserAnglebeforeRotate = laser.getAngle();
-        const localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point as Vector2 );
+        const localLaserPosition = coordinateFrame.globalToLocalPoint( event.pointer.point );
         const angle = Math.atan2( modelViewTransform.viewToModelY( localLaserPosition.y ) - laser.pivotProperty.value.y,
           modelViewTransform.viewToModelX( localLaserPosition.x ) - laser.pivotProperty.value.x );
         let laserAngleAfterClamp = clampDragAngle( angle );

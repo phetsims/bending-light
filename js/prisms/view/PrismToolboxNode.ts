@@ -9,7 +9,6 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -86,7 +85,7 @@ class PrismToolboxNode extends Node {
       // Add drag listener for the prisms icon
       const dragListener = DragListener.createForwardingListener( ( event: SceneryEvent ) => {
 
-        const start = this.globalToParentPoint( event.pointer.point as Vector2 );
+        const start = this.globalToParentPoint( event.pointer.point );
         const prismShape = prism.copy();
         prismShape.translate(
           modelViewTransform.viewToModelX( start.x ),

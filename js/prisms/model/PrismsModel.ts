@@ -351,7 +351,7 @@ class PrismsModel extends BendingLightModel {
       }
       this.propagateTheRay( refracted, count + 1, showIntersection );
       rayColor = new Color( 0, 0, 0, 0 );
-      rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ) as Color;
+      rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
       rayColor.set( rayVisibleColor.getRed(), rayVisibleColor.getGreen(), rayVisibleColor.getBlue(),
         rayVisibleColor.getAlpha() );
 
@@ -374,7 +374,7 @@ class PrismsModel extends BendingLightModel {
     }
     else {
       rayColor = new Color( 0, 0, 0, 0 );
-      rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 ) as Color;
+      rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
       rayColor.set( rayVisibleColor.getRed(), rayVisibleColor.getGreen(), rayVisibleColor.getBlue(),
         rayVisibleColor.getAlpha() );
 

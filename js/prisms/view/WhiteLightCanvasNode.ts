@@ -20,7 +20,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import { CanvasNode } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import LightRay from '../../common/model/LightRay.js';
@@ -100,10 +99,10 @@ class WhiteLightCanvasNode extends CanvasNode {
       // skip alpha values that are just too light to see, which could also cause number format problems when creating
       // css color
       if ( a > 1E-5 ) {
-        const c = VisibleColor.wavelengthToColor( wavelength ) as Color;
-        const r: number = c.r as number;
-        const g: number = c.g as number;
-        const b: number = c.b as number;
+        const c = VisibleColor.wavelengthToColor( wavelength );
+        const r: number = c.r;
+        const g: number = c.g;
+        const b: number = c.b;
         context.strokeStyle = `rgb(${
           Utils.roundSymmetric( r * a / 0.9829313170995397 )},${
           Utils.roundSymmetric( g * a )},${

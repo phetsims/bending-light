@@ -285,7 +285,7 @@ class IntroScreenView extends BendingLightScreenView {
       this.showProtractorProperty.value = true;
 
       // Center the protractor on the pointer
-      protractorPositionProperty.value = protractorNode.globalToParentPoint( event.pointer.point as Vector2 );
+      protractorPositionProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
     } ) );
 
     this.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
@@ -344,7 +344,7 @@ class IntroScreenView extends BendingLightScreenView {
       introModel.intensityMeter.enabledProperty.value = true;
 
       // Center the center-bottom of the body on the pointer
-      const bodyViewPosition = intensityMeterNode.bodyNode.globalToParentPoint( event.pointer.point as Vector2 )
+      const bodyViewPosition = intensityMeterNode.bodyNode.globalToParentPoint( event.pointer.point )
         .plusXY( -intensityMeterNode.bodyNode.width / 2, -intensityMeterNode.bodyNode.height + 5 );
       introModel.intensityMeter.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( bodyViewPosition );
       intensityMeterNode.resetRelativePositions();

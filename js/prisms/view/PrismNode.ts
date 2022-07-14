@@ -61,14 +61,14 @@ class PrismNode extends Node {
       knobNode.addInputListener( new SimpleDragHandler( {
         start: ( event: SceneryEvent ) => {
           this.moveToFront();
-          const start = knobNode.globalToParentPoint( event.pointer.point as Vector2 );
+          const start = knobNode.globalToParentPoint( event.pointer.point );
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const startX = modelViewTransform.viewToModelX( start.x );// model values
           const startY = modelViewTransform.viewToModelY( start.y );// model values
           previousAngle = Math.atan2( ( prismCenterPoint.y - startY ), ( prismCenterPoint.x - startX ) );
         },
         drag: ( event: SceneryEvent ) => {
-          const end = knobNode.globalToParentPoint( event.pointer.point as Vector2 );
+          const end = knobNode.globalToParentPoint( event.pointer.point );
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const endX = modelViewTransform.viewToModelX( end.x );// model values
           const endY = modelViewTransform.viewToModelY( end.y );// model values

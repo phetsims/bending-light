@@ -109,7 +109,7 @@ class WavePainter {
 
   public paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): 1 {
     const gl = this.gl;
-    const shaderProgram = this.shaderProgram as ShaderProgram;
+    const shaderProgram = this.shaderProgram;
     const rays = this.node.rays;
     const modelViewTransform = this.node.modelViewTransform;
 
