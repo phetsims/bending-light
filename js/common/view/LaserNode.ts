@@ -87,7 +87,7 @@ class LaserNode extends Node {
 
     // If there is a knob ("Prisms" screen), it is used to rotate the laser.
     // If there is no knob ("Intro" and "More Tools" screens), then the laser is rotated by dragging the laser itself.
-    const rotationTarget = ( hasKnob ? knobImage : laserPointerNode ) as Node;
+    const rotationTarget = hasKnob ? knobImage! : laserPointerNode;
 
     // When mousing over or starting to drag the laser, increment the over count.  If it is more than zero
     // then show the drag handles.  This ensures they will be shown whenever dragging or over, and they won't flicker

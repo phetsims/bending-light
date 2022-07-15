@@ -175,7 +175,7 @@ class Polygon {
       const startAngle = Math.atan2( this.center.y - this.points[ 3 ].y, this.center.x - this.points[ 3 ].x );
       arc = new Arc( this.center, this.radius, startAngle, startAngle + Math.PI, true );
     }
-    return PrismIntersection.getIntersections( this.getEdges(), arc, this.center as Vector2, ray );
+    return PrismIntersection.getIntersections( this.getEdges(), arc, this.center!, ray );
   }
 
   /**
