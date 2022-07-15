@@ -390,7 +390,7 @@ class IntroModel extends BendingLightModel {
   /**
    * Called by the animation loop.
    */
-  protected step(): void {
+  public step(): void {
 
     if ( this.isPlayingProperty.value ) {
       this.updateSimulationTimeAndWaveShape( this.speedProperty.value );
