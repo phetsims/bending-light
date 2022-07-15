@@ -58,7 +58,7 @@ Medium.MediumIO = new IOType( 'MediumIO', {
     setName: {
       returnType: VoidIO,
       parameterTypes: [ StringIO ],
-      implementation: ( text: string ) => {
+      implementation: function( text: string ) {
         // @ts-ignore
         this.name = text;
       },
@@ -69,7 +69,7 @@ Medium.MediumIO = new IOType( 'MediumIO', {
     setFormula: {
       returnType: VoidIO,
       parameterTypes: [ StringIO ],
-      implementation: ( text: string ) => {
+      implementation: function( text: string ) {
         // @ts-ignore
         this.formula = text;
       },
