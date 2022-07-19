@@ -422,6 +422,8 @@ class PrismsModel extends BendingLightModel {
   public clear(): void {
     this.intersections.clear();
   }
+
+  public step(): void { /* no stepping here */ }
 }
 
 bendingLight.register( 'PrismsModel', PrismsModel );
