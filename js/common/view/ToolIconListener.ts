@@ -7,9 +7,7 @@
  */
 
 import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
-import { SceneryEvent } from '../../../../scenery/js/imports.js';
-import { SimpleDragHandler } from '../../../../scenery/js/imports.js';
-import { Trail } from '../../../../scenery/js/imports.js';
+import { SceneryEvent, SimpleDragHandler, Trail } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 
 class ToolIconListener extends SimpleDragHandler {

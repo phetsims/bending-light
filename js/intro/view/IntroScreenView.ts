@@ -40,8 +40,7 @@ import BendingLightModel from '../../common/model/BendingLightModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import IEmitter from '../../../../axon/js/IEmitter.js';
 
 const anglesString = bendingLightStrings.angles;
