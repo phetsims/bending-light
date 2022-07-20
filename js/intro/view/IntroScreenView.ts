@@ -42,6 +42,7 @@ import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import IEmitter from '../../../../axon/js/IEmitter.js';
 
 const anglesString = bendingLightStrings.angles;
 const materialString = bendingLightStrings.material;
@@ -56,7 +57,7 @@ type IntroScreenViewOptions = SelfOptions & ParentOptions;
 
 class IntroScreenView extends BendingLightScreenView {
   private introModel: IntroModel;
-  private stepEmitter: Emitter<[]>;
+  private stepEmitter: IEmitter;
   protected topMediumControlPanel: MediumControlPanel;
   protected bottomMediumControlPanel: MediumControlPanel;
   protected dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
