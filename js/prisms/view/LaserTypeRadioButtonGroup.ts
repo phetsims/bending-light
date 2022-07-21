@@ -78,8 +78,10 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
       orientation: 'horizontal',
       radioButtonOptions: {
         baseColor: 'white',
-        selectedStroke: '#3291b8',
-        selectedLineWidth: 2.5
+        buttonAppearanceStrategyOptions: {
+          selectedStroke: '#3291b8',
+          selectedLineWidth: 2.5
+        }
       }
     } );
     this.mutate( providedOptions );
