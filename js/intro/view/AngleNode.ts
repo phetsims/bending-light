@@ -27,9 +27,14 @@ const NUM_DIGITS = 1; // number of digits in the text readouts
 const ROUNDING_FACTOR = 10; // Round to the nearest tenth
 const BUMP_TO_SIDE_DISTANCE = 38; // How far to move the text to the side if it was in the way of the rays
 
+type TLightRay = {
+  getAngle: () => number;
+  powerFraction: number;
+};
+
 // When there is total internal reflection, treat it as if it is a powerless ray for simplicity
 // Also used if there is no reflected ray
-const MOCK_ZERO_RAY = {
+const MOCK_ZERO_RAY: TLightRay = {
   getAngle: () => 0,
   powerFraction: 0
 };
@@ -45,7 +50,7 @@ class AngleNode extends Node {
    * @param addStepListener -
    */
   public constructor( showAnglesProperty: Property<boolean>, laserOnProperty: Property<boolean>, showNormalProperty: Property<boolean>, rays: ObservableArray<LightRay>, modelViewTransform: ModelViewTransform2,
-               addStepListener: ( x: () => void ) => void ) {
+                      addStepListener: ( x: () => void ) => void ) {
     super();
 
     // Only show the AngleNode when it is selected via a checkbox and the laser is on
@@ -115,7 +120,7 @@ class AngleNode extends Node {
     /**
      * Select the ray of the given type 'incident' | 'reflected', or null if there isn't one of that type
      */
-    const getRay = ( type: RayTypeEnum | null ) => {
+    const getRay = ( type: RayTypeEnum | null ): TLightRay => {
       let selected = null;
       for ( let i = 0; i < rays.length; i++ ) {
         const ray = rays[ i ];
