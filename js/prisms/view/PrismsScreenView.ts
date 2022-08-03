@@ -11,9 +11,8 @@
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
-import { Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 import bendingLightStrings from '../../bendingLightStrings.js';
@@ -204,9 +203,12 @@ class PrismsScreenView extends BendingLightScreenView {
     } );
     const protractorPositionProperty = new Property( this.modelViewTransform.modelToViewXY( 2E-5, 0 ) );
 
-    const protractorNodeListener = new MovableDragHandler( protractorPositionProperty, {
+    const protractorNodeListener = new DragListener( {
+      useParentOffset: true,
+      positionProperty: protractorPositionProperty,
       targetNode: protractorNode,
-      endDrag: () => {
+      dragBoundsProperty: this.visibleBoundsProperty,
+      end: () => {
 
         // If the protractor is hidden behind any of the controls in the top right, move it to the left
         const bounds = environmentMediumControlPanel.globalBounds
@@ -242,7 +244,6 @@ class PrismsScreenView extends BendingLightScreenView {
 
     this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
       this.whiteLightNode && this.whiteLightNode.setCanvasBounds( visibleBounds );
-      protractorNodeListener.setDragBounds( visibleBounds );
       environmentMediumNodeForMonochromaticLight.setRect( visibleBounds.x, visibleBounds.y, visibleBounds.width, visibleBounds.height );
     } );
 

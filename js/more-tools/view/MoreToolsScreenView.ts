@@ -9,13 +9,10 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import Rectangle from '../../../../dot/js/Rectangle.js';
-import { Node, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, VBox } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
-import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import bendingLight from '../../bendingLight.js';
-import ToolIconListener from '../../common/view/ToolIconListener.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
 import IntroScreenView, { IntroScreenViewOptions } from '../../intro/view/IntroScreenView.js';
 import LaserTypeAquaRadioButtonGroup from '../../intro/view/LaserTypeAquaRadioButtonGroup.js';
@@ -25,8 +22,10 @@ import WaveSensorNode from './WaveSensorNode.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Rectangle from '../../../../dot/js/Rectangle.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
 const arrowScale = 1.5E-14;
@@ -96,64 +95,69 @@ class MoreToolsScreenView extends IntroScreenView {
 
     const dropInToolbox = this.dropInToolbox;
 
-    const createMovableDragHandler = ( node: Node, positionProperty: Property<Vector2>, enabledProperty: Property<boolean> ) => {
-      return new MovableDragHandler( positionProperty, {
-        modelViewTransform: modelViewTransform,
-        endDrag: () => {
+    const draggingTogetherProperty = new BooleanProperty( true );
+
+    const createDragListener = ( node: Node, positionProperty: Property<Vector2>, enabledProperty: Property<boolean> ) => {
+      return new DragListener( {
+        useParentOffset: true,
+        positionProperty: positionProperty,
+        transform: modelViewTransform,
+        // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node
+        // will remain in bounds
+        dragBoundsProperty: new DerivedProperty( [ this.visibleBoundsProperty, draggingTogetherProperty ], visibleBounds => {
+          return modelViewTransform.viewToModelBounds( visibleBounds.erodedX( draggingTogetherProperty.value ? 100 : 0 ) );
+        } ),
+        drag: () => {
+          if ( draggingTogetherProperty.value ) {
+            waveSensorNode.resetRelativePositions();
+          }
+        },
+        end: () => {
+          draggingTogetherProperty.value = false;
           this.bumpLeft( node, positionProperty );
           dropInToolbox( node, enabledProperty );
         }
       } );
     };
 
-    const probe1Listener = createMovableDragHandler(
+    const probe1Listener = createDragListener(
       waveSensorNode.probe1Node,
       waveSensor.probe1.positionProperty,
       waveSensor.enabledProperty
     );
     waveSensorNode.probe1Node.addInputListener( probe1Listener );
 
-    const probe2Listener = createMovableDragHandler(
+    const probe2Listener = createDragListener(
       waveSensorNode.probe2Node,
       waveSensor.probe2.positionProperty,
       waveSensor.enabledProperty
     );
     waveSensorNode.probe2Node.addInputListener( probe2Listener );
 
-    const bodyListener = createMovableDragHandler(
+    const bodyListener = createDragListener(
       waveSensorNode.bodyNode,
       waveSensor.bodyPositionProperty,
       waveSensor.enabledProperty
     );
     waveSensorNode.bodyNode.addInputListener( bodyListener );
 
-    waveSensorIcon.addInputListener( new ToolIconListener( [
-        bodyListener,
-        probe1Listener,
-        probe2Listener
-      ], event => {
+    waveSensorIcon.addInputListener( DragListener.createForwardingListener( event => {
 
-        // Show the probe in the play area and hide the icon
-        waveSensor.enabledProperty.set( true );
+      // Show the probe in the play area and hide the icon
+      waveSensor.enabledProperty.set( true );
 
-        // Center the body label on the pointer
-        const pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point )
-          .plusXY( 0, -waveSensorNode.bodyNode.height / 2 + 5 );
-        waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( pt );
-        waveSensorNode.resetRelativePositions();
-        waveSensorNode.syncModelFromView();
-      } )
-    );
+      // Center the body label on the pointer
+      const pt = waveSensorNode.bodyNode.globalToParentPoint( event.pointer.point )
+        .plusXY( 0, -waveSensorNode.bodyNode.height / 2 + 5 );
+      waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( pt );
+      waveSensorNode.resetRelativePositions();
+      waveSensorNode.syncModelFromView();
 
-    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
-
-      // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
-      // node will remain in bounds
-      const modelBounds = this.modelViewTransform.viewToModelBounds( visibleBounds );
-      probe1Listener.setDragBounds( modelBounds );
-      probe2Listener.setDragBounds( modelBounds );
-      bodyListener.setDragBounds( modelBounds );
-    } );
+      draggingTogetherProperty.value = true;
+      waveSensorNode.resetRelativePositions();
+      bodyListener.press( event );
+      waveSensorNode.resetRelativePositions();
+    } ) );
 
     this.afterLightLayer2.addChild( this.waveSensorNode );
     return waveSensorIcon;
@@ -184,9 +188,21 @@ class MoreToolsScreenView extends IntroScreenView {
       velocitySensorNode.visible = enabled;
     } );
 
-    const velocitySensorListener = new MovableDragHandler( moreToolsModel.velocitySensor.positionProperty, {
-      modelViewTransform: this.modelViewTransform,
-      endDrag: () => {
+    const velocitySensorListener = new DragListener( {
+      useParentOffset: true,
+      positionProperty: moreToolsModel.velocitySensor.positionProperty,
+      transform: this.modelViewTransform,
+      // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node
+      // will remain in bounds
+      dragBoundsProperty: new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+        return this.modelViewTransform.viewToModelBounds( new Rectangle(
+          visibleBounds.left - velocitySensorNode.bounds.width / 2,
+          visibleBounds.top,
+          visibleBounds.width,
+          visibleBounds.height
+        ) );
+      } ),
+      end: () => {
         this.bumpLeft( velocitySensorNode, this.moreToolsModel.velocitySensor.positionProperty );
         this.dropInToolbox(
           velocitySensorNode,
@@ -196,9 +212,9 @@ class MoreToolsScreenView extends IntroScreenView {
     } );
     velocitySensorNode.addInputListener( velocitySensorListener );
 
-    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
+    // Add an input listener to the toolbox icon for the protractor, which forwards events to the DragListener
     // for the node in the play area
-    velocitySensorIconNode.addInputListener( new ToolIconListener( [ velocitySensorListener ], event => {
+    velocitySensorIconNode.addInputListener( DragListener.createForwardingListener( event => {
 
       // Show the protractor in the play area and hide the icon
       this.moreToolsModel.velocitySensor.enabledProperty.value = true;
@@ -207,15 +223,8 @@ class MoreToolsScreenView extends IntroScreenView {
       const viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point );
       const velocitySensorModelPosition = this.modelViewTransform.viewToModelPosition( viewPosition );
       this.moreToolsModel.velocitySensor.positionProperty.set( velocitySensorModelPosition );
+      velocitySensorListener.press( event );
     } ) );
-
-    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
-
-      // The body node origin is at its top left, so translate the allowed drag area so that the center of the body
-      // node will remain in bounds
-      const bounds = new Rectangle( visibleBounds.x - velocitySensorNode.bounds.width / 2, visibleBounds.y, visibleBounds.width, visibleBounds.height );
-      velocitySensorListener.setDragBounds( this.modelViewTransform.viewToModelBounds( bounds ) );
-    } );
 
     this.afterLightLayer2.addChild( velocitySensorNode );
     return velocitySensorIconNode;

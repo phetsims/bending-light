@@ -15,10 +15,9 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import MovableDragHandler from '../../../../scenery-phet/js/input/MovableDragHandler.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
@@ -29,7 +28,6 @@ import FloatingLayout from '../../common/view/FloatingLayout.js';
 import IntensityMeterNode from '../../common/view/IntensityMeterNode.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import MediumNode from '../../common/view/MediumNode.js';
-import ToolIconListener from '../../common/view/ToolIconListener.js';
 import IntroModel from '../model/IntroModel.js';
 import AngleIcon from './AngleIcon.js';
 import AngleNode from './AngleNode.js';
@@ -42,6 +40,7 @@ import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import IEmitter from '../../../../axon/js/IEmitter.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const anglesString = bendingLightStrings.angles;
 const materialString = bendingLightStrings.material;
@@ -274,18 +273,23 @@ class IntroScreenView extends BendingLightScreenView {
       }
     };
     this.dropInToolbox = dropInToolbox;
-    const protractorNodeListener = new MovableDragHandler( protractorPositionProperty, {
-      endDrag: () => dropInToolbox( protractorNode, this.showProtractorProperty )
+    const protractorNodeListener = new DragListener( {
+      useParentOffset: true,
+      dragBoundsProperty: this.visibleBoundsProperty,
+      positionProperty: protractorPositionProperty,
+      end: () => dropInToolbox( protractorNode, this.showProtractorProperty )
     } );
 
-    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHander
+    // Add an input listener to the toolbox icon for the protractor, which forwards events to the DragListener
     // for the node in the play area
-    protractorNodeIcon.addInputListener( new ToolIconListener( [ protractorNodeListener ], event => {
+    protractorNodeIcon.addInputListener( DragListener.createForwardingListener( event => {
       // Show the protractor in the play area and hide the icon
       this.showProtractorProperty.value = true;
 
       // Center the protractor on the pointer
       protractorPositionProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
+
+      protractorNodeListener.press( event );
     } ) );
 
     this.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
@@ -319,26 +323,53 @@ class IntroScreenView extends BendingLightScreenView {
       intensityMeterNode.visible = enabled;
       intensityMeterNodeIcon.visible = !enabled;
     } );
-    const probeListener = new MovableDragHandler( introModel.intensityMeter.sensorPositionProperty, {
-      modelViewTransform: modelViewTransform,
-      endDrag: () => {
+    const probeListener = new DragListener( {
+      positionProperty: introModel.intensityMeter.sensorPositionProperty,
+      transform: modelViewTransform,
+      dragBoundsProperty: new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+        return modelViewTransform.viewToModelBounds( visibleBounds );
+      } ),
+      end: () => {
         bumpLeft( intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
         dropInToolbox( intensityMeterNode.probeNode, introModel.intensityMeter.enabledProperty );
       }
     } );
     intensityMeterNode.probeNode.addInputListener( probeListener );
-    const bodyListener = new MovableDragHandler( introModel.intensityMeter.bodyPositionProperty, {
-      modelViewTransform: modelViewTransform,
-      endDrag: () => {
+
+    let draggingTogether = true;
+    const bodyListener = new DragListener( {
+      useParentOffset: true,
+      positionProperty: introModel.intensityMeter.bodyPositionProperty,
+      transform: modelViewTransform,
+
+      // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node
+      // will remain in bounds
+      dragBoundsProperty: new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+        return modelViewTransform.viewToModelBounds( new Rectangle(
+          visibleBounds.left - intensityMeterNode.bodyNode.bounds.width / 2,
+          visibleBounds.top - intensityMeterNode.bodyNode.bounds.height / 2,
+          visibleBounds.width - intensityMeterNode.bodyNode.width,
+          visibleBounds.height
+        ) );
+      } ),
+      drag: () => {
+        if ( draggingTogether ) {
+          intensityMeterNode.resetRelativePositions();
+        }
+      },
+
+      end: () => {
+        draggingTogether = false;
+
         bumpLeft( intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
         dropInToolbox( intensityMeterNode.bodyNode, introModel.intensityMeter.enabledProperty );
       }
     } );
     intensityMeterNode.bodyNode.addInputListener( bodyListener );
 
-    // Add an input listener to the toolbox icon for the protractor, which forwards events to the MovableDragHandler
+    // Add an input listener to the toolbox icon for the protractor, which forwards events to the DragListener
     // for the node in the play area
-    intensityMeterNodeIcon.addInputListener( new ToolIconListener( [ bodyListener, probeListener ], event => {
+    intensityMeterNodeIcon.addInputListener( DragListener.createForwardingListener( event => {
 
       // Show the probe in the play area and hide the icon
       introModel.intensityMeter.enabledProperty.value = true;
@@ -349,6 +380,10 @@ class IntroScreenView extends BendingLightScreenView {
       introModel.intensityMeter.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( bodyViewPosition );
       intensityMeterNode.resetRelativePositions();
       intensityMeterNode.syncModelFromView();
+
+      draggingTogether = true;
+
+      bodyListener.press( event );
     } ) );
 
     // for subclass usage in MoreToolsScreenView
@@ -419,22 +454,6 @@ class IntroScreenView extends BendingLightScreenView {
 
     this.visibleBoundsProperty.link( () => {
       this.toolbox.bottom = checkboxPanel.top - 10;
-    } );
-
-    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
-      protractorNodeListener.setDragBounds( visibleBounds );
-      probeListener.setDragBounds( modelViewTransform.viewToModelBounds( visibleBounds ) );
-
-      // The body node origin is at its top left, so translate the allowed drag area so that the center of the body node
-      // will remain in bounds
-      const viewDragBounds = new Rectangle(
-        visibleBounds.left - intensityMeterNode.bodyNode.bounds.width / 2,
-        visibleBounds.top - intensityMeterNode.bodyNode.bounds.height / 2,
-        visibleBounds.width,
-        visibleBounds.height
-      );
-      const dragBounds = modelViewTransform.viewToModelBounds( viewDragBounds );
-      bodyListener.setDragBounds( dragBounds );
     } );
   }
 

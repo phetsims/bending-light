@@ -143,8 +143,7 @@ class IntensityMeterNode extends Node {
 
     /**
      * when the nodes are positioned by moving the node itself (for view layout), synchonize the model
-     * Without this, when the body node is bumped out of the medium panels, it would have the wrong model position and
-     * hence
+     * Without this, when the body node is bumped out of the medium panels, it would have the wrong model position
      */
     this.syncModelFromView = () => {
       const sensorPosition = modelViewTransform.viewToModelPosition( this.probeNode.translation );
