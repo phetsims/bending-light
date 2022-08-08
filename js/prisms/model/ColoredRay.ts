@@ -8,6 +8,7 @@
  */
 
 import Ray2 from '../../../../dot/js/Ray2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 
@@ -40,11 +41,11 @@ class ColoredRay {
     this.frequency = frequency; // (read-only)
   }
 
-  public get tail() {
+  public get tail(): Vector2 {
     return this.ray.position;
   }
 
-  public get directionUnitVector() {
+  public get directionUnitVector(): Vector2 {
     return this.ray.direction;
   }
 

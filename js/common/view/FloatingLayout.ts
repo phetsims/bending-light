@@ -24,7 +24,7 @@ const FloatingLayout = {
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
    */
-  floatRight: ( screenView: ScreenView, nodes: Node[] ) => {
+  floatRight: ( screenView: ScreenView, nodes: Node[] ): void => {
     screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
 
       // Let the panels move to the right, but not too far
@@ -38,7 +38,7 @@ const FloatingLayout = {
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
    */
-  floatLeft: ( screenView: ScreenView, nodes: Node[], delta = 0 ) => {
+  floatLeft: ( screenView: ScreenView, nodes: Node[], delta = 0 ): void => {
     screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
 
       // Let the panels move to the left, but not too far
@@ -52,7 +52,7 @@ const FloatingLayout = {
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
    */
-  floatTop: ( screenView: ScreenView, nodes: Node[] ) => {
+  floatTop: ( screenView: ScreenView, nodes: Node[] ): void => {
     screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
 
       // Let the panels move to the top, but not too far
@@ -66,7 +66,7 @@ const FloatingLayout = {
   /**
    * Move the nodes to the edge when the screen resizes, but not too far
    */
-  floatBottom: ( screenView: ScreenView, nodes: Node[] ) => {
+  floatBottom: ( screenView: ScreenView, nodes: Node[] ): void => {
     screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
 
       // Let the panels move to the bottom, but not too far
