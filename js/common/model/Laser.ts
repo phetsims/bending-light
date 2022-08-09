@@ -10,7 +10,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -27,7 +27,7 @@ class Laser {
   public readonly waveProperty: Property<boolean>;
   public readonly colorModeProperty: EnumerationProperty<ColorModeEnum>;
   public readonly emissionPointProperty: Property<Vector2>;
-  public readonly colorProperty: IReadOnlyProperty<LaserColor>;
+  public readonly colorProperty: TReadOnlyProperty<LaserColor>;
   public readonly wavelengthProperty: Property<number>;
 
   // laser direction vector

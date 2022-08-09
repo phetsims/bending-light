@@ -27,7 +27,7 @@ import Reading from '../../common/model/Reading.js';
 import Substance from '../../common/model/Substance.js';
 import WaveParticle from '../../common/model/WaveParticle.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
@@ -41,8 +41,8 @@ class IntroModel extends BendingLightModel {
   public topMediumProperty: Property<Medium>;
   public bottomMediumProperty: Property<Medium>;
   public time: number;
-  private indexOfRefractionOfTopMediumProperty: IReadOnlyProperty<number>;
-  private indexOfRefractionOfBottomMediumProperty: IReadOnlyProperty<number>;
+  private indexOfRefractionOfTopMediumProperty: TReadOnlyProperty<number>;
+  private indexOfRefractionOfBottomMediumProperty: TReadOnlyProperty<number>;
   public intensityMeter: IntensityMeter;
   private tailVector: Vector2;
   private tipVector: Vector2;
