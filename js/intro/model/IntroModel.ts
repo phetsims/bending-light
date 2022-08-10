@@ -63,7 +63,7 @@ class IntroModel extends BendingLightModel {
     this.topMediumProperty = new Property( topMedium, {
       reentrant: true,
       tandem: tandem.createTandem( 'topMediumProperty' ),
-      phetioType: Property.PropertyIO( Medium.MediumIO )
+      phetioValueType: Medium.MediumIO
     } );
 
     // Bottom medium
@@ -72,7 +72,7 @@ class IntroModel extends BendingLightModel {
     this.bottomMediumProperty = new Property( bottomMedium, {
       reentrant: true,
       tandem: tandem.createTandem( 'bottomMediumProperty' ),
-      phetioType: Property.PropertyIO( Medium.MediumIO )
+      phetioValueType: Medium.MediumIO
     } );
     this.time = 0;
 
@@ -84,7 +84,7 @@ class IntroModel extends BendingLightModel {
       ],
       ( topMedium, color ) => topMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfTopMediumProperty' ),
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+        phetioValueType: NumberIO
       } );
 
     // Update the bottom medium index of refraction when bottom medium change
@@ -95,7 +95,7 @@ class IntroModel extends BendingLightModel {
       ],
       ( bottomMedium, color ) => bottomMedium.getIndexOfRefraction( color.wavelength ), {
         tandem: tandem.createTandem( 'indexOfRefractionOfBottomMediumProperty' ),
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+        phetioValueType: NumberIO
       } );
 
     // (read-only)-model components
