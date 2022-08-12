@@ -39,7 +39,7 @@ import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import IEmitter from '../../../../axon/js/IEmitter.js';
+import TEmitter from '../../../../axon/js/TEmitter.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const anglesString = bendingLightStrings.angles;
@@ -55,7 +55,7 @@ type IntroScreenViewOptions = SelfOptions & ParentOptions;
 
 class IntroScreenView extends BendingLightScreenView {
   private introModel: IntroModel;
-  private stepEmitter: IEmitter;
+  private stepEmitter: TEmitter;
   protected topMediumControlPanel: MediumControlPanel;
   protected bottomMediumControlPanel: MediumControlPanel;
   protected dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
