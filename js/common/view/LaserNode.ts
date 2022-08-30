@@ -13,7 +13,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
-import { Image, Node, SceneryEvent, SimpleDragHandler } from '../../../../scenery/js/imports.js';
+import { DragListener, Image, Node, SceneryEvent } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import knob_png from '../../../images/knob_png.js';
@@ -121,7 +121,7 @@ class LaserNode extends Node {
     // On the "Prisms" screen, the laser can be translated by dragging the laser, and rotated by dragging the knob on
     // the back of the laser.  This part of the code handles the translation.
     if ( hasKnob ) {
-      const translationListener = new SimpleDragHandler( {
+      const translationListener = new DragListener( {
         start: ( event: SceneryEvent ) => {
           start = this.globalToParentPoint( event.pointer.point );
           showTranslationDragHandlesProperty.value = true;
@@ -193,7 +193,7 @@ class LaserNode extends Node {
       } );
     }
 
-    const rotationListener = new SimpleDragHandler( {
+    const rotationListener = new DragListener( {
       start: () => {
         showTranslationDragHandlesProperty.value = false;
         overCountProperty.value++;
