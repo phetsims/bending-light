@@ -15,7 +15,7 @@ import IntroScreen from './intro/IntroScreen.js';
 import MoreToolsScreen from './more-tools/MoreToolsScreen.js';
 import PrismsScreen from './prisms/PrismsScreen.js';
 
-const bendingLightTitleString = bendingLightStrings[ 'bending-light' ].title;
+const bendingLightTitleStringProperty = bendingLightStrings[ 'bending-light' ].titleStringProperty;
 
 // constants
 const tandem = Tandem.ROOT;
@@ -33,7 +33,7 @@ const simOptions = {
 };
 
 simLauncher.launch( () => {
-  const sim = new Sim( bendingLightTitleString, [
+  const sim = new Sim( bendingLightTitleStringProperty, [
     new IntroScreen( tandem.createTandem( 'introScreen' ) ),
     new PrismsScreen( tandem.createTandem( 'prismsScreen' ) ),
     new MoreToolsScreen( tandem.createTandem( 'moreToolsScreen' ) )
