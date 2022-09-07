@@ -18,16 +18,16 @@ import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import { Color, LinearGradient, Node, NodeOptions, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import VelocitySensor from '../model/VelocitySensor.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
-const speedString = bendingLightStrings.speed;
-const unknownVelocityString = bendingLightStrings.unknownVelocity;
-const velocityPatternString = bendingLightStrings.velocityPattern;
+const speedString = BendingLightStrings.speed;
+const unknownVelocityString = BendingLightStrings.unknownVelocity;
+const velocityPatternString = BendingLightStrings.velocityPattern;
 
 class VelocitySensorNode extends Node {
   private modelViewTransform: ModelViewTransform2;

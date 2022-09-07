@@ -77,8 +77,8 @@ type StringsType = {
   'pattern_0value_percentStringProperty': TReadOnlyProperty<string>;
 };
 
-const bendingLightStrings = getStringModule( 'BENDING_LIGHT' ) as StringsType;
+const BendingLightStrings = getStringModule( 'BENDING_LIGHT' ) as StringsType;
 
-bendingLight.register( 'bendingLightStrings', bendingLightStrings );
+bendingLight.register( 'BendingLightStrings', BendingLightStrings );
 
-export default bendingLightStrings;
+export default BendingLightStrings;

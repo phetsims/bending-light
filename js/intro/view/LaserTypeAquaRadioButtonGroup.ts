@@ -9,13 +9,13 @@
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import AquaRadioButton from '../../../../sun/js/AquaRadioButton.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import Property from '../../../../axon/js/Property.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
-const rayString = bendingLightStrings.ray;
-const waveString = bendingLightStrings.wave;
+const rayString = BendingLightStrings.ray;
+const waveString = BendingLightStrings.wave;
 
 class LaserTypeAquaRadioButtonGroup extends VBox {
 

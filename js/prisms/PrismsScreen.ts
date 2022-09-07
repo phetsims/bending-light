@@ -12,13 +12,13 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
 import prismsScreenWhiteNavBar_png from '../../mipmaps/prismsScreenWhiteNavBar_png.js';
 import prismsScreenWhite_png from '../../mipmaps/prismsScreenWhite_png.js';
-import bendingLightStrings from '../bendingLightStrings.js';
+import BendingLightStrings from '../BendingLightStrings.js';
 import bendingLight from '../bendingLight.js';
 import PrismsModel from './model/PrismsModel.js';
 import PrismsScreenView from './view/PrismsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-const prismsString = bendingLightStrings.prisms;
+const prismsString = BendingLightStrings.prisms;
 
 class PrismsScreen extends Screen<PrismsModel, PrismsScreenView> {
   private constructor( tandem: Tandem ) {

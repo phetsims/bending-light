@@ -16,16 +16,16 @@ import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import { DragListener, HBox, HStrut, Node, NodeOptions, Path, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import bendingLight from '../../bendingLight.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import Prism from '../model/Prism.js';
 import PrismsModel from '../model/PrismsModel.js';
 import PrismNode from './PrismNode.js';
 
-const normalLineString = bendingLightStrings.normalLine;
-const objectsString = bendingLightStrings.objects;
-const protractorString = bendingLightStrings.protractor;
-const reflectionsString = bendingLightStrings.reflections;
+const normalLineString = BendingLightStrings.normalLine;
+const objectsString = BendingLightStrings.objects;
+const protractorString = BendingLightStrings.protractor;
+const reflectionsString = BendingLightStrings.reflections;
 
 // constants
 const MAX_TEXT_WIDTH = 115;

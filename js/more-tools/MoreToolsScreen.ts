@@ -12,13 +12,13 @@ import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
 import moreToolsScreen_png from '../../mipmaps/moreToolsScreen_png.js';
-import bendingLightStrings from '../bendingLightStrings.js';
+import BendingLightStrings from '../BendingLightStrings.js';
 import bendingLight from '../bendingLight.js';
 import MoreToolsModel from './model/MoreToolsModel.js';
 import MoreToolsScreenView from './view/MoreToolsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-const moreToolsString = bendingLightStrings.moreTools;
+const moreToolsString = BendingLightStrings.moreTools;
 
 class MoreToolsScreen extends Screen<MoreToolsModel, MoreToolsScreenView> {
   private constructor( tandem: Tandem ) {

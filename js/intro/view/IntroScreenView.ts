@@ -21,7 +21,7 @@ import { DragListener, HBox, Node, Path, Text, VBox } from '../../../../scenery/
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import BendingLightScreenView, { BendingLightScreenViewOptions } from '../../common/view/BendingLightScreenView.js';
 import FloatingLayout from '../../common/view/FloatingLayout.js';
@@ -42,9 +42,9 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import TEmitter from '../../../../axon/js/TEmitter.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
-const anglesString = bendingLightStrings.angles;
-const materialString = bendingLightStrings.material;
-const normalLineString = bendingLightStrings.normalLine;
+const anglesString = BendingLightStrings.angles;
+const materialString = BendingLightStrings.material;
+const normalLineString = BendingLightStrings.normalLine;
 
 // constants
 const INSET = 10;

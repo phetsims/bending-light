@@ -14,12 +14,12 @@ import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import WavelengthSlider from '../../../../scenery-phet/js/WavelengthSlider.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 
-const unitsNmString = bendingLightStrings.units_nm;
-const wavelengthPatternString = bendingLightStrings.wavelengthPattern;
+const unitsNmString = BendingLightStrings.units_nm;
+const wavelengthPatternString = BendingLightStrings.wavelengthPattern;
 
 // constants
 const PLUS_MINUS_SPACING = 4;

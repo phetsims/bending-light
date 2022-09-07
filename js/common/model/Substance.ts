@@ -7,17 +7,17 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import DispersionFunction from './DispersionFunction.js';
 
-const airString = bendingLightStrings.air;
-const diamondString = bendingLightStrings.diamond;
-const glassString = bendingLightStrings.glass;
-const mysteryAString = bendingLightStrings.mysteryA;
-const mysteryBString = bendingLightStrings.mysteryB;
-const waterString = bendingLightStrings.water;
+const airString = BendingLightStrings.air;
+const diamondString = BendingLightStrings.diamond;
+const glassString = BendingLightStrings.glass;
+const mysteryAString = BendingLightStrings.mysteryA;
+const mysteryBString = BendingLightStrings.mysteryB;
+const waterString = BendingLightStrings.water;
 
 // constants
 const DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;

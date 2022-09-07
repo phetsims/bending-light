@@ -19,7 +19,7 @@ import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import ComboBox, { ComboBoxListPosition } from '../../../../sun/js/ComboBox.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import DispersionFunction from '../model/DispersionFunction.js';
@@ -30,12 +30,12 @@ import MediumColorFactory from '../model/MediumColorFactory.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
-const airString = bendingLightStrings.air;
-const customString = bendingLightStrings.custom;
-const glassString = bendingLightStrings.glass;
-const indexOfRefractionString = bendingLightStrings.indexOfRefraction;
-const unknownString = bendingLightStrings.unknown;
-const waterString = bendingLightStrings.water;
+const airString = BendingLightStrings.air;
+const customString = BendingLightStrings.custom;
+const glassString = BendingLightStrings.glass;
+const indexOfRefractionString = BendingLightStrings.indexOfRefraction;
+const unknownString = BendingLightStrings.unknown;
+const waterString = BendingLightStrings.water;
 
 // constants
 const INDEX_OF_REFRACTION_MIN = Substance.AIR.indexForRed;

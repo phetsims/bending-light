@@ -15,7 +15,7 @@ import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import { DragListener, Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightScreenView, { BendingLightScreenViewOptions } from '../../common/view/BendingLightScreenView.js';
 import FloatingLayout from '../../common/view/FloatingLayout.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
@@ -36,7 +36,7 @@ import LightType from '../model/LightType.js';
 // constants
 const INSET = 10;
 
-const environmentString = bendingLightStrings.environment;
+const environmentString = BendingLightStrings.environment;
 
 type PrismsScreenViewOptions = BendingLightScreenViewOptions;
 

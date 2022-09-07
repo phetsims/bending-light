@@ -16,12 +16,12 @@ import ProbeNode from '../../../../scenery-phet/js/ProbeNode.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
 import { LinearGradient, Node, NodeOptions, NodeProperty, Rectangle, Text } from '../../../../scenery/js/imports.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import IntensityMeter from '../model/IntensityMeter.js';
 
-const intensityString = bendingLightStrings.intensity;
+const intensityString = BendingLightStrings.intensity;
 
 // constants
 const NORMAL_DISTANCE = 25;

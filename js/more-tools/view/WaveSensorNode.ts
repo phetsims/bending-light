@@ -16,7 +16,7 @@ import ProbeNode from '../../../../scenery-phet/js/ProbeNode.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
 import { Color, LinearGradient, Node, NodeOptions, NodeProperty, Rectangle, Text } from '../../../../scenery/js/imports.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import Series from '../model/Series.js';
 import ChartNode from './ChartNode.js';
@@ -24,7 +24,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import WaveSensor from '../model/WaveSensor.js';
 import Probe from '../model/Probe.js';
 
-const timeString = bendingLightStrings.time;
+const timeString = BendingLightStrings.time;
 
 // constants
 const NORMAL_DISTANCE = 25;

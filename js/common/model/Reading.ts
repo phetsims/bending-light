@@ -10,12 +10,12 @@
 import Utils from '../../../../dot/js/Utils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
-import bendingLightStrings from '../../bendingLightStrings.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 
 // strings
 const missString = MathSymbols.NO_VALUE;
-const pattern0ValuePercentString = bendingLightStrings.pattern_0value_percent;
+const pattern0ValuePercentString = BendingLightStrings.pattern_0value_percent;
 
 // constants
 const VALUE_DECIMALS = 2;

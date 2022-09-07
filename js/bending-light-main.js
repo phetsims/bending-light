@@ -10,12 +10,12 @@
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import bendingLightStrings from './bendingLightStrings.js';
+import BendingLightStrings from './BendingLightStrings.js';
 import IntroScreen from './intro/IntroScreen.js';
 import MoreToolsScreen from './more-tools/MoreToolsScreen.js';
 import PrismsScreen from './prisms/PrismsScreen.js';
 
-const bendingLightTitleStringProperty = bendingLightStrings[ 'bending-light' ].titleStringProperty;
+const bendingLightTitleStringProperty = BendingLightStrings[ 'bending-light' ].titleStringProperty;
 
 // constants
 const tandem = Tandem.ROOT;
