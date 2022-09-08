@@ -41,7 +41,7 @@ class WhiteLightCanvasNode extends CanvasNode {
    * @param mediumColorFactory - for creating colors from index of refraction
    */
   public constructor( modelViewTransform: ModelViewTransform2, stageWidth: number, stageHeight: number, whiteLightRays: LightRay[],
-               environmentMediumProperty: Property<Medium>, mediumColorFactory: MediumColorFactory ) {
+                      environmentMediumProperty: Property<Medium>, mediumColorFactory: MediumColorFactory ) {
 
     super( {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )

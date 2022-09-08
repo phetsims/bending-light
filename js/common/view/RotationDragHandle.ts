@@ -31,7 +31,7 @@ class RotationDragHandle extends Node {
    *                                            intro/more-tools screen, so account for that here.
    */
   public constructor( modelViewTransform: ModelViewTransform2, laser: Laser, deltaAngle: number, showDragHandlesProperty: Property<boolean>, notAtMax: ( n: number ) => boolean,
-               laserImageWidth: number, rotationArrowAngleOffset: number ) {
+                      laserImageWidth: number, rotationArrowAngleOffset: number ) {
 
     super();
 

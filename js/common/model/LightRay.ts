@@ -81,7 +81,7 @@ class LightRay {
    * @param rayType - for the intro model, 'incident' | 'reflected' | 'transmitted' | 'prism'
    */
   public constructor( trapeziumWidth: number, tail: Vector2, tip: Vector2, indexOfRefraction: number, wavelength: number, wavelengthInVacuum: number, powerFraction: number, color: Color,
-               waveWidth: number, numWavelengthsPhaseOffset: number, extend: boolean, extendBackwards: boolean, laserView: LaserViewEnum, rayType: string ) {
+                      waveWidth: number, numWavelengthsPhaseOffset: number, extend: boolean, extendBackwards: boolean, laserView: LaserViewEnum, rayType: string ) {
 
     // fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
     // Light must be extended backwards for the transmitted wave shape to be correct

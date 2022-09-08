@@ -38,7 +38,7 @@ class PrismNode extends Node {
    *                         - false if the prism node will be dragged in the play area
    */
   public constructor( prismsModel: PrismsModel, modelViewTransform: ModelViewTransform2, prism: Prism, prismToolboxNode: Node, prismLayer: Node, dragBoundsProperty: Property<Bounds2>,
-               occlusionHandler: ( prismNode: PrismNode ) => void, isIcon: boolean ) {
+                      occlusionHandler: ( prismNode: PrismNode ) => void, isIcon: boolean ) {
 
     super( { cursor: 'pointer' } );
     const knobHeight = 15;
@@ -169,7 +169,7 @@ class PrismNode extends Node {
     /**
      * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
      * model
-       */
+     */
     this.translateViewXY = ( x, y ) => {
       const delta = modelViewTransform.viewToModelDeltaXY( x, y );
       prism.translate( delta.x, delta.y );
