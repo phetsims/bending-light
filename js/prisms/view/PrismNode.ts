@@ -12,7 +12,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { DragListener, Image, Node, Path, SceneryEvent, SimpleDragHandler } from '../../../../scenery/js/imports.js';
+import { DragListener, Image, Node, Path, SceneryEvent } from '../../../../scenery/js/imports.js';
 import knob_png from '../../../images/knob_png.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
@@ -53,7 +53,7 @@ class PrismNode extends Node {
     let previousAngle: number;
     let prismCenterPoint;
     if ( !isIcon ) {
-      knobNode.addInputListener( new SimpleDragHandler( {
+      knobNode.addInputListener( new DragListener( {
         start: ( event: SceneryEvent ) => {
           this.moveToFront();
           const start = knobNode.globalToParentPoint( event.pointer.point );
