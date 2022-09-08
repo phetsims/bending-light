@@ -69,7 +69,7 @@ class Prism {
    * Creates a copy of the prism
    */
   public copy(): Prism {
-    return new Prism( this.shapeProperty.get(), this.typeName );
+    return new Prism( this.shapeProperty.get().getTranslatedInstance( 0, 0 ), this.typeName );
   }
 
   /**
