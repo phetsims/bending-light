@@ -12,11 +12,12 @@
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import Vector3 from '../../../dot/js/Vector3.js';
+import VisibleColor from '../../../scenery-phet/js/VisibleColor.js';
 import bendingLight from '../bendingLight.js';
 
 // constants (these are vars because other constants refer to them)
 const SPEED_OF_LIGHT = 2.99792458E8;
-const WAVELENGTH_RED = 650E-9; //nanometers
+const WAVELENGTH_RED = 650E-9; // meters
 
 //only go to 700nm because after that the reds are too black
 const LASER_MAX_WAVELENGTH = 700; // nm
@@ -292,6 +293,7 @@ const BendingLightConstants = {
     layoutBounds: new Bounds2( 0, 0, 834, 504 )
   },
   LASER_MAX_WAVELENGTH: LASER_MAX_WAVELENGTH,
+  LASER_MIN_WAVELENGTH: VisibleColor.MIN_WAVELENGTH,
   SPEED_OF_LIGHT: SPEED_OF_LIGHT,
   MAX_ANGLE_IN_WAVE_MODE: MAX_ANGLE_IN_WAVE_MODE,
   WAVELENGTH_RED: WAVELENGTH_RED,

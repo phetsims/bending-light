@@ -20,6 +20,9 @@ import LightRay from './LightRay.js';
 import MediumColorFactory from './MediumColorFactory.js';
 import LaserViewEnum from './LaserViewEnum.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 // constants
 const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
@@ -49,8 +52,9 @@ abstract class BendingLightModel {
    * @param laserAngle - laser angle in radians
    * @param topLeftQuadrant - specifies whether laser in topLeftQuadrant
    * @param laserDistanceFromPivot - distance of laser from pivot point, in view coordinates
+   * @param tandem
    */
-  public constructor( laserAngle: number, topLeftQuadrant: boolean, laserDistanceFromPivot: number ) {
+  public constructor( laserAngle: number, topLeftQuadrant: boolean, laserDistanceFromPivot: number, tandem: Tandem ) {
 
     // (read-only)- list of rays in the model
     this.rays = createObservableArray();
@@ -70,7 +74,10 @@ abstract class BendingLightModel {
     // Whether the laser is Ray or Wave mode
     this.laserViewProperty = new EnumerationProperty( LaserViewEnum.RAY );
 
-    this.wavelengthProperty = new Property( BendingLightConstants.WAVELENGTH_RED );
+    this.wavelengthProperty = new NumberProperty( BendingLightConstants.WAVELENGTH_RED, {
+      tandem: tandem.createTandem( 'wavelengthProperty' ),
+      range: new Range( BendingLightConstants.LASER_MIN_WAVELENGTH * 1E-9, BendingLightConstants.LASER_MAX_WAVELENGTH * 1E-9 )
+    } );
     this.isPlayingProperty = new BooleanProperty( true );
     this.speedProperty = new EnumerationProperty( TimeSpeed.NORMAL );
     this.indexOfRefractionProperty = new Property( 1 );

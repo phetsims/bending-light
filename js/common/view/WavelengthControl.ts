@@ -10,7 +10,6 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import WavelengthSlider from '../../../../scenery-phet/js/WavelengthSlider.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
@@ -76,7 +75,7 @@ class WavelengthControl extends Node {
     // add minus button
     const minusButton = new ArrowButton( 'left', () => {
       wavelengthPropertyNM.set(
-        Math.max( wavelengthPropertyNM.value - 1, VisibleColor.MIN_WAVELENGTH ) );
+        Math.max( wavelengthPropertyNM.value - 1, BendingLightConstants.LASER_MIN_WAVELENGTH ) );
     }, {
       scale: 0.6
     } );
@@ -84,7 +83,7 @@ class WavelengthControl extends Node {
     // disable the minus button at minimum wavelength and plus button at max wavelength
     wavelengthPropertyNM.link( wavelength => {
       plusButton.enabled = ( wavelength < BendingLightConstants.LASER_MAX_WAVELENGTH );
-      minusButton.enabled = ( wavelength > VisibleColor.MIN_WAVELENGTH );
+      minusButton.enabled = ( wavelength > BendingLightConstants.LASER_MIN_WAVELENGTH );
     } );
 
     // touch area

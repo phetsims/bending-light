@@ -50,7 +50,7 @@ class PrismsModel extends BendingLightModel {
 
   public constructor( providedOptions?: NodeOptions ) {
 
-    super( Math.PI, false, 1E-16 );
+    super( Math.PI, false, 1E-16, providedOptions!.tandem! );
 
     this.prisms = createObservableArray(); // (read-only)
 

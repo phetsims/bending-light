@@ -54,7 +54,7 @@ class IntroModel extends BendingLightModel {
    */
   public constructor( bottomSubstance: Substance, horizontalPlayAreaOffset: boolean, tandem: Tandem ) {
 
-    super( Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT );
+    super( Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT, tandem );
 
     // Top medium
     // TODO: Split this into topSubstanceProperty for phet-io
