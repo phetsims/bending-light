@@ -11,9 +11,6 @@
   },
   "phet": {
     "requirejsNamespace": "BENDING_LIGHT",
-    "preload": [
-      "../sherpa/lib/Tween-r12.js"
-    ],
     "runnable": true,
     "supportedBrands": [
       "adapted-from-phet",
