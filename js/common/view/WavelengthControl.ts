@@ -17,9 +17,10 @@ import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
-const unitsNmString = BendingLightStrings.units_nm;
-const wavelengthPatternString = BendingLightStrings.wavelengthPattern;
+const unitsNmStringProperty = BendingLightStrings.units_nmStringProperty;
+const wavelengthPatternStringProperty = BendingLightStrings.wavelengthPatternStringProperty;
 
 // constants
 const PLUS_MINUS_SPACING = 4;
@@ -49,12 +50,13 @@ class WavelengthControl extends Node {
       thumbTouchAreaYDilation: 4
     } );
 
-    const formattedString = StringUtils.format( wavelengthPatternString, Utils.roundSymmetric( wavelengthPropertyNM.value ) );
+    const formattedStringProperty = new DerivedProperty( [ wavelengthPatternStringProperty, wavelengthPropertyNM ],
+      ( wavelengthPatternString, wavelength ) => StringUtils.format( wavelengthPatternStringProperty.value, Utils.roundSymmetric( wavelengthPropertyNM.value ) ) );
 
     // Prevent the i18n strings from making the wavelength slider too wide, see #311
-    const maxWidth = 80;
-    const wavelengthValueText = new Text( formattedString, { maxWidth: maxWidth } );
-    const wavelengthBoxShape = new Rectangle( 0, 0, new Text( unitsNmString, { maxWidth: maxWidth } ).width + 36, 18, 2, 2, {
+    const maxWidth = 50;
+    const wavelengthValueText = new Text( formattedStringProperty, { maxWidth: maxWidth } );
+    const wavelengthBoxShape = new Rectangle( 0, 0, new Text( unitsNmStringProperty, { maxWidth: maxWidth } ).width + 36, 18, 2, 2, {
       fill: 'white',
       stroke: 'black'
     } );
@@ -125,9 +127,6 @@ class WavelengthControl extends Node {
 
       // set the laser wavelength according to the slider wavelength
       wavelengthProperty.set( wavelength / 1E9 );
-
-      // set the value in the slider text box
-      wavelengthValueText.setText( StringUtils.format( wavelengthPatternString, Utils.roundSymmetric( wavelength ), unitsNmString ) );
     } );
   }
 }

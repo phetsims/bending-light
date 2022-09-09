@@ -14,7 +14,6 @@ import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 
 // strings
-const missString = MathSymbols.NO_VALUE;
 const pattern0ValuePercentStringProperty = BendingLightStrings.pattern_0value_percentStringProperty;
 
 // constants
@@ -64,7 +63,7 @@ Reading.MISS = {
   /**
    * Get string to display on intensity sensor
    */
-  getString: () => missString,
+  getString: () => MathSymbols.NO_VALUE,
 
   /**
    * Determines whether ray hit the intensity sensor or not
