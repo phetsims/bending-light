@@ -41,7 +41,8 @@ class LaserNode extends Node {
    * @param showTranslationDragHandlesProperty - to show laser node drag arrows
    * @param clampDragAngle - function that limits the angle of laser to its bounds
    *                                       translating the laser
-   * @param hasKnob - true if the laser should be shown with a knob
+   * @param hasKnob - true - add a knob, make the laser rotate by dragging the knob, translate by dragging the laser body
+   *                  false - don't add a knob, make the laser rotate by dragging the laser body, don't support translation
    * @param dragBoundsProperty - bounds that define where the laser may be dragged
    * @param occlusionHandler - function that will move the laser out from behind a control panel if dropped
    *                                      there
