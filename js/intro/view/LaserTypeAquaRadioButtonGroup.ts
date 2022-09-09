@@ -13,9 +13,10 @@ import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import Property from '../../../../axon/js/Property.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
-const rayString = BendingLightStrings.ray;
-const waveString = BendingLightStrings.wave;
+const rayStringProperty = BendingLightStrings.rayStringProperty;
+const waveStringProperty = BendingLightStrings.waveStringProperty;
 
 class LaserTypeAquaRadioButtonGroup extends VBox {
 
@@ -24,20 +25,20 @@ class LaserTypeAquaRadioButtonGroup extends VBox {
       radius: 6,
       font: new PhetFont( 12 )
     };
-    const createButtonTextNode = ( text: string ) => new Text( text, {
+    const createButtonTextNode = ( text: TReadOnlyProperty<string> ) => new Text( text, {
       maxWidth: 120, // measured empirically to ensure no overlap with the laser at any angle
       font: new PhetFont( 12 )
     } );
     const rayButton = new AquaRadioButton(
       laserTypeProperty,
       LaserViewEnum.RAY,
-      createButtonTextNode( rayString ),
+      createButtonTextNode( rayStringProperty ),
       radioButtonOptions
     );
     const waveButton = new AquaRadioButton(
       laserTypeProperty,
       LaserViewEnum.WAVE,
-      createButtonTextNode( waveString ),
+      createButtonTextNode( waveStringProperty ),
       radioButtonOptions
     );
     const spacing = 10;

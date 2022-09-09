@@ -21,7 +21,7 @@ import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import IntensityMeter from '../model/IntensityMeter.js';
 
-const intensityString = BendingLightStrings.intensity;
+const intensityStringProperty = BendingLightStrings.intensityStringProperty;
 
 // constants
 const NORMAL_DISTANCE = 25;
@@ -82,13 +82,11 @@ class IntensityMeterNode extends Node {
     } );
 
     // Add a "Intensity" title to the body node
-    const titleNode = new Text( intensityString, {
+    const titleNode = new Text( intensityStringProperty, {
       font: new PhetFont( 24 ),
-      fill: 'white'
+      fill: 'white',
+      maxWidth: rectangleWidth - 15
     } );
-    if ( titleNode.width > rectangleWidth - 15 ) {
-      titleNode.scale( ( rectangleWidth - 15 ) / titleNode.width );
-    }
 
     // Add the reading to the body node
     const valueNode = new Text( intensityMeter.readingProperty.get().getString(), {
@@ -104,7 +102,10 @@ class IntensityMeterNode extends Node {
       scale: 0.6
     } );
     titleNode.bottom = innerRectangle.bottom - 3;
-    titleNode.centerX = outerRectangle.centerX;
+
+    titleNode.boundsProperty.link( bounds => {
+      titleNode.centerX = outerRectangle.centerX;
+    } );
 
     // displayed value
     intensityMeter.readingProperty.link( reading => {

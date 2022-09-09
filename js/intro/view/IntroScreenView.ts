@@ -42,9 +42,9 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import TEmitter from '../../../../axon/js/TEmitter.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
-const anglesString = BendingLightStrings.angles;
-const materialString = BendingLightStrings.material;
-const normalLineString = BendingLightStrings.normalLine;
+const anglesStringProperty = BendingLightStrings.anglesStringProperty;
+const materialStringProperty = BendingLightStrings.materialStringProperty;
+const normalLineStringProperty = BendingLightStrings.normalLineStringProperty;
 
 // constants
 const INSET = 10;
@@ -124,7 +124,7 @@ class IntroScreenView extends BendingLightScreenView {
 
     // add control panels for setting the index of refraction for each medium
     const topMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
-      introModel.topMediumProperty, materialString, true, introModel.wavelengthProperty, indexOfRefractionDecimals, {
+      introModel.topMediumProperty, materialStringProperty, true, introModel.wavelengthProperty, indexOfRefractionDecimals, {
         yMargin: 7
       } );
     const topMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
@@ -139,7 +139,7 @@ class IntroScreenView extends BendingLightScreenView {
     // add control panels for setting the index of refraction for each medium
     const bottomMediumControlPanelXOffset = hasMoreTools ? 4 : 0;
     const bottomMediumControlPanel = new MediumControlPanel( this, introModel.mediumColorFactory,
-      introModel.bottomMediumProperty, materialString, true, introModel.wavelengthProperty, indexOfRefractionDecimals, {
+      introModel.bottomMediumProperty, materialStringProperty, true, introModel.wavelengthProperty, indexOfRefractionDecimals, {
         yMargin: 7
       } );
     bottomMediumControlPanel.setTranslation(
@@ -214,8 +214,8 @@ class IntroScreenView extends BendingLightScreenView {
     this.laserViewLayer.addChild( laserControlPanel );
 
     // text for checkboxes
-    const normalText = new Text( normalLineString, { fontSize: 12 } );
-    const angleText = new Text( anglesString, { fontSize: 12 } );
+    const normalText = new Text( normalLineStringProperty, { fontSize: 12 } );
+    const angleText = new Text( anglesStringProperty, { fontSize: 12 } );
 
     // add normal checkbox
     const normalIcon = new NormalLine( 17, [ 4, 3 ] );

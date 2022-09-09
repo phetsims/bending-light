@@ -22,10 +22,10 @@ import Prism from '../model/Prism.js';
 import PrismsModel from '../model/PrismsModel.js';
 import PrismNode from './PrismNode.js';
 
-const normalLineString = BendingLightStrings.normalLine;
-const objectsString = BendingLightStrings.objects;
-const protractorString = BendingLightStrings.protractor;
-const reflectionsString = BendingLightStrings.reflections;
+const normalLineStringProperty = BendingLightStrings.normalLineStringProperty;
+const objectsStringProperty = BendingLightStrings.objectsStringProperty;
+const protractorStringProperty = BendingLightStrings.protractorStringProperty;
+const reflectionsStringProperty = BendingLightStrings.reflectionsStringProperty;
 
 // constants
 const MAX_TEXT_WIDTH = 115;
@@ -117,7 +117,7 @@ class PrismToolboxNode extends Node {
     const objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
       prismsModel.mediumColorFactory,
       prismsModel.prismMediumProperty,
-      objectsString,
+      objectsStringProperty,
       false,
       prismsModel.wavelengthProperty,
       2, {
@@ -142,10 +142,10 @@ class PrismToolboxNode extends Node {
 
     // itemSpec describes the pieces that make up an item in the control panel,
     // conforms to the contract: { label: {Node}, icon: {Node} (optional) }
-    const showReflections = { label: new Text( reflectionsString, textOptions ), icon: null };
-    const showNormal = { label: new Text( normalLineString, textOptions ), icon: null };
+    const showReflections = { label: new Text( reflectionsStringProperty, textOptions ), icon: null };
+    const showNormal = { label: new Text( normalLineStringProperty, textOptions ), icon: null };
     const showProtractor = {
-      label: new Text( protractorString, textOptions ),
+      label: new Text( protractorStringProperty, textOptions ),
       icon: ProtractorNode.createIcon( {
         scale: 0.066 // determined empirically
       } )

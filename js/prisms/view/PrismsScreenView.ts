@@ -36,7 +36,7 @@ import LightType from '../model/LightType.js';
 // constants
 const INSET = 10;
 
-const environmentString = BendingLightStrings.environment;
+const environmentStringProperty = BendingLightStrings.environmentStringProperty;
 
 type PrismsScreenViewOptions = BendingLightScreenViewOptions;
 
@@ -112,7 +112,7 @@ class PrismsScreenView extends BendingLightScreenView {
     // Add control panels for setting the index of refraction for each medium
     // @ts-ignore
     const environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.mediumColorFactory, prismsModel.environmentMediumProperty,
-      environmentString, false, prismsModel.wavelengthProperty,
+      environmentStringProperty, false, prismsModel.wavelengthProperty,
       indexOfRefractionDecimals, {
         yMargin: 6,
         comboBoxListPosition: 'below'

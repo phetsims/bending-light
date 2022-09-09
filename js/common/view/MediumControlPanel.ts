@@ -29,13 +29,14 @@ import BendingLightScreenView from './BendingLightScreenView.js';
 import MediumColorFactory from '../model/MediumColorFactory.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
-const airString = BendingLightStrings.air;
-const customString = BendingLightStrings.custom;
-const glassString = BendingLightStrings.glass;
-const indexOfRefractionString = BendingLightStrings.indexOfRefraction;
-const unknownString = BendingLightStrings.unknown;
-const waterString = BendingLightStrings.water;
+const airStringProperty = BendingLightStrings.airStringProperty;
+const customStringProperty = BendingLightStrings.customStringProperty;
+const glassStringProperty = BendingLightStrings.glassStringProperty;
+const indexOfRefractionStringProperty = BendingLightStrings.indexOfRefractionStringProperty;
+const unknownStringProperty = BendingLightStrings.unknownStringProperty;
+const waterStringProperty = BendingLightStrings.waterStringProperty;
 
 // constants
 const INDEX_OF_REFRACTION_MIN = Substance.AIR.indexForRed;
@@ -64,13 +65,14 @@ class MediumControlPanel extends Node {
    * @param view - view of the simulation
    * @param mediumColorFactory - for turning index of refraction into color
    * @param mediumProperty - specifies medium
-   * @param name - name of the medium material
+   * @param nameProperty - name of the medium material
    * @param textFieldVisible - whether to display index of refraction value
    * @param laserWavelength - wavelength of laser
    * @param decimalPlaces - decimalPlaces to show for index of refraction
    * @param [providedOptions] - options that can be passed on to the underlying node
    */
-  public constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>, name: string, textFieldVisible: boolean, laserWavelength: Property<number>,
+  public constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>,
+                      nameProperty: TReadOnlyProperty<string>, textFieldVisible: boolean, laserWavelength: Property<number>,
                       decimalPlaces: number, providedOptions?: MediumControlPanelOptions ) {
 
     super();
@@ -95,7 +97,7 @@ class MediumControlPanel extends Node {
 
     // dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
     const customState = new Substance(
-      customString,
+      customStringProperty,
       Substance.MYSTERY_B.indexOfRefractionForRedLight + 1.2,
       false,
       true
@@ -104,7 +106,7 @@ class MediumControlPanel extends Node {
 
     // add material combo box
     const materialTitleWidth = textFieldVisible ? 80 : 90;
-    const materialTitle = new Text( name, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
+    const materialTitle = new Text( nameProperty, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
     if ( materialTitle.width > materialTitleWidth ) {
       materialTitle.scale( materialTitleWidth / materialTitle.width );
     }
@@ -113,7 +115,7 @@ class MediumControlPanel extends Node {
 
     const createItem = ( item: Substance ) => {
       const comboBoxTextWidth = textFieldVisible ? 130 : 75;
-      const itemName = new Text( item.name, textOptionsOfComboBoxStrings );
+      const itemName = new Text( item.nameProperty, textOptionsOfComboBoxStrings );
       if ( itemName.width > comboBoxTextWidth ) {
         itemName.scale( comboBoxTextWidth / itemName.width );
       }
@@ -175,7 +177,10 @@ class MediumControlPanel extends Node {
     // add index of refraction text and value
     const textOptions = { font: new PhetFont( 12 ) };
     const indexOfRefractionLabelWidth = textFieldVisible ? 152 : 208;
-    const indexOfRefractionLabel = new Text( indexOfRefractionString, textOptions );
+    const indexOfRefractionLabel = new Text( indexOfRefractionStringProperty, {
+      font: new PhetFont( 12 ),
+      maxWidth: 165
+    } );
     if ( indexOfRefractionLabel.width > indexOfRefractionLabelWidth ) {
       indexOfRefractionLabel.scale( indexOfRefractionLabelWidth / indexOfRefractionLabel.width );
     }
@@ -259,15 +264,15 @@ class MediumControlPanel extends Node {
     // panel.
     const sliderWidth = Math.max( materialComboBox.width, indexOfRefractionNode.width ) - 12;
     const labelWidth = sliderWidth * 0.25;
-    const airTitle = new Text( airString );
+    const airTitle = new Text( airStringProperty );
     if ( airTitle.width > labelWidth ) {
       airTitle.scale( labelWidth / airTitle.width );
     }
-    const waterTitle = new Text( waterString );
+    const waterTitle = new Text( waterStringProperty );
     if ( waterTitle.width > labelWidth ) {
       waterTitle.scale( labelWidth / waterTitle.width );
     }
-    const glassTitle = new Text( glassString );
+    const glassTitle = new Text( glassStringProperty );
     if ( glassTitle.width > labelWidth ) {
       glassTitle.scale( labelWidth / glassTitle.width );
     }
@@ -291,7 +296,7 @@ class MediumControlPanel extends Node {
     indexOfRefractionSlider.addMajorTick( 1.6 );
 
     // add a text to display when mystery is selected
-    const unknown = new Text( unknownString, {
+    const unknown = new Text( unknownStringProperty, {
       font: new PhetFont( 16 ),
       centerX: indexOfRefractionSlider.centerX,
       centerY: indexOfRefractionSlider.centerY,
@@ -348,7 +353,7 @@ class MediumControlPanel extends Node {
       else {
 
         // if it was custom, then use the index of refraction but keep the name as "custom"
-        this.setSubstance( new Substance( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
+        this.setSubstance( new Substance( selected.nameProperty, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
       }
     } );
 
@@ -381,7 +386,7 @@ class MediumControlPanel extends Node {
     // current wavelength of the laser (since index of refraction is a function of wavelength)
     const dispersionFunction = new DispersionFunction( indexOfRefraction, this.laserWavelengthProperty.get() );
     this.setMedium( new Medium( this.mediumProperty.get().shape,
-      new Substance( customString, indexOfRefraction, false, true ),
+      new Substance( customStringProperty, indexOfRefraction, false, true ),
       this.mediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() )
     ) );
   }

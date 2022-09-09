@@ -15,7 +15,7 @@ import bendingLight from '../../bendingLight.js';
 
 // strings
 const missString = MathSymbols.NO_VALUE;
-const pattern0ValuePercentString = BendingLightStrings.pattern_0value_percent;
+const pattern0ValuePercentStringProperty = BendingLightStrings.pattern_0value_percentStringProperty;
 
 // constants
 const VALUE_DECIMALS = 2;
@@ -46,7 +46,7 @@ class Reading {
    * @param value - value to be displayed on intensity meter
    */
   public format( value: number ): string {
-    return StringUtils.format( pattern0ValuePercentString, Utils.toFixed( value, VALUE_DECIMALS ) );
+    return StringUtils.format( pattern0ValuePercentStringProperty.value, Utils.toFixed( value, VALUE_DECIMALS ) );
   }
 
   /**
