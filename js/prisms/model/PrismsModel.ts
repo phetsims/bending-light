@@ -68,10 +68,18 @@ class PrismsModel extends BendingLightModel {
     this.showProtractorProperty = new BooleanProperty( false );
 
     // Environment the laser is in
-    this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), { reentrant: true } );
+    this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), {
+
+      // See https://github.com/phetsims/bending-light/issues/378
+      reentrant: true
+    } );
 
     // Material that comprises the prisms
-    this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ), { reentrant: true } );
+    this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ), {
+
+      // See https://github.com/phetsims/bending-light/issues/378
+      reentrant: true
+    } );
 
     this.intersectionStrokeProperty = new Property( 'black' );
     this.laser.colorModeProperty.link( colorMode => {

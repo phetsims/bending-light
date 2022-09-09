@@ -180,6 +180,8 @@ class MediumControlPanel extends Node {
       indexOfRefractionLabel.scale( indexOfRefractionLabelWidth / indexOfRefractionLabel.width );
     }
     this.mediumIndexProperty = new Property( mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), {
+
+      // See https://github.com/phetsims/bending-light/issues/378
       reentrant: true
     } );
     const readoutString = Utils.toFixed( this.mediumIndexProperty.get(), decimalPlaces );

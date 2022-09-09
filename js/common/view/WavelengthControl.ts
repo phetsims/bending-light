@@ -27,7 +27,11 @@ const PLUS_MINUS_SPACING = 4;
 class WavelengthControl extends Node {
 
   public constructor( wavelengthProperty: Property<number>, enabledProperty: Property<boolean>, trackWidth: number ) {
-    const wavelengthPropertyNM = new Property<number>( wavelengthProperty.value * 1E9, { reentrant: true } );
+    const wavelengthPropertyNM = new Property<number>( wavelengthProperty.value * 1E9, {
+
+      // See https://github.com/phetsims/bending-light/issues/378
+      reentrant: true
+    } );
 
     wavelengthProperty.link( wavelength => {
       wavelengthPropertyNM.value = wavelength * 1E9;
