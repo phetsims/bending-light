@@ -21,14 +21,12 @@ import LaserTypeAquaRadioButtonGroup from './view/LaserTypeAquaRadioButtonGroup.
 import Tandem from '../../../tandem/js/Tandem.js';
 import BendingLightModel from '../common/model/BendingLightModel.js';
 
-const introString = BendingLightStrings.intro;
-
 class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
   private constructor( tandem: Tandem ) {
 
     const options = {
-      name: introString,
+      name: BendingLightStrings.introStringProperty,
       homeScreenIcon: new ScreenIcon( new Image( introScreen_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1

@@ -7,7 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import Screen from '../../../joist/js/Screen.js';
+import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
 import prismsScreenWhiteNavBar_png from '../../mipmaps/prismsScreenWhiteNavBar_png.js';
@@ -18,13 +18,11 @@ import PrismsModel from './model/PrismsModel.js';
 import PrismsScreenView from './view/PrismsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-const prismsString = BendingLightStrings.prisms;
-
 class PrismsScreen extends Screen<PrismsModel, PrismsScreenView> {
   private constructor( tandem: Tandem ) {
 
-    const options = {
-      name: prismsString,
+    const options: ScreenOptions = {
+      name: BendingLightStrings.prismsStringProperty,
       homeScreenIcon: new ScreenIcon( new Image( prismsScreenWhite_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
