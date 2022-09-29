@@ -81,6 +81,9 @@ Medium.MediumIO = new IOType( 'MediumIO', {
   // TODO: This needs to be implemented
   toStateObject( medium: Medium ) {
     return {};
+  },
+  stateSchema: {
+
   }
 } );
 
