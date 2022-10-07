@@ -39,7 +39,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
     const overallScale = 0.875;
     super( radioButtonAdapterProperty, [ {
       value: LightType.SINGLE_COLOR,
-      node: new Node( {
+      createNode: tandem => new Node( {
         scale: overallScale,
         children: [
           redLineAt( 0 ),
@@ -48,7 +48,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
       } )
     }, {
       value: LightType.SINGLE_COLOR_5X,
-      node: new Node( {
+      createNode: tandem => new Node( {
         scale: overallScale,
         children: [
           redLineAt( 0 ),
@@ -61,7 +61,7 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
       } )
     }, {
       value: LightType.WHITE,
-      node: new Node( {
+      createNode: tandem => new Node( {
         scale: overallScale,
         children: [
           new Rectangle( 60, -padding, 50, laserImageNode.height + padding * 2, { fill: '#261f21' } ),
