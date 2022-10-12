@@ -27,17 +27,17 @@ const PLUS_MINUS_SPACING = 4;
 class WavelengthControl extends Node {
 
   public constructor( wavelengthProperty: Property<number>, enabledProperty: Property<boolean>, trackWidth: number ) {
-    const wavelengthPropertyNM = new Property<number>( wavelengthProperty.value * 1E9, {
+    const wavelengthPropertyNMProperty = new Property<number>( wavelengthProperty.value * 1E9, {
 
       // See https://github.com/phetsims/bending-light/issues/378
       reentrant: true
     } );
 
     wavelengthProperty.link( wavelength => {
-      wavelengthPropertyNM.value = wavelength * 1E9;
+      wavelengthPropertyNMProperty.value = wavelength * 1E9;
     } );
     // Add WavelengthSlider node
-    const wavelengthSlider = new WavelengthSlider( wavelengthPropertyNM, {
+    const wavelengthSlider = new WavelengthSlider( wavelengthPropertyNMProperty, {
       cursorStroke: 'white',
       maxWavelength: BendingLightConstants.LASER_MAX_WAVELENGTH,
       thumbWidth: 20,
@@ -49,8 +49,8 @@ class WavelengthControl extends Node {
       thumbTouchAreaYDilation: 4
     } );
 
-    const formattedStringProperty = new DerivedProperty( [ wavelengthPatternStringProperty, wavelengthPropertyNM ],
-      ( wavelengthPatternString, wavelength ) => StringUtils.format( wavelengthPatternStringProperty.value, Utils.roundSymmetric( wavelengthPropertyNM.value ) ) );
+    const formattedStringProperty = new DerivedProperty( [ wavelengthPatternStringProperty, wavelengthPropertyNMProperty ],
+      ( wavelengthPatternString, wavelength ) => StringUtils.format( wavelengthPatternStringProperty.value, Utils.roundSymmetric( wavelengthPropertyNMProperty.value ) ) );
 
     // Prevent the i18n strings from making the wavelength slider too wide, see #311
     const maxWidth = 50;
@@ -62,8 +62,8 @@ class WavelengthControl extends Node {
 
     // add plus button
     const plusButton = new ArrowButton( 'right', () => {
-      wavelengthPropertyNM.set(
-        Math.min( wavelengthPropertyNM.value + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
+      wavelengthPropertyNMProperty.set(
+        Math.min( wavelengthPropertyNMProperty.value + 1, BendingLightConstants.LASER_MAX_WAVELENGTH ) );
     }, {
       scale: 0.6
     } );
@@ -74,14 +74,14 @@ class WavelengthControl extends Node {
 
     // add minus button
     const minusButton = new ArrowButton( 'left', () => {
-      wavelengthPropertyNM.set(
-        Math.max( wavelengthPropertyNM.value - 1, BendingLightConstants.LASER_MIN_WAVELENGTH ) );
+      wavelengthPropertyNMProperty.set(
+        Math.max( wavelengthPropertyNMProperty.value - 1, BendingLightConstants.LASER_MIN_WAVELENGTH ) );
     }, {
       scale: 0.6
     } );
 
     // disable the minus button at minimum wavelength and plus button at max wavelength
-    wavelengthPropertyNM.link( wavelength => {
+    wavelengthPropertyNMProperty.link( wavelength => {
       plusButton.enabled = ( wavelength < BendingLightConstants.LASER_MAX_WAVELENGTH );
       minusButton.enabled = ( wavelength > BendingLightConstants.LASER_MIN_WAVELENGTH );
     } );
@@ -122,7 +122,7 @@ class WavelengthControl extends Node {
       this.opacity = enabled ? 1 : 0.4;
     } );
 
-    wavelengthPropertyNM.link( wavelength => {
+    wavelengthPropertyNMProperty.link( wavelength => {
 
       // set the laser wavelength according to the slider wavelength
       wavelengthProperty.set( wavelength / 1E9 );
