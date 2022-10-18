@@ -73,9 +73,9 @@ class PrismsScreenView extends BendingLightScreenView {
         occlusionHandler: ( node: Node ) => {
 
           const controlPanels = [
-            laserControlPanel, // eslint-disable-line no-use-before-define
-            laserTypeRadioButtonGroup, // eslint-disable-line no-use-before-define
-            environmentMediumControlPanel // eslint-disable-line no-use-before-define
+            laserControlPanel,
+            laserTypeRadioButtonGroup,
+            environmentMediumControlPanel
           ];
           controlPanels.forEach( controlPanel => {
             if ( controlPanel.globalBounds.containsPoint( node.globalBounds.center ) ) {
