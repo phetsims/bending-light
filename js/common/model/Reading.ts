@@ -21,7 +21,20 @@ const VALUE_DECIMALS = 2;
 
 class Reading {
   public readonly value: number;
-  public static MISS: Reading;
+  public static readonly MISS = {
+    value: 0,
+    format( value: number ): string {return '';},
+
+    /**
+     * Get string to display on intensity sensor
+     */
+    getString: (): string => MathSymbols.NO_VALUE,
+
+    /**
+     * Determines whether ray hit the intensity sensor or not
+     */
+    isHit: (): boolean => false
+  };
 
   /**
    * A single reading for the intensity meter
@@ -55,21 +68,6 @@ class Reading {
     return true;
   }
 }
-
-Reading.MISS = {
-  value: 0,
-  format( value: number ) {return '';},
-
-  /**
-   * Get string to display on intensity sensor
-   */
-  getString: () => MathSymbols.NO_VALUE,
-
-  /**
-   * Determines whether ray hit the intensity sensor or not
-   */
-  isHit: () => false
-};
 
 bendingLight.register( 'Reading', Reading );
 

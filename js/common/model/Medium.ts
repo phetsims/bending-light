@@ -19,7 +19,42 @@ class Medium {
   public shape: Shape;
   public substance: Substance;
   public color: Color;
-  public static MediumIO: IOType;
+  // TODO: Just instrument the "substance" instead
+  public static readonly MediumIO = new IOType( 'MediumIO', {
+    valueType: Medium,
+    methods: {
+
+      setName: {
+        returnType: VoidIO,
+        parameterTypes: [ StringIO ],
+        implementation: function( text: string ) {
+          // @ts-ignore
+          this.name = text;
+        },
+        documentation: 'Set the name of the solute',
+        invocableForReadOnlyElements: false
+      },
+
+      setFormula: {
+        returnType: VoidIO,
+        parameterTypes: [ StringIO ],
+        implementation: function( text: string ) {
+          // @ts-ignore
+          this.formula = text;
+        },
+        documentation: 'Set the formula of the solute',
+        invocableForReadOnlyElements: false
+      }
+    },
+
+    // TODO: This needs to be implemented
+    toStateObject( medium: Medium ) {
+      return {};
+    },
+    stateSchema: {
+
+    }
+  } );
 
   /**
    * @param shape - shape of the medium
@@ -49,43 +84,6 @@ class Medium {
     return this.substance.mystery;
   }
 }
-
-// TODO: Just instrument the "substance" instead
-Medium.MediumIO = new IOType( 'MediumIO', {
-  valueType: Medium,
-  methods: {
-
-    setName: {
-      returnType: VoidIO,
-      parameterTypes: [ StringIO ],
-      implementation: function( text: string ) {
-        // @ts-ignore
-        this.name = text;
-      },
-      documentation: 'Set the name of the solute',
-      invocableForReadOnlyElements: false
-    },
-
-    setFormula: {
-      returnType: VoidIO,
-      parameterTypes: [ StringIO ],
-      implementation: function( text: string ) {
-        // @ts-ignore
-        this.formula = text;
-      },
-      documentation: 'Set the formula of the solute',
-      invocableForReadOnlyElements: false
-    }
-  },
-
-  // TODO: This needs to be implemented
-  toStateObject( medium: Medium ) {
-    return {};
-  },
-  stateSchema: {
-
-  }
-} );
 
 bendingLight.register( 'Medium', Medium );
 export default Medium;

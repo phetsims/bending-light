@@ -30,13 +30,13 @@ class Substance {
   public readonly nameProperty: TReadOnlyProperty<string>;
   public readonly indexForRed: number;
   public readonly custom: boolean;
-  public static AIR: Substance;
-  public static WATER: Substance;
-  public static GLASS: Substance;
-  public static DIAMOND: Substance;
-  public static MYSTERY_A: Substance;
-  public static MYSTERY_B: Substance;
-  public static DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT: number;
+  public static readonly AIR = new Substance( airStringProperty, 1.000293, false, false );
+  public static readonly WATER = new Substance( waterStringProperty, 1.333, false, false );
+  public static readonly GLASS = new Substance( glassStringProperty, 1.5, false, false );
+  public static readonly DIAMOND = new Substance( diamondStringProperty, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false );
+  public static readonly MYSTERY_A = new Substance( mysteryAStringProperty, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
+  public static readonly MYSTERY_B = new Substance( mysteryBStringProperty, 1.4, true, false );
+  public static readonly DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT;
 
   /**
    * @param nameProperty - name of the medium
@@ -55,15 +55,4 @@ class Substance {
 }
 
 bendingLight.register( 'Substance', Substance );
-
-// static instances
-Substance.AIR = new Substance( airStringProperty, 1.000293, false, false );
-Substance.WATER = new Substance( waterStringProperty, 1.333, false, false );
-Substance.GLASS = new Substance( glassStringProperty, 1.5, false, false );
-Substance.DIAMOND = new Substance( diamondStringProperty, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false );
-Substance.MYSTERY_A = new Substance( mysteryAStringProperty, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
-Substance.MYSTERY_B = new Substance( mysteryBStringProperty, 1.4, true, false );
-
-Substance.DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT;
-
 export default Substance;
