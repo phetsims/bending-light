@@ -8,9 +8,9 @@ import bendingLight from '../../bendingLight.js';
  * @author Sam Reid (PhET Interactive Simulations)
  */
 class ColorModeEnum extends EnumerationValue {
-  public static WHITE = new ColorModeEnum();
-  public static SINGLE_COLOR = new ColorModeEnum();
-  private static enumeration = new Enumeration( ColorModeEnum );
+  public static readonly WHITE = new ColorModeEnum();
+  public static readonly SINGLE_COLOR = new ColorModeEnum();
+  private static readonly enumeration = new Enumeration( ColorModeEnum );
 }
 
 bendingLight.register( 'ColorModeEnum', ColorModeEnum );

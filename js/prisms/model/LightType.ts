@@ -8,10 +8,10 @@ import bendingLight from '../../bendingLight.js';
  * @author Sam Reid (PhET Interactive Simulations)
  */
 class LightType extends EnumerationValue {
-  public static WHITE = new LightType();
-  public static SINGLE_COLOR = new LightType();
-  public static SINGLE_COLOR_5X = new LightType();
-  private static enumeration = new Enumeration( LightType );
+  public static readonly WHITE = new LightType();
+  public static readonly SINGLE_COLOR = new LightType();
+  public static readonly SINGLE_COLOR_5X = new LightType();
+  private static readonly enumeration = new Enumeration( LightType );
 }
 
 bendingLight.register( 'LightType', LightType );

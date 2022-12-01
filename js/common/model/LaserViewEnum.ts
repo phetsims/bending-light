@@ -8,9 +8,9 @@ import bendingLight from '../../bendingLight.js';
  * @author Sam Reid (PhET Interactive Simulations)
  */
 class LaserViewEnum extends EnumerationValue {
-  public static RAY = new LaserViewEnum();
-  public static WAVE = new LaserViewEnum();
-  private static enumeration = new Enumeration( LaserViewEnum );
+  public static readonly RAY = new LaserViewEnum();
+  public static readonly WAVE = new LaserViewEnum();
+  private static readonly enumeration = new Enumeration( LaserViewEnum );
 }
 
 bendingLight.register( 'LaserViewEnum', LaserViewEnum );
