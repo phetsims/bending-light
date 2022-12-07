@@ -191,7 +191,7 @@ class IntroScreenView extends BendingLightScreenView {
     ], () => {
       for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
 
-        // @ts-ignore
+        // @ts-expect-error
         this.incidentWaveLayer.children[ k ].step();
       }
       this.incidentWaveLayer.setVisible( introModel.laser.onProperty.value && introModel.laserViewProperty.value === LaserViewEnum.WAVE );
@@ -492,7 +492,7 @@ class IntroScreenView extends BendingLightScreenView {
     if ( this.introModel.laserViewProperty.value === LaserViewEnum.WAVE ) {
       for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
 
-        // @ts-ignore
+        // @ts-expect-error
         this.incidentWaveLayer.children[ k ].step();
       }
     }
@@ -513,7 +513,7 @@ class IntroScreenView extends BendingLightScreenView {
     else {
       const waveCanvasNode = new WaveCanvasNode( this.bendingLightModel.rays, this.modelViewTransform, {
 
-        // @ts-ignore
+        // @ts-expect-error
         canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
       } );
       this.incidentWaveLayer.addChild( waveCanvasNode );

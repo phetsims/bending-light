@@ -280,7 +280,6 @@ class LightRay {
       return this.waveShape.containsPoint( position );
     }
     else {
-      // @ts-ignore
       return this.toLine().explicitClosestToPoint( position )[ 0 ].distanceSquared < 1E-14;
     }
   }

@@ -132,7 +132,6 @@ class PrismNode extends Node {
         const prismShapeCenter = prism.getTranslatedShape().getRotationCenter();
         knobNode.resetTransform();
 
-        // @ts-ignore
         knobNode.setScaleMagnitude( knobHeight / knobNode.height );
 
         const prismReferenceXPosition = modelViewTransform.modelToViewX( prismReferencePoint.x );
@@ -147,7 +146,6 @@ class PrismNode extends Node {
         knobNode.rotateAround( knobCenterPoint, angle );
         knobNode.setTranslation( prismReferenceXPosition, prismReferenceYPosition );
 
-        // @ts-ignore
         knobNode.translate( knobCenterPoint );
       }
     };
@@ -158,7 +156,6 @@ class PrismNode extends Node {
     this.updatePrismColor = () => {
       const indexOfRefraction = prismsModel.prismMediumProperty.value.substance.indexOfRefractionForRedLight;
 
-      // @ts-ignore
       prismPathNode.fill = prismsModel.mediumColorFactory.getColor( indexOfRefraction )
         .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
     };

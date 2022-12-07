@@ -30,7 +30,6 @@ class MediumNode extends Node {
 
     // Update whenever the medium changes
     mediumProperty.link( medium => {
-      // @ts-ignore
       mediumRectangleNode.fill = medium.color;
     } );
   }

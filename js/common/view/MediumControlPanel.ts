@@ -163,7 +163,6 @@ class MediumControlPanel extends Node {
       items[ i ] = createItem( substances[ i ] );
     }
     // add a combo box
-    // @ts-ignore
     const materialComboBox = new ComboBox( comboBoxSubstanceProperty, items, view, {
       labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
@@ -314,7 +313,7 @@ class MediumControlPanel extends Node {
     // add all the nodes to mediumPanelNode
     const mediumPanelNode = new Node( {
       children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
-      // @ts-ignore TODO: Spacing isn't on Node
+      // @ts-expect-error TODO: Spacing isn't on Node
       spacing: 10
     } );
 

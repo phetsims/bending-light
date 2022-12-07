@@ -41,7 +41,7 @@ class SeriesNode extends Node {
       modelViewTransformProperty,
       series.color.toCSS(), {
 
-        // @ts-ignore
+        // @ts-expect-error
         canvasBounds: chartBounds
       }
     );
@@ -81,7 +81,7 @@ class ChartNode extends Node {
     this.gridLines = createObservableArray(); // (read-only)
     this.gridCanvasNode = new GridCanvasNode( this.gridLines, this.modelViewTransformProperty, [ DASH_ON, DASH_OFF ], {
 
-      // @ts-ignore
+      // @ts-expect-error
       canvasBounds: chartBounds
     } );
     this.addChild( this.gridCanvasNode );

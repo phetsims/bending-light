@@ -116,13 +116,11 @@ class IntensityMeterNode extends Node {
     // Connect the sensor to the body with a gray wire
     const above = ( amount: number ) => ( position: Vector2 ) => position.plusXY( 0, -amount );
 
-    // @ts-ignore
     const rightBottomProperty = new NodeProperty( this.bodyNode, this.bodyNode.boundsProperty, 'rightBottom' );
 
     this.wireNode = new WireNode(
       new DerivedProperty( [ rightBottomProperty ], above( 12 ) ), bodyNormalProperty,
 
-      // @ts-ignore
       new NodeProperty( this.probeNode, this.probeNode.boundsProperty, 'centerBottom' ), sensorNormalProperty, {
         lineWidth: 3,
         stroke: 'gray'

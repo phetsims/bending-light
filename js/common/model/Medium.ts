@@ -28,7 +28,7 @@ class Medium {
         returnType: VoidIO,
         parameterTypes: [ StringIO ],
         implementation: function( text: string ) {
-          // @ts-ignore
+          // @ts-expect-error
           this.name = text;
         },
         documentation: 'Set the name of the solute',
@@ -39,7 +39,7 @@ class Medium {
         returnType: VoidIO,
         parameterTypes: [ StringIO ],
         implementation: function( text: string ) {
-          // @ts-ignore
+          // @ts-expect-error
           this.formula = text;
         },
         documentation: 'Set the formula of the solute',

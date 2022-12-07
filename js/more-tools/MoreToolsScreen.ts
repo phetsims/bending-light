@@ -24,7 +24,6 @@ class MoreToolsScreen extends Screen<MoreToolsModel, MoreToolsScreenView> {
     const options: ScreenOptions = {
       name: BendingLightStrings.moreToolsStringProperty,
 
-      // @ts-ignore
       homeScreenIcon: new ScreenIcon( new Image( moreToolsScreen_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1

@@ -67,7 +67,7 @@ class WhiteLightCanvasNode extends CanvasNode {
     context.lineWidth = 3;
     context.globalCompositeOperation = 'source-over';
 
-    // @ts-ignore
+    // @ts-expect-error
     context.fillStyle = this.colorCSS;
     context.save();
     context.setTransform( 1, 0, 0, 1, 0, 0 );

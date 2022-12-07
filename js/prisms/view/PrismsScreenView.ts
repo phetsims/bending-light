@@ -45,7 +45,7 @@ class PrismsScreenView extends BendingLightScreenView {
   private prismsModel: PrismsModel;
   private resetPrismsView: () => void;
 
-  // @ts-ignore assigned in the supercall which calls addLightNodes
+  // @ts-expect-error assigned in the supercall which calls addLightNodes
   private whiteLightNode: WhiteLightCanvasNode;
 
   /**
@@ -80,7 +80,7 @@ class PrismsScreenView extends BendingLightScreenView {
           controlPanels.forEach( controlPanel => {
             if ( controlPanel.globalBounds.containsPoint( node.globalBounds.center ) ) {
 
-              // @ts-ignore
+              // @ts-expect-error
               node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
             }
           } );
@@ -100,7 +100,6 @@ class PrismsScreenView extends BendingLightScreenView {
       const indexOfRefractionForRed = environmentMedium.substance.dispersionFunction.getIndexOfRefractionForRed();
       const color = prismsModel.mediumColorFactory.getColorAgainstWhite( indexOfRefractionForRed );
 
-      // @ts-ignore
       environmentMediumNodeForMonochromaticLight.fill = color;
     } );
 
@@ -110,7 +109,6 @@ class PrismsScreenView extends BendingLightScreenView {
     const indexOfRefractionDecimals = 2;
 
     // Add control panels for setting the index of refraction for each medium
-    // @ts-ignore
     const environmentMediumControlPanel = new MediumControlPanel( this, prismsModel.mediumColorFactory, prismsModel.environmentMediumProperty,
       environmentStringProperty, false, prismsModel.wavelengthProperty,
       indexOfRefractionDecimals, {
@@ -317,7 +315,6 @@ class PrismsScreenView extends BendingLightScreenView {
     super.addLaserHandles(
       showRotationDragHandlesProperty,
       showTranslationDragHandlesProperty,
-      // @ts-ignore
       clockwiseArrowNotAtMax,
       ccwArrowNotAtMax,
       laserImageWidth

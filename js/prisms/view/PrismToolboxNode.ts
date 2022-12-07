@@ -99,7 +99,7 @@ class PrismToolboxNode extends Node {
         prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer, dragBoundsProperty, occlusionHandler, false );
         prismLayer.addChild( prismNode );
 
-        // @ts-ignore
+        // @ts-expect-error
         prismNode.dragListener.press( event, prismNode );
       } );
       prismToolboxIconNode.addInputListener( dragListener );
@@ -113,7 +113,7 @@ class PrismToolboxNode extends Node {
     // Allow the user to control the type of material in the prisms
     const environmentMediumMaterialListParent = new Node();
 
-    // @ts-ignore
+    // @ts-expect-error
     const objectMediumControlPanel = new MediumControlPanel( environmentMediumMaterialListParent,
       prismsModel.mediumColorFactory,
       prismsModel.prismMediumProperty,
@@ -153,7 +153,7 @@ class PrismToolboxNode extends Node {
 
     // compute the maximum item width
 
-    // @ts-ignore
+    // @ts-expect-error
     const widestItem: { label: Node; icon: Node | null } = _.maxBy( [ showReflections, showNormal, showProtractor ], item => item.label.width + ( ( item.icon ) ? item.icon.width : 0 ) );
     const widestItemWidth = widestItem.label.width + ( ( widestItem.icon ) ? widestItem.icon.width : 0 );
     const maxWidth = Math.min( widestItemWidth + 10, MAX_TEXT_WIDTH );
@@ -186,7 +186,7 @@ class PrismToolboxNode extends Node {
     const showNormalCheckbox = new Checkbox( prismsModel.showNormalsProperty, createItem( showNormal ), checkboxOptions );
     const showProtractorCheckbox = new Checkbox( prismsModel.showProtractorProperty, createItem( showProtractor ), checkboxOptions );
 
-    // @ts-ignore
+    // @ts-expect-error
     const maxCheckboxWidth = _.maxBy( [ showReflectionsCheckbox, showNormalCheckbox, showProtractorCheckbox ],
       item => item.width
     ).width + 5;

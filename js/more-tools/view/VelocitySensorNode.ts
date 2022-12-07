@@ -168,7 +168,6 @@ class VelocitySensorNode extends Node {
       } );
 
     // Overall scaling, vestigial
-    // @ts-ignore
     this.bodyNode.setScaleMagnitude( 0.7 );
 
     this.mutate( providedOptions );

@@ -158,36 +158,24 @@ class WavePainter {
         );
 
         // light ray color
-        // @ts-ignore
         const red = lightRay.color.r / 255;
-        // @ts-ignore
         const green = lightRay.color.g / 255;
-        // @ts-ignore
         const blue = lightRay.color.b / 255;
 
         gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
         gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( elements ), gl.STATIC_DRAW );
 
         if ( shaderProgram ) {
-          // @ts-ignore
           gl.uniformMatrix3fv( shaderProgram.uniformLocations.uModelViewMatrix, false, modelViewMatrix.copyToArray( scratchFloatArray1 ) );
-          // @ts-ignore
           gl.uniformMatrix3fv( shaderProgram.uniformLocations.uProjectionMatrix, false, projectionMatrix.copyToArray( scratchFloatArray2 ) );
-          // @ts-ignore
           gl.uniform1f( shaderProgram.uniformLocations.uPowerFraction, lightRayPowerFraction );
-          // @ts-ignore
           gl.uniform2f( shaderProgram.uniformLocations.uTail, tailViewX, tailViewY );
-          // @ts-ignore
           gl.uniform1f( shaderProgram.uniformLocations.uAngle, lightRayAngle );
-          // @ts-ignore
           gl.uniform1f( shaderProgram.uniformLocations.uWaveLength, wavelength );
-          // @ts-ignore
           gl.uniform1f( shaderProgram.uniformLocations.uPhase, phaseDiff );
-          // @ts-ignore
           gl.uniform3f( shaderProgram.uniformLocations.uColor, red, green, blue );
 
           gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
-          // @ts-ignore
           gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
 
           gl.drawArrays( gl.TRIANGLE_STRIP, 0, 4 );

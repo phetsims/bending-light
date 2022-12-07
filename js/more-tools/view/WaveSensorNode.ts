@@ -162,13 +162,11 @@ class WaveSensorNode extends Node {
       return ( position: Vector2 ) => position.plusXY( -2, -amount );
     };
 
-    // @ts-ignore
     const rightBottomProperty = new NodeProperty( this.bodyNode, this.bodyNode.boundsProperty, 'rightBottom' );
 
     this.wire1Node = new WireNode(
       new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ), bodyNormalProperty,
 
-      // @ts-ignore
       new NodeProperty( this.probe1Node, this.probe1Node.boundsProperty, 'centerBottom' ), sensorNormalProperty, {
         lineWidth: 3,
         stroke: darkProbeColor.toCSS()
@@ -178,7 +176,6 @@ class WaveSensorNode extends Node {
     this.wire2Node = new WireNode(
       new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ), bodyNormalProperty,
 
-      // @ts-ignore
       new NodeProperty( this.probe2Node, this.probe2Node.boundsProperty, 'centerBottom' ), sensorNormalProperty, {
         lineWidth: 3,
         stroke: lightProbeColor.toCSS()
