@@ -1,6 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 import { Text } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
+import bendingLight from '../../bendingLight.js';
 
 /**
  * Shows text with background for the AngleNode.
@@ -34,4 +35,5 @@ class AngleTextView extends Panel {
   }
 }
 
+bendingLight.register( 'AngleTextView', AngleTextView );
 export default AngleTextView;

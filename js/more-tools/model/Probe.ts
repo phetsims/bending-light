@@ -4,6 +4,7 @@ import Property from '../../../../axon/js/Property.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import DataPoint from './DataPoint.js';
+import bendingLight from '../../bendingLight.js';
 
 class Probe {
   public readonly seriesProperty: Property<Array<DataPoint>>;
@@ -38,4 +39,5 @@ class Probe {
   }
 }
 
+bendingLight.register( 'Probe', Probe );
 export default Probe;
