@@ -19,7 +19,6 @@ import BendingLightConstants from '../BendingLightConstants.js';
 import knob_png from '../../../images/knob_png.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Laser from '../model/Laser.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -52,9 +51,7 @@ class LaserNode extends Node {
                       clampDragAngle: ( n: number ) => number, hasKnob: boolean, dragBoundsProperty: Property<Bounds2>, occlusionHandler: ( laserNode: LaserNode ) => void,
                       providedOptions?: LaserNodeOptions ) {
 
-    const options = optionize<LaserNodeOptions, SelfOptions, ParentOptions>()( {
-      tandem: Tandem.OPTIONAL
-    }, providedOptions );
+    const options = optionize<LaserNodeOptions, SelfOptions, ParentOptions>()( {}, providedOptions );
     const laserPointerNode = new LaserPointerNode( laser.onProperty, {
       bodySize: new Dimension2( 70, 30 ),
       nozzleSize: new Dimension2( 10, 25 ),
