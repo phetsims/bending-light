@@ -114,12 +114,18 @@ class MediumControlPanel extends Node {
     const textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
 
     const createItem = ( item: Substance ) => {
-      const comboBoxTextWidth = textFieldVisible ? 130 : 75;
-      const itemName = new Text( item.nameProperty, textOptionsOfComboBoxStrings );
-      if ( itemName.width > comboBoxTextWidth ) {
-        itemName.scale( comboBoxTextWidth / itemName.width );
-      }
-      return { value: item, node: itemName };
+
+      return {
+        value: item,
+        createNode: () => {
+          const comboBoxTextWidth = textFieldVisible ? 130 : 75;
+          const itemName = new Text( item.nameProperty, textOptionsOfComboBoxStrings );
+          if ( itemName.width > comboBoxTextWidth ) {
+            itemName.scale( comboBoxTextWidth / itemName.width );
+          }
+          return itemName;
+        }
+      };
     };
 
     // states to choose from (and indicate) in the combo box
