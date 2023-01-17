@@ -14,7 +14,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Node, NodeOptions, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Node, NodeOptions, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import ComboBox, { ComboBoxListPosition } from '../../../../sun/js/ComboBox.js';
 import HSlider from '../../../../sun/js/HSlider.js';
@@ -170,13 +170,20 @@ class MediumControlPanel extends Node {
     }
     // add a combo box
     const materialComboBox = new ComboBox( comboBoxSubstanceProperty, items, view, {
-      labelNode: materialTitle,
       listPosition: options.comboBoxListPosition,
       xMargin: 7,
       yMargin: 4,
       // TODO: arrowHeight doesn't exist in ComboBox, should we add that feature?
       // arrowHeight: 6,
       cornerRadius: 3
+    } );
+
+    const materialControl = new HBox( {
+      spacing: 10,
+      children: [
+        materialTitle,
+        materialComboBox
+      ]
     } );
 
     // add index of refraction text and value
@@ -267,7 +274,7 @@ class MediumControlPanel extends Node {
 
     // handling long strings, bring the slider in enough that moving the knob to the right doesn't resize the parent
     // panel.
-    const sliderWidth = Math.max( materialComboBox.width, indexOfRefractionNode.width ) - 12;
+    const sliderWidth = Math.max( materialControl.width, indexOfRefractionNode.width ) - 12;
     const labelWidth = sliderWidth * 0.25;
     const airTitle = new Text( airStringProperty );
     if ( airTitle.width > labelWidth ) {
@@ -309,16 +316,16 @@ class MediumControlPanel extends Node {
     } );
 
     // position the indexOfRefractionNode and indexOfRefractionSlider
-    indexOfRefractionNode.top = materialComboBox.bottom + INSET;
-    indexOfRefractionNode.left = materialComboBox.left;
-    indexOfRefractionSlider.left = materialComboBox.left;
+    indexOfRefractionNode.top = materialControl.bottom + INSET;
+    indexOfRefractionNode.left = materialControl.left;
+    indexOfRefractionSlider.left = materialControl.left;
     indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET / 2;
-    unknown.centerX = materialComboBox.centerX;
+    unknown.centerX = materialControl.centerX;
     unknown.centerY = indexOfRefractionNode.bottom + INSET;
 
     // add all the nodes to mediumPanelNode
     const mediumPanelNode = new Node( {
-      children: [ materialComboBox, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
+      children: [ materialControl, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
       // @ts-expect-error TODO: Spacing isn't on Node
       spacing: 10
     } );
