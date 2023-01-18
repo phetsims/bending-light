@@ -14,6 +14,7 @@ import bendingLight from '../../bendingLight.js';
 import Intersection from '../model/Intersection.js';
 
 class IntersectionNode extends Line {
+  private readonly disposeIntersectionLine: () => void;
 
   /**
    * @param modelViewTransform - Transform between model and view coordinate frames
@@ -47,7 +48,12 @@ class IntersectionNode extends Line {
     strokeProperty.link( handle );
 
     // dispose of the IntersectionNode, getting rid of the attached listeners
-    this.dispose = () => strokeProperty.unlink( handle );
+    this.disposeIntersectionLine = () => strokeProperty.unlink( handle );
+  }
+
+  public override dispose(): void {
+    this.disposeIntersectionLine();
+    super.dispose();
   }
 }
 
