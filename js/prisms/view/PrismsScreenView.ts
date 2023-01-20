@@ -160,8 +160,9 @@ class PrismsScreenView extends BendingLightScreenView {
 
         prismsModel.intersections.addItemRemovedListener( ( removedIntersection: Intersection ) => {
           if ( removedIntersection === addedIntersection ) {
+
+            // dispose will remove the child from the view
             node.dispose();
-            this.removeChild( node );
           }
         } );
       }
