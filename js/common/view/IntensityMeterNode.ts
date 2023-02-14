@@ -15,7 +15,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ProbeNode from '../../../../scenery-phet/js/ProbeNode.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import { LinearGradient, Node, NodeOptions, NodeProperty, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { LinearGradient, Node, NodeOptions, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -117,11 +117,13 @@ class IntensityMeterNode extends Node {
     const above = ( amount: number ) => ( position: Vector2 ) => position.plusXY( 0, -amount );
 
     const rightBottomProperty = new DerivedProperty( [ this.bodyNode.boundsProperty ], bounds => bounds.rightBottom );
+    const centerBottomProperty = new DerivedProperty( [ this.probeNode.boundsProperty ], bounds => bounds.centerBottom );
 
     this.wireNode = new WireNode(
-      new DerivedProperty( [ rightBottomProperty ], above( 12 ) ), bodyNormalProperty,
-
-      new NodeProperty( this.probeNode, this.probeNode.boundsProperty, 'centerBottom' ), sensorNormalProperty, {
+      new DerivedProperty( [ rightBottomProperty ], above( 12 ) ),
+      bodyNormalProperty,
+      centerBottomProperty,
+      sensorNormalProperty, {
         lineWidth: 3,
         stroke: 'gray'
       }
