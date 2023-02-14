@@ -15,7 +15,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ProbeNode from '../../../../scenery-phet/js/ProbeNode.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import { Color, LinearGradient, Node, NodeOptions, NodeProperty, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Color, LinearGradient, Node, NodeOptions, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
 import Series from '../model/Series.js';
@@ -162,21 +162,23 @@ class WaveSensorNode extends Node {
       return ( position: Vector2 ) => position.plusXY( -2, -amount );
     };
 
-    const rightBottomProperty = new NodeProperty( this.bodyNode, this.bodyNode.boundsProperty, 'rightBottom' );
+    const rightBottomProperty = new DerivedProperty( [ this.bodyNode.boundsProperty ], bounds => bounds.rightBottom );
 
     this.wire1Node = new WireNode(
-      new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ), bodyNormalProperty,
-
-      new NodeProperty( this.probe1Node, this.probe1Node.boundsProperty, 'centerBottom' ), sensorNormalProperty, {
+      new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ),
+      bodyNormalProperty,
+      new DerivedProperty( [ this.probe1Node.boundsProperty ], bounds => bounds.centerBottom ),
+      sensorNormalProperty, {
         lineWidth: 3,
         stroke: darkProbeColor.toCSS()
       }
     );
 
     this.wire2Node = new WireNode(
-      new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ), bodyNormalProperty,
-
-      new NodeProperty( this.probe2Node, this.probe2Node.boundsProperty, 'centerBottom' ), sensorNormalProperty, {
+      new DerivedProperty( [ rightBottomProperty ], above( ( 1 - fractionalVerticalDistanceToTitle ) * this.bodyNode.height ) ),
+      bodyNormalProperty,
+      new DerivedProperty( [ this.probe2Node.boundsProperty ], bounds => bounds.centerBottom ),
+      sensorNormalProperty, {
         lineWidth: 3,
         stroke: lightProbeColor.toCSS()
       }
