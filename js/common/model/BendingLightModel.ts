@@ -23,6 +23,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import TModel from '../../../../joist/js/TModel.js';
 
 // constants
 const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
@@ -30,7 +31,7 @@ const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
 // a good size for the units being used in the sim; used to determine the dimensions of various model objects
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
-abstract class BendingLightModel {
+abstract class BendingLightModel implements TModel {
   public readonly rays: ObservableArray<LightRay>;
   public mediumColorFactory: MediumColorFactory;
   protected readonly modelWidth: number;
