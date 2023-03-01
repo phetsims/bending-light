@@ -109,7 +109,7 @@ class IntensityMeterNode extends Node {
 
     // displayed value
     intensityMeter.readingProperty.link( reading => {
-      valueNode.setText( reading.getString() );
+      valueNode.setString( reading.getString() );
       valueNode.center = valueBackground.center;
     } );
 

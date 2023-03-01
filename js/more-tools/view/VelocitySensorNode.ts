@@ -157,12 +157,12 @@ class VelocitySensorNode extends Node {
 
         // add '?' for null velocity
         if ( velocity.magnitude === 0 ) {
-          labelText.text = unknownVelocityString;
+          labelText.string = unknownVelocityString;
         }
         else {
           const stringNumber = Utils.toFixed( velocity.magnitude / BendingLightConstants.SPEED_OF_LIGHT, 2 );
           const text = StringUtils.format( velocityPatternString, stringNumber );
-          labelText.setText( text );
+          labelText.setString( text );
         }
         labelText.center = whiteTextArea.center;
       } );

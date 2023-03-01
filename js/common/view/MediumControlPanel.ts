@@ -344,7 +344,7 @@ class MediumControlPanel extends Node {
     Multilink.multilink( [ mediumProperty, this.laserWavelengthProperty ],
       () => {
         custom = mediumProperty.get().substance.custom;
-        indexOfRefractionValueText.text = Utils.toFixed(
+        indexOfRefractionValueText.string = Utils.toFixed(
           mediumProperty.get().getIndexOfRefraction( laserWavelength.get() ), decimalPlaces );
       } );
 
