@@ -137,7 +137,9 @@ class MediumControlPanel extends Node {
       Substance.MYSTERY_B,
       customState
     ];
-    const comboBoxSubstanceProperty = new Property<Substance>( initialSubstance );
+    const comboBoxSubstanceProperty = new Property<Substance>( initialSubstance, {
+      hasListenerOrderDependencies: true
+    } );
 
     // update combo box
     const updateComboBox = () => {
