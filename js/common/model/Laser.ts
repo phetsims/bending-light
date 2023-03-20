@@ -16,7 +16,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
-import LaserColor from '../view/LaserColor.js';
+import LaserColor from './LaserColor.js';
 import ColorModeEnum from './ColorModeEnum.js';
 
 class Laser {
