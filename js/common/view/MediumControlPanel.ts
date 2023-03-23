@@ -137,9 +137,7 @@ class MediumControlPanel extends Node {
       Substance.MYSTERY_B,
       customState
     ];
-    const comboBoxSubstanceProperty = new Property<Substance>( initialSubstance, {
-      hasListenerOrderDependencies: true // TODO: https://github.com/phetsims/bending-light/issues/414
-    } );
+    const comboBoxSubstanceProperty = new Property<Substance>( initialSubstance );
 
     // update combo box
     const updateComboBox = () => {

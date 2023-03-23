@@ -62,6 +62,9 @@ class IntroModel extends BendingLightModel {
       this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) );
     this.topMediumProperty = new Property( topMedium, {
 
+      // TODO: https://github.com/phetsims/bending-light/issues/414
+      hasListenerOrderDependencies: true,
+
       // See https://github.com/phetsims/bending-light/issues/378
       reentrant: true,
       tandem: tandem.createTandem( 'topMediumProperty' ),
@@ -72,6 +75,9 @@ class IntroModel extends BendingLightModel {
     const bottomMedium = new Medium( Shape.rect( -0.1, -0.1, 0.2, 0.1 ), bottomSubstance,
       this.mediumColorFactory.getColor( bottomSubstance.indexOfRefractionForRedLight ) );
     this.bottomMediumProperty = new Property( bottomMedium, {
+
+      // TODO: https://github.com/phetsims/bending-light/issues/414
+      hasListenerOrderDependencies: true,
 
       // See https://github.com/phetsims/bending-light/issues/378
       reentrant: true,
