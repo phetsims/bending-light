@@ -10,13 +10,12 @@
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Line, Shape } from '../../../../kite/js/imports.js';
+import { Line, RayIntersection, Shape } from '../../../../kite/js/imports.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import WaveParticle from './WaveParticle.js';
 import LaserViewEnum from './LaserViewEnum.js';
-import Intersection from '../../prisms/model/Intersection.js';
 
 // constants
 
@@ -200,7 +199,7 @@ class LightRay {
    * @param sensorRegion - sensor region of intensity meter
    * @param rayType - 'incident', 'transmitted' or 'reflected'
    */
-  public getIntersections( sensorRegion: Shape, rayType: string ): Intersection[] {
+  public getIntersections( sensorRegion: Shape, rayType: string ): RayIntersection[] {
 
     if ( this.waveShape ) {
 
