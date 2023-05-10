@@ -17,6 +17,11 @@
     "requirejsNamespace": "BENDING_LIGHT",
     "preload": [
       "../sherpa/lib/Tween-r12.js"
+    ],
+    "screenNameKeys": [
+      "BENDING_LIGHT/intro",
+      "BENDING_LIGHT/prisms",
+      "BENDING_LIGHT/moreTools"
     ]
   }
 }
