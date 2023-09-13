@@ -173,7 +173,7 @@ class MediumControlPanel extends Node {
       listPosition: options.comboBoxListPosition,
       xMargin: 7,
       yMargin: 4,
-      // TODO: arrowHeight doesn't exist in ComboBox, should we add that feature?
+      // TODO: arrowHeight doesn't exist in ComboBox, should we add that feature? https://github.com/phetsims/tasks/issues/1129
       // arrowHeight: 6,
       cornerRadius: 3
     } );
@@ -326,7 +326,7 @@ class MediumControlPanel extends Node {
     // add all the nodes to mediumPanelNode
     const mediumPanelNode = new Node( {
       children: [ materialControl, indexOfRefractionNode, indexOfRefractionSlider, unknown ],
-      // @ts-expect-error TODO: Spacing isn't on Node
+      // @ts-expect-error TODO: Spacing isn't on Node https://github.com/phetsims/tasks/issues/1129
       spacing: 10
     } );
 

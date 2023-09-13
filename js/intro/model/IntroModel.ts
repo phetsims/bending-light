@@ -57,7 +57,7 @@ class IntroModel extends BendingLightModel {
     super( Math.PI * 3 / 4, true, BendingLightModel.DEFAULT_LASER_DISTANCE_FROM_PIVOT, tandem );
 
     // Top medium
-    // TODO: Split this into topSubstanceProperty for phet-io
+    // TODO: Split this into topSubstanceProperty for phet-io https://github.com/phetsims/tasks/issues/1129
     const topMedium = new Medium( Shape.rect( -0.1, 0, 0.2, 0.1 ), Substance.AIR,
       this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) );
     this.topMediumProperty = new Property( topMedium, {

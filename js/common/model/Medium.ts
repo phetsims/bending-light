@@ -19,7 +19,7 @@ class Medium {
   public shape: Shape;
   public substance: Substance;
   public color: Color;
-  // TODO: Just instrument the "substance" instead
+  // TODO: Just instrument the "substance" instead https://github.com/phetsims/tasks/issues/1129
   public static readonly MediumIO = new IOType( 'MediumIO', {
     valueType: Medium,
     methods: {
@@ -47,7 +47,7 @@ class Medium {
       }
     },
 
-    // TODO: This needs to be implemented
+    // TODO: This needs to be implemented https://github.com/phetsims/tasks/issues/1129
     toStateObject( medium: Medium ) {
       return {};
     },
