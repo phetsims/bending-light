@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "bending-light": {
-    "sha": "a040fc0f4dfee11da61981d50528353e6d396fe9",
+    "sha": "81eca35f16dabf6ac2d7f833bc0747e1af999983",
     "branch": "1.1"
   },
   "brand": {
@@ -37,7 +37,7 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "9a8b5a7c8f073f96bf5c23420f60271ca52f0dc5",
+    "sha": "f69451d75695bab0a1d61dc913b481d1e51994f1",
     "branch": "HEAD"
   },
   "phetmarks": {
