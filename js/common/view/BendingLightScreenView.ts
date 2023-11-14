@@ -203,13 +203,13 @@ abstract class BendingLightScreenView extends ScreenView {
     if ( typeof bendingLightModel.rotationArrowAngleOffset === 'number' ) {
       // Shows the direction in which laser can be rotated
       // for laser left rotation
-      const leftRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
+      const leftRotationDragHandle = new RotationDragHandle( bendingLightModel.laserViewProperty, this.modelViewTransform, bendingLightModel.laser,
         Math.PI / 23, showRotationDragHandlesProperty, clockwiseArrowNotAtMax, laserImageWidth * 0.58,
         bendingLightModel.rotationArrowAngleOffset );
       this.addChild( leftRotationDragHandle );
 
       // for laser right rotation
-      const rightRotationDragHandle = new RotationDragHandle( this.modelViewTransform, bendingLightModel.laser,
+      const rightRotationDragHandle = new RotationDragHandle( bendingLightModel.laserViewProperty, this.modelViewTransform, bendingLightModel.laser,
         -Math.PI / 23,
         showRotationDragHandlesProperty, ccwArrowNotAtMax, laserImageWidth * 0.58,
         bendingLightModel.rotationArrowAngleOffset

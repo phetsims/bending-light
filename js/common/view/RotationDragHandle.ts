@@ -16,10 +16,12 @@ import CurvedArrowShape from '../../../../scenery-phet/js/CurvedArrowShape.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import Laser from '../model/Laser.js';
+import LaserViewEnum from '../model/LaserViewEnum.js';
 
 class RotationDragHandle extends Node {
 
   /**
+   * @param laserViewProperty
    * @param modelViewTransform - Transform between model and view coordinate frames
    * @param laser - model of laser
    * @param deltaAngle - deltaAngle in radians
@@ -30,7 +32,7 @@ class RotationDragHandle extends Node {
    * @param rotationArrowAngleOffset - for unknown reasons the rotation arrows are off by PI/4 on the
    *                                            intro/more-tools screen, so account for that here.
    */
-  public constructor( modelViewTransform: ModelViewTransform2, laser: Laser, deltaAngle: number, showDragHandlesProperty: Property<boolean>, notAtMax: ( n: number ) => boolean,
+  public constructor( laserViewProperty: Property<LaserViewEnum>, modelViewTransform: ModelViewTransform2, laser: Laser, deltaAngle: number, showDragHandlesProperty: Property<boolean>, notAtMax: ( n: number ) => boolean,
                       laserImageWidth: number, rotationArrowAngleOffset: number ) {
 
     super();
@@ -39,7 +41,8 @@ class RotationDragHandle extends Node {
     const notAtMaximumProperty = new DerivedProperty( [
         laser.emissionPointProperty,
         laser.pivotProperty,
-        showDragHandlesProperty
+        showDragHandlesProperty,
+        laserViewProperty
       ],
       ( emissionPoint, pivot, showDragHandles ) => notAtMax( laser.getAngle() ) && showDragHandles
     );
