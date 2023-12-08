@@ -290,6 +290,10 @@ const XYZ_TO_RGB_MATRIX = new Matrix3().rowMajor(
 
 const BendingLightConstants = {
   SCREEN_VIEW_OPTIONS: {
+
+    // A PhET wide decision was made to not update custom layout bounds even if they do not match the
+    // default layout bounds in ScreenView. Do not change these bounds as changes could break or disturb
+    // any phet-io instrumention. https://github.com/phetsims/phet-io/issues/1939
     layoutBounds: new Bounds2( 0, 0, 834, 504 )
   },
   LASER_MAX_WAVELENGTH: LASER_MAX_WAVELENGTH,
