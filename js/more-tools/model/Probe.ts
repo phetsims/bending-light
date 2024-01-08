@@ -6,6 +6,9 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import DataPoint from './DataPoint.js';
 import bendingLight from '../../bendingLight.js';
 
+/**
+ * @author Sam Reid (PhET Interactive Simulations)
+ */
 class Probe {
   public readonly seriesProperty: Property<Array<DataPoint>>;
   public readonly positionProperty: Property<Vector2>;
