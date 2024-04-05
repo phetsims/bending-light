@@ -318,7 +318,7 @@ class IntroModel extends BendingLightModel {
         ray.wavelength,
         this.laser.getWavelength() * 1E9,
         ray.powerFraction,
-        this.laser.colorProperty.get().getColor()!,
+        this.laser.colorProperty.get().getColor(),
         ray.waveWidth,
         ray.numWavelengthsPhaseOffset,
         false,
