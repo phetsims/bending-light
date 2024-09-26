@@ -28,8 +28,5 @@
       "BENDING_LIGHT/prisms",
       "BENDING_LIGHT/moreTools"
     ]
-  },
-  "eslintConfig": {
-    "extends": "../chipper/eslint/sim_eslintrc.js"
   }
 }
