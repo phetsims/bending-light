@@ -55,11 +55,13 @@ class LaserNode extends Node {
     const laserPointerNode = new LaserPointerNode( laser.onProperty, {
       bodySize: new Dimension2( 70, 30 ),
       nozzleSize: new Dimension2( 10, 25 ),
-      buttonRadius: 12,
-      buttonXMargin: 2,
-      buttonYMargin: 2,
+      buttonOptions: {
+        radius: 12,
+        xMargin: 2,
+        yMargin: 2,
+        touchAreaDilation: 4
+      },
       cornerRadius: 2,
-      buttonTouchAreaDilation: 4,
       getButtonLocation: ( bodyNode: Node ) => bodyNode.rightCenter.blend( bodyNode.center, 0.5 )
     } ) as Node;
 
