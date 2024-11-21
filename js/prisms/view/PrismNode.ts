@@ -95,9 +95,9 @@ class PrismNode extends Node {
       useParentOffset: true,
       positionProperty: prism.positionProperty,
 
-      // TODO https://github.com/phetsims/bending-light/issues/417 Was previously
+      // TODO https://github.com/phetsims/bending-light/issues/372 Was previously
       //   newPosition = modelViewTransform.viewToModelBounds( dragBoundsProperty.value ).closestPointTo( newPosition );
-      // TODO https://github.com/phetsims/bending-light/issues/417 Do we need to transform the bounds?
+      // TODO https://github.com/phetsims/bending-light/issues/372 Do we need to transform the bounds?
       // dragBoundsProperty: dragBoundsProperty, // TODO: get this working, see https://github.com/phetsims/bending-light/issues/372
       transform: modelViewTransform,
       end: () => {

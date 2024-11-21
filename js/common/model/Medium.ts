@@ -19,7 +19,7 @@ class Medium {
   public shape: Shape;
   public substance: Substance;
   public color: Color;
-  //TODO https://github.com/phetsims/bending-light/issues/417 Just instrument the "substance" instead
+  //TODO https://github.com/phetsims/bending-light/issues/389 Just instrument the "substance" instead
   public static readonly MediumIO = new IOType( 'MediumIO', {
     valueType: Medium,
     methods: {
@@ -47,7 +47,7 @@ class Medium {
       }
     },
 
-    //TODO https://github.com/phetsims/bending-light/issues/417 This needs to be implemented
+    //TODO https://github.com/phetsims/bending-light/issues/389 This needs to be implemented
     toStateObject( medium: Medium ) {
       return {};
     },
