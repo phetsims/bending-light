@@ -23,7 +23,7 @@ import BendingLightModel from '../common/model/BendingLightModel.js';
 
 class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
-  private constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       name: BendingLightStrings.introStringProperty,

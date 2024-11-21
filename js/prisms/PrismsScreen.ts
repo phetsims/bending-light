@@ -19,7 +19,7 @@ import PrismsScreenView from './view/PrismsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
 class PrismsScreen extends Screen<PrismsModel, PrismsScreenView> {
-  private constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options: ScreenOptions = {
       name: BendingLightStrings.prismsStringProperty,

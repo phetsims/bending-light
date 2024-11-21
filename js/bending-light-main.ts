@@ -20,23 +20,21 @@ const bendingLightTitleStringProperty = BendingLightStrings[ 'bending-light' ].t
 // constants
 const tandem = Tandem.ROOT;
 
-const simOptions = {
-  credits: {
-    leadDesign: 'Amy Rouinfar (HTML5),  Noah Podolefsky (Java)',
-    softwareDevelopment: 'Sam Reid',
-    team: 'Trish Loeblein, Ariel Paul, Kathy Perkins',
-    qualityAssurance: 'Steele Dalton, Amanda Davis, Bryce Griebenow, Ethan Johnson, Elise Morgan, Oliver Orejola, ' +
-                      'Arnab Purkayastha, Ben Roberts, Bryan Yoelin',
-    thanks: 'Thanks to Actual Concepts for working with the PhET development team to convert this simulation to HTML5.'
-  },
-  webgl: true
-};
-
 simLauncher.launch( () => {
   const sim = new Sim( bendingLightTitleStringProperty, [
     new IntroScreen( tandem.createTandem( 'introScreen' ) ),
     new PrismsScreen( tandem.createTandem( 'prismsScreen' ) ),
     new MoreToolsScreen( tandem.createTandem( 'moreToolsScreen' ) )
-  ], simOptions );
+  ], {
+    credits: {
+      leadDesign: 'Amy Rouinfar (HTML5),  Noah Podolefsky (Java)',
+      softwareDevelopment: 'Sam Reid',
+      team: 'Trish Loeblein, Ariel Paul, Kathy Perkins',
+      qualityAssurance: 'Steele Dalton, Amanda Davis, Bryce Griebenow, Ethan Johnson, Elise Morgan, Oliver Orejola, ' +
+                        'Arnab Purkayastha, Ben Roberts, Bryan Yoelin',
+      thanks: 'Thanks to Actual Concepts for working with the PhET development team to convert this simulation to HTML5.'
+    },
+    webgl: true
+  } );
   sim.start();
 } );
