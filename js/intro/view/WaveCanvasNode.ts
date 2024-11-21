@@ -10,7 +10,7 @@
  */
 
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { CanvasNode, NodeOptions } from '../../../../scenery/js/imports.js';
+import { CanvasNode, CanvasNodeOptions } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
 
@@ -23,7 +23,7 @@ class WaveCanvasNode extends CanvasNode {
    * @param modelViewTransform - Transform between model and view coordinate frames
    * @param [providedOptions] - options that can be passed on to the underlying node
    */
-  public constructor( lightRays: LightRay[], modelViewTransform: ModelViewTransform2, providedOptions?: NodeOptions ) {
+  public constructor( lightRays: LightRay[], modelViewTransform: ModelViewTransform2, providedOptions?: CanvasNodeOptions ) {
 
     super( providedOptions );
     this.lightRays = lightRays;

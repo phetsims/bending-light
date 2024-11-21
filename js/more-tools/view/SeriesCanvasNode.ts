@@ -8,7 +8,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import { CanvasNode, NodeOptions } from '../../../../scenery/js/imports.js';
+import { CanvasNode, CanvasNodeOptions } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import DataPoint from '../model/DataPoint.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -26,7 +26,7 @@ class SeriesCanvasNode extends CanvasNode {
    * @param [providedOptions] - options that can be passed on to the underlying node
    */
   public constructor( seriesProperty: Property<DataPoint[]>, modelViewTransformProperty: Property<ModelViewTransform2>,
-                      color: string, providedOptions?: NodeOptions ) {
+                      color: string, providedOptions?: CanvasNodeOptions ) {
 
     super( providedOptions );
     this.seriesProperty = seriesProperty;

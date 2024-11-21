@@ -10,8 +10,6 @@
 import { Shape } from '../../../../kite/js/imports.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import StringIO from '../../../../tandem/js/types/StringIO.js';
-import VoidIO from '../../../../tandem/js/types/VoidIO.js';
 import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
 
@@ -22,30 +20,6 @@ class Medium {
   //TODO https://github.com/phetsims/bending-light/issues/389 Just instrument the "substance" instead
   public static readonly MediumIO = new IOType( 'MediumIO', {
     valueType: Medium,
-    methods: {
-
-      setName: {
-        returnType: VoidIO,
-        parameterTypes: [ StringIO ],
-        implementation: function( text: string ) {
-          // @ts-expect-error
-          this.name = text;
-        },
-        documentation: 'Set the name of the solute',
-        invocableForReadOnlyElements: false
-      },
-
-      setFormula: {
-        returnType: VoidIO,
-        parameterTypes: [ StringIO ],
-        implementation: function( text: string ) {
-          // @ts-expect-error
-          this.formula = text;
-        },
-        documentation: 'Set the formula of the solute',
-        invocableForReadOnlyElements: false
-      }
-    },
 
     //TODO https://github.com/phetsims/bending-light/issues/389 This needs to be implemented
     toStateObject( medium: Medium ) {

@@ -44,9 +44,7 @@ class PrismsScreenView extends BendingLightScreenView {
   private prismLayer: Node;
   private prismsModel: PrismsModel;
   private resetPrismsView: () => void;
-
-  // @ts-expect-error assigned in the supercall which calls addLightNodes
-  private whiteLightNode: WhiteLightCanvasNode;
+  private whiteLightNode!: WhiteLightCanvasNode;
 
   /**
    * @param prismsModel - model of prisms screen
