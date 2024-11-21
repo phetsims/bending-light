@@ -69,7 +69,7 @@ class PrismsModel extends BendingLightModel {
 
     // Environment the laser is in
     this.environmentMediumProperty = new Property( new Medium( Shape.rect( -1, 0, 2, 1 ), Substance.AIR, this.mediumColorFactory.getColor( Substance.AIR.indexOfRefractionForRedLight ) ), {
-      hasListenerOrderDependencies: true, // TODO: https://github.com/phetsims/bending-light/issues/414
+      hasListenerOrderDependencies: true,
 
       // See https://github.com/phetsims/bending-light/issues/378
       reentrant: true
@@ -77,7 +77,7 @@ class PrismsModel extends BendingLightModel {
 
     // Material that comprises the prisms
     this.prismMediumProperty = new Property( new Medium( Shape.rect( -1, -1, 2, 1 ), Substance.GLASS, this.mediumColorFactory.getColor( Substance.GLASS.indexOfRefractionForRedLight ) ), {
-      hasListenerOrderDependencies: true, // TODO: https://github.com/phetsims/bending-light/issues/414
+      hasListenerOrderDependencies: true,
 
       // See https://github.com/phetsims/bending-light/issues/378
       reentrant: true
