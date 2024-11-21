@@ -84,7 +84,7 @@ class PrismNode extends Node {
     this.addChild( prismPathNode );
 
     // When the window reshapes, make sure no prism is left outside of the play area
-    // TODO: Broken, see https://github.com/phetsims/bending-light/issues/372
+    // TODO: Broken, see https://github.com/phetsims/bending-light/issues/419
     dragBoundsProperty.link( dragBounds => {
       const center = prism.shapeProperty.get().centroid;
       const inBounds = modelViewTransform.viewToModelBounds( dragBounds ).getClosestPoint( center.x, center.y );
@@ -95,10 +95,10 @@ class PrismNode extends Node {
       useParentOffset: true,
       positionProperty: prism.positionProperty,
 
-      // TODO https://github.com/phetsims/bending-light/issues/372 Was previously
+      // TODO https://github.com/phetsims/bending-light/issues/419 Was previously
       //   newPosition = modelViewTransform.viewToModelBounds( dragBoundsProperty.value ).closestPointTo( newPosition );
-      // TODO https://github.com/phetsims/bending-light/issues/372 Do we need to transform the bounds?
-      // dragBoundsProperty: dragBoundsProperty, // TODO: get this working, see https://github.com/phetsims/bending-light/issues/372
+      // TODO https://github.com/phetsims/bending-light/issues/419 Do we need to transform the bounds?
+      // dragBoundsProperty: dragBoundsProperty, // TODO: get this working, see https://github.com/phetsims/bending-light/issues/419
       transform: modelViewTransform,
       end: () => {
         occlusionHandler( this );
