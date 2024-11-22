@@ -103,7 +103,7 @@ export default class IntensityMeterNode extends Node {
     } );
     titleNode.bottom = innerRectangle.bottom - 3;
 
-    titleNode.boundsProperty.link( bounds => {
+    titleNode.boundsProperty.link( () => {
       titleNode.centerX = outerRectangle.centerX;
     } );
 

@@ -10,7 +10,6 @@
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import bendingLight from '../../bendingLight.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // The fraction the objects can float out of the layout bounds
 const floatFraction = 0.3;
@@ -25,7 +24,7 @@ const FloatingLayout = {
    * Move the nodes to the edge when the screen resizes, but not too far
    */
   floatRight: ( screenView: ScreenView, nodes: Node[] ): void => {
-    screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
+    screenView.visibleBoundsProperty.link( visibleBounds => {
 
       // Let the panels move to the right, but not too far
       const right = Math.min( visibleBounds.right - leftRightPadding, screenView.layoutBounds.width * ( 1 + floatFraction ) );
@@ -39,7 +38,7 @@ const FloatingLayout = {
    * Move the nodes to the edge when the screen resizes, but not too far
    */
   floatLeft: ( screenView: ScreenView, nodes: Node[], delta = 0 ): void => {
-    screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
+    screenView.visibleBoundsProperty.link( visibleBounds => {
 
       // Let the panels move to the left, but not too far
       const left = Math.max( visibleBounds.left + leftRightPadding, -screenView.layoutBounds.width * floatFraction );
@@ -53,7 +52,7 @@ const FloatingLayout = {
    * Move the nodes to the edge when the screen resizes, but not too far
    */
   floatTop: ( screenView: ScreenView, nodes: Node[] ): void => {
-    screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
+    screenView.visibleBoundsProperty.link( visibleBounds => {
 
       // Let the panels move to the top, but not too far
       const top = Math.max( visibleBounds.top + topBottomPadding, -screenView.layoutBounds.width * floatFraction );
@@ -67,7 +66,7 @@ const FloatingLayout = {
    * Move the nodes to the edge when the screen resizes, but not too far
    */
   floatBottom: ( screenView: ScreenView, nodes: Node[] ): void => {
-    screenView.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
+    screenView.visibleBoundsProperty.link( visibleBounds => {
 
       // Let the panels move to the bottom, but not too far
       const bottom = Math.min( visibleBounds.bottom - topBottomPadding, screenView.layoutBounds.width * ( 1 + floatFraction ) );

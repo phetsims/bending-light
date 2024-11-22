@@ -28,7 +28,6 @@ import LaserTypeRadioButtonGroup from './LaserTypeRadioButtonGroup.js';
 import PrismToolboxNode from './PrismToolboxNode.js';
 import WhiteLightCanvasNode from './WhiteLightCanvasNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 import LightType from '../model/LightType.js';
@@ -241,12 +240,12 @@ export default class PrismsScreenView extends BendingLightScreenView {
     FloatingLayout.floatBottom( this, [ prismToolboxNode, resetAllButton ] );
     FloatingLayout.floatTop( this, [ environmentMediumControlPanel ] );
 
-    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
+    this.visibleBoundsProperty.link( () => {
       laserTypeRadioButtonGroup.top = environmentMediumControlPanel.bottom + 15;
       laserControlPanel.top = laserTypeRadioButtonGroup.bottom + 15;
     } );
 
-    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
+    this.visibleBoundsProperty.link( visibleBounds => {
       this.whiteLightNode && this.whiteLightNode.setCanvasBounds( visibleBounds );
       environmentMediumNodeForMonochromaticLight.setRect( visibleBounds.x, visibleBounds.y, visibleBounds.width, visibleBounds.height );
     } );
@@ -258,7 +257,7 @@ export default class PrismsScreenView extends BendingLightScreenView {
 
     // Add a thin gray line to separate the navigation bar when the environmentMediumNode is black
     const navigationBarSeparator = new Rectangle( 0, 0, 100, 100, { fill: '#999999', pickable: false } );
-    this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
+    this.visibleBoundsProperty.link( visibleBounds => {
       const rectHeight = 2;
       navigationBarSeparator.setRect( visibleBounds.x, visibleBounds.y + visibleBounds.height - rectHeight, visibleBounds.width, rectHeight );
     } );
