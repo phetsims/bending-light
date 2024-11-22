@@ -219,9 +219,7 @@ export default class PrismsScreenView extends BendingLightScreenView {
 
     // Keep the protractor in bounds if the window is resized
     this.visibleBoundsProperty.lazyLink( visibleBounds => {
-      if ( !visibleBounds.containsPoint( protractorPositionProperty.value ) ) {
-        protractorPositionProperty.value = visibleBounds.closestPointTo( protractorPositionProperty.value );
-      }
+      protractorPositionProperty.value = visibleBounds.closestPointTo( protractorPositionProperty.value );
     } );
 
     protractorPositionProperty.link( protractorPosition => {

@@ -282,9 +282,7 @@ export default class IntroScreenView extends BendingLightScreenView {
 
     // Keep the protractor in bounds if the window is resized
     this.visibleBoundsProperty.lazyLink( visibleBounds => {
-      if ( !visibleBounds.containsPoint( protractorPositionProperty.value ) ) {
-        protractorPositionProperty.value = visibleBounds.closestPointTo( protractorPositionProperty.value );
-      }
+      protractorPositionProperty.value = visibleBounds.closestPointTo( protractorPositionProperty.value );
     } );
 
     // Add an input listener to the toolbox icon for the protractor, which forwards events to the DragListener
