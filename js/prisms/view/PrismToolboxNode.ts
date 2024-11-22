@@ -87,10 +87,7 @@ export default class PrismToolboxNode extends Node {
 
         const start = this.globalToParentPoint( event.pointer.point );
         const prismShape = prism.copy();
-        prismShape.translate(
-          modelViewTransform.viewToModelX( start.x ),
-          modelViewTransform.viewToModelY( start.y )
-        );
+        prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
 
         // add prism model to the prisms model
         prismsModel.addPrism( prismShape );
