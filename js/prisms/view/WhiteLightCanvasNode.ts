@@ -29,7 +29,7 @@ import MediumColorFactory from '../../common/model/MediumColorFactory.js';
 export default class WhiteLightCanvasNode extends CanvasNode {
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly whiteLightRays: LightRay[];
-  private environmentMediumProperty: Property<Medium>;
+  private readonly environmentMediumProperty: Property<Medium>;
   private colorCSS: string | null;
 
   /**

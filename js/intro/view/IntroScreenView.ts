@@ -58,10 +58,10 @@ export default class IntroScreenView extends BendingLightScreenView {
   private readonly stepEmitter: TEmitter;
   private readonly topMediumControlPanel: MediumControlPanel;
   private readonly bottomMediumControlPanel: MediumControlPanel;
-  protected dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
-  protected bumpLeft: ( node: Node, positionProperty: Property<Vector2> ) => void;
-  private toolbox: Panel;
-  protected timeControlNode: TimeControlNode;
+  protected readonly dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
+  protected readonly bumpLeft: ( node: Node, positionProperty: Property<Vector2> ) => void;
+  private readonly toolbox: Panel;
+  protected readonly timeControlNode: TimeControlNode;
 
   /**
    * @param introModel - model of intro screen

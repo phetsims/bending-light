@@ -31,12 +31,12 @@ const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANC
 type IntensityMeterNodeOptions = NodeOptions;
 
 export default class IntensityMeterNode extends Node {
-  private modelViewTransform: ModelViewTransform2;
-  public probeNode: ProbeNode;
-  private intensityMeter: IntensityMeter;
-  public bodyNode: Node;
-  private wireNode: WireNode;
-  public syncModelFromView: () => void;
+  private readonly modelViewTransform: ModelViewTransform2;
+  public readonly probeNode: ProbeNode;
+  private readonly intensityMeter: IntensityMeter;
+  public readonly bodyNode: Node;
+  private readonly wireNode: WireNode;
+  public readonly syncModelFromView: () => void;
 
   /**
    * @param modelViewTransform - Transform between model and view coordinate frames

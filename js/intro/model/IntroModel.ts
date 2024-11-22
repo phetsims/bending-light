@@ -38,14 +38,14 @@ const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 const BEAM_LENGTH = 1E-3;
 
 export default class IntroModel extends BendingLightModel {
-  public topMediumProperty: Property<Medium>;
-  public bottomMediumProperty: Property<Medium>;
+  public readonly topMediumProperty: Property<Medium>;
+  public readonly bottomMediumProperty: Property<Medium>;
   public time: number;
   private readonly indexOfRefractionOfTopMediumProperty: TReadOnlyProperty<number>;
   private readonly indexOfRefractionOfBottomMediumProperty: TReadOnlyProperty<number>;
   public readonly intensityMeter: IntensityMeter;
-  private tailVector: Vector2;
-  private tipVector: Vector2;
+  private readonly tailVector: Vector2;
+  private readonly tipVector: Vector2;
 
   /**
    * @param bottomSubstance - state of bottom medium

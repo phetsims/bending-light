@@ -41,9 +41,9 @@ const environmentStringProperty = BendingLightStrings.environmentStringProperty;
 type PrismsScreenViewOptions = BendingLightScreenViewOptions;
 
 export default class PrismsScreenView extends BendingLightScreenView {
-  private prismLayer: Node;
-  private prismsModel: PrismsModel;
-  private resetPrismsView: () => void;
+  private readonly prismLayer: Node;
+  private readonly prismsModel: PrismsModel;
+  private readonly resetPrismsView: () => void;
   private whiteLightNode!: WhiteLightCanvasNode;
 
   /**

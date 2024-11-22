@@ -17,12 +17,12 @@ import DataPoint from './DataPoint.js';
 import Probe from './Probe.js';
 
 export default class WaveSensor {
-  public probe1: Probe;
-  public probe2: Probe;
-  public bodyPositionProperty: Property<Vector2>;
-  public enabledProperty: Property<boolean>;
-  private probe1Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
-  private probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
+  public readonly probe1: Probe;
+  public readonly probe2: Probe;
+  public readonly bodyPositionProperty: Property<Vector2>;
+  public readonly enabledProperty: Property<boolean>;
+  private readonly probe1Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
+  private readonly probe2Value: ( position: Vector2 ) => { time: number; magnitude: number } | null;
 
   /**
    * @param probe1Value - function for getting data from a probe at the specified point

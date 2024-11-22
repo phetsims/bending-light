@@ -79,7 +79,7 @@ export default class WaveSensorNode extends Node {
   public readonly probe2Node: ProbeNodeWrapper;
   private readonly wire1Node: WireNode;
   private readonly wire2Node: WireNode;
-  public syncModelFromView: () => void;
+  public readonly syncModelFromView: () => void;
 
   /**
    * @param modelViewTransform - Transform between model and view coordinate frames

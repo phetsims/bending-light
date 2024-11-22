@@ -33,7 +33,7 @@ export default class VelocitySensorNode extends Node {
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly velocitySensor: VelocitySensor;
   private readonly bodyNode: Node;
-  private arrowShape: Path;
+  private readonly arrowShape: Path;
 
   /**
    * @param modelViewTransform - Transform between model and view coordinate frames

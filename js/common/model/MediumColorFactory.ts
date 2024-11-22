@@ -19,9 +19,9 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 const step = 55;
 
 export default class MediumColorFactory {
-  public lightTypeProperty: Property<ColorModeEnum>;
-  public getColorAgainstWhite: ( indexForRed: number ) => Color;
-  private getColorAgainstBlack: ( indexForRed: number ) => Color;
+  public readonly lightTypeProperty: Property<ColorModeEnum>;
+  public readonly getColorAgainstWhite: ( indexForRed: number ) => Color;
+  private readonly getColorAgainstBlack: ( indexForRed: number ) => Color;
 
   public constructor() {
     this.lightTypeProperty = new EnumerationProperty( ColorModeEnum.SINGLE_COLOR );

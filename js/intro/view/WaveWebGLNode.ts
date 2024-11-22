@@ -41,8 +41,8 @@ export default class WaveWebGLNode extends WebGLNode {
 class WavePainter {
   private readonly gl: WebGLRenderingContext;
   private readonly node: WaveWebGLNode;
-  private shaderProgram: ShaderProgram;
-  private vertexBuffer: WebGLBuffer | null;
+  private readonly shaderProgram: ShaderProgram;
+  private readonly vertexBuffer: WebGLBuffer | null;
 
   public constructor( gl: WebGLRenderingContext, node: WaveWebGLNode ) {
     this.gl = gl;
