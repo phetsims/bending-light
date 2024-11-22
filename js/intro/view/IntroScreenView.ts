@@ -546,7 +546,7 @@ export default class IntroScreenView extends BendingLightScreenView {
         canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
       } );
       this.incidentWaveLayer.addChild( waveCanvasNode );
-      this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => {
+      this.visibleBoundsProperty.link( visibleBounds => {
         waveCanvasNode.setCanvasBounds( visibleBounds );
       } );
     }
