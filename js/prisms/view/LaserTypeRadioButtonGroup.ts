@@ -1,4 +1,4 @@
-// Copyright 2015-2023, University of Colorado Boulder
+// Copyright 2015-2024, University of Colorado Boulder
 
 /**
  * Radio button group for choosing between 1x monochromatic, 5x monochromatic or 1x white light.
