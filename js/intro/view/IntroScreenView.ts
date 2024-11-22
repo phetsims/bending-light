@@ -375,25 +375,14 @@ export default class IntroScreenView extends BendingLightScreenView {
 
     // Ensure the IntensityMeterNode remains within bounds when visibleBoundsProperty changes
     this.visibleBoundsProperty.lazyLink( visibleBounds => {
-      const modelViewTransform = this.modelViewTransform;
 
       // Keep the IntensityMeterNode probe in bounds
-      const sensorModelPosition = introModel.intensityMeter.sensorPositionProperty.value;
-      const sensorViewPosition = modelViewTransform.modelToViewPosition( sensorModelPosition );
-
-      if ( !visibleBounds.containsPoint( sensorViewPosition ) ) {
-        const newSensorViewPos = visibleBounds.closestPointTo( sensorViewPosition );
-        introModel.intensityMeter.sensorPositionProperty.value = modelViewTransform.viewToModelPosition( newSensorViewPos );
-      }
+      const sensorViewPosition = modelViewTransform.modelToViewPosition( introModel.intensityMeter.sensorPositionProperty.value );
+      introModel.intensityMeter.sensorPositionProperty.value = modelViewTransform.viewToModelPosition( visibleBounds.closestPointTo( sensorViewPosition ) );
 
       // Keep the IntensityMeterNode body in bounds
-      const bodyModelPosition = introModel.intensityMeter.bodyPositionProperty.value;
-      const bodyViewPosition = modelViewTransform.modelToViewPosition( bodyModelPosition );
-
-      if ( !visibleBounds.containsPoint( bodyViewPosition ) ) {
-        const newBodyViewPos = visibleBounds.closestPointTo( bodyViewPosition );
-        introModel.intensityMeter.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( newBodyViewPos );
-      }
+      const bodyViewPosition = modelViewTransform.modelToViewPosition( introModel.intensityMeter.bodyPositionProperty.value );
+      introModel.intensityMeter.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( visibleBounds.closestPointTo( bodyViewPosition ) );
     } );
 
     // Add an input listener to the toolbox icon, which forwards events to the DragListener
