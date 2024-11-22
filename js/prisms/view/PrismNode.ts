@@ -83,29 +83,26 @@ export default class PrismNode extends Node {
     } );
     this.addChild( prismPathNode );
 
-    // When the window reshapes, make sure no prism is left outside of the play area
-    // TODO: Broken, see https://github.com/phetsims/bending-light/issues/419
-    dragBoundsProperty.link( dragBounds => {
-      const center = prism.shapeProperty.get().centroid;
-      const inBounds = modelViewTransform.viewToModelBounds( dragBounds ).getClosestPoint( center.x, center.y );
-      prism.translate( inBounds.x - center.x, inBounds.y - center.y );
-    } );
+    // Keep within the drag bounds. For unknown reasons, this works but passing dragBoundsProperty directly does not.
+    const keepInBounds = () => {
+      const viewPosition = modelViewTransform.modelToViewPosition( prism.positionProperty.value );
+      prism.positionProperty.value = modelViewTransform.viewToModelPosition( dragBoundsProperty.value.closestPointTo( viewPosition ) );
+    };
 
     this.dragListener = new DragListener( {
       useParentOffset: true,
       positionProperty: prism.positionProperty,
-
-      // TODO https://github.com/phetsims/bending-light/issues/419 Was previously
-      //   newPosition = modelViewTransform.viewToModelBounds( dragBoundsProperty.value ).closestPointTo( newPosition );
-      // TODO https://github.com/phetsims/bending-light/issues/419 Do we need to transform the bounds?
-      // dragBoundsProperty: dragBoundsProperty, // TODO: get this working, see https://github.com/phetsims/bending-light/issues/419
       transform: modelViewTransform,
+      drag: keepInBounds,
       end: () => {
         occlusionHandler( this );
         if ( prismToolboxNode.visibleBounds.containsCoordinates( this.getCenterX(), this.getCenterY() ) ) {
           if ( prismLayer.hasChild( this ) ) {
+
+            // this is the equivalent of dispose
             prismsModel.removePrism( prism );
             prism.shapeProperty.unlink( this.updatePrismShape );
+            dragBoundsProperty.unlink( keepInBounds );
             prismsModel.prismMediumProperty.unlink( this.updatePrismColor );
             prismLayer.removeChild( this );
           }
@@ -113,6 +110,9 @@ export default class PrismNode extends Node {
         }
       }
     } );
+
+    // When the window reshapes, make sure no prism is left outside of the play area
+    dragBoundsProperty.lazyLink( keepInBounds );
 
     if ( !isIcon ) {
       prismPathNode.addInputListener( this.dragListener );
