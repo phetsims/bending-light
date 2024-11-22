@@ -19,7 +19,7 @@ import BendingLightConstants from '../BendingLightConstants.js';
 import LaserColor from './LaserColor.js';
 import ColorModeEnum from './ColorModeEnum.js';
 
-class Laser {
+export default class Laser {
   public readonly topLeftQuadrant: boolean;
 
   // true if the laser is activated and emitting light
@@ -138,5 +138,3 @@ class Laser {
 }
 
 bendingLight.register( 'Laser', Laser );
-
-export default Laser;

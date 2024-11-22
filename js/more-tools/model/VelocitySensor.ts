@@ -15,7 +15,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
 
-class VelocitySensor {
+export default class VelocitySensor {
   public readonly positionProperty: Property<Vector2>;
   public readonly valueProperty: Property<Vector2>;
   public readonly enabledProperty: Property<boolean>;
@@ -64,5 +64,3 @@ class VelocitySensor {
 }
 
 bendingLight.register( 'VelocitySensor', VelocitySensor );
-
-export default VelocitySensor;

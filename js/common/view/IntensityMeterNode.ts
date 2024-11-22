@@ -30,7 +30,7 @@ const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANC
 
 type IntensityMeterNodeOptions = NodeOptions;
 
-class IntensityMeterNode extends Node {
+export default class IntensityMeterNode extends Node {
   private modelViewTransform: ModelViewTransform2;
   public probeNode: ProbeNode;
   private intensityMeter: IntensityMeter;
@@ -166,5 +166,3 @@ class IntensityMeterNode extends Node {
 }
 
 bendingLight.register( 'IntensityMeterNode', IntensityMeterNode );
-
-export default IntensityMeterNode;

@@ -13,7 +13,7 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
 
-class Medium {
+export default class Medium {
   public shape: Shape;
   public substance: Substance;
   public color: Color;
@@ -60,4 +60,3 @@ class Medium {
 }
 
 bendingLight.register( 'Medium', Medium );
-export default Medium;

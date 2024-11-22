@@ -53,7 +53,7 @@ type SelfOptions = EmptySelfOptions;
 type ParentOptions = BendingLightScreenViewOptions;
 type IntroScreenViewOptions = SelfOptions & ParentOptions;
 
-class IntroScreenView extends BendingLightScreenView {
+export default class IntroScreenView extends BendingLightScreenView {
   private introModel: IntroModel;
   private stepEmitter: TEmitter;
   protected topMediumControlPanel: MediumControlPanel;
@@ -386,7 +386,7 @@ class IntroScreenView extends BendingLightScreenView {
       bodyListener.press( event );
     } ) );
 
-    // for subclass usage in MoreToolsScreenView
+    // for subexport default class usage in MoreToolsScreenView
     this.bumpLeft = bumpLeft;
 
     let toolboxNodes = [
@@ -525,4 +525,3 @@ class IntroScreenView extends BendingLightScreenView {
 bendingLight.register( 'IntroScreenView', IntroScreenView );
 
 export type { IntroScreenViewOptions };
-export default IntroScreenView;

@@ -32,7 +32,7 @@ const arrowScale = 1.5E-14;
 
 type MoreToolsScreenViewOptions = IntroScreenViewOptions;
 
-class MoreToolsScreenView extends IntroScreenView {
+export default class MoreToolsScreenView extends IntroScreenView {
   private moreToolsModel: MoreToolsModel;
   private waveSensorNode: WaveSensorNode | null;
 
@@ -250,5 +250,3 @@ class MoreToolsScreenView extends IntroScreenView {
 }
 
 bendingLight.register( 'MoreToolsScreenView', MoreToolsScreenView );
-
-export default MoreToolsScreenView;

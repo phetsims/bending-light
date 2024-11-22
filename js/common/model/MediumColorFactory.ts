@@ -15,7 +15,10 @@ import Substance from './Substance.js';
 import ColorModeEnum from './ColorModeEnum.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
-class MediumColorFactory {
+// distance between adjacent colors for shades of gray against the black background
+const step = 55;
+
+export default class MediumColorFactory {
   public lightTypeProperty: Property<ColorModeEnum>;
   public getColorAgainstWhite: ( indexForRed: number ) => Color;
   private getColorAgainstBlack: ( indexForRed: number ) => Color;
@@ -102,8 +105,4 @@ const createProfile = ( AIR_COLOR: Color, WATER_COLOR: Color, GLASS_COLOR: Color
   }
 };
 
-// distance between adjacent colors for shades of gray against the black background
-const step = 55;
 bendingLight.register( 'MediumColorFactory', MediumColorFactory );
-
-export default MediumColorFactory;

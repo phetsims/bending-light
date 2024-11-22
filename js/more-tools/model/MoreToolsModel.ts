@@ -16,7 +16,7 @@ import IntroModel from '../../intro/model/IntroModel.js';
 import VelocitySensor from './VelocitySensor.js';
 import WaveSensor from './WaveSensor.js';
 
-class MoreToolsModel extends IntroModel {
+export default class MoreToolsModel extends IntroModel {
   public readonly velocitySensor: VelocitySensor;
   public readonly waveSensor: WaveSensor;
 
@@ -58,5 +58,3 @@ class MoreToolsModel extends IntroModel {
 }
 
 bendingLight.register( 'MoreToolsModel', MoreToolsModel );
-
-export default MoreToolsModel;

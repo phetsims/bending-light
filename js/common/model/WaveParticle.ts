@@ -11,7 +11,7 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import bendingLight from '../../bendingLight.js';
 
-class WaveParticle {
+export default class WaveParticle {
   private readonly position: Vector2;
   private readonly width: number;
   public readonly color: string;
@@ -67,5 +67,3 @@ class WaveParticle {
 }
 
 bendingLight.register( 'WaveParticle', WaveParticle );
-
-export default WaveParticle;

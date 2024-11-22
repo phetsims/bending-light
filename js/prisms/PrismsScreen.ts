@@ -18,7 +18,7 @@ import PrismsModel from './model/PrismsModel.js';
 import PrismsScreenView from './view/PrismsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-class PrismsScreen extends Screen<PrismsModel, PrismsScreenView> {
+export default class PrismsScreen extends Screen<PrismsModel, PrismsScreenView> {
   public constructor( tandem: Tandem ) {
 
     const options: ScreenOptions = {
@@ -46,5 +46,3 @@ class PrismsScreen extends Screen<PrismsModel, PrismsScreenView> {
 }
 
 bendingLight.register( 'PrismsScreen', PrismsScreen );
-
-export default PrismsScreen;

@@ -31,7 +31,7 @@ const makeFinite = ( vector: Vector2 ) => {
   }
 };
 
-class LightRay {
+export default class LightRay {
   public readonly extendBackwards: boolean;
   public readonly color: Color;
   public readonly waveWidth: number;
@@ -313,5 +313,3 @@ class LightRay {
 }
 
 bendingLight.register( 'LightRay', LightRay );
-
-export default LightRay;

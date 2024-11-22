@@ -11,7 +11,7 @@ import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 
-class LaserColor {
+export default class LaserColor {
   public readonly wavelength: number;
 
   /**
@@ -30,5 +30,3 @@ class LaserColor {
 }
 
 bendingLight.register( 'LaserColor', LaserColor );
-
-export default LaserColor;

@@ -39,7 +39,7 @@ const MOCK_ZERO_RAY: TLightRay = {
   powerFraction: 0
 };
 
-class AngleNode extends Node {
+export default class AngleNode extends Node {
 
   /**
    * @param showAnglesProperty -
@@ -231,5 +231,3 @@ class AngleNode extends Node {
 }
 
 bendingLight.register( 'AngleNode', AngleNode );
-
-export default AngleNode;

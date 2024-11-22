@@ -21,7 +21,7 @@ import LaserTypeAquaRadioButtonGroup from './view/LaserTypeAquaRadioButtonGroup.
 import Tandem from '../../../tandem/js/Tandem.js';
 import BendingLightModel from '../common/model/BendingLightModel.js';
 
-class IntroScreen extends Screen<IntroModel, IntroScreenView> {
+export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
   public constructor( tandem: Tandem ) {
 
@@ -50,5 +50,3 @@ class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 }
 
 bendingLight.register( 'IntroScreen', IntroScreen );
-
-export default IntroScreen;

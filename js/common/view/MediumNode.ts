@@ -12,7 +12,7 @@ import { Node, Path } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import Medium from '../model/Medium.js';
 
-class MediumNode extends Node {
+export default class MediumNode extends Node {
 
   /**
    * @param modelViewTransform - converts between model and view co-ordinates
@@ -36,5 +36,3 @@ class MediumNode extends Node {
 }
 
 bendingLight.register( 'MediumNode', MediumNode );
-
-export default MediumNode;

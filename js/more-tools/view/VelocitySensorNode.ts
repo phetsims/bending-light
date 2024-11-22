@@ -29,7 +29,7 @@ const speedString = BendingLightStrings.speed;
 const unknownVelocityString = BendingLightStrings.unknownVelocity;
 const velocityPatternString = BendingLightStrings.velocityPattern;
 
-class VelocitySensorNode extends Node {
+export default class VelocitySensorNode extends Node {
   private modelViewTransform: ModelViewTransform2;
   private velocitySensor: VelocitySensor;
   private readonly bodyNode: Node;
@@ -175,5 +175,3 @@ class VelocitySensorNode extends Node {
 }
 
 bendingLight.register( 'VelocitySensorNode', VelocitySensorNode );
-
-export default VelocitySensorNode;

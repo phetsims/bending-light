@@ -12,7 +12,7 @@ import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import DataPoint from './DataPoint.js';
 
-class Series {
+export default class Series {
   public readonly seriesProperty: Property<DataPoint[]>;
   public readonly color: Color;
 
@@ -47,5 +47,3 @@ class Series {
 }
 
 bendingLight.register( 'Series', Series );
-
-export default Series;

@@ -14,7 +14,7 @@ import { CanvasNode, CanvasNodeOptions } from '../../../../scenery/js/imports.js
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
 
-class WaveCanvasNode extends CanvasNode {
+export default class WaveCanvasNode extends CanvasNode {
   private readonly lightRays: LightRay[];
   private readonly modelViewTransform: ModelViewTransform2;
 
@@ -103,5 +103,3 @@ class WaveCanvasNode extends CanvasNode {
 }
 
 bendingLight.register( 'WaveCanvasNode', WaveCanvasNode );
-
-export default WaveCanvasNode;

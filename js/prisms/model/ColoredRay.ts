@@ -12,7 +12,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 
-class ColoredRay {
+export default class ColoredRay {
   public readonly ray: Ray2;
   public readonly power: number;
   public readonly wavelength: number;
@@ -58,5 +58,3 @@ class ColoredRay {
 }
 
 bendingLight.register( 'ColoredRay', ColoredRay );
-
-export default ColoredRay;

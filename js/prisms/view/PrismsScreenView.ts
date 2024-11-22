@@ -40,7 +40,7 @@ const environmentStringProperty = BendingLightStrings.environmentStringProperty;
 
 type PrismsScreenViewOptions = BendingLightScreenViewOptions;
 
-class PrismsScreenView extends BendingLightScreenView {
+export default class PrismsScreenView extends BendingLightScreenView {
   private prismLayer: Node;
   private prismsModel: PrismsModel;
   private resetPrismsView: () => void;
@@ -345,5 +345,3 @@ class PrismsScreenView extends BendingLightScreenView {
 }
 
 bendingLight.register( 'PrismsScreenView', PrismsScreenView );
-
-export default PrismsScreenView;

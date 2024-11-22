@@ -36,7 +36,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;
 const CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
-class PrismsModel extends BendingLightModel {
+export default class PrismsModel extends BendingLightModel {
   public readonly prisms: ObservableArray<Prism>;
   public readonly intersections: ObservableArray<Intersection>;
   public readonly manyRaysProperty: Property<number>;
@@ -435,5 +435,3 @@ class PrismsModel extends BendingLightModel {
 }
 
 bendingLight.register( 'PrismsModel', PrismsModel );
-
-export default PrismsModel;

@@ -14,7 +14,7 @@ import PrismIntersection from './PrismIntersection.js';
 import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 
-class SemiCircle {
+export default class SemiCircle {
   private readonly points: Vector2[];
   private readonly referencePointIndex: number;
   private readonly radius: number;
@@ -126,5 +126,3 @@ class SemiCircle {
 }
 
 bendingLight.register( 'SemiCircle', SemiCircle );
-
-export default SemiCircle;

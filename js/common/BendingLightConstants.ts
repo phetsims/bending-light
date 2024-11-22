@@ -1,7 +1,7 @@
 // Copyright 2015-2023, University of Colorado Boulder
 
 /**
- * This class is a collection of constants that configure global properties.
+ * This export default class is a collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
  *
  * @author Sam Reid (PhET Interactive Simulations)

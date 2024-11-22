@@ -13,7 +13,7 @@ import bendingLight from '../../bendingLight.js';
 import DataPoint from '../model/DataPoint.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
-class SeriesCanvasNode extends CanvasNode {
+export default class SeriesCanvasNode extends CanvasNode {
   private readonly seriesProperty: Property<DataPoint[]>;
   private readonly modelViewTransformProperty: Property<ModelViewTransform2>;
   private readonly color: string;
@@ -73,5 +73,3 @@ class SeriesCanvasNode extends CanvasNode {
 }
 
 bendingLight.register( 'SeriesCanvasNode', SeriesCanvasNode );
-
-export default SeriesCanvasNode;

@@ -4,7 +4,7 @@
  * In order to support white light, we need to perform additive color mixing (not subtractive,
  * as is the default when drawing transparent colors on top of each other in Java).
  * <p/>
- * This class uses the Bresenham line drawing algorithm (with a stroke thickness of 2) to determine which pixels each
+ * This export default class uses the Bresenham line drawing algorithm (with a stroke thickness of 2) to determine which pixels each
  * ray inhabits. When multiple rays hit the same pixel, their RGB values are added. If any of the RG or B values is
  * greater than the maximum of 255, then RGB values are scaled down and the leftover part is put into the "intensity"
  * value (which is the sum of the ray intensities). The intensity is converted to a transparency value according to
@@ -26,7 +26,7 @@ import LightRay from '../../common/model/LightRay.js';
 import Medium from '../../common/model/Medium.js';
 import MediumColorFactory from '../../common/model/MediumColorFactory.js';
 
-class WhiteLightCanvasNode extends CanvasNode {
+export default class WhiteLightCanvasNode extends CanvasNode {
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly whiteLightRays: LightRay[];
   private environmentMediumProperty: Property<Medium>;
@@ -123,5 +123,3 @@ class WhiteLightCanvasNode extends CanvasNode {
 }
 
 bendingLight.register( 'WhiteLightCanvasNode', WhiteLightCanvasNode );
-
-export default WhiteLightCanvasNode;

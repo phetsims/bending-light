@@ -13,7 +13,7 @@ import { Line } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import Intersection from '../model/Intersection.js';
 
-class IntersectionNode extends Line {
+export default class IntersectionNode extends Line {
   private readonly disposeIntersectionLine: () => void;
 
   /**
@@ -58,5 +58,3 @@ class IntersectionNode extends Line {
 }
 
 bendingLight.register( 'IntersectionNode', IntersectionNode );
-
-export default IntersectionNode;

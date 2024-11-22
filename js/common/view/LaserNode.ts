@@ -28,7 +28,7 @@ type SelfOptions = EmptySelfOptions;
 type ParentOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 type LaserNodeOptions = SelfOptions & ParentOptions;
 
-class LaserNode extends Node {
+export default class LaserNode extends Node {
   public laserImageWidth: number;
   private readonly laser: Laser;
   private readonly modelViewTransform: ModelViewTransform2;
@@ -283,5 +283,3 @@ class LaserNode extends Node {
 }
 
 bendingLight.register( 'LaserNode', LaserNode );
-
-export default LaserNode;

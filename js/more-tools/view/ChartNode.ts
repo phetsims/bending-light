@@ -50,7 +50,7 @@ class SeriesNode extends Node {
   }
 }
 
-class ChartNode extends Node {
+export default class ChartNode extends Node {
   private chartBounds: Bounds2;
   private seriesArray: Series[];
   private timeWidth: number;
@@ -161,5 +161,3 @@ class ChartNode extends Node {
 }
 
 bendingLight.register( 'ChartNode', ChartNode );
-
-export default ChartNode;

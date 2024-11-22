@@ -7,7 +7,7 @@ import bendingLight from '../../bendingLight.js';
  * Shows text with background for the AngleNode.
  * @author Sam Reid (PhET Interactive Simulations)
  */
-class AngleTextView extends Panel {
+export default class AngleTextView extends Panel {
   private readonly textNode: Text;
 
   public constructor() {
@@ -36,4 +36,3 @@ class AngleTextView extends Panel {
 }
 
 bendingLight.register( 'AngleTextView', AngleTextView );
-export default AngleTextView;

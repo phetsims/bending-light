@@ -9,7 +9,7 @@ import bendingLight from '../../bendingLight.js';
 /**
  * @author Sam Reid (PhET Interactive Simulations)
  */
-class Probe {
+export default class Probe {
   public readonly seriesProperty: Property<Array<DataPoint>>;
   public readonly positionProperty: Property<Vector2>;
 
@@ -43,4 +43,3 @@ class Probe {
 }
 
 bendingLight.register( 'Probe', Probe );
-export default Probe;

@@ -15,7 +15,7 @@ import LightRay from '../model/LightRay.js';
 // constants
 const lineDash: number[] = [];
 
-class SingleColorLightCanvasNode extends CanvasNode {
+export default class SingleColorLightCanvasNode extends CanvasNode {
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly rays: LightRay[];
   private readonly strokeWidth: number;
@@ -95,5 +95,3 @@ class SingleColorLightCanvasNode extends CanvasNode {
 }
 
 bendingLight.register( 'SingleColorLightCanvasNode', SingleColorLightCanvasNode );
-
-export default SingleColorLightCanvasNode;

@@ -19,7 +19,7 @@ import BendingLightConstants from '../../common/BendingLightConstants.js';
 import Prism from '../model/Prism.js';
 import PrismsModel from '../model/PrismsModel.js';
 
-class PrismNode extends Node {
+export default class PrismNode extends Node {
   private dragListener: DragListener;
   private updatePrismShape: () => void;
   private updatePrismColor: () => void;
@@ -176,5 +176,3 @@ class PrismNode extends Node {
 }
 
 bendingLight.register( 'PrismNode', PrismNode );
-
-export default PrismNode;

@@ -17,7 +17,7 @@ import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 const scratchFloatArray1 = new Float32Array( 9 );
 const scratchFloatArray2 = new Float32Array( 9 );
 
-class WaveWebGLNode extends WebGLNode {
+export default class WaveWebGLNode extends WebGLNode {
   public readonly modelViewTransform: ModelViewTransform2;
   public readonly rays: ObservableArray<LightRay>; // public only for access by WavePainter
 
@@ -194,5 +194,3 @@ class WavePainter {
 }
 
 bendingLight.register( 'WaveWebGLNode', WaveWebGLNode );
-
-export default WaveWebGLNode;

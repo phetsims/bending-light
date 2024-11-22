@@ -2,7 +2,7 @@
 
 /**
  * Model for the "intro" Screen, which has an upper and lower medium, interfacing at the middle of the screen,
- * and the laser at the top left shining toward the interface.  This is a subclass of BendingLightScreenView.
+ * and the laser at the top left shining toward the interface.  This is a subexport default class of BendingLightScreenView.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
@@ -37,7 +37,7 @@ const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 // If the ray is too long in this step, then webgl will have rendering artifacts, see #147
 const BEAM_LENGTH = 1E-3;
 
-class IntroModel extends BendingLightModel {
+export default class IntroModel extends BendingLightModel {
   public topMediumProperty: Property<Medium>;
   public bottomMediumProperty: Property<Medium>;
   public time: number;
@@ -514,5 +514,3 @@ class IntroModel extends BendingLightModel {
 }
 
 bendingLight.register( 'IntroModel', IntroModel );
-
-export default IntroModel;

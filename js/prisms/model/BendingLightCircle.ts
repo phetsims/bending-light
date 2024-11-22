@@ -14,7 +14,7 @@ import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 import PrismIntersection from './PrismIntersection.js';
 
-class BendingLightCircle {
+export default class BendingLightCircle {
   private readonly center: Vector2;
   public readonly centroid: Vector2;
   private readonly radius: number;
@@ -76,5 +76,3 @@ class BendingLightCircle {
 }
 
 bendingLight.register( 'BendingLightCircle', BendingLightCircle );
-
-export default BendingLightCircle;

@@ -14,7 +14,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 
-class DispersionFunction {
+export default class DispersionFunction {
   private readonly referenceIndexOfRefraction: number;
   private readonly referenceWavelength: number;
 
@@ -82,5 +82,3 @@ class DispersionFunction {
 }
 
 bendingLight.register( 'DispersionFunction', DispersionFunction );
-
-export default DispersionFunction;

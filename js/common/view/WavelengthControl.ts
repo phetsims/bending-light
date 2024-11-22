@@ -24,7 +24,7 @@ const wavelengthPatternStringProperty = BendingLightStrings.wavelengthPatternStr
 // constants
 const PLUS_MINUS_SPACING = 4;
 
-class WavelengthControl extends Node {
+export default class WavelengthControl extends Node {
 
   public constructor( wavelengthProperty: Property<number>, enabledProperty: Property<boolean>, trackWidth: number ) {
     const wavelengthPropertyNMProperty = new Property<number>( wavelengthProperty.value * 1E9, {
@@ -131,5 +131,3 @@ class WavelengthControl extends Node {
 }
 
 bendingLight.register( 'WavelengthControl', WavelengthControl );
-
-export default WavelengthControl;

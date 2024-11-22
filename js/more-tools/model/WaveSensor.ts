@@ -16,7 +16,7 @@ import bendingLight from '../../bendingLight.js';
 import DataPoint from './DataPoint.js';
 import Probe from './Probe.js';
 
-class WaveSensor {
+export default class WaveSensor {
   public probe1: Probe;
   public probe2: Probe;
   public bodyPositionProperty: Property<Vector2>;
@@ -95,5 +95,3 @@ class WaveSensor {
 }
 
 bendingLight.register( 'WaveSensor', WaveSensor );
-
-export default WaveSensor;

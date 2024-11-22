@@ -55,7 +55,7 @@ type SelfOptions = {
 
 type MediumControlPanelOptions = SelfOptions & NodeOptions;
 
-class MediumControlPanel extends Node {
+export default class MediumControlPanel extends Node {
   private readonly mediumColorFactory: MediumColorFactory;
   private readonly mediumProperty: Property<Medium>;
   private readonly laserWavelengthProperty: Property<number>;
@@ -418,5 +418,3 @@ class MediumControlPanel extends Node {
 }
 
 bendingLight.register( 'MediumControlPanel', MediumControlPanel );
-
-export default MediumControlPanel;

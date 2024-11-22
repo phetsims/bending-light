@@ -17,7 +17,7 @@ import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import SemiCircle from './SemiCircle.js';
 
-class Prism {
+export default class Prism {
   public readonly shapeProperty: Property<Polygon | BendingLightCircle | SemiCircle>;
   public readonly positionProperty: Vector2Property;
   public readonly typeName: string;
@@ -82,5 +82,3 @@ class Prism {
 }
 
 bendingLight.register( 'Prism', Prism );
-
-export default Prism;

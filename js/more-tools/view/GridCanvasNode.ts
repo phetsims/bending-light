@@ -15,7 +15,7 @@ import bendingLight from '../../bendingLight.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 
-class GridCanvasNode extends CanvasNode {
+export default class GridCanvasNode extends CanvasNode {
   private readonly modelViewTransformProperty: Property<ModelViewTransform2>;
   private readonly strokeDash: number[];
   private readonly gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>;
@@ -70,5 +70,3 @@ class GridCanvasNode extends CanvasNode {
 }
 
 bendingLight.register( 'GridCanvasNode', GridCanvasNode );
-
-export default GridCanvasNode;

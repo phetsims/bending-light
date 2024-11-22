@@ -18,7 +18,7 @@ import MoreToolsModel from './model/MoreToolsModel.js';
 import MoreToolsScreenView from './view/MoreToolsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-class MoreToolsScreen extends Screen<MoreToolsModel, MoreToolsScreenView> {
+export default class MoreToolsScreen extends Screen<MoreToolsModel, MoreToolsScreenView> {
   public constructor( tandem: Tandem ) {
 
     const options: ScreenOptions = {
@@ -43,5 +43,3 @@ class MoreToolsScreen extends Screen<MoreToolsModel, MoreToolsScreenView> {
 }
 
 bendingLight.register( 'MoreToolsScreen', MoreToolsScreen );
-
-export default MoreToolsScreen;

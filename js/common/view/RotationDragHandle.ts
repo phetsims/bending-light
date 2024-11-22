@@ -18,7 +18,7 @@ import bendingLight from '../../bendingLight.js';
 import Laser from '../model/Laser.js';
 import LaserViewEnum from '../model/LaserViewEnum.js';
 
-class RotationDragHandle extends Node {
+export default class RotationDragHandle extends Node {
 
   /**
    * @param laserViewProperty
@@ -90,5 +90,3 @@ class RotationDragHandle extends Node {
 }
 
 bendingLight.register( 'RotationDragHandle', RotationDragHandle );
-
-export default RotationDragHandle;

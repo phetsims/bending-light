@@ -1,7 +1,7 @@
 // Copyright 2015-2023, University of Colorado Boulder
 
 /**
- * Base class for Bending Light
+ * Base export default class for Bending Light
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chandrashekar Bemagoni (Actual Concepts)
@@ -34,7 +34,7 @@ type SelfOptions = {
 };
 type BendingLightScreenViewOptions = SelfOptions & ScreenViewOptions;
 
-abstract class BendingLightScreenView extends ScreenView {
+export default abstract class BendingLightScreenView extends ScreenView {
   protected readonly showProtractorProperty: Property<boolean>;
   protected readonly bendingLightModel: BendingLightModel;
   protected readonly beforeLightLayer: Node;
@@ -228,4 +228,3 @@ abstract class BendingLightScreenView extends ScreenView {
 
 bendingLight.register( 'BendingLightScreenView', BendingLightScreenView );
 export type { BendingLightScreenViewOptions };
-export default BendingLightScreenView;

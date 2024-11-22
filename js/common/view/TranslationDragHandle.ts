@@ -16,7 +16,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import Laser from '../model/Laser.js';
 
-class TranslationDragHandle extends Node {
+export default class TranslationDragHandle extends Node {
 
   /**
    * @param modelViewTransform - converts between model and view co-ordinate frames
@@ -60,5 +60,3 @@ class TranslationDragHandle extends Node {
 }
 
 bendingLight.register( 'TranslationDragHandle', TranslationDragHandle );
-
-export default TranslationDragHandle;

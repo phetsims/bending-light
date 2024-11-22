@@ -11,7 +11,7 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import bendingLight from '../../bendingLight.js';
 
-class Intersection {
+export default class Intersection {
   public readonly unitNormal: Vector2;
   public readonly point: Vector2;
 
@@ -30,5 +30,3 @@ class Intersection {
 }
 
 bendingLight.register( 'Intersection', Intersection );
-
-export default Intersection;

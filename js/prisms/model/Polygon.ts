@@ -14,7 +14,7 @@ import PrismIntersection from './PrismIntersection.js';
 import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 
-class Polygon {
+export default class Polygon {
   private readonly points: Vector2[];
   private readonly referencePointIndex: number;
   private readonly radius: number;
@@ -194,5 +194,3 @@ class Polygon {
 }
 
 bendingLight.register( 'Polygon', Polygon );
-
-export default Polygon;

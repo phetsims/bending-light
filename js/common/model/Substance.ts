@@ -23,7 +23,7 @@ const waterStringProperty = BendingLightStrings.waterStringProperty;
 // constants
 const DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
-class Substance {
+export default class Substance {
   public readonly dispersionFunction: DispersionFunction;
   public readonly mystery: boolean;
   public readonly indexOfRefractionForRedLight: number;
@@ -55,4 +55,3 @@ class Substance {
 }
 
 bendingLight.register( 'Substance', Substance );
-export default Substance;

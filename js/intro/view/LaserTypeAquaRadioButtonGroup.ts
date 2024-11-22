@@ -18,7 +18,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 const rayStringProperty = BendingLightStrings.rayStringProperty;
 const waveStringProperty = BendingLightStrings.waveStringProperty;
 
-class LaserTypeAquaRadioButtonGroup extends VBox {
+export default class LaserTypeAquaRadioButtonGroup extends VBox {
 
   public constructor( laserTypeProperty: Property<LaserViewEnum> ) {
     const radioButtonOptions = {
@@ -57,5 +57,3 @@ class LaserTypeAquaRadioButtonGroup extends VBox {
 }
 
 bendingLight.register( 'LaserTypeAquaRadioButtonGroup', LaserTypeAquaRadioButtonGroup );
-
-export default LaserTypeAquaRadioButtonGroup;

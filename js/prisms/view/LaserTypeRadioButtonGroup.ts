@@ -14,7 +14,7 @@ import laser_png from '../../../images/laser_png.js';
 import bendingLight from '../../bendingLight.js';
 import LightType from '../model/LightType.js';
 
-class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
+export default class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
 
   /**
    * @param radioButtonAdapterProperty
@@ -89,5 +89,3 @@ class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
 }
 
 bendingLight.register( 'LaserTypeRadioButtonGroup', LaserTypeRadioButtonGroup );
-
-export default LaserTypeRadioButtonGroup;

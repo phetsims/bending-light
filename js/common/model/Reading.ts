@@ -19,7 +19,7 @@ const pattern0ValuePercentStringProperty = BendingLightStrings.pattern_0value_pe
 // constants
 const VALUE_DECIMALS = 2;
 
-class Reading {
+export default class Reading {
   public readonly value: number;
   public static readonly MISS = {
     value: 0,
@@ -70,5 +70,3 @@ class Reading {
 }
 
 bendingLight.register( 'Reading', Reading );
-
-export default Reading;

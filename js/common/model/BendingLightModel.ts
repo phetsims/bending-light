@@ -31,7 +31,7 @@ const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;
 // a good size for the units being used in the sim; used to determine the dimensions of various model objects
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
 
-abstract class BendingLightModel implements TModel {
+export default abstract class BendingLightModel implements TModel {
   public readonly rays: ObservableArray<LightRay>;
   public mediumColorFactory: MediumColorFactory;
   protected readonly modelWidth: number;
@@ -145,5 +145,3 @@ abstract class BendingLightModel implements TModel {
 }
 
 bendingLight.register( 'BendingLightModel', BendingLightModel );
-
-export default BendingLightModel;

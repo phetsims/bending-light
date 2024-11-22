@@ -72,7 +72,7 @@ class ProbeNodeWrapper extends Node {
   }
 }
 
-class WaveSensorNode extends Node {
+export default class WaveSensorNode extends Node {
   private modelViewTransform: ModelViewTransform2;
   public waveSensor: WaveSensor;
   public bodyNode: Node;
@@ -217,5 +217,3 @@ class WaveSensorNode extends Node {
 }
 
 bendingLight.register( 'WaveSensorNode', WaveSensorNode );
-
-export default WaveSensorNode;

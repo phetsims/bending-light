@@ -16,7 +16,7 @@ import bendingLight from '../../bendingLight.js';
 import Reading from './Reading.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
-class IntensityMeter {
+export default class IntensityMeter {
   public readonly readingProperty: Property<Reading>;
   public readonly sensorPositionProperty: Property<Vector2>;
   public readonly bodyPositionProperty: Property<Vector2>;
@@ -106,5 +106,3 @@ class IntensityMeter {
 }
 
 bendingLight.register( 'IntensityMeter', IntensityMeter );
-
-export default IntensityMeter;

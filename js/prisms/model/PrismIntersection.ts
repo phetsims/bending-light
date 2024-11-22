@@ -13,7 +13,7 @@ import bendingLight from '../../bendingLight.js';
 import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 
-class PrismIntersection {
+export default class PrismIntersection {
   private constructor() {
     assert && assert( false, 'should not be instantiated' );
   }
@@ -69,5 +69,3 @@ class PrismIntersection {
 }
 
 bendingLight.register( 'PrismIntersection', PrismIntersection );
-
-export default PrismIntersection;
