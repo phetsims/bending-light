@@ -32,7 +32,7 @@ const bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 
 const sensorNormalProperty = new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
 class ProbeNodeWrapper extends Node {
-  public syncModelFromView: () => void;
+  public readonly syncModelFromView: () => void;
 
   /**
    * View for rendering a probe that can be used to sense wave values
