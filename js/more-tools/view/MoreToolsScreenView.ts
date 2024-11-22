@@ -70,7 +70,7 @@ export default class MoreToolsScreenView extends IntroScreenView {
       } );
   }
 
-  private getWaveSensorIcon(): WaveSensorNode {
+  private initWaveSensorAndGetIcon(): WaveSensorNode {
     const modelViewTransform = this.modelViewTransform;
 
     const waveSensor = ( this.bendingLightModel as MoreToolsModel ).waveSensor;
@@ -83,6 +83,7 @@ export default class MoreToolsScreenView extends IntroScreenView {
     waveSensorIcon.mouseArea = Shape.bounds( waveSensorIcon.localBounds );
     waveSensorIcon.touchArea = Shape.bounds( waveSensorIcon.localBounds );
 
+    // Create and assign the real wave sensor node as well
     this.waveSensorNode = new WaveSensorNode(
       this.modelViewTransform,
       waveSensor
@@ -140,6 +141,13 @@ export default class MoreToolsScreenView extends IntroScreenView {
       waveSensor.enabledProperty
     );
     waveSensorNode.bodyNode.addInputListener( bodyListener );
+
+    // Keep each part in bounds when visibleBoundsProperty changes
+    this.visibleBoundsProperty.lazyLink( visibleBounds => {
+      waveSensor.probe1.positionProperty.value = modelViewTransform.viewToModelPosition( visibleBounds.closestPointTo( modelViewTransform.modelToViewPosition( waveSensor.probe1.positionProperty.value ) ) );
+      waveSensor.probe2.positionProperty.value = modelViewTransform.viewToModelPosition( visibleBounds.closestPointTo( modelViewTransform.modelToViewPosition( waveSensor.probe2.positionProperty.value ) ) );
+      waveSensor.bodyPositionProperty.value = modelViewTransform.viewToModelPosition( visibleBounds.closestPointTo( modelViewTransform.modelToViewPosition( waveSensor.bodyPositionProperty.value ) ) );
+    } );
 
     waveSensorIcon.addInputListener( DragListener.createForwardingListener( event => {
 
@@ -249,7 +257,7 @@ export default class MoreToolsScreenView extends IntroScreenView {
   protected override getAdditionalToolIcons(): ( WaveSensorNode | VelocitySensorNode )[] {
     return [
       this.getVelocitySensorIcon(),
-      this.getWaveSensorIcon()
+      this.initWaveSensorAndGetIcon()
     ];
   }
 
