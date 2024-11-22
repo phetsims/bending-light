@@ -231,33 +231,34 @@ export default class PrismsModel extends BendingLightModel {
    * Algorithm that computes the trajectories of the rays throughout the system
    */
   protected propagateRays(): void {
-
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
-      const laserInPrism = this.isLaserInPrism();
       const directionUnitVector = this.laser.getDirectionUnitVector();
-      if ( this.manyRaysProperty.value === 1 ) {
 
-        // This can be used to show the main central ray
-        this.propagate( new Ray2( tail, directionUnitVector ), 1.0, laserInPrism );
+      if ( this.manyRaysProperty.value === 1 ) {
+        const centralRay = new Ray2( tail, directionUnitVector );
+        const laserInPrism = this.isRayInPrism( centralRay );
+        this.propagate( centralRay, 1.0, laserInPrism );
       }
       else {
-
-        // Many parallel rays
         for ( let x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
           const offset = directionUnitVector.rotated( Math.PI / 2 ).multiplyScalar( x );
-          this.propagate( new Ray2( offset.add( tail ), directionUnitVector ), 1.0, laserInPrism );
+          const rayTail = offset.add( tail );
+          const parallelRay = new Ray2( rayTail, directionUnitVector );
+          const rayInPrism = this.isRayInPrism( parallelRay );
+          this.propagate( parallelRay, 1.0, rayInPrism );
         }
       }
     }
   }
 
   /**
-   * Determine if the laser beam originates within a prism for purpose of determining what index of refraction to use
-   * initially
+   * Determine if a specific ray's emission point is within any prism.
+   * @param ray - The ray to check.
+   * @returns - True if the ray's emission point is inside a prism.
    */
-  private isLaserInPrism(): boolean {
-    const emissionPoint = this.laser.emissionPointProperty.value;
+  private isRayInPrism( ray: Ray2 ): boolean {
+    const emissionPoint = ray.position;
     for ( let i = 0; i < this.prisms.length; i++ ) {
       if ( this.prisms[ i ].contains( emissionPoint ) ) {
         return true;
