@@ -427,8 +427,6 @@ export default class PrismsModel extends BendingLightModel {
     return allIntersections.length === 0 ? null : allIntersections[ 0 ];
   }
 
-  /**
-   */
   public clear(): void {
     this.intersections.clear();
   }

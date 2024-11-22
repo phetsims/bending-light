@@ -181,8 +181,6 @@ export default abstract class BendingLightScreenView extends ScreenView {
     this.visibleBoundsProperty.link( ( visibleBounds: Bounds2 ) => this.singleColorLightNode.setCanvasBounds( visibleBounds ) );
   }
 
-  /**
-   */
   protected reset(): void {
     this.showProtractorProperty.reset();
   }

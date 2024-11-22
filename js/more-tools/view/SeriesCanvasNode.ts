@@ -65,8 +65,6 @@ export default class SeriesCanvasNode extends CanvasNode {
     context.closePath();
   }
 
-  /**
-   */
   public step(): void {
     this.invalidatePaint();
   }

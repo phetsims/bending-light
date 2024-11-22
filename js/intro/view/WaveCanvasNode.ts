@@ -95,8 +95,6 @@ export default class WaveCanvasNode extends CanvasNode {
     }
   }
 
-  /**
-   */
   private step(): void {
     this.invalidatePaint();
   }

@@ -377,8 +377,6 @@ export default class MediumControlPanel extends Node {
     } );
   }
 
-  /**
-   */
   public reset(): void {
     this.mediumIndexProperty.reset();
   }

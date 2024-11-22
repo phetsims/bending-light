@@ -84,8 +84,6 @@ export default class WaveSensor {
     }
   }
 
-  /**
-   */
   public reset(): void {
     this.bodyPositionProperty.reset();
     this.enabledProperty.reset();

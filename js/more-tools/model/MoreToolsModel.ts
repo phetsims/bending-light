@@ -47,8 +47,6 @@ export default class MoreToolsModel extends IntroModel {
     } );
   }
 
-  /**
-   */
   public override reset(): void {
     super.reset();
     this.velocitySensor.reset();
