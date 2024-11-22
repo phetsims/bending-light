@@ -62,8 +62,6 @@ export default class GridCanvasNode extends CanvasNode {
     context.restore();
   }
 
-  /**
-   */
   public step(): void {
     this.invalidatePaint();
   }

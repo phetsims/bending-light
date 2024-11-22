@@ -21,14 +21,14 @@ import SeriesCanvasNode from './SeriesCanvasNode.js';
 const DASH_ON = 10;
 const DASH_OFF = 5;
 
+/**
+ * Node for drawing the series of points.
+ */
 class SeriesNode extends Node {
 
   /**
-   * Node for drawing the series of points.
-   *
    * @param series - series of data points
-   * @param modelViewTransformProperty - Transform between model and view coordinate
-   *                                                                      frames
+   * @param modelViewTransformProperty - Transform between model and view coordinate frames
    * @param chartBounds - bounds of the chart node
    */
   public constructor( series: Series, modelViewTransformProperty: Property<ModelViewTransform2>, chartBounds: Bounds2 ) {
