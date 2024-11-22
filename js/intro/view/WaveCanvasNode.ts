@@ -27,7 +27,7 @@ export default class WaveCanvasNode extends CanvasNode {
 
     super( providedOptions );
     this.lightRays = lightRays;
-    this.modelViewTransform = modelViewTransform; // (read-only)
+    this.modelViewTransform = modelViewTransform;
   }
 
   /**

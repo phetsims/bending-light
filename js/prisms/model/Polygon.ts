@@ -35,12 +35,12 @@ export default class Polygon {
     this.referencePointIndex = referencePointIndex;
     this.radius = radius;
 
-    // (read-only), Centroid of the shape
+    // Centroid of the shape
     this.centroid = this.getCentroid( this.points );
 
     // Creates a shape
-    this.shape = new Shape(); // (read-only)
-    this.center = null; // (read-only)
+    this.shape = new Shape();
+    this.center = null;
 
     // radius is 0 for polygon
     if ( this.radius === 0 ) {

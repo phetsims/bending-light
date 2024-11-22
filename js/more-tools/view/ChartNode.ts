@@ -51,32 +51,30 @@ class SeriesNode extends Node {
 }
 
 export default class ChartNode extends Node {
-  private chartBounds: Bounds2;
-  private seriesArray: Series[];
-  private timeWidth: number;
-  private modelViewTransformProperty: Property<ModelViewTransform2>;
-  private gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>;
-  private gridCanvasNode: GridCanvasNode;
+  private readonly timeWidth: number;
+  private readonly modelViewTransformProperty: Property<ModelViewTransform2>;
+  private readonly gridLines: ObservableArray<{ x1: number; y1: number; x2: number; y2: number; lineDashOffset: number }>;
+  private readonly gridCanvasNode: GridCanvasNode;
 
   /**
    * @param chartBounds - bounds of the chart node
    * @param seriesArray - series of data points
    */
-  public constructor( chartBounds: Bounds2, seriesArray: Series[] ) {
+  public constructor(
+    public readonly chartBounds: Bounds2,
+    public readonly seriesArray: Series[]
+  ) {
 
     super();
-    this.chartBounds = chartBounds; // (read-only)
-    this.seriesArray = seriesArray; // (read-only)
 
-    // read-only
     // Amount of time to show on the horizontal axis of the chart
-    this.timeWidth = 72E-16; // (read-only)
+    this.timeWidth = 72E-16;
 
     // Mapping from model (SI) to chart coordinates
     this.modelViewTransformProperty = new Property( ModelViewTransform2.createRectangleMapping( new Bounds2( 0, -1, this.timeWidth, 1 ), chartBounds ) );
 
     // Add grid to the chart
-    this.gridLines = createObservableArray(); // (read-only)
+    this.gridLines = createObservableArray();
     this.gridCanvasNode = new GridCanvasNode( this.gridLines, this.modelViewTransformProperty, [ DASH_ON, DASH_OFF ], {
       canvasBounds: chartBounds
     } );

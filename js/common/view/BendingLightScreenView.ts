@@ -79,7 +79,7 @@ export default abstract class BendingLightScreenView extends ScreenView {
     this.occlusionHandler = options.occlusionHandler;
     this.bendingLightModel = bendingLightModel;
 
-    this.showProtractorProperty = new BooleanProperty( false ); // (read-only)
+    this.showProtractorProperty = new BooleanProperty( false );
 
     // In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP
     // suggested this layering order:
@@ -88,13 +88,13 @@ export default abstract class BendingLightScreenView extends ScreenView {
     // Protractor
     // Laser beam
     // To implement this, we specify 2 before light layers and 2 after light layers
-    this.beforeLightLayer = new Node(); // (read-only)
-    this.beforeLightLayer2 = new Node(); // (read-only)
+    this.beforeLightLayer = new Node();
+    this.beforeLightLayer2 = new Node();
 
     // in back of afterLightLayer2
-    this.afterLightLayer = new Node(); // (read-only)
-    this.afterLightLayer2 = new Node(); // (read-only)
-    this.afterLightLayer3 = new Node(); // (read-only)
+    this.afterLightLayer = new Node();
+    this.afterLightLayer2 = new Node();
+    this.afterLightLayer3 = new Node();
 
     const stageWidth = this.layoutBounds.width;
     const stageHeight = this.layoutBounds.height;
@@ -103,7 +103,6 @@ export default abstract class BendingLightScreenView extends ScreenView {
     // create the transform from model (SI) to view (stage) coordinates
     const scale = stageHeight / bendingLightModel.modelHeight;
 
-    // (read-only)
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       new Vector2( 0, 0 ),
       new Vector2( 388 - options.horizontalPlayAreaOffset, stageHeight / 2 + options.verticalPlayAreaOffset ),
@@ -111,9 +110,9 @@ export default abstract class BendingLightScreenView extends ScreenView {
     );
 
     // create and add the graphic for the environment medium
-    this.mediumNode = new Node(); // (read-only)
+    this.mediumNode = new Node();
     this.addChild( this.mediumNode );
-    this.incidentWaveLayer = new Node(); // (read-only)
+    this.incidentWaveLayer = new Node();
 
     this.singleColorLightNode = new SingleColorLightCanvasNode(
       this.modelViewTransform,
@@ -131,7 +130,7 @@ export default abstract class BendingLightScreenView extends ScreenView {
 
     // This layer is to add laser view control panel
     // Note: this layer to make protractor behind laser view panel and laser node on top of laser view panel.
-    this.laserViewLayer = new Node(); // (read-only)
+    this.laserViewLayer = new Node();
     this.addChild( this.laserViewLayer );
 
     // add rotation for the laser that show if/when the laser can be rotated about its pivot

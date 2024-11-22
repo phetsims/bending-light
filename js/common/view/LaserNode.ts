@@ -29,7 +29,9 @@ type ParentOptions = PickRequired<PhetioObjectOptions, 'tandem'>;
 type LaserNodeOptions = SelfOptions & ParentOptions;
 
 export default class LaserNode extends Node {
-  public laserImageWidth: number;
+
+  // Used for radius and length of drag handlers
+  public readonly laserImageWidth: number;
   private readonly laser: Laser;
   private readonly modelViewTransform: ModelViewTransform2;
 
@@ -92,7 +94,6 @@ export default class LaserNode extends Node {
 
     super( merge( { cursor: 'pointer' }, providedOptions ) );
 
-    // (read-only), Used for radius and length of drag handlers
     this.laserImageWidth = laserPointerNode.width;
 
     // add laser image

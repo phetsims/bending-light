@@ -20,7 +20,6 @@ const pattern0ValuePercentStringProperty = BendingLightStrings.pattern_0value_pe
 const VALUE_DECIMALS = 2;
 
 export default class Reading {
-  public readonly value: number;
   public static readonly MISS = {
     value: 0,
     format( value: number ): string {return '';},
@@ -41,11 +40,9 @@ export default class Reading {
    *
    * @param value - the text to be shown on the intensity meter
    */
-  public constructor( value: number ) {
-
-    // (read-only)
-    this.value = value;
-  }
+  public constructor(
+    public readonly value: number
+  ) {}
 
   /**
    * Get string to display on intensity sensor

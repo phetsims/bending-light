@@ -57,7 +57,7 @@ export default abstract class BendingLightModel implements TModel {
    */
   public constructor( laserAngle: number, topLeftQuadrant: boolean, laserDistanceFromPivot: number, tandem: Tandem ) {
 
-    // (read-only)- list of rays in the model
+    // list of rays in the model
     this.rays = createObservableArray();
 
     // overridden in subtypes
@@ -70,7 +70,7 @@ export default abstract class BendingLightModel implements TModel {
     this.modelHeight = this.modelWidth * 0.7;
 
     // Check to see if WebGL was prevented by a query parameter
-    this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl; // (read-only)
+    this.allowWebGL = Utils.checkWebGLSupport() && phet.chipper.queryParameters.webgl;
 
     // Whether the laser is Ray or Wave mode
     this.laserViewProperty = new EnumerationProperty( LaserViewEnum.RAY );
@@ -84,8 +84,6 @@ export default abstract class BendingLightModel implements TModel {
     this.indexOfRefractionProperty = new Property( 1 );
     this.showNormalProperty = new BooleanProperty( true );
     this.showAnglesProperty = new BooleanProperty( false );
-
-    // (read-only)- the laser
     this.laser = new Laser( this.wavelengthProperty, laserDistanceFromPivot, laserAngle, topLeftQuadrant );
   }
 

@@ -26,10 +26,10 @@ export default class BendingLightCircle {
    */
   public constructor( center: Vector2, radius: number ) {
 
-    this.center = center; // (read-only)
-    this.centroid = center; // (read-only)
-    this.radius = radius; // (read-only)
-    this.shape = Shape.circle( this.center.x, this.center.y, this.radius ); // (read-only)
+    this.center = center;
+    this.centroid = center;
+    this.radius = radius;
+    this.shape = Shape.circle( this.center.x, this.center.y, this.radius );
   }
 
   /**

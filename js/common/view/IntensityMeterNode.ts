@@ -46,7 +46,7 @@ export default class IntensityMeterNode extends Node {
   public constructor( modelViewTransform: ModelViewTransform2, intensityMeter: IntensityMeter, providedOptions?: IntensityMeterNodeOptions ) {
 
     super();
-    this.modelViewTransform = modelViewTransform; // (read-only)
+    this.modelViewTransform = modelViewTransform;
     this.intensityMeter = intensityMeter;
 
     this.probeNode = new ProbeNode( { cursor: 'pointer', scale: 0.6 } );

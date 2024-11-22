@@ -33,7 +33,6 @@ export default class Prism {
     // overall translation
     this.positionProperty = new Vector2Property( new Vector2( 0, 0 ) );
 
-    // (read-only)
     this.typeName = typeName;
   }
 

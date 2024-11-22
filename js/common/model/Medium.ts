@@ -14,9 +14,6 @@ import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
 
 export default class Medium {
-  public shape: Shape;
-  public substance: Substance;
-  public color: Color;
   //TODO https://github.com/phetsims/bending-light/issues/389 Just instrument the "substance" instead
   public static readonly MediumIO = new IOType( 'MediumIO', {
     valueType: Medium,
@@ -31,17 +28,15 @@ export default class Medium {
   } );
 
   /**
-   * @param shape - shape of the medium
-   * @param substance - state of the medium
-   * @param color - color of the medium
+   * @param shape
+   * @param substance
+   * @param color - based on the index of refraction at red wavelength
    */
-  public constructor( shape: Shape, substance: Substance, color: Color ) {
-
-    // immutable shape
-    this.shape = shape; // (read-only)
-    this.substance = substance; // (read-only)
-    this.color = color; // (read-only), color is based on the index of refraction at red wavelength
-  }
+  public constructor(
+    public readonly shape: Shape,
+    public readonly substance: Substance,
+    public readonly color: Color // color is based on the index of refraction at red wavelength
+  ) {}
 
   /**
    * Determines the index of refraction of medium

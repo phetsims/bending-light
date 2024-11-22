@@ -73,12 +73,10 @@ class ProbeNodeWrapper extends Node {
 }
 
 export default class WaveSensorNode extends Node {
-  private modelViewTransform: ModelViewTransform2;
-  public waveSensor: WaveSensor;
-  public bodyNode: Node;
-  public chartNode: ChartNode;
-  public probe1Node: ProbeNodeWrapper;
-  public probe2Node: ProbeNodeWrapper;
+  public readonly bodyNode: Node;
+  public readonly chartNode: ChartNode;
+  public readonly probe1Node: ProbeNodeWrapper;
+  public readonly probe2Node: ProbeNodeWrapper;
   private readonly wire1Node: WireNode;
   private readonly wire2Node: WireNode;
   public syncModelFromView: () => void;
@@ -88,16 +86,17 @@ export default class WaveSensorNode extends Node {
    * @param waveSensor - model for the wave sensor
    * @param [providedOptions]
    */
-  public constructor( modelViewTransform: ModelViewTransform2, waveSensor: WaveSensor, providedOptions?: NodeOptions ) {
+  public constructor(
+    public readonly modelViewTransform: ModelViewTransform2,
+    public readonly waveSensor: WaveSensor,
+    providedOptions?: NodeOptions
+  ) {
 
     super( { cursor: 'pointer' } );
 
     // Color taken from the image
     const darkProbeColor = new Color( 88, 89, 91 );
     const lightProbeColor = new Color( 147, 149, 152 );
-
-    this.modelViewTransform = modelViewTransform; // (read-only)
-    this.waveSensor = waveSensor; // (read-only)
 
     // Add body node
     const rectangleWidth = 135;
@@ -152,8 +151,8 @@ export default class WaveSensorNode extends Node {
     this.bodyNode.addChild( this.chartNode );
 
     // Create the probes
-    this.probe1Node = new ProbeNodeWrapper( waveSensor.probe1, '#5c5d5f', modelViewTransform ); // (read-only)
-    this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform ); // (read-only)
+    this.probe1Node = new ProbeNodeWrapper( waveSensor.probe1, '#5c5d5f', modelViewTransform );
+    this.probe2Node = new ProbeNodeWrapper( waveSensor.probe2, '#ccced0', modelViewTransform );
 
     // Connect the sensor to the body with a gray wire
     const above = ( amount: number ) => {

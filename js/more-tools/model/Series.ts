@@ -13,20 +13,13 @@ import bendingLight from '../../bendingLight.js';
 import DataPoint from './DataPoint.js';
 
 export default class Series {
-  public readonly seriesProperty: Property<DataPoint[]>;
-  public readonly color: Color;
 
   /**
    * @param seriesProperty - contains data points of series
    * @param color - color of series
    */
-  public constructor( seriesProperty: Property<DataPoint[]>, color: Color ) {
-
-    // (read-only)
-    this.seriesProperty = seriesProperty;
-
-    // (read-only)
-    this.color = color;
+  public constructor( public readonly seriesProperty: Property<DataPoint[]>,
+                      public readonly color: Color ) {
   }
 
   /**

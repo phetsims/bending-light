@@ -41,9 +41,9 @@ export default class IntroModel extends BendingLightModel {
   public topMediumProperty: Property<Medium>;
   public bottomMediumProperty: Property<Medium>;
   public time: number;
-  private indexOfRefractionOfTopMediumProperty: TReadOnlyProperty<number>;
-  private indexOfRefractionOfBottomMediumProperty: TReadOnlyProperty<number>;
-  public intensityMeter: IntensityMeter;
+  private readonly indexOfRefractionOfTopMediumProperty: TReadOnlyProperty<number>;
+  private readonly indexOfRefractionOfBottomMediumProperty: TReadOnlyProperty<number>;
+  public readonly intensityMeter: IntensityMeter;
   private tailVector: Vector2;
   private tipVector: Vector2;
 
@@ -83,7 +83,6 @@ export default class IntroModel extends BendingLightModel {
     this.time = 0;
 
     // Update the top medium index of refraction when top medium change
-    // (read-only)
     this.indexOfRefractionOfTopMediumProperty = new DerivedProperty( [
         this.topMediumProperty,
         this.laser.colorProperty
@@ -94,7 +93,6 @@ export default class IntroModel extends BendingLightModel {
       } );
 
     // Update the bottom medium index of refraction when bottom medium change
-    // (read-only)
     this.indexOfRefractionOfBottomMediumProperty = new DerivedProperty( [
         this.bottomMediumProperty,
         this.laser.colorProperty
@@ -104,7 +102,6 @@ export default class IntroModel extends BendingLightModel {
         phetioValueType: NumberIO
       } );
 
-    // (read-only)-model components
     this.intensityMeter = new IntensityMeter(
       -this.modelWidth * ( horizontalPlayAreaOffset ? 0.34 : 0.48 ),
       -this.modelHeight * 0.285,

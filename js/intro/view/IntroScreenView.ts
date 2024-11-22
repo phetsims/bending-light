@@ -54,10 +54,10 @@ type ParentOptions = BendingLightScreenViewOptions;
 type IntroScreenViewOptions = SelfOptions & ParentOptions;
 
 export default class IntroScreenView extends BendingLightScreenView {
-  private introModel: IntroModel;
-  private stepEmitter: TEmitter;
-  private topMediumControlPanel: MediumControlPanel;
-  private bottomMediumControlPanel: MediumControlPanel;
+  private readonly introModel: IntroModel;
+  private readonly stepEmitter: TEmitter;
+  private readonly topMediumControlPanel: MediumControlPanel;
+  private readonly bottomMediumControlPanel: MediumControlPanel;
   protected dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
   protected bumpLeft: ( node: Node, positionProperty: Property<Vector2> ) => void;
   private toolbox: Panel;
@@ -111,7 +111,7 @@ export default class IntroScreenView extends BendingLightScreenView {
       options
     );
 
-    this.introModel = introModel; // (read-only)
+    this.introModel = introModel;
 
     const stageWidth = this.layoutBounds.width;
     const stageHeight = this.layoutBounds.height;
@@ -278,6 +278,11 @@ export default class IntroScreenView extends BendingLightScreenView {
       dragBoundsProperty: this.visibleBoundsProperty,
       positionProperty: protractorPositionProperty,
       end: () => dropInToolbox( protractorNode, this.showProtractorProperty )
+    } );
+
+    // Keep the protractor in bounds if the window is resized
+    this.visibleBoundsProperty.link( () => {
+      protractorPositionProperty.value = this.modelViewTransform.modelToViewPosition( protractorPosition );
     } );
 
     // Add an input listener to the toolbox icon for the protractor, which forwards events to the DragListener

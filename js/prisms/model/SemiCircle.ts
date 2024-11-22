@@ -18,9 +18,9 @@ export default class SemiCircle {
   private readonly points: Vector2[];
   private readonly referencePointIndex: number;
   private readonly radius: number;
-  private center: Vector2;
-  public centroid: Vector2;
-  public shape: Shape;
+  private readonly center: Vector2;
+  public readonly centroid: Vector2;
+  public readonly shape: Shape;
 
   /**
    * @param referencePointIndex - is used as the drag handle corner for rotation
@@ -34,13 +34,13 @@ export default class SemiCircle {
     // Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
     this.referencePointIndex = referencePointIndex;
     this.radius = radius;
-    this.center = this.points[ 0 ].plus( this.points[ 1 ] ).multiplyScalar( 0.5 ); // (read-only)
+    this.center = this.points[ 0 ].plus( this.points[ 1 ] ).multiplyScalar( 0.5 );
     this.centroid = this.center;
 
     // Creates a shape
     const startAngle = Math.atan2( this.center.y - this.points[ 1 ].y, this.center.x - this.points[ 1 ].x );
 
-    // (read-only) - the shape of the semi-circle
+    // the shape of the semi-circle
     this.shape = new Shape()
       .ellipticalArcPoint( this.center, this.radius, this.radius, 0, startAngle, startAngle + Math.PI, false )
       .close();

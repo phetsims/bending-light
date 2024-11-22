@@ -10,20 +10,12 @@
 import bendingLight from '../../bendingLight.js';
 
 export default class DataPoint {
-  public readonly time: number;
-  public readonly value: number;
 
   /**
    * @param time - time of simulation
    * @param value - amplitude at particular time
    */
-  public constructor( time: number, value: number ) {
-
-    // (read-only)
-    this.time = time;
-
-    // (read-only)
-    this.value = value;
+  public constructor( public readonly time: number, public readonly value: number ) {
   }
 }
 

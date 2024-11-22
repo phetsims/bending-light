@@ -13,32 +13,22 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 
 export default class ColoredRay {
-  public readonly ray: Ray2;
-  public readonly power: number;
-  public readonly wavelength: number;
-  public readonly mediumIndexOfRefraction: number;
-  public readonly frequency: number;
 
   /**
    * @param ray - tail and direction
-   * @param power - power of the ray
-   * @param wavelength - wavelength of ray
+   * @param power - Power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction
+   * @param wavelength - Wavelength inside the medium (depends on index of refraction)
    * @param mediumIndexOfRefraction - index of refraction of medium
    * @param frequency - frequency of ray
    */
-  public constructor( ray: Ray2, power: number, wavelength: number, mediumIndexOfRefraction: number, frequency: number ) {
-
+  public constructor(
+    public readonly ray: Ray2,
+    public readonly power: number,
+    public readonly wavelength: number,
+    public readonly mediumIndexOfRefraction: number,
+    public readonly frequency: number
+  ) {
     assert && assert( !isNaN( ray.direction.magnitude ), 'direction unit vector should have a numeric magnitude' );
-
-    this.ray = ray;
-
-    // Power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction
-    this.power = power; // (read-only)
-
-    // Wavelength inside the medium (depends on index of refraction)
-    this.wavelength = wavelength; // (read-only)
-    this.mediumIndexOfRefraction = mediumIndexOfRefraction; // (read-only)
-    this.frequency = frequency; // (read-only)
   }
 
   public get tail(): Vector2 {

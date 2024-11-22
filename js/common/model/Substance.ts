@@ -45,12 +45,12 @@ export default class Substance {
    * @param custom - true if medium state is custom else other state
    */
   public constructor( nameProperty: TReadOnlyProperty<string>, indexForRed: number, mystery: boolean, custom: boolean ) {
-    this.nameProperty = nameProperty; // (read-only)
-    this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED ); // (read-only)
-    this.mystery = mystery; // (read-only)
-    this.custom = custom; // (read-only)
+    this.nameProperty = nameProperty;
+    this.dispersionFunction = new DispersionFunction( indexForRed, BendingLightConstants.WAVELENGTH_RED );
+    this.mystery = mystery;
+    this.custom = custom;
     this.indexOfRefractionForRedLight = this.dispersionFunction.getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
-    this.indexForRed = indexForRed; // (read-only)
+    this.indexForRed = indexForRed;
   }
 }
 

@@ -52,9 +52,9 @@ export default class PrismsModel extends BendingLightModel {
 
     super( Math.PI, false, 1E-16, providedOptions!.tandem! );
 
-    this.prisms = createObservableArray(); // (read-only)
+    this.prisms = createObservableArray();
 
-    // (read-only) - List of intersections, which can be shown graphically
+    // List of intersections, which can be shown graphically
     this.intersections = createObservableArray();
 
     this.mediumColorFactory = new MediumColorFactory();

@@ -33,7 +33,9 @@ const arrowScale = 1.5E-14;
 type MoreToolsScreenViewOptions = IntroScreenViewOptions;
 
 export default class MoreToolsScreenView extends IntroScreenView {
-  private moreToolsModel: MoreToolsModel;
+  private readonly moreToolsModel: MoreToolsModel;
+
+  // Only created in the appropriate context
   private waveSensorNode: WaveSensorNode | null;
 
   /**
@@ -60,7 +62,7 @@ export default class MoreToolsScreenView extends IntroScreenView {
       }, providedOptions ) );
 
     this.waveSensorNode = null;
-    this.moreToolsModel = moreToolsModel; // (read-only)
+    this.moreToolsModel = moreToolsModel;
 
     // updates the visibility of speed controls
     Multilink.multilink( [ moreToolsModel.laserViewProperty, moreToolsModel.waveSensor.enabledProperty ],
@@ -82,7 +84,6 @@ export default class MoreToolsScreenView extends IntroScreenView {
     waveSensorIcon.mouseArea = Shape.bounds( waveSensorIcon.localBounds );
     waveSensorIcon.touchArea = Shape.bounds( waveSensorIcon.localBounds );
 
-    // (read-only)
     this.waveSensorNode = new WaveSensorNode(
       this.modelViewTransform,
       waveSensor

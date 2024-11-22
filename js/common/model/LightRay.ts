@@ -41,11 +41,24 @@ export default class LightRay {
   public readonly tip: Vector2;
   public readonly tail: Vector2;
 
+  // The index of refraction of the medium the light ray inhabits
   public readonly indexOfRefraction: number;
+
+  // wavelength in meters
   public readonly wavelength: number;
+
+  // wavelength in nm (in a vacuum, not in the current medium)
   public readonly wavelengthInVacuum: number;
+
+  // Amount of power this light has (full strength is 1.0)
   public readonly powerFraction: number;
+
+  // This number indicates how many wavelengths have passed before this light ray begins.
+  // It is zero for the light coming out of the laser.
   public readonly numWavelengthsPhaseOffset: number;
+
+  // has to be an integral number of wavelength so that the phases work out correctly,
+  // turing this up too high past 1E6 causes things not to render properly
   private readonly extend: boolean;
 
   // for internal use only. Clients should use toVector()
@@ -57,10 +70,15 @@ export default class LightRay {
 
   // time used in wave sensor node
   public time = 0;
+
+  // Keep track of the type of light ray for use in AngleNode
   public readonly rayType: string;
 
   public readonly waveShape: Shape | null = null;
+
+  // for drawing the clipping shape
   public readonly clipRegionCorners: Vector2[] | null = null;
+
   public static readonly RAY_WIDTH = 1.5992063492063494E-7;
 
   /**
@@ -90,25 +108,13 @@ export default class LightRay {
     this.trapeziumWidth = trapeziumWidth;
     this.tip = tip;
     this.tail = tail;
-
-    // The index of refraction of the medium the light ray inhabits
-    this.indexOfRefraction = indexOfRefraction; // (read-only)
-    this.wavelength = wavelength; // (read-only), wavelength in meters
+    this.indexOfRefraction = indexOfRefraction;
+    this.wavelength = wavelength;
     assert && assert( wavelengthInVacuum >= 300 && wavelengthInVacuum <= 900 );
-    this.wavelengthInVacuum = wavelengthInVacuum; // (read-only), wavelength in nm
-
-    // Amount of power this light has (full strength is 1.0)
-    this.powerFraction = powerFraction; // (read-only)
-
-    // This number indicates how many wavelengths have passed before this light ray begins.
-    // It is zero for the light coming out of the laser.
-    this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset; // (read-only)
-
-    // has to be an integral number of wavelength so that the phases work out correctly,
-    // turing this up too high past 1E6 causes things not to render properly
-    this.extend = extend; // (read-only)
-
-    // (read-only) Keep track of the type of light ray for use in AngleNode
+    this.wavelengthInVacuum = wavelengthInVacuum;
+    this.powerFraction = powerFraction;
+    this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset;
+    this.extend = extend;
     this.rayType = rayType;
 
     if ( laserView === LaserViewEnum.WAVE ) {
@@ -154,7 +160,6 @@ export default class LightRay {
       makeFinite( tipPoint1XY );
       makeFinite( tipPoint2XY );
 
-      // (read-only)
       this.waveShape = new Shape()
         .moveToPoint( tailPoint1XY )
         .lineToPoint( tailPoint2XY )
@@ -162,7 +167,6 @@ export default class LightRay {
         .lineToPoint( tipPoint2XY )
         .close();
 
-      // (read-only), for drawing the clipping shape
       this.clipRegionCorners = [
         new Vector2( tailPoint1XY.x, tailPoint1XY.y ),
         new Vector2( tailPoint2XY.x, tailPoint2XY.y ),
