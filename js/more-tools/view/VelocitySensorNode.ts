@@ -30,8 +30,6 @@ const unknownVelocityString = BendingLightStrings.unknownVelocity;
 const velocityPatternString = BendingLightStrings.velocityPattern;
 
 export default class VelocitySensorNode extends Node {
-  private readonly modelViewTransform: ModelViewTransform2;
-  private readonly velocitySensor: VelocitySensor;
   private readonly bodyNode: Node;
   private readonly arrowShape: Path;
 
@@ -47,9 +45,6 @@ export default class VelocitySensorNode extends Node {
       cursor: 'pointer',
       pickable: true
     } );
-
-    this.modelViewTransform = modelViewTransform;
-    this.velocitySensor = velocitySensor;
 
     const rectangleWidth = 54;
     const rectangleHeight = 37;
