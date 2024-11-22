@@ -35,8 +35,8 @@ type MoreToolsScreenViewOptions = IntroScreenViewOptions;
 export default class MoreToolsScreenView extends IntroScreenView {
   private readonly moreToolsModel: MoreToolsModel;
 
-  // Only created in the appropriate context
-  private waveSensorNode: WaveSensorNode | null;
+  // Only created after superclass template method is called
+  private waveSensorNode!: WaveSensorNode;
 
   /**
    * @param moreToolsModel - model of the more tools screen
@@ -61,7 +61,6 @@ export default class MoreToolsScreenView extends IntroScreenView {
         horizontalPlayAreaOffset: 0
       }, providedOptions ) );
 
-    this.waveSensorNode = null;
     this.moreToolsModel = moreToolsModel;
 
     // updates the visibility of speed controls
