@@ -182,7 +182,7 @@ export default class LaserNode extends Node {
         phetioDocumentation: 'This Property determines whether the laser can be translated, in the "Prisms" screen only. ' +
                              'A value of false means the laser cannot be translated, though it may still be rotatable.'
       } );
-      isTranslationEnabledProperty.lazyLink( ( isEnabled: boolean ) => {
+      isTranslationEnabledProperty.lazyLink( isEnabled => {
         if ( isEnabled ) {
           laserPointerNode.addInputListener( translationListener );
           laserPointerNode.addInputListener( translationOverListener );
@@ -246,7 +246,7 @@ export default class LaserNode extends Node {
                            'the rotation knob on the back of the laser and makes it non-rotatable (though it may still ' +
                            'be translatable).'
     } );
-    isRotationEnabledProperty.lazyLink( ( isEnabled: boolean ) => {
+    isRotationEnabledProperty.lazyLink( isEnabled => {
       if ( isEnabled ) {
         rotationTarget.addInputListener( rotationListener );
         rotationTarget.addInputListener( rotationOverListener );

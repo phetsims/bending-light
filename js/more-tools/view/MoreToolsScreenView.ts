@@ -211,6 +211,22 @@ export default class MoreToolsScreenView extends IntroScreenView {
       }
     } );
     velocitySensorNode.addInputListener( velocitySensorListener );
+    const modelViewTransform = this.modelViewTransform;
+
+    // Ensure the IntensityMeterNode remains within bounds when visibleBoundsProperty changes
+    this.visibleBoundsProperty.lazyLink( visibleBounds => {
+
+      visibleBounds = new Rectangle(
+        visibleBounds.left - velocitySensorNode.bounds.width / 2,
+        visibleBounds.top,
+        visibleBounds.width,
+        visibleBounds.height
+      );
+
+      // Keep the IntensityMeterNode probe in bounds
+      const sensorViewPosition = modelViewTransform.modelToViewPosition( moreToolsModel.velocitySensor.positionProperty.value );
+      moreToolsModel.velocitySensor.positionProperty.value = modelViewTransform.viewToModelPosition( visibleBounds.closestPointTo( sensorViewPosition ) );
+    } );
 
     // Add an input listener to the toolbox icon for the protractor, which forwards events to the DragListener
     // for the node in the play area
