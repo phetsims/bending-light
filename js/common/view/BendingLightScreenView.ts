@@ -184,7 +184,7 @@ export default abstract class BendingLightScreenView extends ScreenView {
 
   /**
    */
-  public reset(): void {
+  protected reset(): void {
     this.showProtractorProperty.reset();
   }
 

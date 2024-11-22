@@ -47,7 +47,7 @@ export default abstract class BendingLightModel implements TModel {
   public readonly laser: Laser;
   public rotationArrowAngleOffset: number | null;
 
-  public static readonly DEFAULT_LASER_DISTANCE_FROM_PIVOT: number = DEFAULT_LASER_DISTANCE_FROM_PIVOT;
+  protected static readonly DEFAULT_LASER_DISTANCE_FROM_PIVOT: number = DEFAULT_LASER_DISTANCE_FROM_PIVOT;
 
   /**
    * @param laserAngle - laser angle in radians
@@ -90,7 +90,7 @@ export default abstract class BendingLightModel implements TModel {
   }
 
   // Adds a ray to the model
-  public addRay( ray: LightRay ): void {
+  protected addRay( ray: LightRay ): void {
     this.rays.push( ray );
   }
 
@@ -128,7 +128,7 @@ export default abstract class BendingLightModel implements TModel {
    * @param cosTheta1 - cosine of incident angle
    * @param cosTheta2 - cosine of reflected angle
    */
-  public static getReflectedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
+  protected static getReflectedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
     return Math.pow( ( n1 * cosTheta1 - n2 * cosTheta2 ) / ( n1 * cosTheta1 + n2 * cosTheta2 ), 2 );
   }
 
@@ -139,7 +139,7 @@ export default abstract class BendingLightModel implements TModel {
    * @param cosTheta1 - cosine of incident angle
    * @param cosTheta2 - cosine of transmitted angle
    */
-  public static getTransmittedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
+  protected static getTransmittedPower( n1: number, n2: number, cosTheta1: number, cosTheta2: number ): number {
     return 4 * n1 * n2 * cosTheta1 * cosTheta2 / ( Math.pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ) );
   }
 }

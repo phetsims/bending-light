@@ -11,7 +11,7 @@ export default class ColorModeEnum extends EnumerationValue {
   public static readonly WHITE = new ColorModeEnum();
   public static readonly SINGLE_COLOR = new ColorModeEnum();
 
-  public static readonly enumeration = new Enumeration( ColorModeEnum );
+  private static readonly enumeration = new Enumeration( ColorModeEnum );
 }
 
 bendingLight.register( 'ColorModeEnum', ColorModeEnum );

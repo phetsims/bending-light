@@ -230,7 +230,7 @@ export default class PrismsModel extends BendingLightModel {
   /**
    * Algorithm that computes the trajectories of the rays throughout the system
    */
-  public propagateRays(): void {
+  protected propagateRays(): void {
 
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;

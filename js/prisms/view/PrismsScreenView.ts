@@ -262,7 +262,7 @@ export default class PrismsScreenView extends BendingLightScreenView {
     this.addChild( navigationBarSeparator );
   }
 
-  public override reset(): void {
+  protected override reset(): void {
     this.prismLayer.removeAllChildren();
     this.resetPrismsView();
   }

@@ -11,7 +11,7 @@ export default class LaserViewEnum extends EnumerationValue {
   public static readonly RAY = new LaserViewEnum();
   public static readonly WAVE = new LaserViewEnum();
 
-  public static readonly enumeration = new Enumeration( LaserViewEnum );
+  private static readonly enumeration = new Enumeration( LaserViewEnum );
 }
 
 bendingLight.register( 'LaserViewEnum', LaserViewEnum );

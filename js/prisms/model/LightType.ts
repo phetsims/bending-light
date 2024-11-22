@@ -12,7 +12,7 @@ export default class LightType extends EnumerationValue {
   public static readonly SINGLE_COLOR = new LightType();
   public static readonly SINGLE_COLOR_5X = new LightType();
 
-  public static readonly enumeration = new Enumeration( LightType );
+  private static readonly enumeration = new Enumeration( LightType );
 }
 
 bendingLight.register( 'LightType', LightType );

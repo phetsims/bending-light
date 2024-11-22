@@ -56,8 +56,8 @@ type IntroScreenViewOptions = SelfOptions & ParentOptions;
 export default class IntroScreenView extends BendingLightScreenView {
   private introModel: IntroModel;
   private stepEmitter: TEmitter;
-  protected topMediumControlPanel: MediumControlPanel;
-  protected bottomMediumControlPanel: MediumControlPanel;
+  private topMediumControlPanel: MediumControlPanel;
+  private bottomMediumControlPanel: MediumControlPanel;
   protected dropInToolbox: ( node: Node, enabledProperty: Property<boolean> ) => void;
   protected bumpLeft: ( node: Node, positionProperty: Property<Vector2> ) => void;
   private toolbox: Panel;
@@ -460,7 +460,7 @@ export default class IntroScreenView extends BendingLightScreenView {
   /**
    * restore initial conditions
    */
-  public override reset(): void {
+  protected override reset(): void {
     super.reset();
     this.introModel.reset();
     this.topMediumControlPanel.reset();

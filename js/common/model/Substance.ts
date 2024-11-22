@@ -36,7 +36,7 @@ export default class Substance {
   public static readonly DIAMOND = new Substance( diamondStringProperty, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, false, false );
   public static readonly MYSTERY_A = new Substance( mysteryAStringProperty, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true, false );
   public static readonly MYSTERY_B = new Substance( mysteryBStringProperty, 1.4, true, false );
-  public static readonly DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT;
+  private static readonly DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT;
 
   /**
    * @param nameProperty - name of the medium

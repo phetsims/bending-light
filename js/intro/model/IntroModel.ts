@@ -147,7 +147,7 @@ export default class IntroModel extends BendingLightModel {
    * Light rays were cleared from model before propagateRays was called, this creates them according to the laser and
    * mediums
    */
-  public propagateRays(): void {
+  protected propagateRays(): void {
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
 
@@ -356,7 +356,7 @@ export default class IntroModel extends BendingLightModel {
    * Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
    * @param position - position where the velocity to be determined
    */
-  public getVelocity( position: Vector2 ): Vector2 {
+  protected getVelocity( position: Vector2 ): Vector2 {
     const laserView = this.laserViewProperty.value;
     for ( let i = 0; i < this.rays.length; i++ ) {
       if ( this.rays[ i ].contains( position, laserView === LaserViewEnum.WAVE ) ) {

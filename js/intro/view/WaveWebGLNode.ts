@@ -33,7 +33,7 @@ export default class WaveWebGLNode extends WebGLNode {
 
   /**
    */
-  public step(): void {
+  private step(): void {
     this.invalidatePaint();
   }
 }
