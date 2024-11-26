@@ -19,6 +19,7 @@ import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 import AngleTextView from './AngleTextView.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 // constants
 const CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates
@@ -125,7 +126,7 @@ export default class AngleNode extends Node {
       for ( let i = 0; i < rays.length; i++ ) {
         const ray = rays[ i ];
         if ( ray.rayType === type ) {
-          assert && assert( selected === null, 'multiple rays of the same type' );
+          affirm( selected === null, 'multiple rays of the same type' );
           selected = ray;
         }
       }

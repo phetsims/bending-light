@@ -16,6 +16,7 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import WaveParticle from './WaveParticle.js';
 import LaserViewEnum from './LaserViewEnum.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 // constants
 
@@ -110,7 +111,7 @@ export default class LightRay {
     this.tail = tail;
     this.indexOfRefraction = indexOfRefraction;
     this.wavelength = wavelength;
-    assert && assert( wavelengthInVacuum >= 300 && wavelengthInVacuum <= 900 );
+    affirm( wavelengthInVacuum >= 300 && wavelengthInVacuum <= 900, 'wavelength out of range' );
     this.wavelengthInVacuum = wavelengthInVacuum;
     this.powerFraction = powerFraction;
     this.numWavelengthsPhaseOffset = numWavelengthsPhaseOffset;

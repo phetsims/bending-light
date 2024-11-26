@@ -15,7 +15,7 @@ import Intersection from './Intersection.js';
 
 export default class PrismIntersection {
   private constructor() {
-    assert && assert( false, 'should not be instantiated' );
+    // Note: private and not instantiated
   }
 
   /**

@@ -23,6 +23,7 @@ import LaserViewEnum from '../model/LaserViewEnum.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 type SelfOptions = {
   occlusionHandler?: ( node: Node ) => void;
@@ -218,7 +219,7 @@ export default abstract class BendingLightScreenView extends ScreenView {
       this.addChild( rightRotationDragHandle );
     }
     else {
-      assert && assert( false, 'should have been a number' );
+      affirm( false, 'should have been a number' );
     }
   }
 }

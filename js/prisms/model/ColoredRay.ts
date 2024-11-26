@@ -11,6 +11,7 @@ import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 export default class ColoredRay {
 
@@ -28,7 +29,7 @@ export default class ColoredRay {
     public readonly mediumIndexOfRefraction: number,
     public readonly frequency: number
   ) {
-    assert && assert( !isNaN( ray.direction.magnitude ), 'direction unit vector should have a numeric magnitude' );
+    affirm( !isNaN( ray.direction.magnitude ), 'direction unit vector should have a numeric magnitude' );
   }
 
   public get tail(): Vector2 {

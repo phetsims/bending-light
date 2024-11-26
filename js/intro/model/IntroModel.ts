@@ -30,6 +30,7 @@ import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 // constants
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;
@@ -289,7 +290,7 @@ export default class IntroModel extends BendingLightModel {
     if ( rayAbsorbed ) {
       let x;
       let y;
-      assert && assert( intersects.length <= 2, 'too many intersections' );
+      affirm( intersects.length <= 2, 'too many intersections' );
       if ( intersects.length === 1 ) {
 
         // intersect point at sensor shape start position when laser within sensor region
@@ -297,7 +298,7 @@ export default class IntroModel extends BendingLightModel {
         y = intersects[ 0 ].point.y;
       }
       else {
-        assert && assert( intersects.length === 2 );
+        affirm( intersects.length === 2 );
         x = ( intersects[ 0 ].point.x + intersects[ 1 ].point.x ) / 2;
         y = ( intersects[ 0 ].point.y + intersects[ 1 ].point.y ) / 2;
       }
