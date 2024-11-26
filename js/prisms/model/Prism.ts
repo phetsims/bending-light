@@ -16,8 +16,9 @@ import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import SemiCircle from './SemiCircle.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
-export default class Prism {
+export default class Prism extends Disposable {
   public readonly shapeProperty: Property<Polygon | BendingLightCircle | SemiCircle>;
   public readonly positionProperty: Vector2Property;
   public readonly typeName: string;
@@ -27,6 +28,7 @@ export default class Prism {
    * @param typeName for keeping track of how many of each kind there are, to remove from toolbox
    */
   public constructor( shape: Polygon | BendingLightCircle | SemiCircle, typeName: string ) {
+    super();
 
     this.shapeProperty = new Property( shape );
 
@@ -34,6 +36,11 @@ export default class Prism {
     this.positionProperty = new Vector2Property( new Vector2( 0, 0 ) );
 
     this.typeName = typeName;
+
+    this.disposeEmitter.addListener( () => {
+      this.shapeProperty.dispose();
+      this.positionProperty.dispose();
+    } );
   }
 
   /**

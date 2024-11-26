@@ -23,7 +23,7 @@ export default class PrismNode extends Node {
   private readonly dragListener: DragListener;
   private readonly updatePrismShape: () => void;
   private readonly updatePrismColor: () => void;
-  private readonly translateViewXY: ( x: number, y: number ) => void;
+  public readonly translateViewXY: ( x: number, y: number ) => void;
 
   /**
    * @param prismsModel - main model
@@ -52,8 +52,9 @@ export default class PrismNode extends Node {
     // Prism rotation with knob
     let previousAngle: number;
     let prismCenterPoint;
+    let knobDragListener: DragListener | null = null;
     if ( !isIcon ) {
-      knobNode.addInputListener( new DragListener( {
+      knobDragListener = new DragListener( {
         start: ( event: SceneryEvent ) => {
           this.moveToFront();
           const start = knobNode.globalToParentPoint( event.pointer.point );
@@ -74,7 +75,8 @@ export default class PrismNode extends Node {
 
         // A Prism cannot be put back into the toolbox by rotating it.
         end: _.noop
-      } ) );
+      } );
+      knobNode.addInputListener( knobDragListener );
       knobNode.touchArea = Shape.circle( 0, 10, 40 );
     }
 
@@ -98,17 +100,35 @@ export default class PrismNode extends Node {
         occlusionHandler( this );
         if ( prismToolboxNode.visibleBounds.containsCoordinates( this.getCenterX(), this.getCenterY() ) ) {
           if ( prismLayer.hasChild( this ) ) {
-
-            // this is the equivalent of dispose
-            prismsModel.removePrism( prism );
-            prism.shapeProperty.unlink( this.updatePrismShape );
-            dragBoundsProperty.unlink( keepInBounds );
-            prismsModel.prismMediumProperty.unlink( this.updatePrismColor );
-            prismLayer.removeChild( this );
+            prism.dispose();
           }
           prismsModel.dirty = true;
         }
       }
+    } );
+
+    prism.disposeEmitter.addListener( () => {
+      console.log( 'dispose callback' );
+
+      prismsModel.removePrism( prism );
+      prism.shapeProperty.unlink( this.updatePrismShape );
+      prism.positionProperty.unlink( this.updatePrismShape );
+      dragBoundsProperty.unlink( keepInBounds );
+      prismsModel.prismMediumProperty.unlink( this.updatePrismColor );
+      prismLayer.removeChild( this );
+
+      prismPathNode.removeInputListener( this.dragListener );
+      prismPathNode.dispose();
+
+      this.dragListener.dispose();
+
+      knobNode.removeInputListener( knobDragListener! );
+      knobDragListener!.dispose();
+
+      knobNode.dispose();
+      this.dispose();
+
+      prismsModel.mediumColorFactory.lightTypeProperty.unlink( this.updatePrismColor );
     } );
 
     // When the window reshapes, make sure no prism is left outside of the play area

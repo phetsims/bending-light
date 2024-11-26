@@ -113,6 +113,7 @@ export default class PrismsModel extends BendingLightModel {
 
   public override reset(): void {
     super.reset();
+    this.prisms.forEach( prism => prism.dispose() );
     this.prisms.clear();
     this.manyRaysProperty.reset();
     this.environmentMediumProperty.reset();

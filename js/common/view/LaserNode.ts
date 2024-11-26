@@ -277,7 +277,7 @@ export default class LaserNode extends Node {
    * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
    * model
    */
-  private translateViewXY( x: number, y: number ): void {
+  public translateViewXY( x: number, y: number ): void {
     const delta = this.modelViewTransform.viewToModelDeltaXY( x, y );
     this.laser.translate( delta.x, delta.y );
   }

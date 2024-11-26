@@ -21,7 +21,6 @@ import FloatingLayout from '../../common/view/FloatingLayout.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import TranslationDragHandle from '../../common/view/TranslationDragHandle.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
-import Intersection from '../model/Intersection.js';
 import PrismsModel from '../model/PrismsModel.js';
 import IntersectionNode from './IntersectionNode.js';
 import LaserTypeRadioButtonGroup from './LaserTypeRadioButtonGroup.js';
@@ -31,6 +30,8 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 import LightType from '../model/LightType.js';
+import Intersection from '../model/Intersection.js';
+import PrismNode from './PrismNode.js';
 
 // constants
 const INSET = 10;
@@ -77,8 +78,9 @@ export default class PrismsScreenView extends BendingLightScreenView {
           controlPanels.forEach( controlPanel => {
             if ( controlPanel.globalBounds.containsPoint( node.globalBounds.center ) ) {
 
-              // @ts-expect-error
-              node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
+              if ( node instanceof PrismNode ) {
+                node.translateViewXY( node.globalToParentBounds( controlPanel.globalBounds ).minX - node.centerX, 0 );
+              }
             }
           } );
         }
@@ -146,7 +148,7 @@ export default class PrismsScreenView extends BendingLightScreenView {
     this.incidentWaveLayer.setVisible( false );
 
     // Optionally show the normal lines at each intersection
-    prismsModel.intersections.addItemAddedListener( ( addedIntersection: Intersection ) => {
+    prismsModel.intersections.addItemAddedListener( addedIntersection => {
       if ( prismsModel.showNormalsProperty.value ) {
         const node = new IntersectionNode(
           this.modelViewTransform,
@@ -155,13 +157,16 @@ export default class PrismsScreenView extends BendingLightScreenView {
         );
         this.addChild( node );
 
-        prismsModel.intersections.addItemRemovedListener( ( removedIntersection: Intersection ) => {
+        const listener = ( removedIntersection: Intersection ) => {
           if ( removedIntersection === addedIntersection ) {
 
             // dispose will remove the child from the view
             node.dispose();
+
+            prismsModel.intersections.removeItemRemovedListener( listener );
           }
-        } );
+        };
+        prismsModel.intersections.addItemRemovedListener( listener );
       }
     } );
 

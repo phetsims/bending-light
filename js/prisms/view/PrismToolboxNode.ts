@@ -29,7 +29,7 @@ const reflectionsStringProperty = BendingLightStrings.reflectionsStringProperty;
 
 // constants
 const MAX_TEXT_WIDTH = 115;
-const MAX_PRISM_COUNT = 6; // for each type
+const MAX_PRISM_COUNT = 1; // for each type
 
 export default class PrismToolboxNode extends Node {
   public readonly objectMediumControlPanel: MediumControlPanel;
