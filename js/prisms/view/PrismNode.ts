@@ -20,7 +20,7 @@ import Prism from '../model/Prism.js';
 import PrismsModel from '../model/PrismsModel.js';
 
 export default class PrismNode extends Node {
-  private readonly dragListener: DragListener;
+  public readonly dragListener: DragListener;
   private readonly updatePrismShape: () => void;
   private readonly updatePrismColor: () => void;
   public readonly translateViewXY: ( x: number, y: number ) => void;

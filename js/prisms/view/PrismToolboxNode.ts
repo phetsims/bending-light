@@ -13,7 +13,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
-import { DragListener, HBox, HStrut, Node, NodeOptions, Path, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, HBox, HStrut, Node, NodeOptions, Path, Rectangle, Text, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
@@ -29,7 +29,7 @@ const reflectionsStringProperty = BendingLightStrings.reflectionsStringProperty;
 
 // constants
 const MAX_TEXT_WIDTH = 115;
-const MAX_PRISM_COUNT = 1; // for each type
+const MAX_PRISM_COUNT = 6; // for each type
 
 export default class PrismToolboxNode extends Node {
   public readonly objectMediumControlPanel: MediumControlPanel;
@@ -61,11 +61,11 @@ export default class PrismToolboxNode extends Node {
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
     let prismNode: PrismNode;
-    prismsModel.getPrismPrototypes().forEach( prism => {
-      const prismIcon = createPrismIcon( prism );
+    prismsModel.getPrismPrototypes().forEach( prismPrototype => {
+      const prismIcon = createPrismIcon( prismPrototype );
 
       const listener = () => {
-        const count = prismsModel.prisms.count( ( p: Prism ) => p.typeName === prism.typeName );
+        const count = prismsModel.prisms.count( p => p.typeName === prismPrototype.typeName );
         prismIcon.visible = count < MAX_PRISM_COUNT;
       };
       prismsModel.prisms.addItemAddedListener( listener );
@@ -83,20 +83,19 @@ export default class PrismToolboxNode extends Node {
       } );
 
       // Add drag listener for the prisms icon
-      const dragListener = DragListener.createForwardingListener( ( event: SceneryEvent ) => {
+      const dragListener = DragListener.createForwardingListener( event => {
 
         const start = this.globalToParentPoint( event.pointer.point );
-        const prismShape = prism.copy();
-        prismShape.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
+        const prism = prismPrototype.copy();
+        prism.translate( modelViewTransform.viewToModelX( start.x ), modelViewTransform.viewToModelY( start.y ) );
 
         // add prism model to the prisms model
-        prismsModel.addPrism( prismShape );
+        prismsModel.addPrism( prism );
 
         // create a prism node and add to the prisms layer
-        prismNode = new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer, dragBoundsProperty, occlusionHandler, false );
+        prismNode = new PrismNode( prismsModel, modelViewTransform, prism, this, prismLayer, dragBoundsProperty, occlusionHandler, false );
         prismLayer.addChild( prismNode );
 
-        // @ts-expect-error
         prismNode.dragListener.press( event, prismNode );
       } );
       prismToolboxIconNode.addInputListener( dragListener );
