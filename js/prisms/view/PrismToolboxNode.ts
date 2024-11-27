@@ -29,7 +29,8 @@ const reflectionsStringProperty = BendingLightStrings.reflectionsStringProperty;
 
 // constants
 const MAX_TEXT_WIDTH = 115;
-const MAX_PRISM_COUNT = 6; // for each type
+const isFuzzing = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz || phet.chipper.queryParameters.fuzzMouse;
+const MAX_PRISM_COUNT = isFuzzing ? 2 : 6;
 
 export default class PrismToolboxNode extends Node {
   public readonly objectMediumControlPanel: MediumControlPanel;

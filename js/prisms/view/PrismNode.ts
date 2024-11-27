@@ -108,7 +108,6 @@ export default class PrismNode extends Node {
     } );
 
     prism.disposeEmitter.addListener( () => {
-      console.log( 'dispose callback' );
 
       prismsModel.removePrism( prism );
       prism.shapeProperty.unlink( this.updatePrismShape );
