@@ -8,28 +8,28 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, NodeOptions, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import ComboBox, { ComboBoxListPosition } from '../../../../sun/js/ComboBox.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
-import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import DispersionFunction from '../model/DispersionFunction.js';
 import Medium from '../model/Medium.js';
+import MediumColorFactory from '../model/MediumColorFactory.js';
 import Substance from '../model/Substance.js';
 import BendingLightScreenView from './BendingLightScreenView.js';
-import MediumColorFactory from '../model/MediumColorFactory.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const airStringProperty = BendingLightStrings.airStringProperty;
 const customStringProperty = BendingLightStrings.customStringProperty;

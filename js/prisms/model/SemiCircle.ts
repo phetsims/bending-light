@@ -10,9 +10,9 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Arc, Line, Shape } from '../../../../kite/js/imports.js';
 import bendingLight from '../../bendingLight.js';
-import PrismIntersection from './PrismIntersection.js';
 import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
+import PrismIntersection from './PrismIntersection.js';
 
 export default class SemiCircle {
   private readonly points: Vector2[];

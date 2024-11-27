@@ -9,11 +9,11 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { CanvasNode, CanvasNodeOptions } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 
 export default class GridCanvasNode extends CanvasNode {
   private readonly modelViewTransformProperty: Property<ModelViewTransform2>;

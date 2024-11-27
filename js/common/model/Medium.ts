@@ -22,9 +22,7 @@ export default class Medium {
     toStateObject( medium: Medium ) {
       return {};
     },
-    stateSchema: {
-
-    }
+    stateSchema: {}
   } );
 
   /**

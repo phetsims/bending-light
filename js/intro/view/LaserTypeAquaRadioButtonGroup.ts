@@ -6,14 +6,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import AquaRadioButton from '../../../../sun/js/AquaRadioButton.js';
-import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
-import Property from '../../../../axon/js/Property.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const rayStringProperty = BendingLightStrings.rayStringProperty;
 const waveStringProperty = BendingLightStrings.waveStringProperty;

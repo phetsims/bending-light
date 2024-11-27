@@ -10,8 +10,8 @@
 import Utils from '../../../../dot/js/Utils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
-import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 
 // strings
 const pattern0ValuePercentStringProperty = BendingLightStrings.pattern_0value_percentStringProperty;

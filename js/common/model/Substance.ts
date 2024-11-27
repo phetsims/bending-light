@@ -7,11 +7,11 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import BendingLightStrings from '../../BendingLightStrings.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import bendingLight from '../../bendingLight.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import DispersionFunction from './DispersionFunction.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const airStringProperty = BendingLightStrings.airStringProperty;
 const diamondStringProperty = BendingLightStrings.diamondStringProperty;

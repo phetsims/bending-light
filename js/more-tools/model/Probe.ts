@@ -1,10 +1,10 @@
 // Copyright 2021-2024, University of Colorado Boulder
 
 import Property from '../../../../axon/js/Property.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import DataPoint from './DataPoint.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import bendingLight from '../../bendingLight.js';
+import DataPoint from './DataPoint.js';
 
 /**
  * @author Sam Reid (PhET Interactive Simulations)

@@ -8,22 +8,22 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import Property from '../../../../axon/js/Property.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import Range from '../../../../dot/js/Range.js';
+import TModel from '../../../../joist/js/TModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import { Utils } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import Laser from './Laser.js';
+import LaserViewEnum from './LaserViewEnum.js';
 import LightRay from './LightRay.js';
 import MediumColorFactory from './MediumColorFactory.js';
-import LaserViewEnum from './LaserViewEnum.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
-import TModel from '../../../../joist/js/TModel.js';
 
 // constants
 const DEFAULT_LASER_DISTANCE_FROM_PIVOT = 9.225E-6;

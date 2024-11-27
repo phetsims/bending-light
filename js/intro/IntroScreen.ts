@@ -11,15 +11,15 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import introScreen_png from '../../mipmaps/introScreen_png.js';
-import BendingLightStrings from '../BendingLightStrings.js';
 import bendingLight from '../bendingLight.js';
+import BendingLightStrings from '../BendingLightStrings.js';
+import BendingLightModel from '../common/model/BendingLightModel.js';
 import Substance from '../common/model/Substance.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
 import LaserTypeAquaRadioButtonGroup from './view/LaserTypeAquaRadioButtonGroup.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import BendingLightModel from '../common/model/BendingLightModel.js';
 
 export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 

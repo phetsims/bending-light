@@ -7,22 +7,29 @@
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
+import TEmitter from '../../../../axon/js/TEmitter.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Rectangle from '../../../../dot/js/Rectangle.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import { DragListener, HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
+import BendingLightModel from '../../common/model/BendingLightModel.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import BendingLightScreenView, { BendingLightScreenViewOptions } from '../../common/view/BendingLightScreenView.js';
 import FloatingLayout from '../../common/view/FloatingLayout.js';
 import IntensityMeterNode from '../../common/view/IntensityMeterNode.js';
@@ -34,13 +41,6 @@ import AngleNode from './AngleNode.js';
 import NormalLine from './NormalLine.js';
 import WaveCanvasNode from './WaveCanvasNode.js';
 import WaveWebGLNode from './WaveWebGLNode.js';
-import BendingLightModel from '../../common/model/BendingLightModel.js';
-import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
-import LaserViewEnum from '../../common/model/LaserViewEnum.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import TEmitter from '../../../../axon/js/TEmitter.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const anglesStringProperty = BendingLightStrings.anglesStringProperty;
 const materialStringProperty = BendingLightStrings.materialStringProperty;

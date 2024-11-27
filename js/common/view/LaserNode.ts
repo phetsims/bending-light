@@ -9,20 +9,20 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
-import { DragListener, Image, Node, SceneryEvent } from '../../../../scenery/js/imports.js';
-import bendingLight from '../../bendingLight.js';
-import BendingLightConstants from '../BendingLightConstants.js';
-import knob_png from '../../../images/knob_png.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Laser from '../model/Laser.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
+import { DragListener, Image, Node, SceneryEvent } from '../../../../scenery/js/imports.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import knob_png from '../../../images/knob_png.js';
+import bendingLight from '../../bendingLight.js';
+import BendingLightConstants from '../BendingLightConstants.js';
+import Laser from '../model/Laser.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = PickRequired<PhetioObjectOptions, 'tandem'>;

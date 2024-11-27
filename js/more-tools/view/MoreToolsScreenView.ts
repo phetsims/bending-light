@@ -8,24 +8,24 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
-import { DragListener, Node, VBox } from '../../../../scenery/js/imports.js';
+import Rectangle from '../../../../dot/js/Rectangle.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
+import { DragListener, Node, VBox } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
+import BendingLightModel from '../../common/model/BendingLightModel.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
 import IntroScreenView, { IntroScreenViewOptions } from '../../intro/view/IntroScreenView.js';
 import LaserTypeAquaRadioButtonGroup from '../../intro/view/LaserTypeAquaRadioButtonGroup.js';
 import MoreToolsModel from '../model/MoreToolsModel.js';
 import VelocitySensorNode from './VelocitySensorNode.js';
 import WaveSensorNode from './WaveSensorNode.js';
-import LaserViewEnum from '../../common/model/LaserViewEnum.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import BendingLightModel from '../../common/model/BendingLightModel.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Rectangle from '../../../../dot/js/Rectangle.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
 const arrowScale = 1.5E-14;

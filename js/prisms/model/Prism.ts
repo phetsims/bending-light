@@ -7,6 +7,7 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -16,7 +17,6 @@ import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import SemiCircle from './SemiCircle.js';
-import Disposable from '../../../../axon/js/Disposable.js';
 
 export default class Prism extends Disposable {
   public readonly shapeProperty: Property<Polygon | BendingLightCircle | SemiCircle>;

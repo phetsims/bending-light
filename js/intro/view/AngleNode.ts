@@ -13,13 +13,13 @@ import Property from '../../../../axon/js/Property.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Line, Node, Path } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 import AngleTextView from './AngleTextView.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 // constants
 const CIRCLE_RADIUS = 50; // radius of the circular arc in stage coordinates

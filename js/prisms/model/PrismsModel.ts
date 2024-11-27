@@ -9,6 +9,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -19,6 +20,7 @@ import { Color, NodeOptions } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
+import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 import LightRay from '../../common/model/LightRay.js';
 import Medium from '../../common/model/Medium.js';
 import MediumColorFactory from '../../common/model/MediumColorFactory.js';
@@ -29,8 +31,6 @@ import Intersection from './Intersection.js';
 import Polygon from './Polygon.js';
 import Prism from './Prism.js';
 import SemiCircle from './SemiCircle.js';
-import ColorModeEnum from '../../common/model/ColorModeEnum.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const WAVELENGTH_RED = BendingLightConstants.WAVELENGTH_RED;

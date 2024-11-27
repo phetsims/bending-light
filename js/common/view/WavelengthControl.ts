@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -13,10 +14,9 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import WavelengthSlider from '../../../../scenery-phet/js/WavelengthSlider.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
-import BendingLightStrings from '../../BendingLightStrings.js';
 import bendingLight from '../../bendingLight.js';
+import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../BendingLightConstants.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const unitsNmStringProperty = BendingLightStrings.units_nmStringProperty;
 const wavelengthPatternStringProperty = BendingLightStrings.wavelengthPatternStringProperty;

@@ -8,6 +8,8 @@
  */
 
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -16,22 +18,20 @@ import { DragListener, Node, Rectangle, VBox } from '../../../../scenery/js/impo
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
+import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 import BendingLightScreenView, { BendingLightScreenViewOptions } from '../../common/view/BendingLightScreenView.js';
 import FloatingLayout from '../../common/view/FloatingLayout.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import TranslationDragHandle from '../../common/view/TranslationDragHandle.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
+import Intersection from '../model/Intersection.js';
+import LightType from '../model/LightType.js';
 import PrismsModel from '../model/PrismsModel.js';
 import IntersectionNode from './IntersectionNode.js';
 import LaserTypeRadioButtonGroup from './LaserTypeRadioButtonGroup.js';
+import PrismNode from './PrismNode.js';
 import PrismToolboxNode from './PrismToolboxNode.js';
 import WhiteLightCanvasNode from './WhiteLightCanvasNode.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import ColorModeEnum from '../../common/model/ColorModeEnum.js';
-import LightType from '../model/LightType.js';
-import Intersection from '../model/Intersection.js';
-import PrismNode from './PrismNode.js';
 
 // constants
 const INSET = 10;

@@ -11,12 +11,12 @@ import createObservableArray, { ObservableArray } from '../../../../axon/js/crea
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Line, RayIntersection, Shape } from '../../../../kite/js/imports.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
-import WaveParticle from './WaveParticle.js';
 import LaserViewEnum from './LaserViewEnum.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import WaveParticle from './WaveParticle.js';
 
 // constants
 

@@ -9,10 +9,13 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -21,16 +24,13 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import IntensityMeter from '../../common/model/IntensityMeter.js';
+import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import LightRay from '../../common/model/LightRay.js';
 import Medium from '../../common/model/Medium.js';
+import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 import Reading from '../../common/model/Reading.js';
 import Substance from '../../common/model/Substance.js';
 import WaveParticle from '../../common/model/WaveParticle.js';
-import RayTypeEnum from '../../common/model/RayTypeEnum.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import LaserViewEnum from '../../common/model/LaserViewEnum.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 // constants
 const CHARACTERISTIC_LENGTH = BendingLightConstants.WAVELENGTH_RED;

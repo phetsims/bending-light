@@ -9,9 +9,9 @@
 
 import Ray2 from '../../../../dot/js/Ray2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 export default class ColoredRay {
 

@@ -8,8 +8,8 @@
  */
 
 import ScreenView from '../../../../joist/js/ScreenView.js';
-import bendingLight from '../../bendingLight.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import bendingLight from '../../bendingLight.js';
 
 // The fraction the objects can float out of the layout bounds
 const floatFraction = 0.3;

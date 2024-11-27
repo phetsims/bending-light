@@ -11,12 +11,12 @@ import Property from '../../../axon/js/Property.js';
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import moreToolsScreen_png from '../../mipmaps/moreToolsScreen_png.js';
-import BendingLightStrings from '../BendingLightStrings.js';
 import bendingLight from '../bendingLight.js';
+import BendingLightStrings from '../BendingLightStrings.js';
 import MoreToolsModel from './model/MoreToolsModel.js';
 import MoreToolsScreenView from './view/MoreToolsScreenView.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 
 export default class MoreToolsScreen extends Screen<MoreToolsModel, MoreToolsScreenView> {
   public constructor( tandem: Tandem ) {

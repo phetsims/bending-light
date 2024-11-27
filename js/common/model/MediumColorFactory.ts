@@ -7,13 +7,13 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
-import Substance from './Substance.js';
 import ColorModeEnum from './ColorModeEnum.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Substance from './Substance.js';
 
 // distance between adjacent colors for shades of gray against the black background
 const step = 55;
