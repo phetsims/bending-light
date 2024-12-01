@@ -17,6 +17,7 @@ import Rectangle from '../../../../dot/js/Rectangle.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
@@ -191,8 +192,9 @@ export default class IntroScreenView extends BendingLightScreenView {
     ], () => {
       for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
 
-        // @ts-expect-error
-        this.incidentWaveLayer.children[ k ].step();
+        const child = this.incidentWaveLayer.children[ k ];
+        affirm( child instanceof WaveWebGLNode || child instanceof WaveCanvasNode, 'unexpected node type' );
+        child.step();
       }
       this.incidentWaveLayer.setVisible( introModel.laser.onProperty.value && introModel.laserViewProperty.value === LaserViewEnum.WAVE );
     } );
