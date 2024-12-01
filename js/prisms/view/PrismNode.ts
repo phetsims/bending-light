@@ -19,11 +19,12 @@ import BendingLightConstants from '../../common/BendingLightConstants.js';
 import Prism from '../model/Prism.js';
 import PrismsModel from '../model/PrismsModel.js';
 
+const knobHeight = 15;
+
 export default class PrismNode extends Node {
   public readonly dragListener: DragListener;
-  private readonly updatePrismShape: () => void;
-  private readonly updatePrismColor: () => void;
-  public readonly translateViewXY: ( x: number, y: number ) => void;
+  private readonly prismPathNode: Path;
+  private readonly knobNode: Image;
 
   /**
    * @param prismsModel - main model
@@ -37,16 +38,19 @@ export default class PrismNode extends Node {
    * @param isIcon - true if the prism node is being created to be shown as an icon in the toolbox
    *                         - false if the prism node will be dragged in the play area
    */
-  public constructor( prismsModel: PrismsModel, modelViewTransform: ModelViewTransform2, prism: Prism, prismToolboxNode: Node, prismLayer: Node, dragBoundsProperty: Property<Bounds2>,
+  public constructor( public readonly prismsModel: PrismsModel,
+                      public readonly modelViewTransform: ModelViewTransform2,
+                      public readonly prism: Prism,
+                      prismToolboxNode: Node,
+                      public readonly prismLayer: Node, dragBoundsProperty: Property<Bounds2>,
                       occlusionHandler: ( prismNode: PrismNode ) => void, isIcon: boolean ) {
 
     super( { cursor: 'pointer' } );
-    const knobHeight = 15;
 
     // It looks like a box on the side of the prism
-    const knobNode = new Image( knob_png );
+    this.knobNode = new Image( knob_png );
     if ( prism.shapeProperty.get().getReferencePoint() ) {
-      this.addChild( knobNode );
+      this.addChild( this.knobNode );
     }
 
     // Prism rotation with knob
@@ -57,14 +61,14 @@ export default class PrismNode extends Node {
       knobDragListener = new DragListener( {
         start: ( event: SceneryEvent ) => {
           this.moveToFront();
-          const start = knobNode.globalToParentPoint( event.pointer.point );
+          const start = this.knobNode.globalToParentPoint( event.pointer.point );
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const startX = modelViewTransform.viewToModelX( start.x );// model values
           const startY = modelViewTransform.viewToModelY( start.y );// model values
           previousAngle = Math.atan2( ( prismCenterPoint.y - startY ), ( prismCenterPoint.x - startX ) );
         },
         drag: ( event: SceneryEvent ) => {
-          const end = knobNode.globalToParentPoint( event.pointer.point );
+          const end = this.knobNode.globalToParentPoint( event.pointer.point );
           prismCenterPoint = prism.getTranslatedShape().getRotationCenter();
           const endX = modelViewTransform.viewToModelX( end.x );// model values
           const endY = modelViewTransform.viewToModelY( end.y );// model values
@@ -76,14 +80,19 @@ export default class PrismNode extends Node {
         // A Prism cannot be put back into the toolbox by rotating it.
         end: _.noop
       } );
-      knobNode.addInputListener( knobDragListener );
-      knobNode.touchArea = Shape.circle( 0, 10, 40 );
+      this.knobNode.addInputListener( knobDragListener );
+      this.knobNode.touchArea = Shape.circle( 0, 10, 40 );
+
+      this.disposeEmitter.addListener( () => {
+        this.knobNode.removeInputListener( knobDragListener! );
+        knobDragListener!.dispose();
+      } );
     }
 
-    const prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.getTranslatedShape().shape ), {
+    this.prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.getTranslatedShape().shape ), {
       stroke: 'gray'
     } );
-    this.addChild( prismPathNode );
+    this.addChild( this.prismPathNode );
 
     // Keep within the drag bounds. For unknown reasons, this works but passing dragBoundsProperty directly does not.
     const keepInBounds = () => {
@@ -107,90 +116,107 @@ export default class PrismNode extends Node {
       }
     } );
 
+    const prismShapeListener = () => this.updatePrismShape();
+    const prismColorListener = () => this.updatePrismColor();
+
     prism.disposeEmitter.addListener( () => {
-
-      prismsModel.removePrism( prism );
-      prism.shapeProperty.unlink( this.updatePrismShape );
-      prism.positionProperty.unlink( this.updatePrismShape );
-      dragBoundsProperty.unlink( keepInBounds );
-      prismsModel.prismMediumProperty.unlink( this.updatePrismColor );
-      prismLayer.removeChild( this );
-
-      prismPathNode.removeInputListener( this.dragListener );
-      prismPathNode.dispose();
-
-      this.dragListener.dispose();
-
-      knobNode.removeInputListener( knobDragListener! );
-      knobDragListener!.dispose();
-
-      knobNode.dispose();
       this.dispose();
-
-      prismsModel.mediumColorFactory.lightTypeProperty.unlink( this.updatePrismColor );
     } );
 
     // When the window reshapes, make sure no prism is left outside of the play area
     dragBoundsProperty.lazyLink( keepInBounds );
+    this.disposeEmitter.addListener( () => {
+      dragBoundsProperty.unlink( keepInBounds );
+    } );
 
     if ( !isIcon ) {
-      prismPathNode.addInputListener( this.dragListener );
+      this.prismPathNode.addInputListener( this.dragListener );
     }
 
-    const knobCenterPoint = new Vector2( -knobNode.getWidth() - 7, -knobNode.getHeight() / 2 - 8 );
+    prism.shapeProperty.link( prismShapeListener );
+    prism.positionProperty.link( prismShapeListener );
 
-    // also used in PrismToolboxNode
-    this.updatePrismShape = () => {
-      prismsModel.clear();
-      prismsModel.updateModel();
-      prismsModel.dirty = true;
-      const delta = prism.positionProperty.value;
-      prismPathNode.setShape( modelViewTransform.modelToViewShape( prism.shapeProperty.get().getTranslatedInstance( delta.x, delta.y ).shape ) );
+    this.disposeEmitter.addListener( () => {
+      this.prism.shapeProperty.unlink( prismShapeListener );
+      this.prism.positionProperty.unlink( prismShapeListener );
+    } );
 
-      const prismReferencePoint = prism.getTranslatedShape().getReferencePoint();
-      if ( prismReferencePoint ) {
-        const prismShapeCenter = prism.getTranslatedShape().getRotationCenter();
-        knobNode.resetTransform();
+    prismsModel.mediumColorFactory.lightTypeProperty.link( prismColorListener );
+    prismsModel.prismMediumProperty.link( prismColorListener );
 
-        knobNode.setScaleMagnitude( knobHeight / knobNode.height );
+    this.disposeEmitter.addListener( () => {
+      prismsModel.mediumColorFactory.lightTypeProperty.unlink( prismColorListener );
+      prismsModel.prismMediumProperty.unlink( prismColorListener );
+    } );
 
-        const prismReferenceXPosition = modelViewTransform.modelToViewX( prismReferencePoint.x );
-        const prismReferenceYPosition = modelViewTransform.modelToViewY( prismReferencePoint.y );
-        const prismCenterX = modelViewTransform.modelToViewX( prismShapeCenter.x );
-        const prismCenterY = modelViewTransform.modelToViewY( prismShapeCenter.y );
+    this.updatePrismShape();
+  }
 
-        // Calculate angle
-        const angle = Math.atan2( ( prismCenterY - prismReferenceYPosition ), ( prismCenterX - prismReferenceXPosition ) );
-        knobCenterPoint.x = -knobNode.getWidth() - 7;
-        knobCenterPoint.y = -knobNode.getHeight() / 2 - 8;
-        knobNode.rotateAround( knobCenterPoint, angle );
-        knobNode.setTranslation( prismReferenceXPosition, prismReferenceYPosition );
+  public override dispose(): void {
+    this.prismsModel.removePrism( this.prism );
 
-        knobNode.translate( knobCenterPoint );
-      }
-    };
-    prism.shapeProperty.link( this.updatePrismShape );
-    prism.positionProperty.link( this.updatePrismShape );
+    this.prismLayer.removeChild( this );
 
-    // used in PrismToolboxNode
-    this.updatePrismColor = () => {
-      const indexOfRefraction = prismsModel.prismMediumProperty.value.substance.indexOfRefractionForRedLight;
+    this.prismPathNode.removeInputListener( this.dragListener );
+    this.prismPathNode.dispose();
 
-      prismPathNode.fill = prismsModel.mediumColorFactory.getColor( indexOfRefraction )
-        .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
-    };
+    this.dragListener.dispose();
 
-    prismsModel.mediumColorFactory.lightTypeProperty.link( this.updatePrismColor );
-    prismsModel.prismMediumProperty.link( this.updatePrismColor );
+    this.knobNode.dispose();
 
-    /**
-     * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
-     * model
-     */
-    this.translateViewXY = ( x, y ) => {
-      const delta = modelViewTransform.viewToModelDeltaXY( x, y );
-      prism.translate( delta.x, delta.y );
-    };
+    super.dispose();
+  }
+
+  public updatePrismShape(): void {
+    if ( !this.knobNode ) {
+      return;
+    }
+
+    const knobCenterPoint = new Vector2( -this.knobNode.getWidth() - 7, -this.knobNode.getHeight() / 2 - 8 );
+
+    this.prismsModel.clear();
+    this.prismsModel.updateModel();
+    this.prismsModel.dirty = true;
+    const delta = this.prism.positionProperty.value;
+    this.prismPathNode.setShape( this.modelViewTransform.modelToViewShape( this.prism.shapeProperty.get().getTranslatedInstance( delta.x, delta.y ).shape ) );
+
+    const prismReferencePoint = this.prism.getTranslatedShape().getReferencePoint();
+    if ( prismReferencePoint ) {
+      const prismShapeCenter = this.prism.getTranslatedShape().getRotationCenter();
+      this.knobNode.resetTransform();
+
+      this.knobNode.setScaleMagnitude( knobHeight / this.knobNode.height );
+
+      const prismReferenceXPosition = this.modelViewTransform.modelToViewX( prismReferencePoint.x );
+      const prismReferenceYPosition = this.modelViewTransform.modelToViewY( prismReferencePoint.y );
+      const prismCenterX = this.modelViewTransform.modelToViewX( prismShapeCenter.x );
+      const prismCenterY = this.modelViewTransform.modelToViewY( prismShapeCenter.y );
+
+      // Calculate angle
+      const angle = Math.atan2( ( prismCenterY - prismReferenceYPosition ), ( prismCenterX - prismReferenceXPosition ) );
+      knobCenterPoint.x = -this.knobNode.getWidth() - 7;
+      knobCenterPoint.y = -this.knobNode.getHeight() / 2 - 8;
+      this.knobNode.rotateAround( knobCenterPoint, angle );
+      this.knobNode.setTranslation( prismReferenceXPosition, prismReferenceYPosition );
+
+      this.knobNode.translate( knobCenterPoint );
+    }
+  }
+
+  public updatePrismColor(): void {
+    const indexOfRefraction = this.prismsModel.prismMediumProperty.value.substance.indexOfRefractionForRedLight;
+
+    this.prismPathNode.fill = this.prismsModel.mediumColorFactory.getColor( indexOfRefraction )
+      .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
+  }
+
+  /**
+   * Called from the occlusion handler.  Translates the view by the specified amount by translating the corresponding
+   * model
+   */
+  public translateViewXY( x: number, y: number ): void {
+    const delta = this.modelViewTransform.viewToModelDeltaXY( x, y );
+    this.prism.translate( delta.x, delta.y );
   }
 }
 

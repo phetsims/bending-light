@@ -80,7 +80,7 @@ export default class WhiteLightCanvasNode extends CanvasNode {
     context.globalCompositeOperation = 'lighter';
 
     for ( let i = 0; i < this.whiteLightRays.length; i++ ) {
-      const lightRay = this.whiteLightRays[ i ]; // {LightRay}
+      const lightRay = this.whiteLightRays[ i ];
 
       const wavelength = Utils.roundSymmetric( lightRay.wavelengthInVacuum ); // convert back to (nm)
 
