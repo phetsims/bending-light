@@ -42,7 +42,8 @@ export default class PrismNode extends Node {
                       public readonly modelViewTransform: ModelViewTransform2,
                       public readonly prism: Prism,
                       prismToolboxNode: Node,
-                      public readonly prismLayer: Node, dragBoundsProperty: Property<Bounds2>,
+                      public readonly prismLayer: Node,
+                      dragBoundsProperty: Property<Bounds2>,
                       occlusionHandler: ( prismNode: PrismNode ) => void, isIcon: boolean ) {
 
     super( { cursor: 'pointer' } );
@@ -54,11 +55,11 @@ export default class PrismNode extends Node {
     }
 
     // Prism rotation with knob
-    let previousAngle: number;
-    let prismCenterPoint;
-    let knobDragListener: DragListener | null = null;
     if ( !isIcon ) {
-      knobDragListener = new DragListener( {
+
+      let previousAngle: number;
+      let prismCenterPoint;
+      const knobDragListener = new DragListener( {
         start: ( event: SceneryEvent ) => {
           this.moveToFront();
           const start = this.knobNode.globalToParentPoint( event.pointer.point );
@@ -84,8 +85,8 @@ export default class PrismNode extends Node {
       this.knobNode.touchArea = Shape.circle( 0, 10, 40 );
 
       this.disposeEmitter.addListener( () => {
-        this.knobNode.removeInputListener( knobDragListener! );
-        knobDragListener!.dispose();
+        this.knobNode.removeInputListener( knobDragListener );
+        knobDragListener.dispose();
       } );
     }
 
@@ -109,6 +110,8 @@ export default class PrismNode extends Node {
         occlusionHandler( this );
         if ( prismToolboxNode.visibleBounds.containsCoordinates( this.getCenterX(), this.getCenterY() ) ) {
           if ( prismLayer.hasChild( this ) ) {
+
+            // TODO: maybe remove from the list and dispose too? see https://github.com/phetsims/bending-light/issues/423
             prism.dispose();
           }
           prismsModel.dirty = true;
@@ -129,8 +132,13 @@ export default class PrismNode extends Node {
       dragBoundsProperty.unlink( keepInBounds );
     } );
 
+    // TODO: only create when not icon, see https://github.com/phetsims/bending-light/issues/423
     if ( !isIcon ) {
       this.prismPathNode.addInputListener( this.dragListener );
+      this.disposeEmitter.addListener( () => {
+        this.prismPathNode.removeInputListener( this.dragListener );
+        this.dragListener.dispose();
+      } );
     }
 
     prism.shapeProperty.link( prismShapeListener );
@@ -143,7 +151,6 @@ export default class PrismNode extends Node {
 
     prismsModel.mediumColorFactory.lightTypeProperty.link( prismColorListener );
     prismsModel.prismMediumProperty.link( prismColorListener );
-
     this.disposeEmitter.addListener( () => {
       prismsModel.mediumColorFactory.lightTypeProperty.unlink( prismColorListener );
       prismsModel.prismMediumProperty.unlink( prismColorListener );
@@ -153,14 +160,9 @@ export default class PrismNode extends Node {
   }
 
   public override dispose(): void {
-    this.prismsModel.removePrism( this.prism );
-
-    this.prismLayer.removeChild( this );
-
-    this.prismPathNode.removeInputListener( this.dragListener );
-    this.prismPathNode.dispose();
-
-    this.dragListener.dispose();
+    // TODO: Do we need these lines? Somewhere? https://github.com/phetsims/bending-light/issues/423
+    // this.prismsModel.removePrism( this.prism );
+    // this.prismLayer.removeChild( this );
 
     this.knobNode.dispose();
 
@@ -206,8 +208,7 @@ export default class PrismNode extends Node {
   public updatePrismColor(): void {
     const indexOfRefraction = this.prismsModel.prismMediumProperty.value.substance.indexOfRefractionForRedLight;
 
-    this.prismPathNode.fill = this.prismsModel.mediumColorFactory.getColor( indexOfRefraction )
-      .withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
+    this.prismPathNode.fill = this.prismsModel.mediumColorFactory.getColor( indexOfRefraction ).withAlpha( BendingLightConstants.PRISM_NODE_ALPHA );
   }
 
   /**

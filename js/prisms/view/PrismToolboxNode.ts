@@ -61,7 +61,6 @@ export default class PrismToolboxNode extends Node {
     };
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
-    let prismNode: PrismNode;
     prismsModel.getPrismPrototypes().forEach( prismPrototype => {
       const prismIcon = createPrismIcon( prismPrototype );
 
@@ -94,7 +93,7 @@ export default class PrismToolboxNode extends Node {
         prismsModel.addPrism( prism );
 
         // create a prism node and add to the prisms layer
-        prismNode = new PrismNode( prismsModel, modelViewTransform, prism, this, prismLayer, dragBoundsProperty, occlusionHandler, false );
+        const prismNode = new PrismNode( prismsModel, modelViewTransform, prism, this, prismLayer, dragBoundsProperty, occlusionHandler, false );
         prismLayer.addChild( prismNode );
 
         prismNode.dragListener.press( event, prismNode );
