@@ -29,7 +29,6 @@ import DispersionFunction from '../model/DispersionFunction.js';
 import Medium from '../model/Medium.js';
 import MediumColorFactory from '../model/MediumColorFactory.js';
 import Substance from '../model/Substance.js';
-import BendingLightScreenView from './BendingLightScreenView.js';
 
 const airStringProperty = BendingLightStrings.airStringProperty;
 const customStringProperty = BendingLightStrings.customStringProperty;
@@ -71,7 +70,7 @@ export default class MediumControlPanel extends Node {
    * @param decimalPlaces - decimalPlaces to show for index of refraction
    * @param [providedOptions] - options that can be passed on to the underlying node
    */
-  public constructor( view: BendingLightScreenView, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>,
+  public constructor( view: Node, mediumColorFactory: MediumColorFactory, mediumProperty: Property<Medium>,
                       nameProperty: TReadOnlyProperty<string>, textFieldVisible: boolean, laserWavelength: Property<number>,
                       decimalPlaces: number, providedOptions?: MediumControlPanelOptions ) {
 

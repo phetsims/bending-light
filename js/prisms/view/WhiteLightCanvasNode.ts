@@ -30,7 +30,7 @@ export default class WhiteLightCanvasNode extends CanvasNode {
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly whiteLightRays: LightRay[];
   private readonly environmentMediumProperty: Property<Medium>;
-  private colorCSS: string | null;
+  private colorCSS!: string;
 
   /**
    * @param modelViewTransform - converts between model and view co-ordinates
@@ -46,7 +46,6 @@ export default class WhiteLightCanvasNode extends CanvasNode {
     super( {
       canvasBounds: new Bounds2( 0, 0, stageWidth, stageHeight )
     } );
-    this.colorCSS = null;
     this.invalidatePaint();
     this.modelViewTransform = modelViewTransform;
     this.whiteLightRays = whiteLightRays;
@@ -67,8 +66,7 @@ export default class WhiteLightCanvasNode extends CanvasNode {
     context.lineWidth = 3;
     context.globalCompositeOperation = 'source-over';
 
-    // @ts-expect-error
-    context.fillStyle = this.colorCSS;
+    context.fillStyle = this.colorCSS!;
     context.save();
     context.setTransform( 1, 0, 0, 1, 0, 0 );
     context.fillRect( 0, 0, context.canvas.width, context.canvas.height );
