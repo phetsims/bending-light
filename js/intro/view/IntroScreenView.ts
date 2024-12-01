@@ -512,8 +512,9 @@ export default class IntroScreenView extends BendingLightScreenView {
     if ( this.introModel.laserViewProperty.value === LaserViewEnum.WAVE ) {
       for ( let k = 0; k < this.incidentWaveLayer.getChildrenCount(); k++ ) {
 
-        // @ts-expect-error
-        this.incidentWaveLayer.children[ k ].step();
+        const child = this.incidentWaveLayer.children[ k ];
+        affirm( child instanceof WaveWebGLNode || child instanceof WaveCanvasNode, 'unexpected node type' );
+        child.step();
       }
     }
   }
