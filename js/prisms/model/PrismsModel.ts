@@ -114,9 +114,10 @@ export default class PrismsModel extends BendingLightModel {
   public override reset(): void {
     super.reset();
 
-    // TODO: remove from the list on dispose? or vice versa? see https://github.com/phetsims/bending-light/issues/423
-    this.prisms.forEach( prism => prism.dispose() );
-    this.prisms.clear();
+    while ( this.prisms.length > 0 ) {
+      this.removePrism( this.prisms[ 0 ] );
+    }
+
     this.manyRaysProperty.reset();
     this.environmentMediumProperty.reset();
     this.prismMediumProperty.reset();
@@ -190,6 +191,7 @@ export default class PrismsModel extends BendingLightModel {
    */
   public removePrism( prism: Prism ): void {
     this.prisms.remove( prism );
+    prism.dispose();
     this.updateModel();
   }
 

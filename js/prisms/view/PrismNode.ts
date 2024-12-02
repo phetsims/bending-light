@@ -54,6 +54,10 @@ export default class PrismNode extends Node {
       this.addChild( this.knobNode );
     }
 
+    this.disposeEmitter.addListener( () => {
+      this.knobNode.dispose();
+    } );
+
     // Prism rotation with knob
     if ( !isIcon ) {
 
@@ -110,9 +114,7 @@ export default class PrismNode extends Node {
         occlusionHandler( this );
         if ( prismToolboxNode.visibleBounds.containsCoordinates( this.getCenterX(), this.getCenterY() ) ) {
           if ( prismLayer.hasChild( this ) ) {
-
-            // TODO: maybe remove from the list and dispose too? see https://github.com/phetsims/bending-light/issues/423
-            prism.dispose();
+            prismsModel.removePrism( prism );
           }
           prismsModel.dirty = true;
         }
@@ -157,16 +159,6 @@ export default class PrismNode extends Node {
     } );
 
     this.updatePrismShape();
-  }
-
-  public override dispose(): void {
-    // TODO: Do we need these lines? Somewhere? https://github.com/phetsims/bending-light/issues/423
-    // this.prismsModel.removePrism( this.prism );
-    // this.prismLayer.removeChild( this );
-
-    this.knobNode.dispose();
-
-    super.dispose();
   }
 
   public updatePrismShape(): void {

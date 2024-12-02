@@ -56,8 +56,7 @@ export default class PrismToolboxNode extends Node {
     // Create prism icon
     const createPrismIcon = ( prism: Prism ) => {
       const prismShape = prism.copy();
-      return new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer,
-        dragBoundsProperty, occlusionHandler, true );
+      return new PrismNode( prismsModel, modelViewTransform, prismShape, this, prismLayer, dragBoundsProperty, occlusionHandler, true );
     };
 
     // Iterate over the prism prototypes in the model and create a draggable icon for each one
@@ -97,6 +96,8 @@ export default class PrismToolboxNode extends Node {
         prismLayer.addChild( prismNode );
 
         prismNode.dragListener.press( event, prismNode );
+        // removeChild happens automatically on prismNode.dispose
+
       } );
       prismToolboxIconNode.addInputListener( dragListener );
 
