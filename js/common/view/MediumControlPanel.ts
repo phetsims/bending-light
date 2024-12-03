@@ -105,12 +105,19 @@ export default class MediumControlPanel extends Node {
 
     // add material combo box
     const materialTitleWidth = textFieldVisible ? 80 : 90;
-    const materialTitle = new Text( nameProperty, { font: new PhetFont( 12 ), fontWeight: 'bold' } );
+    const materialTitle = new Text( nameProperty, {
+      font: new PhetFont( 12 ),
+      fontWeight: 'bold',
+      maxWidth: 100
+    } );
     if ( materialTitle.width > materialTitleWidth ) {
       materialTitle.scale( materialTitleWidth / materialTitle.width );
     }
 
-    const textOptionsOfComboBoxStrings = { font: new PhetFont( 10 ) };
+    const textOptionsOfComboBoxStrings = {
+      font: new PhetFont( 10 ),
+      maxWidth: 80
+    };
 
     const createItem = ( item: Substance ) => {
 
@@ -188,7 +195,7 @@ export default class MediumControlPanel extends Node {
     const indexOfRefractionLabelWidth = textFieldVisible ? 152 : 208;
     const indexOfRefractionLabel = new Text( indexOfRefractionStringProperty, {
       font: new PhetFont( 12 ),
-      maxWidth: 165
+      maxWidth: indexOfRefractionLabelWidth * 0.75
     } );
     if ( indexOfRefractionLabel.width > indexOfRefractionLabelWidth ) {
       indexOfRefractionLabel.scale( indexOfRefractionLabelWidth / indexOfRefractionLabel.width );
@@ -273,15 +280,18 @@ export default class MediumControlPanel extends Node {
     // panel.
     const sliderWidth = Math.max( materialControl.width, indexOfRefractionNode.width ) - 12;
     const labelWidth = sliderWidth * 0.25;
-    const airTitle = new Text( airStringProperty );
+    const tickLabelOptions = {
+      maxWidth: 42
+    };
+    const airTitle = new Text( airStringProperty, tickLabelOptions );
     if ( airTitle.width > labelWidth ) {
       airTitle.scale( labelWidth / airTitle.width );
     }
-    const waterTitle = new Text( waterStringProperty );
+    const waterTitle = new Text( waterStringProperty, tickLabelOptions );
     if ( waterTitle.width > labelWidth ) {
       waterTitle.scale( labelWidth / waterTitle.width );
     }
-    const glassTitle = new Text( glassStringProperty );
+    const glassTitle = new Text( glassStringProperty, tickLabelOptions );
     if ( glassTitle.width > labelWidth ) {
       glassTitle.scale( labelWidth / glassTitle.width );
     }
