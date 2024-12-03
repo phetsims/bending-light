@@ -134,7 +134,10 @@ export default class PrismToolboxNode extends Node {
     content.addChild( dividerBetweenMediumPanelAndControlPanel );
 
     // Add checkboxes
-    const textOptions = { font: new PhetFont( 10 ) };
+    const textOptions = {
+      font: new PhetFont( 10 ),
+      maxWidth: 80
+    };
 
     // itemSpec describes the pieces that make up an item in the control panel,
     // conforms to the contract: { label: {Node}, icon: {Node} (optional) }
@@ -229,6 +232,9 @@ export default class PrismToolboxNode extends Node {
     this.addChild( environmentMediumMaterialListParent );
     content.centerX = background.centerX;
     content.centerY = background.centerY;
+    content.boundsProperty.link( () => {
+      background.setRect( 0, 0, content.width + 25, content.height + 2 );
+    } );
     this.mutate( providedOptions );
   }
 }
