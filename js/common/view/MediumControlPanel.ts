@@ -108,7 +108,7 @@ export default class MediumControlPanel extends Node {
     const materialTitle = new Text( nameProperty, {
       font: new PhetFont( 12 ),
       fontWeight: 'bold',
-      maxWidth: 100
+      maxWidth: 70
     } );
     if ( materialTitle.width > materialTitleWidth ) {
       materialTitle.scale( materialTitleWidth / materialTitle.width );
@@ -116,7 +116,7 @@ export default class MediumControlPanel extends Node {
 
     const textOptionsOfComboBoxStrings = {
       font: new PhetFont( 10 ),
-      maxWidth: 80
+      maxWidth: 60
     };
 
     const createItem = ( item: Substance ) => {
