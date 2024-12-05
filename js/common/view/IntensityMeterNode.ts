@@ -161,7 +161,8 @@ export default class IntensityMeterNode extends Node {
   }
 
   public resetRelativePositions(): void {
-    this.probeNode.center = this.bodyNode.center.plusXY( 90, -10 );
+    const center = this.bodyNode.center.plusXY( 90, -20 );
+    this.intensityMeter.sensorPositionProperty.set( this.modelViewTransform.viewToModelPosition( center ) );
   }
 }
 
