@@ -15,7 +15,7 @@ import Property from '../../../../axon/js/Property.js';
 import Rectangle from '../../../../dot/js/Rectangle.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { DragListener, Node, VBox } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
@@ -56,7 +56,7 @@ export default class MoreToolsScreenView extends IntroScreenView {
           new LaserTypeAquaRadioButtonGroup( model.laserViewProperty ),
           new WavelengthControl( model.wavelengthProperty, new Property<boolean>( true ), 120 )
         ]
-      } ), merge( {
+      } ), combineOptions<MoreToolsScreenViewOptions>( {
         verticalPlayAreaOffset: 0,
         horizontalPlayAreaOffset: 0
       }, providedOptions ) );

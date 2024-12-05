@@ -11,7 +11,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import merge from '../../../../phet-core/js/merge.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ProtractorNode from '../../../../scenery-phet/js/ProtractorNode.js';
 import { DragListener, Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
@@ -58,7 +58,7 @@ export default class PrismsScreenView extends BendingLightScreenView {
       // laserHasKnob
       true,
 
-      merge( {
+      combineOptions<PrismsScreenViewOptions>( {
 
         // center the play area horizontally in the space between the left side of the screen and the control panels on
         // the right, and move the laser to the left.
