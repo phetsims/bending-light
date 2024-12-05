@@ -304,11 +304,28 @@ export default class IntroScreenView extends BendingLightScreenView {
 
     const modelViewTransform = this.modelViewTransform;
 
-    // When a node is dropped behind a control panel, move it to the side so it won't be lost.
+    // Compute a single exact shift to ensure the node no longer intersects with the panels.
     const bumpLeft = ( node: Node, positionProperty: Property<Vector2> ) => {
-      while ( node.getGlobalBounds().intersectsBounds( topMediumControlPanel.getGlobalBounds() ) ||
-              node.getGlobalBounds().intersectsBounds( bottomMediumControlPanel.getGlobalBounds() ) ) {
-        positionProperty.value = positionProperty.value.plusXY( modelViewTransform.viewToModelDeltaX( -20 ), 0 );
+      const nodeBounds = node.getGlobalBounds();
+
+      // Check intersection with top panel
+      if ( nodeBounds.intersectsBounds( topMediumControlPanel.getGlobalBounds() ) ) {
+        const tooFarToTheRight = nodeBounds.maxX - topMediumControlPanel.getGlobalBounds().minX;
+
+        const testPoint1 = node.globalToParentPoint( new Vector2( 0, 0 ) );
+        const testPoint2 = node.globalToParentPoint( new Vector2( tooFarToTheRight, 0 ) );
+        const modelShift = modelViewTransform.viewToModelDeltaX( testPoint2.x - testPoint1.x + 20 );
+        positionProperty.value = positionProperty.value.plusXY( -modelShift, 0 );
+      }
+
+      // Check intersection with top panel
+      else if ( nodeBounds.intersectsBounds( bottomMediumControlPanel.getGlobalBounds() ) ) {
+        const tooFarToTheRight = nodeBounds.maxX - bottomMediumControlPanel.getGlobalBounds().minX;
+
+        const testPoint1 = node.globalToParentPoint( new Vector2( 0, 0 ) );
+        const testPoint2 = node.globalToParentPoint( new Vector2( tooFarToTheRight, 0 ) );
+        const modelShift = modelViewTransform.viewToModelDeltaX( testPoint2.x - testPoint1.x + 20 );
+        positionProperty.value = positionProperty.value.plusXY( -modelShift, 0 );
       }
     };
 
@@ -367,9 +384,15 @@ export default class IntroScreenView extends BendingLightScreenView {
       },
 
       end: () => {
+        if ( draggingTogether ) {
+          bumpLeft( intensityMeterNode, introModel.intensityMeter.bodyPositionProperty );
+          intensityMeterNode.resetRelativePositions();
+        }
+        else {
+          bumpLeft( intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
+        }
         draggingTogether = false;
 
-        bumpLeft( intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
         dropInToolbox( intensityMeterNode.bodyNode, introModel.intensityMeter.enabledProperty );
       }
     } );

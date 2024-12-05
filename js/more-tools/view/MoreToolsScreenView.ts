@@ -114,8 +114,17 @@ export default class MoreToolsScreenView extends IntroScreenView {
           }
         },
         end: () => {
+
+          if ( draggingTogetherProperty.value ) {
+            this.bumpLeft( waveSensorNode, positionProperty );
+            waveSensorNode.resetRelativePositions();
+          }
+          else {
+            this.bumpLeft( node, positionProperty );
+          }
+
           draggingTogetherProperty.value = false;
-          this.bumpLeft( node, positionProperty );
+
           dropInToolbox( node, enabledProperty );
         }
       } );
