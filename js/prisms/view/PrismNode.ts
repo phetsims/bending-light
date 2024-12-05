@@ -22,7 +22,7 @@ import PrismsModel from '../model/PrismsModel.js';
 const knobHeight = 15;
 
 export default class PrismNode extends Node {
-  public readonly dragListener: DragListener;
+  public readonly dragListener: DragListener | null = null;
   private readonly prismPathNode: Path;
   private readonly knobNode: Image;
 
@@ -105,22 +105,6 @@ export default class PrismNode extends Node {
       prism.positionProperty.value = modelViewTransform.viewToModelPosition( dragBoundsProperty.value.closestPointTo( viewPosition ) );
     };
 
-    this.dragListener = new DragListener( {
-      useParentOffset: true,
-      positionProperty: prism.positionProperty,
-      transform: modelViewTransform,
-      drag: keepInBounds,
-      end: () => {
-        occlusionHandler( this );
-        if ( prismToolboxNode.visibleBounds.containsCoordinates( this.getCenterX(), this.getCenterY() ) ) {
-          if ( prismLayer.hasChild( this ) ) {
-            prismsModel.removePrism( prism );
-          }
-          prismsModel.dirty = true;
-        }
-      }
-    } );
-
     const prismShapeListener = () => this.updatePrismShape();
     const prismColorListener = () => this.updatePrismColor();
 
@@ -134,12 +118,27 @@ export default class PrismNode extends Node {
       dragBoundsProperty.unlink( keepInBounds );
     } );
 
-    // TODO: only create when not icon, see https://github.com/phetsims/bending-light/issues/423
     if ( !isIcon ) {
+      this.dragListener = new DragListener( {
+        useParentOffset: true,
+        positionProperty: prism.positionProperty,
+        transform: modelViewTransform,
+        drag: keepInBounds,
+        end: () => {
+          occlusionHandler( this );
+          if ( prismToolboxNode.visibleBounds.containsCoordinates( this.getCenterX(), this.getCenterY() ) ) {
+            if ( prismLayer.hasChild( this ) ) {
+              prismsModel.removePrism( prism );
+            }
+            prismsModel.dirty = true;
+          }
+        }
+      } );
+
       this.prismPathNode.addInputListener( this.dragListener );
       this.disposeEmitter.addListener( () => {
-        this.prismPathNode.removeInputListener( this.dragListener );
-        this.dragListener.dispose();
+        this.prismPathNode.removeInputListener( this.dragListener! );
+        this.dragListener!.dispose();
       } );
     }
 

@@ -95,7 +95,7 @@ export default class PrismToolboxNode extends Node {
         const prismNode = new PrismNode( prismsModel, modelViewTransform, prism, this, prismLayer, dragBoundsProperty, occlusionHandler, false );
         prismLayer.addChild( prismNode );
 
-        prismNode.dragListener.press( event, prismNode );
+        prismNode.dragListener!.press( event, prismNode );
         // removeChild happens automatically on prismNode.dispose
 
       } );
