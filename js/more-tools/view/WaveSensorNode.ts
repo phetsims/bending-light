@@ -24,8 +24,6 @@ import Series from '../model/Series.js';
 import WaveSensor from '../model/WaveSensor.js';
 import ChartNode from './ChartNode.js';
 
-const timeString = BendingLightStrings.time;
-
 // constants
 const NORMAL_DISTANCE = 25;
 const bodyNormalProperty = new Vector2Property( new Vector2( NORMAL_DISTANCE, 0 ) );
@@ -134,14 +132,19 @@ export default class WaveSensorNode extends Node {
     this.bodyNode = new Node( { children: [ outerRectangle, innerRectangle, innerMostRectangle ], scale: 0.93 } );
 
     // Add the "time" axis label at the bottom center of the chart
-    const titleNode = new Text( timeString, { font: new PhetFont( 16 ), fill: 'white' } );
-    if ( titleNode.width > rectangleWidth - 15 ) {
-      titleNode.scale( ( rectangleWidth - 15 ) / titleNode.width );
-    }
+    const titleNode = new Text( BendingLightStrings.timeStringProperty, {
+      font: new PhetFont( 16 ),
+      fill: 'white',
+      maxWidth: rectangleWidth - 15
+    } );
     this.bodyNode.addChild( titleNode );
-    titleNode.centerX = outerRectangle.centerX;
+
     const fractionalVerticalDistanceToTitle = 0.82;
     titleNode.y = this.bodyNode.height * fractionalVerticalDistanceToTitle;
+
+    titleNode.boundsProperty.link( bounds => {
+      titleNode.centerX = outerRectangle.centerX;
+    } );
 
     // Add the chart inside the body, with one series for each of the dark and light probes
     this.chartNode = new ChartNode( innerMostRectangle.bounds.eroded( 3 ), [

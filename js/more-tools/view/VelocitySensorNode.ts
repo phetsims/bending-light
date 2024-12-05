@@ -25,10 +25,6 @@ import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import VelocitySensor from '../model/VelocitySensor.js';
 
-const speedString = BendingLightStrings.speed;
-const unknownVelocityString = BendingLightStrings.unknownVelocity;
-const velocityPatternString = BendingLightStrings.velocityPattern;
-
 export default class VelocitySensorNode extends Node {
   private readonly bodyNode: Node;
   private readonly arrowShape: Path;
@@ -86,14 +82,16 @@ export default class VelocitySensorNode extends Node {
     this.bodyNode.addChild( bodyRectangle );
 
     // Adding velocity meter title text
-    const titleText = new Text( speedString, {
+    const titleText = new Text( BendingLightStrings.speedStringProperty, {
       fill: 'black',
       font: new PhetFont( 10 ),
       maxWidth: rectangleWidth - 7.5,
       centerX: bodyRectangle.centerX,
       bottom: bodyRectangle.bottom - 5
     } );
-
+    titleText.boundsProperty.link( bounds => {
+      titleText.centerX = bodyRectangle.centerX;
+    } );
     this.bodyNode.addChild( titleText );
 
     // Adding inner rectangle
@@ -147,12 +145,12 @@ export default class VelocitySensorNode extends Node {
     } );
 
     // Update the text when the value or units changes.
-    Multilink.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty ],
-      ( velocity, position ) => {
+    Multilink.multilink( [ velocitySensor.valueProperty, velocitySensor.positionProperty, BendingLightStrings.velocityPatternStringProperty, BendingLightStrings.unknownVelocityStringProperty ],
+      ( velocity, position, velocityPatternString, unknownString ) => {
 
         // add '?' for null velocity
         if ( velocity.magnitude === 0 ) {
-          labelText.string = unknownVelocityString;
+          labelText.string = unknownString;
         }
         else {
           const stringNumber = Utils.toFixed( velocity.magnitude / BendingLightConstants.SPEED_OF_LIGHT, 2 );

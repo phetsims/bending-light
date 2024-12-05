@@ -27,6 +27,9 @@
       "BENDING_LIGHT/intro",
       "BENDING_LIGHT/prisms",
       "BENDING_LIGHT/moreTools"
-    ]
+    ],
+    "simFeatures": {
+      "supportsDynamicLocale": true
+    }
   }
 }
