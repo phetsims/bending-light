@@ -53,9 +53,9 @@ export default class WavelengthControl extends Node {
       ( wavelengthPatternString, wavelength ) => StringUtils.format( wavelengthPatternStringProperty.value, Utils.roundSymmetric( wavelengthPropertyNMProperty.value ) ) );
 
     // Prevent the i18n strings from making the wavelength slider too wide, see #311
-    const maxWidth = 50;
-    const wavelengthValueText = new Text( formattedStringProperty, { maxWidth: maxWidth } );
-    const wavelengthBoxShape = new Rectangle( 0, 0, new Text( unitsNmStringProperty, { maxWidth: maxWidth } ).width + 36, 18, 2, 2, {
+    const maxTextWidth = 50;
+    const wavelengthValueText = new Text( formattedStringProperty, { maxWidth: maxTextWidth } );
+    const wavelengthBoxShape = new Rectangle( 0, 0, maxTextWidth + 10, 18, 2, 2, {
       fill: 'white',
       stroke: 'black'
     } );
@@ -95,8 +95,10 @@ export default class WavelengthControl extends Node {
     wavelengthBoxShape.bottom = wavelengthSlider.top - 5;
 
     // set the position of the wavelength value in the center of text box
-    wavelengthValueText.centerX = wavelengthBoxShape.centerX;
-    wavelengthValueText.centerY = wavelengthBoxShape.centerY;
+    wavelengthValueText.boundsProperty.link( () => {
+      wavelengthValueText.centerX = wavelengthBoxShape.centerX;
+      wavelengthValueText.centerY = wavelengthBoxShape.centerY;
+    } );
 
     // Plus button to the right of the value
     plusButton.left = wavelengthBoxShape.right + PLUS_MINUS_SPACING;
