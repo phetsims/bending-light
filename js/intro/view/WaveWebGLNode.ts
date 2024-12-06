@@ -8,6 +8,7 @@
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { ShaderProgram, WebGLNode } from '../../../../scenery/js/imports.js';
@@ -26,7 +27,9 @@ export default class WaveWebGLNode extends WebGLNode {
    * @param rays - light rays
    */
   public constructor( modelViewTransform: ModelViewTransform2, rays: ObservableArray<LightRay> ) {
-    super( WavePainter );
+    super( WavePainter, {
+      canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
+    } );
     this.modelViewTransform = modelViewTransform;
     this.rays = rays;
   }
