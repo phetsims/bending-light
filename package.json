@@ -13,9 +13,7 @@
     "requirejsNamespace": "BENDING_LIGHT",
     "runnable": true,
     "supportedBrands": [
-      "adapted-from-phet",
-      "phet",
-      "phet-io"
+      "phet"
     ],
     "simulation": true,
     "phet-io": {
