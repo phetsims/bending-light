@@ -108,7 +108,8 @@ export default class VelocitySensorNode extends Node {
     const labelText = new Text( '', {
       fill: 'black',
       font: new PhetFont( 10 ),
-      center: whiteTextArea.center
+      center: whiteTextArea.center,
+      maxWidth: whiteTextArea.width - 4
     } );
     this.bodyNode.addChild( labelText );
 
