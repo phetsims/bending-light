@@ -114,21 +114,19 @@ export default class MediumControlPanel extends Node {
       materialTitle.scale( materialTitleWidth / materialTitle.width );
     }
 
-    const textOptionsOfComboBoxStrings = {
-      font: new PhetFont( 10 ),
-      maxWidth: 60
-    };
-
     const createItem = ( item: Substance ) => {
 
       return {
         value: item,
         createNode: () => {
-          const comboBoxTextWidth = textFieldVisible ? 130 : 75;
-          const itemName = new Text( item.nameProperty, textOptionsOfComboBoxStrings );
-          if ( itemName.width > comboBoxTextWidth ) {
-            itemName.scale( comboBoxTextWidth / itemName.width );
-          }
+          const comboBoxTextWidth = textFieldVisible ? 130 : 70;
+          const itemName = new Text( item.nameProperty, {
+            font: new PhetFont( 10 ),
+            maxWidth: comboBoxTextWidth * 0.8
+          } );
+          // if ( itemName.width > comboBoxTextWidth ) {
+          //   itemName.scale( comboBoxTextWidth / itemName.width );
+          // }
           return itemName;
         }
       };
