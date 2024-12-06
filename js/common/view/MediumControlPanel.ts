@@ -281,7 +281,7 @@ export default class MediumControlPanel extends Node {
     const sliderWidth = Math.max( materialControl.width, indexOfRefractionNode.width ) - 12;
     const labelWidth = sliderWidth * 0.25;
     const tickLabelOptions = {
-      maxWidth: 36
+      maxWidth: 31
     };
     const airTitle = new Text( airStringProperty, tickLabelOptions );
     if ( airTitle.width > labelWidth ) {
