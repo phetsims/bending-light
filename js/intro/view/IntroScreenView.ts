@@ -216,8 +216,9 @@ export default class IntroScreenView extends BendingLightScreenView {
     this.laserViewLayer.addChild( laserControlPanel );
 
     // text for checkboxes
-    const normalText = new Text( normalLineStringProperty, { fontSize: 12 } );
-    const angleText = new Text( anglesStringProperty, { fontSize: 12 } );
+    const textOptions = { fontSize: 12, maxWidth: 80 };
+    const normalText = new Text( normalLineStringProperty, textOptions );
+    const angleText = new Text( anglesStringProperty, textOptions );
 
     // add normal checkbox
     const normalIcon = new NormalLine( 17, [ 4, 3 ] );
@@ -476,7 +477,12 @@ export default class IntroScreenView extends BendingLightScreenView {
       speedRadioButtonGroupOnLeft: true,
       timeSpeedProperty: introModel.speedProperty,
       left: checkboxPanel.right + 75,
-      bottom: this.layoutBounds.maxY - 10
+      bottom: this.layoutBounds.maxY - 10,
+      speedRadioButtonGroupOptions: {
+        labelOptions: {
+          maxWidth: 80
+        }
+      }
     } );
     this.beforeLightLayer.addChild( this.timeControlNode );
 
