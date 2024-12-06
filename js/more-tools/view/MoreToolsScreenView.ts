@@ -99,6 +99,12 @@ export default class MoreToolsScreenView extends IntroScreenView {
     const draggingTogetherProperty = new BooleanProperty( true );
 
     const createDragListener = ( node: Node, positionProperty: Property<Vector2>, enabledProperty: Property<boolean> ) => {
+
+      // Recover an occluded node if the window reshapes to cover it
+      this.visibleBoundsProperty.lazyLink( () => {
+        this.bumpLeft( node, positionProperty );
+      } );
+
       return new DragListener( {
         useParentOffset: true,
         positionProperty: positionProperty,
@@ -220,7 +226,7 @@ export default class MoreToolsScreenView extends IntroScreenView {
         ) );
       } ),
       end: () => {
-        this.bumpLeft( velocitySensorNode, this.moreToolsModel.velocitySensor.positionProperty );
+        this.bumpLeft( velocitySensorNode, moreToolsModel.velocitySensor.positionProperty );
         this.dropInToolbox(
           velocitySensorNode,
           this.moreToolsModel.velocitySensor.enabledProperty
@@ -229,6 +235,11 @@ export default class MoreToolsScreenView extends IntroScreenView {
     } );
     velocitySensorNode.addInputListener( velocitySensorListener );
     const modelViewTransform = this.modelViewTransform;
+
+    // Recover an occluded node if the window reshapes to cover it
+    this.visibleBoundsProperty.lazyLink( () => {
+      this.bumpLeft( velocitySensorNode, moreToolsModel.velocitySensor.positionProperty );
+    } );
 
     // Ensure the IntensityMeterNode remains within bounds when visibleBoundsProperty changes
     this.visibleBoundsProperty.lazyLink( visibleBounds => {

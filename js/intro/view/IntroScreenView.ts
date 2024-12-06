@@ -362,6 +362,13 @@ export default class IntroScreenView extends BendingLightScreenView {
     } );
     intensityMeterNode.probeNode.addInputListener( probeListener );
 
+    // When the window reshapes, bump an occluded sensor probe or body. Assume that the window does not reshape
+    // while they are being dragged together.
+    this.visibleBoundsProperty.link( () => {
+      bumpLeft( intensityMeterNode.probeNode, introModel.intensityMeter.sensorPositionProperty );
+      bumpLeft( intensityMeterNode.bodyNode, introModel.intensityMeter.bodyPositionProperty );
+    } );
+
     let draggingTogether = true;
     const bodyListener = new DragListener( {
       useParentOffset: true,
