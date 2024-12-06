@@ -172,7 +172,7 @@ export default class MoreToolsScreenView extends IntroScreenView {
 
       draggingTogetherProperty.value = true;
       waveSensorNode.resetRelativePositions();
-      bodyListener.press( event );
+      bodyListener.press( event, waveSensorNode.bodyNode );
       waveSensorNode.resetRelativePositions();
     } ) );
 
@@ -256,7 +256,7 @@ export default class MoreToolsScreenView extends IntroScreenView {
       const viewPosition = velocitySensorNode.globalToParentPoint( event.pointer.point );
       const velocitySensorModelPosition = this.modelViewTransform.viewToModelPosition( viewPosition );
       this.moreToolsModel.velocitySensor.positionProperty.set( velocitySensorModelPosition );
-      velocitySensorListener.press( event );
+      velocitySensorListener.press( event, velocitySensorNode );
     } ) );
 
     this.afterLightLayer2.addChild( velocitySensorNode );

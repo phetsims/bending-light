@@ -298,7 +298,7 @@ export default class IntroScreenView extends BendingLightScreenView {
       // Center the protractor on the pointer
       protractorPositionProperty.value = protractorNode.globalToParentPoint( event.pointer.point );
 
-      protractorNodeListener.press( event );
+      protractorNodeListener.press( event, protractorNode );
     } ) );
 
     this.showProtractorProperty.linkAttribute( protractorNode, 'visible' );
@@ -427,7 +427,7 @@ export default class IntroScreenView extends BendingLightScreenView {
 
       draggingTogether = true;
 
-      bodyListener.press( event );
+      bodyListener.press( event, intensityMeterNode.bodyNode );
     } ) );
 
     // for subexport default class usage in MoreToolsScreenView
