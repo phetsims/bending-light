@@ -18,7 +18,6 @@ import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 
-const unitsNmStringProperty = BendingLightStrings.units_nmStringProperty;
 const wavelengthPatternStringProperty = BendingLightStrings.wavelengthPatternStringProperty;
 
 // constants
