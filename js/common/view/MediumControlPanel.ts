@@ -327,8 +327,11 @@ export default class MediumControlPanel extends Node {
     indexOfRefractionNode.left = materialControl.left;
     indexOfRefractionSlider.left = materialControl.left;
     indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET / 2;
-    unknown.centerX = materialControl.centerX;
-    unknown.centerY = indexOfRefractionNode.bottom + INSET;
+
+    Multilink.multilink( [ unknown.boundsProperty, materialControl.boundsProperty, indexOfRefractionNode.boundsProperty ], () => {
+      unknown.centerX = materialControl.centerX;
+      unknown.centerY = indexOfRefractionNode.bottom + INSET;
+    } );
 
     // add all the nodes to mediumPanelNode
     const mediumPanelNode = new Node( {
