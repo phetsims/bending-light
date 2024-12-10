@@ -30,8 +30,8 @@ simLauncher.launch( () => {
       leadDesign: 'Amy Rouinfar (HTML5),  Noah Podolefsky (Java)',
       softwareDevelopment: 'Sam Reid',
       team: 'Trish Loeblein, Ariel Paul, Kathy Perkins',
-      qualityAssurance: 'Steele Dalton, Amanda Davis, Bryce Griebenow, Ethan Johnson, Elise Morgan, Oliver Orejola, ' +
-                        'Arnab Purkayastha, Ben Roberts, Bryan Yoelin',
+      qualityAssurance: 'Steele Dalton, Amanda Davis, Bryce Griebenow, Ethan Johnson, Matthew Moore, Elise Morgan, Ashton Morris, Oliver Orejola, ' +
+                        'Arnab Purkayastha, Ben Roberts, Nancy Salpepi, Kathryn Woessner, Bryan Yoelin',
       thanks: 'Thanks to Actual Concepts for working with the PhET development team to convert this simulation to HTML5.'
     },
     webgl: true
