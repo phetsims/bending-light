@@ -313,7 +313,7 @@ export default class MediumControlPanel extends Node {
     indexOfRefractionSlider.addMajorTick( 1.6 );
 
     // add a text to display when mystery is selected
-    const unknown = new Text( unknownStringProperty, {
+    const unknownText = new Text( unknownStringProperty, {
       font: new PhetFont( 16 ),
       centerX: indexOfRefractionSlider.centerX,
       centerY: indexOfRefractionSlider.centerY,
@@ -326,14 +326,14 @@ export default class MediumControlPanel extends Node {
     indexOfRefractionSlider.left = materialControl.left;
     indexOfRefractionSlider.top = indexOfRefractionNode.bottom + INSET / 2;
 
-    Multilink.multilink( [ unknown.boundsProperty, materialControl.boundsProperty, indexOfRefractionNode.boundsProperty ], () => {
-      unknown.centerX = materialControl.centerX;
-      unknown.centerY = indexOfRefractionNode.bottom + INSET;
+    Multilink.multilink( [ unknownText.boundsProperty, materialControl.boundsProperty, indexOfRefractionNode.boundsProperty ], () => {
+      unknownText.left = materialControl.left;
+      unknownText.centerY = indexOfRefractionNode.bottom + INSET;
     } );
 
     // add all the nodes to mediumPanelNode
     const mediumPanelNode = new Node( {
-      children: [ materialControl, indexOfRefractionNode, indexOfRefractionSlider, unknown ]
+      children: [ materialControl, indexOfRefractionNode, indexOfRefractionSlider, unknownText ]
     } );
 
     const mediumPanel = new Panel( mediumPanelNode, {
@@ -356,7 +356,7 @@ export default class MediumControlPanel extends Node {
 
     mediumProperty.link( () => {
       indexOfRefractionNode.setVisible( !mediumProperty.get().isMystery() );
-      unknown.setVisible( mediumProperty.get().isMystery() );
+      unknownText.setVisible( mediumProperty.get().isMystery() );
       indexOfRefractionSlider.setVisible( !mediumProperty.get().isMystery() );
       if ( !mediumProperty.get().isMystery() ) {
         lastNonMysteryIndexAtRed = mediumProperty.get().getIndexOfRefraction( BendingLightConstants.WAVELENGTH_RED );
