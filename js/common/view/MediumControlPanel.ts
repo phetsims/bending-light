@@ -274,9 +274,13 @@ export default class MediumControlPanel extends Node {
       ]
     } );
 
-    // handling long strings, bring the slider in enough that moving the knob to the right doesn't resize the parent
-    // panel.
-    const sliderWidth = Math.max( materialControl.width, indexOfRefractionNode.width ) - 12;
+    // Ensure the slider is wide enough for long strings without resizing the parent panel,
+    // and not too narrow for short strings. Note the slider does not dynamically reshape when the locale changes.
+    const sliderWidth = Math.max(
+      materialControl.width - 12,
+      indexOfRefractionNode.width - 12,
+      120
+    );
     const labelWidth = sliderWidth * 0.25;
     const tickLabelOptions = {
       maxWidth: 31
