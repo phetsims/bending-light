@@ -106,6 +106,13 @@ export default class PrismsModel extends BendingLightModel {
       this.dirty = true;
     } );
 
+    // When a prism is removed, remove the corresponding intersections, see https://github.com/phetsims/bending-light/issues/431
+    this.prisms.addItemRemovedListener( () => {
+      this.clear();
+      this.updateModel();
+      this.dirty = true;
+    } );
+
     // coalesce repeat updates so work is not duplicated in white light node.
     this.dirty = true;
 
