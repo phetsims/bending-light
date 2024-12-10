@@ -102,7 +102,12 @@ export default class PrismNode extends Node {
     // Keep within the drag bounds. For unknown reasons, this works but passing dragBoundsProperty directly does not.
     const keepInBounds = () => {
       const viewPosition = modelViewTransform.modelToViewPosition( prism.positionProperty.value );
-      prism.positionProperty.value = modelViewTransform.viewToModelPosition( dragBoundsProperty.value.closestPointTo( viewPosition ) );
+      const newValue = modelViewTransform.viewToModelPosition( dragBoundsProperty.value.closestPointTo( viewPosition ) );
+
+      // This algorithm is subject to roundoff error and hence only apply it if the position has changed significantly
+      if ( prism.positionProperty.value.distance( newValue ) > 1E-12 ) {
+        prism.positionProperty.value = newValue;
+      }
     };
 
     const prismShapeListener = () => this.updatePrismShape();

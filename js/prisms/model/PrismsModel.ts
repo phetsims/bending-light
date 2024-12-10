@@ -18,6 +18,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import { Color, NodeOptions } from '../../../../scenery/js/imports.js';
 import bendingLight from '../../bendingLight.js';
+import BendingLightQueryParameters from '../../BendingLightQueryParameters.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import ColorModeEnum from '../../common/model/ColorModeEnum.js';
@@ -286,7 +287,7 @@ export default class PrismsModel extends BendingLightModel {
     const waveWidth = CHARACTERISTIC_LENGTH * 5;
 
     // Termination condition: we have reached too many iterations or if the ray is very weak
-    if ( count > 50 || incidentRay.power < 0.001 ) {
+    if ( count > BendingLightQueryParameters.maxLightRaySteps || incidentRay.power < 0.001 ) {
       return;
     }
 
