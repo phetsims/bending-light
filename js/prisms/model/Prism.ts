@@ -33,7 +33,9 @@ export default class Prism extends Disposable {
     this.shapeProperty = new Property( shape );
 
     // overall translation
-    this.positionProperty = new Vector2Property( new Vector2( 0, 0 ) );
+    this.positionProperty = new Vector2Property( new Vector2( 0, 0 ), {
+      valueComparisonStrategy: 'equalsFunction'
+    } );
 
     this.typeName = typeName;
 
