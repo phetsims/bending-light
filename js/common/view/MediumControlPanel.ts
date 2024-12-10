@@ -84,7 +84,7 @@ export default class MediumControlPanel extends Node {
       stroke: '#696969',
       lineWidth: 1.5,
       comboBoxListPosition: 'above'
-    }, providedOptions ) as MediumControlPanelOptions;
+    }, providedOptions );
 
     this.mediumProperty = mediumProperty;
     this.laserWavelengthProperty = laserWavelength;
@@ -276,11 +276,7 @@ export default class MediumControlPanel extends Node {
 
     // Ensure the slider is wide enough for long strings without resizing the parent panel,
     // and not too narrow for short strings. Note the slider does not dynamically reshape when the locale changes.
-    const sliderWidth = Math.max(
-      materialControl.width - 12,
-      indexOfRefractionNode.width - 12,
-      120
-    );
+    const sliderWidth = textFieldVisible ? 210 : 160;
     const labelWidth = sliderWidth * 0.25;
     const tickLabelOptions = {
       maxWidth: 31
