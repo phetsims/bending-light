@@ -460,7 +460,7 @@ export default class IntroModel extends BendingLightModel {
 
       // create the wave particles
       for ( j = 0; j < numberOfParticles; j++ ) {
-        lightRay.particles.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ),
+        lightRay.particles?.push( new WaveParticle( lightRayInRay2Form.pointAtDistance( waveParticleGap ),
           lightRay.waveWidth, particleColor, particleGradientColor, angle, wavelength ) );
         waveParticleGap += gapBetweenSuccessiveParticles;
       }
@@ -502,10 +502,12 @@ export default class IntroModel extends BendingLightModel {
       }
 
       // Changing the wave particle position within the wave particle phase
-      for ( let j = 0; j < waveParticles.length; j++ ) {
-        const particle = waveParticles[ j ];
-        particle.setX( tailX + ( directionVector.x * ( ( j * wavelength ) + phaseDiff ) ) );
-        particle.setY( tailY + ( directionVector.y * ( ( j * wavelength ) + phaseDiff ) ) );
+      if ( waveParticles ) {
+        for ( let j = 0; j < waveParticles.length; j++ ) {
+          const particle = waveParticles[ j ];
+          particle.setX( tailX + ( directionVector.x * ( ( j * wavelength ) + phaseDiff ) ) );
+          particle.setY( tailY + ( directionVector.y * ( ( j * wavelength ) + phaseDiff ) ) );
+        }
       }
     }
   }

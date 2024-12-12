@@ -67,7 +67,7 @@ export default class LightRay {
   private readonly vectorForm: Vector2 = new Vector2( 0, 0 );
 
   // wave particles
-  public readonly particles: ObservableArray<WaveParticle> = createObservableArray();
+  public readonly particles: ObservableArray<WaveParticle> | null = null;
 
   // time used in wave sensor node
   public time = 0;
@@ -119,6 +119,8 @@ export default class LightRay {
     this.rayType = rayType;
 
     if ( laserView === LaserViewEnum.WAVE ) {
+
+      this.particles = createObservableArray();
 
       // The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
       // angle of tail is Math.PI/2 for transmitted and reflected rays.
