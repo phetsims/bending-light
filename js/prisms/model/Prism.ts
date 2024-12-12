@@ -22,6 +22,7 @@ export default class Prism extends Disposable {
   public readonly shapeProperty: Property<Polygon | BendingLightCircle | SemiCircle>;
   public readonly positionProperty: Vector2Property;
   public readonly typeName: string;
+  public translatedShape: Polygon | BendingLightCircle | SemiCircle;
 
   /**
    * @param shape
@@ -38,6 +39,11 @@ export default class Prism extends Disposable {
     } );
 
     this.typeName = typeName;
+    this.translatedShape = this.shapeProperty.value.getTranslatedInstance( 0, 0 );
+
+    this.positionProperty.link( () => {
+      this.translatedShape = this.shapeProperty.value.getTranslatedInstance( this.positionProperty.value.x, this.positionProperty.value.y );
+    } );
 
     this.disposeEmitter.addListener( () => {
       this.shapeProperty.dispose();
@@ -55,7 +61,7 @@ export default class Prism extends Disposable {
   }
 
   public getTranslatedShape(): Polygon | BendingLightCircle | SemiCircle {
-    return this.shapeProperty.value.getTranslatedInstance( this.positionProperty.value.x, this.positionProperty.value.y );
+    return this.translatedShape;
   }
 
   /**
