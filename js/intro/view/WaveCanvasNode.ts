@@ -39,7 +39,7 @@ export default class WaveCanvasNode extends CanvasNode {
     for ( let k = this.lightRays.length - 1; k >= 0; k-- ) {
       const ray = this.lightRays[ k ];
 
-      if ( ray.particles.length > 0 ) {
+      if ( ray.particles && ray.particles.length > 0 ) {
 
         // Each ray has its own clipping and rotation, so store the untransformed state before manipulation
         context.save();
