@@ -172,9 +172,6 @@ export default class PrismNode extends Node {
 
     const knobCenterPoint = new Vector2( -this.knobNode.getWidth() - 7, -this.knobNode.getHeight() / 2 - 8 );
 
-    this.prismsModel.clear();
-    this.prismsModel.updateModel();
-    this.prismsModel.dirty = true;
     const delta = this.prism.positionProperty.value;
     this.prismPathNode.setShape( this.modelViewTransform.modelToViewShape( this.prism.shapeProperty.get().getTranslatedInstance( delta.x, delta.y ).shape ) );
 
@@ -199,6 +196,8 @@ export default class PrismNode extends Node {
 
       this.knobNode.translate( knobCenterPoint );
     }
+
+    this.prismsModel.dirty = true;
   }
 
   public updatePrismColor(): void {

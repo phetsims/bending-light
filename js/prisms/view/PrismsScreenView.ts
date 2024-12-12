@@ -282,9 +282,9 @@ export default class PrismsScreenView extends BendingLightScreenView {
   }
 
   private updateWhiteLightNode(): void {
-    if ( this.prismsModel.laser.colorModeProperty.value === ColorModeEnum.WHITE && this.prismsModel.dirty ) {
+    if ( this.prismsModel.laser.colorModeProperty.value === ColorModeEnum.WHITE && this.prismsModel.renderDirty ) {
       this.whiteLightNode && this.whiteLightNode.step();
-      this.prismsModel.dirty = false;
+      this.prismsModel.renderDirty = false;
     }
   }
 

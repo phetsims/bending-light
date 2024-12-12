@@ -48,6 +48,7 @@ export default class PrismsModel extends BendingLightModel {
   public readonly prismMediumProperty: Property<Medium>;
   public readonly intersectionStrokeProperty: Property<string>;
   public dirty: boolean;
+  public renderDirty = false;
 
   public constructor( providedOptions?: NodeOptions ) {
 
@@ -101,15 +102,11 @@ export default class PrismsModel extends BendingLightModel {
       this.laser.colorProperty,
       this.laserViewProperty
     ], () => {
-      this.clear();
-      this.updateModel();
       this.dirty = true;
     } );
 
     // When a prism is removed, remove the corresponding intersections, see https://github.com/phetsims/bending-light/issues/431
     this.prisms.addItemRemovedListener( () => {
-      this.clear();
-      this.updateModel();
       this.dirty = true;
     } );
 
@@ -200,7 +197,7 @@ export default class PrismsModel extends BendingLightModel {
   public removePrism( prism: Prism ): void {
     this.prisms.remove( prism );
     prism.dispose();
-    this.updateModel();
+    this.dirty = true;
   }
 
   /**
@@ -244,6 +241,7 @@ export default class PrismsModel extends BendingLightModel {
    * Algorithm that computes the trajectories of the rays throughout the system
    */
   protected propagateRays(): void {
+
     if ( this.laser.onProperty.value ) {
       const tail = this.laser.emissionPointProperty.value;
       const directionUnitVector = this.laser.getDirectionUnitVector();
@@ -280,21 +278,31 @@ export default class PrismsModel extends BendingLightModel {
     return false;
   }
 
+  public step( dt: number ): void {
+
+    if ( this.dirty ) {
+      this.updateModel();
+      this.dirty = false;
+
+      this.renderDirty = true;
+    }
+  }
+
   /**
    * Recursive algorithm to compute the pattern of rays in the system. This is the main computation of this model,
    * rays are cleared beforehand and this algorithm adds them as it goes
    * @param incidentRay - model of the ray
-   * @param count - number of rays
+   * @param depth - depth of recursive ray propagation
    * @param showIntersection - true if the intersection should be shown.  True for single rays and for
    *                                     extrema of white light wavelengths
    */
-  private propagateTheRay( incidentRay: ColoredRay, count: number, showIntersection: boolean ): void {
+  private propagateTheRay( incidentRay: ColoredRay, depth: number, showIntersection: boolean ): void {
     let rayColor;
     let rayVisibleColor;
     const waveWidth = CHARACTERISTIC_LENGTH * 5;
 
     // Termination condition: we have reached too many iterations or if the ray is very weak
-    if ( count > BendingLightQueryParameters.maxLightRaySteps || incidentRay.power < 0.001 ) {
+    if ( depth > BendingLightQueryParameters.maxLightRaySteps || incidentRay.power < 0.001 ) {
       return;
     }
 
@@ -353,15 +361,19 @@ export default class PrismsModel extends BendingLightModel {
       const transmittedPower = totalInternalReflection ? 0
                                                        : Utils.clamp( BendingLightModel.getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 0, 1 );
 
-      // Create the new rays and propagate them recursively
-      const reflectedRay = new Ray2( incidentRay.directionUnitVector.times( -1E-12 ).add( point ), vReflect );
-      const reflected = new ColoredRay(
-        reflectedRay,
-        incidentRay.power * reflectedPower,
-        incidentRay.wavelength,
-        incidentRay.mediumIndexOfRefraction,
-        incidentRay.frequency
-      );
+      if ( this.showReflectionsProperty.value || totalInternalReflection ) {
+        // Create the new rays and propagate them recursively
+        const reflectedRay = new Ray2( incidentRay.directionUnitVector.times( -1E-12 ).add( point ), vReflect );
+        const reflected = new ColoredRay(
+          reflectedRay,
+          incidentRay.power * reflectedPower,
+          incidentRay.wavelength,
+          incidentRay.mediumIndexOfRefraction,
+          incidentRay.frequency
+        );
+        this.propagateTheRay( reflected, depth + 1, showIntersection );
+      }
+
       const refractedRay = new Ray2( incidentRay.directionUnitVector.times( +1E-12 ).add( point ), vRefract );
       const refracted = new ColoredRay(
         refractedRay,
@@ -370,10 +382,7 @@ export default class PrismsModel extends BendingLightModel {
         n2,
         incidentRay.frequency
       );
-      if ( this.showReflectionsProperty.value || totalInternalReflection ) {
-        this.propagateTheRay( reflected, count + 1, showIntersection );
-      }
-      this.propagateTheRay( refracted, count + 1, showIntersection );
+      this.propagateTheRay( refracted, depth + 1, showIntersection );
       rayColor = new Color( 0, 0, 0, 0 );
       rayVisibleColor = VisibleColor.wavelengthToColor( incidentRay.wavelength * 1E9 );
       rayColor.set( rayVisibleColor.getRed(), rayVisibleColor.getGreen(), rayVisibleColor.getBlue(),
