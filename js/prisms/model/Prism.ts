@@ -41,11 +41,15 @@ export default class Prism extends Disposable {
     this.typeName = typeName;
     this.translatedShape = this.shapeProperty.value.getTranslatedInstance( 0, 0 );
 
-    this.positionProperty.link( () => {
+    const updateTranslatedShape = () => {
       this.translatedShape = this.shapeProperty.value.getTranslatedInstance( this.positionProperty.value.x, this.positionProperty.value.y );
-    } );
+    };
+    this.positionProperty.link( updateTranslatedShape );
+    this.shapeProperty.link( updateTranslatedShape );
 
     this.disposeEmitter.addListener( () => {
+      this.positionProperty.unlink( updateTranslatedShape );
+      this.shapeProperty.unlink( updateTranslatedShape );
       this.shapeProperty.dispose();
       this.positionProperty.dispose();
     } );
