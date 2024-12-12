@@ -288,6 +288,11 @@ export default class PrismsModel extends BendingLightModel {
     }
   }
 
+  public override clearModel(): void {
+    super.clearModel();
+    this.intersections.clear();
+  }
+
   /**
    * Recursive algorithm to compute the pattern of rays in the system. This is the main computation of this model,
    * rays are cleared beforehand and this algorithm adds them as it goes
@@ -448,10 +453,6 @@ export default class PrismsModel extends BendingLightModel {
     // Get the closest one (which would be hit first)
     allIntersections = _.sortBy( allIntersections, allIntersection => allIntersection.point.distance( incidentRay.tail ) );
     return allIntersections.length === 0 ? null : allIntersections[ 0 ];
-  }
-
-  public clear(): void {
-    this.intersections.clear();
   }
 }
 

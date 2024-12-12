@@ -93,7 +93,7 @@ export default abstract class BendingLightModel implements TModel {
   }
 
   // Clear the model in preparation for another ray propagation update phase
-  private clearModel(): void {
+  protected clearModel(): void {
     for ( let i = 0; i < this.rays.length; i++ ) {
       this.rays[ i ].particles?.clear();
     }
