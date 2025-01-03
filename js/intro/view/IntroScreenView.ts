@@ -481,7 +481,7 @@ export default class IntroScreenView extends BendingLightScreenView {
           }
         }
       },
-      speedRadioButtonGroupPlacement: 'before',
+      speedRadioButtonGroupPlacement: 'left',
       timeSpeedProperty: introModel.speedProperty,
       left: checkboxPanel.right + 75,
       bottom: this.layoutBounds.maxY - 10,
