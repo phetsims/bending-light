@@ -53,10 +53,7 @@ export default class PrismNode extends Node {
     if ( prism.shapeProperty.get().getReferencePoint() ) {
       this.addChild( this.knobNode );
     }
-
-    this.disposeEmitter.addListener( () => {
-      this.knobNode.dispose();
-    } );
+    this.addDisposable( this.knobNode );
 
     // Prism rotation with knob
     if ( !isIcon ) {
@@ -113,9 +110,7 @@ export default class PrismNode extends Node {
     const prismShapeListener = () => this.updatePrismShape();
     const prismColorListener = () => this.updatePrismColor();
 
-    prism.disposeEmitter.addListener( () => {
-      this.dispose();
-    } );
+    prism.addDisposable( this );
 
     // When the window reshapes, make sure no prism is left outside of the play area
     dragBoundsProperty.lazyLink( keepInBounds );
