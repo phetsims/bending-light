@@ -82,13 +82,10 @@ export default class PrismNode extends Node {
         // A Prism cannot be put back into the toolbox by rotating it.
         end: _.noop
       } );
-      this.knobNode.addInputListener( knobDragListener );
+      this.knobNode.addInputListener( knobDragListener, { disposer: this } );
       this.knobNode.touchArea = Shape.circle( 0, 10, 40 );
 
-      this.disposeEmitter.addListener( () => {
-        this.knobNode.removeInputListener( knobDragListener );
-        knobDragListener.dispose();
-      } );
+      this.addDisposable( knobDragListener );
     }
 
     this.prismPathNode = new Path( modelViewTransform.modelToViewShape( prism.getTranslatedShape().shape ), {
@@ -113,10 +110,7 @@ export default class PrismNode extends Node {
     prism.addDisposable( this );
 
     // When the window reshapes, make sure no prism is left outside of the play area
-    dragBoundsProperty.lazyLink( keepInBounds );
-    this.disposeEmitter.addListener( () => {
-      dragBoundsProperty.unlink( keepInBounds );
-    } );
+    dragBoundsProperty.lazyLink( keepInBounds, { disposer: this } );
 
     if ( !isIcon ) {
       this.dragListener = new DragListener( {
@@ -135,27 +129,15 @@ export default class PrismNode extends Node {
         }
       } );
 
-      this.prismPathNode.addInputListener( this.dragListener );
-      this.disposeEmitter.addListener( () => {
-        this.prismPathNode.removeInputListener( this.dragListener! );
-        this.dragListener!.dispose();
-      } );
+      this.prismPathNode.addInputListener( this.dragListener, { disposer: this } );
+      this.addDisposable( this.dragListener );
     }
 
-    prism.shapeProperty.link( prismShapeListener );
-    prism.positionProperty.link( prismShapeListener );
+    prism.shapeProperty.link( prismShapeListener, { disposer: this } );
+    prism.positionProperty.link( prismShapeListener, { disposer: this } );
 
-    this.disposeEmitter.addListener( () => {
-      this.prism.shapeProperty.unlink( prismShapeListener );
-      this.prism.positionProperty.unlink( prismShapeListener );
-    } );
-
-    prismsModel.mediumColorFactory.lightTypeProperty.link( prismColorListener );
-    prismsModel.prismMediumProperty.link( prismColorListener );
-    this.disposeEmitter.addListener( () => {
-      prismsModel.mediumColorFactory.lightTypeProperty.unlink( prismColorListener );
-      prismsModel.prismMediumProperty.unlink( prismColorListener );
-    } );
+    prismsModel.mediumColorFactory.lightTypeProperty.link( prismColorListener, { disposer: this } );
+    prismsModel.prismMediumProperty.link( prismColorListener, { disposer: this } );
 
     this.updatePrismShape();
   }
