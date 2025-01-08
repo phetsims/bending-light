@@ -483,13 +483,14 @@ export default class IntroScreenView extends BendingLightScreenView {
       },
       speedRadioButtonGroupPlacement: 'left',
       timeSpeedProperty: introModel.speedProperty,
-      left: checkboxPanel.right + 75,
+      x: normalLine.centerX,
       bottom: this.layoutBounds.maxY - 10,
       speedRadioButtonGroupOptions: {
         labelOptions: {
           maxWidth: 80
         }
-      }
+      },
+      flowBoxSpacing: 10
     } );
     this.beforeLightLayer.addChild( this.timeControlNode );
 
