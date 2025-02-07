@@ -11,7 +11,8 @@ import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { ShaderProgram, WebGLNode } from '../../../../scenery/js/imports.js';
+import WebGLNode from '../../../../scenery/js/nodes/WebGLNode.js';
+import ShaderProgram from '../../../../scenery/js/util/ShaderProgram.js';
 import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
 

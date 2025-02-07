@@ -16,7 +16,7 @@ import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import TModel from '../../../../joist/js/TModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
-import { Utils } from '../../../../scenery/js/imports.js';
+import Utils from '../../../../scenery/js/util/Utils.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';

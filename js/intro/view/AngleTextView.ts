@@ -1,5 +1,5 @@
 // Copyright 2021-2024, University of Colorado Boulder
-import { Text } from '../../../../scenery/js/imports.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel from '../../../../sun/js/Panel.js';
 import bendingLight from '../../bendingLight.js';
 

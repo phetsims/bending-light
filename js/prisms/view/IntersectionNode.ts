@@ -9,7 +9,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Line } from '../../../../scenery/js/imports.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
 import bendingLight from '../../bendingLight.js';
 import Intersection from '../model/Intersection.js';
 

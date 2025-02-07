@@ -8,7 +8,7 @@
  */
 
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import bendingLight from '../../bendingLight.js';
 
 export default class LaserColor {
