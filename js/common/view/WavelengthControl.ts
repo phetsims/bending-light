@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2025, University of Colorado Boulder
 
 /**
  * Control that shows a spectrum and lets the user choose the color for monochromatic light.

@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2025, University of Colorado Boulder
 
 /**
  * A Wave particle layer rendered on canvas.  On iPad3 using canvas (webgl=false), gradients are too expensive

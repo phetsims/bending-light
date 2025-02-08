@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2025, University of Colorado Boulder
 
 /**
  * Model for the "intro" Screen, which has an upper and lower medium, interfacing at the middle of the screen,

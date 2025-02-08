@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2025, University of Colorado Boulder
 
 /**
  * View for the "more tools" screen, which adds more tools to the toolbox, and a few more controls for the laser.
