@@ -8,6 +8,7 @@
  */
 
 import Shape from '../../../../kite/js/Shape.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import bendingLight from '../../bendingLight.js';
@@ -15,7 +16,7 @@ import Substance from './Substance.js';
 
 export default class Medium {
   //TODO https://github.com/phetsims/bending-light/issues/389 Just instrument the "substance" instead
-  public static readonly MediumIO = new IOType( 'MediumIO', {
+  public static readonly MediumIO = new IOType<IntentionalAny, IntentionalAny>( 'MediumIO', {
     valueType: Medium,
 
     //TODO https://github.com/phetsims/bending-light/issues/389 This needs to be implemented
