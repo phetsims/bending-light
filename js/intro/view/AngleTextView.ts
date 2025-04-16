@@ -1,12 +1,14 @@
 // Copyright 2021-2025, University of Colorado Boulder
-import Text from '../../../../scenery/js/nodes/Text.js';
-import Panel from '../../../../sun/js/Panel.js';
-import bendingLight from '../../bendingLight.js';
 
 /**
  * Shows text with background for the AngleNode.
  * @author Sam Reid (PhET Interactive Simulations)
  */
+
+import Text from '../../../../scenery/js/nodes/Text.js';
+import Panel from '../../../../sun/js/Panel.js';
+import bendingLight from '../../bendingLight.js';
+
 export default class AngleTextView extends Panel {
   private readonly textNode: Text;
 
