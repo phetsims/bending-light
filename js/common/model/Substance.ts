@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2025, University of Colorado Boulder
 
 /**
  * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".
