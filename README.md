@@ -79,9 +79,7 @@ browser: `http://localhost/bending-light/build/adapted-from-phet/bending-light_e
 
 ### Get Involved
 
-Contact us at our Google
-Group: <a href="http://groups.google.com/forum/#!forum/developing-interactive-simulations-in-html5" target="_blank">
-Developing Interactive Simulations in HTML5</a>
+Join us at the <a href="https://scenerystack.org/community/join/" target="_blank">SceneryStack Community</a>
 
 Help us improve, create a <a href="http://github.com/phetsims/bending-light/issues/new" target="_blank">New Issue</a>
 
