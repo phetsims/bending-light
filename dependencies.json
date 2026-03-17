@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "bending-light": {
-    "sha": "ee5b70fff73a5ee6fff16203e4395dd47df69d54",
+    "sha": "2f7f6582d18a12bc261f28017ba759e57e26df82",
     "branch": "1.2"
   },
   "brand": {
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "perennial-alias": {
-    "sha": "72c34f2e56b7b16acb3d2008ac7a37ac194de231",
+    "sha": "5c476ed912eadc20a94f0607f51e83e1a36acf0f",
     "branch": "HEAD"
   },
   "phet-core": {
