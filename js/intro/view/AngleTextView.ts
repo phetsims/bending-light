@@ -7,7 +7,6 @@
 
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel from '../../../../sun/js/Panel.js';
-import bendingLight from '../../bendingLight.js';
 
 export default class AngleTextView extends Panel {
   private readonly textNode: Text;
@@ -36,5 +35,3 @@ export default class AngleTextView extends Panel {
     this.textNode.setString( text );
   }
 }
-
-bendingLight.register( 'AngleTextView', AngleTextView );

@@ -22,7 +22,6 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import MediumControlPanel from '../../common/view/MediumControlPanel.js';
 import Prism from '../model/Prism.js';
@@ -245,5 +244,3 @@ export default class PrismToolboxNode extends Node {
     this.mutate( providedOptions );
   }
 }
-
-bendingLight.register( 'PrismToolboxNode', PrismToolboxNode );

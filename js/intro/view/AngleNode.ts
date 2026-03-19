@@ -18,7 +18,6 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
 import RayTypeEnum from '../../common/model/RayTypeEnum.js';
 import AngleTextView from './AngleTextView.js';
@@ -232,5 +231,3 @@ export default class AngleNode extends Node {
     } );
   }
 }
-
-bendingLight.register( 'AngleNode', AngleNode );

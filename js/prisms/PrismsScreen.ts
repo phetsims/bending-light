@@ -13,7 +13,6 @@ import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import prismsScreenWhite_png from '../../mipmaps/prismsScreenWhite_png.js';
 import prismsScreenWhiteNavBar_png from '../../mipmaps/prismsScreenWhiteNavBar_png.js';
-import bendingLight from '../bendingLight.js';
 import BendingLightStrings from '../BendingLightStrings.js';
 import PrismsModel from './model/PrismsModel.js';
 import PrismsScreenView from './view/PrismsScreenView.js';
@@ -44,5 +43,3 @@ export default class PrismsScreen extends Screen<PrismsModel, PrismsScreenView> 
       options );
   }
 }
-
-bendingLight.register( 'PrismsScreen', PrismsScreen );

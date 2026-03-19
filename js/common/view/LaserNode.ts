@@ -22,7 +22,6 @@ import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import knob_png from '../../../images/knob_png.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import Laser from '../model/Laser.js';
 
@@ -303,5 +302,3 @@ export default class LaserNode extends Node {
     this.laser.translate( delta.x, delta.y );
   }
 }
-
-bendingLight.register( 'LaserNode', LaserNode );

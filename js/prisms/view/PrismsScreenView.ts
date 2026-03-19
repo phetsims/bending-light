@@ -19,7 +19,6 @@ import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Panel from '../../../../sun/js/Panel.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import ColorModeEnum from '../../common/model/ColorModeEnum.js';
 import BendingLightScreenView, { BendingLightScreenViewOptions } from '../../common/view/BendingLightScreenView.js';
@@ -355,5 +354,3 @@ export default class PrismsScreenView extends BendingLightScreenView {
     this.addChild( verticalTranslationDragHandle );
   }
 }
-
-bendingLight.register( 'PrismsScreenView', PrismsScreenView );

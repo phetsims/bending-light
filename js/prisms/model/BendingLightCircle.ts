@@ -9,7 +9,6 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import bendingLight from '../../bendingLight.js';
 import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 import PrismIntersection from './PrismIntersection.js';
@@ -74,5 +73,3 @@ export default class BendingLightCircle {
     return point.distance( this.center ) <= this.radius;
   }
 }
-
-bendingLight.register( 'BendingLightCircle', BendingLightCircle );

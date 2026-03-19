@@ -12,7 +12,6 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import bendingLight from '../../bendingLight.js';
 import Series from '../model/Series.js';
 import GridCanvasNode from './GridCanvasNode.js';
 import SeriesCanvasNode from './SeriesCanvasNode.js';
@@ -157,5 +156,3 @@ export default class ChartNode extends Node {
     } );
   }
 }
-
-bendingLight.register( 'ChartNode', ChartNode );

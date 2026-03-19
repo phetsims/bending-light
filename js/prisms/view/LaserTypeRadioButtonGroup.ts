@@ -14,7 +14,6 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import laser_png from '../../../images/laser_png.js';
-import bendingLight from '../../bendingLight.js';
 import LightType from '../model/LightType.js';
 
 export default class LaserTypeRadioButtonGroup extends RectangularRadioButtonGroup<LightType> {
@@ -90,5 +89,3 @@ export default class LaserTypeRadioButtonGroup extends RectangularRadioButtonGro
     this.mutate( providedOptions );
   }
 }
-
-bendingLight.register( 'LaserTypeRadioButtonGroup', LaserTypeRadioButtonGroup );

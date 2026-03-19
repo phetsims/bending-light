@@ -10,7 +10,6 @@
 import Utils from '../../../../dot/js/Utils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 
 // strings
@@ -65,5 +64,3 @@ export default class Reading {
     return true;
   }
 }
-
-bendingLight.register( 'Reading', Reading );

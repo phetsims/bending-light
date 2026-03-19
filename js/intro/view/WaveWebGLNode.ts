@@ -13,7 +13,6 @@ import Matrix3 from '../../../../dot/js/Matrix3.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import WebGLNode from '../../../../scenery/js/nodes/WebGLNode.js';
 import ShaderProgram from '../../../../scenery/js/util/ShaderProgram.js';
-import bendingLight from '../../bendingLight.js';
 import LightRay from '../../common/model/LightRay.js';
 
 const scratchFloatArray1 = new Float32Array( 9 );
@@ -194,5 +193,3 @@ class WavePainter {
     this.gl.deleteBuffer( this.vertexBuffer );
   }
 }
-
-bendingLight.register( 'WaveWebGLNode', WaveWebGLNode );

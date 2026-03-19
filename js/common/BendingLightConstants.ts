@@ -13,7 +13,6 @@ import Bounds2 from '../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import Vector3 from '../../../dot/js/Vector3.js';
 import VisibleColor from '../../../scenery-phet/js/VisibleColor.js';
-import bendingLight from '../bendingLight.js';
 
 // constants (these are vars because other constants refer to them)
 const SPEED_OF_LIGHT = 2.99792458E8;
@@ -313,7 +312,5 @@ const BendingLightConstants = {
 
   PRISM_NODE_ALPHA: 0.5
 };
-
-bendingLight.register( 'BendingLightConstants', BendingLightConstants );
 
 export default BendingLightConstants;

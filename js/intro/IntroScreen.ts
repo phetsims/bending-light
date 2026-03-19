@@ -13,7 +13,6 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import introScreen_png from '../../mipmaps/introScreen_png.js';
-import bendingLight from '../bendingLight.js';
 import BendingLightStrings from '../BendingLightStrings.js';
 import BendingLightModel from '../common/model/BendingLightModel.js';
 import Substance from '../common/model/Substance.js';
@@ -48,5 +47,3 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
       options );
   }
 }
-
-bendingLight.register( 'IntroScreen', IntroScreen );

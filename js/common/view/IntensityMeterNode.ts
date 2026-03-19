@@ -20,7 +20,6 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import IntensityMeter from '../model/IntensityMeter.js';
 
@@ -168,5 +167,3 @@ export default class IntensityMeterNode extends Node {
     this.intensityMeter.sensorPositionProperty.set( this.modelViewTransform.viewToModelPosition( center ) );
   }
 }
-
-bendingLight.register( 'IntensityMeterNode', IntensityMeterNode );

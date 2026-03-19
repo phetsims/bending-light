@@ -25,7 +25,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import VelocitySensor from '../model/VelocitySensor.js';
@@ -172,5 +171,3 @@ export default class VelocitySensorNode extends Node {
     this.mutate( providedOptions );
   }
 }
-
-bendingLight.register( 'VelocitySensorNode', VelocitySensorNode );

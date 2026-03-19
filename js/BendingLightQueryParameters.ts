@@ -8,7 +8,6 @@
 
 import logGlobal from '../../phet-core/js/logGlobal.js';
 import { QueryStringMachine } from '../../query-string-machine/js/QueryStringMachineModule.js';
-import bendingLight from './bendingLight.js';
 
 const BendingLightQueryParameters = QueryStringMachine.getAll( {
 
@@ -20,8 +19,6 @@ const BendingLightQueryParameters = QueryStringMachine.getAll( {
     defaultValue: 50
   }
 } );
-
-bendingLight.register( 'BendingLightQueryParameters', BendingLightQueryParameters );
 
 // Log query parameters
 logGlobal( 'phet.chipper.queryParameters' );

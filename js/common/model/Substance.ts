@@ -8,7 +8,6 @@
  */
 
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import DispersionFunction from './DispersionFunction.js';
@@ -53,5 +52,3 @@ export default class Substance {
     this.indexForRed = indexForRed;
   }
 }
-
-bendingLight.register( 'Substance', Substance );

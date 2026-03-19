@@ -13,7 +13,6 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import moreToolsScreen_png from '../../mipmaps/moreToolsScreen_png.js';
-import bendingLight from '../bendingLight.js';
 import BendingLightStrings from '../BendingLightStrings.js';
 import MoreToolsModel from './model/MoreToolsModel.js';
 import MoreToolsScreenView from './view/MoreToolsScreenView.js';
@@ -41,5 +40,3 @@ export default class MoreToolsScreen extends Screen<MoreToolsModel, MoreToolsScr
     );
   }
 }
-
-bendingLight.register( 'MoreToolsScreen', MoreToolsScreen );

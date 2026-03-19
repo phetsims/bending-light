@@ -31,7 +31,6 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Panel from '../../../../sun/js/Panel.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
@@ -584,7 +583,5 @@ export default class IntroScreenView extends BendingLightScreenView {
     }
   }
 }
-
-bendingLight.register( 'IntroScreenView', IntroScreenView );
 
 export type { IntroScreenViewOptions };

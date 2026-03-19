@@ -25,7 +25,6 @@ import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import ComboBox, { ComboBoxListPosition } from '../../../../sun/js/ComboBox.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import DispersionFunction from '../model/DispersionFunction.js';
@@ -427,5 +426,3 @@ export default class MediumControlPanel extends Node {
     this.mediumProperty.set( medium );
   }
 }
-
-bendingLight.register( 'MediumControlPanel', MediumControlPanel );

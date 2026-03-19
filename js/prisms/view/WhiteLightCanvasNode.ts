@@ -20,7 +20,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import LightRay from '../../common/model/LightRay.js';
 import Medium from '../../common/model/Medium.js';
@@ -119,5 +118,3 @@ export default class WhiteLightCanvasNode extends CanvasNode {
     this.invalidatePaint();
   }
 }
-
-bendingLight.register( 'WhiteLightCanvasNode', WhiteLightCanvasNode );

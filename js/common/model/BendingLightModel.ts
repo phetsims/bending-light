@@ -18,7 +18,6 @@ import TModel from '../../../../joist/js/TModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Utils from '../../../../scenery/js/util/Utils.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import Laser from './Laser.js';
 import LaserViewEnum from './LaserViewEnum.js';
@@ -142,5 +141,3 @@ export default abstract class BendingLightModel implements TModel {
     return 4 * n1 * n2 * cosTheta1 * cosTheta2 / ( Math.pow( n1 * cosTheta1 + n2 * cosTheta2, 2 ) );
   }
 }
-
-bendingLight.register( 'BendingLightModel', BendingLightModel );

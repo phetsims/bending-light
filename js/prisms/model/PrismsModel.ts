@@ -18,7 +18,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightQueryParameters from '../../BendingLightQueryParameters.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
@@ -456,5 +455,3 @@ export default class PrismsModel extends BendingLightModel {
     return allIntersections.length === 0 ? null : allIntersections[ 0 ];
   }
 }
-
-bendingLight.register( 'PrismsModel', PrismsModel );

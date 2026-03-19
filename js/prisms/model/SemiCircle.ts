@@ -10,7 +10,6 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Arc, Line } from '../../../../kite/js/segments/Segment.js';
 import Shape from '../../../../kite/js/Shape.js';
-import bendingLight from '../../bendingLight.js';
 import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
 import PrismIntersection from './PrismIntersection.js';
@@ -125,5 +124,3 @@ export default class SemiCircle {
     return PrismIntersection.getIntersections( [ segment ], arc, this.center, ray );
   }
 }
-
-bendingLight.register( 'SemiCircle', SemiCircle );

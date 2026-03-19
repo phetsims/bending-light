@@ -7,8 +7,6 @@
  * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 
-import bendingLight from '../../bendingLight.js';
-
 export default class DataPoint {
 
   /**
@@ -18,5 +16,3 @@ export default class DataPoint {
   public constructor( public readonly time: number, public readonly value: number ) {
   }
 }
-
-bendingLight.register( 'DataPoint', DataPoint );

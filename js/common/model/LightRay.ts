@@ -15,7 +15,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import RayIntersection from '../../../../kite/js/util/RayIntersection.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 import LaserViewEnum from './LaserViewEnum.js';
 import WaveParticle from './WaveParticle.js';
@@ -320,5 +319,3 @@ export default class LightRay {
     return k * x - w * t + 2 * Math.PI * this.numWavelengthsPhaseOffset;
   }
 }
-
-bendingLight.register( 'LightRay', LightRay );

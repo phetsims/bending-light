@@ -18,7 +18,6 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import knob_png from '../../../images/knob_png.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import Prism from '../model/Prism.js';
 import PrismsModel from '../model/PrismsModel.js';
@@ -196,5 +195,3 @@ export default class PrismNode extends Node {
     this.prism.translate( delta.x, delta.y );
   }
 }
-
-bendingLight.register( 'PrismNode', PrismNode );

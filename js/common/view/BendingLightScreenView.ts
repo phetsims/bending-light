@@ -17,7 +17,6 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightModel from '../model/BendingLightModel.js';
 import ColorModeEnum from '../model/ColorModeEnum.js';
 import LaserViewEnum from '../model/LaserViewEnum.js';
@@ -224,5 +223,4 @@ export default abstract class BendingLightScreenView extends ScreenView {
   }
 }
 
-bendingLight.register( 'BendingLightScreenView', BendingLightScreenView );
 export type { BendingLightScreenViewOptions };

@@ -12,7 +12,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import AquaRadioButton from '../../../../sun/js/AquaRadioButton.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 
@@ -56,5 +55,3 @@ export default class LaserTypeAquaRadioButtonGroup extends VBox {
     } );
   }
 }
-
-bendingLight.register( 'LaserTypeAquaRadioButtonGroup', LaserTypeAquaRadioButtonGroup );

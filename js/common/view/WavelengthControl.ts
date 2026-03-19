@@ -16,7 +16,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 
@@ -132,5 +131,3 @@ export default class WavelengthControl extends Node {
     } );
   }
 }
-
-bendingLight.register( 'WavelengthControl', WavelengthControl );

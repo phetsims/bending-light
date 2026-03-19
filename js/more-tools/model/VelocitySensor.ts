@@ -13,7 +13,6 @@ import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import bendingLight from '../../bendingLight.js';
 
 export default class VelocitySensor {
   public readonly positionProperty: Property<Vector2>;
@@ -62,5 +61,3 @@ export default class VelocitySensor {
     this.positionProperty.set( this.positionProperty.value.plus( delta ) );
   }
 }
-
-bendingLight.register( 'VelocitySensor', VelocitySensor );

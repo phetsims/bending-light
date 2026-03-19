@@ -50,6 +50,4 @@ type StringsType = {
 
 const BendingLightStrings = getStringModule( 'BENDING_LIGHT' ) as StringsType;
 
-bendingLight.register( 'BendingLightStrings', BendingLightStrings );
-
 export default BendingLightStrings;

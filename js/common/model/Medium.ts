@@ -11,7 +11,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import bendingLight from '../../bendingLight.js';
 import Substance from './Substance.js';
 
 export default class Medium {
@@ -52,5 +51,3 @@ export default class Medium {
     return this.substance.mystery;
   }
 }
-
-bendingLight.register( 'Medium', Medium );

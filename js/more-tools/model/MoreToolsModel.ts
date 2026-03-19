@@ -10,7 +10,6 @@
 import Multilink from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import bendingLight from '../../bendingLight.js';
 import Substance from '../../common/model/Substance.js';
 import IntroModel from '../../intro/model/IntroModel.js';
 import VelocitySensor from './VelocitySensor.js';
@@ -53,5 +52,3 @@ export default class MoreToolsModel extends IntroModel {
     this.waveSensor.reset();
   }
 }
-
-bendingLight.register( 'MoreToolsModel', MoreToolsModel );

@@ -11,7 +11,6 @@
 import Shape from '../../../../kite/js/Shape.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import bendingLight from '../../bendingLight.js';
 
 export default class NormalLine extends Node {
 
@@ -30,5 +29,3 @@ export default class NormalLine extends Node {
     this.mutate( providedOptions );
   }
 }
-
-bendingLight.register( 'NormalLine', NormalLine );

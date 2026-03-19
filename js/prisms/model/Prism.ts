@@ -11,7 +11,6 @@ import Disposable from '../../../../axon/js/Disposable.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightCircle from './BendingLightCircle.js';
 import ColoredRay from './ColoredRay.js';
 import Intersection from './Intersection.js';
@@ -98,5 +97,3 @@ export default class Prism extends Disposable {
     this.shapeProperty.set( this.shapeProperty.get().getRotatedInstance( deltaAngle, this.shapeProperty.get().getRotationCenter() ) );
   }
 }
-
-bendingLight.register( 'Prism', Prism );

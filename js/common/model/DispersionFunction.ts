@@ -11,7 +11,6 @@
  */
 
 import Utils from '../../../../dot/js/Utils.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../BendingLightConstants.js';
 
 export default class DispersionFunction {
@@ -80,5 +79,3 @@ export default class DispersionFunction {
            167917E-8 / ( 57.362 - Math.pow( wavelength * 1E6, -2 ) );
   }
 }
-
-bendingLight.register( 'DispersionFunction', DispersionFunction );

@@ -12,7 +12,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import bendingLight from '../../bendingLight.js';
 import DataPoint from './DataPoint.js';
 import Probe from './Probe.js';
 
@@ -91,5 +90,3 @@ export default class WaveSensor {
     this.probe2.reset();
   }
 }
-
-bendingLight.register( 'WaveSensor', WaveSensor );

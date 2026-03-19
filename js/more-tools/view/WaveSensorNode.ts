@@ -21,7 +21,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightStrings from '../../BendingLightStrings.js';
 import Probe from '../model/Probe.js';
 import Series from '../model/Series.js';
@@ -219,5 +218,3 @@ export default class WaveSensorNode extends Node {
     this.syncModelFromView();
   }
 }
-
-bendingLight.register( 'WaveSensorNode', WaveSensorNode );

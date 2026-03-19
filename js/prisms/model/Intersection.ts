@@ -9,7 +9,6 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import bendingLight from '../../bendingLight.js';
 
 export default class Intersection {
 
@@ -23,5 +22,3 @@ export default class Intersection {
   ) {
   }
 }
-
-bendingLight.register( 'Intersection', Intersection );

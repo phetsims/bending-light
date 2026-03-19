@@ -15,7 +15,6 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import CurvedArrowShape from '../../../../scenery-phet/js/CurvedArrowShape.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import bendingLight from '../../bendingLight.js';
 import Laser from '../model/Laser.js';
 import LaserViewEnum from '../model/LaserViewEnum.js';
 
@@ -89,5 +88,3 @@ export default class RotationDragHandle extends Node {
     } );
   }
 }
-
-bendingLight.register( 'RotationDragHandle', RotationDragHandle );

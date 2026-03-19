@@ -20,7 +20,6 @@ import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightConstants from '../../common/BendingLightConstants.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import IntensityMeter from '../../common/model/IntensityMeter.js';
@@ -512,5 +511,3 @@ export default class IntroModel extends BendingLightModel {
     }
   }
 }
-
-bendingLight.register( 'IntroModel', IntroModel );

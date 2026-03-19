@@ -19,7 +19,6 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import bendingLight from '../../bendingLight.js';
 import BendingLightModel from '../../common/model/BendingLightModel.js';
 import LaserViewEnum from '../../common/model/LaserViewEnum.js';
 import WavelengthControl from '../../common/view/WavelengthControl.js';
@@ -294,5 +293,3 @@ export default class MoreToolsScreenView extends IntroScreenView {
     }
   }
 }
-
-bendingLight.register( 'MoreToolsScreenView', MoreToolsScreenView );

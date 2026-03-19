@@ -9,7 +9,6 @@
 import Shape from '../../../../kite/js/Shape.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import bendingLight from '../../bendingLight.js';
 
 export default class AngleIcon extends Node {
 
@@ -38,5 +37,3 @@ export default class AngleIcon extends Node {
     } ) );
   }
 }
-
-bendingLight.register( 'AngleIcon', AngleIcon );
