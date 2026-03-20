@@ -23,6 +23,6 @@ const BendingLightQueryParameters = QueryStringMachine.getAll( {
 // Log query parameters
 logGlobal( 'phet.chipper.queryParameters' );
 logGlobal( 'phet.preloads.phetio.queryParameters' );
-logGlobal( 'phet.bendingLight.BendingLightQueryParameters' );
+phet.log && phet.log( `BendingLightQueryParameters: ${JSON.stringify( BendingLightQueryParameters, null, 2 )}` );
 
 export default BendingLightQueryParameters;
