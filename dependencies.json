@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "bending-light": {
-    "sha": "2882f3d7fe515a6170ba36da0cd4e06c58390743",
+    "sha": "f92a83cc9308c98292025f1f73778d999a697054",
     "branch": "1.2"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "6d7919414eadc261595cd14e6da5a56983d6de41",
+    "sha": "073f734681280e5b900a2d82015ef511e572760f",
     "branch": "HEAD"
   },
   "dot": {
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "perennial-alias": {
-    "sha": "5c476ed912eadc20a94f0607f51e83e1a36acf0f",
+    "sha": "38c7162293e1d0a542481e6685ee29a5924096a6",
     "branch": "HEAD"
   },
   "phet-core": {
