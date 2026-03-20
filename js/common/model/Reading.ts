@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2026, University of Colorado Boulder
 
 /**
  * A single (immutable) reading for the intensity meter.
