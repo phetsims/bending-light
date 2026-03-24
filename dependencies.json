@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "bending-light": {
-    "sha": "946733d5d1108416f9aac1b9dd09ecd554f26360",
+    "sha": "0c2109d12d7250d77e925305e8d072cb0860ff15",
     "branch": "1.2"
   },
   "brand": {
@@ -65,7 +65,7 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "f744a1526185eeb12aed37875f3ee194e8b3181e",
+    "sha": "a25755d642f489a0c8d5e25a1062a642f0a78f55",
     "branch": "HEAD"
   },
   "scenery-phet": {
